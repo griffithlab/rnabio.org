@@ -80,9 +80,9 @@ title: "Griffith Lab" # Site name or title, also used in jekyll-seo-tag
 logo: "/assets/Site_Logo3_v2.png" # Site logo, also used in jekyll-seo-tag
 logo_link: "http://www.griffithlab.org"
 description: "This resource is structured in a modular format. Users would benefit from familiarity with topics covered in previous modules however it is not a requirement unless stated otherwise." # Site description and default description, also used in jekyll-seo-tag
-url: "http://www.rnaseq.org/" # Site url, also used in jekyll-seo-tag
+url: "http://www.rnaseq.wiki/" # Site url, also used in jekyll-seo-tag
 baseurl: ""
-repo: "https://github.com/griffithlab/rnaseq.org"
+repo: "https://github.com/griffithlab/rnaseq.wiki"
 email: "zskidmor@wustl.edu"
 avatarurl:  "/assets/DNA.jpg"# Uses avatars for favicons to get multple sites, eg Gravatar, Twitter, GitHub
 
