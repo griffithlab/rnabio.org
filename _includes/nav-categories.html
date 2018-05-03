@@ -1,0 +1,10 @@
+<nav class="nav  nav--categories">
+  <ul class="list  list--categories">
+    {% assign sorted_categories = site.categories | sort %}
+    {% for item in sorted_categories %}
+      <li class="item">
+          <a href="#{{ item | first | slugify }}" title="Category - {{ item | first }}">{{ item | first }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

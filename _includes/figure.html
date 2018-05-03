@@ -1,0 +1,13 @@
+<figure class="figure{% if include.position %}  figure--{{ include.position }}{% endif %}" {% if include.width %} width="{{ include.width }}"{% endif %}>
+    <img class="image" src="{{ include.image | relative_url }}" {% if include.width %} width="{{ include.width }}"{% endif %}>
+    {% if include.caption %}<figcaption class="caption">{{ include.caption }}</figcaption>{% endif %}
+    {% if include.license %}
+    <figcaption class="caption">
+        <small>
+            <a href="{{ include.link }}">{{ include.title }}</a>
+                by {{ include.author }} with permission under
+            <a href="{{ include.license_link }}">{{ include.license }}</a>
+        </small>
+    </figcaption>
+    {% endif %}
+</figure>

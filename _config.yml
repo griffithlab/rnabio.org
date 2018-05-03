@@ -1,0 +1,128 @@
+# Site configuration
+# 1. Files excluded from Jekyll builds
+# 2. Installed Gems
+# 3. Gem settings
+# 4. Jekyll settings
+# 5. Collections
+# 6. Jekyll collections settings
+# 7. Site settings
+# 8. Site navigation
+
+# 1. Files excluded from Jekyll builds
+exclude:
+- README.md
+- LICENSE
+- CNAME
+- Gemfile
+- Gemfile.lock
+- alembic-jekyll-theme.gemspec
+
+# 2. Installed Gems
+plugins:
+- jekyll-sitemap
+- jekyll-mentions
+- jekyll-paginate
+- jekyll-seo-tag
+- jekyll-redirect-from
+- jekyll-feed
+- jemoji
+
+# 3. Gem settings
+paginate: 2 # jekyll-paginate > items per page
+paginate_path: blog/page:num # jekyll-paginate > blog page
+jekyll-mentions: https://twitter.com # jekyll-mentions > service used when @replying
+twitter:
+  username: zlskidmore # jekyll-seo-tag > Owners twitter username
+author: Zachary Skidmore # jekyll-seo-tag > default author
+social: # jekyll-seo-tag > social overrides
+  name: Zachary Skidmore # jekyll-seo-tag > real name
+  links:  # jekyll-seo-tag > social aliases (sameAs)
+    - https://twitter.com/zlskidmore
+    - https://github.com/zlskidmore
+
+# 4. Jekyll settings
+sass:
+  style: compressed # Style compression
+permalink: pretty  # Permalink style (/YYYY/MM/DD/page-name/)
+excerpt_separator: <!-- more --> # Marks end of excerpt in posts
+timezone: America/Chicago # Timezone for blog posts and alike
+
+# 5. Collections
+collections:
+  posts:
+    title: Posts # Needed for Siteleaf
+    output: true
+    description: "My thoughts and ideas" # The post list page content
+    feature_text: |
+      Welcome to the blog
+    feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
+
+# 6. Jekyll collections settings
+defaults:
+  -
+    scope:
+      path: ""
+      type: pages
+    values:
+      layout: page # Default layout
+      image: "/assets/DNA.jpg" # Default image for sharing
+  -
+    scope:
+      path: ""
+      type: posts
+    values:
+      layout: post # Default layout
+      image: "/assets/DNA.jpg" # Default image for sharing
+
+# 7. Site settings
+encoding: utf-8 # Make sure the encoding is right
+title: "Griffith Lab" # Site name or title, also used in jekyll-seo-tag
+logo: "/assets/Site_Logo3_v2.png" # Site logo, also used in jekyll-seo-tag
+logo_link: "http://www.griffithlab.org"
+description: "This resource is structured in a modular format. Users would benefit from familiarity with topics covered in previous modules however it is not a requirement unless stated otherwise." # Site description and default description, also used in jekyll-seo-tag
+url: "http://www.rnaseq.org/" # Site url, also used in jekyll-seo-tag
+baseurl: ""
+repo: "https://github.com/griffithlab/rnaseq.org"
+email: "zskidmor@wustl.edu"
+avatarurl:  "/assets/DNA.jpg"# Uses avatars for favicons to get multple sites, eg Gravatar, Twitter, GitHub
+
+
+# 8. Site navigation
+navigation_header:
+  Home: /
+  Course: /course/
+  Schedule: /schedule/
+  Authors: /authors/
+  Resources: /resources/
+  Acknowledgments: /acknowledgements/
+  Search: /search/
+
+navigation_footer:
+  McDonnell Genome Institute - Washington University: http://genome.wustl.edu/
+
+contact_obi:
+    twitter:    https://twitter.com/obigriffith
+    github:     https://github.com/obigriffith
+    link:       "https://obigriffith.github.io/"
+
+contact_malachi:
+    twitter:    https://twitter.com/malachigriffith
+    github: https://github.com/malachig
+    link: "https://malachig.github.io/"
+
+contact_zach:
+    twitter:    https://twitter.com/zlskidmore
+    github: https://github.com/zlskidmore
+
+social_links:
+  #Twitter:
+  #LinkedIn:
+  #Google+:
+  GitHub: https://github.com/griffithlab/pmbio.org
+  #link:
+
+sharing_links:
+  Twitter: "#1DA1F2"
+  facebook: "#3B5998"
+  Google+: "#DC4E41"
+  Reddit: "#FF4500"
