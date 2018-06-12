@@ -1,7 +1,7 @@
 ---
 feature_text: |
   ## Precision Medicine
-title: ALignment Visualization
+title: Alignment Visualization
 categories:
     - Module 2
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
