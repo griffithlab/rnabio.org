@@ -91,4 +91,5 @@ What is the difference between a .sam and .bam file?
 If you sorted the resulting BAM file as we did above, is the result sorted by read name? Or position?
 Which columns of the BAM file can be viewed to determine the style of sorting?
 What command can you use to view only the BAM header?
-Solution: When you are ready you can check your approach against the Solutions
+
+Solution: When you are ready you can check your approach against the [Solutions](http://rnabio.org/appendix/0007/04/01/Practical_Excercise_Solutions/#Practical%20Excercise%206)

@@ -10,7 +10,7 @@ date: 0002-04-01
 
 ***
 
-![RNA-seq_Flowchart](/assets/module_1/RNA-seq_Flowchart.png)
+![RNA-seq_Flowchart3](/assets/module_2/RNA-seq_Flowchart3.png)
 
 ***
 
