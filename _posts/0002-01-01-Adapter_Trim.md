@@ -107,4 +107,4 @@ Answer these questions by examining the FastQC reports:
 
 * In the 'Per base sequence content section', what pattern do you see? What could explain this pattern?
 
-Solution: When you are ready you can check your approach against the Solutions
+Solution: When you are ready you can check your approach against the [Solutions](http://rnabio.org/appendix/0007/04/01/Practical_Excercise_Solutions/#Practical%20Excercise%205)

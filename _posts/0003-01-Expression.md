@@ -89,7 +89,7 @@ Assignment: Use StringTie to Calculate transcript-level expression estimates for
 
 * Hint: You should have six commands for 3 replicates each of tumor and normal samples.
 
-Solution: When you are ready you can check your approach against the Solutions
+Solution: When you are ready you can check your approach against the [Solutions](http://rnabio.org/appendix/0007/04/01/Practical_Excercise_Solutions/#Practical%20Excercise%208)
 
 #### HTSEQ-COUNT
 Run htseq-count on alignments instead to produce raw counts instead of FPKM/TPM values for differential expression analysis

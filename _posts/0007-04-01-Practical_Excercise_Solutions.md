@@ -3,7 +3,7 @@ feature_text: |
   ## Precision Medicine
 title: Practical Excercise Solutions
 categories:
-    - Module 1
+    - Appendix
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0007-04-01
 ---
@@ -11,6 +11,7 @@ date: 0007-04-01
 ***
 
 ### Practical Exercise 1 - Software installation
+<a id="Practical Excercise 1"></a>
 To install bedtools:
 
 * Google "bedtools" and find
@@ -40,6 +41,7 @@ To install bedtools:
 ***
 
 ### Practical Exercise 2 - Reference Genomes
+<a id="Practical Excercise 2"></a>
 
     cd $RNA_HOME/refs
     cat chr22_with_ERCC92.fa | perl -ne 'if ($_ =~ /\>22/){$chr22=1}; if ($_ =~ /\>ERCC/){$chr22=0}; if ($chr22){print "$_";}' > chr22_only.fa
@@ -55,6 +57,7 @@ To install bedtools:
 ***
 
 ### Practical Exercise 3 - Data
+<a id="Practical Excercise 3"></a>
 
     cd $RNA_HOME
     mkdir -p practice/data
@@ -79,6 +82,7 @@ To install bedtools:
 ***
 
 ### Practical Exercise 4 - Data QC
+<a id="Practical Excercise 4"></a>
 
     cd $RNA_HOME/practice/data
     fastqc *.fastq.gz
@@ -102,6 +106,7 @@ Then, go to the following url in your browser:
 ***
 
 ### Practical Exercise 5 - Trim
+<a id="Practical Excercise 5"></a>
 
     cd $RNA_HOME/practice/data/
     mkdir trimmed
@@ -133,6 +138,7 @@ Compare these files using FastQC:
 ***
 
 ### Practical Exercise 6 - Alignment
+<a id="Practical Excercise 6"></a>
 Perform alignments:
 
     export RNA_HOME=~/workspace/rnaseq
@@ -177,6 +183,7 @@ Merge HISAT2 BAM files
 ***
 
 ### Practical Exercise 7 - Visualize
+<a id="Practical Excercise 7"></a>
 
     cd $RNA_HOME/practice/alignments/hisat2
     samtools index HCC1395_normal.bam
@@ -200,6 +207,7 @@ http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_nor
 ***
 
 ### Practical Exercise 8 - Expression
+<a id="Practical Excercise 8"></a>
 
     cd $RNA_HOME/practice/
     mkdir -p expression/stringtie/ref_only/

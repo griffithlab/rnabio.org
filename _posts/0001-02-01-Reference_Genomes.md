@@ -65,4 +65,5 @@ Questions
 
 How many bases on chromosome 22 correspond to repetitive elements? What is the percentage of the whole length?
 How many occurences of the EcoRI restriction site are present in the chromosome 22 sequence?
-Solution: When you are ready you can check your approach against the Solutions
+
+Solution: When you are ready you can check your approach against the [Solutions](http://rnabio.org/appendix/0007/04/01/Practical_Excercise_Solutions/#Practical%20Excercise%202).

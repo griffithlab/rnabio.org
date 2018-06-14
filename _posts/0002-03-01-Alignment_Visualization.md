@@ -109,4 +109,4 @@ Assignment: Index your bam files from Practical Exercise 6 and visualize in IGV.
 * How can we modify IGV to color reads by Read Group? How many read groups are there for each sample (tumor & normal)? What are your read group names for the tumor sample?
 * What are the options for visualizing splicing or alternative splicing patterns in IGV? Navigate to this location on chromosome 22: 'chr22:40,363,200-40,367,500'. What splicing event do you see?
 
-Solution: When you are ready you can check your approach against the Solutions.
+Solution: When you are ready you can check your approach against the [Solutions](http://rnabio.org/appendix/0007/04/01/Practical_Excercise_Solutions/#Practical%20Excercise%207).
