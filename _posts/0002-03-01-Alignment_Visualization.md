@@ -10,7 +10,9 @@ date: 0002-03-01
 
 ***
 
-![RNA-seq_Flowchart](/assets/module_1/RNA-seq_Flowchart.png)
+![RNA-seq_Flowchart3](/assets/module_2/RNA-seq_Flowchart3.png)
+
+***
 
 Before we can view our alignments in the IGV browser we need to index our BAM files. We will use samtools index for this purpose. For convenience later, index all bam files.
 
