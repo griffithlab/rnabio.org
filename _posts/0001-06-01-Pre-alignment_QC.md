@@ -54,7 +54,7 @@ Run FASTQC on the file 'hcc1395_normal_1.fastq.gz' and answer these questions by
 * What is the most common average sequence quality score?
 * What does the Adaptor Content warning tell us?
 
-Solution: When you are ready you can check your approach against the [Solutions](http://rnabio.org/appendix/0007/04/01/Practical_Excercise_Solutions/#Practical%20Excercise%204)
+Solution: When you are ready you can check your approach against the [Solutions](http://rnabio.org/appendix/0007/04/01/Practical_Excercise_Solutions/#Practical%20Excercise%204).
 
 ***
 
