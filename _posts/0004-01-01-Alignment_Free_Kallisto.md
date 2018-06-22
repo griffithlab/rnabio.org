@@ -196,6 +196,7 @@ Obtain an entire lane of RNA-seq data for a breast cancer cell line and matched 
 **NOTE: do not attempt this unless you have a lot of free space on your machine (at least 250 GB)**
 
 Tumor ([download](https://xfer.genome.wustl.edu/gxfer1/project/gms/testdata/bams/hcc1395/gerald_C1TD1ACXX_8_ACAGTG.bam))
+
 Normal ([download](https://xfer.genome.wustl.edu/gxfer1/project/gms/testdata/bams/hcc1395/gerald_C2DBEACXX_3.bam))
 
 For more information on this data refer to this page:
@@ -210,6 +211,7 @@ For more information on this data refer to this page:
     wget https://xfer.genome.wustl.edu/gxfer1/project/gms/testdata/bams/hcc1395/gerald_C2DBEACXX_3.bam
 
 **Convert BAM to FASTQ**
+
 Since the paths above will download BAM files but Kallisto expects FASTQ files for the read data. You will need to convert from BAM back to FASTQ. Try using Picard to do this.
 
 Example BAM to FASTQ conversion commands (note that you need to specify the correct path for your Picard installation), followed by compressing the resulting FastQ files to save space:
@@ -220,6 +222,7 @@ Example BAM to FASTQ conversion commands (note that you need to specify the corr
     gzip hcc1395_normal*.fastq
 
 **Download full transcriptome reference**
+
 You will have to get all transcripts instead of just those for a single chromosome. You will also have to create a new index for this new set of transcript sequences.
 
     wget ftp://ftp.ensembl.org/pub/release-89/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz
