@@ -20,7 +20,7 @@ This workshop have been delivered many times and continues to evolve. To see a c
 
 <table>
 <tr>
-<td><a href="http://aws.amazon.com/what-is-cloud-computing"><img src="Images/aws-powered-by.png" alt="Powered by AWS Cloud Computing"></a></td>
+<td><a href="http://aws.amazon.com/what-is-cloud-computing">![Powerd by AWS Cloud Computing](/assets/aws-powered-by.png)</a></td>
 <td><a href="https://bioinformatics.ca/"><img src="Images/bioinformatics_LOGO.jpg" alt="Canadian Bioinformatics Workshops"></a></td>
 <td><a href="http://www.cshl.edu/"><img src="Images/Cold_Spring_Harbor_Laboratory_logo.png" alt="Cold Spring Harbor Laboratory"></a></td>
 </tr>
