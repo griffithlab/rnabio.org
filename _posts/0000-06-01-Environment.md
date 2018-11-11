@@ -8,8 +8,6 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0000-06-01
 ---
 
-***
-
 ### Getting Started 
 This tutorial assumes use of a Linux computer with an 'x86_64' architecture. The rest of the tutorial should be conducted in a linux Terminal session. In other words you must already be logged into the Amazon EC2 instance as described in the previous section.
 

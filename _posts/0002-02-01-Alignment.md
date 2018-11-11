@@ -8,8 +8,6 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0002-02-01
 ---
 
-***
-
 ### HISAT2 alignment
 Perform alignments with HISAT2 to the genome and transcriptome.
 

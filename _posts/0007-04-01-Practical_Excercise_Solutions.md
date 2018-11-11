@@ -8,8 +8,6 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0007-04-01
 ---
 
-***
-
 ### Practical Exercise 1 - Software installation
 <a id="Practical Excercise 1"></a>
 To install bedtools:

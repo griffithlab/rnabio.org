@@ -8,8 +8,6 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0000-04-01
 ---
 
-***
-
 * Instructions for logging into the cloud (including instructions for Windows systems, if applicable) can be found on the Course Wiki page.
 
 * This will ONLY occur once we are in the classroom as it costs to have these servers running. Instructions will be provided in class.
