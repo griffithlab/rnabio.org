@@ -3,7 +3,7 @@ feature_text: |
   ## Precision Medicine
 title: Practical Excercise Solutions
 categories:
-    - Appendix
+    - Module-08-Appendix
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0008-04-01
 ---
