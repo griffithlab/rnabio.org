@@ -3,7 +3,7 @@ feature_text: |
   ## Precision Medicine
 title: Reference Guided Transcript Assembly
 categories:
-    - Module 5
+    - Module-05-Isoforms
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0005-01-01
 ---

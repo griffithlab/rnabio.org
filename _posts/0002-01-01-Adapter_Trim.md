@@ -3,7 +3,7 @@ feature_text: |
   ## Precision Medicine
 title: Adaptor Trim
 categories:
-    - Module 2
+    - Module-02-Alignment
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0002-01-01
 ---
