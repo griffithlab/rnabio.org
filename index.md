@@ -29,7 +29,7 @@ Malachi Griffith*, Jason R. Walker, Nicholas C. Spies, Benjamin J. Ainscough, Ob
 
 These materials have been developed with the support of AWS Cloud Credits for Research, the Canadian Bioinformatics Workshops, and Cold Spring Harbor Laboratory.
 
-This workshop have been delivered many times and continues to evolve. To see a complete list of these workshops is available [here](Lectures).
+This workshop have been delivered many times and continues to evolve. A complete list of these past workshops is available [here](Lectures).
 
 <table>
 <tr>
@@ -38,6 +38,4 @@ This workshop have been delivered many times and continues to evolve. To see a c
 <td><a href="http://www.cshl.edu/"><img src="assets/Cold_Spring_Harbor_Laboratory_logo.png" alt="Cold Spring Harbor Laboratory"></a></td>
 </tr>
 </table>
-
-
 
