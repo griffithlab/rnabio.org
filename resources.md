@@ -1,8 +1,8 @@
 ---
 title: Additional Resources
 feature_text: |
-  ## RNAseq
-  Tutorial series for RNAseq data analysis
+  ## RNA-seq Bioinformatics
+  Introduction to bioinformatics for RNA sequence analysis
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 excerpt: ""
 layout: "home"
