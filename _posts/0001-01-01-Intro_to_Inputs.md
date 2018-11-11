@@ -1,6 +1,7 @@
 ---
 feature_text: |
-  ## Precision Medicine
+  ## RNA-seq Bioinformatics
+  Introduction to bioinformatics for RNA sequence analysis
 title: Introduction to Inputs
 categories:
     - Module-01-Inputs

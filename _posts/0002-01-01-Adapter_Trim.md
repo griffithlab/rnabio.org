@@ -1,6 +1,7 @@
 ---
 feature_text: |
-  ## Precision Medicine
+  ## RNA-seq Bioinformatics
+  Introduction to bioinformatics for RNA sequence analysis
 title: Adaptor Trim
 categories:
     - Module-02-Alignment

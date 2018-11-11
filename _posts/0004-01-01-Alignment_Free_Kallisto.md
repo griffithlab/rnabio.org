@@ -1,6 +1,7 @@
 ---
 feature_text: |
-  ## Precision Medicine
+  ## RNA-seq Bioinformatics
+  Introduction to bioinformatics for RNA sequence analysis
 title: Alignment Free Expression Estimation (Kallisto)
 categories:
     - Module-04-Kallisto
