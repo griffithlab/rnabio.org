@@ -63,7 +63,7 @@ layout: "home"
 
 #### 6. Resources to help find RNA-seq Data Sets
 - [GEO: The Gene Expression Omnibus](http://www.ncbi.nlm.nih.gov/geo/)
-- [GXA: the EBI Expression Atlas](https://www.ebi.ac.uk/gxa/home/)]
+- [GXA: the EBI Expression Atlas](https://www.ebi.ac.uk/gxa/home/)
 - [SHARQ: Search public, human, RNA-seq experiments by cell, tissue type, and other features](http://www.cs.cmu.edu/~ckingsf/sharq/index.html)
 
 #### 7. General Bioinformatics Resources

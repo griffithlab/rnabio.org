@@ -22,7 +22,7 @@ The age of affordable massively parallel sequencing has exponentially increased 
 * Perform differential expression analysis
 * Discover novel isoforms
 * Visualize and summarize the output of RNA-seq analyses in R
-* Assemble transcripts from RNA-Seq data.
+* Assemble transcripts from RNA-Seq data
 
 A version of this workshop was accompanied by a publication. If you find the materials here  useful, please cite the following: 
 Malachi Griffith*, Jason R. Walker, Nicholas C. Spies, Benjamin J. Ainscough, Obi L. Griffith*. 2015. [Informatics for RNA-seq: A web resource for analysis on the cloud](http://dx.doi.org/10.1371/journal.pcbi.1004393). PLoS Comp Biol. 11(8):e1004393. *To whom correspondence should be addressed: E-mail: mgriffit[AT]genome.wustl.edu, ogriffit[AT]genome.wustl.edu
@@ -30,12 +30,4 @@ Malachi Griffith*, Jason R. Walker, Nicholas C. Spies, Benjamin J. Ainscough, Ob
 These materials have been developed with the support of AWS Cloud Credits for Research, the Canadian Bioinformatics Workshops, and Cold Spring Harbor Laboratory.
 
 This workshop have been delivered many times and continues to evolve. A complete list of these past workshops is available [here](Lectures).
-
-<table>
-<tr>
-<td><a href="https://aws.amazon.com/"><img src="assets/aws-powered-by.png" alt="Powerd by AWS Cloud Computing"></a></td>
-<td><a href="https://bioinformatics.ca/"><img src="assets/bioinformatics_LOGO.png" alt="Canadian Bioinformatics Workshops"></a></td>
-<td><a href="http://www.cshl.edu/"><img src="assets/Cold_Spring_Harbor_Laboratory_logo.png" alt="Cold Spring Harbor Laboratory"></a></td>
-</tr>
-</table>
 
