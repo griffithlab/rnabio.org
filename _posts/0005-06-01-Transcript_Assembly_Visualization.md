@@ -45,10 +45,10 @@ Display the transcripts that correspond to intergenic regions with the highest r
 
 ***
 
-### Using regtools to annotate all individual splice junctions
-RegTools is a utility we created to help characterize individual exon splicing events and help to identify novel splice events and variants that have a direct influence on gene expression or splicing patterns. Refer to the [regtools manual](https://regtools.readthedocs.io/en/latest/) for more details.
+### Using RegTools to annotate all individual splice junctions
+RegTools is a utility we created to help characterize individual exon splicing events and help to identify novel splice events and variants that have a direct influence on gene expression or splicing patterns. Refer to the [RegTools manual](https://regtools.readthedocs.io/en/latest/) for more details.
 
-We will use basic functionality of regtools to extract a junction.bed file for each of our BAMs that summarizes all distinct exon-exon splicing events represented in the RNA-seq data. We will also use regtools to annotate these junctions relative to our reference transcriptome GTF file:
+We will use basic functionality of RegTools to extract a junction.bed file for each of our BAMs that summarizes all distinct exon-exon splicing events represented in the RNA-seq data. We will also use RegTools to annotate these junctions relative to our reference transcriptome GTF file:
 
     cd $RNA_HOME/alignments/hisat2
 
