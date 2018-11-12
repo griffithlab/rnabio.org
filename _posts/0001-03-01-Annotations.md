@@ -1,9 +1,10 @@
 ---
 feature_text: |
-  ## Precision Medicine
+  ## RNA-seq Bioinformatics
+  Introduction to bioinformatics for RNA sequence analysis
 title: Annotations
 categories:
-    - Module 1
+    - Module-01-Inputs
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0001-03-01
 ---

@@ -1,8 +1,8 @@
 ---
 title: RNAseq
 feature_text: |
-  ## RNAseq data analysis
-  Tutorial series for RNAseq data analysis
+  ## RNA-seq Bioinformatics
+  Introduction to bioinformatics for RNA sequence analysis
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 image: "assets/genvis-dna-bg_optimized_v1a.png"
 layout: "home"
@@ -29,15 +29,13 @@ Malachi Griffith*, Jason R. Walker, Nicholas C. Spies, Benjamin J. Ainscough, Ob
 
 These materials have been developed with the support of AWS Cloud Credits for Research, the Canadian Bioinformatics Workshops, and Cold Spring Harbor Laboratory.
 
-This workshop have been delivered many times and continues to evolve. To see a complete list of these workshops is available [here](Lectures).
+This workshop have been delivered many times and continues to evolve. A complete list of these past workshops is available [here](Lectures).
 
 <table>
 <tr>
 <td><a href="https://aws.amazon.com/"><img src="assets/aws-powered-by.png" alt="Powerd by AWS Cloud Computing"></a></td>
-<td><a href="https://bioinformatics.ca/"><img src="assets/bioinformatics_LOGO.jpg" alt="Canadian Bioinformatics Workshops"></a></td>
+<td><a href="https://bioinformatics.ca/"><img src="assets/bioinformatics_LOGO.png" alt="Canadian Bioinformatics Workshops"></a></td>
 <td><a href="http://www.cshl.edu/"><img src="assets/Cold_Spring_Harbor_Laboratory_logo.png" alt="Cold Spring Harbor Laboratory"></a></td>
 </tr>
 </table>
-
-
 
