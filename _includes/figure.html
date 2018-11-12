@@ -1,5 +1,5 @@
 <figure class="figure{% if include.position %}  figure--{{ include.position }}{% endif %}" {% if include.width %} width="{{ include.width }}"{% endif %}>
-    <img class="image" src="{{ include.image | relative_url }}" {% if include.width %} width="{{ include.width }}"{% endif %}>
+    <img class="image {% if include.class %} {{ include.class }}{% endif %}" src="{{ include.image | relative_url }}" {% if include.width %} width="{{ include.width }}"{% endif %}>
     {% if include.caption %}<figcaption class="caption">{{ include.caption }}</figcaption>{% endif %}
     {% if include.license %}
     <figcaption class="caption">
