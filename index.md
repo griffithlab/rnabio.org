@@ -11,7 +11,7 @@ layout: "home"
 
 This Resource is under active development, all course material is available on github while development proceeds: [https://github.com/griffithlab/rnaseq_tutorial/wiki](https://github.com/griffithlab/rnaseq_tutorial/wiki).
 
-Welcome to the RNA-seq Tutorial. Use the [course](/course) page to navigate your way through all exercises. Each page has a [course](/course) link at the top to bring you back to the table of contents. 
+Welcome to the RNA-seq Tutorial. Use the [course](/course) page to navigate your way through all exercises. Each page has a [course](/course) link at the top to bring you back to the table of contents.
 
 The age of affordable massively parallel sequencing has exponentially increased the availability of transcriptome profiling. RNA sequencing (RNA-seq) has rapidly become the assay of choice for interrogating RNA transcript abundance and diversity. We have developed this course to provide an introduction to RNA-seq data analysis concepts followed by integrated tutorials demonstrating the use of popular RNA-seq analysis packages. The tutorials are designed as self-contained units that include example data (Illumina paired-end RNA-seq data) and detailed instructions for installation of all required bioinformatics tools (HISAT, StringTie, etc.). Participants will gain practical experience and skills to be able to:
 
@@ -24,10 +24,9 @@ The age of affordable massively parallel sequencing has exponentially increased 
 * Visualize and summarize the output of RNA-seq analyses in R
 * Assemble transcripts from RNA-Seq data
 
-A version of this workshop was accompanied by a publication. If you find the materials here  useful, please cite the following: 
+A version of this workshop was accompanied by a publication. If you find the materials here  useful, please cite the following:
 Malachi Griffith*, Jason R. Walker, Nicholas C. Spies, Benjamin J. Ainscough, Obi L. Griffith*. 2015. [Informatics for RNA-seq: A web resource for analysis on the cloud](http://dx.doi.org/10.1371/journal.pcbi.1004393). PLoS Comp Biol. 11(8):e1004393. *To whom correspondence should be addressed: E-mail: mgriffit[AT]genome.wustl.edu, ogriffit[AT]genome.wustl.edu
 
 These materials have been developed with the support of AWS Cloud Credits for Research, the Canadian Bioinformatics Workshops, and Cold Spring Harbor Laboratory.
 
-This workshop have been delivered many times and continues to evolve. A complete list of these past workshops is available [here](Lectures).
-
+This workshop has been delivered many times and continues to evolve. A complete list of these past workshops is available [here](Lectures).
