@@ -67,26 +67,26 @@ defaults:
       type: pages
     values:
       layout: page # Default layout
-      image: "/assets/DNA.jpg" # Default image for sharing
+      image: "/assets/logos/DNA.jpg" # Default image for sharing
   -
     scope:
       path: ""
       type: posts
     values:
       layout: post # Default layout
-      image: "/assets/DNA.jpg" # Default image for sharing
+      image: "/assets/logos/DNA.jpg" # Default image for sharing
 
 # 7. Site settings
 encoding: utf-8 # Make sure the encoding is right
 title: "Griffith Lab" # Site name or title, also used in jekyll-seo-tag
-logo: "/assets/Site_Logo3_v2.png" # Site logo, also used in jekyll-seo-tag
+logo: "/assets/logos/Site_Logo3_v2.png" # Site logo, also used in jekyll-seo-tag
 logo_link: "http://www.griffithlab.org"
 description: "The RNAbio.org site is meant to accompany RNA-seq workshops delivered at various times during the year at various places (New York, Toronto, Germany, Glasgow, etc) in collaboration with various bioinformatics workshop organizations (CSHL, CBW, Physalia, PR Informatics, etc.). It can also be used as a standalone online course. The goal of the resource is to provide a comprehensive introduction to RNA-seq, NGS data, bioinformatics, cloud computing, BAM/BED/VCF file format, read alignment, data QC, expression estimation, differential expression analysis, reference-free analysis, data visualization, transcript assembly, etc." # Site description and default description, also used in jekyll-seo-tag
 url: "http://www.rnabio.org/" # Site url, also used in jekyll-seo-tag
 baseurl: ""
 repo: "https://github.com/griffithlab/rnabio.org"
 email: "zskidmor@wustl.edu"
-avatarurl:  "/assets/DNA.jpg"# Uses avatars for favicons to get multple sites, eg Gravatar, Twitter, GitHub
+avatarurl:  "/assets/logos/DNA.jpg"# Uses avatars for favicons to get multple sites, eg Gravatar, Twitter, GitHub
 
 
 # 8. Site navigation
