@@ -19,9 +19,9 @@ Finally, we would like to thank the students who participated and contributed in
 ### Funding acknowledgements
 <table bgcolor="#FFFFFF">
 <tr bgcolor="#FFFFFF">
-<td bgcolor="#FFFFFF"><a href="https://aws.amazon.com/"><img src="/assets/aws-powered-by.png" alt="Powerd by AWS Cloud Computing"></a></td>
-<td bgcolor="#FFFFFF"><a href="https://bioinformatics.ca/"><img src="/assets/bioinformatics_LOGO.png" alt="Canadian Bioinformatics Workshops"></a></td>
-<td bgcolor="#FFFFFF"><a href="http://www.cshl.edu/"><img src="/assets/Cold_Spring_Harbor_Laboratory_logo.png" alt="Cold Spring Harbor Laboratory"></a></td>
+<td bgcolor="#FFFFFF"><a href="https://aws.amazon.com/"><img src="/assets/logos/aws-powered-by.png" alt="Powerd by AWS Cloud Computing"></a></td>
+<td bgcolor="#FFFFFF"><a href="https://bioinformatics.ca/"><img src="/assets/logos/bioinformatics_LOGO.png" alt="Canadian Bioinformatics Workshops"></a></td>
+<td bgcolor="#FFFFFF"><a href="http://www.cshl.edu/"><img src="/assets/logos/Cold_Spring_Harbor_Laboratory_logo.png" alt="Cold Spring Harbor Laboratory"></a></td>
 </tr>
 </table>
 
