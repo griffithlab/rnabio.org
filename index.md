@@ -31,11 +31,3 @@ These materials have been developed with the support of AWS Cloud Credits for Re
 
 This workshop have been delivered many times and continues to evolve. A complete list of these past workshops is available [here](Lectures).
 
-<table>
-<tr>
-<td><a href="https://aws.amazon.com/"><img src="assets/aws-powered-by.png" alt="Powerd by AWS Cloud Computing"></a></td>
-<td><a href="https://bioinformatics.ca/"><img src="assets/bioinformatics_LOGO.png" alt="Canadian Bioinformatics Workshops"></a></td>
-<td><a href="http://www.cshl.edu/"><img src="assets/Cold_Spring_Harbor_Laboratory_logo.png" alt="Cold Spring Harbor Laboratory"></a></td>
-</tr>
-</table>
-
