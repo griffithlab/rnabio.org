@@ -6,7 +6,7 @@ title: Log into AWS
 categories:
     - Module-00-Setup
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0000-04-01
+date: 0000-05-01
 ---
 
 * Instructions for logging into the cloud (including instructions for Windows systems, if applicable) can be found on the Course Wiki page.

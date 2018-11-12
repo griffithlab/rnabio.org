@@ -6,7 +6,7 @@ title: Adaptor Trim
 categories:
     - Module-02-Alignment
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0002-01-01
+date: 0002-02-01
 ---
 
 ***
