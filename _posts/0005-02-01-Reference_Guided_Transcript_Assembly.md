@@ -40,7 +40,7 @@ Extra options specified below:
 * '-o' output path/file name for the assembled transcripts GTF (default: stdout)
 
 First, create an output directory and then run stringtie in reference-guided mode.
-
+```bash
     cd $RNA_HOME/
     mkdir -p expression/stringtie/ref_guided/
     cd expression/stringtie/ref_guided/
@@ -52,3 +52,4 @@ First, create an output directory and then run stringtie in reference-guided mod
     stringtie -p 8 -G $RNA_REF_GTF -l UHR_Rep1 -o UHR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep1.bam
     stringtie -p 8 -G $RNA_REF_GTF -l UHR_Rep2 -o UHR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep2.bam
     stringtie -p 8 -G $RNA_REF_GTF -l UHR_Rep3 -o UHR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep3.bam
+```
