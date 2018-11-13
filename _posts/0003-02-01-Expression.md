@@ -27,9 +27,9 @@ Stringtie also provides 'gffcompare' to compare predicted transcripts to known t
 * [https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual)
 
 Stringtie basic usage:
-
+```bash
     stringtie <aligned_reads.bam> [options]*
-
+```
 Extra options specified below:
 
 * '-p 8' tells Stringtie to use eight CPUs
@@ -39,7 +39,7 @@ Extra options specified below:
 * '-o' output path/file name for the assembled transcripts GTF (default: stdout)
 * '-A' output path/file name for gene abundance estimates
 
-```
+```bash
 cd $RNA_HOME/
 mkdir -p expression/stringtie/ref_only/
 cd expression/stringtie/ref_only/
@@ -54,23 +54,23 @@ stringtie -p 8 -G $RNA_REF_GTF -e -B -o UHR_Rep3/transcripts.gtf -A UHR_Rep3/gen
 ```
 
 What does the raw output from Stringtie look like? For details on the Stringtie output files refer to [Stringtie manual](http://ccb.jhu.edu/software/stringtie/index.shtml?t=manual) ([outputs section](http://ccb.jhu.edu/software/stringtie/index.shtml?t=manual#output))
-
+```bash
     less -S UHR_Rep1/transcripts.gtf
-
+```
 Limit the view to transcript records and their expression values (FPKM and TPM values)
-
+```bash
     awk '{if ($3=="transcript") print}' UHR_Rep1/transcripts.gtf | cut -f 1,4,9 | less
-
+```
 Press 'q' to exit the 'less' display
 
 Gene and transcript level expression values can also be viewed in these two files:
-
+```bash
     less -S UHR_Rep1/t_data.ctab
 
     less -S UHR_Rep1/gene_abundances.tsv
-
+```
 Create a tidy expression matrix files for the StringTie results. This will be done at both the gene and transcript level and also will take into account the various expression measures produced: coverage, FPKM, and TPM.
-
+```bash
     cd $RNA_HOME/expression/stringtie/ref_only/
     wget https://raw.githubusercontent.com/griffithlab/rnaseq_tutorial/master/scripts/stringtie_expression_matrix.pl
     chmod +x stringtie_expression_matrix.pl
@@ -82,7 +82,7 @@ Create a tidy expression matrix files for the StringTie results. This will be do
     ./stringtie_expression_matrix.pl --expression_metric=Coverage --result_dirs='HBR_Rep1,HBR_Rep2,HBR_Rep3,UHR_Rep1,UHR_Rep2,UHR_Rep3' --transcript_matrix_file=transcript_coverage_all_samples.tsv --gene_matrix_file=gene_coverage_all_samples.tsv
 
     head transcript_tpm_all_samples.tsv gene_tpm_all_samples.tsv
-
+```
 Later we will use these files to perform various comparisons of expression estimation tools (e.g. stringtie, kallisto, raw counts) and metrics (e.g. FPKM vs TPM).
 
 ***
@@ -104,9 +104,9 @@ Refer to the HTSeq documentation for a more detailed explanation:
 * [http://www-huber.embl.de/users/anders/HTSeq/doc/count.html](http://www-huber.embl.de/users/anders/HTSeq/doc/count.html)
 
 htseq-count basic usage:
-
+```bash
     htseq-count [options] <sam_file> <gff_file>
-
+```
 Extra options specified below:
 
 * '--format' specify the input file format one of BAM or SAM. Since we have BAM format files, select 'bam' for this option.
@@ -118,7 +118,7 @@ Extra options specified below:
 * '--idattr' The feature ID used to identify the counts in the output table. The default, suitable for RNA-SEq and Ensembl GTF files, is gene_id.
 
 Run htseq-count and calculate gene-level counts:
-
+```bash
     cd $RNA_HOME/
     mkdir -p expression/htseq_counts
     cd expression/htseq_counts
@@ -130,21 +130,21 @@ Run htseq-count and calculate gene-level counts:
     htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $RNA_ALIGN_DIR/HBR_Rep1.bam $RNA_REF_GTF > HBR_Rep1_gene.tsv
     htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $RNA_ALIGN_DIR/HBR_Rep2.bam $RNA_REF_GTF > HBR_Rep2_gene.tsv
     htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $RNA_ALIGN_DIR/HBR_Rep3.bam $RNA_REF_GTF > HBR_Rep3_gene.tsv
-
+```
 Merge results files into a single matrix for use in edgeR. The following joins the results for each replicate together, adds a header, reformats the result as a tab delimited file, and shows you the first 10 lines of the resulting file :
-
+```bash
     cd $RNA_HOME/expression/htseq_counts/
     join UHR_Rep1_gene.tsv UHR_Rep2_gene.tsv | join - UHR_Rep3_gene.tsv | join - HBR_Rep1_gene.tsv | join - HBR_Rep2_gene.tsv | join - HBR_Rep3_gene.tsv > gene_read_counts_table_all.tsv
     echo "GeneID UHR_Rep1 UHR_Rep2 UHR_Rep3 HBR_Rep1 HBR_Rep2 HBR_Rep3" > header.txt
     cat header.txt gene_read_counts_table_all.tsv | grep -v "__" | perl -ne 'chomp $_; $_ =~ s/\s+/\t/g; print "$_\n"' > gene_read_counts_table_all_final.tsv
     rm -f gene_read_counts_table_all.tsv header.txt
     head gene_read_counts_table_all_final.tsv
-
+```
 ***
 
 #### ERCC expression analysis
 Based on the above read counts, plot the linearity of the ERCC spike-in read counts versus the known concentration of the ERCC spike-in Mix. In this step we will first download a file describing the expected concentrations and fold-change differences for the ERCC spike-in reagent. Next we will use a Perl script to organize the ERCC expected values and our observed counts for each ERCC sequence. Finally, we will use an R script to produce an x-y scatter plot that compares the expected and observed values.
-
+```bash
     cd $RNA_HOME/expression/htseq_counts
     wget http://genomedata.org/rnaseq-tutorial/ERCC_Controls_Analysis.txt
     cat ERCC_Controls_Analysis.txt
@@ -157,7 +157,7 @@ Based on the above read counts, plot the linearity of the ERCC spike-in read cou
     wget https://raw.githubusercontent.com/griffithlab/rnaseq_tutorial/master/scripts/Tutorial_ERCC_expression.R
     chmod +x Tutorial_ERCC_expression.R
     ./Tutorial_ERCC_expression.R ercc_read_counts.tsv
-
+```
 To view the resulting figure, navigate to the below URL replacing YOUR_IP_ADDRESS with your amazon instance IP address:
 
 * http://**YOUR_IP_ADDRESS**/rnaseq/expression/htseq_counts/Tutorial_ERCC_expression.pdf
