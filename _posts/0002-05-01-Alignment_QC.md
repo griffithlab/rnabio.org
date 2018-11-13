@@ -121,24 +121,29 @@ genePredToBed chr22_with_ERCC92.genePred chr22_with_ERCC92.bed12
 
 cd $RNA_ALIGN_DIR
 mkdir rseqc
-geneBody_coverage.py -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -i UHR_Rep1.bam,UHR_Rep2.bam,UHR_Rep3.bam -o rseqc/UHR
-geneBody_coverage.py -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -i HBR_Rep1.bam,HBR_Rep2.bam,HBR_Rep3.bam -o rseqc/HBR
+geneBody_coverage.py -i UHR_Rep1.bam,UHR_Rep2.bam,UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR
+geneBody_coverage.py -i HBR_Rep1.bam,HBR_Rep2.bam,HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR
 
-inner_distance.py -i UHR_Rep1.bam -o rseqc/UHR_Rep1 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
-inner_distance.py -i UHR_Rep2.bam -o rseqc/UHR_Rep2 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
-inner_distance.py -i UHR_Rep3.bam -o rseqc/UHR_Rep3 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
-inner_distance.py -i HBR_Rep1.bam -o rseqc/HBR_Rep1 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
-inner_distance.py -i HBR_Rep2.bam -o rseqc/HBR_Rep2 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
-inner_distance.py -i HBR_Rep3.bam -o rseqc/HBR_Rep3 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
+inner_distance.py -i UHR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep1
+inner_distance.py -i UHR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep2
+inner_distance.py -i UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep3
+inner_distance.py -i HBR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep1
+inner_distance.py -i HBR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep2
+inner_distance.py -i HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep3
 
-junction_annotation.py -i UHR_Rep1.bam -o rseqc/UHR_Rep1 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
-junction_annotation.py -i UHR_Rep2.bam -o rseqc/UHR_Rep2 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
-junction_annotation.py -i UHR_Rep3.bam -o rseqc/UHR_Rep3 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
-junction_annotation.py -i HBR_Rep1.bam -o rseqc/HBR_Rep1 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
-junction_annotation.py -i HBR_Rep2.bam -o rseqc/HBR_Rep2 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
-junction_annotation.py -i HBR_Rep3.bam -o rseqc/HBR_Rep3 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
+junction_annotation.py -i UHR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep1 
+junction_annotation.py -i UHR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep2
+junction_annotation.py -i UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep3
+junction_annotation.py -i HBR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep1
+junction_annotation.py -i HBR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep2
+junction_annotation.py -i HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep3
 
-
+junction_saturation.py -i UHR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep1
+junction_saturation.py -i UHR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep2
+junction_saturation.py -i UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep3
+junction_saturation.py -i HBR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep1
+junction_saturation.py -i HBR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep2
+junction_saturation.py -i HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep3
 
 ```
 
