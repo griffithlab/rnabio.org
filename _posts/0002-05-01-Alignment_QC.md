@@ -91,12 +91,8 @@ cat chr22_with_ERCC92.ref_flat.txt | awk '{print $12"\t"$0}' | cut -d$'\t' -f1-1
 mv tmp.txt chr22_with_ERCC92.ref_flat.txt
 
 cd $RNA_HOME/alignments/hisat2/
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=UHR_Rep1.bam O=UHR_Rep1.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=UHR_Rep2.bam O=UHR_Rep2.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=UHR_Rep3.bam O=UHR_Rep3.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=HBR_Rep1.bam O=HBR_Rep1.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=HBR_Rep2.bam O=HBR_Rep2.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=HBR_Rep3.bam O=HBR_Rep3.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
+mkdir picard
+find *Rep*.bam -exec echo java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I={} O=picard/{}.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list \; | sh
 
 ```
 
