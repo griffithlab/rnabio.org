@@ -45,16 +45,12 @@ samtools view -f 1024 UHR.bam | head
 Use `samtools flagstat` to get a basic summary of an alignment. What percent of reads are mapped? Is this realistic? Why?
 ```bash
 cd $RNA_ALIGN_DIR
-samtools flagstat UHR_Rep1.bam > UHR_Rep1.flagstat
-samtools flagstat UHR_Rep2.bam > UHR_Rep2.flagstat
-samtools flagstat UHR_Rep3.bam > UHR_Rep3.flagstat
+mkdir flagstat
 
-samtools flagstat HBR_Rep1.bam > HBR_Rep1.flagstat
-samtools flagstat HBR_Rep2.bam > HBR_Rep2.flagstat
-samtools flagstat HBR_Rep3.bam > HBR_Rep3.flagstat
+find *Rep*.bam -exec echo samtools flagstat {} \> flagstat/{}.flagstat \; | sh
 
 # View an example
-cat UHR_Rep1.flagstat 
+cat flagstat/UHR_Rep1.bam.flagstat 
 
 ```
 Details of the SAM/BAM format can be found here: [http://samtools.sourceforge.net/SAM1.pdf](http://samtools.sourceforge.net/SAM1.pdf)
