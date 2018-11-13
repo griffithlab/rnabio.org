@@ -13,6 +13,39 @@ date: 0000-04-01
 
 Cloud computing allows users to quickly access an arbitrary amount of compute resources from a distance without the need to buy or maintain hardware themselves. There are many cloud computing services. This tutorial describes the use of the Amazon Web Services ([AWS](http://aws.amazon.com/)) elastic compute ([EC2](http://aws.amazon.com/ec2/)) resource. However, the fundamental concepts covered here will generally apply to other cloud computing services such as [Google Cloud](https://cloud.google.com/), [Digital Ocean](https://www.digitalocean.com/), [Microsoft Azure](https://azure.microsoft.com/), [etc.](http://cloud-computing.softwareinsider.com/), though with substantial differences in jargon used by each provider.
 
+## Table of Contents
+1. [Acknowledgements](#acknowledgements)
+2. [Glossary and abbreviations](#glossary-and-abbreviations)
+3. [What do I need to perform this tutorial](#what-do-i-need-to-perform-this-tutorial)
+   1. [Creating an account](#creating-an-account)
+   2. [Logging into the AWS console](#logging-into-the-aws-console)
+4. [What is a Region?](#what-is-a-region)
+5. [How much does it cost to use AWS EC2 resources?](#how-much-does-it-cost-to-use-aws-ec2-resources)
+   1. [How does billing work?](#how-does-billing-work-i-do-not-think-i-am-using-anything-why-am-i-still-getting-a-monthly-bill)
+6. [Necessary steps for launching an instance](#necessary-steps-for-launching-an-instance)
+   1. [Step 1. Choosing an AMI](#step-1-choosing-an-ami)
+   2. [Step 2. Choosing an instance type](#step-2-choosing-an-instance-type)
+   3. [Step 3. Configuring instance details](#step-3-configuring-instance-details)
+   4. [Step 4. Adding storage](#step-4-adding-storage)
+      1. [Storage volume options](#storage-volume-options)
+   5. [Step 5. Tagging the instance](#step-5-tagging-the-instance)
+   6. [Step 6. Configuring a security group](#step-6-configuring-a-security-group)
+   7. [Step 7. Reviewing the instance before launch](#step-7-reviewing-the-instance-before-launch)
+   8. [Step 8. Assigning a key pair](#step-8-assigning-a-key-pair)
+   9. [Step 9. Reviewing launch status](#step-9-reviewing-launch-status)
+   10. [Step 10. Examining a new instance in the ec2 console](step-10-examining-a-new-instance-in-the-ec2-console)
+   11. [Step 11. Logging into an instance](#step-11-logging-into-an-instance)
+7. [Trouble-shooting and advanced topics](#trouble-shooting-and-advanced-topics)
+   1. [Can not login to EC2 instance - what might have gone wrong?](#i-can-not-log-into-my-ec2-instance-what-might-have-gone-wrong)
+   2. [How do storage volumes appear within a linux instance on amazon EC2?](#how-do-storage-volumes-appear-within-a-linux-instance-on-amazon-ec2)
+   3. [Taking stock of compute resources within an ubuntu linux instance](#taking-stock-of-compute-resources-within-an-ubuntu-linux-instance)
+   4. [Basic setup and administration of an ubuntu linux instance](#basic-setup-and-administration-of-an-ubuntu-linux-instance)
+   5. [Setting up an Apache web server](#setting-up-an-apache-web-server)
+   6. [What is difference between the start, stop, reboot and terminate instance states?](#what-is-difference-between-the-start-stop-reboot-and-terminate-instance-states)
+   7. [How do I create my own AMI, publish as a Community AMI, and what is a snapshot?](#how-do-i-create-my-own-ami-how-do-i-publish-my-ami-to-create-a-community-ami-what-is-a-snapshot)
+   8. [Tidying up and shutting down AWS resources](#tidying-up-and-shutting-down-aws-resources)
+   9. [Further reading and preparing for more advanced AWS cloud computing concepts](#further-reading-and-preparing-for-more-advanced-aws-cloud-computing-concepts)
+
 ## Acknowledgements
 
 Creation of this tutorial on Amazon AWS EC2 was generously supported by [Amazon AWS Education grants](http://aws.amazon.com/grants/).
