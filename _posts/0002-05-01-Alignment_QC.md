@@ -45,16 +45,12 @@ samtools view -f 1024 UHR.bam | head
 Use `samtools flagstat` to get a basic summary of an alignment. What percent of reads are mapped? Is this realistic? Why?
 ```bash
 cd $RNA_ALIGN_DIR
-samtools flagstat UHR_Rep1.bam > UHR_Rep1.flagstat
-samtools flagstat UHR_Rep2.bam > UHR_Rep2.flagstat
-samtools flagstat UHR_Rep3.bam > UHR_Rep3.flagstat
+mkdir flagstat
 
-samtools flagstat HBR_Rep1.bam > HBR_Rep1.flagstat
-samtools flagstat HBR_Rep2.bam > HBR_Rep2.flagstat
-samtools flagstat HBR_Rep3.bam > HBR_Rep3.flagstat
+find *Rep*.bam -exec echo samtools flagstat {} \> flagstat/{}.flagstat \; | sh
 
 # View an example
-cat UHR_Rep1.flagstat 
+cat flagstat/UHR_Rep1.bam.flagstat 
 
 ```
 Details of the SAM/BAM format can be found here: [http://samtools.sourceforge.net/SAM1.pdf](http://samtools.sourceforge.net/SAM1.pdf)
@@ -64,6 +60,9 @@ You can use FastQC to perform basic QC of your BAM file (See [Pre-alignment QC](
 ```bash
 cd $RNA_ALIGN_DIR
 fastqc UHR_Rep1.bam UHR_Rep2.bam UHR_Rep3.bam HBR_Rep1.bam HBR_Rep2.bam HBR_Rep3.bam
+mkdir fastqc
+mv *fastqc.html fastqc/
+mv *fastqc.zip fastqc/
 
 ```
 
@@ -92,12 +91,8 @@ cat chr22_with_ERCC92.ref_flat.txt | awk '{print $12"\t"$0}' | cut -d$'\t' -f1-1
 mv tmp.txt chr22_with_ERCC92.ref_flat.txt
 
 cd $RNA_HOME/alignments/hisat2/
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=UHR_Rep1.bam O=UHR_Rep1.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=UHR_Rep2.bam O=UHR_Rep2.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=UHR_Rep3.bam O=UHR_Rep3.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=HBR_Rep1.bam O=HBR_Rep1.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=HBR_Rep2.bam O=HBR_Rep2.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
-java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=HBR_Rep3.bam O=HBR_Rep3.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
+mkdir picard
+find *Rep*.bam -exec echo java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I={} O=picard/{}.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list \; | sh
 
 ```
 
@@ -106,9 +101,9 @@ java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=HBR_Rep3.bam O=HBR_R
 
 Files needed:
 
-* Aligned bam file.
-* Index file for the aligned bam.
-* A RefSeq bed file.
+* Aligned bam files
+* Index file for each bam file.
+* A transcript bed file (in bed12 format).
 
 ```bash
 cd $RNA_HOME/refs/
@@ -124,48 +119,19 @@ mkdir rseqc
 geneBody_coverage.py -i UHR_Rep1.bam,UHR_Rep2.bam,UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR
 geneBody_coverage.py -i HBR_Rep1.bam,HBR_Rep2.bam,HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR
 
-inner_distance.py -i UHR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep1
-inner_distance.py -i UHR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep2
-inner_distance.py -i UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep3
-inner_distance.py -i HBR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep1
-inner_distance.py -i HBR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep2
-inner_distance.py -i HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep3
+find *Rep*.bam -exec echo inner_distance.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/{} \; | sh
 
-junction_annotation.py -i UHR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep1 
-junction_annotation.py -i UHR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep2
-junction_annotation.py -i UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep3
-junction_annotation.py -i HBR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep1
-junction_annotation.py -i HBR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep2
-junction_annotation.py -i HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep3
+find *Rep*.bam -exec echo junction_annotation.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/{} \; | sh
 
-junction_saturation.py -i UHR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep1
-junction_saturation.py -i UHR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep2
-junction_saturation.py -i UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR_Rep3
-junction_saturation.py -i HBR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep1
-junction_saturation.py -i HBR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep2
-junction_saturation.py -i HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep3
+find *Rep*.bam -exec echo junction_saturation.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/{} \; | sh
 
-read_distribution.py  -i UHR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep1.read_dist.txt
-read_distribution.py  -i UHR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep2.read_dist.txt
-read_distribution.py  -i UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep3.read_dist.txt
-read_distribution.py  -i HBR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep1.read_dist.txt
-read_distribution.py  -i HBR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep2.read_dist.txt
-read_distribution.py  -i HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep3.read_dist.txt
+find *Rep*.bam -exec echo read_distribution.py  -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 \> rseqc/{}.read_dist.txt \; | sh
 
-RNA_fragment_size.py -i UHR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep1.frag_size.txt
-RNA_fragment_size.py -i UHR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep2.frag_size.txt
-RNA_fragment_size.py -i UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep3.frag_size.txt
-RNA_fragment_size.py -i HBR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep1.frag_size.txt
-RNA_fragment_size.py -i HBR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep2.frag_size.txt
-RNA_fragment_size.py -i HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep3.frag_size.txt
+find *Rep*.bam -exec echo RNA_fragment_size.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 \> rseqc/{}.frag_size.txt \; | sh
 
-bam_stat.py -i UHR_Rep1.bam > UHR_Rep1.bam_stat.txt
-bam_stat.py -i UHR_Rep2.bam > UHR_Rep2.bam_stat.txt
-bam_stat.py -i UHR_Rep3.bam > UHR_Rep3.bam_stat.txt
-bam_stat.py -i HBR_Rep1.bam > HBR_Rep1.bam_stat.txt
-bam_stat.py -i HBR_Rep2.bam > HBR_Rep2.bam_stat.txt
-bam_stat.py -i HBR_Rep3.bam > HBR_Rep3.bam_stat.txt
+find *Rep*.bam -exec echo bam_stat.py -i {} \> {}.bam_stat.txt \; | sh
 
+rm -f log.txt
 ```
 
 ### MultiQC
