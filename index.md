@@ -11,6 +11,8 @@ layout: "home"
 
 This Resource is under active development, all course material is available on github while development proceeds: [https://github.com/griffithlab/rnaseq_tutorial/wiki](https://github.com/griffithlab/rnaseq_tutorial/wiki).
 
+{% include figure.html image="/assets/Overview.png" position="right" width="600" author = "Benjamin Ainscough" %}
+
 Welcome to the RNA-seq Tutorial. Use the [course](/course) page to navigate your way through all exercises. Each page has a [course](/course) link at the top to bring you back to the table of contents.
 
 The age of affordable massively parallel sequencing has exponentially increased the availability of transcriptome profiling. RNA sequencing (RNA-seq) has rapidly become the assay of choice for interrogating RNA transcript abundance and diversity. We have developed this course to provide an introduction to RNA-seq data analysis concepts followed by integrated tutorials demonstrating the use of popular RNA-seq analysis packages. The tutorials are designed as self-contained units that include example data (Illumina paired-end RNA-seq data) and detailed instructions for installation of all required bioinformatics tools (HISAT, StringTie, etc.). Participants will gain practical experience and skills to be able to:
