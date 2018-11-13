@@ -24,7 +24,7 @@ Extra options specified below
 * '-l' name prefix for output transcripts (default: STRG)
 * '-o' output path/file name for the assembled transcripts GTF (default: stdout)
 
-```
+```bash
 cd $RNA_HOME/
 mkdir -p expression/stringtie/de_novo/
 cd expression/stringtie/de_novo/
