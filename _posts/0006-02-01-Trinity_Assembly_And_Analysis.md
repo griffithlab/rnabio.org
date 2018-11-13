@@ -1,11 +1,12 @@
 ---
 feature_text: |
-  ## Precision Medicine
-title: Trinity Assembly and Analysis
+  ## RNA-seq Bioinformatics
+  Introduction to bioinformatics for RNA sequence analysis
+title: De novo RNA-Seq Assembly and Analysis
 categories:
-    - Module 6
+    - Module-06-Trinity
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0006-01-01
+date: 0006-02-01
 ---
 
 ***
@@ -26,26 +27,26 @@ All required software and data are provided pre-installed on an Amazon EC2 AMI.
 The workshop materials here expect that you have basic familiarity with UNIX.
 
 After launching and connecting to your running instance of the AMI, change your working directory to your workspace:
-
-    % cd ~/workspace
-
+```bash
+cd ~/workspace
+```
 and for the sake of organization, create a directory called 'trinity_workspace' that you'll work in for today's exercises.
+```bash
+mkdir trinity_workspace
 
-    % mkdir trinity_workspace
-
-    % cd trinity_workspace
-
+cd trinity_workspace
+```
 #### Before We Begin
 Below, we refer to '%' as the terminal command prompt, and we use environmental variables such as $TRINITY_HOME and $TRINOTATE_HOME as shortcuts to referring to their installation directories in the AMI image.
 
 To configure your environment and set these variables, source the following settings:
-
-    % source ~/CourseData/RNA_data/trinity_trinotate_tutorial/OICR_RNASeq_2017_Workshop/Day3_Trinity/environment.txt
-
+```bash
+source ~/CourseData/RNA_data/trinity_trinotate_tutorial/OICR_RNASeq_2017_Workshop/Day3_Trinity/environment.txt
+```
 Now, to view the path to where Trinity is installed, you can simply:
-
-    %   echo $TRINITY_HOME
-
+```bash
+echo $TRINITY_HOME
+```
 Some commands can be fairly long to type in, and so they'll be more easily displayed in this document, we separate parts of the command with '' characters and put the rest of the command on the following line. Similarly in unix you can type '[return]' and you can continue to type in the rest of the command on the new line in the terminal.
 
 For viewing text files, we'll use the unix utilities 'head' (look at the top few lines), 'cat' (print the entire contents of the file), and 'less' (interactively page through the file), and for viewing PDF formatted files, we'll use the 'xpdf' viewer utility.
@@ -56,12 +57,12 @@ For this course we will be using the data from this paper: [Defining the transcr
 There are paired-end FASTQ formatted Illlumina read files for each of the two conditions, with three biological replicates for each.
 
 Copy the data over to your workspace like so:
-
-    % cp -r ~/CourseData/RNA_data/trinity_trinotate_tutorial/seq_data data
-
+```bash
+cp -r ~/CourseData/RNA_data/trinity_trinotate_tutorial/seq_data data
+```
 All RNA-Seq data sets can be found in your new data/ subdirectory:
-
-    %   ls -1 data | grep fastq
+```bash
+ls -1 data | grep fastq
 
     GSNO_SRR1582646_1.fastq
     GSNO_SRR1582646_2.fastq
@@ -75,7 +76,7 @@ All RNA-Seq data sets can be found in your new data/ subdirectory:
     wt_SRR1582650_2.fastq
     wt_SRR1582651_1.fastq
     wt_SRR1582651_2.fastq
-
+```
 Each biological replicate (eg. wt_SRR1582651) contains a pair of fastq files (eg. wt_SRR1582651_1.fastq.gz for the 'left' and wt_SRR1582651_2.fastq.gz for the 'right' read of the paired end sequences). Normally, each file would contain millions of reads, but in order to reduce running times as part of the workshop, each file provided here is restricted to only 10k RNA-Seq reads.
 
 It's generally good to evaluate the quality of your input data using a tool such as [FASTQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/). Since exploration of FASTQC reports has already been done in a previous section of this workshop, we'll skip doing it again here - and trust that the quality of these reads meet expectations.
@@ -84,12 +85,12 @@ Finally, another set of files that you will find in the data include 'mini_sprot
 
 #### De novo assembly of reads using Trinity
 To generate a reference assembly that we can later use for analyzing differential expression, we'll combine the read data sets for the different conditions together into a single target for Trinity assembly. We do this by providing Trinity with a list of all the left and right fastq files to the --left and --right parameters as comma-delimited like so:
-
-    %   ${TRINITY_HOME}/Trinity --seqType fq  \
+```bash
+${TRINITY_HOME}/Trinity --seqType fq  \
         --left data/wt_SRR1582649_1.fastq,data/wt_SRR1582651_1.fastq,data/wt_SRR1582650_1.fastq,data/GSNO_SRR1582648_1.fastq,data/GSNO_SRR1582646_1.fastq,data/GSNO_SRR1582647_1.fastq \
         --right data/wt_SRR1582649_2.fastq,data/wt_SRR1582651_2.fastq,data/wt_SRR1582650_2.fastq,data/GSNO_SRR1582648_2.fastq,data/GSNO_SRR1582646_2.fastq,data/GSNO_SRR1582647_2.fastq \
         --CPU 2 --max_memory 2G --min_contig_length 150
-
+```
 Running Trinity on this data set may take 10 to 15 minutes. You'll see it progress through the various stages, starting with Jellyfish to generate the k-mer catalog, then followed by Inchworm to assemble 'draft' contigs, Chrysalis to cluster the contigs and build de Bruijn graphs, and finally Butterfly for tracing paths through the graphs and reconstructing the final isoform sequences.
 
 Running a typical Trinity job requires ~1 hour and ~1G RAM per ~1 million PE reads. You'd normally run it on a high-memory machine and let it churn for hours or days.
@@ -97,11 +98,11 @@ Running a typical Trinity job requires ~1 hour and ~1G RAM per ~1 million PE rea
 The assembled transcripts will be found at 'trinity_out_dir/Trinity.fasta'.
 
 Just to look at the top few lines of the assembled transcript fasta file, you can run:
-
-    %   head trinity_out_dir/Trinity.fasta
-
+```bash
+head trinity_out_dir/Trinity.fasta
+```
 and you can see the Fasta-formatted Trinity output:
-
+```bash
     >TRINITY_DN506_c0_g1_i1 len=171 path=[149:0-170] [-1, 149, -2]
     TGAGTATGGTTTTGCCGGTTTGGCTGTTGGTGCAGCTTTGAAGGGCCTAAAGCCAATTGT
     TGAATTCATGTCATTCAACTTCTCCATGCAAGCCATTGACCATGTCGTTAACTCGGCAGC
@@ -112,7 +113,7 @@ and you can see the Fasta-formatted Trinity output:
     AAGAACCCATTCATATTCTTTGGACTCCCGTTTTGTGGAATGGTGGTG
     >TRINITY_DN538_c0_g1_i1 len=310 path=[575:0-309] [-1, 575, -2]
     GTTTTCCTCTGCGATCAAATCGTCAAACCTTAGACCTAGCTTGCGGTAACCAGAGTACTT
-
+```
 >Note, the sequences you see will likely be different, as the order of sequences in the output is not deterministic.
 
 The FASTA sequence header for each of the transcripts contains the identifier for the transcript (eg. 'TRINITY_DN506_c0_g1_i1'), the length of the transcript, and then some information about how the path was reconstructed by the software by traversing nodes within the graph.
@@ -124,9 +125,9 @@ There are several ways to quantitatively as well as qualitatively assess the ove
 
 ##### Assembly Statistics that are NOT very useful
 You can count the number of assembled transcripts by using 'grep' to retrieve only the FASTA header lines and piping that output into 'wc' (word count utility) with the '-l' parameter to just count the number of lines.
-
+```bash
     % grep '>' trinity_out_dir/Trinity.fasta | wc -l
-
+```
 >How many were assembled?
 
 It's useful to know how many transcript contigs were assembled, but it's not very informative. The deeper you sequence, the more transcript contigs you will be able to reconstruct. It's not unusual to assemble over a million transcript contigs with very deep data sets and complex transcriptomes, but as you 'll see below (in the section containing the more informative guide to assembly assessment) a fraction of the transcripts generally best represent the input RNA-Seq reads.
@@ -134,11 +135,11 @@ It's useful to know how many transcript contigs were assembled, but it's not ver
 **Examine assembly stats**
 
 Capture some basic statistics about the Trinity assembly:
-
-    % $TRINITY_HOME/util/TrinityStats.pl trinity_out_dir/Trinity.fasta
-
+```bash
+$TRINITY_HOME/util/TrinityStats.pl trinity_out_dir/Trinity.fasta
+```
 which should generate data like so. Note your numbers may vary slightly, as the assembly results are not deterministic.
-
+```bash
     ################################
     ## Counts of transcripts, etc.
     ################################
@@ -174,7 +175,7 @@ which should generate data like so. Note your numbers may vary slightly, as the 
     Median contig length: 215
     Average contig: 278.14
     Total assembled bases: 189969
-
+```
 The total number of reconstructed transcripts should match up identically to what we counted earlier with our simple 'grep \| wc' command. The total number of 'genes' is also reported - and simply involves counting up the number of unique transcript identifier prefixes (without the _i isoform numbers). When the 'gene' and 'transcript' identifiers differ, it's due to transcripts being reported as alternative isoforms for the same gene. In our tiny example data set, we unfortunately do not reconstruct any alternative isoforms, and note that alternative splicing in this yeast species may be fairly rare. Tackling an insect or mammal transcriptome would be expected to yeild many alternative isoforms.
 
 You'll also see 'Contig N50' values reported. You'll remmeber from the earlier lectures on genome assembly that the 'N50 statistic indicates that at least half of the assembled bases are in contigs of at least that contig length'. We extend the N50 statistic to provide N40, N30, etc. statistics with similar meaning. As the N-value is decreased, the corresponding length will increase.
@@ -192,16 +193,15 @@ We now move into the section containing more meaningful metrics for evaluating y
 A high quality transcriptome assembly is expected to have strong representation of the reads input to the assembler. By aligning the RNA-Seq reads back to the transcriptome assembly, we can quantify read representation. Use the Bowtie2 aligner to align the reads to the Trinity assembly, and in doing so, take notice of the read representation statistics reported by the bowtie2 aligner.
 
 First build a bowtie2 index for the Trinity assembly, required before running the alignment:
-
-    %  bowtie2-build trinity_out_dir/Trinity.fasta trinity_out_dir/Trinity.fasta
-
-Now, align the reads to the assembly:
-
-    %   bowtie2 --local --no-unal -x trinity_out_dir/Trinity.fasta \
-      -q -1 data/wt_SRR1582651_1.fastq -2 data/wt_SRR1582651_2.fastq \
-      | samtools view -Sb - | samtools sort -o bowtie2.coordSorted.bam
-
+```bash
+bowtie2-build trinity_out_dir/Trinity.fasta trinity_out_dir/Trinity.fasta
 ```
+Now, align the reads to the assembly:
+```bash
+bowtie2 --local --no-unal -x trinity_out_dir/Trinity.fasta \
+    -q -1 data/wt_SRR1582651_1.fastq -2 data/wt_SRR1582651_2.fastq \
+    | samtools view -Sb - | samtools sort -o bowtie2.coordSorted.bam
+
 [bam_header_read] EOF marker is absent. The input is probably truncated.
 [samopen] SAM header is present: 686 sequences.
 10000 reads; of these:
@@ -225,19 +225,19 @@ Generally, in a high quality assembly, you would expect to see at least ~70% and
 
 **Assess number of full-length coding transcripts**
 Another very useful metric in evaluating your assembly is to assess the number of fully reconstructed coding transcripts. This can be done by performing a BLASTX search of your assembled transcript sequences to a high quality database of protein sequences, such as provided by [SWISSPROT](http://www.uniprot.org/). Searching a large protein database using BLASTX can take a while - longer than we want during this workshop, so instead, we'll search the mini-version of SWISSPROT that comes installed in our data/ directory:
-
-    % blastx -query trinity_out_dir/Trinity.fasta \
-             -db data/mini_sprot.pep -out blastx.outfmt6 \
-             -evalue 1e-20 -num_threads 2 -max_target_seqs 1 -outfmt 6
-
+```bash
+blastx -query trinity_out_dir/Trinity.fasta \
+        -db data/mini_sprot.pep -out blastx.outfmt6 \
+        -evalue 1e-20 -num_threads 2 -max_target_seqs 1 -outfmt 6
+```
 The above blastx command will have generated an output file 'blastx.outfmt6', storing only the single best matching protein given the E-value threshold of 1e-20. By running another script in the Trinity suite, we can compute the length representation of best matching SWISSPROT matches like so:
-
-    % $TRINITY_HOME/util/analyze_blastPlus_topHit_coverage.pl \
-         blastx.outfmt6 trinity_out_dir/Trinity.fasta \
-         data/mini_sprot.pep | column -t
-
+```bash
+$TRINITY_HOME/util/analyze_blastPlus_topHit_coverage.pl \
+        blastx.outfmt6 trinity_out_dir/Trinity.fasta \
+        data/mini_sprot.pep | column -t
+```
 .
-
+```bash
     #hit_pct_cov_bin  count_in_bin  >bin_below
     100     78      78
     90      18      96
@@ -249,7 +249,7 @@ The above blastx command will have generated an output file 'blastx.outfmt6', st
     30      40      238
     20      62      300
     10      24      324
-
+```
 The above table lists bins of percent length coverage of the best matching protein sequence along with counts of proteins found within that bin. For example, 78 proteins are matched by more than 90% of their length up to 100% of their length. There are 18 matched by more than 80% and up to 90% of their length. The third column provides a running total, indicating that 96 transcripts match more than 80% of their length, and 107 transcripts match more than 70% of their length, etc.
 
 The count of full-length transcripts is going to be dependent on how good the assembly is in addition to the depth of sequencing, but should saturate at higher levels of sequencing. Performing this full-length transcript analysis using assemblies at different read depths and plotting the number of full-length transcripts as a function of sequencing depth will give you an idea of whether or not you've sequenced deeply enough or you should consider doing more RNA-Seq to capture more transcripts and obtain a better (more complete) assembly.
@@ -262,24 +262,24 @@ To estimate the expression levels of the Trinity-reconstructed transcripts, we u
 We include a script to faciliate running of RSEM on Trinity transcript assemblies. The script we execute below will run the Bowtie aligner to align reads to the Trinity transcripts, and RSEM will then evaluate those alignments to estimate expression values. Again, we need to run this separately for each sample and biological replicate (ie. each pair of fastq files).
 
 Let's start with one of the GSNO treatment fastq pairs like so:
-
-    %  $TRINITY_HOME/util/align_and_estimate_abundance.pl --seqType fq \
-         --left data/GSNO_SRR1582648_1.fastq \
-         --right data/GSNO_SRR1582648_2.fastq  \
-         --transcripts trinity_out_dir/Trinity.fasta  \
-         --output_prefix GSNO_SRR1582648 \
-         --est_method RSEM  --aln_method bowtie2 \
-         --trinity_mode --prep_reference \
-         --output_dir GSNO_SRR1582648.RSEM
-
+```bash
+$TRINITY_HOME/util/align_and_estimate_abundance.pl --seqType fq \
+     --left data/GSNO_SRR1582648_1.fastq \
+     --right data/GSNO_SRR1582648_2.fastq  \
+     --transcripts trinity_out_dir/Trinity.fasta  \
+     --output_prefix GSNO_SRR1582648 \
+     --est_method RSEM  --aln_method bowtie2 \
+     --trinity_mode --prep_reference \
+     --output_dir GSNO_SRR1582648.RSEM
+```
 The outputs generated from running the command above will exist in the GSNO_SRR1582648.RSEM/ directory, as we indicate with the --output_dir parameter above.
 
 The primary output generated by RSEM is the file containing the expression values for each of the transcripts. Examine this file like so:
-
-    % head GSNO_SRR1582648.RSEM/GSNO_SRR1582648.isoforms.results | column -t
-
+```bash
+head GSNO_SRR1582648.RSEM/GSNO_SRR1582648.isoforms.results | column -t
+```
 and you should see the top of a tab-delimited file:
-
+```bash
     transcript_id           gene_id              length  effective_length  expected_count  TPM      FPKM      IsoPct
     TRINITY_DN0_c0_g1_i1    TRINITY_DN0_c0_g1    328     198.75            29.00           9093.16  43883.19  100.00
     TRINITY_DN0_c0_g2_i1    TRINITY_DN0_c0_g2    329     199.75            0.00            0.10     0.48      100.00
@@ -290,7 +290,7 @@ and you should see the top of a tab-delimited file:
     TRINITY_DN104_c0_g1_i1  TRINITY_DN104_c0_g1  264     134.91            1.00            461.94   2229.29   100.00
     TRINITY_DN105_c0_g1_i1  TRINITY_DN105_c0_g1  540     410.62            19.00           2883.65  13916.35  100.00
     TRINITY_DN106_c0_g1_i1  TRINITY_DN106_c0_g1  375     245.67            3.00            761.01   3672.58   100.00
-
+```
 The key columns in the above RSEM output are the transcript identifier, the 'expected_count' corresponding to the number of RNA-Seq fragments predicted to be derived from that transcript, and the 'TPM' or 'FPKM' columns, which provide normalized expression values for the expression of that transcript in the sample.
 
 The FPKM expression measurement normalizes read counts according to the length of transcripts from which they are derived (as longer transcripts generate more reads at the same expression level), and normalized according to sequencing depth. The FPKM acronym stand for 'fragments per kilobase of cDNA per million fragments mapped'.
@@ -298,10 +298,11 @@ The FPKM expression measurement normalizes read counts according to the length o
 TPM 'transcripts per million' is generally the favored metric, as all TPM values should sum to 1 million, and TPM nicely reflects the relative molar concentration of that transcript in the sample. FPKM values, on the other hand, do not always sum to the same value, and do not have the similar property of inherrently representing a proportion within a sample, making comparisons between samples less straightforward. TPM values can be easily computed from FPKM values like so: TPMi = FPKMi / (sum all FPKM values) * 1 million.
 
 Note, a similar RSEM outputted gene expression file exists for the 'gene' level expression data. For example:
-
-    %  head GSNO_SRR1582648.RSEM/GSNO_SRR1582648.genes.results | column -t
+```bash
+head GSNO_SRR1582648.RSEM/GSNO_SRR1582648.genes.results | column -t
+```
 .
-
+```bash
     gene_id              transcript_id(s)        length  effective_length  expected_count  TPM      FPKM
     TRINITY_DN0_c0_g1    TRINITY_DN0_c0_g1_i1    328.00  198.75            29.00           9093.16  43883.19
     TRINITY_DN0_c0_g2    TRINITY_DN0_c0_g2_i1    329.00  199.75            0.00            0.10     0.48
@@ -312,80 +313,80 @@ Note, a similar RSEM outputted gene expression file exists for the 'gene' level 
     TRINITY_DN104_c0_g1  TRINITY_DN104_c0_g1_i1  264.00  134.91            1.00            461.94   2229.29
     TRINITY_DN105_c0_g1  TRINITY_DN105_c0_g1_i1  540.00  410.62            19.00           2883.65  13916.35
     TRINITY_DN106_c0_g1  TRINITY_DN106_c0_g1_i1  375.00  245.67            3.00            761.01   3672.58
-
+```
 ##### Run RSEM on each of the remaining five pairs of samples.
 Running this on all the samples can be montonous, and with many more samples, advanced users would generally write a short script to fully automate this process. We won't be scripting here, but instead just directly execute abundance estimation just as we did above but on the other five pairs of fastq files. We'll examine the outputs of each in turn, as a sanity check and also just for fun.
 
 Process fastq pair 2:
-
-    % $TRINITY_HOME/util/align_and_estimate_abundance.pl --seqType fq  \
-         --left data/GSNO_SRR1582646_1.fastq \
-         --right data/GSNO_SRR1582646_2.fastq \
-         --transcripts trinity_out_dir/Trinity.fasta \
-         --output_prefix GSNO_SRR1582646 \
-         --est_method RSEM  --aln_method bowtie2 --trinity_mode \
-         --output_dir GSNO_SRR1582646.RSEM
-
+```bash
+$TRINITY_HOME/util/align_and_estimate_abundance.pl --seqType fq  \
+     --left data/GSNO_SRR1582646_1.fastq \
+     --right data/GSNO_SRR1582646_2.fastq \
+     --transcripts trinity_out_dir/Trinity.fasta \
+     --output_prefix GSNO_SRR1582646 \
+     --est_method RSEM  --aln_method bowtie2 --trinity_mode \
+     --output_dir GSNO_SRR1582646.RSEM
+```
 Process fastq pair 3:
-
-    % $TRINITY_HOME/util/align_and_estimate_abundance.pl --seqType fq \
-         --left data/GSNO_SRR1582647_1.fastq \
-         --right data/GSNO_SRR1582647_2.fastq \
-         --transcripts trinity_out_dir/Trinity.fasta  \
-         --output_prefix GSNO_SRR1582647 \
-         --est_method RSEM --aln_method bowtie2 --trinity_mode \
-         --output_dir GSNO_SRR1582647.RSEM
-
+```bash
+$TRINITY_HOME/util/align_and_estimate_abundance.pl --seqType fq \
+     --left data/GSNO_SRR1582647_1.fastq \
+     --right data/GSNO_SRR1582647_2.fastq \
+     --transcripts trinity_out_dir/Trinity.fasta  \
+     --output_prefix GSNO_SRR1582647 \
+     --est_method RSEM --aln_method bowtie2 --trinity_mode \
+     --output_dir GSNO_SRR1582647.RSEM
+```
 Now we're done with processing the GSNO-treated biological replicates, and we'll proceed to now run abundance estimations for the WT samples.
 
 Process fastq pair 4:
-
-    % $TRINITY_HOME/util/align_and_estimate_abundance.pl       --seqType fq \
-        --left data/wt_SRR1582649_1.fastq \
-        --right data/wt_SRR1582649_2.fastq \
-        --transcripts trinity_out_dir/Trinity.fasta \
-        --output_prefix wt_SRR1582649 \
-        --est_method RSEM  --aln_method bowtie2 --trinity_mode \
-        --output_dir wt_SRR1582649.RSEM
-
+```bash
+$TRINITY_HOME/util/align_and_estimate_abundance.pl       --seqType fq \
+    --left data/wt_SRR1582649_1.fastq \
+    --right data/wt_SRR1582649_2.fastq \
+    --transcripts trinity_out_dir/Trinity.fasta \
+    --output_prefix wt_SRR1582649 \
+    --est_method RSEM  --aln_method bowtie2 --trinity_mode \
+    --output_dir wt_SRR1582649.RSEM
+```
 Process fastq pair 5:
-
-    % $TRINITY_HOME/util/align_and_estimate_abundance.pl       --seqType fq \
-        --left data/wt_SRR1582651_1.fastq \
-        --right data/wt_SRR1582651_2.fastq  \
-        --transcripts trinity_out_dir/Trinity.fasta \
-        --output_prefix wt_SRR1582651 \
-        --est_method RSEM  --aln_method bowtie2 --trinity_mode \
-        --output_dir wt_SRR1582651.RSEM
-
+```bash
+$TRINITY_HOME/util/align_and_estimate_abundance.pl       --seqType fq \
+    --left data/wt_SRR1582651_1.fastq \
+    --right data/wt_SRR1582651_2.fastq  \
+    --transcripts trinity_out_dir/Trinity.fasta \
+    --output_prefix wt_SRR1582651 \
+    --est_method RSEM  --aln_method bowtie2 --trinity_mode \
+    --output_dir wt_SRR1582651.RSEM
+```
 Process fastq pair 6 (last one!!):
-
-    % $TRINITY_HOME/util/align_and_estimate_abundance.pl       --seqType fq \
-         --left data/wt_SRR1582650_1.fastq \
-         --right data/wt_SRR1582650_2.fastq \
-         --transcripts trinity_out_dir/Trinity.fasta \
-         --output_prefix wt_SRR1582650\
-         --est_method RSEM  --aln_method bowtie2   --trinity_mode \
-         --output_dir wt_SRR1582650.RSEM
-
+```bash
+$TRINITY_HOME/util/align_and_estimate_abundance.pl       --seqType fq \
+     --left data/wt_SRR1582650_1.fastq \
+     --right data/wt_SRR1582650_2.fastq \
+     --transcripts trinity_out_dir/Trinity.fasta \
+     --output_prefix wt_SRR1582650\
+     --est_method RSEM  --aln_method bowtie2   --trinity_mode \
+     --output_dir wt_SRR1582650.RSEM
+```
 ##### Generate a transcript counts matrix and perform cross-sample normalization:
 Now, given the expression estimates for each of the transcripts in each of the samples, we're going to pull together all values into matrices containing transcript IDs in the rows, and sample names in the columns. We'll make two matrices, one containing the estimated counts, and another containing the TPM expression values that are cross-sample normalized using the TMM method. This is all done for you by the following script in Trinity, indicating the method we used for expresssion estimation and providing the list of individual sample abundance estimate files:
-
-    % $TRINITY_HOME/util/abundance_estimates_to_matrix.pl --est_method RSEM \
-         --out_prefix Trinity_trans \
-         GSNO_SRR1582648.RSEM/GSNO_SRR1582648.isoforms.results \
-         GSNO_SRR1582646.RSEM/GSNO_SRR1582646.isoforms.results \
-         GSNO_SRR1582647.RSEM/GSNO_SRR1582647.isoforms.results \
-         wt_SRR1582649.RSEM/wt_SRR1582649.isoforms.results \
-         wt_SRR1582651.RSEM/wt_SRR1582651.isoforms.results \
-         wt_SRR1582650.RSEM/wt_SRR1582650.isoforms.results
-
+```bash
+$TRINITY_HOME/util/abundance_estimates_to_matrix.pl --est_method RSEM \
+     --out_prefix Trinity_trans \
+     GSNO_SRR1582648.RSEM/GSNO_SRR1582648.isoforms.results \
+     GSNO_SRR1582646.RSEM/GSNO_SRR1582646.isoforms.results \
+     GSNO_SRR1582647.RSEM/GSNO_SRR1582647.isoforms.results \
+     wt_SRR1582649.RSEM/wt_SRR1582649.isoforms.results \
+     wt_SRR1582651.RSEM/wt_SRR1582651.isoforms.results \
+     wt_SRR1582650.RSEM/wt_SRR1582650.isoforms.results
+```
 You should find a matrix file called 'Trinity_trans.counts.matrix', which contains the counts of RNA-Seq fragments mapped to each transcript. Examine the first few lines of the counts matrix:
-
-    % head -n20 Trinity_trans.counts.matrix | column -t
-
+```bash
+head -n20 Trinity_trans.counts.matrix | column -t
+```
 .
-
+```bash
                 GSNO_SRR1582646         GSNO_SRR1582648  GSNO_SRR1582647  wt_SRR1582649  wt_SRR1582650  wt_SRR1582651
     TRINITY_DN562_c0_g1_i1  0.00             0.00             0.00           1.00           1.00           2.00
     TRINITY_DN355_c0_g1_i1  0.00             0.00             1.00           2.00           0.00           1.00
@@ -406,17 +407,17 @@ You should find a matrix file called 'Trinity_trans.counts.matrix', which contai
     TRINITY_DN621_c0_g1_i1  3.00             2.00             4.00           3.00           2.00           6.00
     TRINITY_DN553_c0_g1_i1  1.00             2.00             1.00           1.00           0.00           2.00
     TRINITY_DN615_c0_g1_i1  0.00             1.00             1.00           0.00           0.00           2.00
-
+```
 You'll see that the above matrix has integer values representing the number of RNA-Seq paired-end fragments that are estimated to have been derived from that corresponding transcript in each of the samples. Don't be surprised if you see some values that are not exact integers but rather fractional read counts. This happens if there are multiply-mapped reads (such as to common sequence regions of different isoforms), in which case the multiply-mapped reads are fractionally assigned to the corresponding transcripts according to their maximum likelihood.
 
 The counts matrix will be used by edgeR (or other tools in Bioconductor) for statistical analysis and identifying significantly differentially expressed transcripts.
 
 Now take a look at the first few lines of the normalized expression matrix:
-
-    %  head -n20 Trinity_trans.TMM.EXPR.matrix | column -t
-
+```bash
+head -n20 Trinity_trans.TMM.EXPR.matrix | column -t
+```
 .
-
+```bash
                   GSNO_SRR1582646         GSNO_SRR1582648  GSNO_SRR1582647  wt_SRR1582649  wt_SRR1582650  wt_SRR1582651
     TRINITY_DN562_c0_g1_i1  0.000            0.000            0.000          1846.402       1856.485       5781.775
     TRINITY_DN355_c0_g1_i1  0.000            0.000            988.094        2064.647       0.000          1438.325
@@ -437,7 +438,7 @@ Now take a look at the first few lines of the normalized expression matrix:
     TRINITY_DN621_c0_g1_i1  552.234          405.177          707.408        592.076        422.986        1256.485
     TRINITY_DN553_c0_g1_i1  491.036          1042.954         463.655        504.082        0.000          1222.161
     TRINITY_DN615_c0_g1_i1  0.000            989.753          902.430        0.000          0.000          2596.428
-
+```
 These are the normalized expression values, which have been further cross-sample normalized using TMM normalization to adjust for any differences in sample composition. TMM normalization assumes that most transcripts are not differentially expressed, and linearly scales the expression values of samples to better enforce this property. TMM normalization is described in [A scaling normalization method for differential expression analysis of RNA-Seq data, Robinson and Oshlack, Genome Biology 2010](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2010-11-3-r25).
 
 We use the TMM-normalized expression matrix when plotting expression values in heatmaps and other expression analyses.
@@ -450,39 +451,39 @@ The above RSEM quantitation generated 'gene' expression estimates in addition to
 You should now be in the '/home/ubuntu/workspace/trinity_workspace' directory. (You can verify this with the 'pwd' command).
 
 Build a 'gene' expression count matrix and TMM-normalized expression matrix like so:
-
-    % $TRINITY_HOME/util/abundance_estimates_to_matrix.pl --est_method RSEM \
-         --out_prefix Trinity_genes \
-         GSNO_SRR1582648.RSEM/GSNO_SRR1582648.genes.results \
-         GSNO_SRR1582646.RSEM/GSNO_SRR1582646.genes.results \
-         GSNO_SRR1582647.RSEM/GSNO_SRR1582647.genes.results \
-         wt_SRR1582649.RSEM/wt_SRR1582649.genes.results \
-         wt_SRR1582651.RSEM/wt_SRR1582651.genes.results \
-         wt_SRR1582650.RSEM/wt_SRR1582650.genes.results
-
+```bash
+$TRINITY_HOME/util/abundance_estimates_to_matrix.pl --est_method RSEM \
+     --out_prefix Trinity_genes \
+     GSNO_SRR1582648.RSEM/GSNO_SRR1582648.genes.results \
+     GSNO_SRR1582646.RSEM/GSNO_SRR1582646.genes.results \
+     GSNO_SRR1582647.RSEM/GSNO_SRR1582647.genes.results \
+     wt_SRR1582649.RSEM/wt_SRR1582649.genes.results \
+     wt_SRR1582651.RSEM/wt_SRR1582651.genes.results \
+     wt_SRR1582650.RSEM/wt_SRR1582650.genes.results
+```
 Now, you should find the following matrices in your working directory:
-
-    % ls -1 | grep gene | grep matrix
-
+```bash
+ls -1 | grep gene | grep matrix
+```
 .
-
+```bash
     Trinity_genes.TMM.EXPR.matrix
     Trinity_genes.counts.matrix
-
+```
 We'll use these later as a target of our DE analysis, in addition to our transcript matrices.
 
 ##### Another look at assembly quality statistics: ExN50
 Although we outline above several of the reasons for why the contig N50 statistic is not a useful metric of assembly quality, below we describe the use of an alternative statistic - the ExN50 value, which we assert is more useful in assessing the quality of the transcriptome assembly. The ExN50 indicates the N50 contig statistic (as earlier) but restricted to the top most highly expressed transcripts. Compute it like so:
-
-    % $TRINITY_HOME/util/misc/contig_ExN50_statistic.pl Trinity_trans.TMM.EXPR.matrix \
-           trinity_out_dir/Trinity.fasta > ExN50.stats
-
+```bash
+$TRINITY_HOME/util/misc/contig_ExN50_statistic.pl Trinity_trans.TMM.EXPR.matrix \
+        trinity_out_dir/Trinity.fasta > ExN50.stats
+```
 View the contents of the above output file:
-
+```bash
     % cat ExN50.stats  | column -t
-
+```
 .
-
+```bash
     #E    min_expr   E-N50  num_transcripts
     E1    28814.395  247    1
     E3    28814.395  328    2
@@ -530,13 +531,13 @@ View the contents of the above output file:
     E98   806.939    302    627
     E99   608.064    297    650
     E100  0.021      285    689
-
+```
 The above table indicates the contig N50 value based on the entire transcriptome assembly (E100), which is a small value (285). By restricting the N50 computation to the set of transcripts representing the top most 65% of expression data, we obtain an N50 value of 420.
 
 Try plotting the ExN50 statistics:
-
-    % $TRINITY_HOME/util/misc/plot_ExN50_statistic.Rscript ExN50.stats
-
+```bash
+$TRINITY_HOME/util/misc/plot_ExN50_statistic.Rscript ExN50.stats
+```
 > View the file 'ExN50.stats.plot.pdf' in your web browser.
 
 ![ExN50_plots](https://github.com/griffithlab/rnaseq_tutorial/wiki/Images/Trinity/ExN50_stats.png)
@@ -563,23 +564,23 @@ Every assembled transcript is only as valid as the reads that support it. If you
 Launch IGV from your desktop, load the 'trinity_out_dir/Trinity.fasta' file as the 'genome', and then load up the 'bowtie2.coordSorted.bam' file generated earlier. Note, IGV will require that you have an index for the bam file (a '.bai' file). To generate this, use the 'samtools index' like so:
 
 Instructions for doing all of this are provided below:
-
+```bash
     # index the bam file
     % samtools index bowtie2.coordSorted.bam
-
+```
 .
 
-    Download to your personal computer the files:
-        bowtie2.coordSorted.bam
-        bowtie2.coordSorted.bam.bai
-        trinity_out_dir/Trinity.fasta
-        (downloading can be done using an ftp client, or right-clicking / save-as from your web browser)
+Download to your personal computer the files:
+* bowtie2.coordSorted.bam
+* bowtie2.coordSorted.bam.bai
+* trinity_out_dir/Trinity.fasta
+(downloading can be done using an ftp client, or right-clicking / save-as from your web browser)
 
-    Load into IGV like so:
-        menu 'Genomes -> Load Genome from File'
-            select Trinity.fasta
-        menu 'File -> Load from File'
-            select bowtie2.coordSorted.bam
+Load into IGV like so:
+    menu 'Genomes -> Load Genome from File'
+        select Trinity.fasta
+    menu 'File -> Load from File'
+        select bowtie2.coordSorted.bam
 
 ![igv_trans_view](https://github.com/griffithlab/rnaseq_tutorial/wiki/Images/Trinity/igv_trans_view.png)
 
@@ -590,63 +591,64 @@ A plethora of tools are currently available for identifying differentially expre
 
 Having biological replicates for each of your samples is crucial for accurate detection of differentially expressed transcripts. In our data set, we have three biological replicates for each of our conditions, and in general, having three or more replicates for each experimental condition is highly recommended.
 
-    Create a samples.txt file containing the contents below (tab-delimited), indicating
-    the name of the condition followed by the name of the biological replicate.
-    Verify the contents of the file using 'cat':
+Create a samples.txt file containing the contents below (tab-delimited), indicatingthe name of the condition followed by the name of the biological replicate.
+
+Verify the contents of the file using 'cat':
 
 > Use your favorite unix text editor (eg. emacs, vim, pico, or nano) to create the file 'samples.txt' containing the tab-delimited contents below. Then verify the contents like so:
-
-    % cat samples.txt
-
+```bash
+cat samples.txt
+```
 .
-
+```bash
     GSNO	GSNO_SRR1582648
     GSNO	GSNO_SRR1582647
     GSNO	GSNO_SRR1582646
     WT	wt_SRR1582651
     WT	wt_SRR1582649
     WT	wt_SRR1582650
-
+```
 Here's a trick to verify that you really have tab characters as delimiters:
-
-    % cat -te samples.txt
+```bash
+cat -te samples.txt
+```
 .
-
+```bash
     GSNO^IGSNO_SRR1582647$
     GSNO^IGSNO_SRR1582646$
     GSNO^IGSNO_SRR1582648$
     WT^Iwt_SRR1582649$
     WT^Iwt_SRR1582650$
     WT^Iwt_SRR1582651$
-
+```
 There, you should find '^I' at the position of a tab character, and you'll find '$' at the position of a return character. This is invaluable for verifying contents of text files when the formatting has to be very precise. If your view doesn't look exactly as above, then you'll need to re-edit your file and be sure to replace any space characters you see with single tab characters, then re-examine it using the 'cat -te' approach.
 
 The condition name (left column) can be named more or less arbitrarily but should reflect your experimental condition. Importantly, the replicate names (right column) need to match up exactly with the column headers of your RNA-Seq counts matrix.
 
 To detect differentially expressed transcripts, run the Bioconductor package edgeR using our counts matrix:
-
-    %  $TRINITY_HOME/Analysis/DifferentialExpression/run_DE_analysis.pl \
-         --matrix Trinity_trans.counts.matrix \
-         --samples_file samples.txt \
-         --method edgeR \
-         --output edgeR_trans
-
+```bash
+$TRINITY_HOME/Analysis/DifferentialExpression/run_DE_analysis.pl \
+     --matrix Trinity_trans.counts.matrix \
+     --samples_file samples.txt \
+     --method edgeR \
+     --output edgeR_trans
+```
 Examine the contents of the edgeR_trans/ directory.
-
-    % ls -ltr edgeR_trans/
-
+```bash
+ls -ltr edgeR_trans/
+```
 .
-
-    -rw-rw-r-- 1 genomics genomics  1051 Jan  9 16:48 Trinity_trans.counts.matrix.GSNO_vs_WT.GSNO.vs.WT.EdgeR.Rscript
-    -rw-rw-r-- 1 genomics genomics 60902 Jan  9 16:48 Trinity_trans.counts.matrix.GSNO_vs_WT.edgeR.DE_results
-    -rw-rw-r-- 1 genomics genomics 18537 Jan  9 16:48 Trinity_trans.counts.matrix.GSNO_vs_WT.edgeR.DE_results.MA_n_Volcano.pdf
-
+```bash
+-rw-rw-r-- 1 genomics genomics  1051 Jan  9 16:48 Trinity_trans.counts.matrix.GSNO_vs_WT.GSNO.vs.WT.EdgeR.Rscript
+-rw-rw-r-- 1 genomics genomics 60902 Jan  9 16:48 Trinity_trans.counts.matrix.GSNO_vs_WT.edgeR.DE_results
+-rw-rw-r-- 1 genomics genomics 18537 Jan  9 16:48 Trinity_trans.counts.matrix.GSNO_vs_WT.edgeR.DE_results.MA_n_Volcano.pdf
+```
 The files '*.DE_results' contain the output from running EdgeR to identify differentially expressed transcripts in each of the pairwise sample comparisons. Examine the format of one of the files, such as the results from comparing Sp_log to Sp_plat:
-
-    % head edgeR_trans/Trinity_trans.counts.matrix.GSNO_vs_WT.edgeR.DE_results | column -t
-
+```bash
+head edgeR_trans/Trinity_trans.counts.matrix.GSNO_vs_WT.edgeR.DE_results | column -t
+```
 .
-
+```bash
                           logFC              logCPM            PValue                FDR
     TRINITY_DN530_c0_g1_i1  8.98959066402695   13.1228060448362  8.32165055033775e-54  5.54221926652494e-51
     TRINITY_DN589_c0_g1_i1  4.89839016049723   13.2154341051504  7.57411107973887e-53  2.52217898955304e-50
@@ -657,7 +659,7 @@ The files '*.DE_results' contain the output from running EdgeR to identify diffe
     TRINITY_DN365_c0_g1_i1  2.71537635410452   14.0482419858984  8.00431159168039e-41  7.61553074294163e-39
     TRINITY_DN415_c0_g1_i1  6.96733684710045   12.875060733337   3.67004658844109e-36  3.05531378487721e-34
     TRINITY_DN59_c0_g1_i1   -3.57509574692798  13.1852604213653  3.74452542871713e-30  2.77094881725068e-28
-
+```
 These data include the log fold change (logFC), log counts per million (logCPM), P- value from an exact test, and false discovery rate (FDR).
 
 The EdgeR analysis above generated both MA and Volcano plots based on these data.
@@ -672,22 +674,22 @@ Trinity facilitates analysis of these data, including scripts for extracting tra
 
 #### Extracting differentially expressed transcripts and generating heatmaps
 Now let's perform the following operations from within the edgeR_trans/ directory. Enter the edgeR_trans/ dir like so:
-
-    % cd edgeR_trans/
-
+```bash
+cd edgeR_trans/
+```
 Extract those differentially expressed (DE) transcripts that are at least 4-fold differentially expressed at a significance of <= 0.001 in any of the pairwise sample comparisons:
-
-    % $TRINITY_HOME/Analysis/DifferentialExpression/analyze_diff_expr.pl \
-         --matrix ../Trinity_trans.TMM.EXPR.matrix \
-         --samples ../samples.txt \
-         -P 1e-3 -C 2
-
+```bash
+$TRINITY_HOME/Analysis/DifferentialExpression/analyze_diff_expr.pl \
+     --matrix ../Trinity_trans.TMM.EXPR.matrix \
+     --samples ../samples.txt \
+     -P 1e-3 -C 2
+```
 The above generates several output files with a prefix diffExpr.P1e-3_C2', indicating the parameters chosen for filtering, where P (FDR actually) is set to 0.001, and fold change (C) is set to 2^(2) or 4-fold. (These are default parameters for the above script. See script usage before applying to your data).
 
 Included among these files are: ‘diffExpr.P1e-3_C2.matrix’ : the subset of the FPKM matrix corresponding to the DE transcripts identified at this threshold. The number of DE transcripts identified at the specified thresholds can be obtained by examining the number of lines in this file.
-
-    % wc -l diffExpr.P1e-3_C2.matrix
-
+```bash
+wc -l diffExpr.P1e-3_C2.matrix
+```
 Note, the number of lines in this file includes the top line with column names, so there are actually 1 fewer DE transcripts at this 4-fold and 1e-3 FDR threshold cutoff.
 
 Also included among these files is a heatmap 'diffExpr.P1e-3_C2.matrix.log2.centered.genes_vs_samples_heatmap.pdf' as shown below, with transcripts clustered along the vertical axis and samples clustered along the horizontal axis.
@@ -700,10 +702,10 @@ The expression values are plotted in log2 space and mean-centered (mean expressi
 
 #### Extract transcript clusters by expression profile by cutting the dendrogram
 Extract clusters of transcripts with similar expression profiles by cutting the transcript cluster dendrogram at a given percent of its height (ex. 60%), like so:
-
-    % $TRINITY_HOME/Analysis/DifferentialExpression/define_clusters_by_cutting_tree.pl \
-         --Ptree 60 -R diffExpr.P1e-3_C2.matrix.RData
-
+```bash
+$TRINITY_HOME/Analysis/DifferentialExpression/define_clusters_by_cutting_tree.pl \
+     --Ptree 60 -R diffExpr.P1e-3_C2.matrix.RData
+```
 This creates a directory containing the individual transcript clusters, including a pdf file that summarizes expression values for each cluster according to individual charts:
 
 > View plots file 'diffExpr.P1e-3_C2.matrix.RData.clusters_fixed_P_60/my_cluster_plots.pdf' from your web browser.
@@ -714,27 +716,27 @@ This creates a directory containing the individual transcript clusters, includin
 You can do all the same analyses as you did above at the gene level. For now, let's just rerun the DE detection step, since we'll need the results later on for use with TrinotateWeb. Also, it doesn't help us to study the 'gene' level data with this tiny data set (yet another disclaimer) given that all our transcripts = genes, since we didn't find any alternative splicing variants. With typical data sets, you will have alterantively spliced isoforms identified, and performing DE analysis at the gene level should provide more power for detection than at the isoform level. For more info about this, I encourage you to read [this paper](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0410-6).
 
 Before running the gene-level DE analysis, be sure to back out of the current edgeR_trans/ directory like so:
-
-    % cd ../
-
+```bash
+cd ../
+```
 Be sure you're in your base working directory:
-
-    % pwd
-
+```bash
+pwd
+```
 .
-
+```bash
     /home/ubuntu/workspace/trinity_workspace
-
+```
 Now, run the DE analysis at the gene level like so:
-
-    %  $TRINITY_HOME/Analysis/DifferentialExpression/run_DE_analysis.pl \
-         --matrix Trinity_genes.counts.matrix \
-         --samples_file samples.txt \
-         --method edgeR \
-         --output edgeR_gene
-
+```bash
+$TRINITY_HOME/Analysis/DifferentialExpression/run_DE_analysis.pl \
+     --matrix Trinity_genes.counts.matrix \
+     --samples_file samples.txt \
+     --method edgeR \
+     --output edgeR_gene
+```
 You'll now notice that the edgeR_gene/ directory exists and is populated with similar files.
-
-    %   ls -ltr edgeR_gene/
-
+```bash
+ls -ltr edgeR_gene/
+```
 Let's move on and make use of those outputs later. With your own data, however, you would normally run the same set of operations as you did above for the transcript-level DE analyses.
