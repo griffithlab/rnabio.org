@@ -165,7 +165,7 @@ make
 ## [RSeQC](http://rseqc.sourceforge.net/)
 
 ```bash
-pip install RSeQC
+pip3 install RSeQC
 read_GC.py
 ```
 
