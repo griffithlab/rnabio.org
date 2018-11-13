@@ -6,7 +6,7 @@ title: Proposed Improvements
 categories:
     - Module-08-Appendix
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0008-07-01
+date: 0008-08-01
 ---
 
 ### DE analysis improvements
