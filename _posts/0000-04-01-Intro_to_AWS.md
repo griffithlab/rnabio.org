@@ -356,7 +356,7 @@ lsblk
 NOTE: Refer to AWS docs [about using EBS Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html) for more details.
 
 Now the same `df -h` command we performed above should show a new volume `/dev/xvdc` mounted at `/data` of size 493G. Note that in order to make this new mount persist when we reboot the machine we will have to add a mount line like this to the `/etc/fstab` file (e.g. by `sudo vim /etc/fstab`):
-```
+```bash
 /dev/xvdc /data  auto  defaults,nobootwait 0 2
 ```
 
