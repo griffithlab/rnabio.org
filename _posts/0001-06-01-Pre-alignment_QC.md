@@ -24,10 +24,10 @@ Video Tutorial here:
 * [http://www.youtube.com/watch?v=bz93ReOv87Y](http://www.youtube.com/watch?v=bz93ReOv87Y)
 
 Try to run FastQC on your fastq files:
-
+```bash
     cd $RNA_HOME/data
     fastqc *.fastq.gz
-
+```
 Then, go to the following url in your browser:
 
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/data/
@@ -60,6 +60,7 @@ Solution: When you are ready you can check your approach against the [Solutions]
 ***
 
 Run MultiQC on your fastqc reports to generate a single summary report across all samples/replicates.
-
+```bash
     cd $RNA_HOME/data
     multiqc .
+```
