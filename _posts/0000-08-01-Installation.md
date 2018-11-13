@@ -190,6 +190,16 @@ chmod a+x gtfToGenePred
 ./gtfToGenePred
 ```
 
+## [genePredToBed](https://bioconda.github.io/recipes/ucsc-genepredtobed/README.html) 
+```bash
+cd $RNA_HOME/student_tools/
+mkdir genePredToBed
+cd genePredToBed
+wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/genePredToBed
+chmod a+x genePredToBed
+./genePredToBed
+```
+
 ## [R](http://www.r-project.org/)
 
 This install takes a while so check if you have R installed already by typing `which R`. It is already installed on the Cloud, but for completeness, here is how it was done. Please skip all R installation!
@@ -286,7 +296,7 @@ Solution: When you are ready you can check your approach against the [Solutions]
 To use the locally installed version of each tool without having to specify complete paths, you could add the install directory of each tool to your '$PATH' variable
 
 ```bash
-PATH=$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.35/bin:$RNA_HOME/student_tools/samtools-1.9:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.1.0:$RNA_HOME/student_tools/stringtie-1.3.4d.Linux_x86_64:$RNA_HOME/student_tools/gffcompare-0.10.6.Linux_x86_64:$RNA_HOME/student_tools/htseq-release_0.11.0/scripts:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/flexbar-3.4.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:$PATH
+PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.35/bin:$RNA_HOME/student_tools/samtools-1.9:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.1.0:$RNA_HOME/student_tools/stringtie-1.3.4d.Linux_x86_64:$RNA_HOME/student_tools/gffcompare-0.10.6.Linux_x86_64:$RNA_HOME/student_tools/htseq-release_0.11.0/scripts:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/flexbar-3.4.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:$PATH
 
 export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.4.0-linux:$LD_LIBRARY_PATH
 
