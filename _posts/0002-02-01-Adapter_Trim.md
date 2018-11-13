@@ -31,29 +31,17 @@ Flexbar basic usage:
 Extra options specified below:
 
 * '--adapter-min-overlap 7' requires a minimum of 7 bases to match the adapter
-
 * '--adapter-trim-end RIGHT' uses a trimming strategy to remove the adapter from the 3 prime or RIGHT end of the read
-
 * '--max-uncalled 300' allows as many as 300 uncalled or N bases (MiSeq read lengths can be 300bp)
-
 * '--min-read-length' the minimum read length allowed after trimming is 25bp.
-
 * '--threads 8' use 8 threads
-
 * '--zip-output GZ' the input FASTQ files are gzipped so we will output gzipped FASTQ to save space
-
 * '--adapters' define the path to the adapter FASTA file to trim
-
 * '--reads' define the path to the read 1 FASTQ file of reads
-
 * '--reads2' define the path to the read 2 FASTQ file of reads
-
 * '--target' a base path for the output files. The value will _1.fastq.gz and _2.fastq.gz for read 1 and read 2 respectively
-
 * '--pre-trim-left' trim a fixed number of bases at left read end. For example, to trim 5 bases at the left side of reads: --pre-trim-left 5
-
 * '--pre-trim-right' trim a fixed number of bases at right read end. For example, to trim 5 bases at the right side of reads: --pre-trim-right 5
-
 * '--pre-trim-phred' trim based on phred quality value to deal with higher error rates towards the end of reads. For example, to trim the 3 prime end until quality offset value 30 or higher is reached, specify: --pre-trim-phred 30
 
 ### Flexbar trim
@@ -99,14 +87,13 @@ Assignment: Using the approach above, trim the reads for both normal and tumor s
 
 * Hint: These files should have been downloaded to $RNA_HOME/practice/data/.
 
-Answer these questions by examining the FastQC reports:
 
 **Questions**
 
+Answer these questions by examining the FastQC reports:
+
 * After trimming, what is the range of read lengths observed for hcc1395 normal replicate 1, read 1?
-
 * Which sections of the FastQC report are most informative for observing the effect of trimming?
-
 * In the 'Per base sequence content section', what pattern do you see? What could explain this pattern?
 
-Solution: When you are ready you can check your approach against the [Solutions](http://rnabio.org/appendix/0007/04/01/Practical_Excercise_Solutions/#Practical%20Excercise%205).
+Solution: When you are ready you can check your approach against the [Solutions](/module-08-appendix/0008/05/01/Practical_Excercise_Solutions/).
