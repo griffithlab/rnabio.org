@@ -131,6 +131,14 @@ inner_distance.py -i HBR_Rep1.bam -o rseqc/HBR_Rep1 -r $RNA_HOME/refs/chr22_with
 inner_distance.py -i HBR_Rep2.bam -o rseqc/HBR_Rep2 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
 inner_distance.py -i HBR_Rep3.bam -o rseqc/HBR_Rep3 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
 
+junction_annotation.py -i UHR_Rep1.bam -o rseqc/UHR_Rep1 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
+junction_annotation.py -i UHR_Rep2.bam -o rseqc/UHR_Rep2 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
+junction_annotation.py -i UHR_Rep3.bam -o rseqc/UHR_Rep3 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
+junction_annotation.py -i HBR_Rep1.bam -o rseqc/HBR_Rep1 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
+junction_annotation.py -i HBR_Rep2.bam -o rseqc/HBR_Rep2 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
+junction_annotation.py -i HBR_Rep3.bam -o rseqc/HBR_Rep3 -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
+
+
 
 ```
 
