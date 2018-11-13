@@ -16,19 +16,19 @@ Before proceeding you must define a global working directory by setting the envi
 Log into a server and SET THIS BEFORE RUNNING EVERYTHING.
 
 Create a working directory and set the 'RNA_HOME' environment variable
-
+```bash
     mkdir -p ~/workspace/rnaseq/
 
     export RNA_HOME=~/workspace/rnaseq
-
+```
 Make sure whatever the working dir is, that it is set and is valid
-
+```bash
     echo $RNA_HOME
-
+```
 You can place the RNA_HOME variable (and other environment variables) in your .bashrc and then logout and login again to avoid having to worry about it. This has been done for you in the pre-configured amazon instance that you will be using.
 
 Environment variables used throughout this tutorial:
-
+```bash
     export RNA_HOME=~/workspace/rnaseq
 
     export RNA_EXT_DATA_DIR=/home/ubuntu/CourseData/RNA_data
@@ -42,7 +42,8 @@ Environment variables used throughout this tutorial:
     export RNA_REF_GTF=$RNA_REF_INDEX.gtf
 
     export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
-
+```
 Since all the environment variables we set up for the RNA-seq workshop start with 'RNA' we can easily view them all by combined use of the `env` and `grep` commands as shown below. The `env` command shows all environment variables currently defined and the `grep` command identifies string matches.
-
+```bash
     env | grep RNA
+```

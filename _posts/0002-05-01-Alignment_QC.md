@@ -17,11 +17,11 @@ date: 0002-05-01
 
 ### Use samtools and FastQC to evaluate the alignments
 Use `samtools view` to see the format of a SAM/BAM alignment file
-
+```bash
     cd $RNA_ALIGN_DIR
     samtools view -H UHR.bam
     samtools view UHR.bam | head
-
+```
 Try filtering the BAM file to require or exclude certain flags. This can be done with `samtools view -f -F` options
 
 -f INT required flag -F INT filtering flag
@@ -31,19 +31,19 @@ Try filtering the BAM file to require or exclude certain flags. This can be done
 * [http://broadinstitute.github.io/picard/explain-flags.html](http://broadinstitute.github.io/picard/explain-flags.html)
 
 Try requiring that alignments are 'paired' and 'mapped in a proper pair' (=3). Also filter out alignments that are 'unmapped', the 'mate is unmapped', and 'not primary alignment' (=268)
-
+```bash
     samtools view -f 3 -F 268 UHR.bam | head
-
+```
 Now require that the alignments be only for 'PCR or optical duplicate'. How many reads meet this criteria? Why?
-
+```bash
     samtools view -f 1024 UHR.bam | head
-
+```
 Use `samtools flagstat` to get a basic summary of an alignment. What percent of reads are mapped? Is this realistic? Why?
-
+```bash
     cd $RNA_ALIGN_DIR
     samtools flagstat UHR.bam
     samtools flagstat HBR.bam
-
+```
 Details of the SAM/BAM format can be found here: [http://samtools.sourceforge.net/SAM1.pdf](http://samtools.sourceforge.net/SAM1.pdf)
 
 ### Using FastQC
@@ -61,20 +61,20 @@ Files needed:
 * A RefSeq bed file.
 
 Set your working directory and copy the necessary files
-
+```bash
     cd $RNA_HOME/data/
     wget http://genomedata.org/rnaseq-tutorial/RSeQC.zip
-
+```
 Unzip the RSeQC file:
-
+```bash
     unzip RSeQC.zip
     cd RSeQC/
     gunzip hg19_UCSC_knownGene.bed.gz
-
+```
 Note: You should now see the bam, index, and RefSeq bed files listed. The bam file here is an pair-end non-strand specific example dataset from the RSeQC website.
 
 Run RSeQC commands:
-
+```bash
     bam_stat.py -i Pairend_nonStrandSpecific_36mer_Human_hg19.bam
     clipping_profile.py -i Pairend_nonStrandSpecific_36mer_Human_hg19.bam -o tutorial -s "PE"
     geneBody_coverage.py -r hg19_UCSC_knownGene.bed -i Pairend_nonStrandSpecific_36mer_Human_hg19.bam -o tutorial
@@ -88,7 +88,7 @@ Run RSeQC commands:
     read_NVC.py -i Pairend_nonStrandSpecific_36mer_Human_hg19.bam -o tutorial
     read_quality.py -i Pairend_nonStrandSpecific_36mer_Human_hg19.bam -o tutorial
     ls *.pdf
-
+```
 Go through the generated PDFs by browsing through the following directory in a web browser:
 
 * http://**YOUR_IP_ADDRESS**/rnaseq/data/RSeQC/
