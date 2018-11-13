@@ -169,6 +169,17 @@ pip3 install RSeQC
 read_GC.py
 ```
 
+## [bedops](https://bedops.readthedocs.io/en/latest/)
+
+```bash
+cd $RNA_HOME/student_tools/
+mkdir bedops_linux_x86_64-v2.4.35
+cd bedops_linux_x86_64-v2.4.35
+wget -c https://github.com/bedops/bedops/releases/download/v2.4.35/bedops_linux_x86_64-v2.4.35.tar.bz2
+tar -jxvf bedops_linux_x86_64-v2.4.35.tar.bz2
+./bin/bedops
+```
+
 ## [R](http://www.r-project.org/)
 
 This install takes a while so check if you have R installed already by typing `which R`. It is already installed on the Cloud, but for completeness, here is how it was done. Please skip all R installation!
