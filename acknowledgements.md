@@ -17,6 +17,7 @@ In addition to the main [Authors](/authors) of this workshop (Malachi Griffith, 
 Finally, we would like to thank the students who participated and contributed in many ways to development of these materials.
 
 ### Funding acknowledgements
+<center>
 <table bgcolor="#FFFFFF">
 <tr bgcolor="#FFFFFF">
 <td bgcolor="#FFFFFF"><a href="https://aws.amazon.com/"><img src="/assets/logos/aws-powered-by.png" alt="Powerd by AWS Cloud Computing"></a></td>
@@ -24,4 +25,4 @@ Finally, we would like to thank the students who participated and contributed in
 <td bgcolor="#FFFFFF"><a href="http://www.cshl.edu/"><img src="/assets/logos/Cold_Spring_Harbor_Laboratory_logo.png" alt="Cold Spring Harbor Laboratory"></a></td>
 </tr>
 </table>
-
+</center>
