@@ -41,10 +41,16 @@ Now require that the alignments be only for 'PCR or optical duplicate'. How many
 Use `samtools flagstat` to get a basic summary of an alignment. What percent of reads are mapped? Is this realistic? Why?
 ```bash
 cd $RNA_ALIGN_DIR
-samtools flagstat UHR.bam > UHR.flagstat
-samtools flagstat HBR.bam > HBR.flagstat
-cat UHR.flagstat
-cat HBR.flagstat 
+samtools flagstat UHR_Rep1.bam > UHR_Rep1.flagstat
+samtools flagstat UHR_Rep2.bam > UHR_Rep2.flagstat
+samtools flagstat UHR_Rep3.bam > UHR_Rep3.flagstat
+
+samtools flagstat HBR_Rep1.bam > HBR_Rep1.flagstat
+samtools flagstat HBR_Rep2.bam > HBR_Rep2.flagstat
+samtools flagstat HBR_Rep3.bam > HBR_Rep3.flagstat
+
+# View an example
+cat UHR_Rep1.flagstat 
 
 ```
 Details of the SAM/BAM format can be found here: [http://samtools.sourceforge.net/SAM1.pdf](http://samtools.sourceforge.net/SAM1.pdf)
@@ -53,7 +59,7 @@ Details of the SAM/BAM format can be found here: [http://samtools.sourceforge.ne
 You can use FastQC to perform basic QC of your BAM file (See [Pre-alignment QC](/_posts/0001-06-01-Pre-alignment_QC.md)). This will give you output very similar to when you ran FastQC on your fastq files.
 ```bash
 cd $RNA_ALIGN_DIR
-fastqc *.bam
+fastqc UHR_Rep1.bam UHR_Rep2.bam UHR_Rep3.bam HBR_Rep1.bam HBR_Rep2.bam HBR_Rep3.bam
 
 ```
 
@@ -61,7 +67,38 @@ fastqc *.bam
 You can use Picard to generate RNA-seq specific quality metrics and figures
 ```bash 
 
+# Generating the necessary input files for picard CollectRnaSeqMetrics
+cd $RNA_HOME/refs
 
+# Create a .dict file for our reference
+java -jar $RNA_HOME/tools/picard.jar CreateSequenceDictionary R=chr22_with_ERCC92.fa O=chr22_with_ERCC92.dict
+
+# Create a bed file of the location of ribosomal sequences in our reference (first extract from the gtf then convert to bed)
+grep --color=none -i rrna chr22_with_ERCC92.gtf > ref_ribosome.gtf
+gff2bed < ref_ribosome.gtf > ref_ribosome.bed
+
+# Create interval list file for the location of ribosomal sequences in our reference
+java -jar $RNA_HOME/tools/picard.jar BedToIntervalList I=ref_ribosome.bed O=ref_ribosome.interval_list SD=chr22_with_ERCC92.dict
+
+# Create a genePred file for our reference transcriptome
+gtfToGenePred -genePredExt chr22_with_ERCC92.gtf chr22_with_ERCC92.ref_flat.txt
+
+# reformat this genePred file
+cat chr22_with_ERCC92.ref_flat.txt | awk '{print $12"\t"$0}' | cut -d$'\t' -f1-11 > tmp.txt
+mv tmp.txt chr22_with_ERCC92.ref_flat.txt
+
+cd $RNA_HOME/alignments/hisat2/
+java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=UHR_Rep1.bam O=UHR_Rep1.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
+
+java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=UHR_Rep2.bam O=UHR_Rep2.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
+
+java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=UHR_Rep3.bam O=UHR_Rep3.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
+
+java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=HBR_Rep1.bam O=HBR_Rep1.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
+
+java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=HBR_Rep2.bam O=HBR_Rep2.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
+
+java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I=HBR_Rep3.bam O=HBR_Rep3.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list
 
 ```
 
