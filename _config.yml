@@ -18,6 +18,7 @@ exclude:
 - alembic-jekyll-theme.gemspec
 - assets/lectures
 - assets/course_scripts
+- .swp
 
 # 2. Installed Gems
 plugins:
