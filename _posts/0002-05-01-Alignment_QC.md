@@ -145,8 +145,28 @@ junction_saturation.py -i HBR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12
 junction_saturation.py -i HBR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep2
 junction_saturation.py -i HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR_Rep3
 
-```
+read_distribution.py  -i UHR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep1.read_dist.txt
+read_distribution.py  -i UHR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep2.read_dist.txt
+read_distribution.py  -i UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep3.read_dist.txt
+read_distribution.py  -i HBR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep1.read_dist.txt
+read_distribution.py  -i HBR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep2.read_dist.txt
+read_distribution.py  -i HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep3.read_dist.txt
 
+RNA_fragment_size.py -i UHR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep1.frag_size.txt
+RNA_fragment_size.py -i UHR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep2.frag_size.txt
+RNA_fragment_size.py -i UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/UHR_Rep3.frag_size.txt
+RNA_fragment_size.py -i HBR_Rep1.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep1.frag_size.txt
+RNA_fragment_size.py -i HBR_Rep2.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep2.frag_size.txt
+RNA_fragment_size.py -i HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 > rseqc/HBR_Rep3.frag_size.txt
+
+bam_stat.py -i UHR_Rep1.bam > UHR_Rep1.bam_stat.txt
+bam_stat.py -i UHR_Rep2.bam > UHR_Rep2.bam_stat.txt
+bam_stat.py -i UHR_Rep3.bam > UHR_Rep3.bam_stat.txt
+bam_stat.py -i HBR_Rep1.bam > HBR_Rep1.bam_stat.txt
+bam_stat.py -i HBR_Rep2.bam > HBR_Rep2.bam_stat.txt
+bam_stat.py -i HBR_Rep3.bam > HBR_Rep3.bam_stat.txt
+
+```
 
 ### MultiQC
 We will now use multiQC to compile a QC report from all the QC tools above
