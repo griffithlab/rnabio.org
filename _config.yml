@@ -113,8 +113,24 @@ contact_malachi:
     github: https://github.com/malachig
     link: "https://malachig.github.io/"
 
+contact_brian:
+    twitter: https://twitter.com/brianjhaas
+    github: https://github.com/brianjohnhaas
+
+contact_jason:
+    github: https://github.com/jasonwalker80
+
+contact_alex:
+    twitter: https://twitter.com/handlerwagner
+    github: https://github.com/ahwagner
+    link: http://alexwagner.info/
+
+contact_kelsy:
+    twitter: https://twitter.com/kelsy_cotto
+    github: https://github.com/kcotto
+
 contact_zach:
-    twitter:    https://twitter.com/zlskidmore
+    twitter: https://twitter.com/zlskidmore
     github: https://github.com/zlskidmore
 
 social_links:
