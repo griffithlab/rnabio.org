@@ -287,7 +287,7 @@ $RNA_HOME/student_tools/bedtools2/bin/bedtools
 * Where can you find detailed documentation on how to use bedtools?
 * How many general categories of analysis can you perform with bedtools? What are they?
 
-Solution: When you are ready you can check your approach against the [Solutions](https://github.com/griffithlab/rnaseq_tutorial/wiki/Solutions#practical-exercise-1---software-installation)
+Solution: When you are ready you can check your approach against the [Solutions](/module-08-appendix/0008/05/01/Practical_Exercise_Solutions/#practical-exercise-1---software-installation)
 
 ---
 
