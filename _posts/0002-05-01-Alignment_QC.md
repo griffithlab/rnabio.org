@@ -60,6 +60,9 @@ You can use FastQC to perform basic QC of your BAM file (See [Pre-alignment QC](
 ```bash
 cd $RNA_ALIGN_DIR
 fastqc UHR_Rep1.bam UHR_Rep2.bam UHR_Rep3.bam HBR_Rep1.bam HBR_Rep2.bam HBR_Rep3.bam
+mkdir fastqc
+mv *fastqc.html fastqc/
+mv *fastqc.zip fastqc/
 
 ```
 
