@@ -105,6 +105,7 @@ Then, go to the following url in your browser:
 ***
 
 ### Practical Exercise 5 - Trim
+
 <a id="Practical Excercise 5"></a>
 
     cd $RNA_HOME/practice/data/

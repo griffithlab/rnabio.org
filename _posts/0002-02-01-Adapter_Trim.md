@@ -96,4 +96,4 @@ Answer these questions by examining the FastQC reports:
 * Which sections of the FastQC report are most informative for observing the effect of trimming?
 * In the 'Per base sequence content section', what pattern do you see? What could explain this pattern?
 
-Solution: When you are ready you can check your approach against the [Solutions](/module-08-appendix/0008/05/01/Practical_Excercise_Solutions/).
+Solution: When you are ready you can check your approach against the [Solutions](/module-08-appendix/0008/05/01/Practical_Exercise_Solutions/#practical-exercise-5---trim).

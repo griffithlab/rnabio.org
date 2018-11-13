@@ -93,4 +93,5 @@ If you sorted the resulting BAM file as we did above, is the result sorted by re
 Which columns of the BAM file can be viewed to determine the style of sorting?
 What command can you use to view only the BAM header?
 
-Solution: When you are ready you can check your approach against the [Solutions](http://rnabio.org/appendix/0007/04/01/Practical_Excercise_Solutions/#Practical%20Excercise%206).
+Solution: When you are ready you can check your approach against the [Solutions](/module-08-appendix/0008/05/01/Practical_Exercise_Solutions/#practical-exercise-6---alignment).
+
