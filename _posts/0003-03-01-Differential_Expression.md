@@ -34,7 +34,7 @@ First create a file that lists our 6 expression files, then view that file, then
 
     R
 ```
-A separate R tutorial file has been provided in the github repo for part 1 of the tutorial: [Tutorial_Part1_ballgown.R](https://github.com/griffithlab/rnaseq_tutorial/blob/master/scripts/Tutorial_Part1_ballgown.R). Run the R commands detailed in the R script.
+A separate R tutorial file has been provided in the github repo for part 1 of the tutorial: [Tutorial_Part1_ballgown.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part1_ballgown.R). Run the R commands detailed in the R script.
 
 Once you have completed the Ballgown analysis in R, exit the R session and continue with the steps below.
 
@@ -108,7 +108,7 @@ Launch R:
 ```bash
     R
 ```
-A separate R tutorial file has been provided in the github repo for part 4 of the tutorial: [Tutorial_edgeR.R](https://github.com/griffithlab/rnaseq_tutorial/blob/master/scripts/Tutorial_edgeR.R). Run the R commands in this file.
+A separate R tutorial file has been provided in the github repo for part 4 of the tutorial: [Tutorial_edgeR.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_edgeR.R). Run the R commands in this file.
 
 Once you have run the edgeR tutorial, compare the sigDE genes to those saved earlier from cuffdiff:
 ```bash

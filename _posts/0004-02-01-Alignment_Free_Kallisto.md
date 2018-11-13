@@ -102,7 +102,7 @@ Now load files and summarize results from each approach in R
     cd $RNA_HOME/expression
     R
 ```
-A separate R file has been provided in the github repo for this part of the tutorial: [Tutorial_comparisons.R](https://github.com/griffithlab/rnaseq_tutorial/blob/master/scripts/Tutorial_comparisons.R). Run the R commands detailed in this script in your R session.
+A separate R file has been provided in the github repo for this part of the tutorial: [Tutorial_comparisons.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_comparisons.R). Run the R commands detailed in this script in your R session.
 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
@@ -145,7 +145,7 @@ Regenerate the Kallisto results using the HDF5 format and 100 rounds of bootstra
 ```
 Sleuth is an R package so the following steps will occur in an R session. The following section is an adaptation of the [sleuth getting started tutorial](https://pachterlab.github.io/sleuth_walkthroughs/trapnell/analysis.html).
 
-A separate R tutorial file has been provided in the github repo for this part of the tutorial: [Tutorial_KallistoSleuth.R](https://github.com/griffithlab/rnaseq_tutorial/blob/master/scripts/Tutorial_KallistoSleuth.R). Run the R commands in this file.
+A separate R tutorial file has been provided in the github repo for this part of the tutorial: [Tutorial_KallistoSleuth.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_KallistoSleuth.R). Run the R commands in this file.
 ```bash
     #load sleuth library
     suppressMessages({

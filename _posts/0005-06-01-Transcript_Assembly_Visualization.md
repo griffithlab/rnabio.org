@@ -75,7 +75,7 @@ Note that when using StringTie in the de novo mode we get a GTF file that is bas
 To make it easier to compare the output of the ref-only, ref-guided, and de novo results, we will now produce filtered versions of our merged GTF files where we remove transcripts unless there was some evidence for their expression.
 ```bash
     cd $RNA_HOME/tools
-    wget https://raw.githubusercontent.com/griffithlab/rnaseq_tutorial/master/scripts/stringtie_filter_gtf.pl
+    wget https://github.com/griffithlab/rnabio.org/raw/master/assets/scripts/stringtie_filter_gtf.pl
     chmod +x stringtie_filter_gtf.pl
 
     cd $RNA_HOME/expression/stringtie/ref_only/

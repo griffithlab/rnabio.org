@@ -299,7 +299,7 @@ cat Transfect_vs_Control.csv
 R
 ```
 
-*Adapt the  R tutorial file that has been provided in the github repo for part 1 of the tutorial: [Tutorial_Part1_ballgown.R](https://github.com/griffithlab/rnaseq_tutorial/blob/master/scripts/Tutorial_Part1_ballgown.R). Modify it to fit the goals of this assignment then run it. 
+*Adapt the  R tutorial file that has been provided in the github repo for part 1 of the tutorial: [Tutorial_Part1_ballgown.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part1_ballgown.R). Modify it to fit the goals of this assignment then run it. 
 
 **Q12.)** Are there any significant differentially expressed genes? How many in total do you see? If we expected SOX4 to be differentially expressed, why don't we see it in this case? 
 

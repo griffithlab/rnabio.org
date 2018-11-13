@@ -19,7 +19,7 @@ Navigate to the correct directory and then launch R:
     cd $RNA_HOME/de/ballgown/ref_only
     R
 ```
-A separate R tutorial file has been provided in the github repo for part 2 of the tutorial: [Tutorial_Part2_ballgown.R](https://github.com/griffithlab/rnaseq_tutorial/blob/master/scripts/Tutorial_Part2_ballgown.R). Run the R commands detailed in the R script. All results are directed to pdf file(s). The output pdf files can be viewed in your browser at the following urls. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
+A separate R tutorial file has been provided in the github repo for part 2 of the tutorial: [Tutorial_Part2_ballgown.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part2_ballgown.R). Run the R commands detailed in the R script. All results are directed to pdf file(s). The output pdf files can be viewed in your browser at the following urls. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
 * http://**YOUR_IP_ADDRESS**/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.pdf
 
@@ -47,7 +47,7 @@ Expression and differential expression files will be read into R. The R analysis
     cd $RNA_HOME/de/ballgown/ref_only/
     R
 ```
-A separate R file has been provided in the github repo for part 3 of the tutorial: [Tutorial_Supplementary_R.R](https://github.com/griffithlab/rnaseq_tutorial/blob/master/scripts/Tutorial_Supplementary_R.R). Run the R commands detailed in the R script above.
+A separate R file has been provided in the github repo for part 3 of the tutorial: [Tutorial_Supplementary_R.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Supplementary_R.R). Run the R commands detailed in the R script above.
 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
