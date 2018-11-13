@@ -131,6 +131,7 @@ find *Rep*.bam -exec echo RNA_fragment_size.py -i {} -r $RNA_HOME/refs/chr22_wit
 
 find *Rep*.bam -exec echo bam_stat.py -i {} \> {}.bam_stat.txt \; | sh
 
+rm -f log.txt
 ```
 
 ### MultiQC
