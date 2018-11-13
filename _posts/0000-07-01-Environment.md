@@ -30,20 +30,17 @@ You can place the RNA_HOME variable (and other environment variables) in your .b
 Environment variables used throughout this tutorial:
 ```bash
     export RNA_HOME=~/workspace/rnaseq
-
     export RNA_EXT_DATA_DIR=/home/ubuntu/CourseData/RNA_data
-
     export RNA_DATA_DIR=$RNA_HOME/data
     export RNA_DATA_TRIM_DIR=$RNA_DATA_DIR/trimmed
-
     export RNA_REFS_DIR=$RNA_HOME/refs
     export RNA_REF_INDEX=$RNA_REFS_DIR/chr22_with_ERCC92
     export RNA_REF_FASTA=$RNA_REF_INDEX.fa
     export RNA_REF_GTF=$RNA_REF_INDEX.gtf
-
     export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
 ```
 Since all the environment variables we set up for the RNA-seq workshop start with 'RNA' we can easily view them all by combined use of the `env` and `grep` commands as shown below. The `env` command shows all environment variables currently defined and the `grep` command identifies string matches.
+
 ```bash
     env | grep RNA
 ```
