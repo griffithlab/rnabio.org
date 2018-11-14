@@ -8,3 +8,16 @@ categories:
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0000-01-01
 ---
+
+### Module 0 Key concepts
+
+* 
+
+### Module 0 Learning objectives
+
+*
+
+### Lectures
+* [RNASeq_Module0_Introductions.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/lectures/RNASeq_Module0_Introductions.pdf)
+* [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/lectures/IntroductionToCloudComputing.pdf)
+

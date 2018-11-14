@@ -70,4 +70,4 @@ Run Ballgown using the de novo, merged transcripts
 
     printf "\"ids\",\"type\",\"path\"\n\"UHR_Rep1\",\"UHR\",\"$RNA_HOME/expression/stringtie/de_novo_merged/UHR_Rep1\"\n\"UHR_Rep2\",\"UHR\",\"$RNA_HOME/expression/stringtie/de_novo_merged/UHR_Rep2\"\n\"UHR_Rep3\",\"UHR\",\"$RNA_HOME/expression/stringtie/de_novo_merged/UHR_Rep3\"\n\"HBR_Rep1\",\"HBR\",\"$RNA_HOME/expression/stringtie/de_novo_merged/HBR_Rep1\"\n\"HBR_Rep2\",\"HBR\",\"$RNA_HOME/expression/stringtie/de_novo_merged/HBR_Rep2\"\n\"HBR_Rep3\",\"HBR\",\"$RNA_HOME/expression/stringtie/de_novo_merged/HBR_Rep3\"\n" > UHR_vs_HBR.csv
 ```
-Please see [Differential Expression](http://rnabio.org/module%203/0003/01/31/Differential_Expression/) for details on running ballgown to determine a DE gene/transcript list.
+Please see [Differential Expression](/module-03-expression/0003/03/01/Differential_Expression/) for details on running ballgown to determine a DE gene/transcript list.

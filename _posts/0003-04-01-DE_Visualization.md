@@ -29,24 +29,20 @@ Occasionally you may wish to reformat and work with stringtie output in R manual
 In this tutorial you will:
 
 * Learn basic R usage and commands (common plots, and data manipulation tasks)
-
 * Examine the expression estimates
-
 * Create an MDS plot to visualize the differences between/among replicates, library prep methods and UHR versus HBR
-
 * Examine the differential expression estimates
-
 * Visualize the expression estimates and highlight those genes that appear to be differentially expressed
-
 * Generate a list of the top differentially expressed genes
-
 * Ask how reproducible technical replicates are.
 
 Expression and differential expression files will be read into R. The R analysis will make use of the transcript-level expression and differential expression files from stringtie/ballgown. Navigate to the correct directory and then launch R:
+
 ```bash
     cd $RNA_HOME/de/ballgown/ref_only/
     R
 ```
+
 A separate R file has been provided in the github repo for part 3 of the tutorial: [Tutorial_Supplementary_R.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Supplementary_R.R). Run the R commands detailed in the R script above.
 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).

@@ -12,7 +12,7 @@ These materials have been developed with the support of the [Cold Spring Harbor 
 
 This work would not be possible without building upon what others have contributed to the bioinformatics community. We would like to thank the authors of the bioinformatic tools and resources upon which this tutorial is based.
 
-In addition to the main [Authors](/authors) of this workshop (Malachi Griffith, Obi Griffith, Brian Haas, Jason Walker, Alex Wagner, Kelsy Cotto, and Zachary Skidmore), we would also like to thank the following researchers who contributed to lecture or exercise materials that inspired some aspects of this workshop: Aaron Quinlan, Elaine Mardis, Andrew Farrell, Maryn Meltz Steinberg, Sorana Morrissy, Jim Robinson, Ben Ainscough, Cody Ramirez, Jason Walker, Jasreet Hundal, and many more.
+In addition to the main [Authors](/authors) of this workshop (Malachi Griffith, Obi Griffith, Brian Haas, Jason Walker, Alex Wagner, Kelsy Cotto, and Zachary Skidmore), we would also like to thank the following researchers who contributed to lecture or exercise materials that inspired some aspects of this workshop: Aaron Quinlan, Elaine Mardis, Francis Ouellette, Michelle Brazas, Ann Meyer, Zhibin Lu, Andrew Farrell, Karyn Meltz Steinberg, Sorana Morrissy, Rodrigo Goya, Jim Robinson, Ben Ainscough, Cody Ramirez, Jasreet Hundal, Nick Spies, and many more.
 
 Finally, we would like to thank the students who participated and contributed in many ways to development of these materials.
 
