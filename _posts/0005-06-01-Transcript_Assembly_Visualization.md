@@ -119,19 +119,13 @@ Load the BAM files at the same time as the junctions.bed and merged.gtf files:
 Go to the following regions:
 
 * chr22:44,292,789-44,341,778 (novel 5' exon)
-
 * chr22:41,679,566-41,689,409 (alternative isoforms;
 create a Sashimi plot of this region)
-
 * chr22:50,083,265-50,086,732 (alternative isoforms;
 create a Sashimi plot of this region)
-
 * chr22:50,466,553-50,467,472 (novel cassette exon; create a Sashimi plot of this region)
-
 * chr22:39,313,011-39,314,398 (skipping of a known exon; create a Sashimi plot of this region)
-
 * chr22:46,362,928-46,364,315 (alternative acceptor sites; create a Sashimi plot of this region)
-
 * chr22:18,935,247-18,953,963 (novel transcribed region)
 
 Do you see the evidence for any novel exons/transcript that are found in 'de_novo' or 'ref_guided' modes but NOT found in 'ref_only' mode? Explore in IGV for other examples of novel or different transcript predictions from the different cufflinks modes. Pay attention to how the predicted transcripts line up with known transcripts. Try loading the Ensembl transcripts track (File -> Load from Server).

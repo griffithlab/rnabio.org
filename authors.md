@@ -37,6 +37,20 @@ Dr. Obi Griffith is Assistant Professor of Medicine and Assistant Director at th
 
 ***
 
+### Brian Haas
+<nav class="nav  nav--social">
+{% for link in site.contact_brian %}
+    {% assign id = link[0] | downcase %}
+    {% capture refer %}{{link[1]}}{% endcapture %}
+<a class="link" target="_blank" href="{{refer}}" title="{{link[0]}}">{% include icon.html id=id %}</a>
+{% endfor %}
+</nav>
+{% include figure.html image="/assets/Authors/BrianHaas.png" position="right" class="rounded-circle" width="300" %}
+
+Brian Haas earned a master’s degree in molecular biology and biochemistry at the State University of Albany, N.Y., and after discovering his passion for deciphering the genetic blueprint of life, decided to enter the then-burgeoning field of bioinformatics. He has since been pursuing his dream of doing bioinformatics and genome research, along the way earning a separate master’s degree in computer science at Johns Hopkins University. Brian has been working in the genomics field since 1999, first with The Institute for Genomic Research in Rockville, Md. He joined the Broad Institute in 2007 and is currently a senior computational biologist within the Klarman Cell Observatory. His research is focused on developing and supporting open source bioinformatics software tools and using computational techniques to explore aspects of molecular biology, particularly in the study of transcriptomes.
+
+***
+
 ### Jason Walker
 <nav class="nav  nav--social">
 {% for link in site.contact_jason %}
@@ -89,13 +103,3 @@ Zachary Skidmore is a staff scientist at the McDonell Genome Institute at Washin
 
 ***
 
-
-<!-- ### Brian Haas
-<nav class="nav  nav--social">
-{% for link in site.contact_brian %}
-    {% assign id = link[0] | downcase %}
-    {% capture refer %}{{link[1]}}{% endcapture %}
-<a class="link" target="_blank" href="{{refer}}" title="{{link[0]}}">{% include icon.html id=id %}</a>
-{% endfor %}
-</nav>
- -->
