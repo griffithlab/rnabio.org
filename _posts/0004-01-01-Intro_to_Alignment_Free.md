@@ -13,9 +13,11 @@ date: 0004-01-01
 * pseudo-alignment, reference-free expression estimation, 
 
 ### Module 4 - Learning objectives
-* Obtain reference transcript fasta
-* Build kallisto transcriptome index
-* Estimate transcript expression with kallisto
-* Compare kallisto and StringTie estimates
-* Perform differential expression analysis using Sleuth
+* Alignment free estimation of transcript abundance
+* Introduction to k-mers
+* Alignment free tools
+* Sailfish, RNA-Skim, Kallisto, Salmon
+* Abundance estimation and differential expression analysis with Kallisto and Sleuth
 
+### Lecture
+* [RNASeq_Module4_Lecture.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/lectures/current/RNASeq_Module4_Lecture.pdf)
