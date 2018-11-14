@@ -11,7 +11,7 @@ date: 0005-05-01
 
 ***
 
-![RNA-seq Flowchart5](https://github.com/griffithlab/rnaseq_tutorial/wiki/Images/RNA-seq_Flowchart5.png)
+![RNA-seq_Flowchart5](/assets/module_5/RNA-seq_Flowchart5.png)
 
 ***
 

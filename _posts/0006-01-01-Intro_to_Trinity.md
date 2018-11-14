@@ -9,9 +9,9 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0006-01-01
 ---
 
-### Key concepts
+### Module 6 - Key concepts
 *
 
-### Learning objectives
+### Module 6 - Learning objectives
 *
 

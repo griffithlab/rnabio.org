@@ -9,13 +9,18 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0000-01-01
 ---
 
-### Module 0 Key concepts
+### Module 0 - Key concepts
 
-* 
+* Introduction to the intructors, student introductions, course overview.
+* Cloud computing, UNIX/Linux OS, bioinformatics tool installation, course website review.
 
-### Module 0 Learning objectives
+### Module 0 - Learning objectives
 
-*
+* Introduction to cloud computing concepts/providers
+* Use the Amazon EC2 console to create an instance
+* Log into your EC2 instance
+* Review basic Unix/Linux commands
+* Set up environment and install necessary tools 
 
 ### Lectures
 * [RNASeq_Module0_Introductions.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/lectures/current/RNASeq_Module0_Introductions.pdf)

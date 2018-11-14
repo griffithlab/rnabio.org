@@ -9,9 +9,16 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0005-01-01
 ---
 
-### Key concepts
-*
+### Module 5 - Key concepts
+* alternative expression, splicing, differential splicing analysis
 
-### Learning objectives
-*
+### Module 5 - Learning objectives
+* Use StringTie in modes that facilitate transcript/isoform discovery
+* Use Cuffmerge to combine transcriptomes from multiple StringTie runs and compare assembled transcripts to known transcripts
+* Learn how to perform differential splicing analysis with Ballgown
+* Examine junctions counts with RegTools and StringTie alternative transcript files at the command line
+* Visualize junction counts and StringTie assembled transcripts in IGV
+
+### Lecture
+* [RNASeq_Module5_Lecture.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/lectures/current/RNASeq_Module5_Lecture.pdf)
 
