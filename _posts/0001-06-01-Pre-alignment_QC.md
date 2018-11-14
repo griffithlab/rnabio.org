@@ -11,7 +11,7 @@ date: 0001-06-01
 
 ***
 
-![RNA-seq_Flowchart](/assets/module_1/RNA-seq_Flowchart.png)
+![RNA-seq_Flowchart](/assets/module_1/RNA-seq_Flowchart2.png)
 
 ***
 
