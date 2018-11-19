@@ -9,6 +9,9 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0008-08-01
 ---
 
+### Install docs improvements
+- consolidate all install/configuration documentation to the AWS setup page. Change the student Tool Installation section to be a more didactic section.  Demonstrate different kinds of tool installations and have some exercises but it isn't about the students install all the tools they need. 
+
 ### DE analysis improvements
 - incorporate ideas from this tutorial and make note of it in the resources: https://dockflow.org/workflow/rnaseq-gene/#content
 - New paper comparing many RNA-seq tools: https://www.nature.com/articles/s41467-017-00050-4.epdf
