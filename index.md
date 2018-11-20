@@ -8,9 +8,6 @@ image: "assets/genvis-dna-bg_optimized_v1a.png"
 layout: "home"
 ---
 
-
-This Resource is under active development, all course material is available on github while development proceeds: [https://github.com/griffithlab/rnaseq_tutorial/wiki](https://github.com/griffithlab/rnaseq_tutorial/wiki).
-
 {% include figure.html image="/assets/Overview.png" position="right" width="600" author = "Benjamin Ainscough" %}
 
 Welcome to the RNA-seq Tutorial. Use the [course](/course) page to navigate your way through all exercises. Each page has a [course](/course) link at the top to bring you back to the table of contents.
