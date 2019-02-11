@@ -28,4 +28,4 @@ Malachi Griffith\*, Jason R. Walker, Nicholas C. Spies, Benjamin J. Ainscough, O
 
 These materials have been developed with the support of AWS Cloud Credits for Research, the Canadian Bioinformatics Workshops, and Cold Spring Harbor Laboratory.
 
-This workshop has been delivered many times and continues to evolve. A complete list of these past workshops is available [here](Lectures).
+This workshop has been delivered many times and continues to evolve. A complete list of these past workshops is available [here](https://rnabio.org/module-08-appendix/0008/04/01/Lectures/).
