@@ -31,7 +31,7 @@ A [live version of Jupyter][live-Jupyter] is available to try online, and provid
 
 [live-Jupyter]: https://try.jupyter.org
 [analysis]: https://gist.github.com/ahwagner/595291c53ddaf8da64e995ad3a555d54
-[dgidb]: http://dgidb.genome.wustl.edu/faq
+[dgidb]: http://www.dgidb.org/faq
 
 ## Versioning Code with Git and GitHub
 
