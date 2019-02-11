@@ -226,7 +226,7 @@ For this tutorial we require:
 - [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
 - [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html)
 - [gplots](http://cran.r-project.org/web/packages/gplots/index.html)
-- [ggplot2](http://ggplot2.org/)
+- [ggplot2](https://ggplot2.tidyverse.org/)
 
 launch R (enter `R` at linux command prompt) and type the following at an R command prompt. NOTE: This has been pre-installed for you, so these commands can be skipped.
 
