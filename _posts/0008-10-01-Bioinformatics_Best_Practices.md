@@ -53,7 +53,7 @@ One of the most challenging aspects of bioinformatics workflows is reproducibili
 
 [Conda][Conda] is a language-agnostic package, dependency and environment management system. It is included in the data-science-focused distribution of Conda, [Anaconda][Anaconda]. Anaconda is based on Python and R packages for the analysis of scientific, large-scale data. Bioinformaticians also commonly use [Bioconda][Bioconda], which add channels to Conda with bioinformatics tools (such as the popular sequence alignment tool BWA).
 
-[Anaconda]: https://www.continuum.io/why-anaconda
+[Anaconda]: https://www.anaconda.com/why-anaconda/
 [Conda]: http://conda.pydata.org/docs/
 [Bioconda]: https://bioconda.github.io/
 [EC2]: https://aws.amazon.com/ec2/
