@@ -10,7 +10,7 @@ date: 0000-08-01
 ---
 
 ### Note:
-First, make sure your [environment](https://rnabio.org/module-00-setup/0000/06/30/Environment/) is set up correctly.
+First, make sure your [environment](https://rnabio.org/module-00-setup/0000/07/01/Environment/) is set up correctly.
 
 ***
 Tools needed for this analysis are: samtools, bam-readcount, HISAT2, stringtie, gffcompare, htseq-count, flexbar, R, ballgown, fastqc and picard-tools. In the following installation example the installs are local and will work whether you have root (i.e. admin) access or not. However, if root is available some binaries can/will be copied to system-wide locations (e.g., /usr/bin/).

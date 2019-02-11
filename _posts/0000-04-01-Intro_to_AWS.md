@@ -33,7 +33,7 @@ Cloud computing allows users to quickly access an arbitrary amount of compute re
    7. [Step 7. Reviewing the instance before launch](#step-7-reviewing-the-instance-before-launch)
    8. [Step 8. Assigning a key pair](#step-8-assigning-a-key-pair)
    9. [Step 9. Reviewing launch status](#step-9-reviewing-launch-status)
-   10. [Step 10. Examining a new instance in the ec2 console](step-10-examining-a-new-instance-in-the-ec2-console)
+   10. [Step 10. Examining a new instance in the ec2 console](#step-10-examining-a-new-instance-in-the-ec2-console)
    11. [Step 11. Logging into an instance](#step-11-logging-into-an-instance)
 7. [Trouble-shooting and advanced topics](#trouble-shooting-and-advanced-topics)
    1. [Can not login to EC2 instance - what might have gone wrong?](#i-can-not-log-into-my-ec2-instance-what-might-have-gone-wrong)

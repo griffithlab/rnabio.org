@@ -56,7 +56,7 @@ cat flagstat/UHR_Rep1.bam.flagstat
 Details of the SAM/BAM format can be found here: [http://samtools.sourceforge.net/SAM1.pdf](http://samtools.sourceforge.net/SAM1.pdf)
 
 ### Using FastQC
-You can use FastQC to perform basic QC of your BAM file (See [Pre-alignment QC](/_posts/0001-06-01-Pre-alignment_QC.md)). This will give you output very similar to when you ran FastQC on your fastq files.
+You can use FastQC to perform basic QC of your BAM file (See [Pre-alignment QC](/_posts/0001/06/01/Pre-alignment_QC/)). This will give you output very similar to when you ran FastQC on your fastq files.
 ```bash
 cd $RNA_ALIGN_DIR
 fastqc UHR_Rep1.bam UHR_Rep2.bam UHR_Rep3.bam HBR_Rep1.bam HBR_Rep2.bam HBR_Rep3.bam
