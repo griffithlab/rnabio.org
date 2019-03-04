@@ -23,17 +23,24 @@ A separate R tutorial file has been provided below. Run the R commands detailed 
 
 * http://**YOUR_IP_ADDRESS**/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.pdf
 
+First you'll need to load the libraries needed for this analysis and define a path for the output PDF to be written. 
+
 ```R
-***R script***
-# Load libraries needed for this analysis
+***R code***
+#load libraries
 library(ballgown)
 library(genefilter)
 library(dplyr)
 library(devtools)
 
-# Define a path for the output PDF to be written
+#designate output file
 outfile="~/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.pdf"
+```
 
+Next we'll load our data into R.
+
+```R
+***R code***
 # Load phenotype data
 pheno_data = read.csv("UHR_vs_HBR.csv")
 
@@ -49,7 +56,12 @@ ls()
 
 # Print a summary of the ballgown object
 bg
+```
 
+Now we'll start to generate our figures with the following R code.
+
+```R
+***R code***
 # Open a PDF file where we will save some plots. We will save all figures and then view the PDF at the end
 pdf(file=outfile)
 
@@ -97,6 +109,8 @@ dev.off()
 quit(save="no")
 ```
 
+The above code can be found in a single R script located [here](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part2_ballgown.R).
+
 ### SUPPLEMENTARY R ANALYSIS
 Occasionally you may wish to reformat and work with stringtie output in R manually. Therefore we provide an optional/advanced tutorial on how to format your results for R and perform "old school" (non-ballgown analysis) on your data.
 
@@ -117,18 +131,13 @@ Expression and differential expression files will be read into R. The R analysis
     R
 ```
 
-A separate R file has been provided below. 
+A separate R script has been provided below. 
+
+First you'll load your libraries and your data.
 
 ```R
 ***R script***
 #Tutorial_Part3_Supplementary_R.R
-
-#Malachi Griffith, mgriffit[AT]wustl.edu
-#Obi Griffith, obigriffith[AT]wustl.edu
-#Jason Walker, jason.walker[AT]wustl.edu
-#McDonnell Genome Institute, Washington University School of Medicine
-
-#R tutorial for Informatics for RNA-sequence Analysis workshops
 
 #Starting from the output of the RNA-seq Tutorial Part 1.
 
@@ -162,7 +171,12 @@ bg_gene_names = unique(bg_table[, 9:10])
 
 # Pull the gene_expression data frame from the ballgown object
 gene_expression = as.data.frame(gexpr(bg))
+```
 
+Next, you'll load the data into a R dataframe.
+
+```R
+***R code***
 #### Working with 'dataframes'
 #View the first five rows of data (all columns) in one of the dataframes created
 head(gene_expression)
@@ -175,7 +189,12 @@ row.names(gene_expression)
 
 #Determine the dimensions of the dataframe.  'dim()' will return the number of rows and columns
 dim(gene_expression)
+```
 
+You'll then get the first 3 rows of data and view expression and transcript information.
+
+```R
+***R code***
 #Get the first 3 rows of data and a selection of columns
 gene_expression[1:3,c(1:3,6)]
 
@@ -205,7 +224,12 @@ head(transcript_gene_table)
 #Each row of data represents a transcript. Many of these transcripts represent the same gene. Determine the numbers of transcripts and unique genes  
 length(row.names(transcript_gene_table)) #Transcript count
 length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
+```
 
+The following code blocks are to generate various plots using the above data set. 
+
+```R
+***R code***
 #### Plot #1 - the number of transcripts per gene.  
 #Many genes will have only 1 transcript, some genes will have several transcripts
 #Use the 'table()' command to count the number of times each gene symbol occurs (i.e. the # of transcripts that have each gene symbol)
@@ -218,7 +242,6 @@ c_max = max(counts)
 hist(counts, breaks=50, col="bisque4", xlab="Transcripts per gene", main="Distribution of transcript count per gene")
 legend_text = c(paste("Genes with one transcript =", c_one), paste("Genes with more than one transcript =", c_more_than_one), paste("Max transcripts for single gene = ", c_max))
 legend("topright", legend_text, lty=NULL)
-
 
 #### Plot #2 - the distribution of transcript sizes as a histogram
 #In this analysis we supplied StringTie with transcript models so the lengths will be those of known transcripts
@@ -269,7 +292,6 @@ legend("topleft", paste("R squared = ", round(rs, digits=3), sep=""), lwd=1, col
 #### Plot #5 - Scatter plots with a large number of data points can be misleading ... regenerate this figure as a density scatter plot
 colors = colorRampPalette(c("white", "blue", "#007FFF", "cyan","#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
 smoothScatter(x=log2(x+min_nonzero), y=log2(y+min_nonzero), xlab="FPKM (UHR, Replicate 1)", ylab="FPKM (UHR, Replicate 2)", main="Comparison of expression values for a pair of replicates", colramp=colors, nbin=200)
-
 
 #### Plot all sets of replicates on a single plot
 #Create an function that generates an R plot.  This function will take as input the two libraries to be compared and a plot name and color
@@ -412,7 +434,7 @@ dev.off()
 quit(save="no")
 ```
 
-Run the R commands detailed in the R script above.
+Run the R commands detailed in the R script above. A R script containing all of the above code can be found [here](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Supplementary_R.R).
 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
