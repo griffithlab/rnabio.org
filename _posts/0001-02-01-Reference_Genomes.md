@@ -62,8 +62,8 @@ Assignment: Use a commandline scripting approach of your choice to further exami
 
 Hint: Each question can be tackled using approaches similar to those above, using the file 'chr22_with_ERCC92.fa' as a starting point.
 Hint: To make things simpler, first produce a file with only the chr22 sequence.
-Questions
 
+Questions:
 How many bases on chromosome 22 correspond to repetitive elements? What is the percentage of the whole length?
 How many occurences of the EcoRI restriction site are present in the chromosome 22 sequence?
 
