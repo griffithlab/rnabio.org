@@ -2,7 +2,7 @@
 feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
-title: Adaptor Trim
+title: Adapter Trim
 categories:
     - Module-02-Alignment
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
@@ -50,14 +50,14 @@ First, set up some directories for output
     echo $RNA_DATA_TRIM_DIR
     mkdir -p $RNA_DATA_TRIM_DIR
 ```
-Download necessary Illumina adaptor sequence files.
+Download necessary Illumina adapter sequence files.
 ```bash
     echo $RNA_REFS_DIR
     mkdir -p $RNA_REFS_DIR
     cd $RNA_REFS_DIR
     wget http://genomedata.org/rnaseq-tutorial/illumina_multiplex.fa
 ```
-Use flexbar to remove illumina adaptor sequences (if any) and trim first 13 bases of each read. In our tests, each sample took ~30 seconds to trim
+Use flexbar to remove illumina adapter sequences (if any) and trim first 13 bases of each read. In our tests, each sample took ~30 seconds to trim
 ```bash
     cd $RNA_HOME
 
