@@ -37,7 +37,7 @@ First create a file that lists our 6 expression files, then view that file, then
 A separate R tutorial file has been provided below. Run the R commands detailed in the R script.
 
 ```R
-***R code***
+###R code###
 
 # load the required libraries
 library(ballgown)
@@ -173,7 +173,7 @@ Launch R:
 R code has been provided below. If you wish to have a script with all of the code, it can be found [here](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_edgeR.R). Run the R commands below.
 
 ```R
-***R code***
+###R code###
 #Set working directory where output will go
 working_dir = "~/workspace/rnaseq/de/htseq_counts"
 setwd(working_dir)
