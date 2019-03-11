@@ -26,7 +26,7 @@ A separate R tutorial file has been provided below. Run the R commands detailed 
 First you'll need to load the libraries needed for this analysis and define a path for the output PDF to be written. 
 
 ```R
-***R code***
+###R code###
 #load libraries
 library(ballgown)
 library(genefilter)
@@ -40,7 +40,7 @@ outfile="~/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.
 Next we'll load our data into R.
 
 ```R
-***R code***
+###R code###
 # Load phenotype data
 pheno_data = read.csv("UHR_vs_HBR.csv")
 
@@ -61,7 +61,7 @@ bg
 Now we'll start to generate our figures with the following R code.
 
 ```R
-***R code***
+###R code###
 # Open a PDF file where we will save some plots. We will save all figures and then view the PDF at the end
 pdf(file=outfile)
 
