@@ -229,7 +229,7 @@ length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
 The following code blocks are to generate various plots using the above data set. 
 
 ```R
-***R code***
+###R code###
 #### Plot #1 - the number of transcripts per gene.  
 #Many genes will have only 1 transcript, some genes will have several transcripts
 #Use the 'table()' command to count the number of times each gene symbol occurs (i.e. the # of transcripts that have each gene symbol)
