@@ -105,7 +105,7 @@ Now load files and summarize results from each approach in R
 R code has been provided below. Run the R commands detailed in this script in your R session.
 
 ```R
-***R code***
+###R code###
 #Load libraries
 library(ggplot2)
 
