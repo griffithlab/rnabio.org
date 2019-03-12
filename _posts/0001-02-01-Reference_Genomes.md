@@ -61,6 +61,12 @@ Note: Instead of the above, you might consider getting reference genomes and ass
 
 Wherever you get them from, remember that the names of your reference sequences (chromosomes) must those matched in your annotation gtf files (described in the next section).
 
+View a list of all sequences in our reference genome fasta file.
+
+```bash
+grep ">" chr22_with_ERCC92.fa
+```
+
 ***
 
 ### PRACTICAL EXERCISE 2 (ADVANCED)
