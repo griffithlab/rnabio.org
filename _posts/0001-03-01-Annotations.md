@@ -20,22 +20,28 @@ date: 0001-03-01
 In this tutorial we will use annotations obtained from Ensembl ([Homo_sapiens.GRCh38.86.gtf.gz](ftp://ftp.ensembl.org/pub/release-86/gtf/homo_sapiens/Homo_sapiens.GRCh38.86.gtf.gz)) for chromosome 22 only. For time reasons, these are prepared for you and made available on your AWS instance. But you should get familiar with sources of gene annotations for RNA-seq analysis.
 
 Copy the gene annotation files to the working directory.
+
 ```bash
-    echo $RNA_REFS_DIR
-    cd $RNA_REFS_DIR
-    wget http://genomedata.org/rnaseq-tutorial/annotations/GRCh38/chr22_with_ERCC92.gtf
+echo $RNA_REFS_DIR
+cd $RNA_REFS_DIR
+wget http://genomedata.org/rnaseq-tutorial/annotations/GRCh38/chr22_with_ERCC92.gtf
 ```
+
 Take a look at the contents of the .gtf file. Press `q` to exit the `less` display.
+
 ```bash
-    echo $RNA_REF_GTF
-    less -p start_codon -S $RNA_REF_GTF
+echo $RNA_REF_GTF
+less -p start_codon -S $RNA_REF_GTF
 ```
+
 How many unique gene IDs are in the .gtf file?
 
 We can use a perl command-line command to find out:
+
 ```bash
-    perl -ne 'if ($_ =~ /(gene_id\s\"ENSG\w+\")/){print "$1\n"}' $RNA_REF_GTF | sort | uniq | wc -l
+perl -ne 'if ($_ =~ /(gene_id\s\"ENSG\w+\")/){print "$1\n"}' $RNA_REF_GTF | sort | uniq | wc -l
 ```
+
 * Using `perl -ne ''` will execute the code between single quotes, on the .gtf file, line-by-line.
 
 * The `$_` variable holds the contents of each line.
@@ -49,9 +55,11 @@ We can use a perl command-line command to find out:
 * By piping to `sort`, then `uniq`, then word count we can count the unique number of genes in the file.
 
 Now view the structure of a single transcript in GTF format. Press `q` to exit the `less` display when you are done.
+
 ```bash
-    grep ENST00000342247 $RNA_REF_GTF | less -p "exon\s" -S
+grep ENST00000342247 $RNA_REF_GTF | less -p "exon\s" -S
 ```
+
 To learn more, see:
 
 * [http://perldoc.perl.org/perlre.html#Regular-Expressions](http://perldoc.perl.org/perlre.html#Regular-Expressions)
@@ -126,3 +134,5 @@ In order for your RNA-seq analysis to work, the chromosome names in your .gtf fi
 
 **On reference genome builds:**
 Your annotations must correspond to the same reference genome build as your reference genome fasta file. e.g., both correspond to UCSC human build 'hg38', NCBI human build 'GRCh38', etc. Even if both your reference genome and annotations are from UCSC or Ensembl they could still correspond to different versions of that genome. This would cause problems in any RNA-seq pipeline.
+
+
