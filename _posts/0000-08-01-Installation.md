@@ -94,6 +94,9 @@ cd gffcompare-0.10.6.Linux_x86_64
 ```
 
 ## [htseq-count](http://htseq.readthedocs.io/en/release_0.10.0/)
+Installation type: use python setup script.
+
+The htseq-count read counting tools is installed below by downloading an archive with `wget`, unpacking the archive using `tar` and running a setup script written in Python. After setup, `chmod` is used to change permissions of the `htseq-count` file to be executable. 
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -106,8 +109,9 @@ chmod +x scripts/htseq-count
 ```
 
 ## [TopHat](https://ccb.jhu.edu/software/tophat/index.shtml)
+Installation type: dowload a precompiled binary.
 
-Note, this tool is currently only installed for the gtf_to_fasta tool used in kallisto section
+Note, this tool is currently only installed for the gtf_to_fasta tool used in kallisto section. 
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -118,6 +122,9 @@ cd tophat-2.1.1.Linux_x86_64/
 ```
 
 ## [kallisto](https://pachterlab.github.io/kallisto/)
+Installation type: download a precompiled binary.
+
+The kallisto alignment free expression estimation tool is installed below simply by downloading an archive with `wget`, unpacking the archive with `tar`, and testing the binary to ensure it runs on our system. 
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -128,7 +135,7 @@ cd kallisto_linux-v0.44.0/
 ```
 
 ## [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-In addition to installing on the cloud you should also install FastQC on your own laptop/desktop
+Installation type: download precompiled binary.
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -140,6 +147,9 @@ chmod 755 fastqc
 ```
 
 ## [MultiQC](http://multiqc.info/)
+Installation type: use pip.
+
+Multiqc, a tool for assembling QC reports is a python package that can be installed using the python package manager `pip`.
 
 ```bash
 pip3 install multiqc
@@ -147,6 +157,9 @@ multiqc --help
 ```
 
 ## [Picard](https://broadinstitute.github.io/picard/)
+Installation type: download java jar file.
+
+Picard is a rich tool kit for BAM file manipulation that is installed below simply by downloading a jar file. The jar file is tested using Java, a dependency that must also be installed (it should already be present in many systems).
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -155,6 +168,7 @@ java -jar $RNA_HOME/student_tools/picard.jar
 ```
         
 ## [Flexbar](https://github.com/seqan/flexbar)
+Installation type: download precompiled binary.
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -166,6 +180,7 @@ export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.4.0-linux:$LD_LIBRARY_P
 ```
 
 ## [Regtools](https://github.com/griffithlab/regtools#regtools)
+Installation type: compile from source code using `cmake` and `make`.
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -179,6 +194,7 @@ make
 ```
 
 ## [RSeQC](http://rseqc.sourceforge.net/)
+Installation type: use pip.
 
 ```bash
 pip3 install RSeQC
@@ -186,6 +202,7 @@ read_GC.py
 ```
 
 ## [bedops](https://bedops.readthedocs.io/en/latest/)
+Installation type: download precompiled binary.
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -197,6 +214,8 @@ tar -jxvf bedops_linux_x86_64-v2.4.35.tar.bz2
 ```
 
 ## [gtfToGenePred](https://bioconda.github.io/recipes/ucsc-gtftogenepred/README.html)
+Installation type: download precompiled binary.
+
 ```bash
 cd $RNA_HOME/student_tools/
 mkdir gtfToGenePred
@@ -207,6 +226,8 @@ chmod a+x gtfToGenePred
 ```
 
 ## [genePredToBed](https://bioconda.github.io/recipes/ucsc-genepredtobed/README.html) 
+Installation type: download precompiled binary.
+
 ```bash
 cd $RNA_HOME/student_tools/
 mkdir genePredToBed
@@ -217,6 +238,7 @@ chmod a+x genePredToBed
 ```
 
 ## [R](http://www.r-project.org/)
+Installation type: compile source code using `make`.
 
 This install takes a while so check if you have R installed already by typing `which R`. It is already installed on the Cloud, but for completeness, here is how it was done. Please skip all R installation!
 
@@ -237,6 +259,7 @@ Note, if X11 libraries are not available you may need to use `--with-x=no` durin
 Also, linking the R-patched `bin` directory into your `PATH` may cause weird things to happen, such as man pages or `git log` to not display. This can be circumvented by directly linking the `R*` executables (`R`, `RScript`, `RCmd`, etc.) into a `PATH` directory.
 
 ## R Libraries
+Installation type: add new base R libraries to an R installation.
 
 For this tutorial we require:
 - [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
@@ -253,6 +276,7 @@ launch R (enter `R` at linux command prompt) and type the following at an R comm
 ```
 
 ## [Bioconductor](http://www.bioconductor.org/)
+Installation type: add bioconductor libraries to an R installation.
 
 For this tutorial we require:
 - [genefilter](http://bioconductor.org/packages/release/bioc/html/genefilter.html)
