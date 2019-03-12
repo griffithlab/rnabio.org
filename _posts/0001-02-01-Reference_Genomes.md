@@ -70,8 +70,10 @@ Hint: Each question can be tackled using approaches similar to those above, usin
 Hint: To make things simpler, first produce a file with only the chr22 sequence.
 
 Questions:
-How many bases on chromosome 22 correspond to repetitive elements? What is the percentage of the whole length?
-How many occurences of the EcoRI restriction site are present in the chromosome 22 sequence?
+
+- How many bases on chromosome 22 correspond to repetitive elements? 
+- What is the percentage of the whole length?
+- How many occurences of the EcoRI restriction site are present in the chromosome 22 sequence?
 
 Solution: When you are ready you can check your approach against the [Solutions](/module-08-appendix/0008/05/01/Practical_Exercise_Solutions/#practical-exercise-2---reference-genomes).
 
