@@ -34,6 +34,11 @@ echo $RNA_REF_GTF
 less -p start_codon -S $RNA_REF_GTF
 ```
 
+Note how the `-S` option makes it easier to veiw this file with `less`. Make the formatting a bit nicer still:
+```bash
+cat chr22_with_ERCC92.gtf | column -t | less -p exon -S
+```
+
 How many unique gene IDs are in the .gtf file?
 
 We can use a perl command-line command to find out:
