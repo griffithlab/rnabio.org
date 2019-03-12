@@ -97,7 +97,7 @@ Based on UCSC annotations or several other possible annotation sources collected
 * Open the following in your browser: [http://genome.ucsc.edu/](http://genome.ucsc.edu/)
 * Select 'Tools' and then 'Table Browser' at the top of the page.
 * Select 'Mammal', 'Human', and 'Dec. 2013 (GRCh38/hg38)' from the first row of drop down menus.
-* Select 'Genes and Gene Predictions' and 'GENCODE v24' from the second row of drop down menus. To limit your selection to only chromosome 22, select the 'position' option beside 'region', enter 'chr22' in the 'position' box.
+* Select 'Genes and Gene Predictions' and 'GENCODE v29' from the second row of drop down menus. To limit your selection to only chromosome 22, select the 'position' option beside 'region', enter 'chr22' in the 'position' box.
 * Select 'GTF - gene transfer format' for output format and enter 'UCSC_Genes.gtf' for output file.
 * Hit the 'get output' button and save the file. Make note of its location
 
@@ -135,4 +135,5 @@ In order for your RNA-seq analysis to work, the chromosome names in your .gtf fi
 **On reference genome builds:**
 Your annotations must correspond to the same reference genome build as your reference genome fasta file. e.g., both correspond to UCSC human build 'hg38', NCBI human build 'GRCh38', etc. Even if both your reference genome and annotations are from UCSC or Ensembl they could still correspond to different versions of that genome. This would cause problems in any RNA-seq pipeline.
 
+A more detailed discussion of commonly used version of the human reference genome can be found in a companion workshop [PMBIO Reference Genomes](https://pmbio.org/module-02-inputs/0002/02/01/Reference_Genome/)
 
