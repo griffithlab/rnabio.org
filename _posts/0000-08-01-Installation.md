@@ -56,7 +56,7 @@ make
 ## [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml)
 Installation type: download a precompiled binary.
 
-The `hisat2` alinger is installed by simply downloading an archive of binaries using `wget`, unpacking them with `unzip`, and testing the tool to make sure it executes without error on the current system. This approach relies on understanding the architecture of your system and downloading the correct precompiled binary. The `uname -m` command lists the current system architecture.
+The `hisat2` aligner is installed below by simply downloading an archive of binaries using `wget`, unpacking them with `unzip`, and testing the tool to make sure it executes without error on the current system. This approach relies on understanding the architecture of your system and downloading the correct precompiled binary. The `uname -m` command lists the current system architecture.
 
 ```bash
 uname -m
@@ -68,6 +68,9 @@ cd hisat2-2.1.0
 ```
 
 ## [StringTie](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual)
+Installation type: download a precompiled binary.
+
+The `stringtie` reference guided transcript assembly and abundance estimation tool is installed below by simply downloading an archive with `wget`, unpacking the archive with `tar`, and executing `stringtie` to confirm it runs without error on our system.
 
 ```bash
 cd $RNA_HOME/student_tools/
