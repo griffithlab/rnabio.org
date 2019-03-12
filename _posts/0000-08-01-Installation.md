@@ -152,7 +152,7 @@ Installation type: use pip.
 Multiqc, a tool for assembling QC reports is a python package that can be installed using the python package manager `pip`.
 
 ```bash
-pip3 install multiqc
+pip install --user multiqc
 multiqc --help
 ```
 
