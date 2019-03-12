@@ -77,7 +77,7 @@ cd $RNA_HOME/student_tools/
 wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-1.3.4d.Linux_x86_64.tar.gz
 tar -xzvf stringtie-1.3.4d.Linux_x86_64.tar.gz
 cd stringtie-1.3.4d.Linux_x86_64
-./stringtie
+./stringtie -h
 ```
 
 ## [gffcompare](http://ccb.jhu.edu/software/stringtie/gff.shtml#gffcompare)
