@@ -75,7 +75,7 @@ To learn more, see:
 ### The Purpose of Gene Annotations (.gtf file)
 When running the HISAT2/StringTie/Ballgown pipeline, known gene/transcript annotations are used for several purposes:
 
-* During the HISAT2 index creation step, annotations may be provided to create local indexes to represent transcripts as well as a global index for the entire reference genome. This allows for faster mapping and better mapping across exon boundaries and splice sites. If an alignment still can not be found it will attempt to determine if the read corresponds to a novel exon-exon junction. See the [Indexing section](https://github.com/griffithlab/rnaseq_tutorial/wiki/Indexing) and the HISAT2 publication for more details.
+* During the HISAT2 index creation step, annotations may be provided to create local indexes to represent transcripts as well as a global index for the entire reference genome. This allows for faster mapping and better mapping across exon boundaries and splice sites. If an alignment still can not be found it will attempt to determine if the read corresponds to a novel exon-exon junction. See the [Indexing section](/module-01-inputs/0001/04/01/Indexing/) and the HISAT2 publication for more details.
 
 * During the StringTie step, a .gtf file can be used to specify transcript models to guide the assembly process and limit expression estimates to predefined transcripts using the '-G' and '-e' options together. The '-e' option will give you one expression estimate for each of the transcripts in your .gtf file, giving you a 'microarray like' expression result.
 
