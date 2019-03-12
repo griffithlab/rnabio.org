@@ -105,7 +105,7 @@ tar -zxvf release_0.11.0.tar.gz
 cd htseq-release_0.11.0/
 python setup.py install --user
 chmod +x scripts/htseq-count
-./scripts/htseq-count
+./scripts/htseq-count -h
 ```
 
 ## [TopHat](https://ccb.jhu.edu/software/tophat/index.shtml)
@@ -386,9 +386,9 @@ Some tools have complex dependencies that are difficult to reproduce across syst
 
 Install pvactools for personalized cancer vaccine designs:
 ```bash
-docker pull griffithlab/pvactools:latest
+#docker pull griffithlab/pvactools:latest
 
-docker run -t griffithlab/pvactools:latest pvacseq --help
+#docker run -t griffithlab/pvactools:latest pvacseq --help
 
 ```
 
