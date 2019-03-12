@@ -24,6 +24,9 @@ cd student_tools
 ```
 
 ## [SAMtools](http://www.htslib.org/)
+Installation type: build C++ binary from source code using `make`.
+
+The following tool is installed by downloading a compressed archive using `wget`, decompressing it using `bunzip2`, unpacking the archive using `tar`, and building the source code using `make` to run compiler commands in the "Makefile" provided with the tool. When `make` is run without options, it attempts the "default goal" in the make file which is the first "target" defined.  In this case the first "target" is `:all`. Once the build is complete, we test that it worked by attempting to execute the `samtools` binary. Remember that the `./` in `./samtools` tells the commandline that you want to execute the `samtools` binary in the current directory. We do this because there may be other `samtools` binaries in our PATH. Try `which samtools` to see the samtools binary that appears first in our PATH and therefore will be the one used when we specify `samtools` without specifying a particular location of the binary. 
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -36,6 +39,9 @@ make
 ```
 
 ## [bam-readcount](https://github.com/genome/bam-readcount)
+Installation type: build C++ binary from source code using `cmake` and `make`.
+
+Installation of the bam-readcount tool involves "cloning" the source code with a code version control system called `git`. The code is then compiled using `cmake` and `make`. `cmake` is an application for managing the build process of software using a compiler-independent method. It is used in conjunction with native build environments such as `make` ([cmake ref](https://en.wikipedia.org/wiki/CMake)). Note that bam-readcount relies on another tool, samtools, as a dependency. An environment variable is used to specify the path to the samtools install. 
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -48,26 +54,36 @@ make
 ```
 
 ## [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml)
+Installation type: download a precompiled binary.
+
+The `hisat2` aligner is installed below by simply downloading an archive of binaries using `wget`, unpacking them with `unzip`, and testing the tool to make sure it executes without error on the current system. This approach relies on understanding the architecture of your system and downloading the correct precompiled binary. The `uname -m` command lists the current system architecture.
 
 ```bash
+uname -m
 cd $RNA_HOME/student_tools/
 wget ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-2.1.0-Linux_x86_64.zip
 unzip hisat2-2.1.0-Linux_x86_64.zip
 cd hisat2-2.1.0
-./hisat2
+./hisat2 -h
 ```
 
 ## [StringTie](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual)
+Installation type: download a precompiled binary.
+
+The `stringtie` reference guided transcript assembly and abundance estimation tool is installed below by simply downloading an archive with `wget`, unpacking the archive with `tar`, and executing `stringtie` to confirm it runs without error on our system.
 
 ```bash
 cd $RNA_HOME/student_tools/
 wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-1.3.4d.Linux_x86_64.tar.gz
 tar -xzvf stringtie-1.3.4d.Linux_x86_64.tar.gz
 cd stringtie-1.3.4d.Linux_x86_64
-./stringtie
+./stringtie -h
 ```
 
 ## [gffcompare](http://ccb.jhu.edu/software/stringtie/gff.shtml#gffcompare)
+Installation type: download a precompiled binary.
+
+The `gffcompare` tool for comparing transcript annotations is installed below by simply downloading an archive with `wget`, unpacking it with `tar`, and executing `gffcompare` to ensure it runs without error on our system.
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -78,6 +94,9 @@ cd gffcompare-0.10.6.Linux_x86_64
 ```
 
 ## [htseq-count](http://htseq.readthedocs.io/en/release_0.10.0/)
+Installation type: use python setup script.
+
+The htseq-count read counting tools is installed below by downloading an archive with `wget`, unpacking the archive using `tar` and running a setup script written in Python. After setup, `chmod` is used to change permissions of the `htseq-count` file to be executable. 
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -86,12 +105,13 @@ tar -zxvf release_0.11.0.tar.gz
 cd htseq-release_0.11.0/
 python setup.py install --user
 chmod +x scripts/htseq-count
-./scripts/htseq-count
+./scripts/htseq-count -h
 ```
 
 ## [TopHat](https://ccb.jhu.edu/software/tophat/index.shtml)
+Installation type: dowload a precompiled binary.
 
-Note, this tool is currently only installed for the gtf_to_fasta tool used in kallisto section
+Note, this tool is currently only installed for the gtf_to_fasta tool used in kallisto section. 
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -102,6 +122,9 @@ cd tophat-2.1.1.Linux_x86_64/
 ```
 
 ## [kallisto](https://pachterlab.github.io/kallisto/)
+Installation type: download a precompiled binary.
+
+The kallisto alignment free expression estimation tool is installed below simply by downloading an archive with `wget`, unpacking the archive with `tar`, and testing the binary to ensure it runs on our system. 
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -112,7 +135,7 @@ cd kallisto_linux-v0.44.0/
 ```
 
 ## [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-In addition to installing on the cloud you should also install FastQC on your own laptop/desktop
+Installation type: download precompiled binary.
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -124,6 +147,9 @@ chmod 755 fastqc
 ```
 
 ## [MultiQC](http://multiqc.info/)
+Installation type: use pip.
+
+Multiqc, a tool for assembling QC reports is a python package that can be installed using the python package manager `pip`.
 
 ```bash
 pip3 install multiqc
@@ -131,6 +157,9 @@ multiqc --help
 ```
 
 ## [Picard](https://broadinstitute.github.io/picard/)
+Installation type: download java jar file.
+
+Picard is a rich tool kit for BAM file manipulation that is installed below simply by downloading a jar file. The jar file is tested using Java, a dependency that must also be installed (it should already be present in many systems).
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -139,6 +168,7 @@ java -jar $RNA_HOME/student_tools/picard.jar
 ```
         
 ## [Flexbar](https://github.com/seqan/flexbar)
+Installation type: download precompiled binary.
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -150,6 +180,7 @@ export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.4.0-linux:$LD_LIBRARY_P
 ```
 
 ## [Regtools](https://github.com/griffithlab/regtools#regtools)
+Installation type: compile from source code using `cmake` and `make`.
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -163,6 +194,7 @@ make
 ```
 
 ## [RSeQC](http://rseqc.sourceforge.net/)
+Installation type: use pip.
 
 ```bash
 pip3 install RSeQC
@@ -170,6 +202,7 @@ read_GC.py
 ```
 
 ## [bedops](https://bedops.readthedocs.io/en/latest/)
+Installation type: download precompiled binary.
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -181,6 +214,8 @@ tar -jxvf bedops_linux_x86_64-v2.4.35.tar.bz2
 ```
 
 ## [gtfToGenePred](https://bioconda.github.io/recipes/ucsc-gtftogenepred/README.html)
+Installation type: download precompiled binary.
+
 ```bash
 cd $RNA_HOME/student_tools/
 mkdir gtfToGenePred
@@ -191,6 +226,8 @@ chmod a+x gtfToGenePred
 ```
 
 ## [genePredToBed](https://bioconda.github.io/recipes/ucsc-genepredtobed/README.html) 
+Installation type: download precompiled binary.
+
 ```bash
 cd $RNA_HOME/student_tools/
 mkdir genePredToBed
@@ -201,6 +238,7 @@ chmod a+x genePredToBed
 ```
 
 ## [R](http://www.r-project.org/)
+Installation type: compile source code using `make`.
 
 This install takes a while so check if you have R installed already by typing `which R`. It is already installed on the Cloud, but for completeness, here is how it was done. Please skip all R installation!
 
@@ -221,6 +259,7 @@ Note, if X11 libraries are not available you may need to use `--with-x=no` durin
 Also, linking the R-patched `bin` directory into your `PATH` may cause weird things to happen, such as man pages or `git log` to not display. This can be circumvented by directly linking the `R*` executables (`R`, `RScript`, `RCmd`, etc.) into a `PATH` directory.
 
 ## R Libraries
+Installation type: add new base R libraries to an R installation.
 
 For this tutorial we require:
 - [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
@@ -237,6 +276,7 @@ launch R (enter `R` at linux command prompt) and type the following at an R comm
 ```
 
 ## [Bioconductor](http://www.bioconductor.org/)
+Installation type: add bioconductor libraries to an R installation.
 
 For this tutorial we require:
 - [genefilter](http://bioconductor.org/packages/release/bioc/html/genefilter.html)
@@ -339,3 +379,17 @@ Some useful tools are available as official ubuntu packages.  These can be insta
 #sudo apt-get install tree
 #tree
 ```
+
+## Installing tools by Docker image
+
+Some tools have complex dependencies that are difficult to reproduce across systems or make work in the same environment with tools that require different versions of the same dependencies. Container systems such as Docker and Singularity allow you to isolate a tool's environment giving you almost complete control over dependency issues. For this reason, many tool developers have started to distribute their tools as docker images.  Many of these are placed in container image repositories such as [DockerHub](https://hub.docker.com/). Here is an example tool installation using `docker`.
+
+Install pvactools for personalized cancer vaccine designs:
+```bash
+#docker pull griffithlab/pvactools:latest
+
+#docker run -t griffithlab/pvactools:latest pvacseq --help
+
+```
+
+

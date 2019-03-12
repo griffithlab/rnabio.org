@@ -30,7 +30,6 @@ You can place the RNA_HOME variable (and other environment variables) in your .b
 Environment variables used throughout this tutorial:
 ```bash
     export RNA_HOME=~/workspace/rnaseq
-    export RNA_EXT_DATA_DIR=/home/ubuntu/CourseData/RNA_data
     export RNA_DATA_DIR=$RNA_HOME/data
     export RNA_DATA_TRIM_DIR=$RNA_DATA_DIR/trimmed
     export RNA_REFS_DIR=$RNA_HOME/refs
