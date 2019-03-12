@@ -24,9 +24,9 @@ cd student_tools
 ```
 
 ## [SAMtools](http://www.htslib.org/)
-Installation type: build C++ binary from source code using make. 
+Installation type: build C++ binary from source code using `make`.
 
-The following tool is installed by downloading a compressed archive, decompressing it using `bunzip2`, unpacking the archive using `tar`, and building the source code using `make` to run compiler commands in the "Makefile" provided with the tool. When `make` is provided without options it attempts the "default goal" in the make file which is the first "target" defined.  In this case the first "target" is `:all`. Once the build is complete, we test that it worked by attempting to execute the `samtools` binary.   
+The following tool is installed by downloading a compressed archive using `wget`, decompressing it using `bunzip2`, unpacking the archive using `tar`, and building the source code using `make` to run compiler commands in the "Makefile" provided with the tool. When `make` is run without options, it attempts the "default goal" in the make file which is the first "target" defined.  In this case the first "target" is `:all`. Once the build is complete, we test that it worked by attempting to execute the `samtools` binary.
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -39,7 +39,7 @@ make
 ```
 
 ## [bam-readcount](https://github.com/genome/bam-readcount)
-Installation type: build C++ binary from source code using cmake and make.
+Installation type: build C++ binary from source code using `cmake` and `make`.
 
 Installation of the bam-readcount tool involves "cloning" the source code with a code version control system called `git`. The code is then compiled using `cmake` and `make`. `cmake` is an application for managing the build process of software using a compiler-independent method. It is used in conjunction with native build environments such as `make` ([cmake ref](https://en.wikipedia.org/wiki/CMake)). Note that bam-readcount relies on another tool, samtools, as a dependency. An environment variable is used to specify the path to the samtools install. 
 
@@ -54,8 +54,12 @@ make
 ```
 
 ## [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml)
+Installation type: download a precompiled binary.
+
+The `hisat2` alinger is installed by simply downloading an archive of binaries using `wget`, unpacking them with `unzip`, and testing the tool to make sure it executes without error on the current system. This approach relies on understanding the architecture of your system and downloading the correct precompiled binary. The `uname -m` command lists the current system architecture.
 
 ```bash
+uname -m
 cd $RNA_HOME/student_tools/
 wget ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-2.1.0-Linux_x86_64.zip
 unzip hisat2-2.1.0-Linux_x86_64.zip
