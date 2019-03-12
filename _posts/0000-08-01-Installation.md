@@ -64,7 +64,7 @@ cd $RNA_HOME/student_tools/
 wget ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-2.1.0-Linux_x86_64.zip
 unzip hisat2-2.1.0-Linux_x86_64.zip
 cd hisat2-2.1.0
-./hisat2
+./hisat2 -h
 ```
 
 ## [StringTie](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual)
