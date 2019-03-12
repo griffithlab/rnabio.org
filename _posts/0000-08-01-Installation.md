@@ -13,7 +13,7 @@ date: 0000-08-01
 First, make sure your [environment](https://rnabio.org/module-00-setup/0000/07/01/Environment/) is set up correctly.
 
 ***
-Tools needed for this analysis are: samtools, bam-readcount, HISAT2, stringtie, gffcompare, htseq-count, flexbar, R, ballgown, fastqc and picard-tools. In the following installation example the installs are local and will work whether you have root (i.e. admin) access or not. However, if root is available some binaries can/will be copied to system-wide locations (e.g., /usr/bin/).
+Tools needed for this analysis are: samtools, bam-readcount, HISAT2, stringtie, gffcompare, htseq-count, flexbar, R, ballgown, fastqc and picard-tools. In the following installation example, the installs are local and will work whether you have root (i.e. admin) access or not. However, if root is available some binaries can/will be copied to system-wide locations (e.g., /usr/bin/).
 
 Set up tool installation location:
 
@@ -240,7 +240,7 @@ chmod a+x genePredToBed
 ## [R](http://www.r-project.org/)
 Installation type: compile source code using `make`.
 
-This install takes a while so check if you have R installed already by typing `which R`. It is already installed on the Cloud, but for completeness, here is how it was done. Please skip all R installation!
+This install takes a while, so check if you have R installed already by typing `which R`. It is already installed on the Cloud, but for completeness, here is how it was done. Please skip all R installation!
 
 ```bash
 #sudo apt-get install r-base-dev
