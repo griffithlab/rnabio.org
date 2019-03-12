@@ -43,6 +43,7 @@ To install bedtools:
 <a id="Practical Excercise 2"></a>
 
     cd $RNA_HOME/refs
+    #first produce a fasta with only the chr22 sequence (i.e. remove the ERCC sequences)
     cat chr22_with_ERCC92.fa | perl -ne 'if ($_ =~ /\>22/){$chr22=1}; if ($_ =~ /\>ERCC/){$chr22=0}; if ($chr22){print "$_";}' > chr22_only.fa
     cat chr22_only.fa | grep -v ">" | perl -ne 'chomp $_; $r+= $_ =~ tr/a/A/; $r += $_ =~ tr/c/C/; $r += $_ =~ tr/g/G/; $r += $_ =~ tr/t/T/; $l += length($_); if (eof){$p = sprintf("%.2f", ($r/$l)*100); print "\nrepeat bases = $r\ntotal bases = $l\npercent repeat bases = $p%\n\n"}'
     cat chr22_only.fa | grep -v ">" | perl -ne 'chomp $_; $s = uc($_); print $_;' | perl -ne '$c += $_ =~ s/GAATTC/XXXXXX/g; if (eof){print "\nEcoRI site (GAATTC) count = $c\n\n";}'
