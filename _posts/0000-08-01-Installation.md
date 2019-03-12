@@ -26,7 +26,7 @@ cd student_tools
 ## [SAMtools](http://www.htslib.org/)
 Installation type: build C++ binary from source code using `make`.
 
-The following tool is installed by downloading a compressed archive using `wget`, decompressing it using `bunzip2`, unpacking the archive using `tar`, and building the source code using `make` to run compiler commands in the "Makefile" provided with the tool. When `make` is run without options, it attempts the "default goal" in the make file which is the first "target" defined.  In this case the first "target" is `:all`. Once the build is complete, we test that it worked by attempting to execute the `samtools` binary.
+The following tool is installed by downloading a compressed archive using `wget`, decompressing it using `bunzip2`, unpacking the archive using `tar`, and building the source code using `make` to run compiler commands in the "Makefile" provided with the tool. When `make` is run without options, it attempts the "default goal" in the make file which is the first "target" defined.  In this case the first "target" is `:all`. Once the build is complete, we test that it worked by attempting to execute the `samtools` binary. Remember that the `./` in `./samtools` tells the commandline that you want to execute the `samtools` binary in the current directory. We do this because there may be other `samtools` binaries in our PATH. Try `which samtools` to see the samtools binary that appears first in our PATH and therefore will be the one used when we specify `samtools` without specifying a particular location of the binary. 
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -81,6 +81,9 @@ cd stringtie-1.3.4d.Linux_x86_64
 ```
 
 ## [gffcompare](http://ccb.jhu.edu/software/stringtie/gff.shtml#gffcompare)
+Installation type: download a precompiled binary.
+
+The `gffcompare` tool for comparing transcript annotations is installed below by simply downloading an archive with `wget`, unpacking it with `tar`, and executing `gffcompare` to ensure it runs without error on our system.
 
 ```bash
 cd $RNA_HOME/student_tools/
