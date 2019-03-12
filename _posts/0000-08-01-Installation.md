@@ -24,6 +24,9 @@ cd student_tools
 ```
 
 ## [SAMtools](http://www.htslib.org/)
+Installation type: build C++ binary from source code using make. 
+
+The following tool is installed by downloading a compressed archive, decompressing it using `bunzip2`, unpacking the archive using `tar`, and building the source code using `make` to run compiler commands in the "Makefile" provided with the tool. When `make` is provided without options it attempts the "default goal" in the make file which is the first "target" defined.  In this case the first "target" is `:all`. Once the build is complete, we test that it worked by attempting to execute the `samtools` binary.   
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -36,6 +39,9 @@ make
 ```
 
 ## [bam-readcount](https://github.com/genome/bam-readcount)
+Installation type: build C++ binary from source code using cmake and make.
+
+Installation of the bam-readcount tool involves "cloning" the source code with a code version control system called `git`. The code is then compiled using `cmake` and `make`. `cmake` is an application for managing the build process of software using a compiler-independent method. It is used in conjunction with native build environments such as `make` ([cmake ref](https://en.wikipedia.org/wiki/CMake)). Note that bam-readcount relies on another tool, samtools, as a dependency. An environment variable is used to specify the path to the samtools install. 
 
 ```bash
 cd $RNA_HOME/student_tools/
