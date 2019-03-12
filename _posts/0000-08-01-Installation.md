@@ -387,9 +387,23 @@ Some tools have complex dependencies that are difficult to reproduce across syst
 Install pvactools for personalized cancer vaccine designs:
 ```bash
 #docker pull griffithlab/pvactools:latest
-
 #docker run -t griffithlab/pvactools:latest pvacseq --help
 
 ```
 
+## Installing tools by Docker image (using Singularity) 
+
+Some systems do not allow `docker` to be run for various reasons. Sometimes `singularity` is used instead.  The equivalent to the above but using singularity looks like the following:
+```bash
+#singularity pull docker://griffithlab/pvactools:latest
+#singularity run docker://griffithlab/pvactools:latest pvacseq -h
+
+```
+
+Note that if you encounter errors with /tmp space usage or would like to control where singularity stores its temp files, you can set the environment variables: 
+```bash
+#export SINGULARITY_CACHEDIR=/media/workspace/.singularity
+#export TMPDIR=/media/workspace/temp
+
+```
 
