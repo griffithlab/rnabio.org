@@ -137,7 +137,7 @@ flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADA
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155057_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155057_2.fastq.gz --target trimmed_reads/SRR7155057
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155058_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155058_2.fastq.gz --target trimmed_reads/SRR7155058
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155059_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155059_2.fastq.gz --target trimmed_reads/SRR7155059
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RRNA_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155060_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155060_2.fastq.gz --target trimmed_reads/SRR7155060
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155060_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155060_2.fastq.gz --target trimmed_reads/SRR7155060
 
 ```
 
