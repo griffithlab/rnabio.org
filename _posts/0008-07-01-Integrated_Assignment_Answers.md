@@ -120,6 +120,8 @@ Now create a new folder that will house the outputs from FastQC. Use the `-h` op
 cd $RNA_ASSIGNMENT
 mkdir raw_fastqc
 fastqc $RNA_DATA_DIR/* -o raw_fastqc/
+multiqc .
+
 ```
 
 **Q4.)** What metrics, if any, have the samples failed? Are the errors related?
@@ -131,11 +133,12 @@ Now based on the output of the html summary, proceed to clean up the reads and r
 ```bash
 mkdir trimmed_reads
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155055_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155055_2.fastq.gz --target trimmed_reads/SRR7155055
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADAPT/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155056_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155056_2.fastq.gz --target trimmed_reads/SRR7155056
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADAPT/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155057_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155057_2.fastq.gz --target trimmed_reads/SRR7155057
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155056_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155056_2.fastq.gz --target trimmed_reads/SRR7155056
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155057_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155057_2.fastq.gz --target trimmed_reads/SRR7155057
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155058_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155058_2.fastq.gz --target trimmed_reads/SRR7155058
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155059_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155059_2.fastq.gz --target trimmed_reads/SRR7155059
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RRNA_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_DATA_DIR/SRR7155060_1.fastq.gz --reads2 $RNA_DATA_DIR/SRR7155060_2.fastq.gz --target trimmed_reads/SRR7155060
+
 ```
 
 **Q5.)** What average percentage of reads remain after adapter trimming? Why do reads get tossed out?
@@ -153,7 +156,7 @@ zcat $RNA_ASSIGNMENT/trimmed_reads/SRR7155059_1.fastq.gz | head -n 4
 CAGGCAGTGGTCGCGACTTCCCCGAGGGCTGCAGCTTCCTCCGGATGGATCCAGGGCGGCTAATGGTCCCAGAGCTGGGGGCTGAGTGGGCCCGTGCCGAGGGCTGTGGCGTCTGACAAGCCGGCTCCCACTACAGA
 +
 JJJJAFFFAF<J-F<JFJJJFJ7FJFFJFJ7<<-FA7FJJ-AJF<JJFJJJF7A<-FJJ7A7-77FJ7-AA7FJJ<-FFJJ-7FAJJJJJAFFJJA77<7A7FAFFJJJF7FJJJ-F<AAAFFJ)<<A<)A)--7A<
-Running this command only give you the total nunmber of lines in the fastq file (Note that because the data is compressed, we need to use zcat to unzip it and print it to the screen, before passing it on to the wc command):
+Running this command only give you the total number of lines in the fastq file (Note that because the data is compressed, we need to use zcat to unzip it and print it to the screen, before passing it on to the wc command):
 $RNA_ASSIGNMENT/trimmed_reads/SRR7155059_1.fastq.gz | wc -l
 ```
 
@@ -174,16 +177,19 @@ To create HISAT2 alignment commands for all of the six samples and run alignment
 echo $RNA_ALIGN_DIR
 mkdir -p $RNA_ALIGN_DIR
 cd $RNA_ALIGN_DIR
+
 ```
 ```bash
 hisat2 -p 8 --rg-id=Transfect1 --rg SM:Transfect --rg LB:Transfect1_sub --rg PL:ILLUMINA -x $RNA_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_ASSIGNMENT/trimmed_reads/SRR7155055_1.fastq.gz -2 $RNA_ASSIGNMENT/trimmed_reads/SRR7155055_2.fastq.gz -S $RNA_ALIGN_DIR/SRR7155055.sam
 hisat2 -p 8 --rg-id=Transfect2 --rg SM:Transfect --rg LB:Transfect2_sub --rg PL:ILLUMINA -x $RNA_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_ASSIGNMENT/trimmed_reads/SRR7155056_1.fastq.gz -2 $RNA_ASSIGNMENT/trimmed_reads/SRR7155056_2.fastq.gz -S $RNA_ALIGN_DIR/SRR7155056.sam
 hisat2 -p 8 --rg-id=Transfect3 --rg SM:Transfect --rg LB:Transfect3_sub --rg PL:ILLUMINA -x $RNA_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_ASSIGNMENT/trimmed_reads/SRR7155057_1.fastq.gz -2 $RNA_ASSIGNMENT/trimmed_reads/SRR7155057_2.fastq.gz -S $RNA_ALIGN_DIR/SRR7155057.sam
+
 ```
 ```bash
 hisat2 -p 8 --rg-id=Control1 --rg SM:Control --rg LB:Control1_sub --rg PL:ILLUMINA -x $RNA_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_ASSIGNMENT/trimmed_reads/SRR7155058_1.fastq.gz -2 $RNA_ASSIGNMENT/trimmed_reads/SRR7155058_2.fastq.gz -S $RNA_ALIGN_DIR/SRR7155058.sam
 hisat2 -p 8 --rg-id=Control2 --rg SM:Control --rg LB:Control2_sub --rg PL:ILLUMINA -x $RNA_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_ASSIGNMENT/trimmed_reads/SRR7155059_1.fastq.gz -2 $RNA_ASSIGNMENT/trimmed_reads/SRR7155059_2.fastq.gz -S $RNA_ALIGN_DIR/SRR7155059.sam
 hisat2 -p 8 --rg-id=Control3 --rg SM:Control --rg LB:Control3_sub --rg PL:ILLUMINA -x $RNA_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_ASSIGNMENT/trimmed_reads/SRR7155060_1.fastq.gz -2 $RNA_ASSIGNMENT/trimmed_reads/SRR7155060_2.fastq.gz -S $RNA_ALIGN_DIR/SRR7155060.sam
+
 ```
 ```bash
 #convert sam alignments to bam..how much space did you save by performing this conversion?
@@ -194,6 +200,7 @@ samtools sort -@ 8 -o $RNA_ALIGN_DIR/SRR7155057.bam $RNA_ALIGN_DIR/SRR7155057.sa
 samtools sort -@ 8 -o $RNA_ALIGN_DIR/SRR7155058.bam $RNA_ALIGN_DIR/SRR7155058.sam
 samtools sort -@ 8 -o $RNA_ALIGN_DIR/SRR7155059.bam $RNA_ALIGN_DIR/SRR7155059.sam
 samtools sort -@ 8 -o $RNA_ALIGN_DIR/SRR7155060.bam $RNA_ALIGN_DIR/SRR7155060.sam
+
 ```
 
 **Q7.)** How else could you obtain summary statistics for each aligned file?
