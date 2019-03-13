@@ -15,7 +15,7 @@ date: 0001-06-01
 
 ***
 
-You can use FastQC to get a sense of your data quality before alignment:
+You can use `FastQC` to get a sense of your data quality before alignment:
 
 * [http://www.bioinformatics.babraham.ac.uk/projects/fastqc/](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
@@ -40,6 +40,38 @@ Then, go to the following url in your browser:
 Investigate the source/explanation for over-represented sequences:
 
 * HINT: Try BLASTing them.
+
+***
+
+`Fastp` is a similar alternative tool. Results for this tool can be produced as follows
+
+```bash
+cd $RNA_HOME/data
+mkdir fastp
+cd fastp
+wget http://opengene.org/fastp/fastp
+chmod a+x ./fastp
+
+mkdir HBR_Rep1 HBR_Rep2 HBR_Rep3 UHR_Rep1 UHR_Rep2 UHR_Rep1
+cd $RNA_HOME/data/fastp/HBR_Rep1
+../fastp -i $RNA_HOME/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+
+cd $RNA_HOME/data/fastp/HBR_Rep2
+../fastp -i $RNA_HOME/data/HBR_Rep2_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/HBR_Rep2_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+
+cd $RNA_HOME/data/fastp/HBR_Rep3
+../fastp -i $RNA_HOME/data/HBR_Rep3_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/HBR_Rep3_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+
+cd $RNA_HOME/data/fastp/UHR_Rep1
+../fastp -i $RNA_HOME/data/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz
+
+cd $RNA_HOME/data/fastp/UHR_Rep2
+../fastp -i $RNA_HOME/data/UHR_Rep2_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/UHR_Rep2_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz
+
+cd $RNA_HOME/data/fastp/UHR_Rep3
+../fastp -i $RNA_HOME/data/UHR_Rep3_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/UHR_Rep3_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz
+
+```
 
 ***
 
