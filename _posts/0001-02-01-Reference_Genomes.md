@@ -15,6 +15,9 @@ date: 0001-02-01
 
 ***
 
+### Fasta/fastq/GTF mini lecture
+If you would like a refresher on common file formats such as fasta, fastq, and gtf files, we have made [mini lecture](/assets/lectures/cbw-cshl/2019/mini/RNASeq_MiniLecture_07_FASTA_FASTQ_GTF.pdf) briefly covering these.
+
 ### Obtain a reference genome from Ensembl, iGenomes, NCBI or UCSC.
 
 In this example analysis we will use the human GRCh38 version of the genome from Ensembl. Furthermore, we are actually going to perform the analysis using only a single chromosome (chr22) and the ERCC spike-in to make it run faster...

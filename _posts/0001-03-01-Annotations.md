@@ -15,6 +15,10 @@ date: 0001-03-01
 
 ***
 
+### Fasta/fastq/GTF mini lecture
+If you would like a refresher on common file formats such as fasta, fastq, and gtf files, we have made mini lecture briefly covering these.
+
+
 ### Obtain Known Gene/Transcript Annotations
 
 In this tutorial we will use annotations obtained from Ensembl ([Homo_sapiens.GRCh38.86.gtf.gz](ftp://ftp.ensembl.org/pub/release-86/gtf/homo_sapiens/Homo_sapiens.GRCh38.86.gtf.gz)) for chromosome 22 only. For time reasons, these are prepared for you and made available on your AWS instance. But you should get familiar with sources of gene annotations for RNA-seq analysis.
