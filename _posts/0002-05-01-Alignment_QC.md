@@ -149,7 +149,7 @@ multiqc ./
 ```
 
 ### MultiQC on full bam files
-Run multiQC on non-downsampled bam files:
+Run multiQC on QC reports from non-downsampled bam files:
 ```bash
 mkdir $RNA_ALIGN_DIR/example_QC
 cd $RNA_ALIGN_DIR/example_QC
