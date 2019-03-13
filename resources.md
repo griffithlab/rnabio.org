@@ -9,7 +9,7 @@ layout: "home"
 ---
 
 #### 1. Recommended Reading and RNA-seq Resources
-- [Transcript-level expression analysis of RNA-seq experiments with HISAT, StringTie and Ballgown](https://github.com/griffithlab/rnaseq_tutorial/wiki/Reading/TranscriptLevelExpression_Pertea_2016.pdf)
+- [Transcript-level expression analysis of RNA-seq experiments with HISAT, StringTie and Ballgown](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/TranscriptLevelExpression_Pertea_2016.pdf)
 - [Count-based differential expression analysis of RNA sequencing data using R and Bioconductor](https://www.nature.com/nprot/journal/v8/n9/full/nprot.2013.099.html)
 - Key tool papers: [HISAT](https://www.ncbi.nlm.nih.gov/pubmed/25751142), [StringTie](https://www.ncbi.nlm.nih.gov/pubmed/25690850), [BallGown](https://www.ncbi.nlm.nih.gov/pubmed/25748911), [HTSeq](https://www.ncbi.nlm.nih.gov/pubmed/25260700), [EdgeR](https://www.ncbi.nlm.nih.gov/pubmed/19910308).
 - [RNA-seqlopedia](http://rnaseq.uoregon.edu/) (Includes a very comprehensive review of library construction concepts)
@@ -19,14 +19,14 @@ layout: "home"
 - [Comparative analysis of RNA sequencing methods](http://www.nature.com/nmeth/journal/v10/n7/full/nmeth.2483.html)
 - [RNA-seq Data: Challenges in and Recommendations for Experimental Design and Analysis](http://onlinelibrary.wiley.com/doi/10.1002/0471142905.hg1113s83/full)
 - [RNA Bioinformatics (a 25 chapter book)](http://link.springer.com/book/10.1007%2F978-1-4939-2291-8)
-- [Differential gene and transcript expression analysis of RNA-seq experiments with TopHat and Cufflinks](https://github.com/griffithlab/rnaseq_tutorial/wiki/Reading/ExpressionAnalysis_Cufflinks_Trapnell_2012.pdf)
-- [Differential analysis of gene regulation at transcript resolution with RNA-seq](https://github.com/griffithlab/rnaseq_tutorial/wiki/Reading/DifferentialExpressionAnalysis_CuffDiff2_Trapnell_2013.pdf)
+- [Differential gene and transcript expression analysis of RNA-seq experiments with TopHat and Cufflinks](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/ExpressionAnalysis_Cufflinks_Trapnell_2012.pdf)
+- [Differential analysis of gene regulation at transcript resolution with RNA-seq](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/DifferentialExpressionAnalysis_CuffDiff2_Trapnell_2013.pdf)
 - [Measurement of mRNA abundance using RNA-seq data:RPKM measure is inconsistent among samples](https://www.ncbi.nlm.nih.gov/pubmed/22872506)
 - [Differential analyses for RNA-seq: transcript-level estimates improve gene-level inferences](https://f1000research.com/articles/4-1521/v1)
-- [Methods to study splicing from high-throughput RNA sequencing data](https://github.com/griffithlab/rnaseq_tutorial/wiki/Reading/SplicingAnalysisMethods_2014.pdf)
-- [Integrative Genomics Viewer (IGV): high-performance genomics data visualization and exploration](https://github.com/griffithlab/rnaseq_tutorial/wiki/Reading/IGV_2012.pdf)
+- [Methods to study splicing from high-throughput RNA sequencing data](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/SplicingAnalysisMethods_2014.pdf)
+- [Integrative Genomics Viewer (IGV): high-performance genomics data visualization and exploration](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/IGV_2012.pdf)
 - [A comprehensive assessment of RNA-seq accuracy, reproducibility and information content by the Sequencing Quality Control Consortium (SEQC)](http://www.nature.com/nbt/journal/v32/n9/full/nbt.2957.html)
-- [ENCODE RNA-seq Standards](https://github.com/griffithlab/rnaseq_tutorial/wiki/ResourceFiles/ENCODE_RNA-seq_standards_v1.0.pdf)
+- [ENCODE RNA-seq Standards](https://github.com/griffithlab/rnabio.org/blob/master/assets/ResourceFiles/ENCODE_RNA-seq_standards_v1.0.pdf)
 - [The RNA-seq blog - recent developments in RNA-seq technology and analysis](http://www.rna-seqblog.com/)
 - [Proportionality: A Valid Alternative to Correlation for Relative Data](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4361748/)
 - [NCBI Hackathons RNA Mapping Tutorial](https://github.com/NCBI-Hackathons/RNA_mapping/wiki)
@@ -47,7 +47,7 @@ layout: "home"
 - [Vi tutorial and advanced features](http://www.yolinux.com/TUTORIALS/LinuxTutorialAdvanced_vi.html)
 
 #### 4. R Tutorials
-- [An R command cheat sheet](https://github.com/griffithlab/rnaseq_tutorial/wiki/Reading/R-short-refcard.pdf)
+- [An R command cheat sheet](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/R-short-refcard.pdf)
 - [The official R intro manual](http://cran.r-project.org/doc/manuals/r-release/R-intro.html)
 - [Rseek, a search engine for R related questions](http://rseek.org/)
 - [A detailed BioStars thread describing resources for learning R](https://www.biostars.org/p/539/)
@@ -57,9 +57,9 @@ layout: "home"
 - [Basic R Introduction](http://tryr.codeschool.com/)
 
 #### 5. Supplementary Materials Relating to the Hands On Tutorials of this Course
-- [Description of the ERCC spike-in controls used in the tutorial data](https://github.com/griffithlab/rnaseq_tutorial/wiki/ResourceFiles/ERCC.pdf)
-- [Description of the Human Brain Reference (HBR) sample used to generate the tutorial data](https://github.com/griffithlab/rnaseq_tutorial/wiki/ResourceFiles/HBR.pdf)
-- [Description of the Universal Human Reference (UHR) sample used to generate the tutorial data](https://github.com/griffithlab/rnaseq_tutorial/wiki/ResourceFiles/UHR.pdf)
+- [Description of the ERCC spike-in controls used in the tutorial data](https://github.com/griffithlab/rnabio.org/blob/master/assets/ResourceFiles/ERCC.pdf)
+- [Description of the Human Brain Reference (HBR) sample used to generate the tutorial data](https://github.com/griffithlab/rnabio.org/blob/master/assets/ResourceFiles/HBR.pdf)
+- [Description of the Universal Human Reference (UHR) sample used to generate the tutorial data](https://github.com/griffithlab/rnabio.org/blob/master/assets/ResourceFiles/UHR.pdf)
 
 #### 6. Resources to help find RNA-seq Data Sets
 - [GEO: The Gene Expression Omnibus](http://www.ncbi.nlm.nih.gov/geo/)
