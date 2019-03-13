@@ -46,7 +46,7 @@ export _JAVA_OPTIONS=-Djavax.accessibility.assistive_technologies=
 
 If these variables are not part of your .bashrc, you can type the following. First, you can open your .bashrc file with nano by simply typing:
 ```bash
-nano .bashrc
+nano ~/.bashrc
 ```
 You can now see the contents of this file. Then, you want to add the above environment variables to the bottom of the file. You can do this by copying and pasting. Once you have the variables in the file, you'll want to type `ctrl + o` to save the file, then `enter` to confirm you want the same filename, then `ctrl + x` to exit nano.
 
