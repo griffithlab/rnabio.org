@@ -105,7 +105,7 @@ ls -l | wc -l
 
 NOTE: The fastq files you have copied above contain only the first 1000000 reads. Keep this in mind when you are combing through the results of the differential expression analysis.
 
-##Part 1 : Data preprocessing
+## Part 1 : Data preprocessing
 
 **Goals:**
 
