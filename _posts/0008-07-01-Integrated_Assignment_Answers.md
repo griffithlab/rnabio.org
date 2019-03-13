@@ -156,7 +156,7 @@ Doing this, we find that around 99% of reads still survive after adapter trimmin
 An easy way to figure out the number of reads is to check the output log file from the trimming output. Looking at the "remaining reads" row, we see the reads (each read in a pair counted individually) that survive the trimming. We can also look at this from the command line. 
 
 ```bash
-grep -H 'Remaining reads' $RNA_ASSIGNMENT/trimmed_reads/*.log
+grep 'Remaining reads' $RNA_ASSIGNMENT/trimmed_reads/*.log
 ```
 
 Alternatively, you can make use of the command ‘wc’. This command counts the number of lines in a file. Since fastq files have 4 lines per read, the total number of lines must be divided by 4. Running this command only give you the total number of lines in the fastq file (Note that because the data is compressed, we need to use zcat to unzip it and print it to the screen, before passing it on to the wc command):
@@ -198,7 +198,7 @@ hisat2 -p 8 --rg-id=Control3 --rg SM:Control --rg LB:Control3_sub --rg PL:ILLUMI
 
 ```
 
-Next, convert sam alignments to bam. How much space did you save by performing this conversion?
+Next, convert sam alignments to bam.
 
 ```bash
 samtools sort -@ 8 -o $RNA_ALIGN_DIR/SRR7155055.bam $RNA_ALIGN_DIR/SRR7155055.sam
@@ -210,11 +210,6 @@ samtools sort -@ 8 -o $RNA_ALIGN_DIR/SRR7155060.bam $RNA_ALIGN_DIR/SRR7155060.sa
 
 ```
 
-To see the size of the sam and bam files, we could use `du -h`, which shows us the disk space they are utilizing in human readable format.
-```bash
-du -h $RNA_ALIGN_DIR/*.sam
-du -h $RNA_ALIGN_DIR/*.bam
-```
 
 **Q7.)** How else could you obtain summary statistics for each aligned file?
 
@@ -245,6 +240,11 @@ grep "mapped (" *.flagstat.txt
 ls -lh $RNA_ALIGN_DIR/
 ```
 
+To specifically look at the sizes of the sam and bam files, we could use `du -h`, which shows us the disk space they are utilizing in human readable format.
+```bash
+du -h $RNA_ALIGN_DIR/*.sam
+du -h $RNA_ALIGN_DIR/*.bam
+```
 
 In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
 ```bash
