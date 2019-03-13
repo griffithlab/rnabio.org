@@ -66,9 +66,9 @@ Note: when initiating an environment variable, we do not need the $; however, ev
 ```bash
 echo $RNA_ASSIGNMENT
 cd $RNA_ASSIGNMENT
-ln -s ~/CourseData/RNA_data/Integrative_Assignment/reference/
-ln -s ~/CourseData/RNA_data/Integrative_Assignment/raw_reads/top_1mil/ raw_reads
-ln -s ~/CourseData/RNA_data/Integrative_Assignment/adapter
+ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/reference/
+ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/raw_reads/top_1mil/ raw_reads
+ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/adapter
 ```
 
 **Q1.)** How many items are there under the “reference” directory (counting all files in all sub-directories)? What if this reference file was not provided for you - how would you obtain/create a reference genome fasta file. How about the GTF transcripts file from Ensembl?
