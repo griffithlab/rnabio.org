@@ -83,7 +83,7 @@ java -jar $RNA_HOME/student_tools/picard.jar CreateSequenceDictionary R=chr22_wi
 
 # Create a bed file of the location of ribosomal sequences in our reference (first extract from the gtf then convert to bed)
 grep --color=none -i rrna chr22_with_ERCC92.gtf > ref_ribosome.gtf
-$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.35/bin/gff2bed < ref_ribosome.gtf > ref_ribosome.bed
+gff2bed < ref_ribosome.gtf > ref_ribosome.bed
 
 # Create interval list file for the location of ribosomal sequences in our reference
 java -jar $RNA_HOME/student_tools/picard.jar BedToIntervalList I=ref_ribosome.bed O=ref_ribosome.interval_list SD=chr22_with_ERCC92.dict
