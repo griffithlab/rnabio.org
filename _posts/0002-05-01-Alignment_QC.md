@@ -146,7 +146,7 @@ We will now use multiQC to compile a QC report from all the QC tools above
 ```bash
 cd $RNA_ALIGN_DIR
 multiqc ./
-
 ```
 
-
+### PRACTICAL EXERCISE 8
+Assignment: 
