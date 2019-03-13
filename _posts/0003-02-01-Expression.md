@@ -63,6 +63,11 @@ What does the raw output from Stringtie look like? For details on the Stringtie 
 less -S UHR_Rep1/transcripts.gtf
 ```
 
+View transcript records only and improve formatting
+```bash
+grep -v "^#" UHR_Rep1/transcripts.gtf | grep -w "transcript" | column -t | less -S
+```
+
 Limit the view to transcript records and their expression values (FPKM and TPM values)
 
 ```bash
