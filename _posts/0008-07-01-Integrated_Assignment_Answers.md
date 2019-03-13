@@ -143,7 +143,12 @@ flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADA
 
 **Q5.)** What average percentage of reads remain after adapter trimming? Why do reads get tossed out?
 
-**A5.)** Around 99% of reads still survive after adapter trimming. The reads that get tossed are due to being too short after trimming. They fall below our threshold of minimum read length of 25.
+**A5.)** At this point, we could look in the log files individually. Alternatively, we could utilize the command line with a command like the one below.
+
+```bash
+tail -n 15 $RNA_ASSIGNMENT/trimmed_reads/*.log
+```
+Doing this, we find that around 99% of reads still survive after adapter trimming. The reads that get tossed are due to being too short after trimming. They fall below our threshold of minimum read length of 25.
 
 **Q6.)** What sample has the largest number of reads after trimming?
 
@@ -192,9 +197,10 @@ hisat2 -p 8 --rg-id=Control2 --rg SM:Control --rg LB:Control2_sub --rg PL:ILLUMI
 hisat2 -p 8 --rg-id=Control3 --rg SM:Control --rg LB:Control3_sub --rg PL:ILLUMINA -x $RNA_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_ASSIGNMENT/trimmed_reads/SRR7155060_1.fastq.gz -2 $RNA_ASSIGNMENT/trimmed_reads/SRR7155060_2.fastq.gz -S $RNA_ALIGN_DIR/SRR7155060.sam
 
 ```
-```bash
-#convert sam alignments to bam..how much space did you save by performing this conversion?
 
+Next, convert sam alignments to bam. How much space did you save by performing this conversion?
+
+```bash
 samtools sort -@ 8 -o $RNA_ALIGN_DIR/SRR7155055.bam $RNA_ALIGN_DIR/SRR7155055.sam
 samtools sort -@ 8 -o $RNA_ALIGN_DIR/SRR7155056.bam $RNA_ALIGN_DIR/SRR7155056.sam 
 samtools sort -@ 8 -o $RNA_ALIGN_DIR/SRR7155057.bam $RNA_ALIGN_DIR/SRR7155057.sam 
