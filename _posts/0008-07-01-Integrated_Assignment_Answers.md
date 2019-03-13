@@ -32,7 +32,7 @@ Experimental information and other things to keep in mind:
   - SRR7155059 = control sample 2
   - SRR7155060 = control sample 3
 
-##PART 0 : Obtaining Data and References
+## PART 0 : Obtaining Data and References
 
 **Goals:**
 
@@ -250,8 +250,14 @@ In order to make visualization easier, we're going to merge each of our bams int
 ```bash
 #merge the bams for visulization purposes
 cd $RNA_ALIGN_DIR
-java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment/picard.jar MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
+java -Xmx2g -jar /usr/local/picard/picard.jar MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
 java -Xmx2g -jar /usr/local/picard/picard.jar MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
+```
+
+To visualize these merged bam files in IGV, we'll need to index them. We can do so with the following commands.
+```bash
+samtools index $RNA_ALIGN_DIR/control.bam
+samtools index $RNA_ALIGN_DIR/transfected.bam
 ```
 
 Try viewing genes such as TP53 to get a sense of how the data is aligned. To do this:
@@ -271,7 +277,7 @@ Right-click in the middle of the page, and click on "Expanded" to view the reads
 
 **A10.)** The lines show a connected read, where one part of the read begins mapping to one exon, while the other part maps to the next exon. This is important in RNA-Sequencing alignment as aligners must be aware to take this partial alignment strategy into account.
 
-##PART 3: Expression Estimation
+## PART 3: Expression Estimation
 
 **Goals:**
 
