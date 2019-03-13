@@ -33,27 +33,35 @@ So to summarize we have:
 
 Each data set has a corresponding pair of FastQ files (read 1 and read 2 of paired end reads).
 The reads are paired-end 101-mers generated on an Illumina HiSeq instrument. The test data has been pre-filtered for reads that appear to map to chromosome 22. Lets copy the raw input data to our tutorial working directory.
+
 ```bash
-    echo $RNA_DATA_DIR
-    mkdir -p $RNA_DATA_DIR
-    cd $RNA_DATA_DIR
-    wget http://genomedata.org/rnaseq-tutorial/HBR_UHR_ERCC_ds_5pc.tar
+echo $RNA_DATA_DIR
+mkdir -p $RNA_DATA_DIR
+cd $RNA_DATA_DIR
+wget http://genomedata.org/rnaseq-tutorial/HBR_UHR_ERCC_ds_5pc.tar
 ```
+
 Unpack the test data. You should see 6 sets of paired end fastq files. One for each of our sample replicates above. We have 6 pairs (12 files) because in fastq format, read 1 and read 2 of a each read pair (fragment) are stored in separate files.
+
 ```bash
-    tar -xvf HBR_UHR_ERCC_ds_5pc.tar
-    ls
+tar -xvf HBR_UHR_ERCC_ds_5pc.tar
+ls
 ```
+
 Enter the data directory and view the first two read records of a file (in fastq format each read corresponds to 4 lines of data)
+
 ```bash
-    zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | head -n 8
+zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | head -n 8
 ```
+
 Identify the following components of each read: read name, read sequence, and quality string
 
 How many reads are there in the first library? Decompress file on the fly with 'zcat', pipe into 'grep', search for the read name prefix and pipe into 'wc' to do a word count ('-l' gives lines)
+
 ```bash
-    zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | grep -P "^\@HWI" | wc -l
+zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | grep -P "^\@HWI" | wc -l
 ```
+
 ***
 
 ### PRACTICAL EXERCISE 3
