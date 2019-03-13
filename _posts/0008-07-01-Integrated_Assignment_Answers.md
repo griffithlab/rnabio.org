@@ -78,8 +78,8 @@ ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/adapter
 ```bash
 cd $RNA_ASSIGNMENT/reference/
 tree
-find *
-find * | wc -l
+find . -type f #the . tells the find command to look in the current directory and -type f restricts the search to files only
+find . -type f | wc -l # the | uses the output from the find command and wc -l counts the lines of that output
 ```
 
 **Q2.)** How many exons does the gene SOX4 have? How about the longest isoform of PCA3?
@@ -87,9 +87,8 @@ find * | wc -l
 **A2.)** SOX4 only has 1 exon, while the longest isoform of PCA3 has 7 exons. Review the GTF file so that you are familiar with it. What downstream steps will we need this gtf file for?
 
 ```bash
-cd $RNA_ASSIGNMENT/reference/gtf
-grep -w "SOX4" Homo_sapiens.GRCh38.86.chr9.gtf
-grep -w "PCA3" Homo_sapiens.GRCh38.86.chr9.gtf | grep "exon_number"
+grep -w "SOX4" Homo_sapiens.GRCh38.92.gtf
+grep -w "PCA3" Homo_sapiens.GRCh38.92.gtf | grep "exon_number" | cut -f9 | awk '{split($0,a,";"); print a[5]}' | sort -r | head
 ```
 
 **Q3.)** How many samples do you see under the data directory?
@@ -99,7 +98,7 @@ grep -w "PCA3" Homo_sapiens.GRCh38.86.chr9.gtf | grep "exon_number"
 ```bash
 cd $RNA_ASSIGNMENT/raw_reads/
 ls -l
-ls -1 | wc -l
+ls -l | wc -l
 ```
 
 NOTE: The fastq files you have copied above contain only the first 1000000 reads. Keep this in mind when you are combing through the results of the differential expression analysis.
@@ -138,7 +137,7 @@ flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RRNA_ILL_AD
 
 **Q5.)** What average percentage of reads remain after adapter trimming? Why do reads get tossed out?
 
-**A5.)** Around 99% of reads still survive after adapter trimming. The reads that get tossed are due to being too short after trimming (they fall below our threshold of minimum read length of 25.
+**A5.)** Around 99% of reads still survive after adapter trimming. The reads that get tossed are due to being too short after trimming. They fall below our threshold of minimum read length of 25.
 
 **Q6.)** What sample has the largest number of reads after trimming?
 
