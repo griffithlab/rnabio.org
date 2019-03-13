@@ -17,29 +17,34 @@ Log into a server and SET THIS BEFORE RUNNING EVERYTHING.
 
 Create a working directory and set the 'RNA_HOME' environment variable
 ```bash
-    mkdir -p ~/workspace/rnaseq/
+mkdir -p ~/workspace/rnaseq/
 
-    export RNA_HOME=~/workspace/rnaseq
+export RNA_HOME=~/workspace/rnaseq
 ```
 Make sure whatever the working dir is, that it is set and is valid
 ```bash
-    echo $RNA_HOME
+echo $RNA_HOME
 ```
 You can place the RNA_HOME variable (and other environment variables) in your .bashrc and then logout and login again to avoid having to worry about it. This has been done for you in the pre-configured amazon instance that you will be using.
 
 Environment variables used throughout this tutorial:
 ```bash
-    export RNA_HOME=~/workspace/rnaseq
-    export RNA_DATA_DIR=$RNA_HOME/data
-    export RNA_DATA_TRIM_DIR=$RNA_DATA_DIR/trimmed
-    export RNA_REFS_DIR=$RNA_HOME/refs
-    export RNA_REF_INDEX=$RNA_REFS_DIR/chr22_with_ERCC92
-    export RNA_REF_FASTA=$RNA_REF_INDEX.fa
-    export RNA_REF_GTF=$RNA_REF_INDEX.gtf
-    export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
+export RNA_HOME=~/workspace/rnaseq
+export RNA_DATA_DIR=$RNA_HOME/data
+export RNA_DATA_TRIM_DIR=$RNA_DATA_DIR/trimmed
+export RNA_REFS_DIR=$RNA_HOME/refs
+export RNA_REF_INDEX=$RNA_REFS_DIR/chr22_with_ERCC92
+export RNA_REF_FASTA=$RNA_REF_INDEX.fa
+export RNA_REF_GTF=$RNA_REF_INDEX.gtf
+export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
+```
+
+In order to use fastqc on these instances, we need to change a java variable. We can do this by running the following command.
+```bash
+export _JAVA_OPTIONS=-Djavax.accessibility.assistive_technologies=
 ```
 Since all the environment variables we set up for the RNA-seq workshop start with 'RNA' we can easily view them all by combined use of the `env` and `grep` commands as shown below. The `env` command shows all environment variables currently defined and the `grep` command identifies string matches.
 
 ```bash
-    env | grep RNA
+env | grep RNA
 ```
