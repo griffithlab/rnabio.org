@@ -16,11 +16,13 @@ date: 0002-04-01
 ***
 
 Before we can view our alignments in the IGV browser we need to index our BAM files. We will use samtools index for this purpose. For convenience later, index all bam files.
+
 ```bash
-    echo $RNA_ALIGN_DIR
-    cd $RNA_ALIGN_DIR
-    find *.bam -exec echo samtools index {} \; | sh
+echo $RNA_ALIGN_DIR
+cd $RNA_ALIGN_DIR
+find *.bam -exec echo samtools index {} \; | sh
 ```
+
 ### Visualize alignments
 Start IGV on your laptop. Load the UHR.bam & HBR.bam files in IGV. You can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'. You may wish to customize the track names as you load them in to keep them straight. Do this by right-clicking on the alignment track and choosing 'Rename Track'.
 
@@ -49,19 +51,23 @@ Try to find a variant position in the RNAseq data:
 
 ### BAM Read Counting
 Using one of the variant positions identified above, count the number of supporting reference and variant reads. First, use `samtools mpileup` to visualize a region of alignment with a variant.
+
 ```bash
-    cd $RNA_HOME
-    mkdir bam_readcount
-    cd bam_readcount
+cd $RNA_HOME
+mkdir bam_readcount
+cd bam_readcount
 ```
+
 Create faidx indexed reference sequence file for use with mpileup
+
 ```bash
-    echo $RNA_REF_FASTA
-    samtools faidx $RNA_REF_FASTA
+echo $RNA_REF_FASTA
+samtools faidx $RNA_REF_FASTA
 ```
+
 Run `samtools mpileup` on a region of interest
 ```bash
-    samtools mpileup -f $RNA_REF_FASTA -r 22:18918457-18918467 $RNA_ALIGN_DIR/UHR.bam $RNA_ALIGN_DIR/HBR.bam
+samtools mpileup -f $RNA_REF_FASTA -r 22:18918457-18918467 $RNA_ALIGN_DIR/UHR.bam $RNA_ALIGN_DIR/HBR.bam
 ```
 Each line consists of chromosome, 1-based coordinate, reference base, the number of reads covering the site, read bases and base qualities. At the read base column, a dot stands for a match to the reference base on the forward strand, a comma for a match on the reverse strand, `ACGTN` for a mismatch on the forward strand and `acgtn` for a mismatch on the reverse strand. A pattern `\+[0-9]+[ACGTNacgtn]+` indicates there is an insertion between this reference position and the next reference position. The length of the insertion is given by the integer in the pattern, followed by the inserted sequence. See samtools pileup/mpileup documentation for more explanation of the output:
 
@@ -76,25 +82,31 @@ It will contain a single line specifying a variant position on chr22 e.g.:
 22	38483683	38483683
 
 Create the bed file
+
 ```bash
-    echo "22 38483683 38483683"
-    echo "22 38483683 38483683" > snvs.bed
+echo "22 38483683 38483683"
+echo "22 38483683 38483683" > snvs.bed
 ```
+
 Run `bam-readcount` on this list for the tumor and normal merged bam files
+
 ```bash
-    bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/UHR.bam 2>/dev/null
-    bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/HBR.bam 2>/dev/null
+bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/UHR.bam 2>/dev/null
+bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/HBR.bam 2>/dev/null
 ```
+
 Now, run it again, but ignore stderr and redirect stdout to a file:
 ```bash
     bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/UHR.bam 2>/dev/null 1>UHR_bam-readcounts.txt
     bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/HBR.bam 2>/dev/null 1>HBR_bam-readcounts.txt
 ```
+
 From this output you could parse the read counts for each base
 ```bash
-    cat UHR_bam-readcounts.txt | perl -ne '@data=split("\t", $_); @Adata=split(":", $data[5]); @Cdata=split(":", $data[6]); @Gdata=split(":", $data[7]); @Tdata=split(":", $data[8]); print "UHR Counts\t$data[0]\t$data[1]\tA: $Adata[1]\tC: $Cdata[1]\tT: $Tdata[1]\tG: $Gdata[1]\n";'
-    cat HBR_bam-readcounts.txt | perl -ne '@data=split("\t", $_); @Adata=split(":", $data[5]); @Cdata=split(":", $data[6]); @Gdata=split(":", $data[7]); @Tdata=split(":", $data[8]); print "HBR Counts\t$data[0]\t$data[1]\tA: $Adata[1]\tC: $Cdata[1]\tT: $Tdata[1]\tG: $Gdata[1]\n";'
+cat UHR_bam-readcounts.txt | perl -ne '@data=split("\t", $_); @Adata=split(":", $data[5]); @Cdata=split(":", $data[6]); @Gdata=split(":", $data[7]); @Tdata=split(":", $data[8]); print "UHR Counts\t$data[0]\t$data[1]\tA: $Adata[1]\tC: $Cdata[1]\tT: $Tdata[1]\tG: $Gdata[1]\n";'
+cat HBR_bam-readcounts.txt | perl -ne '@data=split("\t", $_); @Adata=split(":", $data[5]); @Cdata=split(":", $data[6]); @Gdata=split(":", $data[7]); @Tdata=split(":", $data[8]); print "HBR Counts\t$data[0]\t$data[1]\tA: $Adata[1]\tC: $Cdata[1]\tT: $Tdata[1]\tG: $Gdata[1]\n";'
 ```
+
 ***
 
 ### PRACTICAL EXERCISE 7
