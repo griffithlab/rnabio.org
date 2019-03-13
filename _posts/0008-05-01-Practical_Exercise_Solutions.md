@@ -147,7 +147,6 @@ Compare these files using FastQC:
 <a id="Practical Excercise 6"></a>
 Perform alignments:
 
-    export RNA_HOME=~/workspace/rnaseq
     export RNA_PRACTICE_DATA_DIR=$RNA_HOME/practice/data
     cd $RNA_HOME/practice/
 
