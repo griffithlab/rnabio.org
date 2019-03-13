@@ -79,6 +79,15 @@ cd $RNA_HOME/data/fastp/UHR_Rep3
 
 ***
 
+### MultiQC
+
+Run MultiQC on your fastqc reports to generate a single summary report across all samples/replicates.
+
+```bash
+cd $RNA_HOME/data
+multiqc .
+```
+
 ### PRACTICAL EXERCISE 4
 Assignment: Run FASTQC on one of the additional fastq files you downloaded in the previous practical exercise.
 
@@ -97,12 +106,4 @@ Solution: When you are ready you can check your approach against the [Solutions]
 
 ***
 
-### MultiQC
-
-Run MultiQC on your fastqc reports to generate a single summary report across all samples/replicates.
-
-```bash
-cd $RNA_HOME/data
-multiqc .
-```
 
