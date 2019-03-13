@@ -172,8 +172,8 @@ Sort and convert SAM to BAM:
 
 Merge HISAT2 BAM files
 
-    java -Xmx2g -jar $RNA_HOME/tools/picard.jar MergeSamFiles OUTPUT=HCC1395_normal.bam INPUT=HCC1395_normal_rep1.bam INPUT=HCC1395_normal_rep2.bam INPUT=HCC1395_normal_rep3.bam
-    java -Xmx2g -jar $RNA_HOME/tools/picard.jar MergeSamFiles OUTPUT=HCC1395_tumor.bam INPUT=HCC1395_tumor_rep1.bam INPUT=HCC1395_tumor_rep2.bam INPUT=HCC1395_tumor_rep3.bam
+    java -Xmx2g -jar $RNA_HOME/student_tools/picard.jar MergeSamFiles OUTPUT=HCC1395_normal.bam INPUT=HCC1395_normal_rep1.bam INPUT=HCC1395_normal_rep2.bam INPUT=HCC1395_normal_rep3.bam
+    java -Xmx2g -jar $RNA_HOME/student_tools/picard.jar MergeSamFiles OUTPUT=HCC1395_tumor.bam INPUT=HCC1395_tumor_rep1.bam INPUT=HCC1395_tumor_rep2.bam INPUT=HCC1395_tumor_rep3.bam
 
 **Answers**
 
