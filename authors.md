@@ -103,3 +103,16 @@ Zachary Skidmore is a staff scientist at the McDonell Genome Institute at Washin
 
 ***
 
+### Chris A. Miller
+<nav class="nav  nav--social">
+{% for link in site.contact_chris %}
+    {% assign id = link[0] | downcase %}
+    {% capture refer %}{{link[1]}}{% endcapture %}
+<a class="link" target="_blank" href="{{refer}}" title="{{link[0]}}">{% include icon.html id=id %}</a>
+{% endfor %}
+</nav>
+{% include figure.html image="/assets/Authors/ChrisMiller.png" position="right" class="rounded-circle" width="300" %}
+Chris Miller is an Assistant Professor in the Division of Oncology and a member of the McDonnell Genome Institute. His focus is on developing and applying computational tools to provide insight into the origins and progression of cancer. Dr. Miller received Bachelor degrees in Biology and Computer Science from Truman State University. He received his PhD in Computational Biology from Baylor College of Medicine. His core research interests include understanding the clonal architecture of tumors and how they evolve in response to therapy, with a special focus on hematologic cancers. His research also focuses on effective designing and targeting of cancer immunotherapies, developing open-source software for interpreting and visualizing genomic data, and integrative analysis that translates multi-dimensional genomic data into both functional and actionable contexts.
+
+***
+
