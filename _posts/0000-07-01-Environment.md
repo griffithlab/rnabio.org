@@ -43,6 +43,13 @@ In order to use fastqc on these instances, we need to change a java variable. We
 ```bash
 export _JAVA_OPTIONS=-Djavax.accessibility.assistive_technologies=
 ```
+
+If these variables are not part of your .bashrc, you can type the following. First, you can open your .bashrc file with nano by simply typing:
+```bash
+nano .bashrc
+```
+You can now see the contents of this file. Now, you want to add the above environment variables to the bottom of the file. You can do this my copying and pasting. Once you have the variables in the file, you'll want to type `ctrl + o` to save the file, then `enter` to confirm you want the same filename, then `ctrl + x` to exit nano.
+
 Since all the environment variables we set up for the RNA-seq workshop start with 'RNA' we can easily view them all by combined use of the `env` and `grep` commands as shown below. The `env` command shows all environment variables currently defined and the `grep` command identifies string matches.
 
 ```bash
