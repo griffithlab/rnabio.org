@@ -78,8 +78,10 @@ ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/adapter
 ```bash
 cd $RNA_ASSIGNMENT/reference/
 tree
-find . -type f #the . tells the find command to look in the current directory and -type f restricts the search to files only
-find . -type f | wc -l # the | uses the output from the find command and wc -l counts the lines of that output
+find . -type f
+#the . tells the find command to look in the current directory and -type f restricts the search to files only
+find . -type f | wc -l
+#the | uses the output from the find command and wc -l counts the lines of that output
 ```
 
 **Q2.)** How many exons does the gene SOX4 have? How about the longest isoform of PCA3?
