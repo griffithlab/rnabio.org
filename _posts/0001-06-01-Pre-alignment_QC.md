@@ -15,6 +15,8 @@ date: 0001-06-01
 
 ***
 
+## FastQC
+
 You can use `FastQC` to get a sense of your data quality before alignment:
 
 * [http://www.bioinformatics.babraham.ac.uk/projects/fastqc/](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
@@ -43,7 +45,9 @@ Investigate the source/explanation for over-represented sequences:
 
 ***
 
-`Fastp` is a similar alternative tool. Results for this tool can be produced as follows
+## Fastp
+
+`Fastp` is a similar alternative tool. QC results for this tool can be produced as follows
 
 ```bash
 cd $RNA_HOME/data
@@ -92,6 +96,8 @@ Run FASTQC on the file 'hcc1395_normal_1.fastq.gz' and answer these questions by
 Solution: When you are ready you can check your approach against the [Solutions](/module-08-appendix/0008/05/01/Practical_Exercise_Solutions/#practical-exercise-4---data-qc).
 
 ***
+
+### MultiQC
 
 Run MultiQC on your fastqc reports to generate a single summary report across all samples/replicates.
 
