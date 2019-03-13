@@ -9,6 +9,11 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0004-02-01
 ---
 
+### Kallisto mini lecture
+
+If you would like a refresher on Kallisto, we have made a [mini lecture](/assets/lectures/cbw-cshl/2019/mini/RNASeq_MiniLecture_10_01_AlignmentFreeKallisto.pdf) briefly covering the topic.
+We have also made a [mini lecture](/assets/lectures/cbw-cshl/2019/RNASeq_MiniLecture_07_Alignment_vs_Assembly_vs_Kmer.pdf) describing the differences between alignment, assembly, and pseudoalignment.
+
 ***
 
 For more information on Kallisto, refer to the [Kallisto project page](https://pachterlab.github.io/kallisto/about.html) and [Kallisto manual page](https://pachterlab.github.io/kallisto/about.html).

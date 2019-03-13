@@ -15,6 +15,9 @@ date: 0002-05-01
 
 ***
 
+### Alignment QC mini lecture
+If you would like a refresher on alignment QC, we have made a [mini lecture](/assets/lectures/cbw-cshl/2019/RNASeq_MiniLecture_08_04_alignmentQC.pdf) briefly covering the topic.
+
 ### Use samtools and FastQC to evaluate the alignments
 Use `samtools view` to see the format of a SAM/BAM alignment file
 
