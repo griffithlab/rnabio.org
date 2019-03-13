@@ -14,10 +14,8 @@ date: 0004-02-01
 <<<<<<< HEAD
 If you would like a refresher on Kallisto, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/tree/master/assets/lectures/cbw-cshl/2019/mini/RNASeq_MiniLecture_10_01_AlignmentFreeKallisto.pdf) briefly covering the topic.
 We have also made a [mini lecture](https://github.com/griffithlab/rnabio.org/tree/master/assets/lectures/cbw-cshl/2019/RNASeq_MiniLecture_08_02_Alignment_vs_Assembly_vs_Kmer.pdf) describing the differences between alignment, assembly, and pseudoalignment.
-=======
 If you would like a refresher on Kallisto, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw-cshl/2019/mini/RNASeq_MiniLecture_10_01_AlignmentFreeKallisto.pdf) briefly covering the topic.
 We have also made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw-cshl/2019/RNASeq_MiniLecture_07_Alignment_vs_Assembly_vs_Kmer.pdf) describing the differences between alignment, assembly, and pseudoalignment.
->>>>>>> 5e38e5f504eb0bc5dbd42cef952c02a021b542ea
 
 ***
 
