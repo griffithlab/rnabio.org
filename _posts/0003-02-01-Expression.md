@@ -79,9 +79,9 @@ Press 'q' to exit the 'less' display
 Gene and transcript level expression values can also be viewed in these two files:
 
 ```bash
-less -S UHR_Rep1/t_data.ctab
+column -t UHR_Rep1/t_data.ctab | less -S
 
-less -S UHR_Rep1/gene_abundances.tsv
+column -t UHR_Rep1/gene_abundances.tsv | less -S
 ```
 
 Create a tidy expression matrix files for the StringTie results. This will be done at both the gene and transcript level and also will take into account the various expression measures produced: coverage, FPKM, and TPM.
