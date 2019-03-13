@@ -117,6 +117,7 @@ NOTE: The fastq files you have copied above contain only the first 1000000 reads
 Now create a new folder that will house the outputs from FastQC. Use the `-h` option to view the potential output on the data to determine the quality of the data.
 
 ```bash
+cd $RNA_ASSIGNMENT
 mkdir raw_fastqc
 fastqc $RNA_DATA_DIR/* -o raw_fastqc/
 ```
