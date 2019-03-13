@@ -365,7 +365,7 @@ NOTE: If you are worried your .bashrc is messed up you can redownload as follows
 
 ```bash
 cd ~
-wget -N https://raw.githubusercontent.com/griffithlab/rnaseq_tutorial/master/setup/.bashrc
+wget -N https://raw.githubusercontent.com/griffithlab/rnabio.org/master/assets/setup/.bashrc
 source ~/.bashrc
 ```
 
