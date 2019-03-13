@@ -316,9 +316,9 @@ Since the paths above will download BAM files but Kallisto expects FASTQ files f
 
 Example BAM to FASTQ conversion commands (note that you need to specify the correct path for your Picard installation), followed by compressing the resulting FastQ files to save space:
 ```bash
-    java -Xmx2g -jar /home/ubuntu/workspace/rnaseq/tools/picard.jar SamToFastq INPUT=gerald_C1TD1ACXX_8_ACAGTG.bam FASTQ=hcc1395_tumor_R1.fastq SECOND_END_FASTQ=hcc1395_tumor_R2.fastq VALIDATION_STRINGENCY=LENIENT
+    java -Xmx2g -jar /home/ubuntu/workspace/rnaseq/student_tools/picard.jar SamToFastq INPUT=gerald_C1TD1ACXX_8_ACAGTG.bam FASTQ=hcc1395_tumor_R1.fastq SECOND_END_FASTQ=hcc1395_tumor_R2.fastq VALIDATION_STRINGENCY=LENIENT
     gzip hcc1395_tumor*.fastq
-    java -Xmx2g -jar /home/ubuntu/workspace/rnaseq/tools/picard.jar SamToFastq INPUT=gerald_C2DBEACXX_3.bam FASTQ=hcc1395_normal_R1.fastq SECOND_END_FASTQ=hcc1395_normal_R2.fastq VALIDATION_STRINGENCY=LENIENT
+    java -Xmx2g -jar /home/ubuntu/workspace/rnaseq/student_tools/picard.jar SamToFastq INPUT=gerald_C2DBEACXX_3.bam FASTQ=hcc1395_normal_R1.fastq SECOND_END_FASTQ=hcc1395_normal_R2.fastq VALIDATION_STRINGENCY=LENIENT
     gzip hcc1395_normal*.fastq
 ```
 **Download full transcriptome reference**
