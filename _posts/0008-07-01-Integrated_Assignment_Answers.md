@@ -148,19 +148,20 @@ flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_ILL_ADA
 **Q6.)** What sample has the largest number of reads after trimming?
 
 **A6.)** The control sample 2 (SRR7155059) has the most reads (1999678/2 =  reads).
-An easy way to figure out the number of reads is to check the output log file from the trimming output. Looking at the "remaining reads" row, we see the reads (each read in a pair counted individually) that survive the trimming. Alternatively, you can make use of the command ‘wc’. This command counts the number of lines in a file. Since fastq files have 4 lines per read, the total number of lines must be divided by 4.
+An easy way to figure out the number of reads is to check the output log file from the trimming output. Looking at the "remaining reads" row, we see the reads (each read in a pair counted individually) that survive the trimming. We can also look at this from the command line. 
 
 ```bash
-zcat $RNA_ASSIGNMENT/trimmed_reads/SRR7155059_1.fastq.gz | head -n 4
-@SRR7155059.1 1 length=150
-CAGGCAGTGGTCGCGACTTCCCCGAGGGCTGCAGCTTCCTCCGGATGGATCCAGGGCGGCTAATGGTCCCAGAGCTGGGGGCTGAGTGGGCCCGTGCCGAGGGCTGTGGCGTCTGACAAGCCGGCTCCCACTACAGA
-+
-JJJJAFFFAF<J-F<JFJJJFJ7FJFFJFJ7<<-FA7FJJ-AJF<JJFJJJF7A<-FJJ7A7-77FJ7-AA7FJJ<-FFJJ-7FAJJJJJAFFJJA77<7A7FAFFJJJF7FJJJ-F<AAAFFJ)<<A<)A)--7A<
-Running this command only give you the total number of lines in the fastq file (Note that because the data is compressed, we need to use zcat to unzip it and print it to the screen, before passing it on to the wc command):
-$RNA_ASSIGNMENT/trimmed_reads/SRR7155059_1.fastq.gz | wc -l
+grep -H 'Remaining reads' $RNA_ASSIGNMENT/trimmed_reads/*.log
 ```
 
-##PART 2: Data alignment
+Alternatively, you can make use of the command ‘wc’. This command counts the number of lines in a file. Since fastq files have 4 lines per read, the total number of lines must be divided by 4. Running this command only give you the total number of lines in the fastq file (Note that because the data is compressed, we need to use zcat to unzip it and print it to the screen, before passing it on to the wc command):
+```bash
+zcat $RNA_ASSIGNMENT/trimmed_reads/SRR7155059_1.fastq.gz | wc -l
+```
+
+We could also run `multiqc` and visualize the remaining reads that way.
+
+## PART 2: Data alignment
 
 **Goals:**
 
