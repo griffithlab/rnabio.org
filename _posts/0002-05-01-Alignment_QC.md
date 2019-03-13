@@ -79,14 +79,14 @@ You can use Picard to generate RNA-seq specific quality metrics and figures
 cd $RNA_HOME/refs
 
 # Create a .dict file for our reference
-java -jar $RNA_HOME/tools/picard.jar CreateSequenceDictionary R=chr22_with_ERCC92.fa O=chr22_with_ERCC92.dict
+java -jar $RNA_HOME/student_tools/picard.jar CreateSequenceDictionary R=chr22_with_ERCC92.fa O=chr22_with_ERCC92.dict
 
 # Create a bed file of the location of ribosomal sequences in our reference (first extract from the gtf then convert to bed)
 grep --color=none -i rrna chr22_with_ERCC92.gtf > ref_ribosome.gtf
 gff2bed < ref_ribosome.gtf > ref_ribosome.bed
 
 # Create interval list file for the location of ribosomal sequences in our reference
-java -jar $RNA_HOME/tools/picard.jar BedToIntervalList I=ref_ribosome.bed O=ref_ribosome.interval_list SD=chr22_with_ERCC92.dict
+java -jar $RNA_HOME/student_tools/picard.jar BedToIntervalList I=ref_ribosome.bed O=ref_ribosome.interval_list SD=chr22_with_ERCC92.dict
 
 # Create a genePred file for our reference transcriptome
 gtfToGenePred -genePredExt chr22_with_ERCC92.gtf chr22_with_ERCC92.ref_flat.txt
@@ -97,7 +97,7 @@ mv tmp.txt chr22_with_ERCC92.ref_flat.txt
 
 cd $RNA_HOME/alignments/hisat2/
 mkdir picard
-find *Rep*.bam -exec echo java -jar $RNA_HOME/tools/picard.jar CollectRnaSeqMetrics I={} O=picard/{}.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list \; | sh
+find *Rep*.bam -exec echo java -jar $RNA_HOME/student_tools/picard.jar CollectRnaSeqMetrics I={} O=picard/{}.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list \; | sh
 ```
 
 ### RSeQC [optional]
