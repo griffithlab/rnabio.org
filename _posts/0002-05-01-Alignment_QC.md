@@ -36,7 +36,7 @@ Try filtering the BAM file to require or exclude certain flags. This can be done
 Try requiring that alignments are 'paired' and 'mapped in a proper pair' (=3). Also filter out alignments that are 'unmapped', the 'mate is unmapped', and 'not primary alignment' (=268)
 
 ```bash
-samtools view -f 3 -F 268 UHR.bam | head
+samtools view -f 3 -F 268 UHR.bam | head | column -t | less -S
 ```
 
 Now require that the alignments be only for 'PCR or optical duplicate'. How many reads meet this criteria? Why?
