@@ -13,11 +13,13 @@ date: 0002-03-01
 Perform alignments with HISAT2 to the genome and transcriptome.
 
 First, begin by making the appropriate output directory for our alignment results.
+
 ```bash
-    echo $RNA_ALIGN_DIR
-    mkdir -p $RNA_ALIGN_DIR
-    cd $RNA_ALIGN_DIR
+echo $RNA_ALIGN_DIR
+mkdir -p $RNA_ALIGN_DIR
+cd $RNA_ALIGN_DIR
 ```
+
 HISAT2 uses a graph-based alignment and has succeeded HISAT and TOPHAT2. The output of this step will be a SAM/BAM file for each data set.
 
 Refer to HISAT2 manual for a more detailed explanation:
@@ -25,9 +27,11 @@ Refer to HISAT2 manual for a more detailed explanation:
 * [https://ccb.jhu.edu/software/hisat2/manual.shtml](https://ccb.jhu.edu/software/hisat2/manual.shtml)
 
 HISAT2 basic usage:
+
 ```bash
-    #hisat2 [options]* -x <ht2-idx> {-1 <m1> -2 <m2> | -U <r> | --sra-acc <SRA accession number>} [-S <sam>]
+#hisat2 [options]* -x <ht2-idx> {-1 <m1> -2 <m2> | -U <r> | --sra-acc <SRA accession number>} [-S <sam>]
 ```
+
 Extra options specified below:
 
 * '-p 8' tells HISAT2 to use eight CPUs for bowtie alignments.
@@ -61,24 +65,27 @@ HISAT2 generates a summary of the alignments printed to the terminal. Notice the
 **SAM to BAM Conversion**
 Convert HISAT2 sam files to bam files and sort by aligned position
 ```bash
-    samtools sort -@ 8 -o UHR_Rep1.bam UHR_Rep1.sam
-    samtools sort -@ 8 -o UHR_Rep2.bam UHR_Rep2.sam
-    samtools sort -@ 8 -o UHR_Rep3.bam UHR_Rep3.sam
-    samtools sort -@ 8 -o HBR_Rep1.bam HBR_Rep1.sam
-    samtools sort -@ 8 -o HBR_Rep2.bam HBR_Rep2.sam
-    samtools sort -@ 8 -o HBR_Rep3.bam HBR_Rep3.sam
+samtools sort -@ 8 -o UHR_Rep1.bam UHR_Rep1.sam
+samtools sort -@ 8 -o UHR_Rep2.bam UHR_Rep2.sam
+samtools sort -@ 8 -o UHR_Rep3.bam UHR_Rep3.sam
+samtools sort -@ 8 -o HBR_Rep1.bam HBR_Rep1.sam
+samtools sort -@ 8 -o HBR_Rep2.bam HBR_Rep2.sam
+samtools sort -@ 8 -o HBR_Rep3.bam HBR_Rep3.sam
 ```
 ### Merge HISAT2 BAM files
 Make a single BAM file combining all UHR data and another for all HBR data. Note: This could be done in several ways such as 'samtools merge', 'bamtools merge', or using picard-tools (see below). We chose the third method because it did the best job at merging the bam header information. NOTE: sambamba also retains header info.
+
 ```bash
-    cd $RNA_HOME/alignments/hisat2
-    java -Xmx2g -jar $RNA_HOME/tools/picard.jar MergeSamFiles OUTPUT=UHR.bam INPUT=UHR_Rep1.bam INPUT=UHR_Rep2.bam INPUT=UHR_Rep3.bam
-    java -Xmx2g -jar $RNA_HOME/tools/picard.jar MergeSamFiles OUTPUT=HBR.bam INPUT=HBR_Rep1.bam INPUT=HBR_Rep2.bam INPUT=HBR_Rep3.bam
+cd $RNA_HOME/alignments/hisat2
+java -Xmx2g -jar $RNA_HOME/tools/picard.jar MergeSamFiles OUTPUT=UHR.bam INPUT=UHR_Rep1.bam INPUT=UHR_Rep2.bam INPUT=UHR_Rep3.bam
+java -Xmx2g -jar $RNA_HOME/tools/picard.jar MergeSamFiles OUTPUT=HBR.bam INPUT=HBR_Rep1.bam INPUT=HBR_Rep2.bam INPUT=HBR_Rep3.bam
 ```
+
 Count the alignment (BAM) files to make sure all were created successfully (you should have 8 total)
+
 ```bash
-    ls -l *.bam | wc -l
-    ls -l *.bam
+ls -l *.bam | wc -l
+ls -l *.bam
 ```
 ***
 
