@@ -117,6 +117,7 @@ cd $RNA_HOME/expression/kallisto
 wget https://raw.githubusercontent.com/griffithlab/rnabio.org/master/assets/scripts/kallisto_gene_matrix.pl
 chmod +x kallisto_gene_matrix.pl
 ./kallisto_gene_matrix.pl --gtf_file=$RNA_HOME/refs/chr22_with_ERCC92.gtf  --kallisto_transcript_matrix_in=transcript_tpms_all_samples.tsv --kallisto_transcript_matrix_out=gene_tpms_all_samples.tsv
+column -t gene_tpms_all_samples.tsv | less -S
 ```
 
 Now load files and summarize results from each approach in R
