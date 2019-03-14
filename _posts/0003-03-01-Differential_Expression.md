@@ -181,8 +181,12 @@ head ENSG_ID2Name.txt
 
 Determine the number of unique Ensembl Gene IDs and symbols. What does this tell you?
 ```bash
-cut -f 1 ENSG_ID2Name.txt | sort | uniq | wc
-cut -f 2 ENSG_ID2Name.txt | sort | uniq | wc
+#count unique gene ids
+cut -f 1 ENSG_ID2Name.txt | sort | uniq | wc -l
+#count unique gene names
+cut -f 2 ENSG_ID2Name.txt | sort | uniq | wc -l
+
+#show the most repeated gene names
 cut -f 2 ENSG_ID2Name.txt | sort | uniq -c | sort -r | head
 ```
 
