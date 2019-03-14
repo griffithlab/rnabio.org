@@ -24,6 +24,7 @@ head stringtie_merged.gtf
 For details on the format of these files, refer to the following links:
 
 * [https://ccb.jhu.edu/software/stringtie/gff.shtml#gffcompare](https://ccb.jhu.edu/software/stringtie/gff.shtml#gffcompare)
+* [https://ccb.jhu.edu/software/stringtie/gffcompare.shtml#output-files](https://ccb.jhu.edu/software/stringtie/gffcompare.shtml#output-files)
 * [http://cole-trapnell-lab.github.io/cufflinks/cuffmerge/index.html](http://cole-trapnell-lab.github.io/cufflinks/cuffmerge/index.html)
 * [http://cole-trapnell-lab.github.io/cufflinks/cuffcompare/index.html#transfrag-class-codes](http://cole-trapnell-lab.github.io/cufflinks/cuffcompare/index.html#transfrag-class-codes)
 
