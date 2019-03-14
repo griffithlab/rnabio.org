@@ -129,8 +129,8 @@ grep -v feature UHR_vs_HBR_gene_results_sig.tsv | wc -l
 Display the top 20 DE genes. Look at some of those genes in IGV - do they make sense?
 
 ```bash
-grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -rnk 3 | head -n 20 #Higher abundance in UHR
-grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -nk 3 | head -n 20 #Higher abundance in HBR
+grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -rnk 3 | head -n 20 | column -t #Higher abundance in UHR
+grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -nk 3 | head -n 20 | column -t #Higher abundance in HBR
 ```
 
 Save all genes with P<0.05 to a new file.
