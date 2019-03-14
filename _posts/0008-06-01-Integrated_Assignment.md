@@ -46,26 +46,26 @@ Create a working directory ~/workspace/rnaseq/integrated_assignment/ to store th
 export RNA_HOME=~/workspace/rnaseq
 cd $RNA_HOME
 mkdir -p ~/workspace/rnaseq/integrated_assignment/
-export RNA_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment/
+export RNA_INT_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment/
 ```
 You will also need the following environment variables througout the assignment:
 
 ```bash
-export RNA_DATA_DIR=$RNA_ASSIGNMENT/raw_reads
-export RNA_REFS_DIR=$RNA_ASSIGNMENT/reference
-export RNA_ILL_ADAPT=$RNA_ASSIGNMENT/adapter
-export RNA_REF_INDEX=$RNA_REFS_DIR/Homo_sapiens.GRCh38
-export RNA_REF_FASTA=$RNA_REF_INDEX.dna.primary_assembly.fa
-export RNA_REF_GTF=$RNA_REFS_DIR/Homo_sapiens.GRCh38.92.gtf
-export RNA_ALIGN_DIR=$RNA_ASSIGNMENT/hisat2
+export RNA_INT_DATA_DIR=$RNA_ASSIGNMENT/raw_reads
+export RNA_INT_REFS_DIR=$RNA_ASSIGNMENT/reference
+export RNA_INT_ILL_ADAPT=$RNA_ASSIGNMENT/adapter
+export RNA_INT_REF_INDEX=$RNA_REFS_DIR/Homo_sapiens.GRCh38
+export RNA_INT_REF_FASTA=$RNA_REF_INDEX.dna.primary_assembly.fa
+export RNA_INT_REF_GTF=$RNA_REFS_DIR/Homo_sapiens.GRCh38.92.gtf
+export RNA_INT_ALIGN_DIR=$RNA_ASSIGNMENT/hisat2
 ```
 
 Obtain reference, annotation, adapter and data files and place them in the integrated assignment directory
 Note: when initiating an environment variable, we do not need the $; however, everytime we call the variable, it needs to be preceeded by a $.
 
 ```bash
-echo $RNA_ASSIGNMENT
-cd $RNA_ASSIGNMENT
+echo $RNA_INT_ASSIGNMENT
+cd $RNA_INT_ASSIGNMENT
 ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/reference/
 ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/raw_reads/top_1mil/ raw_reads
 ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/adapter
@@ -111,9 +111,9 @@ NOTE: The fastq files you have copied above contain only the first 1000000 reads
 In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
 ```bash
 #merge the bams for visulization purposes
-cd $RNA_ALIGN_DIR
+cd $RNA_INT_ALIGN_DIR
 java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment/picard.jar MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
-java -Xmx2g -jar /usr/local/picard/picard.jar MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
+java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment/picard.jar MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
 ```
 
 Try viewing genes such as TP53 to get a sense of how the data is aligned. To do this:
