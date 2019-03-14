@@ -119,7 +119,7 @@ Now create a new folder that will house the outputs from FastQC. Use the `-h` op
 ```bash
 cd $RNA_INT_ASSIGNMENT
 mkdir raw_fastqc
-fastqc $RNA_DATA_DIR/* -o raw_fastqc/
+fastqc $RNA_INT_DATA_DIR/* -o raw_fastqc/
 multiqc .
 
 ```
