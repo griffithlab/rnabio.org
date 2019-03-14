@@ -111,6 +111,10 @@ dev.off()
 quit(save="no")
 ```
 
+Remember that you can view the output graphs of this step on your instance by navigating to this location in a web browser window:
+
+http://YOUR_IP_ADDRESS/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.pdf
+
 The above code can be found in a single R script located [here](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part2_ballgown.R).
 
 ### SUPPLEMENTARY R ANALYSIS
