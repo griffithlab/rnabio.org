@@ -115,6 +115,12 @@ Solution: When you are ready you can check your approach against the [Solutions]
 
 ***
 
+#### Mini-lecture
+
+For more on the differences between abundance estimates like FPKM and count data with HTSeq-count, see this [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw-cshl/2019/mini/RNASeq_MiniLecture_09_02_HTSEQ.pdf).
+
+***
+
 #### HTSEQ-COUNT
 Run htseq-count on alignments instead to produce raw counts instead of FPKM/TPM values for differential expression analysis
 
