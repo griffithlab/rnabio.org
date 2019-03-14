@@ -296,6 +296,11 @@ Visualize overlap with a venn diagram. This can be done with simple web tools li
 
 To get the two gene lists you could use `cat` to print out each list in your terminal and then copy/paste.
 
+```bash
+cat ballgown_DE_gene_symbols.txt
+htseq_counts_edgeR_DE_gene_symbols.txt
+```
+
 Alternatively you could view both lists in a web browser as you have done with other files. These two files should be here:
 
 * http://**YOUR_IP_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
