@@ -277,7 +277,7 @@ A separate R tutorial file has been provided in the github repo for this part of
 Enter an R session
 
 ```bash
-cd $RNA_HOME/de/sleuth
+cd $RNA_HOME/de/sleuth/results
 R
 ```
 
@@ -329,7 +329,7 @@ dev.off()
 
 ***
 
-### Exercise: Do a performance test using a real large dataset
+### Exercise (OPTIONAL): Do a performance test using a real large dataset
 Obtain an entire lane of RNA-seq data for a breast cancer cell line and matched 'normal' cell line here:
 
 **NOTE: do not attempt this unless you have a lot of free space on your machine (at least 250 GB)**
