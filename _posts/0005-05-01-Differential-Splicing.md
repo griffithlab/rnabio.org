@@ -21,7 +21,7 @@ Refer to the Stringtie manual for a more detailed explanation: [https://ccb.jhu.
 
 The Ballgown github page also has documentation for getting started with ballgown: [https://github.com/alyssafrazee/ballgown](https://github.com/alyssafrazee/ballgown)
 
-Calculate UHR and HBR expression estimates, for known/novel (reference guided mode) transcripts
+### Calculate UHR and HBR expression estimates, for known/novel (reference guided mode) transcripts
 
 Re-run Stringtie using the reference guided merged GTF, and output tables for Ballgown. Store the results in a new directory so that we can still examine the results generated without the merged GTF.
 ```bash
@@ -48,7 +48,7 @@ printf "\"ids\",\"type\",\"path\"\n\"UHR_Rep1\",\"UHR\",\"$RNA_HOME/expression/s
 ```
 Please see [Differential Expression](https://rnabio.org/module-03-expression/0003/03/01/Differential_Expression/) for details on running ballgown to determine a DE gene/transcript list.
 
-Calculate UHR and HBR expression estimates, for known/novel (de novo mode) transcripts:
+### Calculate UHR and HBR expression estimates, for known/novel (de novo mode) transcripts:
 
 Re-run Stringtie using the de novo merged GTF, and output tables for Ballgown. Store the results in a new directory so that we can still examine the results generated without the merged GTF.
 ```bash
