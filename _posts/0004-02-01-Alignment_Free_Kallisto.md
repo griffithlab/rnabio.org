@@ -274,6 +274,15 @@ Sleuth is an R package so the following steps will occur in an R session. The fo
 
 A separate R tutorial file has been provided in the github repo for this part of the tutorial: [Tutorial_KallistoSleuth.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_KallistoSleuth.R). Run the R commands in this file.
 
+Enter an R session
+
+```bash
+cd $RNA_HOME/de
+R
+```
+
+Execute the following command in R
+
 ```bash
 #load sleuth library
 suppressMessages({
