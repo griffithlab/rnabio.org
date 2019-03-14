@@ -15,10 +15,12 @@ date: 0003-04-01
 
 ***
 Navigate to the correct directory and then launch R:
+
 ```bash
-    cd $RNA_HOME/de/ballgown/ref_only
-    R
+cd $RNA_HOME/de/ballgown/ref_only
+R
 ```
+
 A separate R tutorial file has been provided below. Run the R commands detailed in the R script. All results are directed to pdf file(s). The output pdf files can be viewed in your browser at the following urls. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
 * http://**YOUR_IP_ADDRESS**/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.pdf
@@ -127,8 +129,8 @@ In this tutorial you will:
 Expression and differential expression files will be read into R. The R analysis will make use of the transcript-level expression and differential expression files from stringtie/ballgown. Navigate to the correct directory and then launch R:
 
 ```bash
-    cd $RNA_HOME/de/ballgown/ref_only/
-    R
+cd $RNA_HOME/de/ballgown/ref_only/
+R
 ```
 
 A separate R script has been provided below. 
