@@ -29,13 +29,13 @@ cd $RNA_HOME/expression/stringtie/
 mkdir ref_guided_merged
 cd ref_guided_merged
 
-stringtie -p 8 -G ../ref_guided/stringtie_merged.gtf -e -B -o HBR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep1.bam
-stringtie -p 8 -G ../ref_guided/stringtie_merged.gtf -e -B -o HBR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep2.bam
-stringtie -p 8 -G ../ref_guided/stringtie_merged.gtf -e -B -o HBR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep3.bam
+stringtie -p 4 -G ../ref_guided/stringtie_merged.gtf -e -B -o HBR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep1.bam
+stringtie -p 4 -G ../ref_guided/stringtie_merged.gtf -e -B -o HBR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep2.bam
+stringtie -p 4 -G ../ref_guided/stringtie_merged.gtf -e -B -o HBR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep3.bam
 
-stringtie -p 8 -G ../ref_guided/stringtie_merged.gtf -e -B -o UHR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep1.bam
-stringtie -p 8 -G ../ref_guided/stringtie_merged.gtf -e -B -o UHR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep2.bam
-stringtie -p 8 -G ../ref_guided/stringtie_merged.gtf -e -B -o UHR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep3.bam
+stringtie -p 4 -G ../ref_guided/stringtie_merged.gtf -e -B -o UHR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep1.bam
+stringtie -p 4 -G ../ref_guided/stringtie_merged.gtf -e -B -o UHR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep2.bam
+stringtie -p 4 -G ../ref_guided/stringtie_merged.gtf -e -B -o UHR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep3.bam
 
 ```
   Run Ballgown using the reference guided, merged transcripts
@@ -57,13 +57,13 @@ cd $RNA_HOME/expression/stringtie/
 mkdir de_novo_merged
 cd de_novo_merged
 
-stringtie -p 8 -G ../de_novo/stringtie_merged.gtf -e -B -o HBR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep1.bam
-stringtie -p 8 -G ../de_novo/stringtie_merged.gtf -e -B -o HBR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep2.bam
-stringtie -p 8 -G ../de_novo/stringtie_merged.gtf -e -B -o HBR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep3.bam
+stringtie -p 4 -G ../de_novo/stringtie_merged.gtf -e -B -o HBR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep1.bam
+stringtie -p 4 -G ../de_novo/stringtie_merged.gtf -e -B -o HBR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep2.bam
+stringtie -p 4 -G ../de_novo/stringtie_merged.gtf -e -B -o HBR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep3.bam
 
-stringtie -p 8 -G ../de_novo/stringtie_merged.gtf -e -B -o UHR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep1.bam
-stringtie -p 8 -G ../de_novo/stringtie_merged.gtf -e -B -o UHR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep2.bam
-stringtie -p 8 -G ../de_novo/stringtie_merged.gtf -e -B -o UHR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep3.bam
+stringtie -p 4 -G ../de_novo/stringtie_merged.gtf -e -B -o UHR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep1.bam
+stringtie -p 4 -G ../de_novo/stringtie_merged.gtf -e -B -o UHR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep2.bam
+stringtie -p 4 -G ../de_novo/stringtie_merged.gtf -e -B -o UHR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep3.bam
 
 ```
 Run Ballgown using the de novo, merged transcripts

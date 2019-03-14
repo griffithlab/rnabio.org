@@ -23,7 +23,7 @@ Use Stringtie to merge predicted transcripts from all libraries into a unified t
 Options specified below:
 
 * `assembly_GTF_list.txt` is a text file "manifest" with a list (one per line) of GTF files that you would like to merge together into a single GTF file.
-* `-p 8` tells stringtie to use eight CPUs
+* `-p 4` tells stringtie to use eight CPUs
 * `-o` tells stringtie to write output to a particular file or directory
 * `-G` tells stringtie where to find reference gene annotations. It will use these annotations to gracefully merge novel isoforms (for de novo runs) and known isoforms and maximize overall assembly quality.
 
@@ -34,7 +34,7 @@ For reference guided mode:
 cd $RNA_HOME/expression/stringtie/ref_guided/
 ls -1 *Rep*/transcripts.gtf > assembly_GTF_list.txt
 cat assembly_GTF_list.txt
-stringtie --merge -p 8 -o stringtie_merged.gtf -G $RNA_REF_GTF assembly_GTF_list.txt
+stringtie --merge -p 4 -o stringtie_merged.gtf -G $RNA_REF_GTF assembly_GTF_list.txt
 ```
 What do the resulting transcripts look like?
 ```bash
@@ -58,7 +58,7 @@ For de novo mode (again, we do not provide an Ensembl GTF):
 cd $RNA_HOME/expression/stringtie/de_novo/
 ls -1 *Rep*/transcripts.gtf > assembly_GTF_list.txt
 cat assembly_GTF_list.txt
-stringtie --merge -p 8 -o stringtie_merged.gtf assembly_GTF_list.txt
+stringtie --merge -p 4 -o stringtie_merged.gtf assembly_GTF_list.txt
 ```
 Compare the de novo merged transcripts to the known annotations:
 ```bash
