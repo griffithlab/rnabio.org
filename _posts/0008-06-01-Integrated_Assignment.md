@@ -51,13 +51,13 @@ export RNA_INT_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment/
 You will also need the following environment variables througout the assignment:
 
 ```bash
-export RNA_INT_DATA_DIR=$RNA_ASSIGNMENT/raw_reads
-export RNA_INT_REFS_DIR=$RNA_ASSIGNMENT/reference
-export RNA_INT_ILL_ADAPT=$RNA_ASSIGNMENT/adapter
-export RNA_INT_REF_INDEX=$RNA_REFS_DIR/Homo_sapiens.GRCh38
-export RNA_INT_REF_FASTA=$RNA_REF_INDEX.dna.primary_assembly.fa
-export RNA_INT_REF_GTF=$RNA_REFS_DIR/Homo_sapiens.GRCh38.92.gtf
-export RNA_INT_ALIGN_DIR=$RNA_ASSIGNMENT/hisat2
+export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/raw_reads
+export RNA_INT_REFS_DIR=$RNA_INT_ASSIGNMENT/reference
+export RNA_INT_ILL_ADAPT=$RNA_INT_ASSIGNMENT/adapter
+export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38
+export RNA_INT_REF_FASTA=$RNA_INT_REF_INDEX.dna.primary_assembly.fa
+export RNA_INT_REF_GTF=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf
+export RNA_INT_ALIGN_DIR=$RNA_INT_ASSIGNMENT/hisat2
 ```
 
 Obtain reference, annotation, adapter and data files and place them in the integrated assignment directory
