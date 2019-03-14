@@ -277,7 +277,7 @@ A separate R tutorial file has been provided in the github repo for this part of
 Enter an R session
 
 ```bash
-cd $RNA_HOME/de
+cd $RNA_HOME/de/sleuth
 R
 ```
 
