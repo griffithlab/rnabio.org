@@ -30,7 +30,7 @@ To run Stringtie in 'de novo' mode do **NOT** specify either of the `-G` OR `-e`
 Refer to the Stringtie manual for a more detailed explanation: [https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual)
 
 #### Running Stringtie in Reference Guided Mode
-Using the alignments we generated in the previous modules we will now run Stringtie in reference guided mode using the '-G' option **ONLY**.
+Using the alignments we generated in the previous modules we will now run Stringtie in reference guided mode using the `-G` option **ONLY**.
 
 Extra options specified below:
 
