@@ -34,10 +34,10 @@ Using the alignments we generated in the previous modules we will now run String
 
 Extra options specified below:
 
-* '-p 8' tells Stringtie to use eight CPUs
-* '-G ' reference annotation to use for guiding the assembly process (GTF/GFF3)
-* '-l' name prefix for output transcripts (default: STRG)
-* '-o' output path/file name for the assembled transcripts GTF (default: stdout)
+* `-p 8` tells Stringtie to use eight CPUs
+* `-G ` reference annotation to use for guiding the assembly process (GTF/GFF3)
+* `-l` name prefix for output transcripts (default: STRG)
+* `-o` output path/file name for the assembled transcripts GTF (default: stdout)
 
 First, create an output directory and then run stringtie in reference-guided mode.
 ```bash
