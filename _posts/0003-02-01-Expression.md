@@ -164,10 +164,14 @@ Merge results files into a single matrix for use in edgeR. The following joins t
 cd $RNA_HOME/expression/htseq_counts/
 join UHR_Rep1_gene.tsv UHR_Rep2_gene.tsv | join - UHR_Rep3_gene.tsv | join - HBR_Rep1_gene.tsv | join - HBR_Rep2_gene.tsv | join - HBR_Rep3_gene.tsv > gene_read_counts_table_all.tsv
 echo "GeneID UHR_Rep1 UHR_Rep2 UHR_Rep3 HBR_Rep1 HBR_Rep2 HBR_Rep3" > header.txt
-cat header.txt gene_read_counts_table_all.tsv | grep -v "__" | perl -ne 'chomp $_; $_ =~ s/\s+/\t/g; print "$_\n"' > gene_read_counts_table_all_final.tsv
+cat header.txt gene_read_counts_table_all.tsv | grep -v "__" | awk -v OFS="\t" '$1=$1' > gene_read_counts_table_all_final.tsv
 rm -f gene_read_counts_table_all.tsv header.txt
 head gene_read_counts_table_all_final.tsv | column -t
 ```
+
+-`grep -v "__"` is being used to filter out the summary lines at the end of the files that `ht-seq count` gives to summarize reads that had no feature, were ambiguous, did not align at all, did not align due to poor alignment quality, or the alignment was not unique. 
+
+-`awk -v OFS="\t" '$1=$1'` is using `awk` to replace the single space characters that were in the concatenated version of our `header.txt` and `gene_read_counts_table_all.tsv` with a tab character. `-v` is used to reset the variable `OFS`, which stands for Output Field Separator. By default, this is a single space. By specifying `OFS="\t"`, we are telling `awk` to replace the single space with a tab. The `'$1=$1'` tells awk to reevaluate the input using the new output variable.
 
 ***
 
