@@ -235,7 +235,7 @@ A file copy of the above R code can be found [here](https://github.com/griffithl
 ***
 
 ### Create a custom transcriptome database to examine a specific set of genes
-For example, suppose we just want to quickly assess the presence of ribosomal RNA genes only. We can obtain these genes from an Ensembl GTF file. In the example below we will use our chromosome 22 GTF file for demonstration purposes. But in a 'real world' experiment you would use a GTF for all chromosomes. Once we have found GTF records for ribosomal RNA genes, we will create a fasta file that contains the sequences for these transcripts, and then index this sequence database for use with Kallisto.
+Suppose we just want to quickly assess the presence of a particular class of genes only(e.g. ribosomal RNA genes). We can obtain these genes from an Ensembl GTF file. In the example below we will use our chromosome 22 GTF file for demonstration purposes. But in a 'real world' experiment you would use a GTF for all chromosomes. Once we have found GTF records for ribosomal RNA genes, we will create a fasta file that contains the sequences for these transcripts, and then index this sequence database for use with Kallisto.
 ```bash
 cd $RNA_HOME/refs
 grep rRNA $RNA_REF_GTF > genes_chr22_ERCC92_rRNA.gtf
@@ -273,6 +273,15 @@ kallisto quant -b 100 --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_k
 Sleuth is an R package so the following steps will occur in an R session. The following section is an adaptation of the [sleuth getting started tutorial](https://pachterlab.github.io/sleuth_walkthroughs/trapnell/analysis.html).
 
 A separate R tutorial file has been provided in the github repo for this part of the tutorial: [Tutorial_KallistoSleuth.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_KallistoSleuth.R). Run the R commands in this file.
+
+Enter an R session
+
+```bash
+cd $RNA_HOME/de/sleuth
+R
+```
+
+Execute the following command in R
 
 ```bash
 #load sleuth library
