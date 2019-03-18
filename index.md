@@ -1,5 +1,5 @@
 ---
-title: RNAseq
+title: RNA-seq
 feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
