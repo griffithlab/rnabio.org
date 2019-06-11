@@ -148,12 +148,10 @@ cd $RNA_ALIGN_DIR
 multiqc ./
 ```
 
-### MultiQC on full bam files
-Run multiQC on QC reports from non-downsampled bam files:
+### View a MultiQC report for full bam files
+View a multiQC on QC reports from non-downsampled bam files:
 ```bash
 mkdir $RNA_ALIGN_DIR/example_QC
 cd $RNA_ALIGN_DIR/example_QC
-wget http://genomedata.org/rnaseq-tutorial/RNA_QC_examples.tar.gz
-tar -xvzf RNA_QC_examples.tar.gz  
-multiqc ./
+wget http://genomedata.org/rnaseq-tutorial/multiqc_report.html
 ```
