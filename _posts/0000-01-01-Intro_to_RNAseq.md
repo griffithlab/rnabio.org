@@ -24,5 +24,5 @@ date: 0000-01-01
 
 ### Lectures
 * [RNASeq_Intro.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2019/RNASeq_Lecture_Module2_IntrotoRNA.pdf)
-* [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/lectures/current/IntroductionToCloudComputing.pdf)
+* [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2019/full/RNASeq_Module0_Lecture.pdf)
 
