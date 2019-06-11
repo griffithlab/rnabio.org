@@ -67,7 +67,7 @@ Note: when initiating an environment variable, we do not need the $; however, ev
 echo $RNA_INT_ASSIGNMENT
 cd $RNA_INT_ASSIGNMENT
 ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/reference/
-ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/raw_reads/top_1mil/ raw_reads
+ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/raw_reads/top_1mil/
 ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/adapter
 ```
 
