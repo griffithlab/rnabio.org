@@ -51,7 +51,7 @@ export RNA_INT_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment
 You will also need the following environment variables througout the assignment:
 
 ```bash
-export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/raw_reads
+export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/top_1mil
 export RNA_INT_REFS_DIR=$RNA_INT_ASSIGNMENT/reference
 export RNA_INT_ILL_ADAPT=$RNA_INT_ASSIGNMENT/adapter
 export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38
@@ -68,7 +68,7 @@ echo $RNA_INT_ASSIGNMENT
 cd $RNA_INT_ASSIGNMENT
 ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/reference/
 ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/raw_reads/top_1mil/
-ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/adapter
+ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/adapter/
 ```
 
 **Q1.)** How many items are there under the “reference” directory (counting all files in all sub-directories)? What if this reference file was not provided for you - how would you obtain/create a reference genome fasta file. How about the GTF transcripts file from Ensembl?
@@ -111,9 +111,11 @@ NOTE: The fastq files you have copied above contain only the first 1000000 reads
 In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
 ```bash
 #merge the bams for visulization purposes
+echo $RNA_INT_ALIGN_DIR
+mkdir -p $RNA_INT_ALIGN_DIR
 cd $RNA_INT_ALIGN_DIR
-java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment/picard.jar MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
-java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment/picard.jar MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
+java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment_RNA/picard.jar MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
+java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment_RNA/picard.jar MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
 ```
 
 Try viewing genes such as TP53 to get a sense of how the data is aligned. To do this:
