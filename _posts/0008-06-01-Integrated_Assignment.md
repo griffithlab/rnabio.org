@@ -46,7 +46,7 @@ Create a working directory ~/workspace/rnaseq/integrated_assignment/ to store th
 export RNA_HOME=~/workspace/rnaseq
 cd $RNA_HOME
 mkdir -p ~/workspace/rnaseq/integrated_assignment/
-export RNA_INT_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment/
+export RNA_INT_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment
 ```
 You will also need the following environment variables througout the assignment:
 
