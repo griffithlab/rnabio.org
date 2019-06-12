@@ -1,5 +1,4 @@
 ---
----
 feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
@@ -8,7 +7,6 @@ categories:
     - Module-06-Trionate
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0007-02-01
----
 ---
 
 # De novo RNA-Seq Assembly, Annotation, and Analysis Using Trinity and Trinotate
