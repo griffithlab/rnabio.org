@@ -1,14 +1,14 @@
 ---
-layout: tutorial_page
-permalink: /RNAseq_2019_Module8_lab
-title: RNA-Seq
-header1: Workshop Pages for Students
-header2: Informatics for RNA-Seq Analysis 2019
-image: /site_images/CBW_RNA_seq_icon.jpg
-home: https://bioinformaticsdotca.github.io/RNAseq_2019
-description: RNAseq 2019 - Module 8 Lab - De Novo Assembly
-author: Brian Haas
-modified: May 29th, 2018
+---
+feature_text: |
+  ## RNA-seq Bioinformatics
+  Introduction to bioinformatics for RNA sequence analysis
+title: Trionate
+categories:
+    - Module-06-Trionate
+feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
+date: 0007-02-01
+---
 ---
 
 # De novo RNA-Seq Assembly, Annotation, and Analysis Using Trinity and Trinotate
