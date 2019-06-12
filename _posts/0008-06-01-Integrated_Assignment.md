@@ -111,8 +111,6 @@ NOTE: The fastq files you have copied above contain only the first 1000000 reads
 In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
 ```bash
 #merge the bams for visulization purposes
-echo $RNA_INT_ALIGN_DIR
-mkdir -p $RNA_INT_ALIGN_DIR
 cd $RNA_INT_ALIGN_DIR
 java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment_RNA/picard.jar MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
 java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment_RNA/picard.jar MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
