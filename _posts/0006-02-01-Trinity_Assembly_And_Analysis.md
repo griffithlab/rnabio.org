@@ -1,14 +1,12 @@
 ---
-layout: tutorial_page
-permalink: /RNAseq_2019_Module7_lab
-title: RNA-Seq
-header1: Workshop Pages for Students
-header2: Informatics for RNA-Seq Analysis 2019
-image: /site_images/CBW_RNA_seq_icon.jpg
-home: https://bioinformaticsdotca.github.io/RNAseq_2019
-description: RNAseq 2019 - Module 7 Lab - De Novo Assembly
-author: Brian Haas
-modified: May 29th, 2018
+feature_text: |
+  ## RNA-seq Bioinformatics
+  Introduction to bioinformatics for RNA sequence analysis
+title: Trinity
+categories:
+    - Module-06-Trinity
+feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
+date: 0006-02-01
 ---
 
 # Intro to Genome-guided RNA-Seq Assembly
