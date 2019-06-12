@@ -307,7 +307,7 @@ stringtie -p 8 -G $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf -e -B -o $RNA_INT
 grep ENSG00000124766 $RNA_INT_ASSIGNMENT/expression/*/transcripts.gtf | cut -f1,9 | grep FPKM
 ```
 
-##PART 4: Differential Expression Analysis
+## PART 4: Differential Expression Analysis
 
 **Goals:**
 
