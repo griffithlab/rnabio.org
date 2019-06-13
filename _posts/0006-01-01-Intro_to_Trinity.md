@@ -19,3 +19,5 @@ date: 0006-01-01
 * Appreciate the importance of strand-specific RNA-Seq data for transcript reconstruction
 * Differentiate between differential gene expression and differential transcript usage.
 
+### Lecture
+* [RNASeq_Module6_Lecture.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2019/full/RNASeq_Module6_Lecture.pdf)
