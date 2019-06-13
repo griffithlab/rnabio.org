@@ -46,12 +46,12 @@ Create a working directory ~/workspace/rnaseq/integrated_assignment/ to store th
 export RNA_HOME=~/workspace/rnaseq
 cd $RNA_HOME
 mkdir -p ~/workspace/rnaseq/integrated_assignment/
-export RNA_INT_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment/
+export RNA_INT_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment
 ```
 You will also need the following environment variables througout the assignment:
 
 ```bash
-export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/raw_reads
+export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/top_1mil
 export RNA_INT_REFS_DIR=$RNA_INT_ASSIGNMENT/reference
 export RNA_INT_ILL_ADAPT=$RNA_INT_ASSIGNMENT/adapter
 export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38
@@ -66,9 +66,9 @@ Note: when initiating an environment variable, we do not need the $; however, ev
 ```bash
 echo $RNA_INT_ASSIGNMENT
 cd $RNA_INT_ASSIGNMENT
-ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/reference/
-ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/raw_reads/top_1mil/ raw_reads
-ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/adapter
+ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/reference/
+ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/raw_reads/top_1mil/
+ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/adapter/
 ```
 
 **Q1.)** How many items are there under the “reference” directory (counting all files in all sub-directories)? What if this reference file was not provided for you - how would you obtain/create a reference genome fasta file. How about the GTF transcripts file from Ensembl?
@@ -307,7 +307,7 @@ stringtie -p 8 -G $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf -e -B -o $RNA_INT
 grep ENSG00000124766 $RNA_INT_ASSIGNMENT/expression/*/transcripts.gtf | cut -f1,9 | grep FPKM
 ```
 
-##PART 4: Differential Expression Analysis
+## PART 4: Differential Expression Analysis
 
 **Goals:**
 
