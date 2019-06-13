@@ -20,4 +20,4 @@ date: 0004-01-01
 * Abundance estimation and differential expression analysis with Kallisto and Sleuth
 
 ### Lecture
-* [Psuedo-alignment mini-lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw-cshl/2019/mini/RNASeq_MiniLecture_10_01_AlignmentFreeKallisto.pdf)
+* [Psuedo-alignment mini-lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2019/mini/RNASeq_MiniLecture_05_01_AlignmentFreeKallisto.pdf)
