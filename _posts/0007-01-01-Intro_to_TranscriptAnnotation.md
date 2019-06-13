@@ -16,3 +16,6 @@ date: 0007-01-01
 * Explore methods to glean biological function from transcript sequences.
 * Differentiate between homology-based and sequence composition-based functional inference.
 
+### Module 7 - Lecture
+* (RNASeq_Module7_Lecture.pdf)
+(https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2019/full/RNASeq_Module7_Lecture.pdf)
