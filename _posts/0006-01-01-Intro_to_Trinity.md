@@ -13,5 +13,8 @@ date: 0006-01-01
 *
 
 ### Module 6 - Learning objectives
-*
+*Understandthechallengesinvolvedinreconstructing transcripts from RNA-Seq data
+*Becomefamiliarwithcomputationalalgorithmsanddata structures leveraged for transcript assembly
+*Appreciatetheimportanceofstrand-specificRNA-Seq data for transcript reconstruction
+*Differentiatebetweendifferentialgeneexpressionand differential transcript usage.
 
