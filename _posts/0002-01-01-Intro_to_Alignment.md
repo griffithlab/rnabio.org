@@ -22,6 +22,8 @@ date: 0002-01-01
 * Alignment QC Assessment
 * BAM read counting and determination of variant allele expression status
 
-### Lecture
-* [RNASeq_Module2_Lecture.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/lectures/current/RNASeq_Module2_Lecture.pdf)
+### Lectures
+* [Introdcution to alignment lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2019/mini/RNASeq_MiniLecture_03_01_Alignment.pdf)
+* [Alignment/Assembly/kmer lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2019/mini/RNASeq_MiniLecture_03_02_Alignment_vs_Assembly_vs_Kmer.pdf) 
+* [SAM/BAM/BED formats lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2019/mini/RNASeq_MiniLecture_03_03_SAM_BAM_BED.pdf)
 
