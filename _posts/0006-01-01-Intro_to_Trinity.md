@@ -10,7 +10,8 @@ date: 0006-01-01
 ---
 
 ### Module 6 - Key concepts
-*
+* Introduction to denovo transcript assembly
+* Introduction to Trinity
 
 ### Module 6 - Learning objectives
 * Understand the challenges involved in reconstructing transcripts from RNA-Seq data
