@@ -68,8 +68,6 @@ layout: "home"
 
 #### 7. General Bioinformatics Resources
 - [Web Based Interactive Resources To Learn Programming And/Or Bioinformatics](https://www.biostars.org/p/76171/)
-- [The Bioinformatics Links Directory](https://links.bioinformatics.ca/)
-- [The periodic table of bioinformatics - A list of popular bioinformatics resources and tools](http://elements.eaglegenomics.com/)
 - [A list of Genome Analysis Platforms like Galaxy, BaseSpace, etc.](https://docs.google.com/spreadsheets/d/1o8iYwYUy0V7IECmu21Und3XALwQihioj23WGv-w0itk/pubhtml)
 - [BioLinux - An Ubuntu Linux system with many Bioinformatics tools pre-installed](http://environmentalomics.org/bio-linux/)
 - [CloudBioLinux - A cloud ready version of BioLinux](http://cloudbiolinux.org/)
