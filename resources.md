@@ -54,7 +54,6 @@ layout: "home"
 - [Data Camp - R Tutorials and Data Analysis Courses](https://www.datacamp.com/courses)
 - [Swirl - Learn R, in R.](http://www.swirlstats.com/)
 - [Quick and Dirty Guide to R](http://ww2.coastal.edu/kingw/statistics/R-tutorials/text/quick&dirty_R.txt)
-- [Basic R Introduction](http://tryr.codeschool.com/)
 
 #### 5. Supplementary Materials Relating to the Hands On Tutorials of this Course
 - [Description of the ERCC spike-in controls used in the tutorial data](https://github.com/griffithlab/rnabio.org/blob/master/assets/ResourceFiles/ERCC.pdf)
