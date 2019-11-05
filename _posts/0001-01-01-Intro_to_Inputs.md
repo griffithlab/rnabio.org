@@ -23,5 +23,6 @@ date: 0001-01-01
 
 
 ### Lecture
-* [RNASeq_Module1_Lecture.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/lectures/current/RNASeq_Module1_Lecture.pdf)
- 
+* [FASTA/FASTQ/GTF formats mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2019/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf)
+* [Indexing mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2019/mini/RNASeq_MiniLecture_02_02_Indexing.pdf) 
+

@@ -15,8 +15,8 @@ date: 0001-02-01
 
 ***
 
-### Fasta/fastq/GTF mini lecture
-If you would like a refresher on common file formats such as fasta, fastq, and gtf files, we have made [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw-cshl/2019/mini/RNASeq_MiniLecture_07_01_FASTA_FASTQ_GTF.pdf) briefly covering these.
+### FASTA/FASTQ/GTF mini lecture
+If you would like a refresher on common file formats such as FASTA, FASTQ, and GTF files, we have made [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2019/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf) briefly covering these.
 
 ### Obtain a reference genome from Ensembl, iGenomes, NCBI or UCSC.
 

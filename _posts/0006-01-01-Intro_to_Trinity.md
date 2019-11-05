@@ -10,8 +10,14 @@ date: 0006-01-01
 ---
 
 ### Module 6 - Key concepts
-*
+* Introduction to denovo transcript assembly
+* Introduction to Trinity
 
 ### Module 6 - Learning objectives
-*
+* Understand the challenges involved in reconstructing transcripts from RNA-Seq data
+* Become familiar with computational algorithms and data structures leveraged for transcript assembly
+* Appreciate the importance of strand-specific RNA-Seq data for transcript reconstruction
+* Differentiate between differential gene expression and differential transcript usage.
 
+### Lecture
+* [RNASeq_Module6_Lecture.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2019/full/RNASeq_Module6_Lecture.pdf)
