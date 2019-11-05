@@ -128,9 +128,10 @@ grep -v feature UHR_vs_HBR_gene_results_sig.tsv | wc -l
 
 Display the top 20 DE genes. Look at some of those genes in IGV - do they make sense?
 
+In the following commands we use `grep -v feature` to remove lines that contain "feature". Then we use `sort` to sort the data in various ways. The `k` option specifies that we want to sort on a particular column (`3` in this case which has the DE fold change values). The `n` option tells `sort` to sort numerically. The `r` option tells `sort` to reverse the sort. 
 ```bash
-grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -rnk 3 | head -n 20 #Higher abundance in UHR
-grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -nk 3 | head -n 20 #Higher abundance in HBR
+grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -rnk 3 | head -n 20 | column -t #Higher abundance in UHR
+grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -nk 3 | head -n 20 | column -t #Higher abundance in HBR
 ```
 
 Save all genes with P<0.05 to a new file.
@@ -172,7 +173,7 @@ mkdir -p de/htseq_counts
 cd de/htseq_counts
 ```
 
-Create a mapping file to go from ENSG IDs (which htseq-count output) to Symbols:
+Note that the htseq-count results provide counts for each gene but uses only the Ensembl Gene ID (e.g. ENSG00000054611).  This is not very convenient for biological interpretation.  This next step creates a mapping file that will help us translate from ENSG IDs to Symbols. It does this by parsing the GTF transcriptome file we got from Ensembl. That file contains both gene names and IDs. Unfortunately, this file is a bit complex to parse. Furthermore, it contains the ERCC transcripts, and these have their own naming convention which also complicated the parsing.
 
 ```bash
 perl -ne 'if ($_ =~ /gene_id\s\"(ENSG\S+)\"\;/) { $id = $1; $name = undef; if ($_ =~ /gene_name\s\"(\S+)"\;/) { $name = $1; }; }; if ($id && $name) {print "$id\t$name\n";} if ($_=~/gene_id\s\"(ERCC\S+)\"/){print "$1\t$1\n";}' $RNA_REF_GTF | sort | uniq > ENSG_ID2Name.txt
@@ -181,8 +182,12 @@ head ENSG_ID2Name.txt
 
 Determine the number of unique Ensembl Gene IDs and symbols. What does this tell you?
 ```bash
-cut -f 1 ENSG_ID2Name.txt | sort | uniq | wc
-cut -f 2 ENSG_ID2Name.txt | sort | uniq | wc
+#count unique gene ids
+cut -f 1 ENSG_ID2Name.txt | sort | uniq | wc -l
+#count unique gene names
+cut -f 2 ENSG_ID2Name.txt | sort | uniq | wc -l
+
+#show the most repeated gene names
 cut -f 2 ENSG_ID2Name.txt | sort | uniq -c | sort -r | head
 ```
 
@@ -291,6 +296,11 @@ Visualize overlap with a venn diagram. This can be done with simple web tools li
 * [http://bioinfogp.cnb.csic.es/tools/venny/](http://bioinfogp.cnb.csic.es/tools/venny/)
 
 To get the two gene lists you could use `cat` to print out each list in your terminal and then copy/paste.
+
+```bash
+cat ballgown_DE_gene_symbols.txt
+htseq_counts_edgeR_DE_gene_symbols.txt
+```
 
 Alternatively you could view both lists in a web browser as you have done with other files. These two files should be here:
 

@@ -18,30 +18,31 @@ date: 0005-06-01
 ### Visualizing Results at the Command Line
 View the merged GTF file from the 'de_novo' mode. Remember this merged GTF file combines both UHR and HBR (GTFs for each individually were also produced earlier).
 ```bash
-    cd $RNA_HOME/expression/stringtie/de_novo/
-    head stringtie_merged.gtf
+cd $RNA_HOME/expression/stringtie/de_novo/
+head stringtie_merged.gtf
 ```
 For details on the format of these files, refer to the following links:
 
 * [https://ccb.jhu.edu/software/stringtie/gff.shtml#gffcompare](https://ccb.jhu.edu/software/stringtie/gff.shtml#gffcompare)
+* [https://ccb.jhu.edu/software/stringtie/gffcompare.shtml#output-files](https://ccb.jhu.edu/software/stringtie/gffcompare.shtml#output-files)
 * [http://cole-trapnell-lab.github.io/cufflinks/cuffmerge/index.html](http://cole-trapnell-lab.github.io/cufflinks/cuffmerge/index.html)
 * [http://cole-trapnell-lab.github.io/cufflinks/cuffcompare/index.html#transfrag-class-codes](http://cole-trapnell-lab.github.io/cufflinks/cuffcompare/index.html#transfrag-class-codes)
 
 How many genes have at least one transcript assembled by StringTie in the 'de_novo' results?
 ```bash
-    cd $RNA_HOME/expression/stringtie/de_novo/
-    cat stringtie_merged.gtf | perl -ne 'if ($_ =~ /gene_id\s+\"(\S+)\"\;/){print "$1\n"}' | sort | uniq | wc -l
+cd $RNA_HOME/expression/stringtie/de_novo/
+cat stringtie_merged.gtf | perl -ne 'if ($_ =~ /gene_id\s+\"(\S+)\"\;/){print "$1\n"}' | sort | uniq | wc -l
 ```
 How many genes have at least one potentially novel transcript assembled?
 ```bash
-    head gffcompare.stringtie_merged.gtf.tmap
-    grep "j" gffcompare.stringtie_merged.gtf.tmap
-    grep "j" gffcompare.stringtie_merged.gtf.tmap | cut -f 1 | sort | uniq | wc -l
+head gffcompare.stringtie_merged.gtf.tmap
+grep "j" gffcompare.stringtie_merged.gtf.tmap
+grep "j" gffcompare.stringtie_merged.gtf.tmap | cut -f 1 | sort | uniq | wc -l
 ```
 Display the transcripts that correspond to intergenic regions with the highest read support (candidate novel regions of transcription)
 ```bash
-    cd $RNA_HOME/expression/stringtie/de_novo
-    grep -w "u" gffcompare.stringtie_merged.gtf.tmap | sort -n -k 10 | column -t
+cd $RNA_HOME/expression/stringtie/de_novo
+grep -w "u" gffcompare.stringtie_merged.gtf.tmap | sort -n -k 10 | column -t
 ```
 ***
 
@@ -50,22 +51,22 @@ RegTools is a utility we created to help characterize individual exon splicing e
 
 We will use basic functionality of RegTools to extract a junction.bed file for each of our BAMs that summarizes all distinct exon-exon splicing events represented in the RNA-seq data. We will also use RegTools to annotate these junctions relative to our reference transcriptome GTF file:
 ```bash
-    cd $RNA_HOME/alignments/hisat2
+cd $RNA_HOME/alignments/hisat2
 
-    regtools junctions extract HBR.bam > HBR.junctions.bed
-    head HBR.junctions.bed
-    regtools junctions annotate HBR.junctions.bed $RNA_REF_FASTA $RNA_REF_GTF > HBR.junctions.anno.bed
-    head HBR.junctions.anno.bed
+regtools junctions extract HBR.bam > HBR.junctions.bed
+head HBR.junctions.bed
+regtools junctions annotate HBR.junctions.bed $RNA_REF_FASTA $RNA_REF_GTF > HBR.junctions.anno.bed
+head HBR.junctions.anno.bed
 
-    regtools junctions extract UHR.bam > UHR.junctions.bed
-    head UHR.junctions.bed
-    regtools junctions annotate UHR.junctions.bed $RNA_REF_FASTA $RNA_REF_GTF > UHR.junctions.anno.bed
-    head UHR.junctions.anno.bed
+regtools junctions extract UHR.bam > UHR.junctions.bed
+head UHR.junctions.bed
+regtools junctions annotate UHR.junctions.bed $RNA_REF_FASTA $RNA_REF_GTF > UHR.junctions.anno.bed
+head UHR.junctions.anno.bed
 ```
 Now pull out any junctions from either sample that appear to involve novel exon skipping, acceptor site usage, or donor site usage (relative to the reference transcriptome GTF). Require at three reads of support for each of the potentially novel junctions.
 ```bash
-    grep -P -w "NDA|A|D" HBR.junctions.anno.bed | perl -ne 'chomp; @l=split("\t",$_); if ($l[4] > 3){print "$_\n"}'
-    grep -P -w "NDA|A|D" UHR.junctions.anno.bed | perl -ne 'chomp; @l=split("\t",$_); if ($l[4] > 3){print "$_\n"}'
+grep -P -w "NDA|A|D" HBR.junctions.anno.bed | perl -ne 'chomp; @l=split("\t",$_); if ($l[4] > 3){print "$_\n"}'
+grep -P -w "NDA|A|D" UHR.junctions.anno.bed | perl -ne 'chomp; @l=split("\t",$_); if ($l[4] > 3){print "$_\n"}'
 ```
 ***
 
@@ -74,25 +75,25 @@ Note that when using StringTie in the de novo mode we get a GTF file that is bas
 
 To make it easier to compare the output of the ref-only, ref-guided, and de novo results, we will now produce filtered versions of our merged GTF files where we remove transcripts unless there was some evidence for their expression.
 ```bash
-    cd $RNA_HOME/student_tools
-    wget https://github.com/griffithlab/rnabio.org/raw/master/assets/scripts/stringtie_filter_gtf.pl
-    chmod +x stringtie_filter_gtf.pl
+cd $RNA_HOME/student_tools
+wget https://github.com/griffithlab/rnabio.org/raw/master/assets/scripts/stringtie_filter_gtf.pl
+chmod +x stringtie_filter_gtf.pl
 
-    cd $RNA_HOME/expression/stringtie/ref_only/
-    $RNA_HOME/student_tools/stringtie_filter_gtf.pl --expression_metric=FPKM --result_dirs='HBR_Rep1,HBR_Rep2,HBR_Rep3,UHR_Rep1,UHR_Rep2,UHR_Rep3' --input_gtf_file='/home/ubuntu/workspace/rnaseq/refs/chr22_with_ERCC92.gtf' --filtered_gtf_file='/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/chr22_with_ERCC92.filtered.gtf' --exp_cutoff=0 --min_sample_count=2
+cd $RNA_HOME/expression/stringtie/ref_only/
+$RNA_HOME/student_tools/stringtie_filter_gtf.pl --expression_metric=FPKM --result_dirs='HBR_Rep1,HBR_Rep2,HBR_Rep3,UHR_Rep1,UHR_Rep2,UHR_Rep3' --input_gtf_file='/home/ubuntu/workspace/rnaseq/refs/chr22_with_ERCC92.gtf' --filtered_gtf_file='/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/chr22_with_ERCC92.filtered.gtf' --exp_cutoff=0 --min_sample_count=2
 
-    cd $RNA_HOME/expression/stringtie/ref_guided_merged/
-    $RNA_HOME/student_tools/stringtie_filter_gtf.pl --expression_metric=FPKM --result_dirs='HBR_Rep1,HBR_Rep2,HBR_Rep3,UHR_Rep1,UHR_Rep2,UHR_Rep3' --input_gtf_file='/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_guided/stringtie_merged.gtf' --filtered_gtf_file='/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_guided/stringtie_merged.filtered.gtf' --exp_cutoff=0 --min_sample_count=2
+cd $RNA_HOME/expression/stringtie/ref_guided_merged/
+$RNA_HOME/student_tools/stringtie_filter_gtf.pl --expression_metric=FPKM --result_dirs='HBR_Rep1,HBR_Rep2,HBR_Rep3,UHR_Rep1,UHR_Rep2,UHR_Rep3' --input_gtf_file='/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_guided/stringtie_merged.gtf' --filtered_gtf_file='/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_guided/stringtie_merged.filtered.gtf' --exp_cutoff=0 --min_sample_count=2
 ```
 Rename some GTF files generated by various approaches and place them all in a single directory for convenience when loading into IGV.
 ```bash
-    cd $RNA_HOME/expression/stringtie
-    mkdir visualization
-    cd visualization
-    cat $RNA_HOME/refs/chr22_with_ERCC92.gtf | perl -ne 'chomp; @l=split("\t", $_); print "$_\n" unless ($l[2] eq "gene");' > chr22_reference.gtf
-    cp $RNA_HOME/expression/stringtie/ref_only/chr22_with_ERCC92.filtered.gtf ref_only.gtf
-    cp $RNA_HOME/expression/stringtie/ref_guided/stringtie_merged.filtered.gtf ref_guided.gtf
-    cp $RNA_HOME/expression/stringtie/de_novo/stringtie_merged.gtf de_novo.gtf
+cd $RNA_HOME/expression/stringtie
+mkdir visualization
+cd visualization
+cat $RNA_HOME/refs/chr22_with_ERCC92.gtf | perl -ne 'chomp; @l=split("\t", $_); print "$_\n" unless ($l[2] eq "gene");' > chr22_reference.gtf
+cp $RNA_HOME/expression/stringtie/ref_only/chr22_with_ERCC92.filtered.gtf ref_only.gtf
+cp $RNA_HOME/expression/stringtie/ref_guided/stringtie_merged.filtered.gtf ref_guided.gtf
+cp $RNA_HOME/expression/stringtie/de_novo/stringtie_merged.gtf de_novo.gtf
 ```
 * Identify some candidate novel transcripts to visualize
 

@@ -23,6 +23,6 @@ date: 0000-01-01
 * Set up environment and install necessary tools 
 
 ### Lectures
-* [RNASeq_Module0_Introductions.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/lectures/current/RNASeq_Module0_Introductions.pdf)
-* [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/lectures/current/IntroductionToCloudComputing.pdf)
+* [RNASeq_Intro.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2019/full/RNASeq_Module0_IntrotoRNA.pdf)
+* [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2019/full/RNASeq_Module0_CloudComputing.pdf)
 

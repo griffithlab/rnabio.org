@@ -11,8 +11,8 @@ date: 0004-02-01
 
 ### Kallisto mini lecture
 
-If you would like a refresher on Kallisto, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/tree/master/assets/lectures/cbw-cshl/2019/mini/RNASeq_MiniLecture_10_01_AlignmentFreeKallisto.pdf) briefly covering the topic.
-We have also made a mini lecture  describing the differences between [alignment, assembly, and pseudoalignment](https://github.com/griffithlab/rnabio.org/tree/master/assets/lectures/cbw-cshl/2019/mini/RNASeq_MiniLecture_08_02_Alignment_vs_Assembly_vs_Kmer.pdf).
+If you would like a refresher on Kallisto, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2019/mini/RNASeq_MiniLecture_05_01_AlignmentFreeKallisto.pdf) briefly covering the topic.
+We have also made a mini lecture  describing the differences between [alignment, assembly, and pseudoalignment](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2019/mini/RNASeq_MiniLecture_03_02_Alignment_vs_Assembly_vs_Kmer.pdf).
 
 
 ***
@@ -22,7 +22,7 @@ For more information on Kallisto, refer to the [Kallisto project page](https://p
 ***
 
 ### Obtain transcript sequences in fasta format
-Note that we already have fasta sequences for the reference genome sequence from earlier in the RNA-seq tutorial. However, Kallisto works directly on target cDNA/transcript sequences. Remember also that we have transcript models for genes on chromosome 22. These transcript models were downloaded from Ensembl in GTF format. This GTF contains a description of the coordinates of exons that make up each transcript but it does not contain the transcript sequences themselves. So currently we do not have transcript sequences needed by Kallisto. There are many places we could obtain these transcript sequences. For example, we could download them directly in Fasta format from the [Ensembl FTP site](http://useast.ensembl.org/info/data/ftp/index.html).
+Note that we already have fasta sequences for the reference *genome* sequence from earlier in the RNA-seq tutorial. However, Kallisto works directly on target *cDNA/transcript* sequences. Remember also that we have transcript models for genes on chromosome 22. These transcript models were downloaded from Ensembl in GTF format. This GTF contains a description of the coordinates of exons that make up each transcript but it does not contain the *transcript sequences* themselves. So currently we do not have transcript sequences needed by Kallisto. There are many places we could obtain these transcript sequences. For example, we could download them directly in Fasta format from the [Ensembl FTP site](http://useast.ensembl.org/info/data/ftp/index.html).
 
 To allow us to compare Kallisto results to expression results from StringTie, we will create a custom Fasta file that corresponds to the transcripts we used for the StringTie analysis. How can we obtain these transcript sequences in Fasta format?
 
@@ -108,7 +108,7 @@ How similar are the results we obtained from each approach?
 
 We can compare the expression value for each Ensembl transcript from chromosome 22 as well as the ERCC spike in controls.
 
-To do this comparison, we need to gather the expression estimates for each of our replicates from each approach. The Kallisto transcript results were neatly organized into a single file above. For Kallisto gene expression estimates, we will simply sum the TPM values for transcripts of the same gene. Though it is 'apples-to-oranges', we can also compare Kallisto and StringTie expression estimates to the raw read counts from HtSeq-Count (but only at the gene level in this case). The following R script will pull together the various expression matrix files we created in previous steps and create some visualizations to compare them (for both transcript and gene estimates).
+To do this comparison, we need to gather the expression estimates for each of our replicates from each approach. The Kallisto transcript results were neatly organized into a single file above. For Kallisto gene expression estimates, we will simply sum the TPM values for transcripts of the same gene. Though it is 'apples-to-oranges', we can also compare Kallisto and StringTie expression estimates to the raw read counts from HtSeq-Count (but only at the gene level in this case). The following R code will pull together the various expression matrix files we created in previous steps and create some visualizations to compare them (for both transcript and gene estimates).
 
 First create the gene version of the Kallisto TPM matrix
 
@@ -117,6 +117,7 @@ cd $RNA_HOME/expression/kallisto
 wget https://raw.githubusercontent.com/griffithlab/rnabio.org/master/assets/scripts/kallisto_gene_matrix.pl
 chmod +x kallisto_gene_matrix.pl
 ./kallisto_gene_matrix.pl --gtf_file=$RNA_HOME/refs/chr22_with_ERCC92.gtf  --kallisto_transcript_matrix_in=transcript_tpms_all_samples.tsv --kallisto_transcript_matrix_out=gene_tpms_all_samples.tsv
+column -t gene_tpms_all_samples.tsv | less -S
 ```
 
 Now load files and summarize results from each approach in R
@@ -234,7 +235,7 @@ A file copy of the above R code can be found [here](https://github.com/griffithl
 ***
 
 ### Create a custom transcriptome database to examine a specific set of genes
-For example, suppose we just want to quickly assess the presence of ribosomal RNA genes only. We can obtain these genes from an Ensembl GTF file. In the example below we will use our chromosome 22 GTF file for demonstration purposes. But in a 'real world' experiment you would use a GTF for all chromosomes. Once we have found GTF records for ribosomal RNA genes, we will create a fasta file that contains the sequences for these transcripts, and then index this sequence database for use with Kallisto.
+Suppose we just want to quickly assess the presence of a particular class of genes only(e.g. ribosomal RNA genes). We can obtain these genes from an Ensembl GTF file. In the example below we will use our chromosome 22 GTF file for demonstration purposes. But in a 'real world' experiment you would use a GTF for all chromosomes. Once we have found GTF records for ribosomal RNA genes, we will create a fasta file that contains the sequences for these transcripts, and then index this sequence database for use with Kallisto.
 ```bash
 cd $RNA_HOME/refs
 grep rRNA $RNA_REF_GTF > genes_chr22_ERCC92_rRNA.gtf
@@ -272,6 +273,15 @@ kallisto quant -b 100 --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_k
 Sleuth is an R package so the following steps will occur in an R session. The following section is an adaptation of the [sleuth getting started tutorial](https://pachterlab.github.io/sleuth_walkthroughs/trapnell/analysis.html).
 
 A separate R tutorial file has been provided in the github repo for this part of the tutorial: [Tutorial_KallistoSleuth.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_KallistoSleuth.R). Run the R commands in this file.
+
+Enter an R session
+
+```bash
+cd $RNA_HOME/de/sleuth/results
+R
+```
+
+Execute the following command in R
 
 ```bash
 #load sleuth library
@@ -319,7 +329,7 @@ dev.off()
 
 ***
 
-### Exercise: Do a performance test using a real large dataset
+### Exercise (OPTIONAL): Do a performance test using a real large dataset
 Obtain an entire lane of RNA-seq data for a breast cancer cell line and matched 'normal' cell line here:
 
 **NOTE: do not attempt this unless you have a lot of free space on your machine (at least 250 GB)**

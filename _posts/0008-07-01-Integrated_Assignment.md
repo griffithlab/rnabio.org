@@ -6,7 +6,7 @@ title: Integrated Assignment
 categories:
     - Module-08-Appendix
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0008-06-01
+date: 0008-07-01
 ---
 
 **Preamble:** Note that the following integrated assignment asks you to work on new RNA-seq data and apply the concepts you have learned up to this point. To complete this assignment you will need to review commands we performed in many of the earlier sections. Try to construct these commands on your own and get all the way to the end of the assignment. If you get very stuck or would like to compare your solutions to those suggested by the instructors, refer to the answers page. The integrated assignment answers page is an expanded version of this page with all of the questions plus detailed code solutions to all problems. The answer page is available in the git repository for this wiki. It is slightly hidden to reduce temptation to look at it without trying on your own. Ask an instructor if you have trouble finding it.
@@ -46,29 +46,41 @@ Create a working directory ~/workspace/rnaseq/integrated_assignment/ to store th
 export RNA_HOME=~/workspace/rnaseq
 cd $RNA_HOME
 mkdir -p ~/workspace/rnaseq/integrated_assignment/
-export RNA_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment/
+export RNA_INT_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment
 ```
 You will also need the following environment variables througout the assignment:
 
 ```bash
-export RNA_DATA_DIR=$RNA_ASSIGNMENT/raw_reads
-export RNA_REFS_DIR=$RNA_ASSIGNMENT/reference
-export RNA_ILL_ADAPT=$RNA_ASSIGNMENT/adapter
-export RNA_REF_INDEX=$RNA_REFS_DIR/Homo_sapiens.GRCh38
-export RNA_REF_FASTA=$RNA_REF_INDEX.dna.primary_assembly.fa
-export RNA_REF_GTF=$RNA_REFS_DIR/Homo_sapiens.GRCh38.92.gtf
-export RNA_ALIGN_DIR=$RNA_ASSIGNMENT/hisat2
+export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/top_1mil
+export RNA_INT_REFS_DIR=$RNA_INT_ASSIGNMENT/reference
+export RNA_INT_ILL_ADAPT=$RNA_INT_ASSIGNMENT/adapter
+export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38
+export RNA_INT_REF_FASTA=$RNA_INT_REF_INDEX.dna.primary_assembly.fa
+export RNA_INT_REF_GTF=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf
+export RNA_INT_ALIGN_DIR=$RNA_INT_ASSIGNMENT/hisat2
 ```
 
 Obtain reference, annotation, adapter and data files and place them in the integrated assignment directory
 Note: when initiating an environment variable, we do not need the $; however, everytime we call the variable, it needs to be preceeded by a $.
 
 ```bash
-echo $RNA_ASSIGNMENT
-cd $RNA_ASSIGNMENT
+echo $RNA_INT_ASSIGNMENT
+cd $RNA_INT_ASSIGNMENT
+<<<<<<< HEAD
+<<<<<<< HEAD
+ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/reference/
+ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/raw_reads/top_1mil/ raw_reads
+ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/adapter
+=======
 ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/reference/
-ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/raw_reads/top_1mil/ raw_reads
+ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/raw_reads/top_1mil/
 ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/adapter
+>>>>>>> 7974a343cd6fbaddcb0a516cbccbe0cf7df72076
+=======
+ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/reference/
+ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/raw_reads/top_1mil/
+ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/adapter/
+>>>>>>> c0327b7617aad95661853ebd26473fac0958ac53
 ```
 
 **Q1.)** How many items are there under the “reference” directory (counting all files in all sub-directories)? What if this reference file was not provided for you - how would you obtain/create a reference genome fasta file. How about the GTF transcripts file from Ensembl?
@@ -111,9 +123,9 @@ NOTE: The fastq files you have copied above contain only the first 1000000 reads
 In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
 ```bash
 #merge the bams for visulization purposes
-cd $RNA_ALIGN_DIR
-java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment/picard.jar MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
-java -Xmx2g -jar /usr/local/picard/picard.jar MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
+cd $RNA_INT_ALIGN_DIR
+java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment_RNA/picard.jar MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
+java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment_RNA/picard.jar MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
 ```
 
 Try viewing genes such as TP53 to get a sense of how the data is aligned. To do this:
