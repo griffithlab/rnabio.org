@@ -12,6 +12,7 @@ date: 0008-06-01
 The goal of the following team assignment is for students to gain hands-on experience by working on recently published RNA-seq data and apply the concepts they have learned up to RNA alignment. To complete this assignment, students will need to review commands we performed in earlier sections.
 
 **Background on Dataset used**
+
 In this assignment, we will be using subsets of the GSE136366 dataset (Roczniak-Ferguson A, Ferguson SM. Pleiotropic requirements for human TDP-43 in the regulation of cell and organelle homeostasis. Life Sci Alliance 2019 Oct;2(5). PMID: 31527135). This dataset consists of 6 RNA sequencing files of human cells that either express or lack the TDP-43 protein.
 
 **Experimental Details**
@@ -99,5 +100,57 @@ Hint: useful commands include `cat`, `grep`, `cut`, `sort`, `uniq`, `awk`
 
 ### Data Preprocessing (QC & Trimming)
 
+**Goals:**
+
+- Perform adapter trimming on your data
+- Run quality check before and after cleaning up your data
+- Familiarize yourself with the options for Fastqc to be able to redirect your output
+- Familiarize yourself with the output metrics from adapter trimming
+
+Prior to aligning RNA-seq data, teams should perform adapter trimming using `Flexbar`. Once the team has both the pre-trim and post-trim data, QC metrics should be evaluated using `fastqc` and a general report can be generated using `multi-qc`.
+
+3. What is the average percentage of reads that are trimmed?
+
+4. Before looking at the multiqc report, how do you expect the sequence length distribution to look like both prior to and after trimming? Is your answer confirmed by the multiqc report results?
+
+5. Are there any metrics where the sample(s) failed?
 
 ### Alignment Exercise
+
+**Goals:**
+
+- Familiarize yourself with HISAT2 alignment options
+- Perform alignments
+- Obtain alignment summary
+- Convert your alignment into compressed bam format
+
+*A useful option to add to the end of your commands is `2>`, which redirects the stdout from any command into a specific file. This can be used to redirect your stdout into a summary file, and can be used as follows: `My_alignment_script 2> alignment_metrics.txt`. The advantage of this is being able to view the alignment metrics later on.*
+
+6. What were the percentages of reads that aligned to the reference for each sample?
+
+7. By compressing your sam format to bam, approximately how much space is saved (fold change in size)?
+
+
+### Post-alignment QC & IGV Visualization
+
+**Goals:**
+
+- Perform post-alignment QC analysis using `fastqc` and `multiqc`
+- Merge bam files for easier visualization in IGV
+- Explore alignment using IGV
+
+In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
+```bash
+# Merge the bams for visualization purposes
+cd $RNA_INT_ALIGN_DIR
+java -Xmx16g -jar $PICARD MergeSamFiles OUTPUT=KO_merged.bam INPUT=SRR10045016.bam INPUT=SRR10045017.bam INPUT=SRR10045018.bam
+java -Xmx16g -jar $PICARD MergeSamFiles OUTPUT=RESCUE_merged.bam INPUT=SRR10045019.bam INPUT=SRR10045020.bam INPUT=SRR10045021.bam
+```
+8. How does the information from your post-alignment QC report differ from pre-alignment QC?
+
+9. IGV: Can you identify certain exons that have significantly larger coverage than other exonic regions? Is this consistent across samples? Why do you think this is happening?  
+
+10. IGV: Can you identify regions where the RNAseq reads are mapping to unexpected regions? What do you think is the reason for this phenomenon?
+
+### Presenting Your Results
+At the end of this team exercise, groups will present findings from their QC reports and IGV analysis to the class.
