@@ -24,7 +24,6 @@ mv <path to your 6 aligned bams> ~/workspace/rnaseq/team_exercise/aligned_bams
 
 - Familiarize yourself with Stringtie options
 - Run Stringtie to obtain expression values
-- Create an expression results directory, run Stringtie on all samples, and store the results in appropriately named subdirectories in this results dir
 
 Teams can now use `Stringtie` to estimate the gene expression levels in their sample and answer the following questions:
 
@@ -47,9 +46,17 @@ Teams will now use ballgown to perform differential analysis followed by visuali
 
 4. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing the significantly de genes? What if you want to show significantly de genes that also pass a low abundance filter (e.g. sum of fpkm across samples larger than 5, etc.)?
 
-5. Do you notice anything abnormal in your visualization results? If so, can you provide a possible explaination for the phenomenon you are observing? 
+5. Do you notice anything abnormal in your visualization results? If so, can you provide a possible explaination for the phenomenon you are observing?
 
 Additionally, students should feel free to explore other visualization methods, including those they may have used in past research experiences and share with the class.
+
+## Bonus question
+
+- Run htseq to get raw counts and then use edgeR for differential expression
+- Compare results between ballgown de and edgeR
+
+6. After obtaining your edgeR results, how does it agree with your previously obtained de results using ballgown? 
+
 
 ## Presenting Your Results
 At the end of this team exercise, students will show how they visualized their differential expression results to the class.
