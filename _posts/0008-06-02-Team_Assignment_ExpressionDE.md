@@ -39,11 +39,15 @@ Teams can now use `Stringtie` to estimate the gene expression levels in their sa
 - Check which genes are differentially expressed with statistical significance
 - Visualize DE results
 
-Teams will now use ballgown to perform differential analysis followed by their method of choice to visualize their results.
+Teams will now use ballgown to perform differential analysis followed by visualization their results.
 
 2. How many significant differentially expressed genes do you observe?
 
-3. Pick one of the significantly differentially expressed genes and visualize individual transcript expression levels.
+3. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase gene expression levels instead of transcript expression levels?)
+
+4. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing only the significantly de genes?
+
+Additionally, students should feel free to explore other visualization methods, including those they may have used in past research experiences and share with the class.
 
 ## Presenting Your Results
 At the end of this team exercise, students will show how they visualized their differential expression results to the class.
