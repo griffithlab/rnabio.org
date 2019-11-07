@@ -107,7 +107,7 @@ Hint: useful commands include `cat`, `grep`, `cut`, `sort`, `uniq`, `awk`
 - Familiarize yourself with the options for Fastqc to be able to redirect your output
 - Familiarize yourself with the output metrics from adapter trimming
 
-Prior to aligning RNA-seq data, teams should perform adapter trimming using `Flexbar`. Once the team has both the pre-trim and post-trim data, QC metrics should be evaluated using `fastqc` and a general report can be generated using `multi-qc`.
+Prior to aligning RNA-seq data, teams should perform adapter trimming using `flexbar`. Once the team has both the pre-trim and post-trim data, QC metrics should be evaluated using `fastqc` and a general report can be generated using `multiqc`.
 
 3. What is the average percentage of reads that are trimmed?
 
