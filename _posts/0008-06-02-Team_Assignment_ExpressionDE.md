@@ -45,7 +45,7 @@ Teams will now use ballgown to perform differential analysis followed by visuali
 
 3. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase gene expression levels instead of transcript expression levels?)
 
-4. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing only the significantly de genes?
+4. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing the significantly de genes?
 
 Additionally, students should feel free to explore other visualization methods, including those they may have used in past research experiences and share with the class.
 
