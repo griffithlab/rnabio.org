@@ -44,20 +44,24 @@ As mentioned previously, we have subsetted the 6 RNA-seq samples into 5 differen
 mkdir -p ~/workspace/rnaseq/team_exercise/data
 cd ~/workspace/rnaseq/team_exercise/data
 
+### PLEASE ASSIGN THE TEAM VARIABLE TO YOUR OWN TEAM NUMBER
+TEAM='<YOUR TEAM NUMBER>'
+
+
 # Team A:
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_A/*
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045016_1.fastq.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045016_2.fastq.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045017_1.fastq.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045017_2.fastq.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045018_1.fastq.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045018_2.fastq.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045019_1.fastq.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045019_2.fastq.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045020_1.fastq.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045020_2.fastq.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045021_1.fastq.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045021_2.fastq.gz
 
-# Team B:
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_B/*
-
-#Team C:
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_C/*
-
-# Team D:
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_D/*
-
-# Team E:
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_E/*
 ```
 
 Additionally, teams will need to create a separate directory and download the corresponding reference files needed for RNA alignment & further expression analysis:
