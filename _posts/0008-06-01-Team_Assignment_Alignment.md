@@ -44,20 +44,27 @@ As mentioned previously, we have subsetted the 6 RNA-seq samples into 5 differen
 mkdir -p ~/workspace/rnaseq/team_exercise/data
 cd ~/workspace/rnaseq/team_exercise/data
 
-# Team A:
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_A/*
 
-# Team B:
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_B/*
+### TEAM A
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_A/dataset.tar.gz
+tar -xzvf dataset.tar.gz
 
-#Team C:
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_C/*
+### TEAM B
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_B/dataset.tar.gz
+tar -xzvf dataset.tar.gz
 
-# Team D:
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_D/*
+### TEAM C
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_C/dataset.tar.gz
+tar -xzvf dataset.tar.gz
 
-# Team E:
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_E/*
+### TEAM D
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_D/dataset.tar.gz
+tar -xzvf dataset.tar.gz
+
+### TEAM E
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_E/dataset.tar.gz
+tar -xzvf dataset.tar.gz
+
 ```
 
 Additionally, teams will need to create a separate directory and download the corresponding reference files needed for RNA alignment & further expression analysis:
@@ -69,7 +76,8 @@ cd ~/workspace/rnaseq/team_exercise/references
 wget -c http://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex.fa
 
 ## Hisat alignment index files
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index.tar.gz
+tar -xzvf hisat2.1.0_index.tar.gz
 
 ## Kallisto index
 wget -c http://genomedata.org/seq-tec-workshop/references/RNA/Homo_sapiens.GRCh38.cdna.all.fa.kallisto.idx
@@ -83,17 +91,16 @@ Note: when initiating an environment variable, we do not need the $; however, ev
 
 ```bash
 export RNA_TEAM_ASSIGNMENT=~/workspace/rnaseq/team_exercise
-export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/data
-export RNA_INT_REFS_DIR=$RNA_INT_ASSIGNMENT/references
-export RNA_INT_ILL_ADAPT=$RNA_INT_ASSIGNMENT/references/illumina_multiplex.fa
-export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/hisat2.1.0_index/GRCh38DH
-export RNA_INT_REF_GTF=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.95.gtf
-export RNA_INT_ALIGN_DIR=$RNA_INT_ASSIGNMENT/hisat2
+export RNA_TEAM_DATA_DIR=$RNA_TEAM_ASSIGNMENT/data
+export RNA_TEAM_REFS_DIR=$RNA_TEAM_ASSIGNMENT/references
+export RNA_TEAM_ILL_ADAPT=$RNA_TEAM_ASSIGNMENT/references/illumina_multiplex.fa
+export RNA_TEAM_REF_INDEX=$RNA_TEAM_REFS_DIR/hisat2.1.0_index/GRCh38DH
+export RNA_TEAM_REF_GTF=$RNA_TEAM_REFS_DIR/Homo_sapiens.GRCh38.95.gtf
 ```
 Upon obtaining the different reference files, explore the annotated reference gtf file and answer the following questions using your choice of commands.
 Hint: useful commands include `cat`, `grep`, `cut`, `sort`, `uniq`, `awk`
 
-1.  What are the different types of data $RNA_INT_REF_GTF contain (e.g. transcript, gene)? What are the frequencies of the different types of data? (This is referring to the third field/column of the data)
+1.  What are the different types of data $RNA_TEAM_REF_GTF contain (e.g. transcript, gene)? What are the frequencies of the different types of data? (This is referring to the third field/column of the data)
 
 2. Which genes have the highest number of transcripts (either gene id or gene name)? How many?
 
@@ -142,7 +149,7 @@ Prior to aligning RNA-seq data, teams should perform adapter trimming using `fle
 In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
 ```bash
 # Merge the bams for visualization purposes
-cd $RNA_INT_ALIGN_DIR
+cd <path to dir with alignments>
 java -Xmx16g -jar $PICARD MergeSamFiles OUTPUT=KO_merged.bam INPUT=SRR10045016.bam INPUT=SRR10045017.bam INPUT=SRR10045018.bam
 java -Xmx16g -jar $PICARD MergeSamFiles OUTPUT=RESCUE_merged.bam INPUT=SRR10045019.bam INPUT=SRR10045020.bam INPUT=SRR10045021.bam
 ```
