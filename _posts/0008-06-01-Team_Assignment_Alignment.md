@@ -96,7 +96,6 @@ export RNA_TEAM_REFS_DIR=$RNA_TEAM_ASSIGNMENT/references
 export RNA_TEAM_ILL_ADAPT=$RNA_TEAM_ASSIGNMENT/references/illumina_multiplex.fa
 export RNA_TEAM_REF_INDEX=$RNA_TEAM_REFS_DIR/hisat2.1.0_index/GRCh38DH
 export RNA_TEAM_REF_GTF=$RNA_TEAM_REFS_DIR/Homo_sapiens.GRCh38.95.gtf
-export RNA_TEAM_ALIGN_DIR=$RNA_TEAM_ASSIGNMENT/hisat2
 ```
 Upon obtaining the different reference files, explore the annotated reference gtf file and answer the following questions using your choice of commands.
 Hint: useful commands include `cat`, `grep`, `cut`, `sort`, `uniq`, `awk`
@@ -150,7 +149,7 @@ Prior to aligning RNA-seq data, teams should perform adapter trimming using `fle
 In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
 ```bash
 # Merge the bams for visualization purposes
-cd $RNA_INT_ALIGN_DIR
+cd <path to dir with alignments>
 java -Xmx16g -jar $PICARD MergeSamFiles OUTPUT=KO_merged.bam INPUT=SRR10045016.bam INPUT=SRR10045017.bam INPUT=SRR10045018.bam
 java -Xmx16g -jar $PICARD MergeSamFiles OUTPUT=RESCUE_merged.bam INPUT=SRR10045019.bam INPUT=SRR10045020.bam INPUT=SRR10045021.bam
 ```
