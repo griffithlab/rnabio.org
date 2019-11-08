@@ -100,7 +100,7 @@ export RNA_TEAM_REF_GTF=$RNA_TEAM_REFS_DIR/Homo_sapiens.GRCh38.95.gtf
 Upon obtaining the different reference files, explore the annotated reference gtf file and answer the following questions using your choice of commands.
 Hint: useful commands include `cat`, `grep`, `cut`, `sort`, `uniq`, `awk`
 
-1.  What are the different types of data $RNA_INT_REF_GTF contain (e.g. transcript, gene)? What are the frequencies of the different types of data? (This is referring to the third field/column of the data)
+1.  What are the different types of data $RNA_TEAM_REF_GTF contain (e.g. transcript, gene)? What are the frequencies of the different types of data? (This is referring to the third field/column of the data)
 
 2. Which genes have the highest number of transcripts (either gene id or gene name)? How many?
 
