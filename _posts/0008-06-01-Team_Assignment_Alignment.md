@@ -48,7 +48,6 @@ cd ~/workspace/rnaseq/team_exercise/data
 TEAM='<YOUR TEAM NUMBER>'
 
 
-# Team A:
 wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045016_1.fastq.gz
 wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045016_2.fastq.gz
 wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045017_1.fastq.gz
