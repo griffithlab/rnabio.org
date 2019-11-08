@@ -44,22 +44,26 @@ As mentioned previously, we have subsetted the 6 RNA-seq samples into 5 differen
 mkdir -p ~/workspace/rnaseq/team_exercise/data
 cd ~/workspace/rnaseq/team_exercise/data
 
-### PLEASE ASSIGN THE TEAM VARIABLE TO YOUR OWN TEAM NUMBER
-TEAM='<YOUR TEAM NUMBER>'
 
+### TEAM A
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_A/dataset.tar.gz
+tar -xzvf dataset.tar.gz
 
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045016_1.fastq.gz
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045016_2.fastq.gz
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045017_1.fastq.gz
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045017_2.fastq.gz
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045018_1.fastq.gz
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045018_2.fastq.gz
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045019_1.fastq.gz
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045019_2.fastq.gz
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045020_1.fastq.gz
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045020_2.fastq.gz
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045021_1.fastq.gz
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_${TEAM}/SRR10045021_2.fastq.gz
+### TEAM B
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_B/dataset.tar.gz
+tar -xzvf dataset.tar.gz
+
+### TEAM C
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_C/dataset.tar.gz
+tar -xzvf dataset.tar.gz
+
+### TEAM D
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_D/dataset.tar.gz
+tar -xzvf dataset.tar.gz
+
+### TEAM E
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_E/dataset.tar.gz
+tar -xzvf dataset.tar.gz
 
 ```
 
@@ -72,15 +76,8 @@ cd ~/workspace/rnaseq/team_exercise/references
 wget -c http://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex.fa
 
 ## Hisat alignment index files
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.1.ht2
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.2.ht2
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.3.ht2
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.4.ht2
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.5.ht2
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.6.ht2
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.7.ht2
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.8.ht2
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index.tar.gz
+tar -xzvf hisat2.1.0_index.tar.gz
 
 ## Kallisto index
 wget -c http://genomedata.org/seq-tec-workshop/references/RNA/Homo_sapiens.GRCh38.cdna.all.fa.kallisto.idx
@@ -94,12 +91,12 @@ Note: when initiating an environment variable, we do not need the $; however, ev
 
 ```bash
 export RNA_TEAM_ASSIGNMENT=~/workspace/rnaseq/team_exercise
-export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/data
-export RNA_INT_REFS_DIR=$RNA_INT_ASSIGNMENT/references
-export RNA_INT_ILL_ADAPT=$RNA_INT_ASSIGNMENT/references/illumina_multiplex.fa
-export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/hisat2.1.0_index/GRCh38DH
-export RNA_INT_REF_GTF=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.95.gtf
-export RNA_INT_ALIGN_DIR=$RNA_INT_ASSIGNMENT/hisat2
+export RNA_TEAM_DATA_DIR=$RNA_TEAM_ASSIGNMENT/data
+export RNA_TEAM_REFS_DIR=$RNA_TEAM_ASSIGNMENT/references
+export RNA_TEAM_ILL_ADAPT=$RNA_TEAM_ASSIGNMENT/references/illumina_multiplex.fa
+export RNA_TEAM_REF_INDEX=$RNA_TEAM_REFS_DIR/hisat2.1.0_index/GRCh38DH
+export RNA_TEAM_REF_GTF=$RNA_TEAM_REFS_DIR/Homo_sapiens.GRCh38.95.gtf
+export RNA_TEAM_ALIGN_DIR=$RNA_TEAM_ASSIGNMENT/hisat2
 ```
 Upon obtaining the different reference files, explore the annotated reference gtf file and answer the following questions using your choice of commands.
 Hint: useful commands include `cat`, `grep`, `cut`, `sort`, `uniq`, `awk`
