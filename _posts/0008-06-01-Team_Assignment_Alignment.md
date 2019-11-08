@@ -73,7 +73,15 @@ cd ~/workspace/rnaseq/team_exercise/references
 wget -c http://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex.fa
 
 ## Hisat alignment index files
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.1.ht2
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.2.ht2
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.3.ht2
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.4.ht2
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.5.ht2
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.6.ht2
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.7.ht2
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index/GRCh38DH.8.ht2
 
 ## Kallisto index
 wget -c http://genomedata.org/seq-tec-workshop/references/RNA/Homo_sapiens.GRCh38.cdna.all.fa.kallisto.idx
