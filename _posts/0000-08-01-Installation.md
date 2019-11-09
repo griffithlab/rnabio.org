@@ -442,6 +442,12 @@ After reboot, you should now be able to run `docker run hello-world` without usi
 
 Some tools have complex dependencies that are difficult to reproduce across systems or make work in the same environment with tools that require different versions of the same dependencies. Container systems such as Docker and Singularity allow you to isolate a tool's environment giving you almost complete control over dependency issues. For this reason, many tool developers have started to distribute their tools as docker images.  Many of these are placed in container image repositories such as [DockerHub](https://hub.docker.com/). Here is an example tool installation using `docker`.
 
+Install samtools:
+```bash
+docker pull biocontainers/samtools:v1.9-4-deb_cv1
+docker run -t biocontainers/samtools:v1.9-4-deb_cv1 samtools --help
+```
+
 Install pvactools for personalized cancer vaccine designs:
 ```bash
 #docker pull griffithlab/pvactools:latest
