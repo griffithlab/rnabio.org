@@ -102,7 +102,10 @@ Hint: useful commands include `cat`, `grep`, `cut`, `sort`, `uniq`, `awk`
 
 1.  What are the different types of data $RNA_TEAM_REF_GTF contain (e.g. transcript, gene)? What are the frequencies of the different types of data? (This is referring to the third field/column of the data)
 
-2. Which genes have the highest number of transcripts (either gene id or gene name)? How many?
+In order to get this answer, there are a series of commands that we will pipe together: `cat Homo_sapiens.GRCh38.95.gtf | grep gene_name | cut -d$'\t' -f3 | sort | uniq -c | sort`
+Can you explain how this command works to one of the TAs?
+
+2. Now that you have seen the example in Q1, can you construct a similar command that answer the questions: Which genes have the highest number of transcripts (either gene id or gene name)? How many?
 
 
 ### Data Preprocessing (QC & Trimming)
@@ -159,5 +162,12 @@ java -Xmx16g -jar $PICARD MergeSamFiles OUTPUT=RESCUE_merged.bam INPUT=SRR100450
 
 10. IGV: Can you identify regions where the RNAseq reads are mapping to unexpected regions? What do you think is the reason for this phenomenon?
 
+11. IGV: Can you identify a gene region that has RNA sequencing support for multiple isoforms?
+
 ### Presenting Your Results
-At the end of this team exercise, groups will present findings from their QC reports and IGV analysis to the class.
+At the end of this team exercise, groups will present findings from their QC reports and IGV analysis to the class for specific questions listed below.
+Team A: Present IGV findings regarding question 11.
+Team B: Present multiqc report on pre- and post-alignment fastq files (question 8).
+Team C: Present IGV findings regarding question 9.
+Team D: Present IGV findings regarding question 10.
+Team E: Present multiqc report on pre- and post-trimming fastq files (Data preprocessing section).
