@@ -156,6 +156,8 @@ cd $RNA_ALIGN_DIR/example_QC
 wget http://genomedata.org/rnaseq-tutorial/multiqc_report.html
 ```
 
+Below is a brief description of each of the samples included in the multiQC report.
+
 | Name     |        Sample type         |
 |----------|----------------------------|
 | Sample 1 | Brain metastasis           |
