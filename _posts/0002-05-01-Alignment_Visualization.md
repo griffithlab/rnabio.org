@@ -34,7 +34,9 @@ docker run -v /home/ubuntu/workspace:/workspace biocontainers/samtools:v1.9-4-de
 ```
 
 `docker run` is how you initialize a docker container to run a command
+
 `-v` is the parameter used to mount your workspace so that the docker container can see the files that you're working with. In the example above, `/home/ubuntu/workspace` from the EC2 instance has been mounted as `/workspace` within the docker container. Since my workspace has been mounted and named as workspace, all relative paths below this directory will be the same.
+
 `biocontainers/samtools` is the docker container name. The `:v1.9-4-deb_cv1` refers to the specific tag and release of the docker container.
 
 
