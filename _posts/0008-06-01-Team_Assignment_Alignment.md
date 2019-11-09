@@ -145,11 +145,12 @@ java -Xmx16g -jar $PICARD MergeSamFiles OUTPUT=RESCUE_merged.bam INPUT=SRR100450
 ```
 8. How does the information from your post-alignment QC report differ from pre-alignment QC?
 
-9. IGV: Can you identify certain exons that have significantly larger/smaller coverage in one of your KO/RESCUE samples compared to the other? What is happening here? 
+9. IGV: Can you identify certain exons that have significantly more/less coverage in one of your KO/RESCUE samples compared to the other? What is happening here?
 
 10. IGV: Can you identify regions where the RNAseq reads are mapping to unexpected regions? What do you think is the reason for this phenomenon?
 
 11. IGV: Can you identify a gene region that has RNA sequencing support for multiple isoforms?
+
 
 ### Presenting Your Results
 At the end of this team exercise, groups will present findings from their QC reports and IGV analysis to the class for specific questions listed below.
