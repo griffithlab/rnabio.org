@@ -63,6 +63,15 @@ perl -ne 'if ($_ =~ /(gene_id\s\"ENSG\w+\")/){print "$1\n"}' $RNA_REF_GTF | sort
 
 * By piping to `sort`, then `uniq`, then word count we can count the unique number of genes in the file.
 
+We can also use `grep` to find this same information.
+
+```bash
+cat chr22_with_ERCC92.gtf | grep -w gene | wc -l
+```
+
+* `grep -w gene` is telling grep to do an exact match for the string 'gene'. This means that it will return lines that are of the feature type `gene`.
+
+
 Now view the structure of a single transcript in GTF format. Press `q` to exit the `less` display when you are done.
 
 ```bash
