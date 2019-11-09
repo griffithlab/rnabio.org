@@ -75,34 +75,23 @@ cd ~/workspace/rnaseq/team_exercise/references
 ## Adapter trimming
 wget -c http://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex.fa
 
-## Hisat alignment index files
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/hisat2.1.0_index.tar.gz
-tar -xzvf hisat2.1.0_index.tar.gz
+## Reference fasta corresponding to your team's assigned chromosome (e.g. chr6)
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chr6.fa
 
 ## Kallisto index
 wget -c http://genomedata.org/seq-tec-workshop/references/RNA/Homo_sapiens.GRCh38.cdna.all.fa.kallisto.idx
 
-## Annotated reference gtf file
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/Homo_sapiens.GRCh38.95.gtf
+## Obtain annotated reference gtf file corresponding to your team's assigned chromosome (e.g. chr6)
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chr6_Homo_sapiens.GRCh38.95.gtf
 
 ```
-For the simplicity of commands, students can choose to create the following environmental variables for use throughout the assignment.
-Note: when initiating an environment variable, we do not need the $; however, everytime we call the variable, it needs to be preceeded by a $.
 
-```bash
-export RNA_TEAM_ASSIGNMENT=~/workspace/rnaseq/team_exercise
-export RNA_TEAM_DATA_DIR=$RNA_TEAM_ASSIGNMENT/data
-export RNA_TEAM_REFS_DIR=$RNA_TEAM_ASSIGNMENT/references
-export RNA_TEAM_ILL_ADAPT=$RNA_TEAM_ASSIGNMENT/references/illumina_multiplex.fa
-export RNA_TEAM_REF_INDEX=$RNA_TEAM_REFS_DIR/hisat2.1.0_index/GRCh38DH
-export RNA_TEAM_REF_GTF=$RNA_TEAM_REFS_DIR/Homo_sapiens.GRCh38.95.gtf
-```
 Upon obtaining the different reference files, explore the annotated reference gtf file and answer the following questions using your choice of commands.
 Hint: useful commands include `cat`, `grep`, `cut`, `sort`, `uniq`, `awk`
 
-1.  What are the different types of features contained in the $RNA_TEAM_REF_GTF (e.g. transcript, gene)? What are the frequencies of the different types of features? (This is referring to the third field/column of the data).
+1.  What are the different types of features contained in the `$RNA_TEAM_REF_GTF` (e.g. transcript, gene)? What are the frequencies of the different types of features? (This is referring to the third field/column of the data).
 
-In order to get this answer, there are a series of commands that we can pipe together: `cat Homo_sapiens.GRCh38.95.gtf | grep gene_name | cut -d$'\t' -f3 | sort | uniq -c | sort`
+In order to get this answer, there are a series of commands that we can pipe together: `cat $RNA_TEAM_REF_GTF | grep gene_name | cut -d$'\t' -f3 | sort | uniq -c | sort`
 
 Can you explain how this command works to one of the TAs?
 
