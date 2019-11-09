@@ -103,6 +103,7 @@ Hint: useful commands include `cat`, `grep`, `cut`, `sort`, `uniq`, `awk`
 1.  What are the different types of data $RNA_TEAM_REF_GTF contain (e.g. transcript, gene)? What are the frequencies of the different types of data? (This is referring to the third field/column of the data)
 
 In order to get this answer, there are a series of commands that we will pipe together: `cat Homo_sapiens.GRCh38.95.gtf | grep gene_name | cut -d$'\t' -f3 | sort | uniq -c | sort`
+
 Can you explain how this command works to one of the TAs?
 
 2. Now that you have seen the example in Q1, can you construct a similar command that answer the questions: Which genes have the highest number of transcripts (either gene id or gene name)? How many?
