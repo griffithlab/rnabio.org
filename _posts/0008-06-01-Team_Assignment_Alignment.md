@@ -153,8 +153,13 @@ java -Xmx16g -jar $PICARD MergeSamFiles OUTPUT=RESCUE_merged.bam INPUT=SRR100450
 
 ### Presenting Your Results
 At the end of this team exercise, groups will present findings from their QC reports and IGV analysis to the class for specific questions listed below.
+
 Team A: Present IGV findings regarding question 11.
+
 Team B: Present multiqc report on pre- and post-alignment fastq files (question 8).
+
 Team C: Present IGV findings regarding question 9.
+
 Team D: Present IGV findings regarding question 10.
+
 Team E: Present multiqc report on pre- and post-trimming fastq files (Data preprocessing section).
