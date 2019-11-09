@@ -391,7 +391,7 @@ sudo apt-get update
 sudo apt-get remove docker docker-engine docker.io containerd runc
 ```
 
-Next we'll want to make sure that some dependencies that docker needs.
+Next we'll want to make sure that some dependencies that docker needs are available.
 
 ```bash
 sudo apt-get install \

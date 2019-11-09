@@ -26,8 +26,10 @@ The age of affordable massively parallel sequencing has exponentially increased 
 A version of this workshop was accompanied by a publication. If you find the materials here  useful, please cite the following:
 Malachi Griffith\*, Jason R. Walker, Nicholas C. Spies, Benjamin J. Ainscough, Obi L. Griffith\*. 2015. [*Informatics for RNA-seq: A web resource for analysis on the cloud*](http://dx.doi.org/10.1371/journal.pcbi.1004393). PLoS Comp Biol. 11(8):e1004393. \*To whom correspondence should be addressed: E-mail: mgriffit[AT]genome.wustl.edu, ogriffit[AT]genome.wustl.edu
 
-These materials have been developed with the support of AWS Cloud Credits for Research, the Canadian Bioinformatics Workshops, and Cold Spring Harbor Laboratory.
+These materials have been developed with the support of AWS Cloud Credits for Research, the Canadian Bioinformatics Workshops, and Cold Spring Harbor Laboratory. See [Acknowledgements](/acknowledgements/) for more details.
 
 This workshop has been delivered many times and continues to evolve. A complete list of these past workshops is available [here](https://rnabio.org/module-08-appendix/0008/04/01/Lectures/).
+
+A legacy version of the online resource is also available [here](https://github.com/griffithlab/rnaseq_tutorial/wiki).
 
 **We are constantly improving the course material, if you notice a problem or have a suggestion for improvement please let us know by making a github issue at:** [https://github.com/griffithlab/rnabio.org/issues](https://github.com/griffithlab/rnabio.org/issues)
