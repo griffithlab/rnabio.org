@@ -100,13 +100,13 @@ export RNA_TEAM_REF_GTF=$RNA_TEAM_REFS_DIR/Homo_sapiens.GRCh38.95.gtf
 Upon obtaining the different reference files, explore the annotated reference gtf file and answer the following questions using your choice of commands.
 Hint: useful commands include `cat`, `grep`, `cut`, `sort`, `uniq`, `awk`
 
-1.  What are the different types of data $RNA_TEAM_REF_GTF contain (e.g. transcript, gene)? What are the frequencies of the different types of data? (This is referring to the third field/column of the data)
+1.  What are the different types of features contained in the $RNA_TEAM_REF_GTF (e.g. transcript, gene)? What are the frequencies of the different types of features? (This is referring to the third field/column of the data).
 
-In order to get this answer, there are a series of commands that we will pipe together: `cat Homo_sapiens.GRCh38.95.gtf | grep gene_name | cut -d$'\t' -f3 | sort | uniq -c | sort`
+In order to get this answer, there are a series of commands that we can pipe together: `cat Homo_sapiens.GRCh38.95.gtf | grep gene_name | cut -d$'\t' -f3 | sort | uniq -c | sort`
 
 Can you explain how this command works to one of the TAs?
 
-2. Now that you have seen the example in Q1, can you construct a similar command that answer the questions: Which genes have the highest number of transcripts (either gene id or gene name)? How many?
+2. Now that you have seen the example in Q1, can you construct a similar command that answers the questions: Which genes have the highest number of transcripts (either gene id or gene name)? How many?
 
 
 ### Data Preprocessing (QC & Trimming)
@@ -114,7 +114,7 @@ Can you explain how this command works to one of the TAs?
 **Goals:**
 
 - Perform adapter trimming on your data
-- Run quality check before and after cleaning up your data
+- Perform a quality check before and after cleaning up your data
 - Familiarize yourself with the options for Fastqc to be able to redirect your output
 - Familiarize yourself with the output metrics from adapter trimming
 
@@ -122,7 +122,7 @@ Prior to aligning RNA-seq data, teams should perform adapter trimming using `fle
 
 3. What is the average percentage of reads that are trimmed?
 
-4. Before looking at the multiqc report, how do you expect the sequence length distribution to look like both prior to and after trimming? Is your answer confirmed by the multiqc report results?
+4. Before looking at the multiqc report, how do you expect the sequence length distribution to look both prior to and after trimming? Is your answer confirmed by the multiqc report results?
 
 5. Are there any metrics where the sample(s) failed?
 
@@ -132,8 +132,8 @@ Prior to aligning RNA-seq data, teams should perform adapter trimming using `fle
 
 - Familiarize yourself with HISAT2 alignment options
 - Perform alignments
-- Obtain alignment summary
-- Convert your alignment into compressed bam format
+- Obtain an alignment summary
+- Convert your alignments into compressed BAM format
 
 *A useful option to add to the end of your commands is `2>`, which redirects the stdout from any command into a specific file. This can be used to redirect your stdout into a summary file, and can be used as follows: `My_alignment_script 2> alignment_metrics.txt`. The advantage of this is being able to view the alignment metrics later on.*
 
@@ -148,9 +148,9 @@ Prior to aligning RNA-seq data, teams should perform adapter trimming using `fle
 
 - Perform post-alignment QC analysis using `fastqc` and `multiqc`
 - Merge bam files for easier visualization in IGV
-- Explore alignment using IGV
+- Explore the alignments using IGV
 
-In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
+In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them in IGV.
 ```bash
 # Merge the bams for visualization purposes
 cd <path to dir with alignments>
