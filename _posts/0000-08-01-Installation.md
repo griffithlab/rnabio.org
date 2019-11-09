@@ -380,6 +380,64 @@ Some useful tools are available as official ubuntu packages.  These can be insta
 #tree
 ```
 
+## Installing Docker
+
+Sometimes you might not have root access in order to be able to install the tools as described above or you might not want to deal with figuring out a way to install all of the dependencies necessary for a tool to run. One alternative way to use tools is to use a docker image for that tool. Before we can do this, we must first install docker. 
+
+First we'll want to update `apt-get` and remove any old docker images that might exist on our ubuntu install.
+
+```bash
+sudo apt-get update
+sudo apt-get remove docker docker-engine docker.io containerd runc
+```
+
+Next we'll want to make sure that some dependencies that docker needs.
+
+```bash
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+```
+
+Then we'll need to add Docker’s official GPG key and verify that we now have the key with the fingerprint `9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88`, by searching for the last 8 characters of the fingerprint.
+
+```bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+```
+
+Next, we'll use the following command to set up the stable repository.
+
+```bash
+sudo add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) \
+   stable"
+```
+
+_Now_ that we've set up the dependencies for docker, we can finally install it.
+
+```bash
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+```
+
+We can now test our docker install.
+
+```bash
+sudo docker run hello-world
+```
+
+Notice that we had to use `sudo` to run the docker container. If you tried to run the above command, then you would get an error of `permission denied`. In order to not have to use root access everytime we want to use docker, we can add the ubuntu user to the docker group. We'll then have to reboot to instance in order for this change to take place.
+
+```bash
+sudo usermod -a -G docker ubuntu
+sudo reboot
+```
+
+After reboot, you should now be able to run `docker run hello-world` without using `sudo` before it.
+
 ## Installing tools by Docker image
 
 Some tools have complex dependencies that are difficult to reproduce across systems or make work in the same environment with tools that require different versions of the same dependencies. Container systems such as Docker and Singularity allow you to isolate a tool's environment giving you almost complete control over dependency issues. For this reason, many tool developers have started to distribute their tools as docker images.  Many of these are placed in container image repositories such as [DockerHub](https://hub.docker.com/). Here is an example tool installation using `docker`.
