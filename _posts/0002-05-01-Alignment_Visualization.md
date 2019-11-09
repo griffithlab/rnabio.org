@@ -21,7 +21,22 @@ Before we can view our alignments in the IGV browser we need to index our BAM fi
 echo $RNA_ALIGN_DIR
 cd $RNA_ALIGN_DIR
 find *.bam -exec echo samtools index {} \; | sh
+
 ```
+
+Optional:
+
+Try to create an index file for one of your bam files using a samtools docker image rather than the locally installed version of samtools. Below is an example docker run command. 
+
+```bash
+docker run -v /home/ubuntu/workspace:/workspace biocontainers/samtools:v1.9-4-deb_cv1 samtools index /workspace/test.bam
+
+```
+
+`docker run` is how you initialize a docker container to run a command
+`-v` is the parameter used to mount your workspace so that the docker container can see the files that you're working with. In the example above, `/home/ubuntu/workspace` from the EC2 instance has been mounted as `/workspace` within the docker container. Since my workspace has been mounted and named as workspace, all relative paths below this directory will be the same.
+`biocontainers/samtools` is the docker container name. The `:v1.9-4-deb_cv1` refers to the specific tag and release of the docker container.
+
 
 ### Visualize alignments
 Start IGV on your laptop. Load the UHR.bam & HBR.bam files in IGV. You can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'. You may wish to customize the track names as you load them in to keep them straight. Do this by right-clicking on the alignment track and choosing 'Rename Track'.
@@ -97,8 +112,8 @@ bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/HBR.bam 2>/dev/null
 
 Now, run it again, but ignore stderr and redirect stdout to a file:
 ```bash
-    bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/UHR.bam 2>/dev/null 1>UHR_bam-readcounts.txt
-    bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/HBR.bam 2>/dev/null 1>HBR_bam-readcounts.txt
+bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/UHR.bam 2>/dev/null 1>UHR_bam-readcounts.txt
+bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/HBR.bam 2>/dev/null 1>HBR_bam-readcounts.txt
 ```
 
 From this output you could parse the read counts for each base
