@@ -60,6 +60,61 @@ Q3. How many significant differentially expressed genes do you observe?
 
 Q4. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing the significantly de genes?
 
+Hint for Q4:
+```bash
+#Load libraries
+library(ggplot2)
+library(gplots)
+library(GenomicRanges)
+library(ballgown)
+
+#Set your output pdf name
+pdf(file="YOUR_CHOICE_OF_FILENAME.pdf")
+
+#Set working directory where results files exist
+working_dir = "PATH_TO_FILES"
+setwd(working_dir)
+
+dir()
+
+load('bg.rda')
+bg_table = texpr(bg, 'all')
+bg_gene_names = unique(bg_table[, 9:10])
+gene_expression = as.data.frame(gexpr(bg))
+
+data_columns=c(1:6)
+
+results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
+results_genes = merge(results_genes,bg_gene_names,by.x=c("id"),by.y=c("gene_id"))
+
+results_genes[,"de"] = log2(results_genes[,"fc"])
+
+sigpi = which(results_genes[,"pval"]<0.05)
+sigp = results_genes[sigpi,]
+
+sigde = which(abs(sigp[,"de"]) >= 2)
+sig_tn_de = sigp[sigde,]
+
+mydist=function(c) {dist(c,method="euclidian")}
+myclust=function(c) {hclust(c,method="average")}
+
+main_title="sig DE Transcripts"
+par(cex.main=0.8)
+sig_genes_de=sig_tn_de[,"id"]
+sig_gene_names_de=sig_tn_de[,"gene_name"]
+
+data=log2(as.matrix(gene_expression[as.vector(sig_genes_de),data_columns])+1)
+heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="none", dendrogram="both", margins=c(10,4), Rowv=TRUE, Colv=TRUE, symbreaks=FALSE, key=TRUE, symkey=FALSE, density.info="none", trace="none", main=main_title, cexRow=0.3, cexCol=1, labRow=sig_gene_names_de,col=rev(heat.colors(75)))
+
+dev.off()
+
+quit()
+
+```
+
+Now. try playing around with the de filter to include more/less genes in your heatmap. Try to determine the best cutoff for your specific dataset.
+
+
 (OPTIONAL) Q5. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase **gene expression** levels instead of transcript expression levels?)
 
 Below are hints and one version of the answer for Q5. Also note that part of the answers are specific to how the sample names and file names were constructed and will require appropriate modification.
