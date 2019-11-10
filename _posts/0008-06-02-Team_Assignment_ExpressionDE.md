@@ -12,11 +12,6 @@ In the previous exercise, teams have aligned their RNAseq data and performed QC 
 
 Before starting this team exercise, first move your **6** aligned bam files (along with the index files) to a new folder. Note: In the previous exercise, you merged bams files for easy visualization in IGV, we will not be using that for expression and de analysis.
 
-```bash
-cd ~/workspace/rnaseq/team_exercise
-mkdir -p aligned_bams
-mv <path to your 6 aligned bams> ~/workspace/rnaseq/team_exercise/aligned_bams
-```
 
 ## Expression Estimation
 
