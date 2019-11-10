@@ -63,7 +63,7 @@ exp_table[order(exp_table$mean_rescue,decreasing=T)[1:5],]
 Teams will now use ballgown to perform differential analysis followed by visualization of their results.
 
 Q2. Follow through the ballgown differential expression section by making modifications using your respective sample names.
-Hint: You will need to create a separate directory under your team_exercises folder for your ballgown outputs. You will also need to change the respective sample names and paths. 
+Hint: You will need to create a separate directory under your team_exercises folder for your ballgown outputs. You will also need to change the respective sample names and paths following the `printf` command.
 
 ```bash
 mkdir -p ~/workspace/rnaseq/team_exercise/de/ballgown/ref_only/
