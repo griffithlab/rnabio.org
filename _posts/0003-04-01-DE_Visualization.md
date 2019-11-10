@@ -182,7 +182,7 @@ gene_expression = as.data.frame(gexpr(bg))
 Next, you'll load the data into a R dataframe.
 
 ```R
-***R code***
+###R code###
 #### Working with 'dataframes'
 #View the first five rows of data (all columns) in one of the dataframes created
 head(gene_expression)
