@@ -15,6 +15,11 @@ date: 0003-03-01
 
 ***
 
+
+### Expression mini lecture
+If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2019/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
+
+
 ### Ballgown DE Analyis
 Use Ballgown to compare the tumor and normal conditions. Refer to the Ballgown manual for a more detailed explanation:
 
