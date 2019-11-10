@@ -22,11 +22,11 @@ If you would like a refresher on expression and abundance estimations, we have m
 
 
 #### Note on de novo transcript discovery and differential expression using Stringtie:
-In this module, we will run Stringtie in 'reference only' mode. For simplicity and to reduce run time, it is sometime useful to perform expression analysis with only known transcript models. However, Stringtie can predict the transcripts present in each library instead (by dropping the '-G' option in stringtie commands as described in the next module). Stringtie will then assign arbitrary transcript IDs to each transcript assembled from the data and estimate expression for those transcripts. One complication with this method is that in each library a different set of transcripts is likely to be predicted for each library. There may be a lot of similarities but the number of transcripts and their exact structure will differ in the output files for each library. Before you can compare across libraries you therefore need to determine which transcripts correspond to each other across the libraries.
+In this module, we will run Stringtie in 'reference only' mode. For simplicity and to reduce run time, it is sometimes useful to perform expression analysis with only known transcript models. However, Stringtie can predict the transcripts present in each library instead (by dropping the '-G' option in stringtie commands as described in the next module). Stringtie will then assign arbitrary transcript IDs to each transcript assembled from the data and estimate expression for those transcripts. One complication with this method is that in each library a different set of transcripts is likely to be predicted for each library. There may be a lot of similarities but the number of transcripts and their exact structure will differ in the output files for each library. Before you can compare across libraries you therefore need to determine which transcripts correspond to each other across the libraries.
 
 * Stringtie provides a merge command to combine predicted transcript GTF files from across different libraries
 * Once you have a merged GTF file you can run Stringtie **again** with this instead of the known transcripts GTF file we used above
-Stringtie also provides 'gffcompare' to compare predicted transcripts to known transcripts
+* Stringtie also provides 'gffcompare' to compare predicted transcripts to known transcripts
 * Refer to the Stringtie manual for a more detailed explanation:
 * [https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual)
 
