@@ -27,7 +27,7 @@ mv <path to your 6 aligned bams> ~/workspace/rnaseq/team_exercise/aligned_bams
 
 Teams can now use `Stringtie` to estimate the gene expression levels in their sample and answer the following questions:
 
-1. Based on your stringtie results, what are the top 5 genes with highest expression levels across all knockout samples? What about in your rescue samples? How large is the overlap between the two sets of genes?  
+1. Based on your stringtie results, what are the top 5 genes with highest expression levels across all knockout samples? What about in your rescue samples? How large is the overlap between the two sets of genes? (Hint: You can use R for this analysis)
 
 
 ## Differential Expression
@@ -38,15 +38,21 @@ Teams can now use `Stringtie` to estimate the gene expression levels in their sa
 - Check which genes are differentially expressed with statistical significance
 - Visualize DE results
 
-Teams will now use ballgown to perform differential analysis followed by visualization their results.
+Teams will now use ballgown to perform differential analysis followed by visualization of their results.
 
 2. How many significant differentially expressed genes do you observe?
 
-3. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase gene expression levels instead of transcript expression levels?)
+3. Follow through the ballgown differential expression and visualization by making modifications using your respective sample names.
 
-4. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing the significantly de genes? What if you want to show significant de genes that also pass a low abundance filter (e.g. sum of fpkm across samples larger than 5, etc.)?
 
-5. Do you notice anything abnormal in your visualization results? If so, can you provide a possible explaination for the phenomenon you are observing?
+Once you feel confident in your understanding of the R code, answer the following questions by making further modifications to the R code:
+
+
+4. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase **gene expression** levels instead of transcript expression levels?)
+
+5. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing the significantly de genes? What if you want to show significant de genes that also pass a low abundance filter (e.g. sum of fpkm across samples larger than 5, etc.)?
+
+6. Do you notice anything abnormal in your visualization results? If so, can you provide a possible explaination for the phenomenon you are observing?
 
 Additionally, students should feel free to explore other visualization methods, including those they may have used in past research experiences and share with the class.
 
