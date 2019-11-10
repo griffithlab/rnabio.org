@@ -22,8 +22,27 @@ Before starting this team exercise, first move your **6** aligned bam files (alo
 
 Teams can now use `Stringtie` to estimate the gene expression levels in their sample and answer the following questions:
 
-1. Based on your stringtie results, what are the top 5 genes with highest expression levels across all knockout samples? What about in your rescue samples? How large is the overlap between the two sets of genes? (Hint: You can use R for this analysis)
+1. Based on your stringtie results, what are the top 5 genes with highest average expression levels across all knockout samples? What about in your rescue samples? How large is the overlap between the two sets of genes? (Hint: You can use R for this analysis)
 
+Here's some R code to start you off:
+
+```bash
+### Start R
+R
+
+### load your data into R
+exp_table=read.table('gene_coverage_all_samples.tsv', header=TRUE)
+
+### Can you explain what these two lines are doing? Check your data before and after running these commands.
+exp_table[,'mean_ko'] = apply(exp_table[,c(2:4)], 1, mean)
+exp_table[,'mean_rescue'] = apply(exp_table[,c(5:7)], 1, mean)
+
+### What about the following two commands?
+exp_table[order(exp_table$mean_ko,decreasing=T)[1:5],]
+exp_table[order(exp_table$mean_rescue,decreasing=T)[1:5],]
+
+
+```
 
 ## Differential Expression
 
@@ -35,15 +54,54 @@ Teams can now use `Stringtie` to estimate the gene expression levels in their sa
 
 Teams will now use ballgown to perform differential analysis followed by visualization of their results.
 
-2. How many significant differentially expressed genes do you observe?
+2. Follow through the ballgown differential expression and visualization by making modifications using your respective sample names.
 
-3. Follow through the ballgown differential expression and visualization by making modifications using your respective sample names.
+3. How many significant differentially expressed genes do you observe?
 
 
 **Once you feel confident in your understanding of the R code, answer the following questions by making further modifications to the R code:**
 
 
 4. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase **gene expression** levels instead of transcript expression levels?)
+
+Below are hints and one version of the answer, please make sure you understand how the R code is working before moving on as you will be working on your own for **Q5**. Also note that part of the answers are specific to how the sample names and file names were constructed and will require appropriate modification. 
+```bash
+### On the command line, you will need to first figure out which genes are most differentially expressed
+### We can do this by looking at the gene_result_sig.tsv file
+grep -v feature KO_vs_RESCUE_gene_results_sig.tsv | sort -rnk 3 | head
+
+### With that gene name, now lets use R to plot the expression levels of that gene across different samples.
+R
+library(ballgown)
+library(genefilter)
+library(dplyr)
+library(devtools)
+outfile="<PATH_TO_OUTPUT_PDF>/<YOUR_CHOICE_OF_GENENAME>_expression_level.pdf"
+pheno_data = read.csv("KO_vs_RESCUE.csv")
+pheno_data
+load('bg.rda')
+
+bg_table = texpr(bg, 'all')
+
+gene_expression = gexpr(bg)
+
+pdf(file=outfile)
+gene_name = "<YOUR_CHOICE_OF_GENENAME>"
+gene_id = bg_table[bg_table$gene_name == gene_name,]$gene_id[1]
+transcript_id =  bg_table[bg_table$gene_id == gene_id,]$t_id
+
+plot(gene_expression[gene_id,] ~ pheno_data$type, border=c(2,3), main=paste('Gene Name: ', gene_name),pch=19, xlab="Type", ylab='gene_expression')
+points(gene_expression[gene_id,] ~ jitter(as.numeric(pheno_data$type)), col=as.numeric(pheno_data$type)+1, pch=16)
+
+plotTranscripts(gene_id, bg, main=c('Gene in sample RESCUE_S1'), sample=c('RESCUE_S1'))
+plotTranscripts(gene_id, bg, main=c('Gene in sample RESCUE_S2'), sample=c('RESCUE_S2'))
+plotTranscripts(gene_id, bg, main=c('Gene in sample RESCUE_S3'), sample=c('RESCUE_S3'))
+plotTranscripts(gene_id, bg, main=c('Gene in sample KO_S1'), sample=c('KO_S1'))
+plotTranscripts(gene_id, bg, main=c('Gene in sample KO_S2'), sample=c('KO_S2'))
+plotTranscripts(gene_id, bg, main=c('Gene in sample KO_S3'), sample=c('KO_S3'))
+
+dev.off()
+```
 
 5. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing the significantly de genes? What if you want to show significant de genes that also pass a low abundance filter (e.g. sum of fpkm across samples larger than 5, etc.)?
 
