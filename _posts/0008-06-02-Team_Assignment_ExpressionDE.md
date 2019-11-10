@@ -45,7 +45,7 @@ Teams will now use ballgown to perform differential analysis followed by visuali
 3. Follow through the ballgown differential expression and visualization by making modifications using your respective sample names.
 
 
-Once you feel confident in your understanding of the R code, answer the following questions by making further modifications to the R code:
+**Once you feel confident in your understanding of the R code, answer the following questions by making further modifications to the R code:**
 
 
 4. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase **gene expression** levels instead of transcript expression levels?)
