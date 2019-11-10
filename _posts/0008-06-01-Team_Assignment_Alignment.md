@@ -159,7 +159,7 @@ At the end of this team exercise, groups will present findings from their QC rep
 
 Team A: Present IGV findings regarding question 9.
 
-Team B: Present multiqc report on pre- and post-alignment qc files (question 8).
+Team B: Present multiqc report on pre- and post-alignment qc files (question 6).
 
 Team C: Present IGV findings regarding question 7.
 
