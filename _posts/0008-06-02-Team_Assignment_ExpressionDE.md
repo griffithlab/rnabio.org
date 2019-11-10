@@ -22,7 +22,7 @@ Before starting this team exercise, first move your **6** aligned bam files (alo
 
 Teams can now use `Stringtie` to estimate the gene expression levels in their sample and answer the following questions:
 
-1. Based on your stringtie results, what are the top 5 genes with highest average expression levels across all knockout samples? What about in your rescue samples? How large is the overlap between the two sets of genes? (Hint: You can use R for this analysis)
+Q1. Based on your stringtie results, what are the top 5 genes with highest average expression levels across all knockout samples? What about in your rescue samples? How large is the overlap between the two sets of genes? (Hint: You can use R for this analysis)
 
 Here's some R code to start you off:
 
@@ -54,17 +54,15 @@ exp_table[order(exp_table$mean_rescue,decreasing=T)[1:5],]
 
 Teams will now use ballgown to perform differential analysis followed by visualization of their results.
 
-2. Follow through the ballgown differential expression and visualization by making modifications using your respective sample names.
+Q2. Follow through the ballgown differential expression section by making modifications using your respective sample names.
 
-3. How many significant differentially expressed genes do you observe?
+Q3. How many significant differentially expressed genes do you observe?
 
+Q4. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing the significantly de genes?
 
-**Once you feel confident in your understanding of the R code, answer the following questions by making further modifications to the R code:**
+(OPTIONAL) Q5. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase **gene expression** levels instead of transcript expression levels?)
 
-
-4. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase **gene expression** levels instead of transcript expression levels?)
-
-Below are hints and one version of the answer, please make sure you understand how the R code is working before moving on as you will be working on your own for **Q5**. Also note that part of the answers are specific to how the sample names and file names were constructed and will require appropriate modification. 
+Below are hints and one version of the answer. Also note that part of the answers are specific to how the sample names and file names were constructed and will require appropriate modification.
 ```bash
 ### On the command line, you will need to first figure out which genes are most differentially expressed
 ### We can do this by looking at the gene_result_sig.tsv file
@@ -103,13 +101,9 @@ plotTranscripts(gene_id, bg, main=c('Gene in sample KO_S3'), sample=c('KO_S3'))
 dev.off()
 ```
 
-5. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing the significantly de genes? What if you want to show significant de genes that also pass a low abundance filter (e.g. sum of fpkm across samples larger than 5, etc.)?
-
-6. Do you notice anything abnormal in your visualization results? If so, can you provide a possible explaination for the phenomenon you are observing?
-
 Additionally, students should feel free to explore other visualization methods, including those they may have used in past research experiences and share with the class.
 
-## Bonus question
+## OPTIONAL: Bonus questions
 
 - Run htseq to get raw counts and then use edgeR for differential expression
 - Compare results between ballgown de and edgeR

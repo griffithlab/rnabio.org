@@ -25,7 +25,7 @@ A separate R tutorial file has been provided below. Run the R commands detailed 
 
 * http://**YOUR_IP_ADDRESS**/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.pdf
 
-First you'll need to load the libraries needed for this analysis and define a path for the output PDF to be written. 
+First you'll need to load the libraries needed for this analysis and define a path for the output PDF to be written.
 
 ```R
 ###R code###
@@ -52,7 +52,7 @@ pheno_data
 # Load the ballgown object from file
 load('bg.rda')
 
-# The load command, loads an R object from a file into memory in our R session. 
+# The load command, loads an R object from a file into memory in our R session.
 # You can use ls() to view the names of variables that have been loaded
 ls()
 
@@ -85,13 +85,13 @@ boxplot(fpkm,col=as.numeric(pheno_data$type)+1,las=2,ylab='log2(FPKM+1)')
 # Display the transcript ID for a single row of data
 ballgown::transcriptNames(bg)[2763]
 
-# Display the gene name for a single row of data 
+# Display the gene name for a single row of data
 ballgown::geneNames(bg)[2763]
 
 # Create a BoxPlot comparing the expression of a single gene for all replicates of both conditions
 plot(fpkm[2763,] ~ pheno_data$type, border=c(2,3), main=paste(ballgown::geneNames(bg)[2763],' : ', ballgown::transcriptNames(bg)[2763]),pch=19, xlab="Type", ylab='log2(FPKM+1)')
 
-# Add the FPKM values for each sample onto the plot 
+# Add the FPKM values for each sample onto the plot
 points(fpkm[2763,] ~ jitter(as.numeric(pheno_data$type)), col=as.numeric(pheno_data$type)+1, pch=16)
 
 # Create a plot of transcript structures observed in each replicate and color transcripts by expression level
@@ -137,7 +137,7 @@ cd $RNA_HOME/de/ballgown/ref_only/
 R
 ```
 
-A separate R script has been provided below. 
+A separate R script has been provided below.
 
 First you'll load your libraries and your data.
 
@@ -159,7 +159,7 @@ pdf(file="Tutorial_Part3_Supplementary_R_output.pdf")
 #### Import the gene expression data from the HISAT2/StringTie/Ballgown tutorial
 
 #Set working directory where results files exist
-working_dir = "~/workspace/rnaseq/de/ballgown/ref_only" 
+working_dir = "~/workspace/rnaseq/de/ballgown/ref_only"
 setwd(working_dir)
 
 # List the current contents of this directory
@@ -217,7 +217,7 @@ data_colors=c("tomato1","tomato2","tomato3","royalblue1","royalblue2","royalblue
 i = row.names(gene_expression) == "ENSG00000128311"
 gene_expression[i,]
 
-#What if we want to view values for a list of genes of interest all at once? 
+#What if we want to view values for a list of genes of interest all at once?
 #genes_of_interest = c("TST", "MMP11", "LGALS2", "ISX")
 genes_of_interest = c("ENSG00000128311","ENSG00000099953","ENSG00000100079","ENSG00000175329")
 i = which(row.names(gene_expression) %in% genes_of_interest)
@@ -232,7 +232,7 @@ length(row.names(transcript_gene_table)) #Transcript count
 length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
 ```
 
-The following code blocks are to generate various plots using the above data set. 
+The following code blocks are to generate various plots using the above data set.
 
 ```R
 ###R code###
@@ -426,10 +426,11 @@ myclust=function(c) {hclust(c,method="average")}
 
 main_title="sig DE Transcripts"
 par(cex.main=0.8)
-sig_genes=results_genes[sig,"id"]
-sig_gene_names=results_genes[sig,"gene_name"]
-data=log2(as.matrix(gene_expression[sig_genes,data_columns])+1)
-heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="none", dendrogram="both", margins=c(6,7), Rowv=TRUE, Colv=TRUE, symbreaks=FALSE, key=TRUE, symkey=FALSE, density.info="none", trace="none", main=main_title, cexRow=0.3, cexCol=1, labRow=sig_gene_names,col=rev(heat.colors(75)))
+sig_genes_de=sig_tn_de[,"id"]
+sig_gene_names_de=sig_tn_de[,"gene_name"]
+
+data=log2(as.matrix(gene_expression[as.vector(sig_genes_de),data_columns])+1)
+heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="none", dendrogram="both", margins=c(6,7), Rowv=TRUE, Colv=TRUE, symbreaks=FALSE, key=TRUE, symkey=FALSE, density.info="none", trace="none", main=main_title, cexRow=0.3, cexCol=1, labRow=sig_gene_names_de,col=rev(heat.colors(75)))
 
 dev.off()
 
