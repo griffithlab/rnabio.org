@@ -19,8 +19,16 @@ Before starting this team exercise, first move your **6** aligned bam files (alo
 
 - Familiarize yourself with Stringtie options
 - Run Stringtie to obtain expression values
+- Run provided stringtie helper perl script to combine results into a single file
 
 Teams can now use `Stringtie` to estimate the gene expression levels in their sample and answer the following questions:
+
+```bash
+### Remeber to do this in a new directory under team_exercises
+mkdir -p ~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only
+cd ~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only
+
+```
 
 Q1. Based on your stringtie results, what are the top 5 genes with highest average expression levels across all knockout samples? What about in your rescue samples? How large is the overlap between the two sets of genes? (Hint: You can use R for this analysis)
 
@@ -55,12 +63,21 @@ exp_table[order(exp_table$mean_rescue,decreasing=T)[1:5],]
 Teams will now use ballgown to perform differential analysis followed by visualization of their results.
 
 Q2. Follow through the ballgown differential expression section by making modifications using your respective sample names.
+Hint: You will need to create a separate directory under your team_exercises folder for your ballgown outputs. You will also need to change the respective sample names and paths. 
+
+```bash
+mkdir -p ~/workspace/rnaseq/team_exercise/de/ballgown/ref_only/
+cd ~/workspace/rnaseq/team_exercise/de/ballgown/ref_only/
+
+printf "\"ids\",\"type\",\"path\"\n\"KO_Rep1\",\"KO\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/KO_Rep1\"\n\"KO_Rep2\",\"KO\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/KO_Rep2\"\n\"KO_Rep3\",\"KO\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/KO_Rep3\"\n\"RESCUE_Rep1\",\"RESCUE\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/RESCUE_Rep1\"\n\"RESCUE_Rep2\",\"RESCUE\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/RESCUE_Rep2\"\n\"RESCUE_Rep3\",\"RESCUE\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/RESCUE_Rep3\"\n" > KO_vs_RESCUE.csv
+
+```
 
 Q3. How many significant differentially expressed genes do you observe?
 
 Q4. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing the significantly de genes?
 
-Hint for Q4:
+The code for Q4 is provided below, can you make sense of the following code? Do the code step by step and add in your own comments in a separate text file to explain to the TAs what each step is doing:
 ```bash
 #Load libraries
 library(ggplot2)
@@ -77,7 +94,9 @@ setwd(working_dir)
 
 dir()
 
+#Load bg object
 load('bg.rda')
+
 bg_table = texpr(bg, 'all')
 bg_gene_names = unique(bg_table[, 9:10])
 gene_expression = as.data.frame(gexpr(bg))
@@ -109,7 +128,6 @@ heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="none", d
 dev.off()
 
 quit()
-
 ```
 
 Now. try playing around with the de filter to include more/less genes in your heatmap. Try to determine the best cutoff for your specific dataset.
