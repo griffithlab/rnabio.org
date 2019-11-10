@@ -157,10 +157,10 @@ At the end of this team exercise, groups will present findings from their QC rep
 
 Team A: Present IGV findings regarding question 11.
 
-Team B: Present multiqc report on pre- and post-alignment fastq files (question 8).
+Team B: Present multiqc report on pre- and post-alignment qc files (question 8).
 
 Team C: Present IGV findings regarding question 9.
 
 Team D: Present IGV findings regarding question 10.
 
-Team E: Present multiqc report on pre- and post-trimming fastq files (Data preprocessing section).
+Team E: Present multiqc report on pre- and post-trimming qc files (Data preprocessing section).
