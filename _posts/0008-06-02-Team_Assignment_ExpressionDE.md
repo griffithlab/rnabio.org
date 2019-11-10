@@ -10,7 +10,7 @@ date: 0008-06-02
 ---
 In the previous exercise, teams have aligned their RNAseq data and performed QC evaluations. Using their aligned data, students will now apply the concepts they have learned regarding expression estimation and differential expression analysis. To complete this assignment, students will need to review commands we performed in earlier sections.
 
-Before starting this team exercise, first move your **6** aligned bam files (along with the index files) to a new folder. Note: In the previous exercise, you merged bams files for easy visualization in IGV, we will not be using that for expression and de analysis.
+Before starting this team exercise, first find the folder containing your **6** aligned bam files (along with the index files). Note: In the previous exercise, you merged bams files for easy visualization in IGV, we will not be using that for expression and de analysis.
 
 
 ## Expression Estimation
