@@ -62,7 +62,7 @@ Q4. By referring back to the supplementary tutorial in the DE Visualization Modu
 
 (OPTIONAL) Q5. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase **gene expression** levels instead of transcript expression levels?)
 
-Below are hints and one version of the answer. Also note that part of the answers are specific to how the sample names and file names were constructed and will require appropriate modification.
+Below are hints and one version of the answer for Q5. Also note that part of the answers are specific to how the sample names and file names were constructed and will require appropriate modification.
 ```bash
 ### On the command line, you will need to first figure out which genes are most differentially expressed
 ### We can do this by looking at the gene_result_sig.tsv file
