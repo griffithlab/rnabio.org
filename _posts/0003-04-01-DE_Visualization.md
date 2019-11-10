@@ -142,7 +142,7 @@ A separate R script has been provided below.
 First you'll load your libraries and your data.
 
 ```R
-***R script***
+###R script###
 #Tutorial_Part3_Supplementary_R.R
 
 #Starting from the output of the RNA-seq Tutorial Part 1.
