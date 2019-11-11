@@ -47,6 +47,7 @@ layout: "home"
 - [Vi tutorial and advanced features](http://www.yolinux.com/TUTORIALS/LinuxTutorialAdvanced_vi.html)
 
 #### 4. R Tutorials
+- [Introduction to R (GenViz.org)](https://genviz.org/module-02-r/0002/02/01/introductionToR/)
 - [An R command cheat sheet](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/R-short-refcard.pdf)
 - [The official R intro manual](http://cran.r-project.org/doc/manuals/r-release/R-intro.html)
 - [Rseek, a search engine for R related questions](http://rseek.org/)

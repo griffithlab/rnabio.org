@@ -21,11 +21,11 @@ If you would like a brief refresher on differential expression analysis, please 
 
 
 ### Ballgown DE Analyis
-Use Ballgown to compare the tumor and normal conditions. Refer to the Ballgown manual for a more detailed explanation:
+Use Ballgown to compare the UHR and HBR conditions. Refer to the Ballgown manual for a more detailed explanation:
 
 * [https://www.bioconductor.org/packages/release/bioc/html/ballgown.html](https://www.bioconductor.org/packages/release/bioc/html/ballgown.html) 
 
-Change to ref-only directory:
+Create and change to ballgown ref-only results directory:
 
 ```bash
 mkdir -p $RNA_HOME/de/ballgown/ref_only/
