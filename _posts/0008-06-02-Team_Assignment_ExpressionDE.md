@@ -39,7 +39,7 @@ Here's some R code to start you off:
 R
 
 ### load your data into R
-exp_table=read.table('gene_coverage_all_samples.tsv', header=TRUE)
+exp_table=read.table('gene_fpkm_all_samples.tsv', header=TRUE)
 
 ### Can you explain what these two lines are doing? Check your data before and after running these commands.
 exp_table[,'mean_ko'] = apply(exp_table[,c(2:4)], 1, mean)
