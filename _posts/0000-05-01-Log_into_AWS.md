@@ -68,3 +68,11 @@ If you would like to upload your data to the AWS instance, use the example scp c
 ```bash
 scp -i CBWNY.pem __MY_DATA__ ubuntu@__YOUR_DNS_NAME__:/
 ```
+
+## Doing this course outside of a workshop
+If you are trying to do this course on your own using the online materials only, of course an AWS EC2 instance has not been set up for you. If you have access to an AWS account though you can can start with the same Amazon AMI we use to create instances for each student. Currently this is:
+
+Name: `cshl-seqtech-2019` (ID: `ami-018b3bf40f9926ac5`) available in the US East, N. Virginia region (us-east-1).
+
+We typically use an instance type of `m5.2xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-08-appendix/0008/09/01/AWS_Setup/) page.
+
