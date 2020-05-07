@@ -6,7 +6,7 @@ This is the github repo for the Precision Medicine Workshop [website](http://rna
 
 To install this site locally run the following commands:
 
-1. Clone the repo and cd into it `$ git clone git@github.com:griffithlab/rnaseq.org.git`
+1. Clone the repo and cd into it `$ git clone git@github.com:griffithlab/rnabio.org.git`
 2. Install the bundler `$ gem install bundler`
 3. Install gems `$ bundle install`
 4. run jekyll and watch for changes `$ bundle exec jekyll serve --watch`
