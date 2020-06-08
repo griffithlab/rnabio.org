@@ -9,6 +9,7 @@ layout: "home"
 ---
 
 #### 1. Recommended Reading and RNA-seq Resources
+- [RNA sequencing: the teenage years](https://pubmed.ncbi.nlm.nih.gov/31341269/)
 - [Transcript-level expression analysis of RNA-seq experiments with HISAT, StringTie and Ballgown](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/TranscriptLevelExpression_Pertea_2016.pdf)
 - [Count-based differential expression analysis of RNA sequencing data using R and Bioconductor](https://www.nature.com/nprot/journal/v8/n9/full/nprot.2013.099.html)
 - Key tool papers: [HISAT](https://www.ncbi.nlm.nih.gov/pubmed/25751142), [StringTie](https://www.ncbi.nlm.nih.gov/pubmed/25690850), [BallGown](https://www.ncbi.nlm.nih.gov/pubmed/25748911), [HTSeq](https://www.ncbi.nlm.nih.gov/pubmed/25260700), [EdgeR](https://www.ncbi.nlm.nih.gov/pubmed/19910308).
