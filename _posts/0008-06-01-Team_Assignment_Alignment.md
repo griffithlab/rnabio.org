@@ -94,11 +94,11 @@ wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chr6_Homo_sapiens.
 
 Prior to aligning RNA-seq data, teams should perform adapter trimming using `flexbar`. Once the team has both the pre-trim and post-trim data, QC metrics should be evaluated using `fastqc` and a general report can be generated using `multiqc`.
 
-Q1. What is the average percentage of reads that are trimmed?
+<L1> Q1. What is the average percentage of reads that are trimmed?
 
-Q2. Before looking at the multiqc report, how do you expect the sequence length distribution to look both prior to and after trimming? Is your answer confirmed by the multiqc report results?
+<L2> Q2. Before looking at the multiqc report, how do you expect the sequence length distribution to look both prior to and after trimming? Is your answer confirmed by the multiqc report results?
 
-Q3. Are there any metrics where the sample(s) failed?
+<L1> Q3. Are there any metrics where the sample(s) failed?
 
 ### Alignment Exercise
 
@@ -111,9 +111,9 @@ Q3. Are there any metrics where the sample(s) failed?
 
 *A useful option to add to the end of your commands is `2>`, which redirects the stdout from any command into a specific file. This can be used to redirect your stdout into a summary file, and can be used as follows: `My_alignment_script 2> alignment_metrics.txt`. The advantage of this is being able to view the alignment metrics later on.*
 
-Q4. What were the percentages of reads that aligned to the reference for each sample?
+<L1> Q4. What were the percentages of reads that aligned to the reference for each sample?
 
-Q5. By compressing your sam format to bam, approximately how much space is saved (fold change in size)?
+<L1> Q5. By compressing your sam format to bam, approximately how much space is saved (fold change in size)?
 
 
 ### Post-alignment QC & IGV Visualization
@@ -131,13 +131,13 @@ cd <path to dir with alignments>
 java -Xmx16g -jar $PICARD MergeSamFiles OUTPUT=KO_merged.bam INPUT=SRR10045016.bam INPUT=SRR10045017.bam INPUT=SRR10045018.bam
 java -Xmx16g -jar $PICARD MergeSamFiles OUTPUT=RESCUE_merged.bam INPUT=SRR10045019.bam INPUT=SRR10045020.bam INPUT=SRR10045021.bam
 ```
-Q6. How does the information from your post-alignment QC report differ from pre-alignment QC?
+<L2> Q6. How does the information from your post-alignment QC report differ from pre-alignment QC?
 
-Q7. IGV: Can you identify certain exons that have significantly more/less coverage in one of your KO/RESCUE samples compared to the other? What is happening here?
+<L3> Q7. IGV: Can you identify certain exons that have significantly more/less coverage in one of your KO/RESCUE samples compared to the other? What is happening here?
 
-Q8. IGV: Can you identify regions where the RNAseq reads are mapping to unexpected regions? What do you think is the reason for this phenomenon?
+<L3> Q8. IGV: Can you identify regions where the RNAseq reads are mapping to unexpected regions? What do you think is the reason for this phenomenon?
 
-Q9. IGV: Can you identify a gene region that has RNA sequencing support for multiple isoforms?
+<L3> Q9. IGV: Can you identify a gene region that has RNA sequencing support for multiple isoforms?
 
 
 ### BONUS QUESTION for after you obtain your alignments
@@ -145,13 +145,13 @@ Q9. IGV: Can you identify a gene region that has RNA sequencing support for mult
 Upon obtaining the different reference files, explore the annotated reference gtf file and answer the following questions using your choice of commands.
 Hint: useful commands include `cat`, `grep`, `cut`, `sort`, `uniq`, `awk`
 
-Q10.  What are the different types of features contained in the gtf file (e.g. transcript, gene)? What are the frequencies of the different types of features? (This is referring to the third field/column of the data).
+<L4> Q10.  What are the different types of features contained in the gtf file (e.g. transcript, gene)? What are the frequencies of the different types of features? (This is referring to the third field/column of the data).
 
 In order to get this answer, there are a series of commands that we can pipe together: `cat <YOUR GTF FILE> | grep gene_name | cut -d$'\t' -f3 | sort | uniq -c | sort -r`
 
 Can you explain how this command works to one of the TAs?
 
-Q11. Now that you have seen the example in Q1, can you construct a similar command that answers the questions: Which genes have the highest number of transcripts (either gene id or gene name)? How many?
+<L5> Q11. Now that you have seen the example in Q1, can you construct a similar command that answers the questions: Which genes have the highest number of transcripts (either gene id or gene name)? How many?
 
 
 ### Presenting Your Results
