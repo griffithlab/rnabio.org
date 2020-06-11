@@ -211,6 +211,7 @@ cd bedops_linux_x86_64-v2.4.35
 wget -c https://github.com/bedops/bedops/releases/download/v2.4.35/bedops_linux_x86_64-v2.4.35.tar.bz2
 tar -jxvf bedops_linux_x86_64-v2.4.35.tar.bz2
 ./bin/bedops
+./bin/gff2bed
 ```
 
 ## [gtfToGenePred](https://bioconda.github.io/recipes/ucsc-gtftogenepred/README.html)
