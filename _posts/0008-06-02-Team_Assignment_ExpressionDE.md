@@ -30,7 +30,7 @@ cd ~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only
 
 ```
 
-\<L4\> Q1. Based on your stringtie results, what are the top 5 genes with highest average expression levels across all knockout samples? What about in your rescue samples? How large is the overlap between the two sets of genes? (Hint: You can use R for this analysis)
+**\<L4\>** Q1. Based on your stringtie results, what are the top 5 genes with highest average expression levels across all knockout samples? What about in your rescue samples? How large is the overlap between the two sets of genes? (Hint: You can use R for this analysis)
 
 Here's some R code to start you off:
 
@@ -62,7 +62,7 @@ exp_table[order(exp_table$mean_rescue,decreasing=T)[1:5],]
 
 Teams will now use ballgown to perform differential analysis followed by visualization of their results.
 
-<L3> Q2. Follow through the ballgown differential expression section by making modifications using your respective sample names.
+**\<L3\>** Q2. Follow through the ballgown differential expression section by making modifications using your respective sample names.
 Hint: You will need to create a separate directory under your team_exercises folder for your ballgown outputs. You will also need to change the respective sample names and paths following the `printf` command.
 
 ```bash
@@ -73,9 +73,9 @@ printf "\"ids\",\"type\",\"path\"\n\"KO_Rep1\",\"KO\",\"~/workspace/rnaseq/team_
 
 ```
 
-\<L3\> Q3. How many significant differentially expressed genes do you observe?
+**\<L3\>** Q3. How many significant differentially expressed genes do you observe?
 
-\<L5\> Q4. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing the significantly de genes?
+**\<L5\>** Q4. By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a heatmap showcasing the significantly de genes?
 
 The code for Q4 is provided below, can you make sense of the following code? Do the code step by step and add in your own comments in a separate text file to explain to the TAs what each step is doing:
 ```bash
@@ -133,7 +133,7 @@ quit()
 Now. try playing around with the de filter to include more/less genes in your heatmap. Try to determine the best cutoff for your specific dataset.
 
 
-\<L5\> (OPTIONAL) Q5. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase **gene expression** levels instead of transcript expression levels?)
+**\<L5\>** (OPTIONAL) Q5. Pick one of the significantly differentially expressed genes and visualize gene expression levels across the 6 samples as well as individual transcript expression levels for those corresponding to your gene of interest. (Hint: How can you modify the transcript expression plot in the DE Visualization section to showcase **gene expression** levels instead of transcript expression levels?)
 
 Below are hints and one version of the answer for Q5. Also note that part of the answers are specific to how the sample names and file names were constructed and will require appropriate modification.
 ```bash
@@ -181,7 +181,7 @@ Additionally, students should feel free to explore other visualization methods, 
 - Run htseq to get raw counts and then use edgeR for differential expression
 - Compare results between ballgown de and edgeR
 
-\<L4\> Q6. After obtaining your edgeR results, how does it agree with your previously obtained de results using ballgown?
+**\<L4\>** Q6. After obtaining your edgeR results, how does it agree with your previously obtained de results using ballgown?
 
 
 ## Presenting Your Results
