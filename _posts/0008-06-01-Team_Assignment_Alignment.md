@@ -41,8 +41,8 @@ In this assignment, we will be using subsets of the GSE136366 dataset (Roczniak-
 
 As mentioned previously, we have subsetted the 6 RNA-seq samples into 5 different chromosome regions. Each team can download their corresponding dataset using the following commands.
 ```bash
-mkdir -p ~/workspace/rnaseq/team_exercise/data
-cd ~/workspace/rnaseq/team_exercise/data
+mkdir -p $RNA_HOME/team_exercise/data
+cd $RNA_HOME/team_exercise/data
 
 
 ### TEAM A
@@ -69,8 +69,8 @@ tar -xzvf dataset.tar.gz
 
 Additionally, teams will need to create a separate directory and download the corresponding reference files needed for RNA alignment & further expression analysis:
 ```bash
-mkdir -p ~/workspace/rnaseq/team_exercise/references
-cd ~/workspace/rnaseq/team_exercise/references
+mkdir -p $RNA_HOME/team_exercise/references
+cd $RNA_HOME/team_exercise/references
 
 ## Adapter trimming
 wget -c http://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex.fa
