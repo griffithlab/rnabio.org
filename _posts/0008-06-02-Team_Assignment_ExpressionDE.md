@@ -25,8 +25,8 @@ Teams can now use `Stringtie` to estimate the gene expression levels in their sa
 
 ```bash
 ### Remember to do this in a new directory under team_exercises
-mkdir -p ~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only
-cd ~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only
+mkdir -p $RNA_HOME/team_exercise/expression/stringtie/ref_only
+cd $RNA_HOME/team_exercise/expression/stringtie/ref_only
 
 ```
 
@@ -66,10 +66,10 @@ Teams will now use ballgown to perform differential analysis followed by visuali
 Hint: You will need to create a separate directory under your team_exercises folder for your ballgown outputs. You will also need to change the respective sample names and paths following the `printf` command.
 
 ```bash
-mkdir -p ~/workspace/rnaseq/team_exercise/de/ballgown/ref_only/
-cd ~/workspace/rnaseq/team_exercise/de/ballgown/ref_only/
+mkdir -p $RNA_HOME/team_exercise/de/ballgown/ref_only/
+cd $RNA_HOME/team_exercise/de/ballgown/ref_only/
 
-printf "\"ids\",\"type\",\"path\"\n\"KO_Rep1\",\"KO\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/KO_Rep1\"\n\"KO_Rep2\",\"KO\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/KO_Rep2\"\n\"KO_Rep3\",\"KO\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/KO_Rep3\"\n\"RESCUE_Rep1\",\"RESCUE\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/RESCUE_Rep1\"\n\"RESCUE_Rep2\",\"RESCUE\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/RESCUE_Rep2\"\n\"RESCUE_Rep3\",\"RESCUE\",\"~/workspace/rnaseq/team_exercise/expression/stringtie/ref_only/RESCUE_Rep3\"\n" > KO_vs_RESCUE.csv
+printf "\"ids\",\"type\",\"path\"\n\"KO_Rep1\",\"KO\",\"$RNA_HOME/team_exercise/expression/stringtie/ref_only/KO_Rep1\"\n\"KO_Rep2\",\"KO\",\"$RNA_HOME/team_exercise/expression/stringtie/ref_only/KO_Rep2\"\n\"KO_Rep3\",\"KO\",\"$RNA_HOME/team_exercise/expression/stringtie/ref_only/KO_Rep3\"\n\"RESCUE_Rep1\",\"RESCUE\",\"$RNA_HOME/team_exercise/expression/stringtie/ref_only/RESCUE_Rep1\"\n\"RESCUE_Rep2\",\"RESCUE\",\"$RNA_HOME/team_exercise/expression/stringtie/ref_only/RESCUE_Rep2\"\n\"RESCUE_Rep3\",\"RESCUE\",\"$RNA_HOME/team_exercise/expression/stringtie/ref_only/RESCUE_Rep3\"\n" > KO_vs_RESCUE.csv
 
 ```
 
