@@ -161,8 +161,8 @@ gene_name = "<YOUR_CHOICE_OF_GENENAME>"
 gene_id = bg_table[bg_table$gene_name == gene_name,]$gene_id[1]
 transcript_id =  bg_table[bg_table$gene_id == gene_id,]$t_id
 
-plot(gene_expression[gene_id,] ~ pheno_data$type, border=c(2,3), main=paste('Gene Name: ', gene_name),pch=19, xlab="Type", ylab='gene_expression')
-points(gene_expression[gene_id,] ~ jitter(as.numeric(pheno_data$type)), col=as.numeric(pheno_data$type)+1, pch=16)
+boxplot(gene_expression[gene_id,] ~ pheno_data$type, border=c(2,3), main=paste('Gene Name: ', gene_name),pch=19, xlab="Type", ylab='gene_expression')
+points(gene_expression[gene_id,] ~ jitter(c(1,1,1,2,2,2)), col=c(1,1,1,2,2,2)+1, pch=16)
 
 plotTranscripts(gene_id, bg, main=c('Gene in sample RESCUE_S1'), sample=c('RESCUE_S1'))
 plotTranscripts(gene_id, bg, main=c('Gene in sample RESCUE_S2'), sample=c('RESCUE_S2'))
