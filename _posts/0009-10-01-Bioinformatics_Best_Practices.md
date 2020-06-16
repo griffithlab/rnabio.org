@@ -4,9 +4,9 @@ feature_text: |
   Introduction to bioinformatics for RNA sequence analysis
 title: Bioinformatics Best Practices
 categories:
-    - Module-08-Appendix
+    - Module-09-Appendix
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0008-10-01
+date: 0009-10-01
 ---
 
 ## Introduction
