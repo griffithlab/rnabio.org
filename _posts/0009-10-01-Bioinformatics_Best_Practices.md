@@ -11,7 +11,7 @@ date: 0009-10-01
 
 ## Introduction
 
-This _best practices_ guide provides a basic overview of useful practices and tools for managing bioinformatics environments and analysis development. 
+This _best practices_ guide provides a basic overview of useful practices and tools for managing bioinformatics environments and analysis development.
 
 ## Managing Your Analysis with Notebooks
 
@@ -23,11 +23,11 @@ Jupyter supports interactive data science and scientific computer across a small
 
 [Python]: https://www.python.org/
 [iPython]: https://ipython.org/
- 
+
 
 ### Example notebooks
 
-A [live version of Jupyter][live-Jupyter] is available to try online, and provides several example notebooks in a few different languages. You can also check out a [real analysis][analysis] of Guide to Pharmacology gene family data for incorporation into the [Drug-Gene Interaction Database][dgidb]. 
+A [live version of Jupyter][live-Jupyter] is available to try online, and provides several example notebooks in a few different languages. You can also check out a [real analysis][analysis] of Guide to Pharmacology gene family data for incorporation into the [Drug-Gene Interaction Database][dgidb].
 
 [live-Jupyter]: https://try.jupyter.org
 [analysis]: https://gist.github.com/ahwagner/595291c53ddaf8da64e995ad3a555d54
@@ -39,7 +39,7 @@ A [live version of Jupyter][live-Jupyter] is available to try online, and provid
 
 [git]: https://git-scm.com/
 [GitHub]: https://github.com/
-[GitHub-guide]: https://guides.github.com/activities/hello-world/ 
+[GitHub-guide]: https://guides.github.com/activities/hello-world/
 
 ## Managing Your Compute Environment
 
