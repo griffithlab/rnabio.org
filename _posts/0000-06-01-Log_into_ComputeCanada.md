@@ -50,7 +50,7 @@ When you log in, you will be in your home directory (e.g., /home/user##). You wi
 
 ## How to request and use a compute node
 
-After you log into the cluster, you will be on the login node. This has very limited compute and memory resources. Do NOT run anything on the login node. You can access a compute node with an interactive session using `salloc` command. For example, `salloc --mem 6400M -c 4 -t 8:0:0`
+After you log into the cluster, you will be on the login node. This has very limited compute and memory resources. Do NOT run anything on the login node. You can access a compute node with an interactive session using `salloc` command. For example, `salloc --mem 32000M -c 4 -t 8:0:0`
 
 ```bash
 --mem: the real memory (in megabytes) required per node.
