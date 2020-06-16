@@ -10,7 +10,7 @@ date: 0000-06-01
 ---
 
 ## Signing into Compute Canada for the course
-In order to sign into your Compute Canada instance, you will need a valid user ID and password for Compute Canada. These should have been provided to you by the instructors. 
+In order to sign into your Compute Canada instance, you will need a valid user ID and password for Compute Canada. These should have been provided to you by the instructors.
 
 ## Logging in with ssh (Mac/Linux)
 
@@ -38,11 +38,11 @@ Connection-Data-Auto-login username: `user##`
 scp user##@login1.CBW.calculquebec.cloud:nice_alignments.bam .
 ```
 
-## Using Jupyter Notebook or JupyterLab 
+## Using Jupyter Notebook or JupyterLab
 
 Everything created in your workspace on the cloud is also available by a web server using Jupyter Notebooks or JupyterLab. You can also perform python/R analysis and access an interactive command-line terminal via JupyterLab. Simply go to the following in your browser and choose Jupyter Notebook (or JupyterLab) in the User Interface dropdown menu. For simply browsing and downloading of files you can select Number of cores = 1 and Memory (MB) = 3200. For analysis in JupyterLab you select Number of cores = 4 and Memory (MB) = 6400. NOTE: Be aware that if you request resources from both your terminal/putty (e.g., `salloc` requests) and also via Jupyter. These are additive. Make sure to terminate any terminal or Jupyter session not in use.
 
-https://jupyter.cbw.calculquebec.cloud/ 
+https://jupyter.cbw.calculquebec.cloud/
 
 ## File system layout
 
@@ -58,6 +58,6 @@ After you log into the cluster, you will be on the login node. This has very lim
 -t | --time: limit on the total run time of the job allocation.
 ```
 
-The above command requests an interactive session with 4 cores and 6400M memory for 8 hours. Once the job is allocated, you will be on one of the compute nodes. 
+The above command requests an interactive session with 4 cores and 6400M memory for 8 hours. Once the job is allocated, you will be on one of the compute nodes.
 
 When you are done with the compute node, make sure to type `exit` to exit the node and free up the resources you allocated for the node.

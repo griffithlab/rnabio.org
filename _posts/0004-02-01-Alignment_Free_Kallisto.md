@@ -158,7 +158,7 @@ dim(stringtie_tran_fpkm)
 dim(kallisto_tran)
 
 #Reorganize the data.frames for total consistency
-kallisto_names = c("length", "HBR_Rep1", "HBR_Rep2", "HBR_Rep3", "UHR_Rep1", "UHR_Rep2", "UHR_Rep3") 
+kallisto_names = c("length", "HBR_Rep1", "HBR_Rep2", "HBR_Rep3", "UHR_Rep1", "UHR_Rep2", "UHR_Rep3")
 names(kallisto_gene) = kallisto_names
 names(kallisto_tran) = kallisto_names
 
@@ -200,7 +200,7 @@ names(HBR1_tran_data) = c("kallisto", "stringtie")
 spikein_status=grepl("ERCC",tran_names)
 p2 = ggplot(HBR1_tran_data, aes(log2(kallisto+stabvar), log2(stringtie+stabvar)))
 p2 = p2 + geom_point()
-p2 = p2 + geom_point(aes(colour = spikein_status)) 
+p2 = p2 + geom_point(aes(colour = spikein_status))
 p2 = p2 + xlab("Kallisto TPM") + ylab("StringTie TPM") + labs(colour = "SpikeIn Status")
 p2 = p2 + labs(title = "HBR1 transcript expression values [log2(value + 0.1) scaled]")
 
@@ -356,9 +356,9 @@ Since the paths above will download BAM files but Kallisto expects FASTQ files f
 
 Example BAM to FASTQ conversion commands (note that you need to specify the correct path for your Picard installation), followed by compressing the resulting FastQ files to save space:
 ```bash
-java -Xmx2g -jar /home/ubuntu/workspace/rnaseq/student_tools/picard.jar SamToFastq INPUT=gerald_C1TD1ACXX_8_ACAGTG.bam FASTQ=hcc1395_tumor_R1.fastq SECOND_END_FASTQ=hcc1395_tumor_R2.fastq VALIDATION_STRINGENCY=LENIENT
+java -Xmx2g -jar $PICARD SamToFastq INPUT=gerald_C1TD1ACXX_8_ACAGTG.bam FASTQ=hcc1395_tumor_R1.fastq SECOND_END_FASTQ=hcc1395_tumor_R2.fastq VALIDATION_STRINGENCY=LENIENT
 gzip hcc1395_tumor*.fastq
-java -Xmx2g -jar /home/ubuntu/workspace/rnaseq/student_tools/picard.jar SamToFastq INPUT=gerald_C2DBEACXX_3.bam FASTQ=hcc1395_normal_R1.fastq SECOND_END_FASTQ=hcc1395_normal_R2.fastq VALIDATION_STRINGENCY=LENIENT
+java -Xmx2g -jar $PICARD SamToFastq INPUT=gerald_C2DBEACXX_3.bam FASTQ=hcc1395_normal_R1.fastq SECOND_END_FASTQ=hcc1395_normal_R2.fastq VALIDATION_STRINGENCY=LENIENT
 gzip hcc1395_normal*.fastq
 ```
 **Download full transcriptome reference**
