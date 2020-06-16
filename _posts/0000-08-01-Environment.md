@@ -25,7 +25,14 @@ Make sure whatever the working dir is, that it is set and is valid
 ```bash
 echo $RNA_HOME
 ```
-You can place the RNA_HOME variable (and other environment variables) in your .bashrc and then logout and login again to avoid having to worry about it. This has been done for you in the pre-configured amazon instance that you will be using.
+You can place the RNA_HOME variable (and other environment variables) in your .bashrc and then logout and login again to avoid having to worry about it. A `.bashrc` file with these variables has already been created for you. It also includes module load commands for software needed on Compute Canada which are described [here](https://github.com/griffithlab/rnabio.org/blob/master/_posts/0000-06-01-Log_into_ComputeCanada.md).
+
+In order to use this file, you must first copy the `.bashrc` file to your home directory and then source it.
+
+```bash
+cp ~/CourseData/.bashrc ~
+source ~/.bashrc
+``` 
 
 Environment variables used throughout this tutorial:
 ```bash
@@ -39,10 +46,6 @@ export RNA_REF_GTF=$RNA_REF_INDEX.gtf
 export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
 ```
 
-In order to use fastqc on these instances, we need to change a java variable. We can do this by running the following command.
-```bash
-export _JAVA_OPTIONS=-Djavax.accessibility.assistive_technologies=
-```
 We will be using picard tools throughout this workshop. To follow along, you will need to set an environment variable pointing to your picard installation.
 For the Compute Canada cluster:
 ```bash
