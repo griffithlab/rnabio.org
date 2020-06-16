@@ -82,8 +82,8 @@ Make a single BAM file combining all UHR data and another for all HBR data. Note
 
 ```bash
 cd $RNA_HOME/alignments/hisat2
-java -Xmx2g -jar $RNA_HOME/student_tools/picard.jar MergeSamFiles OUTPUT=UHR.bam INPUT=UHR_Rep1.bam INPUT=UHR_Rep2.bam INPUT=UHR_Rep3.bam
-java -Xmx2g -jar $RNA_HOME/student_tools/picard.jar MergeSamFiles OUTPUT=HBR.bam INPUT=HBR_Rep1.bam INPUT=HBR_Rep2.bam INPUT=HBR_Rep3.bam
+java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=UHR.bam INPUT=UHR_Rep1.bam INPUT=UHR_Rep2.bam INPUT=UHR_Rep3.bam
+java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=HBR.bam INPUT=HBR_Rep1.bam INPUT=HBR_Rep2.bam INPUT=HBR_Rep3.bam
 ```
 
 Count the alignment (BAM) files to make sure all were created successfully (you should have 8 total)
@@ -106,4 +106,3 @@ Which columns of the BAM file can be viewed to determine the style of sorting?
 What command can you use to view only the BAM header?
 
 Solution: When you are ready you can check your approach against the [Solutions](/module-08-appendix/0008/05/01/Practical_Exercise_Solutions/#practical-exercise-6---alignment).
-

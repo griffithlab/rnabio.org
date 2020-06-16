@@ -57,7 +57,7 @@ mkdir flagstat
 find *Rep*.bam -exec echo samtools flagstat {} \> flagstat/{}.flagstat \; | sh
 
 # View an example
-cat flagstat/UHR_Rep1.bam.flagstat 
+cat flagstat/UHR_Rep1.bam.flagstat
 ```
 
 Details of the SAM/BAM format can be found here: [http://samtools.sourceforge.net/SAM1.pdf](http://samtools.sourceforge.net/SAM1.pdf)
@@ -76,20 +76,20 @@ mv *fastqc.zip fastqc/
 ### Using Picard
 You can use Picard to generate RNA-seq specific quality metrics and figures
 
-```bash 
+```bash
 
 # Generating the necessary input files for picard CollectRnaSeqMetrics
 cd $RNA_HOME/refs
 
 # Create a .dict file for our reference
-java -jar $RNA_HOME/student_tools/picard.jar CreateSequenceDictionary R=chr22_with_ERCC92.fa O=chr22_with_ERCC92.dict
+java -jar $PICARD CreateSequenceDictionary R=chr22_with_ERCC92.fa O=chr22_with_ERCC92.dict
 
 # Create a bed file of the location of ribosomal sequences in our reference (first extract from the gtf then convert to bed)
 grep --color=none -i rrna chr22_with_ERCC92.gtf > ref_ribosome.gtf
 gff2bed < ref_ribosome.gtf > ref_ribosome.bed
 
 # Create interval list file for the location of ribosomal sequences in our reference
-java -jar $RNA_HOME/student_tools/picard.jar BedToIntervalList I=ref_ribosome.bed O=ref_ribosome.interval_list SD=chr22_with_ERCC92.dict
+java -jar $PICARD BedToIntervalList I=ref_ribosome.bed O=ref_ribosome.interval_list SD=chr22_with_ERCC92.dict
 
 # Create a genePred file for our reference transcriptome
 gtfToGenePred -genePredExt chr22_with_ERCC92.gtf chr22_with_ERCC92.ref_flat.txt
@@ -100,7 +100,7 @@ mv tmp.txt chr22_with_ERCC92.ref_flat.txt
 
 cd $RNA_HOME/alignments/hisat2/
 mkdir picard
-find *Rep*.bam -exec echo java -jar $RNA_HOME/student_tools/picard.jar CollectRnaSeqMetrics I={} O=picard/{}.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list \; | sh
+find *Rep*.bam -exec echo java -jar $PICARD CollectRnaSeqMetrics I={} O=picard/{}.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list \; | sh
 ```
 
 ### RSeQC [optional]
@@ -166,4 +166,3 @@ Below is a brief description of each of the samples included in the multiQC repo
 | Sample 4 | Melanoma                   |
 | Sample 5 | Small Cell Lung Cancer FFPE|
 | Sample 6 | Brain metastasis           |
-
