@@ -4,9 +4,9 @@ feature_text: |
   Introduction to bioinformatics for RNA sequence analysis
 title: Abbreviations
 categories:
-    - Module-08-Appendix
+    - Module-09-Appendix
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0008-03-01
+date: 0009-03-01
 ---
 
 * AWS EC2: Amazon Web Services, Elastic Compute

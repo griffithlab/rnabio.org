@@ -4,9 +4,9 @@ feature_text: |
   Introduction to bioinformatics for RNA sequence analysis
 title: Team Assignment - Alignment
 categories:
-    - Module-08-Appendix
+    - Module-09-Appendix
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0008-06-01
+date: 0009-06-01
 ---
 
 The goal of the following team assignment is for students to gain hands-on experience by working on recently published RNA-seq data and apply the concepts they have learned up to RNA alignment. To complete this assignment, students will need to review commands we performed in earlier sections.

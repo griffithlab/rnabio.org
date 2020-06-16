@@ -4,9 +4,9 @@ feature_text: |
   Introduction to bioinformatics for RNA sequence analysis
 title: Team Assignment - Expression and DE
 categories:
-    - Module-08-Appendix
+    - Module-09-Appendix
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0008-06-02
+date: 0009-06-02
 ---
 In the previous exercise, teams have aligned their RNAseq data and performed QC evaluations. Using their aligned data, students will now apply the concepts they have learned regarding expression estimation and differential expression analysis. To complete this assignment, students will need to review commands we performed in earlier sections.
 
