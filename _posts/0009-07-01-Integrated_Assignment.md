@@ -11,19 +11,19 @@ date: 0009-07-01
 
 **Preamble:** Note that the following integrated assignment asks you to work on new RNA-seq data and apply the concepts you have learned up to this point. To complete this assignment you will need to review commands we performed in many of the earlier sections. Try to construct these commands on your own and get all the way to the end of the assignment. If you get very stuck or would like to compare your solutions to those suggested by the instructors, refer to the answers page. The integrated assignment answers page is an expanded version of this page with all of the questions plus detailed code solutions to all problems. The answer page is available in the git repository for this wiki. It is slightly hidden to reduce temptation to look at it without trying on your own. Ask an instructor if you have trouble finding it.
 
-**Background:** The use of cell lines are often implemented in order to study different experimental conditions. One such kind of study is the effects of shRNA on expression profiles, to determine whether these effects target specific genes. Experimental models for these include using control shRNA to account for any expression changes that may occur from just the introduction of these molecules. 
+**Background:** The use of cell lines are often implemented in order to study different experimental conditions. One such kind of study is the effects of shRNA on expression profiles, to determine whether these effects target specific genes. Experimental models for these include using control shRNA to account for any expression changes that may occur from just the introduction of these molecules.
 
 **Objectives:** In this assignment, we will be using a subset of the GSE114360 dataset, which consists of 6 RNA sequence files on the SGC-7901 gastric cancer cell line, (3 transfected with tcons_00001221 shRNA, and 3 control shRNA), and determine the number of differentially expressed genes.
 
 Experimental information and other things to keep in mind:
 
-- The libraries are prepared as paired end. 
-- The samples are sequenced on a Illumina 4000. 
-- Each read is 150 bp long 
+- The libraries are prepared as paired end.
+- The samples are sequenced on a Illumina 4000.
+- Each read is 150 bp long
 - The dataset is located here: [GSE114360](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA471072)
 - 3 samples transfected with target shRNA and 3 samples with control shRNA
 - Libraries were prepared using standard Illumina protocols
-- For this exercise we will be using all a subset of the reads (first 1000000 reads from each pair). 
+- For this exercise we will be using all a subset of the reads (first 1000000 reads from each pair).
 - The files are named based on their SRR id's, and obey the following key:
   - SRR7155055 = transfected sample 1
   - SRR7155056 = transfected sample 2
@@ -36,9 +36,9 @@ Experimental information and other things to keep in mind:
 
 **Goals:**
 
-- Obtain the files necessary for data processing 
-- Familiarize yourself with reference and annotation file format 
-- Familiarize yourself with sequence FASTQ format 
+- Obtain the files necessary for data processing
+- Familiarize yourself with reference and annotation file format
+- Familiarize yourself with sequence FASTQ format
 
 Create a working directory ~/workspace/rnaseq/integrated_assignment/ to store this exercise. Then create a unix environment variable named RNA_ASSIGNMENT that stores this path for convenience in later commands.
 
@@ -109,8 +109,8 @@ NOTE: The fastq files you have copied above contain only the first 1000000 reads
 ## PART 2: Data alignment
 
 **Goals:**
-- Familiarize yourself with HISAT2 alignment options 
-- Perform alignments 
+- Familiarize yourself with HISAT2 alignment options
+- Perform alignments
 - Obtain alignment summary
 - Convert your alignment into compressed bam format
 
@@ -124,8 +124,8 @@ In order to make visualization easier, we're going to merge each of our bams int
 ```bash
 #merge the bams for visulization purposes
 cd $RNA_INT_ALIGN_DIR
-java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment_RNA/picard.jar MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
-java -Xmx2g -jar ~/CourseData/RNA_data/Integrative_Assignment_RNA/picard.jar MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
+java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
+java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
 ```
 
 Try viewing genes such as TP53 to get a sense of how the data is aligned. To do this:
@@ -144,9 +144,9 @@ Try viewing genes such as TP53 to get a sense of how the data is aligned. To do 
 
 **Goals:**
 
-- Familiarize yourself with Stringtie options 
-- Run Stringtie to obtain expression values 
-- Obtain expression values for the gene SOX4 
+- Familiarize yourself with Stringtie options
+- Run Stringtie to obtain expression values
+- Obtain expression values for the gene SOX4
 - Create an expression results directory, run Stringtie on all samples, and store the results in appropriately named subdirectories in this results dir
 
 **Q11.)** How do you get the expression of the gene SOX4 across the transfect and control samples?
@@ -155,11 +155,11 @@ Try viewing genes such as TP53 to get a sense of how the data is aligned. To do 
 
 **Goals:**
 
-- Perform differential analysis between the transfected and control samples 
-- Check if is differentially expressed 
+- Perform differential analysis between the transfected and control samples
+- Check if is differentially expressed
 
-First create a file that lists our 6 expression files, then view that file, then start an R session. Adapt the R tutorial file has been provided in the github repo for part 1 of the tutorial: Tutorial_Part1_ballgown.R. Modify it to fit the goals of this assignment then run it. 
+First create a file that lists our 6 expression files, then view that file, then start an R session. Adapt the R tutorial file has been provided in the github repo for part 1 of the tutorial: Tutorial_Part1_ballgown.R. Modify it to fit the goals of this assignment then run it.
 
-**Q12.)** Are there any significant differentially expressed genes? How many in total do you see? If we expected SOX4 to be differentially expressed, why don't we see it in this case? 
+**Q12.)** Are there any significant differentially expressed genes? How many in total do you see? If we expected SOX4 to be differentially expressed, why don't we see it in this case?
 
 **Q13.)** What plots can you generate to help you visualize this gene expression profile?

@@ -11,19 +11,19 @@ date: 0009-08-01
 
 # Integrated Assignment answers
 
-**Background:** The use of cell lines are often implemented in order to study different experimental conditions. One such kind of study is the effects of shRNA on expression profiles, to determine whether these effects target specific genes. Experimental models for these include using control shRNA to account for any expression changes that may occur from just the introduction of these molecules. 
+**Background:** The use of cell lines are often implemented in order to study different experimental conditions. One such kind of study is the effects of shRNA on expression profiles, to determine whether these effects target specific genes. Experimental models for these include using control shRNA to account for any expression changes that may occur from just the introduction of these molecules.
 
 **Objectives:** In this assignment, we will be using a subset of the GSE114360 dataset, which consists of 6 RNA sequence files on the SGC-7901 gastric cancer cell line, (3 transfected with tcons_00001221 shRNA, and 3 control shRNA), and determine the number of differentially expressed genes.
 
 Experimental information and other things to keep in mind:
 
-- The libraries are prepared as paired end. 
-- The samples are sequenced on a Illumina 4000. 
-- Each read is 150 bp long 
+- The libraries are prepared as paired end.
+- The samples are sequenced on a Illumina 4000.
+- Each read is 150 bp long
 - The dataset is located here: [GSE114360](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA471072)
 - 3 samples transfected with target shRNA and 3 samples with control shRNA
 - Libraries were prepared using standard Illumina protocols
-- For this exercise we will be using all a subset of the reads (first 1000000 reads from each pair). 
+- For this exercise we will be using all a subset of the reads (first 1000000 reads from each pair).
 - The files are named based on their SRR id's, and obey the following key:
   - SRR7155055 = transfected sample 1
   - SRR7155056 = transfected sample 2
@@ -36,9 +36,9 @@ Experimental information and other things to keep in mind:
 
 **Goals:**
 
-- Obtain the files necessary for data processing 
-- Familiarize yourself with reference and annotation file format 
-- Familiarize yourself with sequence FASTQ format 
+- Obtain the files necessary for data processing
+- Familiarize yourself with reference and annotation file format
+- Familiarize yourself with sequence FASTQ format
 
 Create a working directory ~/workspace/rnaseq/integrated_assignment/ to store this exercise. Then create a unix environment variable named RNA_INT_ASSIGNMENT that stores this path for convenience in later commands.
 
@@ -153,7 +153,7 @@ Doing this, we find that around 99% of reads still survive after adapter trimmin
 **Q6.)** What sample has the largest number of reads after trimming?
 
 **A6.)** The control sample 2 (SRR7155059) has the most reads (1999678/2 =  reads).
-An easy way to figure out the number of reads is to check the output log file from the trimming output. Looking at the "remaining reads" row, we see the reads (each read in a pair counted individually) that survive the trimming. We can also look at this from the command line. 
+An easy way to figure out the number of reads is to check the output log file from the trimming output. Looking at the "remaining reads" row, we see the reads (each read in a pair counted individually) that survive the trimming. We can also look at this from the command line.
 
 ```bash
 grep 'Remaining reads' $RNA_INT_ASSIGNMENT/trimmed_reads/*.log
@@ -170,8 +170,8 @@ We could also run `multiqc` and visualize the remaining reads that way.
 
 **Goals:**
 
-- Familiarize yourself with HISAT2 alignment options 
-- Perform alignments 
+- Familiarize yourself with HISAT2 alignment options
+- Perform alignments
 - Obtain alignment summary
 - Convert your alignment into compressed bam format
 
@@ -202,8 +202,8 @@ Next, convert sam alignments to bam.
 
 ```bash
 samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155055.bam $RNA_INT_ALIGN_DIR/SRR7155055.sam
-samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155056.bam $RNA_INT_ALIGN_DIR/SRR7155056.sam 
-samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155057.bam $RNA_INT_ALIGN_DIR/SRR7155057.sam 
+samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155056.bam $RNA_INT_ALIGN_DIR/SRR7155056.sam
+samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155057.bam $RNA_INT_ALIGN_DIR/SRR7155057.sam
 samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155058.bam $RNA_INT_ALIGN_DIR/SRR7155058.sam
 samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155059.bam $RNA_INT_ALIGN_DIR/SRR7155059.sam
 samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155060.bam $RNA_INT_ALIGN_DIR/SRR7155060.sam
@@ -250,8 +250,8 @@ In order to make visualization easier, we're going to merge each of our bams int
 ```bash
 #merge the bams for visulization purposes
 cd $RNA_INT_ALIGN_DIR
-java -Xmx2g -jar /usr/local/picard/picard.jar MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
-java -Xmx2g -jar /usr/local/picard/picard.jar MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
+java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
+java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
 ```
 
 To visualize these merged bam files in IGV, we'll need to index them. We can do so with the following commands.
@@ -281,9 +281,9 @@ Right-click in the middle of the page, and click on "Expanded" to view the reads
 
 **Goals:**
 
-- Familiarize yourself with Stringtie options 
-- Run Stringtie to obtain expression values 
-- Obtain expression values for the gene SOX4 
+- Familiarize yourself with Stringtie options
+- Run Stringtie to obtain expression values
+- Obtain expression values for the gene SOX4
 - Create an expression results directory, run Stringtie on all samples, and store the results in appropriately named subdirectories in this results dir
 
 ```bash
@@ -311,8 +311,8 @@ grep ENSG00000124766 $RNA_INT_ASSIGNMENT/expression/*/transcripts.gtf | cut -f1,
 
 **Goals:**
 
-- Perform differential analysis between the transfected and control samples 
-- Check if is differentially expressed 
+- Perform differential analysis between the transfected and control samples
+- Check if is differentially expressed
 
 ```bash
 mkdir -p $RNA_INT_ASSIGNMENT/ballgown/
@@ -330,9 +330,9 @@ cat Transfect_vs_Control.csv
 R
 ```
 
-*Adapt the  R tutorial file that has been provided in the github repo for part 1 of the tutorial: [Tutorial_Part1_ballgown.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part1_ballgown.R). Modify it to fit the goals of this assignment then run it. 
+*Adapt the  R tutorial file that has been provided in the github repo for part 1 of the tutorial: [Tutorial_Part1_ballgown.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part1_ballgown.R). Modify it to fit the goals of this assignment then run it.
 
-**Q12.)** Are there any significant differentially expressed genes? How many in total do you see? If we expected SOX4 to be differentially expressed, why don't we see it in this case? 
+**Q12.)** Are there any significant differentially expressed genes? How many in total do you see? If we expected SOX4 to be differentially expressed, why don't we see it in this case?
 
 **A12.)** Yes, there are about 523 significantly differntially expressed genes. Due to the fact that we're using a subset of the fully sequenced library for each sample, the SOX4 signal is not significant at the adjusted p-value level. You can try re-running the above exercise on your own by using all the reads from each sample in the original data set, which will give you greater resolution of the expression of each gene to build mean and variance estimates for eacch gene's expression.
 
