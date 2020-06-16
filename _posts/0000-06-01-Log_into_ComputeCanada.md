@@ -58,7 +58,7 @@ After you log into the cluster, you will be on the login node. This has very lim
 -t | --time: limit on the total run time of the job allocation.
 ```
 
-The above command requests an interactive session with 4 cores and 6400M memory for 8 hours. Once the job is allocated, you will be on one of the compute nodes.
+The above command requests an interactive session with 4 cores and 32000M memory for 8 hours. Once the job is allocated, you will be on one of the compute nodes.
 
 After you have received your compute node, you will need to load the software that we will be using for this workshop. 
 
