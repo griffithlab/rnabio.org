@@ -38,7 +38,9 @@ Connection-Data-Auto-login username: `user##`
 scp user##@login1.CBW.calculquebec.cloud:nice_alignments.bam .
 ```
 
-* Everything created in your workspace on the cloud is also available by a web server using jupyter notebooks. Simply go to the following in your browser and choose Jupyter Notebook in the User Interface dropdown menu:
+## Using Jupyter Notebook or JupyterLab 
+
+Everything created in your workspace on the cloud is also available by a web server using Jupyter Notebooks or JupyterLab. You can also perform python/R analysis and access an interactive command-line terminal via JupyterLab. Simply go to the following in your browser and choose Jupyter Notebook (or JupyterLab) in the User Interface dropdown menu. For simply browsing and downloading of files you can select Number of cores = 1 and Memory (MB) = 3200. For analysis in JupyterLab you select Number of cores = 4 and Memory (MB) = 6400. NOTE: Be aware that if you request resources from both your terminal/putty (e.g., `salloc` requests) and also via Jupyter. These are additive. Make sure to terminate any terminal or Jupyter session not in use.
 
 https://jupyter.cbw.calculquebec.cloud/ 
 
