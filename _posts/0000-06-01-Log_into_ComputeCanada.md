@@ -66,6 +66,7 @@ This can be done with the following command.
 
 ```bash
 module load samtools/1.10 bam-readcount/0.8.0 hisat2/2.2.0 stringtie/2.1.0 gffcompare/0.11.6 tophat/2.1.1 kallisto/0.46.1 fastqc/0.11.8 multiqc/1.8 picard/2.20.6 flexbar/3.5.0 RSeQC/3.0.1 bedops/2.4.39 ucsctools/399 r/4.0.0 python/3.7.4 bam-readcount/0.8.0 HTSeq/1.18.1 regtools/0.5.2
+
 ```
 
 When you are done with the compute node, make sure to type `exit` to exit the node and free up the resources you allocated for the node.
