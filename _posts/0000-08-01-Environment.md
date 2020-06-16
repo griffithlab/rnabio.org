@@ -9,7 +9,7 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0000-08-01
 ---
 
-### Getting Started 
+### Getting Started
 This tutorial assumes use of a Linux computer with an 'x86_64' architecture. The rest of the tutorial should be conducted in a linux Terminal session. In other words you must already be logged into the Amazon EC2 instance as described in the previous section.
 
 Before proceeding you must define a global working directory by setting the environment variable: 'RNA_HOME'
@@ -42,6 +42,15 @@ export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
 In order to use fastqc on these instances, we need to change a java variable. We can do this by running the following command.
 ```bash
 export _JAVA_OPTIONS=-Djavax.accessibility.assistive_technologies=
+```
+We will be using picard tools throughout this workshop. To follow along, you will need to set an environment variable pointing to your picard installation.
+For the Compute Canada cluster:
+```bash
+export PICARD=$EBROOTPICARD/picard.jar
+```
+When using a student AWS instance:
+```bash
+export PICARD=$RNA_HOME/student_tools/picard.jar
 ```
 
 If these variables are not part of your .bashrc, you can type the following. First, you can open your .bashrc file with nano by simply typing:
