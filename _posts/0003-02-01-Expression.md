@@ -111,7 +111,7 @@ Assignment: Use StringTie to Calculate transcript-level expression estimates for
 
 * Hint: You should have six commands for 3 replicates each of tumor and normal samples.
 
-Solution: When you are ready you can check your approach against the [Solutions](/module-08-appendix/0008/05/01/Practical_Exercise_Solutions/#practical-exercise-8---expression)
+Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-8---expression)
 
 ***
 
