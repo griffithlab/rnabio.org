@@ -24,7 +24,7 @@ Each day runs from 10:00 AM Eastern to 8:00 PM Eastern
 |     | 16:00-16:30 | 0:30     | 2      | RNA-Seq Alignment and Visualization                            |
 |     | 16:30-17:30 | 1:00     |        | Module 2 Lab                                                   |
 |     | 17:30-18:30 | 1:00     |        | Break                                                          |
-|     | 18:30-20:00 | 1:00     |        | Integrated Assignment (optional)                               |
+|     | 18:30-20:00 | 1:00     |        | Team Assignment                                                |
 |  2  | 10:00-10:30 | 0:30     |        | Q & A                                                          |
 |     | 10:30-11:30 | 1:00     | 3      | Expression and Differential Expression                         |
 |     | 11:30-12:00 | 0:30     |        | Break                                                          |
@@ -35,7 +35,7 @@ Each day runs from 10:00 AM Eastern to 8:00 PM Eastern
 |     | 16:00-16:30 | 0:30     |        | Alignment Free Expression Estimation                           |
 |     | 16:30-17:30 | 1:00     | 4      | Module 4 Lab                                                   |
 |     | 17:30-18:30 | 1:00     |        | Break                                                          |
-|     | 18:30-20:00 | 1:30     |        | Integrated Assignment (optional)                               |
+|     | 18:30-20:00 | 1:30     |        | Team Assignment                                                |
 |  3  | 10:00-10:30 | 0:30     |        | Q & A                                                          |
 |     | 10:30-11:30 | 1:00     | 5      | scRNAseq part I                                                |
 |     | 11:30-12:00 | 0:30     |        | Break                                                          |
