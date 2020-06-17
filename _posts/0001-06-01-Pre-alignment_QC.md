@@ -102,7 +102,7 @@ Run FASTQC on the file 'hcc1395_normal_1.fastq.gz' and answer these questions by
 * What is the most common average sequence quality score?
 * What does the Adaptor Content warning tell us?
 
-Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/).
+Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-4---data-qc).
 
 ***
 
