@@ -7,41 +7,44 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 excerpt: ""
 layout: "home"
 ---
+Each day runs from 10:00 AM Eastern to 8:00 PM Eastern
 
-| Day |     Time    | Duration | Module | Topic                                                          |
+
+| Day |  Time (ET)  | Duration | Module | Topic                                                          |
 |-----|-------------|----------|--------|----------------------------------------------------------------|
-|  1  | 08:00-08:30 | 0:30     | 0      | Registration and Breakfast                                     |
-|     | 08:30-09:00 | 0:30     |        | Welcome and Introductions                                      |
-|     | 09:00-10:00 | 1:00     |        | Lecture/Lab: Introduction to Cloud Computing                   |
-|     | 10:00-10:30 | 0:30     |        | Break                                                          |
-|     | 10:30-12:00 | 1:30     | 1      | Lecture: Introduction to RNA sequencing                        |
-|     | 12:00-13:00 | 1:00     |        | Lunch                                                          |
+|  1  | 10:00-10:30 | 0:30     |        | Welcome                                                        |
+|     | 10:30-11:30 | 1:00     | 0      | Intro to Compute Canada & Setup                                |
+|     | 11:30-12:00 | 0:30     |        | Break                                                          |
+|     | 12:00-13:00 | 1:00     | 1      | Introduction to RNA Sequencing                                 |
+|     | 13:00-14:00 | 1:00     |        | Lunch                                                          |
+|     | 14:00-15:30 | 1:30     |        | Lunch                                                          |
 |     | 13:00-15:00 | 2:00     |        | Inputs - References, Annotations, Indexing and Data            |
-|     | 15:00-15:30 | 0:30     |        | Break                                                          |
-|     | 15:30-16:00 | 0:30     | 2      | Lecture: RNA-Seq Alignment and Visualization                   |
-|     | 16:00-17:00 | 1:00     |        | Adaptor Trimming, Alignment, QC and Visualization              |
-|     | 17:00-17:30 | 0:30     |        | Break                                                          |
-|     | 17:30-19:30 | 2:00     |        | Integrated Assignment                                          |
-|  2  | 08:00-08:30 | 0:30     | 3      | Breakfast                                                      |
-|     | 08:30-09:00 | 0:30     |        | Lecture: Expression and Differential Expression                |
-|     | 09:00-10:00 | 1:00     |        | Expression Estimation with StringTie & HTSeq                   |
-|     | 10:00-10:30 | 0:30     |        | Break                                                          |
-|     | 10:30-12:00 | 1:30     |        | Differential Expression and Visualization with Ballgown, edgeR |
-|     | 12:00-13:00 | 1:00     |        | Lunch                                                          |
-|     | 13:00-13:30 | 0:30     | 4      | Lecture: Introduction to Alignment Free Analysis               |
-|     | 13:30-14:30 | 1:00     |        | Expression and DE analysis with kallisto and Sleuth            |
-|     | 14:30-15:00 | 0:30     |        | Break                                                          |
-|     | 15:00-17:00 | 1:00     | 5      | Alternative Expression Analysis - Isoform Analysis             |
-|     | 17:00-17:30 | 0:30     |        | Break                                                          |
-|     | 17:30-19:30 | 2:00     |        | Integrated Assignment                                          |
-|  3  | 08:00-08:30 | 0:30     | 6      | Breakfast                                                      |
-|     | 08:30-10:00 | 1:30     |        | Lecture: Transcriptome Assembly                                |
-|     | 10:00-10:30 | 0:30     |        | Break                                                          |
-|     | 10:30-12:00 | 1:30     |        | De novo RNA-Seq Assembly and Analysis Using Trinity            |
-|     | 12:00-13:00 | 1:00     |        | Lunch                                                          |
-|     | 13:00-14:30 | 1:30     | 7      | Lecture: Transcriptome Annotation                              |
-|     | 14:30-15:00 | 0:30     |        | Break                                                          |
-|     | 15:00-17:00 | 2:00     |        | Transcript Annotation with Trinotate                           |
-|     | 17:00-17:30 | 0:30     |        | Survey and Closing Remarks                                     |
+|     | 15:00-15:30 | 0:30     |        | Module 1 Lab                                                   |
+|     | 15:30-16:00 | 0:30     |        | Break                                                          |
+|     | 16:00-16:30 | 0:30     | 2      | RNA-Seq Alignment and Visualization                            |
+|     | 16:30-17:30 | 1:00     |        | Module 2 Lab                                                   |
+|     | 17:30-18:30 | 1:00     |        | Break                                                          |
+|     | 18:30-20:00 | 1:00     |        | Integrated Assignment (optional)                               |
+|  2  | 10:00-10:30 | 0:30     |        | Q & A                                                          |
+|     | 10:30-11:30 | 1:00     | 3      | Expression and Differential Expression                         |
+|     | 11:30-12:00 | 0:30     |        | Break                                                          |
+|     | 12:00-13:00 | 1:00     |        | Module 3 Lab                                                   |
+|     | 13:00-14:00 | 1:00     |        | Lunch                                                          |
+|     | 14:00-15:30 | 1:30     |        | Module 3 Lab Cont'd                                            |
+|     | 15:30-16:00 | 0:30     |        | Break                                                          |
+|     | 16:00-16:30 | 0:30     |        | Alignment Free Expression Estimation                           |
+|     | 16:30-17:30 | 1:00     | 4      | Module 4 Lab                                                   |
+|     | 17:30-18:30 | 1:00     |        | Break                                                          |
+|     | 18:30-20:00 | 1:30     |        | Integrated Assignment (optional)                               |
+|  3  | 10:00-10:30 | 0:30     |        | Q & A                                                          |
+|     | 10:30-11:30 | 1:00     | 5      | scRNAseq part I                                                |
+|     | 11:30-12:00 | 0:30     |        | Break                                                          |
+|     | 12:00-13:00 | 1:00     |        | Module 5 Lab                                                   |
+|     | 13:00-14:00 | 1:00     |        | Lunch                                                          |
+|     | 14:00-15:30 | 1:30     |        | Module 5 Lab Cont'd                                            |
+|     | 15:30-16:00 | 0:30     |        | Break                                                          |
+|     | 16:00-16:30 | 0:30     |        | scRNAseq part II                                               |
+|     | 16:30-17:30 | 1:00     |        | Module 5 Lab Cont'd                                            |
+|     | 17:30-18:00 | 0:30     |        | Survey and Closing Remarks                                     |
 
 
