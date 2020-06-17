@@ -15,10 +15,10 @@ In order to sign into your Compute Canada instance, you will need a valid user I
 ## Logging in with ssh (Mac/Linux)
 
 ```bash
-ssh user##@login1.CBW.calculquebec.cloud
+ssh user#@login1.CBW.calculquebec.cloud
 ```
 
-`user##` is the name of a user on the system you are logging into. `login1.CBW.calculquebec.cloud` is the address of the linux system on Compute Canada that you are logging into. Instead of the using public DNS name, you could also use the IP address if you know that. When you are prompted you will need to enter your password.   
+`user#` is the name of a user on the system you are logging into. `login1.CBW.calculquebec.cloud` is the address of the linux system on Compute Canada that you are logging into. Instead of the using public DNS name, you could also use the IP address if you know that. When you are prompted you will need to enter your password.   
 
 ## Logging in with putty (Windows)
 
@@ -26,16 +26,16 @@ To log in on windows, you must first install putty. Once you have putty installe
 
 Session-hostname: `login1.CBW.calculquebec.cloud`
 
-Connection-Data-Auto-login username: `user##`
+Connection-Data-Auto-login username: `user#`
 
-`user##` is the name of a user on the system you are logging into. `login1.CBW.calculquebec.cloud` is the address of the linux system on Compute Canada that you are logging into. Instead of the using public DNS name, you could also use the IP address if you know that. When you are prompted you will need to enter your password.   
+`user#` is the name of a user on the system you are logging into. `login1.CBW.calculquebec.cloud` is the address of the linux system on Compute Canada that you are logging into. Instead of the using public DNS name, you could also use the IP address if you know that. When you are prompted you will need to enter your password.   
 
 ## Copying files to your computer
 
 * To copy files from an instance, use scp in a similar fashion (in this case to copy a file called nice_alignments.bam):
 
 ```bash
-scp user##@login1.CBW.calculquebec.cloud:nice_alignments.bam .
+scp user#@login1.CBW.calculquebec.cloud:nice_alignments.bam .
 ```
 
 ## Using Jupyter Notebook or JupyterLab
