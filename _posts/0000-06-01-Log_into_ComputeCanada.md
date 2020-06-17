@@ -15,32 +15,32 @@ In order to sign into your Compute Canada instance, you will need a valid user I
 ## Logging in with ssh (Mac/Linux)
 
 ```bash
-ssh user##@login1.CBW.calculquebec.cloud
+ssh user#@login1.CBW.calculquebec.cloud
 ```
 
-`user##` is the name of a user on the system you are logging into. `login1.CBW.calculquebec.cloud` is the address of the linux system on Compute Canada that you are logging into. Instead of the using public DNS name, you could also use the IP address if you know that. When you are prompted you will need to enter your password.   
+`user#` is the name of a user on the system you are logging into. `login1.CBW.calculquebec.cloud` is the address of the linux system on Compute Canada that you are logging into. Instead of the using public DNS name, you could also use the IP address if you know that. When you are prompted you will need to enter your password.   
 
 ## Logging in with putty (Windows)
 
-To log in on windows, you must first install putty. Once you have putty installed, you can log in using the following parameters.
+To log in on windows, you must first install putty. Once you have putty installed, you can log in using the following parameters. If you would like photos of where to input these parameters, please refer [here](https://github.com/bioinformatics-ca/RNAseq_2020/blob/master/CC_cloud.md).
 
 Session-hostname: `login1.CBW.calculquebec.cloud`
 
-Connection-Data-Auto-login username: `user##`
+Connection-Data-Auto-login username: `user#`
 
-`user##` is the name of a user on the system you are logging into. `login1.CBW.calculquebec.cloud` is the address of the linux system on Compute Canada that you are logging into. Instead of the using public DNS name, you could also use the IP address if you know that. When you are prompted you will need to enter your password.   
+`user#` is the name of a user on the system you are logging into. `login1.CBW.calculquebec.cloud` is the address of the linux system on Compute Canada that you are logging into. Instead of the using public DNS name, you could also use the IP address if you know that. When you are prompted you will need to enter your password.   
 
 ## Copying files to your computer
 
 * To copy files from an instance, use scp in a similar fashion (in this case to copy a file called nice_alignments.bam):
 
 ```bash
-scp user##@login1.CBW.calculquebec.cloud:nice_alignments.bam .
+scp user#@login1.CBW.calculquebec.cloud:nice_alignments.bam .
 ```
 
 ## Using Jupyter Notebook or JupyterLab
 
-Everything created in your workspace on the cloud is also available by a web server using Jupyter Notebooks or JupyterLab. You can also perform python/R analysis and access an interactive command-line terminal via JupyterLab. Simply go to the following in your browser and choose Jupyter Notebook (or JupyterLab) in the User Interface dropdown menu. For simply browsing and downloading of files you can select Number of cores = 1 and Memory (MB) = 3200. For analysis in JupyterLab you select Number of cores = 4 and Memory (MB) = 6400. NOTE: Be aware that if you request resources from both your terminal/putty (e.g., `salloc` requests) and also via Jupyter. These are additive. Make sure to terminate any terminal or Jupyter session not in use.
+Everything created in your workspace on the cloud is also available by a web server using Jupyter Notebooks or JupyterLab. You can also perform python/R analysis and access an interactive command-line terminal via JupyterLab. Simply go to the following in your browser and choose Jupyter Notebook (or JupyterLab) in the User Interface dropdown menu. For simply browsing and downloading of files you can select Number of cores = 1 and Memory (MB) = 3200. For analysis in JupyterLab you select Number of cores = 4 and Memory (MB) = 6400. NOTE: Be aware that if you request resources from both your terminal/putty (e.g., `salloc` requests) and also via Jupyter. These are additive. Make sure to terminate any terminal or Jupyter session not in use. It is important to log out once you finish Jupyter session to release the resources. If you only close the browser window, your Jupyter session is still running and using the resources.
 
 [https://jupyter.cbw.calculquebec.cloud/](https://jupyter.cbw.calculquebec.cloud/)
 
