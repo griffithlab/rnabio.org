@@ -78,7 +78,7 @@ The practice dataset includes 3 replicates of data from the HCC1395 breast cance
 * In the first read of the hcc1395, normal, replicate 1, read 1 file, what was the physical location of the read on the flow cell (i.e. lane, tile, x, y)?
 * In the first read of this same file, how many 'T' bases are there?
 
-Solution: When you are ready you can check your approach against the [Solutions](/module-08-appendix/0008/05/01/Practical_Exercise_Solutions/#practical-exercise-3---data).
+Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-3---data).
 
 ***
 
