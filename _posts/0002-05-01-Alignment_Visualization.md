@@ -24,7 +24,7 @@ find *.bam -exec echo samtools index {} \; | sh
 
 ```
 
-Optional:
+Optional (specific to AWS - does not currently work on Compute Canada):
 
 Try to create an index file for one of your bam files using a samtools docker image rather than the locally installed version of samtools. Below is an example docker run command. 
 
@@ -41,8 +41,9 @@ docker run -v /home/ubuntu/workspace:/workspace biocontainers/samtools:v1.9-4-de
 
 
 ### Visualize alignments
-Start IGV on your laptop. Load the UHR.bam & HBR.bam files in IGV. You can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'. You may wish to customize the track names as you load them in to keep them straight. Do this by right-clicking on the alignment track and choosing 'Rename Track'.
+Start IGV on your laptop. Load the UHR.bam & HBR.bam files in IGV. If you're using AWS, you can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'. 
 
+#### AWS links to bam files
 **UHR hisat2 alignment:**
 
 http://**YOUR_DNS_NAME**/workspace/rnaseq/alignments/hisat2/UHR.bam
@@ -50,6 +51,13 @@ http://**YOUR_DNS_NAME**/workspace/rnaseq/alignments/hisat2/UHR.bam
 **HBR hisat2 alignment:**
 
 http://**YOUR_DNS_NAME**/workspace/rnaseq/alignments/hisat2/HBR.bam
+
+#### Download files from Compute Canada server
+
+If using Compute Canada, you can log in to Jupyter notebook as described [here](https://rnabio.org/module-00-setup/0000/06/01/Log_into_ComputeCanada/#using-jupyter-notebook-or-jupyterlab) and download the alignments to your local computer. Once you have downloaded these files, you will want to load them into IGV using 'File' -> 'Load from file'.
+
+
+You may wish to customize the track names as you load them in to keep them straight. Do this by right-clicking on the alignment track and choosing 'Rename Track'.
 
 Go to an example gene locus on chr22:
 
