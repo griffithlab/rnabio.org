@@ -4,3 +4,7 @@ _site/
 .jekyll-metadata
 .swp
 Gemfile.lock
+~$*.ppt*
+~$*.xls*
+~$*.doc*
+*.xlk
