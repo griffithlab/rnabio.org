@@ -74,5 +74,5 @@ If you are trying to do this course on your own using the online materials only,
 
 Name: `cshl-seqtech-2019` (ID: `ami-018b3bf40f9926ac5`) available in the US East, N. Virginia region (us-east-1).
 
-We typically use an instance type of `m5.2xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-08-appendix/0008/09/01/AWS_Setup/) page.
+We typically use an instance type of `m5.2xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-09-appendix/0009/09/01/AWS_Setup/) page.
 
