@@ -103,6 +103,27 @@ tail transcript_tpms_all_samples.tsv
 
 ***
 
+### Compare transcript abundance estimates with different kallisto strand settings
+Note that if you have stranded RNA-seq data and you use the stranded analysis option, it is important to choose the correction option. Examine what happens if you specify no strand as done above and compare to use of `--fr-stranded` and `--rf-stranded`.
+
+```bash
+cd $RNA_HOME/expression/kallisto
+mkdir strand_option_test
+cd strand_option_test
+
+kallisto quant --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=UHR_Rep1_ERCC-Mix1_No-Strand --threads=4 --plaintext $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
+k
+kallisto quant --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=UHR_Rep1_ERCC-Mix1_RF-Stranded --rf-stranded --threads=4 --plaintext $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
+k
+kallisto quant --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=UHR_Rep1_ERCC-Mix1_FR-Stranded --fr-stranded --threads=4 --plaintext $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
+k
+
+```
+
+Find a gene where the transcript expression estimates vary depending on the strand setting. Why would this be case? If you visualize our HISAT BAM alignments from the previous sections does this help us understand what is going on here? For this data, what is the correct strand setting?
+
+***
+
 ### Compare transcript and gene abundance estimates from Kallisto to isoform abundance estimates from StringTie and counts from HtSeq-Count
 How similar are the results we obtained from each approach?
 
