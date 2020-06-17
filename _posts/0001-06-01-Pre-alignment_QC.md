@@ -85,6 +85,8 @@ Run MultiQC on your fastqc reports to generate a single summary report across al
 
 ```bash
 cd $RNA_HOME/data
+module unload multiqc/1.8
+module load multiqc/1.8 
 multiqc .
 ```
 
