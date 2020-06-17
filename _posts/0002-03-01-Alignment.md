@@ -110,4 +110,4 @@ If you sorted the resulting BAM file as we did above, is the result sorted by re
 Which columns of the BAM file can be viewed to determine the style of sorting?
 What command can you use to view only the BAM header?
 
-Solution: When you are ready you can check your approach against the [Solutions](/module-08-appendix/0008/05/01/Practical_Exercise_Solutions/#practical-exercise-6---alignment).
+Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-6---alignment).
