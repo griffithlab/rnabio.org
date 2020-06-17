@@ -69,4 +69,13 @@ module load samtools/1.10 bam-readcount/0.8.0 hisat2/2.2.0 stringtie/2.1.0 gffco
 
 ```
 
+## Getting information on your compute jobs
+The following command allow you to see all current jobs requested by your user and cancel a job if needed. This could be needed if you get connected from your compute session and you wind up with "zombie" jobs that you are no longer connected to. The first command can be used to find the job id needed for the second command. 
+
+```bash
+squeue -u $user
+scancel $jobid
+
+```
+
 When you are done with the compute node, make sure to type `exit` to exit the node and free up the resources you allocated for the node.
