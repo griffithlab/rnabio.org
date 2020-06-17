@@ -127,6 +127,8 @@ Chris Miller is an Assistant Professor in the Division of Oncology and a member 
 {% include figure.html image="/assets/Authors/HuimingXia.png" position="right" class="rounded-circle" width="300" %}
 Huiming Xia is a PhD Candidate in the Computational Systems & Biology program at Washington University in St. Louis. She graduated from Carnegie Mellon University in 2017 with a dual degree in Computational Biology and Chemistry. She is interested in developing machine learning models for improving current strategies of neoantigen design and prioritization for cancer immunotherapy.
 
+
+
 ***
 
 ### Allegra Petti
@@ -140,6 +142,8 @@ Huiming Xia is a PhD Candidate in the Computational Systems & Biology program at
 {% include figure.html image="/assets/Authors/AllegraPetti.png" position="right" class="rounded-circle" width="300" %}
 Allegra Petti is an Assistant Professor in the Department of Medicine, Division of Oncology, and the McDonnell Genome Institute at Washington University School of Medicine. Her research focuses on gene regulation during the development and evolution of cancer. She develops analytical approaches for the integration and interpretation of multidimensional genomic data, with an emphasis on single-cell RNA-sequencing (scRNA-seq) data.
 
+
+
 ***
 
 ### Saad Khan
@@ -152,5 +156,8 @@ Allegra Petti is an Assistant Professor in the Department of Medicine, Division 
 </nav>
 {% include figure.html image="/assets/Authors/SaadKhan.png" position="right" class="rounded-circle" width="300" %}
 Saad Khan is a Bioinformatics Scientist at Washington University in St. Louis. He graduated with Ph.D in Informatics from University of Missouri-Columbia in December 2019. His current work focusses on understanding Acute Myeloid Leukemia at the single cell level using Single cell RNA-sequencing analysis. He is interested in developing informatics approaches in Single cell RNA-seq to better understand Cancer.
+
+
+
 
 ***
