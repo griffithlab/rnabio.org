@@ -80,6 +80,11 @@ Optional exercise: Compare the FastQC reports for fastq files before and after t
 ```bash
 cd $RNA_DATA_TRIM_DIR
 fastqc *.fastq.gz
+
+module unload multiqc/1.8
+module load multiqc/1.8 
+multiqc .
+
 ```
 
 The resulting html reports can be viewed by navigating to:
