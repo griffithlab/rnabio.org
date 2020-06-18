@@ -23,6 +23,7 @@ layout: "home"
 - [Differential gene and transcript expression analysis of RNA-seq experiments with TopHat and Cufflinks](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/ExpressionAnalysis_Cufflinks_Trapnell_2012.pdf)
 - [Differential analysis of gene regulation at transcript resolution with RNA-seq](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/DifferentialExpressionAnalysis_CuffDiff2_Trapnell_2013.pdf)
 - [Measurement of mRNA abundance using RNA-seq data:RPKM measure is inconsistent among samples](https://www.ncbi.nlm.nih.gov/pubmed/22872506)
+- [Discussion of Count Normalization Approaches](https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html)
 - [Differential analyses for RNA-seq: transcript-level estimates improve gene-level inferences](https://f1000research.com/articles/4-1521/v1)
 - [Methods to study splicing from high-throughput RNA sequencing data](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/SplicingAnalysisMethods_2014.pdf)
 - [Integrative Genomics Viewer (IGV): high-performance genomics data visualization and exploration](https://github.com/griffithlab/rnabio.org/tree/master/assets/Reading/IGV_2012.pdf)
