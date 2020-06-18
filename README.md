@@ -1,6 +1,6 @@
 ## Overview
 
-This is the github repo for the Precision Medicine Workshop [website](http://rnaseq.org). The website uses the static site generator [jekyll](https://jekyllrb.com/) and is based on the [Alembic theme](https://github.com/daviddarnes/alembic). Development occurs on the dev branch, the live site is located on the master branch.
+This is the github repo for the RNA-Seq Workshop [website](http://rnabio.org). The website uses the static site generator [jekyll](https://jekyllrb.com/) and is based on the [Alembic theme](https://github.com/daviddarnes/alembic). Development occurs on the dev branch, the live site is located on the master branch.
 
 ## Installation
 
@@ -20,7 +20,7 @@ The site should now be running on localhost port 4000. Changes to files will sho
 Course content is located in the _posts directory, course pages must be named following the format: year-month-day-name.md for example `0000-00-00-name.md`. This naming is important for ordering course content, further the front matter tag in the markdown file should include date as well for the same reason. Additional useful tags are `categories` for locating a course in a specific module. An example of front matter tags in a markdown file is supplied below:
 ```
 ---
-title: Introduction to Precision Medicine
+title: Introduction to RNA-Seq
 categories:
     - Day 1
 feature_image: "https://unsplash.it/1200/400?image=200"
