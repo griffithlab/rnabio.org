@@ -176,7 +176,7 @@ R code has been provided below. Run the R commands detailed in this script in yo
 library(ggplot2)
 
 #Set the base working dir from which to access the input files
-working_dir = '/home/ubuntu/workspace/rnaseq/expression'
+working_dir = '~/workspace/rnaseq/expression'
 setwd(working_dir)
 
 #Load in expression matrix files from each expression method
