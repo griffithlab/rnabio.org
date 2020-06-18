@@ -125,9 +125,7 @@ Chris Miller is an Assistant Professor in the Division of Oncology and a member 
 {% endfor %}
 </nav>
 {% include figure.html image="/assets/Authors/HuimingXia.png" position="right" class="rounded-circle" width="300"%}
-Huiming Xia is a PhD Candidate in the Computational Systems & Biology program at Washington University in St. Louis. She graduated from Carnegie Mellon University in 2017 with a dual degree in Computational Biology and Chemistry. She is interested in developing machine learning models for improving current strategies of neoantigen design and prioritization for cancer immunotherapy.
-
-
+Huiming Xia is a PhD Candidate in the Computational Systems & Biology program at Washington University in St. Louis. She graduated from Carnegie Mellon University in 2017 with a dual degree in Computational Biology and Chemistry. She is interested in developing machine learning models for improving current strategies of neoantigen design and prioritization for cancer immunotherapy.<br><br><br><br>
 
 ***
 
@@ -155,9 +153,6 @@ Allegra Petti is an Assistant Professor in the Department of Medicine, Division 
 {% endfor %}
 </nav>
 {% include figure.html image="/assets/Authors/SaadKhan.png" position="right" class="rounded-circle" width="300"%}
-Saad Khan is a Bioinformatics Scientist at Washington University in St. Louis. He graduated with Ph.D in Informatics from University of Missouri-Columbia in December 2019. His current work focuses on understanding Acute Myeloid Leukemia at the single cell level using Single cell RNA-sequencing analysis. He is interested in developing informatics approaches in Single cell RNA-seq to better understand cancer.
-
-
-
+Saad Khan is a Bioinformatics Scientist at Washington University in St. Louis. He graduated with Ph.D in Informatics from University of Missouri-Columbia in December 2019. His current work focuses on understanding Acute Myeloid Leukemia at the single cell level using Single cell RNA-sequencing analysis. He is interested in developing informatics approaches in Single cell RNA-seq to better understand cancer. <br><br><br><br>
 
 ***
