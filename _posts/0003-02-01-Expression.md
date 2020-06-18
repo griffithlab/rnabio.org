@@ -117,7 +117,7 @@ Solution: When you are ready you can check your approach against the [Solutions]
 
 #### Mini-lecture
 
-For more on the differences between abundance estimates like FPKM and count data with HTSeq-count, see this [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/mini/RNASeq_MiniLecture_04_02_HTSEQ.pdf).
+For more on the differences between abundance estimates like FPKM and count data with HTSeq-count, see this [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/mini/RNASeq_MiniLecture_03_02_HTSEQ.pdf).
 
 ***
 
