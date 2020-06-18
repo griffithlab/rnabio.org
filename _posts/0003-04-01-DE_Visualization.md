@@ -92,7 +92,7 @@ ballgown::geneNames(bg)[2763]
 boxplot(fpkm[2763,] ~ pheno_data$type, border=c(2,3), main=paste(ballgown::geneNames(bg)[2763],' : ', ballgown::transcriptNames(bg)[2763]),pch=19, xlab="Type", ylab='log2(FPKM+1)')
 
 # Add the FPKM values for each sample onto the plot
-points(fpkm[2763,] ~ jitter(c(2,2,2,1,1,1)), col=(2,2,2,1,1,1)+1, pch=16)
+points(fpkm[2763,] ~ jitter(c(2,2,2,1,1,1)), col=c(2,2,2,1,1,1)+1, pch=16)
 
 # Create a plot of transcript structures observed in each replicate and color transcripts by expression level
 plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('Gene in sample HBR_Rep1'), sample=c('HBR_Rep1'))
