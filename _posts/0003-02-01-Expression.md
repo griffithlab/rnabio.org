@@ -71,7 +71,7 @@ grep -v "^#" UHR_Rep1/transcripts.gtf | grep -w "transcript" | column -t | less 
 Limit the view to transcript records and their expression values (FPKM and TPM values)
 
 ```bash
-awk '{if ($3=="transcript") print}' UHR_Rep1/transcripts.gtf | cut -f 1,4,9 | less
+awk '{if ($3=="transcript") print}' UHR_Rep1/transcripts.gtf | cut -f 1,4,9 | less -S
 ```
 
 Press 'q' to exit the 'less' display
