@@ -112,15 +112,35 @@ mkdir strand_option_test
 cd strand_option_test
 
 kallisto quant --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=UHR_Rep1_ERCC-Mix1_No-Strand --threads=4 --plaintext $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
-k
 kallisto quant --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=UHR_Rep1_ERCC-Mix1_RF-Stranded --rf-stranded --threads=4 --plaintext $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
-k
 kallisto quant --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=UHR_Rep1_ERCC-Mix1_FR-Stranded --fr-stranded --threads=4 --plaintext $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
-k
 
 ```
 
 Find a gene where the transcript expression estimates vary depending on the strand setting. Why would this be case? If you visualize our HISAT BAM alignments from the previous sections does this help us understand what is going on here? For this data, what is the correct strand setting?
+
+Some example transcripts with values from all three modes:
+
+```bash
+grep ENST00000447898 */abundance.tsv
+grep ENST00000434568 */abundance.tsv
+grep ERCC-00171 */abundance.tsv
+
+```
+
+Create a convenient table of the results from using each mode
+
+```bash
+paste */abundance.tsv | cut -f 1,2,5,10,15 > transcript_tpms_strand-modes.tsv
+ls -1 */abundance.tsv | perl -ne 'chomp $_; if ($_ =~ /(\S+)\/abundance\.tsv/){print "\t$1"}' | perl -ne 'print "target_id\tlength$_\n"' > header.tsv
+cat header.tsv transcript_tpms_strand-modes.tsv | grep -v "tpm" > transcript_tpms_strand-modes.tsv2
+mv transcript_tpms_strand-modes.tsv2 transcript_tpms_strand-modes.tsv
+rm -f header.tsv
+
+```
+
+
+Refer to [Supplementary Table 5](https://github.com/griffithlab/rnaseq_tutorial/blob/master/manuscript/supplementary_tables/supplementary_table_5.md) from our associated publication for the strand setting info for various tools.  Note that since the [UHR and HBR data](https://rnabio.org/module-01-inputs/0001/05/01/RNAseq_Data/) were generated with the TruSeq Stranded Kit, the correct strand setting for kallisto is `--rf-stranded`.
 
 ***
 
