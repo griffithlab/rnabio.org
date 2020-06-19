@@ -11,11 +11,13 @@ date: 0009-12-01
 
 ### Strand Settings
 
-| Property / Tool                                      | RF Stranded                        | FR Stranded                     | Unstranded                 |
+A useful tool to infer strandedness of your raw sequence data is the [check_strandedness tool](https://github.com/betsig/how_are_we_stranded_here).
+
+| Property / Tool                                      | RF/fr-firststrand stranded         | FR/fr-secondstrand stranded     | Unstranded                 |
 |------------------------------------------------------|------------------------------------|---------------------------------|----------------------------|
 | **Library Kit Examples**                             | TruSeq Strand Specific Total RNA   | NuGEN Encore                    | NuGEN OvationV2            |
 | **Stranded?**                                        | Yes                                | Yes                             | No                         |
-| **check_strandedness**                               | RF/fr-firststrand                  |                                 |                            |
+| **check_strandedness output**                        | RF/fr-firststrand                  | FR/fr-secondstrand              | unstranded                 |
 | **5p to 3p IGV**                                     | F2R1                               | F1R2                            | F2R1 or F1R2               |
 | **TopHat (--library-type parameter)**                | fr-firststrand                     | fr-secondstrand                 | fr-unstranded              |
 | **HISAT2 (--rna-strandness)**                        | R/RF                               | F/FR                            | NONE                       |
