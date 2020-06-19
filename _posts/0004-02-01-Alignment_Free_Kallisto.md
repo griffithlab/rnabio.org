@@ -337,7 +337,7 @@ We can now use this index with Kallisto to assess the abundance of rRNA genes in
 
 ***
 
-### IN PROGRESS - Perform DE analysis of Kallisto expression estimates using Sleuth
+### Perform DE analysis of Kallisto expression estimates using Sleuth
 We will now use Sleuth perform a differential expression analysis on the full chr22 data set produced above. Sleuth is a companion tool that starts with the output of Kallisto, performs DE analysis, and helps you visualize the results. It is analagous to Ballgown that we used to perform DE and visualization of the StringTie results in earlier steps.
 
 Regenerate the Kallisto results using the HDF5 format and 100 rounds of bootstrapping (both required for Sleuth to work).
@@ -444,6 +444,39 @@ write.table(sleuth_significant, "UHR_vs_HBR_transcript_results_sig.tsv", sep="\t
 quit(save="no")
 
 ```
+
+### Compare DE results from Kallisto/Sleuth to the previously used approaches 
+Take a look at the list of genes found to be significant according to all three methods: HISAT/StringTie/Ballgown, HISAT/HTseq-count/EdgeR, and Kallisto/Sleuth. Note here that for EdgeR the analysis was only done at the Gene level. So we will compare the gene lists. In the case of Kallisto we will determine genes where at least one transcript was significantly DE. Which is not quite the same thing as what is happening with the other two methods.
+
+First produce a simple gene list from the sleuth significant transcripts file
+```bash
+cd $RNA_HOME/de
+cat sleuth/results/UHR_vs_HBR_transcript_results_sig.tsv | cut -f 13 | sort | uniq > sleuth_genes_with_de_transcripts.txt
+wc -l *.txt
+
+```
+
+Once again we could visualize the overlap with a venn diagram. This can be done with simple web tools like:
+
+* http://www.cmbi.ru.nl/cdd/biovenn/
+* http://bioinfogp.cnb.csic.es/tools/venny/
+
+```bash
+cat ballgown_DE_gene_symbols.txt
+cat htseq_counts_edgeR_DE_gene_symbols.txt
+cat sleuth_genes_with_de_transcripts.txt
+
+```
+
+Alternatively you could view both lists in a web browser as you have done with other files. These three files should be here:
+
+http://YOUR_IP_ADDRESS/rnaseq/de/ballgown_DE_gene_symbols.txt
+http://YOUR_IP_ADDRESS/rnaseq/de/htseq_counts_edgeR_DE_gene_symbols.txt
+http://YOUR_IP_ADDRESS/rnaseq/de/sleuth_genes_with_de_transcripts.txt
+
+If this works you should see an overlap that looks something like this:
+
+![DE-method-comparison](/assets/module_5/DE-method-comparison.png)
 
 ***
 
