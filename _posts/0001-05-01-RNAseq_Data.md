@@ -105,7 +105,7 @@ Over 75% of reads explained by "1+-,1-+,2++,2--"
 Data is likely RF/fr-firststrand
 ```
 
-Using this [table](https://rnabio.org/module-09-appendix/0009/12/01/StrandSettings/), we can see if this is what we expect. Note that since the UHR and HBR data were generated with the TruSeq Stranded Kit, as mentioned above, the correct strand setting for kallisto is `--rf-stranded`, which is what check_strandedness confirms.
+Using this [table](https://rnabio.org/module-09-appendix/0009/12/01/StrandSettings/), we can see if this is what we expect. Note that since the UHR and HBR data were generated with the TruSeq Stranded Kit, as mentioned above, the correct strand setting for kallisto is `--rf-stranded`, which is what check_strandedness confirms. Similarly when we run HISAT we will use `--rna-strandness RF`, when we run StringTie we will use `--rf`, and when we run htseq-count we will use `--stranded reverse`.
 
 ***
 
