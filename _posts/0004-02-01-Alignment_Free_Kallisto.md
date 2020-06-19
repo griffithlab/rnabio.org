@@ -273,35 +273,43 @@ p1 = ggplot(HBR1_gene_data, aes(log2(kallisto+stabvar), log2(stringtie+stabvar))
 p1 = p1 + geom_point()
 p1 = p1 + geom_point(aes(colour = log2(htseq+stabvar))) + scale_colour_gradient(low = "yellow", high = "red")
 p1 = p1 + xlab("Kallisto TPM") + ylab("StringTie TPM") + labs(colour = "HtSeq Counts")
-p1 = p1 + labs(title = "HBR1 gene expression values [log2(value + 0.1) scaled]")
+p1 = p1 + labs(title = "HBR1 GENE expression values [log2(value + 0.1) scaled]")
 
-#2. Plot kallisto transcript TPMs vs stringtie transcript TPMs - Pick HBR_Rep1 data arbitrarily
-# Indicate with the points whether the data are real transcripts vs. spike-in controls
+#2. 
 HBR1_tran_data = data.frame(kallisto_tran[,"HBR_Rep1"], stringtie_tran[,"HBR_Rep1"])
-names(HBR1_tran_data) = c("kallisto", "stringtie")
-spikein_status=grepl("ERCC",tran_names)
+names(HBR1_tran_data) = c("kallisto", "stringtie", "htseq")
 p2 = ggplot(HBR1_tran_data, aes(log2(kallisto+stabvar), log2(stringtie+stabvar)))
 p2 = p2 + geom_point()
-p2 = p2 + geom_point(aes(colour = spikein_status))
-p2 = p2 + xlab("Kallisto TPM") + ylab("StringTie TPM") + labs(colour = "SpikeIn Status")
-p2 = p2 + labs(title = "HBR1 transcript expression values [log2(value + 0.1) scaled]")
+p2 = p2 + geom_point(aes(colour = log2(htseq+stabvar))) + scale_colour_gradient(low = "yellow", high = "red")
+p2 = p2 + xlab("Kallisto TPM") + ylab("StringTie TPM") + labs(colour = "HtSeq Counts")
+p2 = p2 + labs(title = "HBR1 TRANSCRIPT expression values [log2(value + 0.1) scaled]")
 
-#3. Plot stringtie transcript TPMs vs. stringtie transcript FPKMs - Pick HBR_Rep1 data arbitrarily
+#3. Plot kallisto transcript TPMs vs stringtie transcript TPMs
+# But now use color to indicate whether each data point corresponds to real transcripts vs. spike-in controls
+spikein_status=grepl("ERCC",tran_names)
+p3 = ggplot(HBR1_tran_data, aes(log2(kallisto+stabvar), log2(stringtie+stabvar)))
+p3 = p2 + geom_point()
+p3 = p3 + geom_point(aes(colour = spikein_status))
+p3 = p3 + xlab("Kallisto TPM") + ylab("StringTie TPM") + labs(colour = "SpikeIn Status")
+p3 = p3 + labs(title = "HBR1 TRANSCRIPT expression values [log2(value + 0.1) scaled]")
+
+#4. Plot stringtie transcript TPMs vs. stringtie transcript FPKMs - Pick HBR_Rep1 data arbitrarily
 # Indicate with the points whether the data are real transcripts vs. spike-in controls
 HBR1_tran_data2 = data.frame(stringtie_tran[,"HBR_Rep1"], stringtie_tran_fpkm[,"HBR_Rep1"])
 names(HBR1_tran_data2) = c("stringtie_TPM", "stringtie_FPKM")
-p3 = ggplot(HBR1_tran_data2, aes(log2(stringtie_TPM+stabvar), log2(stringtie_FPKM+stabvar)))
-p3 = p3 + geom_point()
-p3 = p3 + geom_point(aes(colour = spikein_status))
-p3 = p3 + geom_abline(intercept = 0, slope = 1)
-p3 = p3 + xlab("StringTie TPM") + ylab("StringTie FPKM") + labs(colour = "SpikeIn Status")
-p3 = p3 + labs(title = "HBR1 transcript expression values [log2(value + 0.1) scaled]")
+p4 = ggplot(HBR1_tran_data2, aes(log2(stringtie_TPM+stabvar), log2(stringtie_FPKM+stabvar)))
+p4 = p4 + geom_point()
+p4 = p4 + geom_point(aes(colour = spikein_status))
+p4 = p4 + geom_abline(intercept = 0, slope = 1)
+p4 = p4 + xlab("StringTie TPM") + ylab("StringTie FPKM") + labs(colour = "SpikeIn Status")
+p4 = p4 + labs(title = "HBR1 transcript expression values [log2(value + 0.1) scaled]")
 
 #Print out the plots created above and store in a single PDF file
 pdf(file="Kallisto-StringTie-HTSeqCount_Comparisons.pdf")
 print(p1)
 print(p2)
 print(p3)
+print(p4)
 dev.off()
 
 #Quit R
