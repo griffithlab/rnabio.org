@@ -42,7 +42,7 @@ Use `less` to view the file `chr22_ERCC92_transcripts.fa`. Note that this file h
 
 ```bash
 cd $RNA_HOME/refs
-cat chr22_ERCC92_transcripts.fa | perl -ne 'if ($_ =~/^\>(\S+)\:\:.*/){print ">$1\n"}else{print $_}' > chr22_ERCC92_transcripts.clean.fa
+cat chr22_ERCC92_transcripts.fa | perl -ne 'if($_ =~/^\>\S+\:\:(ERCC\-\d+)\:.*/){print ">$1\n"}elsif ($_ =~/^\>(\S+)\:\:.*/){print ">$1\n"}else{print $_}' > chr22_ERCC92_transcripts.clean.fa
 wc -l chr22_ERCC92_transcripts*.fa
 ```
 
