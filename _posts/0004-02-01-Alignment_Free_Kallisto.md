@@ -145,6 +145,32 @@ rm -f header.tsv
 
 ```
 
+Use R to produce comparisons of the three modes:
+
+```bash
+cd $RNA_HOME/expression/kallisto/strand_option_test/
+R
+
+```
+
+R code has been provided below. Run the R commands detailed in this script in your R session.
+
+```R
+library(ggplot2)
+library(cowplot)
+
+data <- read.delim('~/workspace/rnaseq/expression/kallisto/strand_option_testtranscript_tpms_strand-modes.tsv')
+FR_data=log2((data$UHR_Rep1_ERCC.Mix1_FR.Stranded)+0.1)
+RF_data=log2((data$UHR_Rep1_ERCC.Mix1_RF.Stranded)+0.1)
+unstranded_data=log2((data$UHR_Rep1_ERCC.Mix1_No.Strand)+0.1)
+FR_vs_unstranded <- ggplot(data, aes(x=FR_data, y=unstranded_data)) + geom_point() + ggtitle('FR vs No Strand') + xlab('FR log2(expression+1)') + ylab('No Strand log2(expression+1)') 
+RF_vs_unstranded <- ggplot(data, aes(x=RF_data, y=unstranded_data)) + geom_point() + ggtitle('RF vs No Strand') + xlab('RF log2(expression+1)') + ylab('No Strand log2(expression+1)')
+FR_vs_RF <- ggplot(data, aes(x=FR_data, y=RF_data)) + geom_point() + ggtitle('FR vs RF') + xlab('FR log2(expression+1)') + ylab('RF log2(expression+1)')
+pdf(file="Kallisto_Strand_Option_Comparisons.pdf")
+plot_grid(FR_vs_unstranded, RF_vs_unstranded, FR_vs_RF, ncol = 1, nrow = 3)
+dev.off()
+
+```
 
 Refer to [Supplementary Table 5](https://github.com/griffithlab/rnaseq_tutorial/blob/master/manuscript/supplementary_tables/supplementary_table_5.md) from our associated publication for the strand setting info for various tools.  Note that since the [UHR and HBR data](https://rnabio.org/module-01-inputs/0001/05/01/RNAseq_Data/) were generated with the TruSeq Stranded Kit, the correct strand setting for kallisto is `--rf-stranded`.
 
@@ -263,7 +289,7 @@ p3 = p3 + xlab("StringTie TPM") + ylab("StringTie FPKM") + labs(colour = "SpikeI
 p3 = p3 + labs(title = "HBR1 transcript expression values [log2(value + 0.1) scaled]")
 
 #Print out the plots created above and store in a single PDF file
-pdf(file="Tutorial_comparisons.pdf")
+pdf(file="Kallisto-StringTie-HTSeqCount_Comparisons.pdf")
 print(p1)
 print(p2)
 print(p3)
