@@ -15,6 +15,7 @@ date: 0009-12-01
 |------------------------------------------------------|------------------------------------|---------------------------------|----------------------------|
 | **Library Kit Examples**                             | TruSeq Strand Specific Total RNA   | NuGEN Encore                    | NuGEN OvationV2            |
 | **Stranded?**                                        | Yes                                | Yes                             | No                         |
+| **check_strandedness**                               | RF/fr-firststrand                  |                                 |                            |
 | **5p to 3p IGV**                                     | F2R1                               | F1R2                            | F2R1 or F1R2               |
 | **TopHat (--library-type parameter)**                | fr-firststrand                     | fr-secondstrand                 | fr-unstranded              |
 | **HISAT2 (--rna-strandness)**                        | R/RF                               | F/FR                            | NONE                       |
