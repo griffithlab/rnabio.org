@@ -181,7 +181,7 @@ quit(save="no")
 
 ```
 
-Refer to [Supplementary Table 5](https://github.com/griffithlab/rnaseq_tutorial/blob/master/manuscript/supplementary_tables/supplementary_table_5.md) from our associated publication for the strand setting info for various tools.  Note that since the [UHR and HBR data](https://rnabio.org/module-01-inputs/0001/05/01/RNAseq_Data/) were generated with the TruSeq Stranded Kit, the correct strand setting for kallisto is `--rf-stranded`.
+Refer to this [table](https://rnabio.org/module-09-appendix/0009/12/01/StrandSettings/), originally from our associated publication for the strand setting info for various tools.  Note that since the [UHR and HBR data](https://rnabio.org/module-01-inputs/0001/05/01/RNAseq_Data/) were generated with the TruSeq Stranded Kit, the correct strand setting for kallisto is `--rf-stranded`.
 
 ***
 

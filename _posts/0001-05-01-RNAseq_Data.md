@@ -62,6 +62,51 @@ How many reads are there in the first library? Decompress file on the fly with '
 zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | grep -P "^\@HWI" | wc -l
 ```
 
+### Determining the strandedness of RNA-seq data
+
+In order to determine strandedness, we will be using [check_strandedness](https://github.com/betsig/how_are_we_stranded_here). In order use this tool, there are a few steps we need to get our inputs ready, specifically creating a fasta of our GTF file.
+
+```bash
+cd $RNA_HOME/refs/
+
+# Convert Gtf to genePred
+gtfToGenePred chr22_with_ERCC92.gtf chr22_with_ERCC92.genePred
+
+# Convert genPred to bed12
+genePredToBed chr22_with_ERCC92.genePred chr22_with_ERCC92.bed12
+
+# Use bedtools to create fasta from GTF
+bedtools getfasta -fi chr22_with_ERCC92.fa -bed chr22_with_ERCC92.bed12 -s -split -name -fo chr22_ERCC92_transcripts.fa
+```
+
+Use less to view the file chr22_ERCC92_transcripts.fa. Note that this file has messy transcript names. Use the following hairball perl one-liner to tidy up the header line for each fasta sequence.
+
+```bash
+cd $RNA_HOME/refs
+cat chr22_ERCC92_transcripts.fa | perl -ne 'if($_ =~/^\>\S+\:\:(ERCC\-\d+)\:.*/){print ">$1\n"}elsif ($_ =~/^\>(\S+)\:\:.*/){print ">$1\n"}else{print $_}' > chr22_ERCC92_transcripts.clean.fa
+
+```
+
+View the resulting ‘clean’ file using less chr22_ERCC92_transcripts.clean.fa. View the end of this file use tail chr22_ERCC92_transcripts.clean.fa. Note that we have one fasta record for each Ensembl transcript on chromosome 22 and we have an additional fasta record for each ERCC spike-in sequence. Now that we have created our input files, we can now run the check_strandedness tool on some of our instrument data.
+
+```bash
+cd $RNA_HOME
+mkdir strandedness
+cd strandedness
+check_strandedness --gtf $RNA_HOME/refs/chr22_with_ERCC92.gtf --transcripts $RNA_HOME/refs/chr22_ERCC92_transcripts.clean.fa --reads_1 $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz --reads_2 $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+```
+
+The output of this command should look like so:
+```bash
+Fraction of reads failed to determine: 0.1122
+Fraction of reads explained by "1++,1--,2+-,2-+": 0.0155
+Fraction of reads explained by "1+-,1-+,2++,2--": 0.8723
+Over 75% of reads explained by "1+-,1-+,2++,2--"
+Data is likely RF/fr-firststrand
+```
+
+Using this [table](https://rnabio.org/module-09-appendix/0009/12/01/StrandSettings/), we can see if this is what we expect. Note that since the UHR and HBR data were generated with the TruSeq Stranded Kit, as mentioned above, the correct strand setting for kallisto is `--rf-stranded`, which is what check_strandedness confirms.
+
 ***
 
 ### PRACTICAL EXERCISE 3
