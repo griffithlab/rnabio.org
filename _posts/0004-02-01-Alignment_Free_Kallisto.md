@@ -26,18 +26,24 @@ Note that we already have fasta sequences for the reference *genome* sequence fr
 
 To allow us to compare Kallisto results to expression results from StringTie, we will create a custom Fasta file that corresponds to the transcripts we used for the StringTie analysis. How can we obtain these transcript sequences in Fasta format?
 
-We could download the complete fasta transcript database for human and pull out only those for genes on chromosome 22. Or we could use a tool from `tophat` called `gtf_to_fasta` to generate a fasta sequence from our GTF file. This approach is convenient because it will also include the sequences for the ERCC spike in controls, allowing us to generate Kallisto abundance estimates for those features as well.
+We could download the complete fasta transcript database for human and pull out only those for genes on chromosome 22. 
+
+We can also use BedTools to create a transcripts fastq file from our transcript GTF file. Note that previously in the [alignment QC section](https://rnabio.org/module-02-alignment/0002/06/01/Alignment_QC/) we converted our transcript GTF file to the bed12 format needed for the following step. 
 
 ```bash
 cd $RNA_HOME/refs
-gtf_to_fasta $RNA_REF_GTF $RNA_REF_FASTA chr22_ERCC92_transcripts.fa
+bedtools getfasta -fi chr22_with_ERCC92.fa -bed chr22_with_ERCC92.bed12 -s -split -name -fo chr22_ERCC92_transcripts.fa
+
 ```
+
+Note that we could also use a tool from `tophat` called `gtf_to_fasta` to generate a fasta sequence from our GTF file. This approach is convenient because it will also include the sequences for the ERCC spike in controls, allowing us to generate Kallisto abundance estimates for those features as well. HOWEVER, when this tool splices defined exons in our GTF together using the sequence in our reference genome FASTA file it does not reverse complement the genes expressed on the -ve strand. This is fine if you do NOT specify the strand option when running kallisto quant. BUT, if you intend to use the strand specific options, then all of your transcripts must be represented in the forward (5'->3' direction). `gtf_to_fasta` does not have an option to create them this way.
+
 
 Use `less` to view the file `chr22_ERCC92_transcripts.fa`. Note that this file has messy transcript names. Use the following hairball perl one-liner to tidy up the header line for each fasta sequence
 
 ```bash
 cd $RNA_HOME/refs
-cat chr22_ERCC92_transcripts.fa | perl -ne 'if ($_ =~/^\>\d+\s+\w+\s+(ERCC\S+)[\+\-]/){print ">$1\n"}elsif($_ =~ /\d+\s+(ENST\d+)/){print ">$1\n"}else{print $_}' > chr22_ERCC92_transcripts.clean.fa
+cat chr22_ERCC92_transcripts.fa | perl -ne 'if ($_ =~/^\>(\S+)\:\:.*/){print ">$1\n"}else{print $_}' > chr22_ERCC92_transcripts.clean.fa
 wc -l chr22_ERCC92_transcripts*.fa
 ```
 
