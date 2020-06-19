@@ -15,7 +15,7 @@ date: 0005-02-01
 
 ***
 
-Note on de novo transcript discovery and differential expression using Stringtie and Ballgown.
+#### De novo transcript discovery and differential expression using Stringtie and Ballgown
 
 In the previous module, we ran Stringtie in `reference only` mode using the `-G` and `-e` Stringtie options.
 

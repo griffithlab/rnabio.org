@@ -15,7 +15,7 @@ date: 0005-03-01
 
 ***
 
-### Stringtie De Novo
+### Running Stringtie in De Novo Mode
 Note, to discover novel transcripts with Stringtie using the alignments we generated in the previous modules we will now run Stringtie in de novo mode. To use de novo mode do **NOT** specify either of the `-G` OR `-e` options.
 
 Extra options specified below
