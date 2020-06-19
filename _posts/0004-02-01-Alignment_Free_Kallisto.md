@@ -158,7 +158,7 @@ R code has been provided below. Run the R commands detailed in this script in yo
 library(ggplot2)
 library(cowplot)
 
-data <- read.delim('~/workspace/rnaseq/expression/kallisto/strand_option_testtranscript_tpms_strand-modes.tsv')
+data <- read.delim('~/workspace/rnaseq/expression/kallisto/strand_option_test/transcript_tpms_strand-modes.tsv')
 FR_data=log2((data$UHR_Rep1_ERCC.Mix1_FR.Stranded)+0.1)
 RF_data=log2((data$UHR_Rep1_ERCC.Mix1_RF.Stranded)+0.1)
 unstranded_data=log2((data$UHR_Rep1_ERCC.Mix1_No.Strand)+0.1)
