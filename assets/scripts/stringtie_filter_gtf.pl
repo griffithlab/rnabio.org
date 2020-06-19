@@ -17,8 +17,8 @@ GetOptions('expression_metric=s'=>\$expression_metric, #Choice of expression val
            'result_dirs=s'=>\$result_dirs, #Dir with expression value GTF files
            'input_gtf_file=s'=>\$input_gtf_file, #Transcript assembly GTF to be filtered 
            'filtered_gtf_file=s'=>\$filtered_gtf_file, #Filtered version of the assembly GTF
-	   'exp_cutoff=f'=>\$exp_cutoff, #Value must be greater than this for transcript to expressed
-	   'min_sample_count=i'=>\$min_sample_count); #At least this many samples with transcript expressed
+	       'exp_cutoff=f'=>\$exp_cutoff, #Value must be greater than this for transcript to expressed
+	       'min_sample_count=i'=>\$min_sample_count); #At least this many samples with transcript expressed
 
 unless($expression_metric && $result_dirs && $input_gtf_file && $filtered_gtf_file && defined($exp_cutoff) && defined($min_sample_count)){
     print "\n\nRequired parameters missing\n\n";
@@ -31,6 +31,10 @@ unless($expression_metric && $result_dirs && $input_gtf_file && $filtered_gtf_fi
 #Check for valid coverage metric to be summarized
 chomp($expression_metric);
 die "\n\nUnexpected expression metric: $expression_metric (allowed options are: TPM, FPKM, coverage)\n\n" unless ($expression_metric =~ /^tpm$|^fpkm$|^coverage$/i);
+
+#Expand file paths
+$input_gtf_file = glob($input_gtf_file);
+$filtered_gtf_file = glob($filtered_gtf_file);
 
 #Parse and check input result dirs
 my %samples;
