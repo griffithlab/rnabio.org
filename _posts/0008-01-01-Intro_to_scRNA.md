@@ -37,4 +37,9 @@ date: 0008-01-01
 * Implement a complete scRNAseq analysis pipeline in R
 
 ### Module 8 - Lecture
-* 
+[CBW2020_scRNAseq_1_APetti.pdf]
+https://github.com/griffithlab/rnabio.org/blob/master/assets/CBW2020_scRNAseq_1_APetti.pdf
+
+[CBW2020_scRNAseq_2_APetti.pdf]
+https://github.com/griffithlab/rnabio.org/blob/master/assets/CBW2020_scRNAseq_2_APetti.pdf
+
