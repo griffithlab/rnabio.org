@@ -360,7 +360,7 @@ kallisto quant --rf-stranded -b 100 --index=$RNA_HOME/refs/kallisto/chr22_ERCC92
 Create a mapping of gene names to gene ids to transcript ids as follows:
 ```bash
 cd $RNA_HOME/refs
-cat $RNA_HOME/refs/chr22_with_ERCC92.gtf | cut -f 9 | perl -ne 'chomp; $gname=""; $gid=""; $tid=""; if ($_ =~ /gene_name\s+\"(\S+)\"\;/){$gname=$1}; if ($_ =~ /gene_id\s+\"(\S+)\"\;/){$gid=$1}; if ($_ =~ /transcript_id\s+\"(\S+)\"\;/){$tid=$1} print "$gname\t$gid\t$tid\n"' | sort | uniq > genename_gid_tid.tsv
+cat $RNA_HOME/refs/chr22_with_ERCC92.gtf | awk '{if ($3=="transcript") print}' | cut -f 9 | perl -ne 'chomp; $gname=""; $gid=""; $tid=""; if ($_ =~ /gene_name\s+\"(\S+)\"\;/){$gname=$1}; if ($_ =~ /gene_id\s+\"(\S+)\"\;/){$gid=$1}; if ($_ =~ /transcript_id\s+\"(\S+)\"\;/){$tid=$1} print "$gname\t$gid\t$tid\n"' | sort | uniq > genename_gid_tid.tsv
 head genename_gid_tid.tsv
 
 ```
@@ -386,7 +386,7 @@ suppressMessages({
 })
 
 #load id mapping file
-ids = read.table('~/workspace/rnaseq/refs/transcript_id_list.txt', sep="\t", header=FALSE, as.is=1)
+ids = read.table('~/workspace/rnaseq/refs/genename_gid_tid.tsv', sep="\t", header=FALSE, as.is=1)
 
 #set input and output dirs
 datapath = "~/workspace/rnaseq/de/sleuth/input"
