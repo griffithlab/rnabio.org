@@ -28,7 +28,7 @@ To allow us to compare Kallisto results to expression results from StringTie, we
 
 We could download the complete fasta transcript database for human and pull out only those for genes on chromosome 22. 
 
-We can also use BedTools to create a transcripts fastq file from our transcript GTF file. Note that previously in the [alignment QC section](https://rnabio.org/module-02-alignment/0002/06/01/Alignment_QC/) we converted our transcript GTF file to the bed12 format needed for the following step. 
+We can also use BedTools to create a transcripts fastq file from our transcript GTF file. Note that previously in the [alignment QC section](https://rnabio.org/module-02-alignment/0002/06/01/Alignment_QC/) we converted our transcript GTF file to the bed12 format needed for the following step.  This approach is convenient because it will also include the sequences for the ERCC spike in controls, allowing us to generate Kallisto abundance estimates for those features as well. Use `bedtools getfasta` to create an Ensembl+ERCC92 transcripts fasta file as follows.
 
 ```bash
 cd $RNA_HOME/refs
@@ -36,8 +36,7 @@ bedtools getfasta -fi chr22_with_ERCC92.fa -bed chr22_with_ERCC92.bed12 -s -spli
 
 ```
 
-Note that we could also use a tool from `tophat` called `gtf_to_fasta` to generate a fasta sequence from our GTF file. This approach is convenient because it will also include the sequences for the ERCC spike in controls, allowing us to generate Kallisto abundance estimates for those features as well. HOWEVER, when this tool splices defined exons in our GTF together using the sequence in our reference genome FASTA file it does not reverse complement the genes expressed on the -ve strand. This is fine if you do NOT specify the strand option when running kallisto quant. BUT, if you intend to use the strand specific options, then all of your transcripts must be represented in the forward (5'->3' direction). `gtf_to_fasta` does not have an option to create them this way.
-
+Note that we could have instead used a tool from `tophat` called `gtf_to_fasta` to generate the fasta sequence from our GTF file.  HOWEVER, when this tool splices defined exons in our GTF together using the sequence in our reference genome FASTA file it does NOT reverse complement the genes expressed on the -ve strand. This is fine if you do NOT specify the strand option when running kallisto quant. BUT, if you intend to use the strand specific options, then all of your transcripts MUST be represented in the forward (5'->3' direction). `gtf_to_fasta` does not have an option to create them this way. So you should use one of the approaches two described above. Either download a transcript file where all sequences are already represented in the correct forward orientation, OR use the `getfasta` strategy above on a `bed12` version of your transcript GTF.
 
 Use `less` to view the file `chr22_ERCC92_transcripts.fa`. Note that this file has messy transcript names. Use the following hairball perl one-liner to tidy up the header line for each fasta sequence
 
