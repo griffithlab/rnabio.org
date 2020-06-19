@@ -34,6 +34,7 @@ Using the alignments we generated in the previous modules we will now run String
 
 Extra options specified below:
 
+* `--rf` tells StringTie that our data is stranded and to use the correct strand specific mode (i.e. assume a stranded library fr-firststrand).
 * `-p 4` tells Stringtie to use eight CPUs
 * `-G ` reference annotation to use for guiding the assembly process (GTF/GFF3)
 * `-l` name prefix for output transcripts (default: STRG)
@@ -45,12 +46,12 @@ cd $RNA_HOME/
 mkdir -p expression/stringtie/ref_guided/
 cd expression/stringtie/ref_guided/
 
-stringtie -p 4 -G $RNA_REF_GTF -l HBR_Rep1 -o HBR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep1.bam
-stringtie -p 4 -G $RNA_REF_GTF -l HBR_Rep2 -o HBR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep2.bam
-stringtie -p 4 -G $RNA_REF_GTF -l HBR_Rep3 -o HBR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep3.bam
+stringtie --rf -p 4 -G $RNA_REF_GTF -l HBR_Rep1 -o HBR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep1.bam
+stringtie --rf -p 4 -G $RNA_REF_GTF -l HBR_Rep2 -o HBR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep2.bam
+stringtie --rf -p 4 -G $RNA_REF_GTF -l HBR_Rep3 -o HBR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/HBR_Rep3.bam
 
-stringtie -p 4 -G $RNA_REF_GTF -l UHR_Rep1 -o UHR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep1.bam
-stringtie -p 4 -G $RNA_REF_GTF -l UHR_Rep2 -o UHR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep2.bam
-stringtie -p 4 -G $RNA_REF_GTF -l UHR_Rep3 -o UHR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep3.bam
+stringtie --rf -p 4 -G $RNA_REF_GTF -l UHR_Rep1 -o UHR_Rep1/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep1.bam
+stringtie --rf -p 4 -G $RNA_REF_GTF -l UHR_Rep2 -o UHR_Rep2/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep2.bam
+stringtie --rf -p 4 -G $RNA_REF_GTF -l UHR_Rep3 -o UHR_Rep3/transcripts.gtf $RNA_ALIGN_DIR/UHR_Rep3.bam
 
 ```
