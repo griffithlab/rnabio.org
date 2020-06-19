@@ -387,6 +387,7 @@ suppressMessages({
 
 #load id mapping file
 ids = read.table('~/workspace/rnaseq/refs/genename_gid_tid.tsv', sep="\t", header=FALSE, as.is=1)
+names(ids) = c("gene_name", "gene_id", "transcript_id")
 
 #set input and output dirs
 datapath = "~/workspace/rnaseq/de/sleuth/input"
@@ -424,6 +425,17 @@ pdf(file="SleuthResults.pdf")
 print(p1)
 print(p2)
 dev.off()
+
+#Add gene names to the results using the file of id mappings we loaded
+map_ids = function(sleuthrow){
+    i = which(ids$transcript_id == sleuthrow["target_id"])
+    if (length(i) > 0){
+        return(ids[i,"gene_name"])
+    }else{
+        return(sleuthrow["target_id"])
+    }
+}
+sleuth_significant[,"gene_name"] = apply(sleuth_significant, 1, map_ids)
 
 # Output the significant transcript results to a pair of tab delimited files
 write.table(sleuth_significant, "UHR_vs_HBR_transcript_results_sig.tsv", sep="\t", quote=FALSE, row.names = FALSE)
