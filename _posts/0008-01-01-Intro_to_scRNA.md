@@ -9,7 +9,7 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0008-01-01
 ---
 
-### Module 7 - Key concepts
+### Module 8 - Key concepts
 * Key differences between bulk RNA-seq data and single-cell RNA-seq data
 * Technology, sensitivity, and throughput of plate-based and droplet-based scRNA-seq platforms
 * 10xGenomics Chromium technology, library structure, and Cellranger analysis pipeline
@@ -23,7 +23,7 @@ date: 0008-01-01
 * Rationale for cell clustering and cluster interpretation
 * Further strategies for cell type inference and data interpretation
 
-### Module 7 - Learning objectives
+### Module 8 - Learning objectives
 * Understand the applications of scRNA-seq
 * Learn the advantages of different scRNA-seq platforms
 * Understand the 10xGenomics technology
