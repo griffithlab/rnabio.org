@@ -320,9 +320,13 @@ A file copy of the above R code can be found [here](https://github.com/griffithl
 Suppose we just want to quickly assess the presence of a particular class of genes only(e.g. ribosomal RNA genes). We can obtain these genes from an Ensembl GTF file. In the example below we will use our chromosome 22 GTF file for demonstration purposes. But in a 'real world' experiment you would use a GTF for all chromosomes. Once we have found GTF records for ribosomal RNA genes, we will create a fasta file that contains the sequences for these transcripts, and then index this sequence database for use with Kallisto.
 ```bash
 cd $RNA_HOME/refs
-grep rRNA $RNA_REF_GTF > genes_chr22_ERCC92_rRNA.gtf
-gtf_to_fasta genes_chr22_ERCC92_rRNA.gtf $RNA_REF_FASTA chr22_rRNA_transcripts.fa
-cat chr22_rRNA_transcripts.fa | perl -ne 'if ($_ =~/^\>\d+\s+\w+\s+(ERCC\S+)[\+\-]/){print ">$1\n"}elsif($_ =~ /\d+\s+(ENST\d+)/){print ">$1\n"}else{print $_}' > chr22_rRNA_transcripts.clean.fa
+grep rRNA $RNA_REF_GTF > chr22_rRNA.gtf
+
+gtfToGenePred chr22_rRNA.gtf chr22_rRNA.genePred
+genePredToBed chr22_rRNA.genePred chr22_rRNA.bed12
+bedtools getfasta -fi $RNA_REF_FASTA -bed chr22_rRNA.bed12 -s -split -name -fo chr22_rRNA_transcripts.fa
+
+cat chr22_rRNA_transcripts.fa | perl -ne 'if($_ =~/^\>\S+\:\:(ERCC\-\d+)\:.*/){print ">$1\n"}elsif ($_ =~/^\>(\S+)\:\:.*/){print ">$1\n"}else{print $_}' > chr22_rRNA_transcripts.clean.fa
 cat chr22_rRNA_transcripts.clean.fa
 
 cd $RNA_HOME/refs/kallisto
