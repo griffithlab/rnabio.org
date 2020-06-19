@@ -354,7 +354,17 @@ kallisto quant --rf-stranded -b 100 --index=$RNA_HOME/refs/kallisto/chr22_ERCC92
 kallisto quant --rf-stranded -b 100 --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=HBR_Rep1_ERCC-Mix2 --threads=4 $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
 kallisto quant --rf-stranded -b 100 --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=HBR_Rep2_ERCC-Mix2 --threads=4 $RNA_DATA_DIR/HBR_Rep2_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/HBR_Rep2_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
 kallisto quant --rf-stranded -b 100 --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=HBR_Rep3_ERCC-Mix2 --threads=4 $RNA_DATA_DIR/HBR_Rep3_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/HBR_Rep3_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+
 ```
+
+Create a mapping of gene names to gene ids to transcript ids as follows:
+```bash
+cd $RNA_HOME/refs
+cat $RNA_HOME/refs/chr22_with_ERCC92.gtf | cut -f 9 | perl -ne 'chomp; $gname=""; $gid=""; $tid=""; if ($_ =~ /gene_name\s+\"(\S+)\"\;/){$gname=$1}; if ($_ =~ /gene_id\s+\"(\S+)\"\;/){$gid=$1}; if ($_ =~ /transcript_id\s+\"(\S+)\"\;/){$tid=$1} print "$gname\t$gid\t$tid\n"' | sort | uniq > genename_gid_tid.tsv
+head genename_gid_tid.tsv
+
+```
+
 
 Sleuth is an R package so the following steps will occur in an R session. The following section is an adaptation of the [sleuth getting started tutorial](https://pachterlab.github.io/sleuth_walkthroughs/trapnell/analysis.html).
 
@@ -375,6 +385,9 @@ suppressMessages({
   library("sleuth")
 })
 
+#load id mapping file
+ids = read.table('~/workspace/rnaseq/refs/transcript_id_list.txt', sep="\t", header=FALSE, as.is=1)
+
 #set input and output dirs
 datapath = "~/workspace/rnaseq/de/sleuth/input"
 resultdir = "~/workspace/rnaseq/de/sleuth/results"
@@ -382,12 +395,12 @@ setwd(resultdir)
 
 #create a sample to condition metadata description
 sample_id = dir(file.path(datapath))
-kal_dirs = file.path(datapath, sample_id)
-print(kal_dirs)
+kallisto_dirs = file.path(datapath, sample_id)
+print(kallisto_dirs)
 sample = c("HBR_Rep1_ERCC-Mix2", "HBR_Rep2_ERCC-Mix2", "HBR_Rep3_ERCC-Mix2", "UHR_Rep1_ERCC-Mix1", "UHR_Rep2_ERCC-Mix1", "UHR_Rep3_ERCC-Mix1")
 condition = c("HBR", "HBR", "HBR", "UHR", "UHR", "UHR")
 s2c = data.frame(sample,condition)
-s2c <- dplyr::mutate(s2c, path = kal_dirs)
+s2c <- dplyr::mutate(s2c, path = kallisto_dirs)
 print(s2c)
 
 #run sleuth on the data
@@ -411,6 +424,13 @@ pdf(file="SleuthResults.pdf")
 print(p1)
 print(p2)
 dev.off()
+
+# Output the significant transcript results to a pair of tab delimited files
+write.table(sleuth_significant, "UHR_vs_HBR_transcript_results_sig.tsv", sep="\t", quote=FALSE, row.names = FALSE)
+
+# Exit the R session
+quit(save="no")
+
 ```
 
 ***
