@@ -64,7 +64,7 @@ zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | grep -P "
 
 ### Determining the strandedness of RNA-seq data
 
-In order to determine strandedness, we will be using [check_strandedness](https://github.com/betsig/how_are_we_stranded_here). In order use this tool, there are a few steps we need to get our inputs ready, specifically creating a fasta of our GTF file.
+In order to determine strandedness, we will be using [check_strandedness](https://github.com/betsig/how_are_we_stranded_here)((docker image)[https://hub.docker.com/r/smk5g5/checkstranded]). In order use this tool, there are a few steps we need to get our inputs ready, specifically creating a fasta of our GTF file.
 
 ```bash
 cd $RNA_HOME/refs/
