@@ -10,6 +10,8 @@ layout: "home"
 
 These materials have been developed with the support of the [Cold Spring Harbor Laboratory](http://meetings.cshl.edu/courseshome.aspx) and [Canadian Bioinformatics Workshops](https://bioinformatics.ca/workshops/) organizations. Creation of the section on Amazon AWS EC2 and the cost of student instances was generously supported by [Amazon AWS Education grants](https://aws.amazon.com/grants/).
 
+Some of the methods/tools used in this course (e.g. regtools) were supported by funding to Malachi Griffith from the [V Foundation for Cancer Research](https://www.jimmyv.org/).
+
 This work would not be possible without building upon what others have contributed to the bioinformatics community. We would like to thank the authors of the bioinformatic tools and resources upon which this tutorial is based.
 
 In addition to the main [authors](/authors) of this workshop (Malachi Griffith, Obi Griffith, Brian Haas, Jason Walker, Alex Wagner, Kelsy Cotto, and Zachary Skidmore), we would also like to thank the following researchers who contributed to lecture or exercise materials that inspired some aspects of this workshop: Aaron Quinlan, Elaine Mardis, Francis Ouellette, Michelle Brazas, Ann Meyer, Zhibin Lu, Andrew Farrell, Karyn Meltz Steinberg, Sorana Morrissy, Rodrigo Goya, Jim Robinson, Ben Ainscough, Cody Ramirez, Jasreet Hundal, Nick Spies, Malik Sediqzad, and many more.
