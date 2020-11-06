@@ -64,7 +64,7 @@ zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | grep -P "
 
 ### Determining the strandedness of RNA-seq data
 
-In order to determine strandedness, we will be using [check_strandedness](https://github.com/betsig/how_are_we_stranded_here). In order use this tool, there are a few steps we need to get our inputs ready, specifically creating a fasta of our GTF file.
+In order to determine strandedness, we will be using [check_strandedness](https://github.com/betsig/how_are_we_stranded_here)((docker image)[https://hub.docker.com/r/smk5g5/checkstranded]). In order use this tool, there are a few steps we need to get our inputs ready, specifically creating a fasta of our GTF file.
 
 ```bash
 cd $RNA_HOME/refs/
@@ -105,7 +105,7 @@ Over 75% of reads explained by "1+-,1-+,2++,2--"
 Data is likely RF/fr-firststrand
 ```
 
-Using this [table](https://rnabio.org/module-09-appendix/0009/12/01/StrandSettings/), we can see if this is what we expect. Note that since the UHR and HBR data were generated with the TruSeq Stranded Kit, as mentioned above, the correct strand setting for kallisto is `--rf-stranded`, which is what check_strandedness confirms.
+Using this [table](https://rnabio.org/module-09-appendix/0009/12/01/StrandSettings/), we can see if this is what we expect. Note that since the UHR and HBR data were generated with the TruSeq Stranded Kit, as mentioned above, the correct strand setting for kallisto is `--rf-stranded`, which is what check_strandedness confirms. Similarly when we run HISAT we will use `--rna-strandness RF`, when we run StringTie we will use `--rf`, and when we run htseq-count we will use `--stranded reverse`.
 
 ***
 

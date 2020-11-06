@@ -43,6 +43,8 @@ docker run -v /home/ubuntu/workspace:/workspace biocontainers/samtools:v1.9-4-de
 ### Visualize alignments
 Start IGV on your laptop. Load the UHR.bam & HBR.bam files in IGV. If you're using AWS, you can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'. 
 
+Make sure you select the appropriate reference genome build in IGV (top left corner of IGV): in this case `hg38`.
+
 #### AWS links to bam files
 **UHR hisat2 alignment:**
 
