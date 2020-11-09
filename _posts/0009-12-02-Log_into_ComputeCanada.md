@@ -4,9 +4,9 @@ feature_text: |
   Introduction to bioinformatics for RNA sequence analysis
 title: Log into Compute Canada
 categories:
-    - Module-00-Setup
+    - Module-09-Appendix
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0000-06-01
+date: 0009-12-02
 ---
 
 ## Signing into Compute Canada for the course
