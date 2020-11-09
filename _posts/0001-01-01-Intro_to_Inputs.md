@@ -23,6 +23,5 @@ date: 0001-01-01
 
 
 ### Lecture
-* [FASTA/FASTQ/GTF formats mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf)
-* [Indexing mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/mini/RNASeq_MiniLecture_01_02_Indexing.pdf) 
-
+* [FASTA/FASTQ/GTF formats mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf)
+* [Indexing mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_01_02_Indexing.pdf)

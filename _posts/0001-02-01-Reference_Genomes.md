@@ -16,7 +16,7 @@ date: 0001-02-01
 ***
 
 ### FASTA/FASTQ/GTF mini lecture
-If you would like a refresher on common file formats such as FASTA, FASTQ, and GTF files, we have made [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf) briefly covering these.
+If you would like a refresher on common file formats such as FASTA, FASTQ, and GTF files, we have made [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf) briefly covering these.
 
 ### Obtain a reference genome from Ensembl, iGenomes, NCBI or UCSC.
 
@@ -76,13 +76,12 @@ grep ">" chr22_with_ERCC92.fa
 Assignment: Use a commandline scripting approach of your choice to further examine our chr22 reference genome file and answer the following questions.
 
 Questions:
-- How many bases on chromosome 22 correspond to repetitive elements? 
+- How many bases on chromosome 22 correspond to repetitive elements?
 - What is the percentage of the whole length?
 - How many occurences of the EcoRI (GAATTC) restriction site are present in the chromosome 22 sequence?
 
 Hint: Each question can be tackled using approaches similar to those above, using the file 'chr22_with_ERCC92.fa' as a starting point.
 Hint: To make things simpler, first produce a file with only the chr22 sequence.
-Hint: Remember that repetitive elements in the sequence are represented in lower case 
+Hint: Remember that repetitive elements in the sequence are represented in lower case
 
 Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-2---reference-genomes).
-
