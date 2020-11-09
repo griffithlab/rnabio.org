@@ -20,9 +20,8 @@ date: 0000-01-01
 * Use the Amazon EC2 console to create an instance
 * Log into your EC2 instance
 * Review basic Unix/Linux commands
-* Set up environment and install necessary tools 
+* Set up environment and install necessary tools
 
 ### Lectures
-* [RNASeq_Intro.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/full/RNASeq_Module1_IntrotoRNA.pdf)
-* [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2019/full/RNASeq_Module0_CloudComputing.pdf)
-
+* [RNASeq_Intro.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/full/RNASeq_Module0_IntrotoRNA.pdf)
+* [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/full/RNASeq_Module0_CloudComputing.pdf)

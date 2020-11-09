@@ -11,8 +11,8 @@ date: 0004-02-01
 
 ### Kallisto mini lecture
 
-If you would like a refresher on Kallisto, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/mini/RNASeq_MiniLecture_04_01_AlignmentFreeKallisto.pdf) briefly covering the topic.
-We have also made a mini lecture  describing the differences between [alignment, assembly, and pseudoalignment](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/mini/RNASeq_MiniLecture_02_02_Alignment_vs_Assembly_vs_Kmer.pdf).
+If you would like a refresher on Kallisto, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_04_01_AlignmentFreeKallisto.pdf) briefly covering the topic.
+We have also made a mini lecture  describing the differences between [alignment, assembly, and pseudoalignment](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_02_02_Alignment_vs_Assembly_vs_Kmer.pdf).
 
 
 ***
@@ -26,7 +26,7 @@ Note that we already have fasta sequences for the reference *genome* sequence fr
 
 To allow us to compare Kallisto results to expression results from StringTie, we will create a custom Fasta file that corresponds to the transcripts we used for the StringTie analysis. How can we obtain these transcript sequences in Fasta format?
 
-We could download the complete fasta transcript database for human and pull out only those for genes on chromosome 22. 
+We could download the complete fasta transcript database for human and pull out only those for genes on chromosome 22.
 
 We can also use BedTools to create a transcripts fastq file from our transcript GTF file. Note that previously in the [alignment QC section](https://rnabio.org/module-02-alignment/0002/06/01/Alignment_QC/) we converted our transcript GTF file to the bed12 format needed for the following step.  This approach is convenient because it will also include the sequences for the ERCC spike in controls, allowing us to generate Kallisto abundance estimates for those features as well. Use `bedtools getfasta` to create an Ensembl+ERCC92 transcripts fasta file as follows.
 
@@ -167,7 +167,7 @@ RF_data=log2((data$UHR_Rep1_ERCC.Mix1_RF.Stranded)+0.1)
 unstranded_data=log2((data$UHR_Rep1_ERCC.Mix1_No.Strand)+0.1)
 
 # create scatterplots for each pairwise comparison of kallisto abundance estimates generated using each of the different kallisto strand modes
-FR_vs_unstranded <- ggplot(data, aes(x=FR_data, y=unstranded_data)) + geom_point() + ggtitle('FR vs No Strand') + xlab('FR log2(expression+1)') + ylab('No Strand log2(expression+1)') 
+FR_vs_unstranded <- ggplot(data, aes(x=FR_data, y=unstranded_data)) + geom_point() + ggtitle('FR vs No Strand') + xlab('FR log2(expression+1)') + ylab('No Strand log2(expression+1)')
 RF_vs_unstranded <- ggplot(data, aes(x=RF_data, y=unstranded_data)) + geom_point() + ggtitle('RF vs No Strand') + xlab('RF log2(expression+1)') + ylab('No Strand log2(expression+1)')
 FR_vs_RF <- ggplot(data, aes(x=FR_data, y=RF_data)) + geom_point() + ggtitle('FR vs RF') + xlab('FR log2(expression+1)') + ylab('RF log2(expression+1)')
 
@@ -445,7 +445,7 @@ quit(save="no")
 
 ```
 
-### Compare DE results from Kallisto/Sleuth to the previously used approaches 
+### Compare DE results from Kallisto/Sleuth to the previously used approaches
 Take a look at the list of genes found to be significant according to all three methods: HISAT/StringTie/Ballgown, HISAT/HTseq-count/EdgeR, and Kallisto/Sleuth. Note here that for EdgeR the analysis was only done at the Gene level. So we will compare the gene lists. In the case of Kallisto we will determine genes where at least one transcript was significantly DE. Which is not quite the same thing as what is happening with the other two methods.
 
 First produce a simple gene list from the sleuth significant transcripts file

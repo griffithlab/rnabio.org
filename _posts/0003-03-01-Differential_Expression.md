@@ -17,13 +17,13 @@ date: 0003-03-01
 
 
 ### Differential Expression mini lecture
-If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
+If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
 
 
 ### Ballgown DE Analyis
 Use Ballgown to compare the UHR and HBR conditions. Refer to the Ballgown manual for a more detailed explanation:
 
-* [https://www.bioconductor.org/packages/release/bioc/html/ballgown.html](https://www.bioconductor.org/packages/release/bioc/html/ballgown.html) 
+* [https://www.bioconductor.org/packages/release/bioc/html/ballgown.html](https://www.bioconductor.org/packages/release/bioc/html/ballgown.html)
 
 Create and change to ballgown ref-only results directory:
 
@@ -133,7 +133,7 @@ grep -v feature UHR_vs_HBR_gene_results_sig.tsv | wc -l
 
 Display the top 20 DE genes. Look at some of those genes in IGV - do they make sense?
 
-In the following commands we use `grep -v feature` to remove lines that contain "feature". Then we use `sort` to sort the data in various ways. The `k` option specifies that we want to sort on a particular column (`3` in this case which has the DE fold change values). The `n` option tells `sort` to sort numerically. The `r` option tells `sort` to reverse the sort. 
+In the following commands we use `grep -v feature` to remove lines that contain "feature". Then we use `sort` to sort the data in various ways. The `k` option specifies that we want to sort on a particular column (`3` in this case which has the DE fold change values). The `n` option tells `sort` to sort numerically. The `r` option tells `sort` to reverse the sort.
 ```bash
 grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -rnk 3 | head -n 20 | column -t #Higher abundance in UHR
 grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -nk 3 | head -n 20 | column -t #Higher abundance in HBR

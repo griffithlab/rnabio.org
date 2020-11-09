@@ -16,7 +16,7 @@ date: 0001-03-01
 ***
 
 ### FASTA/FASTQ/GTF mini lecture
-If you would like a refresher on common file formats such as [FASTA, FASTQ, and GTF files](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf), we have made mini lecture briefly covering these.
+If you would like a refresher on common file formats such as [FASTA, FASTQ, and GTF files](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf), we have made mini lecture briefly covering these.
 
 
 ### Obtain Known Gene/Transcript Annotations
@@ -154,4 +154,3 @@ In order for your RNA-seq analysis to work, the chromosome names in your .gtf fi
 Your annotations must correspond to the same reference genome build as your reference genome fasta file. e.g., both correspond to UCSC human build 'hg38', NCBI human build 'GRCh38', etc. Even if both your reference genome and annotations are from UCSC or Ensembl they could still correspond to different versions of that genome. This would cause problems in any RNA-seq pipeline.
 
 A more detailed discussion of commonly used version of the human reference genome can be found in a companion workshop [PMBIO Reference Genomes](https://pmbio.org/module-02-inputs/0002/02/01/Reference_Genome/).
-
