@@ -27,3 +27,4 @@ date: 0002-01-01
 * [Alignment/Assembly/kmer lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_02_02_Alignment_vs_Assembly_vs_Kmer.pdf)
 * [SAM/BAM/BED formats lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_02_03_SAM_BAM_BED.pdf)
 * [Alignment QC lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_02_04_alignmentQC.pdf)
+* [Introduction to IGV](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/full/RNASeq_Module2_IGV_Tutorial_Brief.pdf)
