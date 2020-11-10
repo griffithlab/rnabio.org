@@ -39,7 +39,7 @@ Briefly the process for launching an EC2 instance for this course involves these
 10. Find your instance in console and select it, then hit connect to get your public.ip.address.
 11. Login to the instance as described below.
 
-## Logging in to your own EC2 instance with ssh (Mac/Linux)
+## Logging in to your own EC2 instance
 
 ### Preamble
 
@@ -48,7 +48,7 @@ Briefly the process for launching an EC2 instance for this course involves these
 * NOTE: It is very important that you use only your own instance (ip address or dns name) when logging in!  If two people log into the same Amazon machine they may have collisions as they try to write files to the same places and this will cause errors and confusion.
 * On the cloud, we are going to use the default username: "ubuntu"
 
-### Actually logging in
+### Logging in with Terminal (Mac/Linux)
 
 * First open a Terminal session (Applications -> Utilities -> Terminal))
 * Make sure the permissions on your certificate are secure. Use chmod on your downloaded key file:
@@ -65,7 +65,7 @@ ssh -i cshl_2020_student.pem ubuntu@[your ip address]
 
 `-i` selects a file from which the public key authentication is read.  `ubuntu` is the name of a user on the system you are logging into (a default user of the Ubuntu operating system). `[your ip address]` is the address of the linux system on Amazon that you are logging into. Instead of ip address you can also use a public dns name.
 
-## Logging in with putty (Windows)
+### Logging in with putty (Windows)
 
 To configure Putty, start Putty and do the following:
 * Fill in the “Host name” field with your ip address.
