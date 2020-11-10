@@ -32,23 +32,32 @@ In order to launch your own instance you will either need to use your own person
 * Make sure the permissions on your certificate are secure. Use chmod on your downloaded certificate:
 
 ```bash
-chmod 400 CBWNY.pem
+chmod 400 cshl_2020_student.pem
 ```
 
 * To log in to the node, use the -i command line argument to specify your certificate:
 
 ```bash
-ssh -Y -i CBWNY.pem ubuntu@[your ip address]
+ssh -i cshl_2020_student.pem ubuntu@[your ip address]
 ```
 
 `-i` selects a file from which the public key authentication is read.  `ubuntu` is the name of a user on the system you are logging into (a default user of the Ubuntu operating system). `[your ip address]` is the address of the linux system on Amazon that you are logging into. Instead of ip address you can also use a public dns name.   
+
+## Logging in with putty (Windows)
+
+To configure Putty, start Putty and do the following:
+* Fill in the “Host name” field with your ip address.
+* In the left hand categories,under the Connection category choose Data. In the auto-login username field write `ubuntu`.
+* In the left hand categories, in the Connection category next to SSH click on the +. Click on Auth. In the private-key file for authentication field, hit browse and find the `cshl_2020_student.ppk` certificate that you downloaded above.
+* In the left hand categories, click on Session. In the Saved Sessions field write Amazon node and click save.
+* Now that Putty is configured, all you have to do is start putty and double-click on “Amazon node” to login.
 
 ## Copying files to your computer
 
 * To copy files from an instance, use scp in a similar fashion (in this case to copy a file called nice_alignments.bam):
 
 ```bash
-scp -i CBWNY.pem ubuntu@[your dns name]:nice_alignments.bam .
+scp -i cshl_2020_student.pem ubuntu@[your dns name]:nice_alignments.bam .
 ```
 
 * Everything created in your workspace on the cloud is also available by a web server on your cloud instance.  Simply go to the following in your browser:
@@ -66,7 +75,7 @@ When you log in, you will notice that you have two directories: "tools" and "wor
 If you would like to upload your data to the AWS instance, use the example scp command below.  Be sure to replace the variables below with the local path to your data, __MY_DATA__, and the amazon instance IP, __YOUR_IP_ADDRESS__.
 
 ```bash
-scp -i CBWNY.pem __MY_DATA__ ubuntu@__YOUR_DNS_NAME__:/
+scp -i cshl_2020_student.pem __MY_DATA__ ubuntu@__YOUR_DNS_NAME__:/
 ```
 
 ## Doing this course outside of a workshop
