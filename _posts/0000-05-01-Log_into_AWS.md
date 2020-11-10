@@ -11,7 +11,7 @@ date: 0000-05-01
 
 Covered in this section: logging into AWS EC2 console, starting an instance from the course AMI, configuring it in the console (select instance AMI, instance type, instance details, storage volumes, tags, security group, and key pairs).
 
-Basic intro to the instance (top, resources available, mount location of volumes, etc.).
+Using cloud computing to complete this course involves two major components: (1) Launching an instance on the cloud (essentially renting a virtual computer by the hour and turning it on) and (2) logging into that instance).
 
 ***
 
@@ -21,15 +21,34 @@ In the previous section [Introduction to AWS](https://rnabio.org/module-00-setup
 In order to launch your own instance you will either need to use your own personal AWS account (not recommended unless you are already familiar with and using AWS) OR if you are taking a live version of this course you will be assigned an AWS account using the IAMS system. If neither of these is possible, the instructors will have to launch an instance for you and provide the login details.
 
 * Detailed instructions for launching an EC2 instance are provided at the end of these slides: [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/full/RNASeq_Module0_CloudComputing.pdf)
-* Once your EC2 instance is up and running, make note of its IP address. I
-* ntructions for logging into this cloud instance (including instructions for Windows systems, if applicable) can be found below.
-* This will ONLY occur once we are in the classroom as it costs to have these servers running.
-* Each student will launch their own instance from a preconfigured AMI. In order to log in to your instance, you will need a security certificate or "key file".
+* Once your EC2 instance is up and running, make note of its IP address. 
+* Instructions for logging into this cloud instance (including instructions for Windows systems, if applicable) can be found below.
+* This will ONLY occur once we are in the classroom as it costs money to have these servers running.
+* Each student will launch their own instance from a preconfigured AMI. 
+
+Briefly the process for launching an EC2 instance for this course involves these steps:
+1. Go to AWS console. Login with the credentials you were provided. Select EC2.
+2. Launch Instance, search for "cshl-seqtech-2020" in Community AMIs and Select.
+3. Choose "m5.2xlarge" instance type.
+4. Select one instance to launch (e.g., one per student and instructor), and select "Protect against accidental termination"
+5. Make sure that you see two snapshots (e.g., the 32GB root volume and 250GB EBS volume you set up earlier)
+6. Create a tag with name=StudentName
+7. Choose existing security group call "SSH_HTTP_8081_IN_ALL_OUT". Review and Launch.
+8. Choose an existing key pair (cshl_2020_student)
+9. View instances and wait for them to finish initiating.
+10. Find your instance in console and select it, then hit connect to get your public.ip.address.
+11. Login to the instance as described below.
+
+## Logging in to your own EC2 instance with ssh (Mac/Linux)
+
+### Preamble
+
+* In order to log in to your instance, you will need a security certificate or "key file".
  * You will be provided with a key file called: "cshl_2020_student.pem" (for Mac/Linux users) OR "cshl_2020_student.ppk" (for Windows/PuTTy users).
 * NOTE: It is very important that you use only your own instance (ip address or dns name) when logging in!  If two people log into the same Amazon machine they may have collisions as they try to write files to the same places and this will cause errors and confusion.
 * On the cloud, we are going to use the default username: "ubuntu"
 
-## Logging in to your own EC2 instance with ssh (Mac/Linux)
+### Actually logging in
 
 * First open a Terminal session (Applications -> Utilities -> Terminal))
 * Make sure the permissions on your certificate are secure. Use chmod on your downloaded key file:
@@ -86,4 +105,7 @@ If you are trying to do this course on your own using the online materials only,
 Name: `cshl-seqtech-2019` (ID: `ami-018b3bf40f9926ac5`) available in the US East, N. Virginia region (us-east-1).
 
 We typically use an instance type of `m5.2xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-09-appendix/0009/09/01/AWS_Setup/) page.
+
+## Basic introduction to your EC2 instance
+Basic intro to the instance (top, resources available, mount location of volumes, etc.).
 
