@@ -66,9 +66,11 @@ To complete this tutorial, you will need a computer with access to the internet,
 
 ***
 
-## Google Data Center, The Dalles, Oregon ([source](http://en.wikipedia.org/wiki/File:Google_Data_Center,_The_Dalles.jpg)):
+## Amazon AWS Data Center, Ashburn, Virginia ([source](https://commons.wikimedia.org/w/index.php?curid=95951370)):
 
-![datacenter](/assets/module_0/DataCenter.jpg)
+![datacenter](/assets/module_0/DataCenter2.jpg)
+
+[By Vahurzpu - Own work, CC BY-SA 4.0](https://commons.wikimedia.org/w/index.php?curid=95951370)
 
 ***
 
@@ -418,7 +420,7 @@ Once you are done with this tutorial you should terminate or delete all resource
 ### Further reading and preparing for more advanced AWS cloud computing concepts
 This is a basic introduction to AWS cloud computing that assumes all configuration of the instance will occur within the AWS EC2 console of your web browser and all configuration of the Ubuntu Linux system will occur by the user manually executing commands and perhaps saving the outcome as a cusom AMI. For large scale computing and complex deployments of compute infrastructure on the cloud these methods will not be sustainable. Here is a list of more advanced topics for discussion on how to move beyond the console and automate configuration of your system:
 - Use of the [AWS command line interface (CLI)](http://aws.amazon.com/cli/)
-- Use of the [AWS EC2 API](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html)a
+- Use of the [AWS EC2 API](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html)
 - Use of [AWS SDKs](http://aws.amazon.com/tools/#SDKs)
 - Use of [S3](http://aws.amazon.com/s3/) and [glacier](http://aws.amazon.com/glacier/)
 - Use of [vagrant](https://www.vagrantup.com/) to launch AWS instances
