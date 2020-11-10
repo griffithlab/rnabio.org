@@ -24,11 +24,6 @@ echo $RNA_ALIGN_DIR
 mkdir -p $RNA_ALIGN_DIR
 cd $RNA_ALIGN_DIR
 ```
-Also, if using Compute Canada, you must load a different python version in order to prevent HISAT2 from erroring out.
-
-```bash
-module load python/2.7.14
-```
 
 HISAT2 uses a graph-based alignment and has succeeded HISAT and TOPHAT2. The output of this step will be a SAM/BAM file for each data set.
 

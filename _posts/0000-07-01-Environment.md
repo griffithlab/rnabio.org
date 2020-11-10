@@ -25,7 +25,7 @@ Make sure whatever the working dir is, that it is set and is valid
 ```bash
 echo $RNA_HOME
 ```
-You can place the RNA_HOME variable (and other environment variables) in your .bashrc and then logout and login again to avoid having to worry about it. A `.bashrc` file with these variables has already been created for you. It also includes module load commands for software needed on Compute Canada which are described [here](https://github.com/griffithlab/rnabio.org/blob/master/_posts/0000-06-01-Log_into_ComputeCanada.md).
+You can place the RNA_HOME variable (and other environment variables) in your .bashrc and then logout and login again to avoid having to worry about it. A `.bashrc` file with these variables has already been created for you.
 
 In order to use this file, you must first copy the `.bashrc` file to your home directory and then source it.
 
