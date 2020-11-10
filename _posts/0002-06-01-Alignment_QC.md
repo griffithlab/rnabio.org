@@ -143,11 +143,7 @@ rm -f log.txt
 
 
 ### MultiQC
-We will now use multiQC to compile a QC report from all the QC tools above. If using Compute Canada, you must first switch back to Python 3.7.4.
-
-```bash
-module load python/3.7.4 multiqc/1.8
-```
+We will now use multiQC to compile a QC report from all the QC tools above. 
 
 ```bash
 cd $RNA_ALIGN_DIR
