@@ -18,7 +18,7 @@ date: 0000-05-01
 
 2) **Command line tutorial**: You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, here is a suggested tutorial. If you have a Mac computer you can use the "Terminal" application to complete this tutorial. If you have access to a linux server at your institution you could do it there. If neither of those is available you can try a free online termline application that runs in your browser such as [COCALC](https://cocalc.com/app?anonymous=terminal).
 
-* [UNIX Intro Tutorial](https://rnabio.org/module-00-setup/0000/06/01/Unix/)
+* [UNIX Intro Tutorial](https://rnabio.org/module-00-setup/0000/08/01/Unix/)
 * [Unix Cheat sheet](http://www.rain.org/~mkummel/unix.html) 
 
 3) **Reading materials**: Please read these two articles before coming to the workshop:
