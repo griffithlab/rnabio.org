@@ -1,12 +1,11 @@
 ---
+title: "Log into AWS"
+date: '0000-05-01'
+feature_image: assets/genvis-dna-bg_optimized_v1a.png
 feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
-title: Log into AWS
-categories:
-    - Module-00-Setup
-feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0000-05-01
+categories: Module-00-Setup
 ---
 
 Covered in this section: logging into AWS EC2 console, starting an instance from the course AMI, configuring it in the console (select instance AMI, instance type, instance details, storage volumes, tags, security group, and key pairs).
@@ -50,9 +49,21 @@ ssh -i cshl_2020_student.pem ubuntu@[your ip address]
 
 To configure Putty, start Putty and do the following:
 * Fill in the “Host name” field with your ip address.
+
+![Logging in with putty (Windows)](/assets/module_0/PuTTY_Session.png)
+
 * In the left hand categories,under the Connection category choose Data. In the auto-login username field write `ubuntu`.
+
+![Logging in with putty (Windows)](/assets/module_0/PuTTY_Data.png)
+
 * In the left hand categories, in the Connection category next to SSH click on the +. Click on Auth. In the private-key file for authentication field, hit browse and find the `cshl_2020_student.ppk` certificate that you downloaded above.
+
+![Logging in with putty (Windows)](/assets/module_0/PuTTY_SSH_Auth.png)
+
 * In the left hand categories, click on Session. In the Saved Sessions field write Amazon node and click save.
+
+![Logging in with putty (Windows)](/assets/module_0/PuTTY_Save.png)
+
 * Now that Putty is configured, all you have to do is start putty and double-click on “Amazon node” to login.
 
 ## Copying files to your computer
