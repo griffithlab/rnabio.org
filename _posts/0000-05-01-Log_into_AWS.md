@@ -33,7 +33,7 @@ Briefly the process for launching an EC2 instance for this course involves these
 4. Select one instance to launch (e.g., one per student and instructor), and select "Protect against accidental termination"
 5. Make sure that you see two snapshots (e.g., the 32GB root volume and 250GB EBS volume you set up earlier)
 6. Create a tag with name=StudentName
-7. Choose existing security group call "SSH_HTTP_8081_IN_ALL_OUT". Review and Launch.
+7. Choose existing security group call "SSH and HTTP". Review and Launch.
 8. Choose an existing key pair (cshl_2020_student)
 9. View instances and wait for them to finish initiating.
 10. Find your instance in console and select it, then hit connect to get your public.ip.address.
