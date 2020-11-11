@@ -1,6 +1,6 @@
 ---
 title: "Log into AWS"
-date: '0000-05-01'
+date: '0000-07-01'
 feature_image: assets/genvis-dna-bg_optimized_v1a.png
 feature_text: |
   ## RNA-seq Bioinformatics

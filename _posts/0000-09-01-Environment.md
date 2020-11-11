@@ -6,7 +6,7 @@ title: Environment
 categories:
     - Module-00-Setup
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0000-07-01
+date: 0000-09-01
 ---
 
 ### Getting Started

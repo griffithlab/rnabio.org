@@ -6,7 +6,7 @@ title: Introduction to AWS
 categories:
     - Module-00-Setup
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0000-04-01
+date: 0000-06-01
 ---
 
 ## Preamble
