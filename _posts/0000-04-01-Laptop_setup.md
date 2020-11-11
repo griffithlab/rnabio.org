@@ -27,6 +27,12 @@ BiocManager::install();
 
 6) Install an SSH client if needed. Mac users already have a command line ssh program that can be run from the terminal. For Windows users, please download [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html).  
 
-7) Install the Loupe browser.  First go to the [10x download pages](https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest). Enter your info and selectthe Loupe Browser 4.0.0 download for your operating system.
+7) Install slack. Go to the [slack downloads page](https://slack.com/downloads). Once downloaded, sign into the course slack with the link you received via email.
 
-8) Download all example scRNA files for a loupe demonstration from our [course server](http://genomedata.org/rnaseq-tutorial/scrna/).
+8) Install or update Zoom 5.4.2 from the [Zoom downloads page](https://zoom.us/download). If you have Zoom already, please make sure that you update to this particular version as it has functionality we will be relying on for this course.
+
+9) Sign in to an AWS instance. A security certificate or “key file" and an ip address should have been shared with you via email and slack. Please try to use these to log in to this test AWS instance. Instructions for Mac/Linux users can be found [here](https://rnabio.org/module-00-setup/0000/07/01/Log_into_AWS/#logging-in-with-terminal-maclinux) and instructions for Windows users can be found [here](https://rnabio.org/module-00-setup/0000/07/01/Log_into_AWS/#logging-in-with-putty-windows).
+
+9) Install the Loupe browser.  First go to the [10x download pages](https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest). Enter your info and select the Loupe Browser 4.0.0 download for your operating system.
+
+10) Download all example scRNA files for a loupe demonstration from our [course server](http://genomedata.org/rnaseq-tutorial/scrna/).
