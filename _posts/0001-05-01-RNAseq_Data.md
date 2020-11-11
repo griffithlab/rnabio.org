@@ -32,7 +32,6 @@ So to summarize we have:
 * HBR + ERCC Spike-In Mix2, Replicate 3
 
 Each data set has a corresponding pair of FastQ files (read 1 and read 2 of paired end reads).
-The reads are paired-end 101-mers generated on an Illumina HiSeq instrument. The test data has been pre-filtered for reads that appear to map to chromosome 22. Lets copy the raw input data to our tutorial working directory.
 
 ```bash
 echo $RNA_DATA_DIR
@@ -52,6 +51,7 @@ ls
 
 Enter the data directory and view the first two read records of a file (in fastq format each read corresponds to 4 lines of data)
 
+The reads are paired-end 101-mers generated on an Illumina HiSeq instrument. The test data has been pre-filtered for reads that appear to map to chromosome 22. Lets copy the raw input data to our tutorial working directory.
 ```bash
 zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | head -n 8
 
@@ -105,6 +105,7 @@ We also need to reformat our GTF file slightly. Rows that correspond to genes ar
 ```bash
 cd $RNA_HOME/refs
 awk '{ if ($0 ~ "transcript_id") print $0; else print $0" transcript_id \"\";"; }' chr22_with_ERCC92.gtf > chr22_with_ERCC92_tidy.gtf
+
 ```
 
 Now that we have created our input files, we can now run the check_strandedness tool on some of our instrument data.

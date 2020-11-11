@@ -30,6 +30,7 @@ Try to run FastQC on your fastq files:
 ```bash
 cd $RNA_HOME/data
 fastqc *.fastq.gz
+
 ```
 
 Then, go to the following url in your browser:
@@ -86,6 +87,7 @@ Run MultiQC on your fastqc reports to generate a single summary report across al
 ```bash
 cd $RNA_HOME/data
 multiqc .
+
 ```
 
 ### PRACTICAL EXERCISE 4

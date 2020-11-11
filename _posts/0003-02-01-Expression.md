@@ -56,6 +56,7 @@ stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HBR_Rep3/transcripts.gtf -A HBR_Rep
 stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o UHR_Rep1/transcripts.gtf -A UHR_Rep1/gene_abundances.tsv $RNA_ALIGN_DIR/UHR_Rep1.bam
 stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o UHR_Rep2/transcripts.gtf -A UHR_Rep2/gene_abundances.tsv $RNA_ALIGN_DIR/UHR_Rep2.bam
 stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o UHR_Rep3/transcripts.gtf -A UHR_Rep3/gene_abundances.tsv $RNA_ALIGN_DIR/UHR_Rep3.bam
+
 ```
 
 What does the raw output from Stringtie look like? For details on the Stringtie output files refer to [Stringtie manual](http://ccb.jhu.edu/software/stringtie/index.shtml?t=manual) ([outputs section](http://ccb.jhu.edu/software/stringtie/index.shtml?t=manual#output))
@@ -67,12 +68,14 @@ less -S UHR_Rep1/transcripts.gtf
 View transcript records only and improve formatting
 ```bash
 grep -v "^#" UHR_Rep1/transcripts.gtf | grep -w "transcript" | column -t | less -S
+
 ```
 
 Limit the view to transcript records and their expression values (FPKM and TPM values)
 
 ```bash
 awk '{if ($3=="transcript") print}' UHR_Rep1/transcripts.gtf | cut -f 1,4,9 | less -S
+
 ```
 
 Press 'q' to exit the 'less' display
@@ -83,6 +86,7 @@ Gene and transcript level expression values can also be viewed in these two file
 column -t UHR_Rep1/t_data.ctab | less -S
 
 less -S -x20 UHR_Rep1/gene_abundances.tsv
+
 ```
 
 Create a tidy expression matrix files for the StringTie results. This will be done at both the gene and transcript level and also will take into account the various expression measures produced: coverage, FPKM, and TPM.
@@ -159,6 +163,7 @@ htseq-count --format bam --order pos --mode intersection-strict --stranded rever
 htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $RNA_ALIGN_DIR/HBR_Rep1.bam $RNA_REF_GTF > HBR_Rep1_gene.tsv
 htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $RNA_ALIGN_DIR/HBR_Rep2.bam $RNA_REF_GTF > HBR_Rep2_gene.tsv
 htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $RNA_ALIGN_DIR/HBR_Rep3.bam $RNA_REF_GTF > HBR_Rep3_gene.tsv
+
 ```
 Merge results files into a single matrix for use in edgeR. The following joins the results for each replicate together, adds a header, reformats the result as a tab delimited file, and shows you the first 10 lines of the resulting file :
 ```bash
@@ -168,6 +173,7 @@ echo "GeneID UHR_Rep1 UHR_Rep2 UHR_Rep3 HBR_Rep1 HBR_Rep2 HBR_Rep3" > header.txt
 cat header.txt gene_read_counts_table_all.tsv | grep -v "__" | awk -v OFS="\t" '$1=$1' > gene_read_counts_table_all_final.tsv
 rm -f gene_read_counts_table_all.tsv header.txt
 head gene_read_counts_table_all_final.tsv | column -t
+
 ```
 
 -`grep -v "__"` is being used to filter out the summary lines at the end of the files that `ht-seq count` gives to summarize reads that had no feature, were ambiguous, did not align at all, did not align due to poor alignment quality, or the alignment was not unique.
@@ -192,6 +198,7 @@ cat $RNA_HOME/expression/htseq_counts/ercc_read_counts.tsv
 wget https://github.com/griffithlab/rnabio.org/raw/master/assets/scripts/Tutorial_ERCC_expression.R
 chmod +x Tutorial_ERCC_expression.R
 ./Tutorial_ERCC_expression.R ercc_read_counts.tsv
+
 ```
 
 To view the resulting figure, navigate to the below URL replacing YOUR_IP_ADDRESS with your amazon instance IP address:
