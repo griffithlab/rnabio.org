@@ -11,7 +11,7 @@ date: 0000-04-01
 
 ## Complete the following before coming to the workshop to ensure that your laptop/computer is setup correctly:
 
-1) Install R 3.6 which can be downloaded from http://probability.ca/cran/. Be careful not to download R 4.0.
+1) Install R 3.6 which can be downloaded from [CRAN](http://probability.ca/cran/). Be careful not to download R 4.0.
 
 2) Download and install the most recent version of [R Studio desktop](http://www.rstudio.com/).  If prompted to install git, select yes.
 
