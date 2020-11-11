@@ -118,5 +118,22 @@ Name: `cshl-seqtech-2019` (ID: `ami-018b3bf40f9926ac5`) available in the US East
 We typically use an instance type of `m5.2xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-09-appendix/0009/09/01/AWS_Setup/) page.
 
 ## Basic introduction to your EC2 instance
-Basic intro to the instance (top, resources available, mount location of volumes, etc.).
+
+Once you are logged into your EC2 instance using `ssh`, the following commands can be used to explore basic information about the machine
+```bash
+
+#How are storage volumes mounted?
+lsblk
+
+#How much storage space in being used for various mount points?
+df -h
+
+#Detailed description of hardware
+lshw
+
+#See active resource usage right now with "top".  Use "1" to see all CPUs individually.  Use "q" to exit
+top
+
+```
+
 
