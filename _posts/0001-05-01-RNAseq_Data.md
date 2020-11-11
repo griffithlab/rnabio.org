@@ -39,19 +39,22 @@ echo $RNA_DATA_DIR
 mkdir -p $RNA_DATA_DIR
 cd $RNA_DATA_DIR
 wget http://genomedata.org/rnaseq-tutorial/HBR_UHR_ERCC_ds_5pc.tar
+
 ```
 
-Unpack the test data. You should see 6 sets of paired end fastq files. One for each of our sample replicates above. We have 6 pairs (12 files) because in fastq format, read 1 and read 2 of a each read pair (fragment) are stored in separate files.
+Unpack the test data using tar. You should see 6 sets of paired end fastq files. One for each of our sample replicates above. We have 6 pairs (12 files) because in fastq format, read 1 and read 2 of a each read pair (fragment) are stored in separate files.
 
 ```bash
 tar -xvf HBR_UHR_ERCC_ds_5pc.tar
 ls
+
 ```
 
 Enter the data directory and view the first two read records of a file (in fastq format each read corresponds to 4 lines of data)
 
 ```bash
 zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | head -n 8
+
 ```
 
 Identify the following components of each read: read name, read sequence, and quality string
@@ -60,6 +63,7 @@ How many reads are there in the first library? Decompress file on the fly with '
 
 ```bash
 zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | grep -P "^\@HWI" | wc -l
+
 ```
 
 ### Determining the strandedness of RNA-seq data
@@ -77,6 +81,7 @@ genePredToBed chr22_with_ERCC92.genePred chr22_with_ERCC92.bed12
 
 # Use bedtools to create fasta from GTF
 bedtools getfasta -fi chr22_with_ERCC92.fa -bed chr22_with_ERCC92.bed12 -s -split -name -fo chr22_ERCC92_transcripts.fa
+
 ```
 
 Use less to view the file chr22_ERCC92_transcripts.fa. Note that this file has messy transcript names. Use the following hairball perl one-liner to tidy up the header line for each fasta sequence.
@@ -94,6 +99,7 @@ cd $RNA_HOME
 mkdir strandedness
 cd strandedness
 check_strandedness --gtf $RNA_HOME/refs/chr22_with_ERCC92.gtf --transcripts $RNA_HOME/refs/chr22_ERCC92_transcripts.clean.fa --reads_1 $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz --reads_2 $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+
 ```
 
 The output of this command should look like so:
