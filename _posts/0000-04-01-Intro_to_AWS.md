@@ -340,16 +340,16 @@ If you tried the above and it did not work there are several possible explanatio
 - Eighth, does the `Security Group` used for the instance allow Incoming SSH Access? Make sure your `Security Group` has an entry for type `SSH`, protocol `TCP`, port `22`, from source `Anywhere`. If you have to change the `Security Group` settings to allow access, you will have to reboot the instance before they take effect.  
 
 ### How do storage volumes appear within a Linux instance on Amazon EC2?
-Now that you are logged in, you can investigate how the storage options you choose when creating the instance manifest inside an AWS Ubuntu instance. First try using the command `df -h` to view existing storage devices that are mounted. If you created a system exactly as decsribed above, you should see one device (`/dev/xvda1` of 32G mounted as `/`). This is the `EBS` root device volume that we configured for the `m5.2xlarge` instance type we chose. Remember that we added an `EBS` volume that was 250 GiB in size. Where is that device? 
+Now that you are logged in, you can investigate how the storage options you choose when creating the instance manifest inside an AWS Ubuntu instance. First try using the command `df -h` to view existing storage devices that are mounted. If you created a system exactly as described above, you should see one device (`/dev/nvme0n1p1` of 32G mounted as `/`). This is the `EBS` root device volume that we configured for the `m5.2xlarge` instance type we chose. Remember that we added an `EBS` volume that was 250 GiB in size. Where is that device? 
 
-It is not currently mounted. To view all devices the system knows about you can do something like this command: `ls /dev/` or `ls -1 /dev/ | grep xvd`. You should now see two devices: `xvda` and `xvdb`.  Lets format and mount the device `xvdb` to a new directory `data` as follows:
+It is not currently mounted. To view all devices the system knows about you can do something like this command: `ls /dev/` or `ls -1 /dev/ | grep nvme`. You should now see two devices: `nvme0` and `nvme1`.  Lets format and mount the device `xvdb` to a new directory `data` as follows:
 
 ```bash
 lsblk
 cd /
 sudo mkdir data
-sudo mkfs -t ext4 /dev/xvdb
-sudo mount /dev/xvdb /data
+sudo mkfs -t ext4 /dev/nvme1n1
+sudo mount /dev/nvme1n1 /data
 sudo chown -R ubuntu:ubuntu /data
 df -h
 lsblk
@@ -359,7 +359,7 @@ NOTE: Refer to AWS docs [about using EBS Volumes](https://docs.aws.amazon.com/AW
 
 Now the same `df -h` command we performed above should show a new volume `/dev/xvdc` mounted at `/data` of size 493G. Note that in order to make this new mount persist when we reboot the machine we will have to add a mount line like this to the `/etc/fstab` file (e.g. by `sudo vim /etc/fstab`):
 ```bash
-/dev/xvdb /data  auto  defaults,nobootwait 0 2
+/dev/nvme1n1 /data  auto  defaults,nobootwait 0 2
 ```
 
 ### Taking stock of compute resources within an Ubuntu Linux instance
