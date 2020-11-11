@@ -15,7 +15,7 @@ date: 0000-04-01
 
 2) Download and install the most recent version of [R Studio desktop](http://www.rstudio.com/).  If prompted to install git, select yes.
 
-3) Install the BioConductor core packages. If you have installed R version 3.5.0 or higher, open R and at the '>' prompt, paste the commands:
+3) Install the BioConductor core packages. Open R or RStudio and at the '>' prompt, paste the commands:
  
 ```
 install.packages("BiocManager");
