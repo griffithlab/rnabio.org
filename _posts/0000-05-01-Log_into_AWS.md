@@ -79,7 +79,7 @@ To configure Putty, start Putty and do the following:
 * To copy files from an instance, use scp in a similar fashion (in this case to copy a file called nice_alignments.bam):
 
 ```bash
-scp -i cshl_2020_student.pem ubuntu@[your dns name]:nice_alignments.bam .
+scp -i cshl_2020_student.pem ubuntu@[your ip address]:nice_alignments.bam .
 ```
 
 * Everything created in your workspace on the cloud is also available by a web server on your cloud instance.  Simply go to the following in your browser:
@@ -96,7 +96,7 @@ When you log in, you will notice that you have one  directory already: "workspac
 If you would like to upload your data to the AWS instance, use the example scp command below.  Be sure to replace the variables below with the local path to your data, __MY_DATA__, and the amazon instance IP, __YOUR_IP_ADDRESS__.
 
 ```bash
-scp -i cshl_2020_student.pem __MY_DATA__ ubuntu@__YOUR_DNS_NAME__:/
+scp -i cshl_2020_student.pem __MY_DATA__ ubuntu@[your ip address]:/
 ```
 
 ## Doing this course outside of a workshop
