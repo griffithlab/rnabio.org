@@ -29,6 +29,7 @@ Copy the gene annotation files to the working directory.
 echo $RNA_REFS_DIR
 cd $RNA_REFS_DIR
 wget http://genomedata.org/rnaseq-tutorial/annotations/GRCh38/chr22_with_ERCC92.gtf
+
 ```
 
 Take a look at the contents of the .gtf file. Press `q` to exit the `less` display.
@@ -36,6 +37,7 @@ Take a look at the contents of the .gtf file. Press `q` to exit the `less` displ
 ```bash
 echo $RNA_REF_GTF
 less -p start_codon -S $RNA_REF_GTF
+
 ```
 
 Note how the `-S` option makes it easier to veiw this file with `less`. Make the formatting a bit nicer still:
@@ -49,6 +51,7 @@ We can use a perl command-line command to find out:
 
 ```bash
 perl -ne 'if ($_ =~ /(gene_id\s\"ENSG\w+\")/){print "$1\n"}' $RNA_REF_GTF | sort | uniq | wc -l
+
 ```
 
 * Using `perl -ne ''` will execute the code between single quotes, on the .gtf file, line-by-line.
@@ -67,6 +70,7 @@ We can also use `grep` to find this same information.
 
 ```bash
 cat chr22_with_ERCC92.gtf | grep -w gene | wc -l
+
 ```
 
 * `grep -w gene` is telling grep to do an exact match for the string 'gene'. This means that it will return lines that are of the feature type `gene`.
@@ -76,6 +80,7 @@ Now view the structure of a single transcript in GTF format. Press `q` to exit t
 
 ```bash
 grep ENST00000342247 $RNA_REF_GTF | less -p "exon\s" -S
+
 ```
 
 To learn more, see:
