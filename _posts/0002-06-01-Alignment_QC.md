@@ -26,6 +26,7 @@ cd $RNA_ALIGN_DIR
 samtools view -H UHR.bam
 samtools view UHR.bam | head
 samtools view UHR.bam | head | column -t | less -S
+
 ```
 
 Try filtering the BAM file to require or exclude certain flags. This can be done with `samtools view -f -F` options
@@ -40,12 +41,14 @@ Try requiring that alignments are 'paired' and 'mapped in a proper pair' (=3). A
 
 ```bash
 samtools view -f 3 -F 268 UHR.bam | head | column -t | less -S
+
 ```
 
 Now require that the alignments be only for 'PCR or optical duplicate'. How many reads meet this criteria? Why?
 
 ```bash
 samtools view -f 1024 UHR.bam | head
+
 ```
 
 Use `samtools flagstat` to get a basic summary of an alignment. What percent of reads are mapped? Is this realistic? Why?
@@ -58,6 +61,7 @@ find *Rep*.bam -exec echo samtools flagstat {} \> flagstat/{}.flagstat \; | sh
 
 # View an example
 cat flagstat/UHR_Rep1.bam.flagstat
+
 ```
 
 Details of the SAM/BAM format can be found here: [http://samtools.sourceforge.net/SAM1.pdf](http://samtools.sourceforge.net/SAM1.pdf)
@@ -71,13 +75,13 @@ fastqc UHR_Rep1.bam UHR_Rep2.bam UHR_Rep3.bam HBR_Rep1.bam HBR_Rep2.bam HBR_Rep3
 mkdir fastqc
 mv *fastqc.html fastqc/
 mv *fastqc.zip fastqc/
+
 ```
 
 ### Using Picard
 You can use Picard to generate RNA-seq specific quality metrics and figures
 
 ```bash
-
 # Generating the necessary input files for picard CollectRnaSeqMetrics
 cd $RNA_HOME/refs
 
@@ -101,6 +105,7 @@ mv tmp.txt chr22_with_ERCC92.ref_flat.txt
 cd $RNA_HOME/alignments/hisat2/
 mkdir picard
 find *Rep*.bam -exec echo java -jar $PICARD CollectRnaSeqMetrics I={} O=picard/{}.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list \; | sh
+
 ```
 
 ### RSeQC [optional]
@@ -139,6 +144,7 @@ find *Rep*.bam -exec echo RNA_fragment_size.py -i {} -r $RNA_HOME/refs/chr22_wit
 find *Rep*.bam -exec echo bam_stat.py -i {} \> {}.bam_stat.txt \; | sh
 
 rm -f log.txt
+
 ```
 
 
@@ -148,6 +154,7 @@ We will now use multiQC to compile a QC report from all the QC tools above.
 ```bash
 cd $RNA_ALIGN_DIR
 multiqc ./
+
 ```
 
 ### View a MultiQC report for full bam files
@@ -156,6 +163,7 @@ View a multiQC on QC reports from non-downsampled bam files:
 mkdir $RNA_ALIGN_DIR/example_QC
 cd $RNA_ALIGN_DIR/example_QC
 wget http://genomedata.org/rnaseq-tutorial/multiqc_report.html
+
 ```
 
 Below is a brief description of each of the samples included in the multiQC report.
