@@ -156,3 +156,16 @@ Allegra Petti is an Assistant Professor in the Department of Medicine, Division 
 Saad Khan is a Bioinformatics Scientist at Washington University in St. Louis. He graduated with Ph.D in Informatics from University of Missouri-Columbia in December 2019. His current work focuses on understanding Acute Myeloid Leukemia at the single cell level using Single cell RNA-sequencing analysis. He is interested in developing informatics approaches in Single cell RNA-seq to better understand cancer. <br><br><br><br>
 
 ***
+
+### Megan Richters
+<nav class="nav  nav--social">
+{% for link in site.contact_huiming %}
+    {% assign id = link[0] | downcase %}
+    {% capture refer %}{{link[1]}}{% endcapture %}
+<a class="link" target="_blank" href="{{refer}}" title="{{link[0]}}">{% include icon.html id=id %}</a>
+{% endfor %}
+</nav>
+{% include figure.html image="/assets/Authors/MeganRichters.png" position="right" class="rounded-circle" width="300"%}
+Megan Richters is a PhD Candidate in the Molecular Genetics and Genomics program at Washington University in St. Louis. She graduated from the University of Louisiana at Monroe in 2014 with a B.S. in Biology. She is interested in assessing the impact of intratumoral heterogeneity on neoantigen prediction accuracy as well as exploring novel sources of neoantigens for use in personalized cancer vaccines. 
+
+***
