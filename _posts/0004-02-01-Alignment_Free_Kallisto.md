@@ -44,6 +44,7 @@ Use `less` to view the file `chr22_ERCC92_transcripts.fa`. Note that this file h
 cd $RNA_HOME/refs
 cat chr22_ERCC92_transcripts.fa | perl -ne 'if($_ =~/^\>\S+\:\:(ERCC\-\d+)\:.*/){print ">$1\n"}elsif ($_ =~/^\>(\S+)\:\:.*/){print ">$1\n"}else{print $_}' > chr22_ERCC92_transcripts.clean.fa
 wc -l chr22_ERCC92_transcripts*.fa
+
 ```
 
 View the resulting 'clean' file using `less chr22_ERCC92_transcripts.clean.fa`. View the end of this file use `tail chr22_ERCC92_transcripts.clean.fa`. Note that we have one fasta record for each Ensembl transcript on chromosome 22 and we have an additional fasta record for each ERCC spike-in sequence.
@@ -53,6 +54,7 @@ Create a list of all transcript IDs for later use:
 ```bash
 cd $RNA_HOME/refs
 cat chr22_ERCC92_transcripts.clean.fa | grep ">" | perl -ne '$_ =~ s/\>//; print $_' | sort | uniq > transcript_id_list.txt
+
 ```
 
 ***
@@ -65,6 +67,7 @@ cd $RNA_HOME/refs
 mkdir kallisto
 cd kallisto
 kallisto index --index=chr22_ERCC92_transcripts_kallisto_index ../chr22_ERCC92_transcripts.clean.fa
+
 ```
 
 ***
@@ -86,6 +89,7 @@ kallisto quant --rf-stranded --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transc
 kallisto quant --rf-stranded --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=HBR_Rep1_ERCC-Mix2 --threads=4 --plaintext $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
 kallisto quant --rf-stranded --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=HBR_Rep2_ERCC-Mix2 --threads=4 --plaintext $RNA_DATA_DIR/HBR_Rep2_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/HBR_Rep2_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
 kallisto quant --rf-stranded --index=$RNA_HOME/refs/kallisto/chr22_ERCC92_transcripts_kallisto_index --output-dir=HBR_Rep3_ERCC-Mix2 --threads=4 --plaintext $RNA_DATA_DIR/HBR_Rep3_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz $RNA_DATA_DIR/HBR_Rep3_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+
 ```
 
 Create a single TSV file that has the TPM abundance estimates for all six samples.
@@ -97,6 +101,7 @@ ls -1 */abundance.tsv | perl -ne 'chomp $_; if ($_ =~ /(\S+)\/abundance\.tsv/){p
 cat header.tsv transcript_tpms_all_samples.tsv | grep -v "tpm" > transcript_tpms_all_samples.tsv2
 mv transcript_tpms_all_samples.tsv2 transcript_tpms_all_samples.tsv
 rm -f header.tsv
+
 ```
 
 Take a look at the final kallisto result file we created:
@@ -104,6 +109,7 @@ Take a look at the final kallisto result file we created:
 ```bash
 head transcript_tpms_all_samples.tsv
 tail transcript_tpms_all_samples.tsv
+
 ```
 
 ***
@@ -200,6 +206,7 @@ wget https://raw.githubusercontent.com/griffithlab/rnabio.org/master/assets/scri
 chmod +x kallisto_gene_matrix.pl
 ./kallisto_gene_matrix.pl --gtf_file=$RNA_HOME/refs/chr22_with_ERCC92.gtf  --kallisto_transcript_matrix_in=transcript_tpms_all_samples.tsv --kallisto_transcript_matrix_out=gene_tpms_all_samples.tsv
 column -t gene_tpms_all_samples.tsv | less -S
+
 ```
 
 Now load files and summarize results from each approach in R
@@ -331,6 +338,7 @@ cat chr22_rRNA_transcripts.clean.fa
 
 cd $RNA_HOME/refs/kallisto
 kallisto index --index=chr22_rRNA_transcripts_kallisto_index ../chr22_rRNA_transcripts.clean.fa
+
 ```
 
 We can now use this index with Kallisto to assess the abundance of rRNA genes in a set of samples.
@@ -499,6 +507,7 @@ mkdir hcc1395
 cd hcc1395
 wget https://xfer.genome.wustl.edu/gxfer1/project/gms/testdata/bams/hcc1395/gerald_C1TD1ACXX_8_ACAGTG.bam
 wget https://xfer.genome.wustl.edu/gxfer1/project/gms/testdata/bams/hcc1395/gerald_C2DBEACXX_3.bam
+
 ```
 
 **Convert BAM to FASTQ**
@@ -511,12 +520,14 @@ java -Xmx2g -jar $PICARD SamToFastq INPUT=gerald_C1TD1ACXX_8_ACAGTG.bam FASTQ=hc
 gzip hcc1395_tumor*.fastq
 java -Xmx2g -jar $PICARD SamToFastq INPUT=gerald_C2DBEACXX_3.bam FASTQ=hcc1395_normal_R1.fastq SECOND_END_FASTQ=hcc1395_normal_R2.fastq VALIDATION_STRINGENCY=LENIENT
 gzip hcc1395_normal*.fastq
+
 ```
 **Download full transcriptome reference**
 
 You will have to get all transcripts instead of just those for a single chromosome. You will also have to create a new index for this new set of transcript sequences.
 ```bash
 wget ftp://ftp.ensembl.org/pub/release-89/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz
+
 ```
 
 Now repeat the concepts above to obtain abundance estimates for all genes.
@@ -526,6 +537,7 @@ kallisto index --index=Homo_sapiens.GRCh38.cdna.all_index Homo_sapiens.GRCh38.cd
 
 kallisto quant --index=Homo_sapiens.GRCh38.cdna.all_index --output-dir=normal --threads=4 --plaintext hcc1395/hcc1395_normal_R1.fastq.gz hcc1395/hcc1395_normal_R2.fastq.gz
 kallisto quant --index=Homo_sapiens.GRCh38.cdna.all_index --output-dir=tumor --threads=4 --plaintext hcc1395/hcc1395_tumor_R1.fastq.gz hcc1395/hcc1395_tumor_R2.fastq.gz
+
 ```
 
 Note:
