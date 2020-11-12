@@ -73,12 +73,6 @@ In order to determine strandedness, we will be using [check_strandedness](https:
 ```bash
 cd $RNA_HOME/refs/
 
-gffread chr22_with_ERCC92.gtf -g chr22_with_ERCC92.fa -w chr22_ERCC92_transcripts.fa
-
-```
-
-An alternate way of doing this is the following (does not need to be done if done above). 
-```bash
 # Convert Gtf to genePred
 gtfToGenePred chr22_with_ERCC92.gtf chr22_with_ERCC92.genePred
 
