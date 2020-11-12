@@ -166,6 +166,6 @@ Saad Khan is a Bioinformatics Scientist at Washington University in St. Louis. H
 {% endfor %}
 </nav>
 {% include figure.html image="/assets/Authors/MeganRichters.png" position="right" class="rounded-circle" width="300"%}
-Megan Richters is a PhD Candidate in the Molecular Genetics and Genomics program at Washington University in St. Louis. She graduated from the University of Louisiana at Monroe in 2014 with a B.S. in Biology. She is interested in assessing the impact of intratumoral heterogeneity on neoantigen prediction accuracy as well as exploring novel sources of neoantigens for personalized cancer vaccines. 
+Megan Richters is a PhD Candidate in the Molecular Genetics and Genomics program at Washington University in St. Louis. She graduated from the University of Louisiana at Monroe in 2014 with a B.S. in Biology. She is interested in assessing the impact of intratumoral heterogeneity on neoantigen prediction accuracy as well as exploring novel sources of neoantigens for personalized cancer vaccines. <br><br><br>
 
 ***
