@@ -169,3 +169,18 @@ Saad Khan is a Bioinformatics Scientist at Washington University in St. Louis. H
 Megan Richters is a PhD Candidate in the Molecular Genetics and Genomics program at Washington University in St. Louis. She graduated from the University of Louisiana at Monroe in 2014 with a B.S. in Biology. She is interested in assessing the impact of intratumoral heterogeneity on neoantigen prediction accuracy as well as exploring novel sources of neoantigens for personalized cancer vaccines. <br><br><br><br>
 
 ***
+
+### Felicia Gomez
+<nav class="nav  nav--social">
+{% for link in site.contact_felicia %}
+    {% assign id = link[0] | downcase %}
+    {% capture refer %}{{link[1]}}{% endcapture %}
+<a class="link" target="_blank" href="{{refer}}" title="{{link[0]}}">{% include icon.html id=id %}</a>
+{% endfor %}
+</nav>
+{% include figure.html image="/assets/Authors/FeliciaGomez.png" position="right" class="rounded-circle" width="300"%}
+Felicia Gomez is an Instructor of Medicine at Washington University in St. Louis. She works in collaboration with the Griffith and Fehniger Laboratories at the McDonnell Genome Institute and The Department of Medicine – Division of Oncology. She is leading a deep sequencing analysis of Hodgkin lymphoma genomes with the goal of describing somatic events that are characteristic of this malignancy. She also collaborates with members of the Griffith and Fehniger laboratories, as well was the Washington University Genomics Tumor Board on projects related to the genomics of Hodgkin and Non-Hodgkin lymphomas. <br><br><br><br>
+
+***
+
+
