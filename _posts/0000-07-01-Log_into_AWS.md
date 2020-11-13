@@ -26,17 +26,18 @@ In order to launch your own instance you will either need to use your own person
 * Each student will launch their own instance from a preconfigured AMI. 
 
 Briefly the process for launching an EC2 instance for this course involves these steps:
-1. Go to AWS console. Login with the credentials you were provided. Select EC2.
-2. Launch Instance, search for "cshl-seqtech-2020" in Community AMIs and Select.
-3. Choose "m5.2xlarge" instance type.
-4. Select one instance to launch (e.g., one per student and instructor), and select "Protect against accidental termination"
-5. Make sure that you see two snapshots (e.g., the 32GB root volume and 250GB EBS volume you set up earlier)
-6. Create a tag with name=StudentName
-7. Choose existing security group call "SSH and HTTP". Review and Launch.
-8. Choose an existing key pair (cshl_2020_student)
-9. View instances and wait for them to finish initiating.
-10. Find your instance in console and select it, then hit connect to get your public.ip.address.
-11. Login to the instance as described below.
+1. Login to AWS using the specific url and credentials (user/password) you were provided. 
+2. Search for and select EC2 to access the EC2 console.
+3. Select Launch Instance, search for "cshl-seqtech-2020" in Community AMIs and Select.
+4. Choose "m5.2xlarge" instance type.
+5. Select one instance to launch, and select "Protect against accidental termination".
+6. Make sure that you see two snapshots.
+7. Create a tag with name=StudentName.
+8. Choose existing security group called "SSH and HTTP". Review and Launch.
+9. Choose an existing key pair (cshl_2020_student).
+10. View instances and wait for your instance to finish initiating.
+11. Find your instance in console and select it, then hit connect to get your public.ip.address.
+12. Login to the instance as described below.
 
 ## Logging in to your own EC2 instance
 
