@@ -64,9 +64,9 @@ ssh -i cshl_2020_student.pem ubuntu@[your ip address]
 
 `-i` selects a file from which the public key authentication is read.  `ubuntu` is the name of a user on the system you are logging into (a default user of the Ubuntu operating system). `[your ip address]` is the address of the linux system on Amazon that you are logging into. Instead of ip address you can also use a public dns name.
 
-### Logging in with putty (Windows)
+### Logging in with PuTTy (Windows)
 
-To configure Putty, start Putty and do the following:
+To configure PuTTy, start PuTTy and do the following:
 * Fill in the “Host name” field with your ip address.
 
 ![Logging in with putty (Windows)](/assets/module_0/PuTTY_Session.png)
