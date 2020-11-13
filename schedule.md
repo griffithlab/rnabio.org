@@ -18,7 +18,8 @@ Each day runs from 10:00 AM Eastern to 5:00 PM Eastern
 |     | 12:15-13:00 | 0:45     |        | “Single Cell Sequencing Technology and Applications” Sequencing                               |
 |     | 13:00-14:00 | 1:00     |        | Midday Break                                                                                  |
 |     | 14:00-15:00 | 1:00     |        | “Epigenomics and NGS”		                                                                    |
-|     | 15:00-16:00 | 1:00     | 0      | Introduction to Cloud Computing and Cloud Set-up                                              |
+|     | 15:00-15:15 | 0:15     |        | Introduction to bioinformatics instructors                                                    |
+|     | 15:15-16:00 | 0:45     | 0      | Introduction to Cloud Computing and Cloud Set-up                                              |
 |     | 16:00-17:00 | 1:00     |        | Command line warm up                                                                          |
 |  2  | 10:00-11:00 | 1:00     |        | “Intro to RNA-sequencing and analysis” lecture                                                |
 |     | 11:00-11:30 | 0:30     |        | Environment setup and tool installation lab                                                   |

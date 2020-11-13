@@ -13,7 +13,7 @@ date: 0009-12-01
 
 There are various strand-related settings for RNA-seq tools that must be adjusted to account for library construction strategy. The following table provides read orientation codes and software settings for commonly used RNA-seq analysis tools including: IGV, TopHat, HISAT2, HTSeq, Picard, Kallisto, StringTie, and others. Each of these explanations/settings is provided for several commonly used RNA-seq library construction kits that produce either stranded or unstranded data.
 
-NOTE: A useful tool to infer strandedness of your raw sequence data is the [check_strandedness tool](https://github.com/betsig/how_are_we_stranded_here).
+*NOTE*: A useful tool to infer strandedness of your raw sequence data is the [check_strandedness tool](https://github.com/betsig/how_are_we_stranded_here). We provide a tutorial for using this tool [here](/module-01-inputs/0001/05/01/RNAseq_Data/#determining-the-strandedness-of-rna-seq-data).
 
 
 | **Tool**                                                       | **RF/fr-firststrand stranded (dUTP)**                         | **FR/fr-secondstrand stranded (Ligation)**             | **Unstranded**                                        |
