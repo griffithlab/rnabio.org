@@ -6,7 +6,7 @@ title: Environment
 categories:
     - Module-00-Setup
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0000-07-01
+date: 0000-09-01
 ---
 
 ### Getting Started
@@ -25,14 +25,15 @@ Make sure whatever the working dir is, that it is set and is valid
 ```bash
 echo $RNA_HOME
 ```
-You can place the RNA_HOME variable (and other environment variables) in your .bashrc and then logout and login again to avoid having to worry about it. A `.bashrc` file with these variables has already been created for you. It also includes module load commands for software needed on Compute Canada which are described [here](https://github.com/griffithlab/rnabio.org/blob/master/_posts/0000-06-01-Log_into_ComputeCanada.md).
+You can place the RNA_HOME variable (and other environment variables) in your .bashrc and then logout and login again to avoid having to worry about it. A `.bashrc` file with these variables has already been created for you.
 
-In order to use this file, you must first copy the `.bashrc` file to your home directory and then source it.
+In order to view the contents of this file, you can type:
 
 ```bash
-cp ~/CourseData/.bashrc ~
-source ~/.bashrc
+less ~/.bashrc
 ``` 
+
+To exit the file, type `q`.
 
 Environment variables used throughout this tutorial:
 ```bash
@@ -47,13 +48,9 @@ export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
 ```
 
 We will be using picard tools throughout this workshop. To follow along, you will need to set an environment variable pointing to your picard installation.
-For the Compute Canada cluster:
+
 ```bash
-export PICARD=$EBROOTPICARD/picard.jar
-```
-When using a student AWS instance:
-```bash
-export PICARD=$RNA_HOME/student_tools/picard.jar
+export PICARD=$RNA_HOME/bin/picard.jar
 ```
 
 If these variables are not part of your .bashrc, you can type the following. First, you can open your .bashrc file with nano by simply typing:

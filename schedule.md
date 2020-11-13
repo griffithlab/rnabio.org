@@ -7,44 +7,45 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 excerpt: ""
 layout: "home"
 ---
-Each day runs from 10:00 AM Eastern to 8:00 PM Eastern
+Each day runs from 10:00 AM Eastern to 5:00 PM Eastern
 
 
-| Day |  Time (ET)  | Duration | Module | Topic                                                          |
-|-----|-------------|----------|--------|----------------------------------------------------------------|
-|  1  | 10:00-10:30 | 0:30     |        | Welcome                                                        |
-|     | 10:30-11:30 | 1:00     | 0      | Intro to Compute Canada & Setup                                |
-|     | 11:30-12:00 | 0:30     |        | Break                                                          |
-|     | 12:00-13:00 | 1:00     | 1      | Introduction to RNA Sequencing                                 |
-|     | 13:00-14:00 | 1:00     |        | Lunch                                                          |
-|     | 14:00-15:30 | 1:30     |        | Lunch                                                          |
-|     | 13:00-15:00 | 2:00     |        | Inputs - References, Annotations, Indexing and Data            |
-|     | 15:00-15:30 | 0:30     |        | Module 1 Lab                                                   |
-|     | 15:30-16:00 | 0:30     |        | Break                                                          |
-|     | 16:00-16:30 | 0:30     | 2      | RNA-Seq Alignment and Visualization                            |
-|     | 16:30-17:30 | 1:00     |        | Module 2 Lab                                                   |
-|     | 17:30-18:30 | 1:00     |        | Break                                                          |
-|     | 18:30-20:00 | 1:00     |        | Team Assignment                                                |
-|  2  | 10:00-10:30 | 0:30     |        | Q & A                                                          |
-|     | 10:30-11:30 | 1:00     | 3      | Expression and Differential Expression                         |
-|     | 11:30-12:00 | 0:30     |        | Break                                                          |
-|     | 12:00-13:00 | 1:00     |        | Module 3 Lab                                                   |
-|     | 13:00-14:00 | 1:00     |        | Lunch                                                          |
-|     | 14:00-15:30 | 1:30     |        | Module 3 Lab Cont'd                                            |
-|     | 15:30-16:00 | 0:30     |        | Break                                                          |
-|     | 16:00-16:30 | 0:30     |        | Alignment Free Expression Estimation                           |
-|     | 16:30-17:30 | 1:00     | 4      | Module 4 Lab                                                   |
-|     | 17:30-18:30 | 1:00     |        | Break                                                          |
-|     | 18:30-20:00 | 1:30     |        | Team Assignment                                                |
-|  3  | 10:00-10:30 | 0:30     |        | Q & A                                                          |
-|     | 10:30-11:30 | 1:00     | 5      | scRNAseq part I                                                |
-|     | 11:30-12:00 | 0:30     |        | Break                                                          |
-|     | 12:00-13:00 | 1:00     |        | Module 5 Lab                                                   |
-|     | 13:00-14:00 | 1:00     |        | Lunch                                                          |
-|     | 14:00-15:30 | 1:30     |        | Module 5 Lab Cont'd                                            |
-|     | 15:30-16:00 | 0:30     |        | Break                                                          |
-|     | 16:00-16:30 | 0:30     |        | scRNAseq part II                                               |
-|     | 16:30-17:30 | 1:00     |        | Module 5 Lab Cont'd                                            |
-|     | 17:30-18:00 | 0:30     |        | Survey and Closing Remarks                                     |
+| Day |  Time (ET)  | Duration | Module | Topic                                                                                         |
+|-----|-------------|----------|--------|-----------------------------------------------------------------------------------------------|
+|  1  | 10:00-10:15 | 0:15     |        | Introduction to the course                                     					            |
+|     | 10:15-11:15 | 1:00     |        | “Overview of Next-generation Short Read Sequencing Technologies and Methods” lecture          |
+|     | 11:15-12:15 | 1:00     |        | “PacBIO and Oxford Nanopore Long read sequencing” lecture                                     |
+|     | 12:15-13:00 | 0:45     |        | “Single Cell Sequencing Technology and Applications” Sequencing                               |
+|     | 13:00-14:00 | 1:00     |        | Midday Break                                                                                  |
+|     | 14:00-15:00 | 1:00     |        | “Epigenomics and NGS”		                                                                    |
+|     | 15:00-16:00 | 1:00     | 0      | Introduction to Cloud Computing and Cloud Set-up                                              |
+|     | 16:00-17:00 | 1:00     |        | Command line warm up                                                                          |
+|  2  | 10:00-11:00 | 1:00     |        | “Intro to RNA-sequencing and analysis” lecture                                                |
+|     | 11:00-11:30 | 0:30     |        | Environment setup and tool installation lab                                                   |
+|     | 11:30-12:00 | 0:30     |        | Mini-lectures on FASTA/FASTQ/GTF and Indexing                                                 |
+|     | 12:00-13:00 | 1:00     | 1      | Data inputs (reference genome, annotations, indexing, raw data) lab                           |
+|     | 13:00-14:00 | 1:00     |        | Midday Break                                                                                  |
+|     | 14:00-14:30 | 0:30     |        | Mini-lectures on alignment and SAM/BAM/BED formats                                            |
+|     | 14:30-15:00 | 0:30     | 2      | Alignment lab                                                                                 |
+|     | 15:00-16:00 | 1:00     |        | Alignment Visualization lab                                                                   |
+|     | 16:00-16:30 | 0:30     |        | Alignment QC lab                                                                              |
+|     | 16:30-17:00 | 0:30     |        | Wrap-up exercise with Q&A as needed                                                           |
+|  3  | 10:00-11:00 | 1:00     |        | “Abundance estimation, HTSeq and differential expression” lecture                             |
+|     | 11:00-13:00 | 2:00     | 3      | StringTie, HTSeq, and spike-in analysis lab                                                   |
+|     | 13:00-14:00 | 1:00     |        | Midday Break                                                                                  |
+|     | 14:00-16:00 | 2:00     |        | Differential expression analysis lab                                                          |
+|     | 16:00-17:00 | 1:00     |        | Wrap-up exercise with Q&A as needed                                                           |
+|  4  | 10:00-11:15 | 1:15     |        | “Statistics for count-based data and gene expression/differential expression analysis” lecture|
+|     | 11:15-13:00 | 1:45     |        | Differential expression visualization lab                                                     |
+|     | 13:00-14:00 | 1:00     |        | Midday Break                                                                                  |
+|     | 14:00-14:30 | 0:30     |        | Differential expression pathway analysis lab                                                  |
+|     | 14:30-16:30 | 2:00     | 4      | Alignment free expression analysis with Kallisto lab                                          |
+|     | 16:30-17:00 | 0:30     |        | Wrap-up exercise with Q&A as needed                                                           |
+|  5  | 10:00-11:00 | 1:00     |        | “Intro to scRNAseq analysis” lecture                                                          |
+|     | 11:00-13:00 | 2:00     | 8      | Data generation, raw data format, data QC, Cell Ranger, and basic visualization lab           |
+|     | 13:00-14:00 | 1:00     |        | Midday Break                                                                                  |
+|     | 14:00-16:30 | 2:30     |        | Seurat lab                                                                                    |
+|     | 16:30-17:00 | 0:30     |        | Wrap-up exercise with Q&A as needed                                                           |
+
 
 

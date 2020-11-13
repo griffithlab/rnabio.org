@@ -6,7 +6,7 @@ title: Tool Installation
 categories:
     - Module-00-Setup
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0000-08-01
+date: 0000-10-01
 ---
 
 ### Note:
@@ -24,7 +24,7 @@ cd student_tools
 ```
 
 ## [SAMtools](http://www.htslib.org/)
-Installation type: build C++ binary from source code using `make`.
+Installation type: build C++ binary from source code using `make`. Citation: [PMID: 19505943](https://pubmed.ncbi.nlm.nih.gov/19505943/).
 
 The following tool is installed by downloading a compressed archive using `wget`, decompressing it using `bunzip2`, unpacking the archive using `tar`, and building the source code using `make` to run compiler commands in the "Makefile" provided with the tool. When `make` is run without options, it attempts the "default goal" in the make file which is the first "target" defined.  In this case the first "target" is `:all`. Once the build is complete, we test that it worked by attempting to execute the `samtools` binary. Remember that the `./` in `./samtools` tells the commandline that you want to execute the `samtools` binary in the current directory. We do this because there may be other `samtools` binaries in our PATH. Try `which samtools` to see the samtools binary that appears first in our PATH and therefore will be the one used when we specify `samtools` without specifying a particular location of the binary. 
 
@@ -39,7 +39,7 @@ make
 ```
 
 ## [bam-readcount](https://github.com/genome/bam-readcount)
-Installation type: build C++ binary from source code using `cmake` and `make`.
+Installation type: build C++ binary from source code using `cmake` and `make`. Citation: [genome/bam-readcount](https://github.com/genome/bam-readcount).
 
 Installation of the bam-readcount tool involves "cloning" the source code with a code version control system called `git`. The code is then compiled using `cmake` and `make`. `cmake` is an application for managing the build process of software using a compiler-independent method. It is used in conjunction with native build environments such as `make` ([cmake ref](https://en.wikipedia.org/wiki/CMake)). Note that bam-readcount relies on another tool, samtools, as a dependency. An environment variable is used to specify the path to the samtools install. 
 
@@ -54,7 +54,7 @@ make
 ```
 
 ## [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml)
-Installation type: download a precompiled binary.
+Installation type: download a precompiled binary. Citation: [PMID: 31375807](https://pubmed.ncbi.nlm.nih.gov/31375807/).
 
 The `hisat2` aligner is installed below by simply downloading an archive of binaries using `wget`, unpacking them with `unzip`, and testing the tool to make sure it executes without error on the current system. This approach relies on understanding the architecture of your system and downloading the correct precompiled binary. The `uname -m` command lists the current system architecture.
 
@@ -68,7 +68,7 @@ cd hisat2-2.1.0
 ```
 
 ## [StringTie](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual)
-Installation type: download a precompiled binary.
+Installation type: download a precompiled binary. Citation: [PMID: 25690850](https://pubmed.ncbi.nlm.nih.gov/25690850/).
 
 The `stringtie` reference guided transcript assembly and abundance estimation tool is installed below by simply downloading an archive with `wget`, unpacking the archive with `tar`, and executing `stringtie` to confirm it runs without error on our system.
 
@@ -81,7 +81,7 @@ cd stringtie-1.3.4d.Linux_x86_64
 ```
 
 ## [gffcompare](http://ccb.jhu.edu/software/stringtie/gff.shtml#gffcompare)
-Installation type: download a precompiled binary.
+Installation type: download a precompiled binary. Citation: [PMID: 25690850](https://pubmed.ncbi.nlm.nih.gov/25690850/).
 
 The `gffcompare` tool for comparing transcript annotations is installed below by simply downloading an archive with `wget`, unpacking it with `tar`, and executing `gffcompare` to ensure it runs without error on our system.
 
@@ -94,7 +94,7 @@ cd gffcompare-0.10.6.Linux_x86_64
 ```
 
 ## [htseq-count](http://htseq.readthedocs.io/en/release_0.10.0/)
-Installation type: use python setup script.
+Installation type: use python setup script. Citation: [PMID: 25260700](https://pubmed.ncbi.nlm.nih.gov/25260700/).
 
 The htseq-count read counting tools is installed below by downloading an archive with `wget`, unpacking the archive using `tar` and running a setup script written in Python. After setup, `chmod` is used to change permissions of the `htseq-count` file to be executable. 
 
@@ -109,7 +109,7 @@ chmod +x scripts/htseq-count
 ```
 
 ## [TopHat](https://ccb.jhu.edu/software/tophat/index.shtml)
-Installation type: dowload a precompiled binary.
+Installation type: dowload a precompiled binary. Citation: [PMID: 19289445](https://pubmed.ncbi.nlm.nih.gov/19289445/).
 
 Note, this tool is currently only installed for the gtf_to_fasta tool used in kallisto section. 
 
@@ -122,7 +122,7 @@ cd tophat-2.1.1.Linux_x86_64/
 ```
 
 ## [kallisto](https://pachterlab.github.io/kallisto/)
-Installation type: download a precompiled binary.
+Installation type: download a precompiled binary. Citation: [PMID: 27043002](https://pubmed.ncbi.nlm.nih.gov/27043002/).
 
 The kallisto alignment free expression estimation tool is installed below simply by downloading an archive with `wget`, unpacking the archive with `tar`, and testing the binary to ensure it runs on our system. 
 
@@ -135,7 +135,7 @@ cd kallisto_linux-v0.44.0/
 ```
 
 ## [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-Installation type: download precompiled binary.
+Installation type: download precompiled binary. Citation: [s-andrews/FastQC](https://github.com/s-andrews/FastQC). 
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -147,7 +147,7 @@ chmod 755 fastqc
 ```
 
 ## [MultiQC](http://multiqc.info/)
-Installation type: use pip.
+Installation type: use pip. Citation: [PMID: 27312411](https://pubmed.ncbi.nlm.nih.gov/27312411/).
 
 Multiqc, a tool for assembling QC reports is a python package that can be installed using the python package manager `pip`.
 
@@ -157,7 +157,7 @@ multiqc --help
 ```
 
 ## [Picard](https://broadinstitute.github.io/picard/)
-Installation type: download java jar file.
+Installation type: download java jar file. Citation: [broadinstitute/picard](https://github.com/broadinstitute/picard).
 
 Picard is a rich tool kit for BAM file manipulation that is installed below simply by downloading a jar file. The jar file is tested using Java, a dependency that must also be installed (it should already be present in many systems).
 
@@ -168,7 +168,7 @@ java -jar $RNA_HOME/student_tools/picard.jar
 ```
         
 ## [Flexbar](https://github.com/seqan/flexbar)
-Installation type: download precompiled binary.
+Installation type: download precompiled binary. Citation: [PMID: 24832523](https://pubmed.ncbi.nlm.nih.gov/24832523/).
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -180,7 +180,7 @@ export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.4.0-linux:$LD_LIBRARY_P
 ```
 
 ## [Regtools](https://github.com/griffithlab/regtools#regtools)
-Installation type: compile from source code using `cmake` and `make`.
+Installation type: compile from source code using `cmake` and `make`. Citation: [bioRXiv: 10.1101/436634v2](https://www.biorxiv.org/content/10.1101/436634v2).
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -194,7 +194,7 @@ make
 ```
 
 ## [RSeQC](http://rseqc.sourceforge.net/)
-Installation type: use pip.
+Installation type: use pip. Citation: [PMID: 22743226](https://pubmed.ncbi.nlm.nih.gov/22743226/).
 
 ```bash
 pip3 install RSeQC
@@ -202,7 +202,7 @@ read_GC.py
 ```
 
 ## [bedops](https://bedops.readthedocs.io/en/latest/)
-Installation type: download precompiled binary.
+Installation type: download precompiled binary. Citation: [PMID: 22576172](https://pubmed.ncbi.nlm.nih.gov/22576172/).
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -215,7 +215,7 @@ tar -jxvf bedops_linux_x86_64-v2.4.35.tar.bz2
 ```
 
 ## [gtfToGenePred](https://bioconda.github.io/recipes/ucsc-gtftogenepred/README.html)
-Installation type: download precompiled binary.
+Installation type: download precompiled binary. 
 
 ```bash
 cd $RNA_HOME/student_tools/
@@ -277,15 +277,15 @@ launch R (enter `R` at linux command prompt) and type the following at an R comm
 ```
 
 ## [Bioconductor](http://www.bioconductor.org/)
-Installation type: add bioconductor libraries to an R installation.
+Installation type: add bioconductor libraries to an R installation. Citation: [PMID: 15461798](https://pubmed.ncbi.nlm.nih.gov/15461798/).
 
 For this tutorial we require:
-- [genefilter](http://bioconductor.org/packages/release/bioc/html/genefilter.html)
-- [ballgown](http://bioconductor.org/packages/release/bioc/html/ballgown.html)
-- [edgeR](http://www.bioconductor.org/packages/release/bioc/html/edgeR.html)
+- [genefilter](http://bioconductor.org/packages/release/bioc/html/genefilter.html) 
+- [ballgown](http://bioconductor.org/packages/release/bioc/html/ballgown.html). Citation: [PMID: 25748911](https://pubmed.ncbi.nlm.nih.gov/25748911/).
+- [edgeR](http://www.bioconductor.org/packages/release/bioc/html/edgeR.html). Citation: [PMID: 19910308](https://pubmed.ncbi.nlm.nih.gov/19910308/).
 - [GenomicRanges](http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html)
 - [rhdf5](https://www.bioconductor.org/packages/release/bioc/html/rhdf5.html)
-- [biomaRt](https://bioconductor.org/packages/release/bioc/html/biomaRt.html)
+- [biomaRt](https://bioconductor.org/packages/release/bioc/html/biomaRt.html). Citation: [PMID: 21930506](https://pubmed.ncbi.nlm.nih.gov/21930506/).
 
 launch R (enter `R` at linux command prompt) and type the following at an R command prompt. If prompted, type "a" to update all old packages. NOTE: This has been pre-installed for you, so these commands can be skipped.
 
@@ -297,6 +297,8 @@ launch R (enter `R` at linux command prompt) and type the following at an R comm
 ```
 
 ## [Sleuth](https://pachterlab.github.io/sleuth/download)
+Installation type: R package installation from a git repository. Citation: [PMID: 28581496](https://pubmed.ncbi.nlm.nih.gov/28581496/).
+
 ```bash
 #R
 #install.packages("devtools")
@@ -309,7 +311,7 @@ launch R (enter `R` at linux command prompt) and type the following at an R comm
 
 ## PRACTICAL EXERCISE 1 - Software Installation
 
-Assignment: Install bedtools on your own. Make sure you install it in your tools folder. Download, unpack, compile, and test the bedtools software.
+Assignment: Install bedtools on your own. Make sure you install it in your tools folder. Download, unpack, compile, and test the bedtools software. Citation: [PMID: 20110278](https://pubmed.ncbi.nlm.nih.gov/20110278/).
 
 ```bash 
 cd $RNA_HOME/student_tools/

@@ -32,26 +32,29 @@ So to summarize we have:
 * HBR + ERCC Spike-In Mix2, Replicate 3
 
 Each data set has a corresponding pair of FastQ files (read 1 and read 2 of paired end reads).
-The reads are paired-end 101-mers generated on an Illumina HiSeq instrument. The test data has been pre-filtered for reads that appear to map to chromosome 22. Lets copy the raw input data to our tutorial working directory.
 
 ```bash
 echo $RNA_DATA_DIR
 mkdir -p $RNA_DATA_DIR
 cd $RNA_DATA_DIR
 wget http://genomedata.org/rnaseq-tutorial/HBR_UHR_ERCC_ds_5pc.tar
+
 ```
 
-Unpack the test data. You should see 6 sets of paired end fastq files. One for each of our sample replicates above. We have 6 pairs (12 files) because in fastq format, read 1 and read 2 of a each read pair (fragment) are stored in separate files.
+Unpack the test data using tar. You should see 6 sets of paired end fastq files. One for each of our sample replicates above. We have 6 pairs (12 files) because in fastq format, read 1 and read 2 of a each read pair (fragment) are stored in separate files.
 
 ```bash
 tar -xvf HBR_UHR_ERCC_ds_5pc.tar
 ls
+
 ```
 
 Enter the data directory and view the first two read records of a file (in fastq format each read corresponds to 4 lines of data)
 
+The reads are paired-end 101-mers generated on an Illumina HiSeq instrument. The test data has been pre-filtered for reads that appear to map to chromosome 22. Lets copy the raw input data to our tutorial working directory.
 ```bash
 zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | head -n 8
+
 ```
 
 Identify the following components of each read: read name, read sequence, and quality string
@@ -60,11 +63,12 @@ How many reads are there in the first library? Decompress file on the fly with '
 
 ```bash
 zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | grep -P "^\@HWI" | wc -l
+
 ```
 
 ### Determining the strandedness of RNA-seq data
 
-In order to determine strandedness, we will be using [check_strandedness](https://github.com/betsig/how_are_we_stranded_here)((docker image)[https://hub.docker.com/r/smk5g5/checkstranded]). In order use this tool, there are a few steps we need to get our inputs ready, specifically creating a fasta of our GTF file.
+In order to determine strandedness, we will be using [check_strandedness](https://github.com/betsig/how_are_we_stranded_here)([docker image](https://hub.docker.com/r/smk5g5/checkstranded)). In order use this tool, there are a few steps we need to get our inputs ready, specifically creating a fasta of our GTF file.
 
 ```bash
 cd $RNA_HOME/refs/
@@ -77,6 +81,7 @@ genePredToBed chr22_with_ERCC92.genePred chr22_with_ERCC92.bed12
 
 # Use bedtools to create fasta from GTF
 bedtools getfasta -fi chr22_with_ERCC92.fa -bed chr22_with_ERCC92.bed12 -s -split -name -fo chr22_ERCC92_transcripts.fa
+
 ```
 
 Use less to view the file chr22_ERCC92_transcripts.fa. Note that this file has messy transcript names. Use the following hairball perl one-liner to tidy up the header line for each fasta sequence.
@@ -87,20 +92,31 @@ cat chr22_ERCC92_transcripts.fa | perl -ne 'if($_ =~/^\>\S+\:\:(ERCC\-\d+)\:.*/)
 
 ```
 
-View the resulting ‘clean’ file using less chr22_ERCC92_transcripts.clean.fa. View the end of this file use tail chr22_ERCC92_transcripts.clean.fa. Note that we have one fasta record for each Ensembl transcript on chromosome 22 and we have an additional fasta record for each ERCC spike-in sequence. Now that we have created our input files, we can now run the check_strandedness tool on some of our instrument data.
+View the resulting ‘clean’ file using less chr22_ERCC92_transcripts.clean.fa. View the end of this file use tail chr22_ERCC92_transcripts.clean.fa. Note that we have one fasta record for each Ensembl transcript on chromosome 22 and we have an additional fasta record for each ERCC spike-in sequence.
+
+We also need to reformat our GTF file slightly. Rows that correspond to genes are missing the "transcript_id" field. We are going to add in this field but leave it blank for these rows using the following command.
+
+```bash
+cd $RNA_HOME/refs
+awk '{ if ($0 ~ "transcript_id") print $0; else print $0" transcript_id \"\";"; }' chr22_with_ERCC92.gtf > chr22_with_ERCC92_tidy.gtf
+
+```
+
+Now that we have created our input files, we can now run the check_strandedness tool on some of our instrument data.
 
 ```bash
 cd $RNA_HOME
 mkdir strandedness
 cd strandedness
-check_strandedness --gtf $RNA_HOME/refs/chr22_with_ERCC92.gtf --transcripts $RNA_HOME/refs/chr22_ERCC92_transcripts.clean.fa --reads_1 $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz --reads_2 $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+check_strandedness --gtf $RNA_HOME/refs/chr22_with_ERCC92_tidy.gtf --transcripts $RNA_HOME/refs/chr22_ERCC92_transcripts.clean.fa --reads_1 $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz --reads_2 $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+
 ```
 
 The output of this command should look like so:
 ```bash
-Fraction of reads failed to determine: 0.1122
+Fraction of reads failed to determine: 0.1123
 Fraction of reads explained by "1++,1--,2+-,2-+": 0.0155
-Fraction of reads explained by "1+-,1-+,2++,2--": 0.8723
+Fraction of reads explained by "1+-,1-+,2++,2--": 0.8722
 Over 75% of reads explained by "1+-,1-+,2++,2--"
 Data is likely RF/fr-firststrand
 ```

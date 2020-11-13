@@ -37,27 +37,32 @@ This has been done for you and that data placed on your AWS instance. It contain
 cd $RNA_REFS_DIR
 wget http://genomedata.org/rnaseq-tutorial/fasta/GRCh38/chr22_with_ERCC92.fa
 ls
+
 ```
 
 View the first 10 lines of this file. Why does it look like this?
 ```bash
 head chr22_with_ERCC92.fa
+
 ```
 
 How many lines and characters are in this file? How long is this chromosome (in bases and Mbp)?
 ```bash
 wc chr22_with_ERCC92.fa
+
 ```
 
 View 10 lines from approximately the middle of this file. What is the significance of the upper and lower case characters?
 ```bash
 head -n 425000 chr22_with_ERCC92.fa | tail
+
 ```
 
 What is the count of each base in the entire reference genome file (skipping the header lines for each sequence)?
 
 ```bash
 cat chr22_with_ERCC92.fa | grep -v ">" | perl -ne 'chomp $_; $bases{$_}++ for split //; if (eof){print "$_ $bases{$_}\n" for sort keys %bases}'
+
 ```
 
 Note: Instead of the above, you might consider getting reference genomes and associated annotations from [UCSC. e.g., UCSC GRCh38 download](http://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/).
@@ -68,6 +73,7 @@ View a list of all sequences in our reference genome fasta file.
 
 ```bash
 grep ">" chr22_with_ERCC92.fa
+
 ```
 
 ***
