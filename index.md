@@ -29,7 +29,7 @@ Malachi Griffith\*, Jason R. Walker, Nicholas C. Spies, Benjamin J. Ainscough, O
 
 These materials have been developed with the support of AWS Cloud Credits for Research, the Canadian Bioinformatics Workshops, and Cold Spring Harbor Laboratory. See [Acknowledgements](/acknowledgements/) for more details.
 
-This workshop has been delivered many times and continues to evolve. A complete list of these past workshops is available [here](https://rnabio.org/module-08-appendix/0008/04/01/Lectures/).
+This workshop has been delivered many times and continues to evolve. A complete list of these past workshops is available [here](https://rnabio.org/module-09-appendix/0009/04/01/Lectures/).
 
 A legacy version of the online resource is also available [here](https://github.com/griffithlab/rnaseq_tutorial/wiki).
 
