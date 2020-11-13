@@ -30,13 +30,14 @@ Try to run FastQC on your fastq files:
 ```bash
 cd $RNA_HOME/data
 fastqc *.fastq.gz
+
 ```
 
 Then, go to the following url in your browser:
 
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/data/
 * Note, you must replace **YOUR_DNS_NAME** with your own amazon instance DNS (e.g., ec2-54-187-159-113.us-west-2.compute.amazonaws.com))
-* Click on any of the *_fastqc.html files to view the FastQC report
+* Click on any of the `*_fastqc.html` files to view the FastQC report
 
 **Exercise:**
 Investigate the source/explanation for over-represented sequences:
@@ -85,9 +86,8 @@ Run MultiQC on your fastqc reports to generate a single summary report across al
 
 ```bash
 cd $RNA_HOME/data
-module unload multiqc/1.8
-module load multiqc/1.8 
 multiqc .
+
 ```
 
 ### PRACTICAL EXERCISE 4

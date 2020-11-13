@@ -117,18 +117,21 @@ How many genes are there on this chromosome?
 
 ```bash
 grep -v feature UHR_vs_HBR_gene_results.tsv | wc -l
+
 ```
 
 How many passed filter in UHR or HBR?
 
 ```bash
 grep -v feature UHR_vs_HBR_gene_results_filtered.tsv | wc -l
+
 ```
 
 How many differentially expressed genes were found on this chromosome (p-value < 0.05)?
 
 ```bash
 grep -v feature UHR_vs_HBR_gene_results_sig.tsv | wc -l
+
 ```
 
 Display the top 20 DE genes. Look at some of those genes in IGV - do they make sense?
@@ -137,6 +140,7 @@ In the following commands we use `grep -v feature` to remove lines that contain 
 ```bash
 grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -rnk 3 | head -n 20 | column -t #Higher abundance in UHR
 grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -nk 3 | head -n 20 | column -t #Higher abundance in HBR
+
 ```
 
 Save all genes with P<0.05 to a new file.
@@ -144,6 +148,7 @@ Save all genes with P<0.05 to a new file.
 ```bash
 grep -v feature UHR_vs_HBR_gene_results_sig.tsv | cut -f 6 | sed 's/\"//g' > DE_genes.txt
 head DE_genes.txt
+
 ```
 
 ***
@@ -155,6 +160,7 @@ cd $RNA_HOME/de/ballgown/ref_only
 wget https://raw.githubusercontent.com/griffithlab/rnabio.org/master/assets/scripts/Tutorial_ERCC_DE.R
 chmod +x Tutorial_ERCC_DE.R
 ./Tutorial_ERCC_DE.R $RNA_HOME/expression/htseq_counts/ERCC_Controls_Analysis.txt $RNA_HOME/de/ballgown/ref_only/UHR_vs_HBR_gene_results.tsv
+
 ```
 
 View the results here:
@@ -176,6 +182,7 @@ First, create a directory for results:
 cd $RNA_HOME/
 mkdir -p de/htseq_counts
 cd de/htseq_counts
+
 ```
 
 Note that the htseq-count results provide counts for each gene but uses only the Ensembl Gene ID (e.g. ENSG00000054611).  This is not very convenient for biological interpretation.  This next step creates a mapping file that will help us translate from ENSG IDs to Symbols. It does this by parsing the GTF transcriptome file we got from Ensembl. That file contains both gene names and IDs. Unfortunately, this file is a bit complex to parse. Furthermore, it contains the ERCC transcripts, and these have their own naming convention which also complicated the parsing.
@@ -183,6 +190,7 @@ Note that the htseq-count results provide counts for each gene but uses only the
 ```bash
 perl -ne 'if ($_ =~ /gene_id\s\"(ENSG\S+)\"\;/) { $id = $1; $name = undef; if ($_ =~ /gene_name\s\"(\S+)"\;/) { $name = $1; }; }; if ($id && $name) {print "$id\t$name\n";} if ($_=~/gene_id\s\"(ERCC\S+)\"/){print "$1\t$1\n";}' $RNA_REF_GTF | sort | uniq > ENSG_ID2Name.txt
 head ENSG_ID2Name.txt
+
 ```
 
 Determine the number of unique Ensembl Gene IDs and symbols. What does this tell you?
@@ -194,6 +202,7 @@ cut -f 2 ENSG_ID2Name.txt | sort | uniq | wc -l
 
 #show the most repeated gene names
 cut -f 2 ENSG_ID2Name.txt | sort | uniq -c | sort -r | head
+
 ```
 
 Launch R:
@@ -285,6 +294,7 @@ Once you have run the edgeR tutorial, compare the sigDE genes to those saved ear
 ```bash
 cat $RNA_HOME/de/ballgown/ref_only/DE_genes.txt
 cat $RNA_HOME/de/htseq_counts/DE_genes.txt
+
 ```
 
 Pull out the gene IDs
@@ -293,6 +303,7 @@ cd $RNA_HOME/de/
 
 cut -f 1 $RNA_HOME/de/ballgown/ref_only/DE_genes.txt | sort  > ballgown_DE_gene_symbols.txt
 cut -f 2 $RNA_HOME/de/htseq_counts/DE_genes.txt | sort > htseq_counts_edgeR_DE_gene_symbols.txt
+
 ```
 
 Visualize overlap with a venn diagram. This can be done with simple web tools like:
@@ -305,6 +316,7 @@ To get the two gene lists you could use `cat` to print out each list in your ter
 ```bash
 cat ballgown_DE_gene_symbols.txt
 cat htseq_counts_edgeR_DE_gene_symbols.txt
+
 ```
 
 Alternatively you could view both lists in a web browser as you have done with other files. These two files should be here:
