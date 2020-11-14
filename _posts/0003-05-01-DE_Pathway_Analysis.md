@@ -20,11 +20,24 @@ In this secion we will use the GAGE tool in R to test for significantly enriched
 ### What is gage?
 The Generally Applicable Gene-set Enrichment tool ([gage](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and rnaseq data sets. In this section we will use [gage](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) database to perform pathway analysis. Let's go ahead and load [gage](https://bioconductor.org/packages/release/bioc/html/gage.html) and some other useful packages. 
 
+```bash
+#Before we get started let's cd into the directory where our edgeR results are saved 
+
+cd ~/workspace/rnaseq/dehtseq_counts/
+```
+Launch R:
+
+```bash
+R
+```
 ```R
 library(AnnotationDbi)
 library(org.Hs.eg.db)
 library(GO.db)
 library(gage)
+
+setwd (~/workspace/rnaseq/dehtseq_counts/)
+
 ```
 ### Setting up gene set databases
 In order to perform our pathway analysis we need a list of pathways and their respective genes. One database that is commonly used to understand whether a set of mutated or differentially expressed genes are related functionally is [GO](http://www.geneontology.org/). The [gage](https://bioconductor.org/packages/release/bioc/html/gage.html) package has a function for querying [GO](http://www.geneontology.org/) in real time: [go.gsets()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/go.gsets). This function takes a species as an argument and will return a list of gene sets and some helpful meta information for subsetting these list. If you are unfamiliar with [GO](http://www.geneontology.org/) it is helpful to know that GO terms are categorized into the three gene ontologies: "Biological Process", "Molecular Function", and "Cellular Component". This information will come in handy later in our exercise. 
