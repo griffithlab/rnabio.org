@@ -27,7 +27,7 @@ library(GO.db)
 library(gage)
 ```
 ### Setting up gene set databases
-In order to perform our pathway analysis we need a list of pathways and their respective genes. One database that is commonly used to understand whether a set of mutated or differentially expressed genes are related functionally is [GO](http://www.geneontology.org/). The [gage](https://bioconductor.org/packages/release/bioc/html/gage.html) package has a function for querying [GO](http://www.geneontology.org/) in real time: [go.gsets()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/go.gsets). This function takes a species as an argument and will return a list of gene sets and some helpful meta information for subsetting these list. If you are unfamiliar with [GO](http://www.geneontology.org/) it is helpful to underrstand that the GO terms are categorized into the three gene ontologies: "Biological Process", "Molecular Function", and "Cellular Component". This information will come in handy later our exercise. 
+In order to perform our pathway analysis we need a list of pathways and their respective genes. One database that is commonly used to understand whether a set of mutated or differentially expressed genes are related functionally is [GO](http://www.geneontology.org/). The [gage](https://bioconductor.org/packages/release/bioc/html/gage.html) package has a function for querying [GO](http://www.geneontology.org/) in real time: [go.gsets()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/go.gsets). This function takes a species as an argument and will return a list of gene sets and some helpful meta information for subsetting these list. If you are unfamiliar with [GO](http://www.geneontology.org/) it is helpful to know that GO terms are categorized into the three gene ontologies: "Biological Process", "Molecular Function", and "Cellular Component". This information will come in handy later in our exercise. 
 
 ```R
 # set up go database
@@ -38,19 +38,20 @@ go.cc.gs <- go.hs$go.sets[go.hs$go.subs$CC]
 ```
 
 ### Preparing DE Genes for gage
-Before we perform the actual pathway analysis we need to format our differential expression results from out edgeR analysis into a format suitable for the [gage]() package. 
+Before we perform the actual pathway analysis we need to format our differential expression results from the edgeR analysis into a format suitable for the [gage]() package. 
 
 ```R
 DE_genes <-read.table("/home/ubuntu/workspace/rnaseq/de/htseq_counts/DE_genes.txt",sep="\t",header=T,stringsAsFactors = F)
+
 ```
 ### Annotating genes
-OK, so we have our differentially expressed genes and we have downloaded our gene sets. However, if you look at one of the objects containing the gene sets you'll notice that each gene set contains a series of integers. These integers are actually [entrez](https://www.ncbi.nlm.nih.gov/gquery/) gene identifiers. But do we have comparable information in our DE gene list? Right now, no. Our previous results use ensemble IDs as gene identifiers. We will need to convert our gene identifiers to the format used in the GO gene sets before we can perform the pathway analysis. Fortunately bioconductor maintains genome wide annotation data for many species, you can view these species with the [OrgDb bioc view](https://bioconductor.org/packages/release/BiocViews.html#___OrgDb). This makes converting the gene identifiers relatively straight forward, below we use the [mapIds()](https://www.rdocumentation.org/packages/OrganismDbi/versions/1.14.1/topics/MultiDb-class) function to query the OrganismDb object for the gene symbol, entrez id, and gene name based on the ensembl id. Because there might not be a one to one relationship with these identifiers we also use `multiVals="first"` to specify that only the first identifier should be returned in such cases.
+OK, so we have our differentially expressed genes and we have downloaded our gene sets. However, if you look at one of the objects containing the gene sets you'll notice that each gene set contains a series of integers. These integers are actually [entrez](https://www.ncbi.nlm.nih.gov/gquery/) gene identifiers. But do we have comparable information in our DE gene list? Right now, no. Our previous results use ensemble IDs as gene identifiers. We will need to convert our gene identifiers to the format used in the GO gene sets before we can perform the pathway analysis. Fortunately, bioconductor maintains genome wide annotation data for many species, you can view these species with the [OrgDb bioc view](https://bioconductor.org/packages/release/BiocViews.html#___OrgDb). This makes converting the gene identifiers relatively straight forward, below we use the [mapIds()](https://www.rdocumentation.org/packages/OrganismDbi/versions/1.14.1/topics/MultiDb-class) function to query the OrganismDb object for the entrez id based on the ensembl id. Because there might not be a one to one relationship with these identifiers we also use `multiVals="first"` to specify that only the first identifier should be returned.
 
 ```R
 DE_genes$entrez <- mapIds(org.Hs.eg.db, keys=DE_genes$Gene, column="ENTREZID", keytype="ENSEMBL", multiVals="first")
 ```
 ### Some clean-up 
-After completing the annotation above you will notice that some of our Ensembl gene IDs were not mapped to an Entrez gene ID. Why did this happen?  Well, this is actually a complicated point and gets at some very basic definitions of how to define a gene. The short answer is that we are using two different resources that have annotated the human genome and there are some differences in how these resources have completed this task. So it is not unexpected that there are some discrepencies. In the next few steps we will clean up what we can by first removing the ERCC spike-in genes and then using an a different identifier for futher mapping.  
+After completing the annotation above you will notice that some of our ensembl gene IDs were not mapped to an entrez gene ID. Why did this happen?  Well, this is actually a complicated point and gets at some nuanced concepts of how to define and annotate a gene. The short answer is that we are using two different resources that have annotated the human genome and there are some differences in how these resources have completed this task. Therefore, it is expected that there are some discrepencies. In the next few steps we will clean up what we can by first removing the ERCC spike-in genes and then will use a different identifier for futher mapping.  
 
 ```R
 #Remove spike-in
@@ -74,7 +75,7 @@ DE_genes_clean <-rbind(DE_genes_clean,missing_ensembl_key_update)
 ```
 
 ### Preparing DESeq2 results for gage
-OK, last set.  Let's format our differential expression results into a format suitable for the [gage]() package. Basically this means obtaining the normalized log2 expression values and assigning entrez gene identifiers to these values.
+OK, last set.  Let's format the differential expression results into a format suitable for the [gage]() package. Basically this means obtaining the normalized log2 expression values and assigning entrez gene identifiers to these values.
 
 ```R
 # grab the log fold changes for everything
@@ -126,15 +127,17 @@ For this last step we will do a very brief introduction to visualizing our resul
 **Step One**
 You'll want to use a web browser to download your results.  
 
-* Navigate to the URL below replacing YOUR_IP_ADDRESS with your amazon instance IP address:
+ * Navigate to the URL below replacing YOUR_IP_ADDRESS with your amazon instance IP address:
      http://**YOUR_IP_ADDRESS**/rnaseq/de/htseq_counts
 
-* Download the linked file by right clicking on our two saved result files 
-* Open the result file in your text editor of choice. I like [text wragler](https://www.barebones.com/products/textwrangler/). You should also be able to open the file in excel, google sheets, or another spreadsheet tool. This might help you visualize the data in rows and columns (NB:There might be a small amount of formatting necessary to get the header to line up properly).
+ * Download the linked files by right clicking on the two saved result files 
+
+ * Open the result file in your text editor of choice. I like [text wragler](https://www.barebones.com/products/textwrangler/).
+   You should also be able to open the file in excel, google sheets, or another spreadsheet tool. This might help you visualize the data in rows and columns (NB:There might be a small amount of formatting necessary to get the header to line up properly).
  
 **Step Two**
 
-* Then navigate to [NaviGO](http://kiharalab.org/web/navigo/views/goset.php) 
+* Navigate to [NaviGO](http://kiharalab.org/web/navigo/views/goset.php) 
 
 **Step Three**
 
