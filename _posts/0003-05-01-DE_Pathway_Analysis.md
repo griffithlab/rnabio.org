@@ -125,7 +125,7 @@ write.table(fc.go.cc.p.down,"/home/ubuntu/workspace/rnaseq/de/htseq_counts/fc.go
 For this last step we will do a very brief introduction to visualizing our results. We will use a tool called [NaviGO](http://kiharalab.org/web/navigo/views/goset.php) 
 
 **Step One**
-You'll want to use a web browser to download your results.  
+ * Use a web browser to download your results  
 
  * Navigate to the URL below replacing YOUR_IP_ADDRESS with your amazon instance IP address:
      http://**YOUR_IP_ADDRESS**/rnaseq/de/htseq_counts
