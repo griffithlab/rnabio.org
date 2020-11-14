@@ -23,7 +23,7 @@ The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.o
 ```bash
 #Before we get started let's cd into the directory where our edgeR results are saved 
 
-cd ~/workspace/rnaseq/dehtseq_counts/
+cd ~/workspace/rnaseq/de/htseq_counts/
 ```
 Launch R:
 
