@@ -149,7 +149,7 @@ For this last step we will do a very brief introduction to visualizing our resul
  * Navigate to the URL below replacing YOUR_IP_ADDRESS with your amazon instance IP address:
      http://**YOUR_IP_ADDRESS**/rnaseq/de/htseq_counts
 
- * Download the linked files by right clicking on the two saved result files 
+ * Download the linked files by right clicking on the two saved result files: `fc.go.cc.p.up.tsv` and `fc.go.cc.p.down.tsv`.
 
  * Open the result file in your text editor of choice. We like [text wrangler](https://www.barebones.com/products/textwrangler/).
    You should also be able to open the file in excel, google sheets, or another spreadsheet tool. This might help you visualize the data in rows and columns (NB: There might be a small amount of formatting necessary to get the header to line up properly).
