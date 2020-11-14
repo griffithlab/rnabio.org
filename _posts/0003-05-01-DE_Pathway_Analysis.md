@@ -18,7 +18,7 @@ date: 0003-05-01
 In this secion we will use the GAGE tool in R to test for significantly enriched sets of genes within those genes found to be "up" and "down" in our HBR vs UHR differential gene expression analysis. Do we see enrichment for genes associated with brain related cell types and processes in the list of DE genes that have significant differential expression beween the HBR samples compared to the UHR samples?
 
 ### What is gage?
-The Generally Applicable Gene-set Enrichment tool ([gage](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and rnaseq data sets. In this section we will use [gage](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) database to perform pathway analysis. Let's go ahead and load [gage](https://bioconductor.org/packages/release/bioc/html/gage.html) and some other useful packages. 
+The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and rnaseq data sets. In this section we will use [gage](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) database to perform pathway analysis. 
 
 ```bash
 #Before we get started let's cd into the directory where our edgeR results are saved 
@@ -30,6 +30,9 @@ Launch R:
 ```bash
 R
 ```
+
+Let's go ahead and load [gage](https://bioconductor.org/packages/release/bioc/html/gage.html) and some other useful packages and set our working directory. 
+
 ```R
 library(AnnotationDbi)
 library(org.Hs.eg.db)
