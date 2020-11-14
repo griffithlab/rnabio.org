@@ -37,8 +37,8 @@ go.mf.gs <- go.hs$go.sets[go.hs$go.subs$MF]
 go.cc.gs <- go.hs$go.sets[go.hs$go.subs$CC]
 ```
 
-### Preparing DE Genes for gage
-Before we perform the actual pathway analysis we need to format our differential expression results from the edgeR analysis into a format suitable for the [gage]() package. 
+### Importing edgeR results for gage
+Before we perform the pathway analysis we need to import our differential expression results from the edgeR analysis. 
 
 ```R
 DE_genes <-read.table("/home/ubuntu/workspace/rnaseq/de/htseq_counts/DE_genes.txt",sep="\t",header=T,stringsAsFactors = F)
@@ -74,7 +74,7 @@ missing_ensembl_key_update <- missing_ensembl_key[!is.na(missing_ensembl_key$ent
 DE_genes_clean <-rbind(DE_genes_clean,missing_ensembl_key_update)
 ```
 
-### Preparing DESeq2 results for gage
+### Final preparation of edgeR results for gage
 OK, last set.  Let's format the differential expression results into a format suitable for the [gage]() package. Basically this means obtaining the normalized log2 expression values and assigning entrez gene identifiers to these values.
 
 ```R
