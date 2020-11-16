@@ -20,11 +20,22 @@ Before we can view our alignments in the IGV browser we need to index our BAM fi
 ```bash
 echo $RNA_ALIGN_DIR
 cd $RNA_ALIGN_DIR
-find *.bam -exec echo samtools index {} \; | sh
+
+samtools index HBR.bam
+samtools index HBR_Rep1.bam
+samtools index HBR_Rep2.bam
+samtools index HBR_Rep3.bam
+samtools index UHR.bam
+samtools index UHR_Rep1.bam
+samtools index UHR_Rep2.bam
+samtools index UHR_Rep3.bam
+
+# Note that we could have created and run a samtools index command for all files ending in .bam using the following construct:
+# find *.bam -exec echo samtools index {} \; | sh
 
 ```
 
-Optional (specific to AWS - does not currently work on Compute Canada):
+Optional:
 
 Try to create an index file for one of your bam files using a samtools docker image rather than the locally installed version of samtools. Below is an example docker run command. 
 
