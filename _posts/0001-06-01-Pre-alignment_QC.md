@@ -86,7 +86,7 @@ Run MultiQC on your fastqc reports to generate a single summary report across al
 
 ```bash
 cd $RNA_HOME/data
-multiqc .
+python3 -m multiqc .
 
 ```
 

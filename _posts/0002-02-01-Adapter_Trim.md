@@ -84,7 +84,7 @@ Optional exercise: Compare the FastQC reports for fastq files before and after t
 cd $RNA_DATA_TRIM_DIR
 fastqc *.fastq.gz
 
-multiqc .
+python3 -m multiqc .
 
 ```
 

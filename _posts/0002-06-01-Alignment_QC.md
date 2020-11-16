@@ -153,7 +153,7 @@ We will now use multiQC to compile a QC report from all the QC tools above.
 
 ```bash
 cd $RNA_ALIGN_DIR
-multiqc ./
+python3 -m multiqc ./
 
 ```
 
