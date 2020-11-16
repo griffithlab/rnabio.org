@@ -153,7 +153,7 @@ Multiqc, a tool for assembling QC reports is a python package that can be instal
 
 ```bash
 pip install --user multiqc
-multiqc --help
+python3 -m multiqc --help
 ```
 
 ## [Picard](https://broadinstitute.github.io/picard/)
