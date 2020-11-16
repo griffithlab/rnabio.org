@@ -64,7 +64,7 @@ samtools flagstat UHR_Rep1.bam > flagstat/UHR_Rep1.bam.flagstat
 samtools flagstat UHR_Rep2.bam > flagstat/UHR_Rep2.bam.flagstat
 samtools flagstat UHR_Rep3.bam > flagstat/UHR_Rep3.bam.flagstat
 
-# Note that we could have created and run a samtools flagstat command for all files ending in .bam using the following construct:
+# Note that we could have created and run a samtools flagstat command for all files ending in *Rep*.bam using the following construct:
 # find *Rep*.bam -exec echo samtools flagstat {} \> flagstat/{}.flagstat \; | sh
 
 # View an example
