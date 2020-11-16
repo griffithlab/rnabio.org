@@ -57,7 +57,15 @@ Use `samtools flagstat` to get a basic summary of an alignment. What percent of 
 cd $RNA_ALIGN_DIR
 mkdir flagstat
 
-find *Rep*.bam -exec echo samtools flagstat {} \> flagstat/{}.flagstat \; | sh
+samtools flagstat HBR_Rep1.bam > flagstat/HBR_Rep1.bam.flagstat
+samtools flagstat HBR_Rep2.bam > flagstat/HBR_Rep2.bam.flagstat
+samtools flagstat HBR_Rep3.bam > flagstat/HBR_Rep3.bam.flagstat
+samtools flagstat UHR_Rep1.bam > flagstat/UHR_Rep1.bam.flagstat
+samtools flagstat UHR_Rep2.bam > flagstat/UHR_Rep2.bam.flagstat
+samtools flagstat UHR_Rep3.bam > flagstat/UHR_Rep3.bam.flagstat
+
+# Note that we could have created and run a samtools flagstat command for all files ending in .bam using the following construct:
+# find *Rep*.bam -exec echo samtools flagstat {} \> flagstat/{}.flagstat \; | sh
 
 # View an example
 cat flagstat/UHR_Rep1.bam.flagstat
