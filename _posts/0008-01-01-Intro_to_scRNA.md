@@ -38,6 +38,6 @@ date: 0008-01-01
 
 ### Module 8 - Lecture
 
-* [scRNAseq_Part1.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/module_8/CBW2020_scRNAseq_1_APetti.pdf)
-* [scRNAseq_Part2.pdf](https://github.com/griffithlab/rnabio.org/raw/master/assets/module_8/CBW2020_scRNAseq_2_APetti.pdf)
+* [scRNAseq part1 lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/full/scRNAseq_1.pdf)
+* [scRNAseq part2 lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/full/scRNAseq_2.pdf)
 
