@@ -29,13 +29,15 @@ Optional (specific to AWS - does not currently work on Compute Canada):
 Try to create an index file for one of your bam files using a samtools docker image rather than the locally installed version of samtools. Below is an example docker run command. 
 
 ```bash
-docker run -v /home/ubuntu/workspace:/workspace biocontainers/samtools:v1.9-4-deb_cv1 samtools index /workspace/test.bam
+cp HBR.bam /tmp/
+docker run -v /tmp:/docker_workspace biocontainers/samtools:v1.9-4-deb_cv1 samtools index /docker_workspace/HBR.bam
+ls /tmp/HBR.bam*
 
 ```
 
 `docker run` is how you initialize a docker container to run a command
 
-`-v` is the parameter used to mount your workspace so that the docker container can see the files that you're working with. In the example above, `/home/ubuntu/workspace` from the EC2 instance has been mounted as `/workspace` within the docker container. Since my workspace has been mounted and named as workspace, all relative paths below this directory will be the same.
+`-v` is the parameter used to mount your workspace so that the docker container can see the files that you're working with. In the example above, `/tmp` from the EC2 instance has been mounted as `/docker_workspace` within the docker container. 
 
 `biocontainers/samtools` is the docker container name. The `:v1.9-4-deb_cv1` refers to the specific tag and release of the docker container.
 
