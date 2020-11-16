@@ -92,7 +92,7 @@ cat chr22_ERCC92_transcripts.fa | perl -ne 'if($_ =~/^\>\S+\:\:(ERCC\-\d+)\:.*/)
 
 ```
 
-View the resulting ‘clean’ file using less chr22_ERCC92_transcripts.clean.fa. View the end of this file use tail chr22_ERCC92_transcripts.clean.fa. Note that we have one fasta record for each Ensembl transcript on chromosome 22 and we have an additional fasta record for each ERCC spike-in sequence.
+View the resulting ‘clean’ file using `less chr22_ERCC92_transcripts.clean.fa` (use 'q' to exit). View the end of this file using `tail chr22_ERCC92_transcripts.clean.fa`. Note that we have one fasta record for each Ensembl transcript on chromosome 22 and we have an additional fasta record for each ERCC spike-in sequence.
 
 We also need to reformat our GTF file slightly. Rows that correspond to genes are missing the "transcript_id" field. We are going to add in this field but leave it blank for these rows using the following command.
 
