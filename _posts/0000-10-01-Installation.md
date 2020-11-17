@@ -242,7 +242,7 @@ chmod a+x genePredToBed
 ## [how_are_we_stranded_here](https://github.com/betsig/how_are_we_stranded_here)
 
 ```bash
-pip3 install git+https://github.com/kcotto/how_are_we_stranded_here.git
+pip3 install git+https://github.com/betsig/how_are_we_stranded_here.git
 check_strandedness
 ```
 
