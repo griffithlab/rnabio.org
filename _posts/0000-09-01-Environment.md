@@ -50,7 +50,7 @@ export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
 We will be using picard tools throughout this workshop. To follow along, you will need to set an environment variable pointing to your picard installation.
 
 ```bash
-export PICARD=$RNA_HOME/bin/picard.jar
+export PICARD=~/bin/picard.jar
 ```
 
 If these variables are not part of your .bashrc, you can type the following. First, you can open your .bashrc file with nano by simply typing:
