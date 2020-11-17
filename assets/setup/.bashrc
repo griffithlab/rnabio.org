@@ -11,7 +11,7 @@ export RNA_REF_INDEX=$RNA_REFS_DIR/chr22_with_ERCC92
 export RNA_REF_FASTA=$RNA_REF_INDEX.fa
 export RNA_REF_GTF=$RNA_REF_INDEX.gtf
 export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
-export PICARD=~/bin/picard.jar
+export PICARD=/home/ubuntu/bin/picard.jar
 
 
 # export statements for tools
@@ -29,7 +29,7 @@ export PATH=/home/ubuntu/.local/bin:$PATH
 export LD_LIBRARY_PATH=~/bin/flexbar-3.5.0-linux:$LD_LIBRARY_PATH
 export PATH=/home/ubuntu/bin/flexbar-3.5.0-linux:$PATH
 export PATH=/home/ubuntu/bin/regtools/build:$PATH
-export PATH=~/bin/bedops_linux_x86_64-v2.4.35/bin:$PATH
+export PATH=/home/ubuntu/bin/bedops_linux_x86_64-v2.4.35/bin:$PATH
 export PATH=/home/ubuntu/bin/gtfToGenePred:$PATH
 export PATH=/home/ubuntu/bin/bedtools2/bin:$PATH
 export PATH=/home/ubuntu/bin/genePredtoBed:$PATH
