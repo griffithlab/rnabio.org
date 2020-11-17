@@ -20,13 +20,14 @@ To install bedtools:
 * Go to Releases, find the latest version (e.g., bedtools-2.26.0.tar.gz), right-click and save url
 * Go to tools directory and download the archive, then unpack, and compile
 
-```
+```bash
  cd $RNA_HOME/student_tools/
  wget https://github.com/arq5x/bedtools2/releases/download/v2.27.1/bedtools-2.27.1.tar.gz
  tar -zxvf bedtools-2.27.1.tar.gz
  cd bedtools2/
  make
  ./bin/bedtools
+
 ```
 
 **Answers**
@@ -42,16 +43,19 @@ To install bedtools:
 ### Practical Exercise 2 - Reference Genomes
 <a id="Practical Excercise 2"></a>
 
-    cd $RNA_HOME/refs
-    #first produce a fasta with only the chr22 sequence (i.e. remove the ERCC sequences).
-    cat chr22_with_ERCC92.fa | perl -ne 'if ($_ =~ /\>22/){$chr22=1}; if ($_ =~ /\>ERCC/){$chr22=0}; if ($chr22){print "$_";}' > chr22_only.fa
+```bash
+cd $RNA_HOME/refs
+#first produce a fasta with only the chr22 sequence (i.e. remove the ERCC sequences).
+cat chr22_with_ERCC92.fa | perl -ne 'if ($_ =~ /\>22/){$chr22=1}; if ($_ =~ /\>ERCC/){$chr22=0}; if ($chr22){print "$_";}' > chr22_only.fa
 
-    #determine the count of all repeat bases
-    #skip the header lines containing the sequence names, count the lower case letters, count the total length, at the end summarize totals.
-    cat chr22_only.fa | grep -v ">" | perl -ne 'chomp $_; $r+= $_ =~ tr/a/A/; $r += $_ =~ tr/c/C/; $r += $_ =~ tr/g/G/; $r += $_ =~ tr/t/T/; $l += length($_); if (eof){$p = sprintf("%.2f", ($r/$l)*100); print "\nrepeat bases = $r\ntotal bases = $l\npercent repeat bases = $p%\n\n"}'
+#determine the count of all repeat bases
+#skip the header lines containing the sequence names, count the lower case letters, count the total length, at the end summarize totals.
+cat chr22_only.fa | grep -v ">" | perl -ne 'chomp $_; $r+= $_ =~ tr/a/A/; $r += $_ =~ tr/c/C/; $r += $_ =~ tr/g/G/; $r += $_ =~ tr/t/T/; $l += length($_); if (eof){$p = sprintf("%.2f", ($r/$l)*100); print "\nrepeat bases = $r\ntotal bases = $l\npercent repeat bases = $p%\n\n"}'
 
-    #determine the occurence of an arbitrary short sequence. don't forget to remove all end of line characters before searching for the string of interest.
-    cat chr22_only.fa | grep -v ">" | perl -ne 'chomp $_; $s = uc($_); print $_;' | perl -ne '$c += $_ =~ s/GAATTC/XXXXXX/g; if (eof){print "\nEcoRI site (GAATTC) count = $c\n\n";}'
+#determine the occurence of an arbitrary short sequence. don't forget to remove all end of line characters before searching for the string of interest.
+cat chr22_only.fa | grep -v ">" | perl -ne 'chomp $_; $s = uc($_); print $_;' | perl -ne '$c += $_ =~ s/GAATTC/XXXXXX/g; if (eof){print "\nEcoRI site (GAATTC) count = $c\n\n";}'
+
+```
 
 **Answers**
 
@@ -64,18 +68,20 @@ To install bedtools:
 ### Practical Exercise 3 - Data
 <a id="Practical Excercise 3"></a>
 
-    cd $RNA_HOME
-    mkdir -p practice/data
-    cd $RNA_HOME/practice/data
-    wget http://genomedata.org/rnaseq-tutorial/practical.tar
-    tar -xvf practical.tar
-    ll -1 *.fastq.gz | wc -l
-    zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 1
-    zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | perl -ne '$_ = s/T/X/g; print "\n\n$_\n\n"'
+```bash
+cd $RNA_HOME
+mkdir -p practice/data
+cd $RNA_HOME/practice/data
+wget http://genomedata.org/rnaseq-tutorial/practical.tar
+tar -xvf practical.tar
+ll -1 *.fastq.gz | wc -l
+zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 1
+zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | perl -ne '$_ = s/T/X/g; print "\n\n$_\n\n"'
 
-    #Alternatively:
-    zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | grep -o T | wc
+#Alternatively:
+zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | grep -o T | wc
 
+```
 **Answers**
 
 * How many data files were contained in the 'practical.tar' archive? What commonly used sequence data file format are they? There are 12 data files in the package. Each is a FASTQ file that has been compressed.
@@ -89,9 +95,11 @@ To install bedtools:
 ### Practical Exercise 4 - Data QC
 <a id="Practical Excercise 4"></a>
 
-    cd $RNA_HOME/practice/data
-    fastqc *.fastq.gz
+```bash
+cd $RNA_HOME/practice/data
+fastqc *.fastq.gz
 
+```
 Then, go to the following url in your browser:
 
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/
@@ -111,25 +119,27 @@ Then, go to the following url in your browser:
 ***
 
 ### Practical Exercise 5 - Trim
-
 <a id="Practical Excercise 5"></a>
 
-    cd $RNA_HOME/practice/data/
-    mkdir trimmed
-    wget http://genomedata.org/rnaseq-tutorial/illumina_multiplex.fa
-    flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_normal_rep1_r1.fastq.gz --reads2 hcc1395_normal_rep1_r2.fastq.gz --target trimmed/hcc1395_normal_rep1
-    flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_normal_rep2_r1.fastq.gz --reads2 hcc1395_normal_rep2_r2.fastq.gz --target trimmed/hcc1395_normal_rep2
-    flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_normal_rep3_r1.fastq.gz --reads2 hcc1395_normal_rep3_r2.fastq.gz --target trimmed/hcc1395_normal_rep3
+```bash
+cd $RNA_HOME/practice/data/
+mkdir trimmed
+wget http://genomedata.org/rnaseq-tutorial/illumina_multiplex.fa
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_normal_rep1_r1.fastq.gz --reads2 hcc1395_normal_rep1_r2.fastq.gz --target trimmed/hcc1395_normal_rep1
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_normal_rep2_r1.fastq.gz --reads2 hcc1395_normal_rep2_r2.fastq.gz --target trimmed/hcc1395_normal_rep2
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_normal_rep3_r1.fastq.gz --reads2 hcc1395_normal_rep3_r2.fastq.gz --target trimmed/hcc1395_normal_rep3
 
-    flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_tumor_rep1_r1.fastq.gz --reads2 hcc1395_tumor_rep1_r2.fastq.gz --target trimmed/hcc1395_tumor_rep1
-    flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_tumor_rep2_r1.fastq.gz --reads2 hcc1395_tumor_rep2_r2.fastq.gz --target trimmed/hcc1395_tumor_rep2
-    flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_tumor_rep3_r1.fastq.gz --reads2 hcc1395_tumor_rep3_r2.fastq.gz --target trimmed/hcc1395_tumor_rep3
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_tumor_rep1_r1.fastq.gz --reads2 hcc1395_tumor_rep1_r2.fastq.gz --target trimmed/hcc1395_tumor_rep1
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_tumor_rep2_r1.fastq.gz --reads2 hcc1395_tumor_rep2_r2.fastq.gz --target trimmed/hcc1395_tumor_rep2
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_tumor_rep3_r1.fastq.gz --reads2 hcc1395_tumor_rep3_r2.fastq.gz --target trimmed/hcc1395_tumor_rep3
 
+```
 Compare these files using FastQC:
-
+```bash
     cd $RNA_HOME/practice/data/trimmed/
     fastqc *.fastq.gz
 
+```
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/hcc1395_normal_rep1_r1_fastqc.html
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/trimmed/hcc1395_normal_rep1_1_fastqc.html
 
@@ -146,35 +156,38 @@ Compare these files using FastQC:
 ### Practical Exercise 6 - Alignment
 <a id="Practical Excercise 6"></a>
 Perform alignments:
+```bash
+export RNA_PRACTICE_DATA_DIR=$RNA_HOME/practice/data
+cd $RNA_HOME/practice/
 
-    export RNA_PRACTICE_DATA_DIR=$RNA_HOME/practice/data
-    cd $RNA_HOME/practice/
+mkdir -p alignments/hisat2
+cd alignments/hisat2
 
-    mkdir -p alignments/hisat2
-    cd alignments/hisat2
+hisat2 -p 8 --rg-id=HCC1395_normal_rep1 --rg SM:HCC1395_normal_rep1 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep1_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep1_r2.fastq.gz -S ./HCC1395_normal_rep1.sam
+hisat2 -p 8 --rg-id=HCC1395_normal_rep2 --rg SM:HCC1395_normal_rep2 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep2_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep2_r2.fastq.gz -S ./HCC1395_normal_rep2.sam
+hisat2 -p 8 --rg-id=HCC1395_normal_rep3 --rg SM:HCC1395_normal_rep3 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep3_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep3_r2.fastq.gz -S ./HCC1395_normal_rep3.sam
 
-    hisat2 -p 8 --rg-id=HCC1395_normal_rep1 --rg SM:HCC1395_normal_rep1 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep1_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep1_r2.fastq.gz -S ./HCC1395_normal_rep1.sam
-    hisat2 -p 8 --rg-id=HCC1395_normal_rep2 --rg SM:HCC1395_normal_rep2 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep2_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep2_r2.fastq.gz -S ./HCC1395_normal_rep2.sam
-    hisat2 -p 8 --rg-id=HCC1395_normal_rep3 --rg SM:HCC1395_normal_rep3 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep3_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_normal_rep3_r2.fastq.gz -S ./HCC1395_normal_rep3.sam
+hisat2 -p 8 --rg-id=HCC1395_tumor_rep1 --rg SM:HCC1395_tumor_rep1 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep1_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep1_r2.fastq.gz -S ./HCC1395_tumor_rep1.sam
+hisat2 -p 8 --rg-id=HCC1395_tumor_rep2 --rg SM:HCC1395_tumor_rep2 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep2_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep2_r2.fastq.gz -S ./HCC1395_tumor_rep2.sam
+hisat2 -p 8 --rg-id=HCC1395_tumor_rep3 --rg SM:HCC1395_tumor_rep3 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep3_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep3_r2.fastq.gz -S ./HCC1395_tumor_rep3.sam
 
-    hisat2 -p 8 --rg-id=HCC1395_tumor_rep1 --rg SM:HCC1395_tumor_rep1 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep1_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep1_r2.fastq.gz -S ./HCC1395_tumor_rep1.sam
-    hisat2 -p 8 --rg-id=HCC1395_tumor_rep2 --rg SM:HCC1395_tumor_rep2 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep2_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep2_r2.fastq.gz -S ./HCC1395_tumor_rep2.sam
-    hisat2 -p 8 --rg-id=HCC1395_tumor_rep3 --rg SM:HCC1395_tumor_rep3 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep3_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep3_r2.fastq.gz -S ./HCC1395_tumor_rep3.sam
-
+```
 Sort and convert SAM to BAM:
+```bash
+samtools sort -@ 8 -o HCC1395_normal_rep1.bam HCC1395_normal_rep1.sam
+samtools sort -@ 8 -o HCC1395_normal_rep2.bam HCC1395_normal_rep2.sam
+samtools sort -@ 8 -o HCC1395_normal_rep3.bam HCC1395_normal_rep3.sam
+samtools sort -@ 8 -o HCC1395_tumor_rep1.bam HCC1395_tumor_rep1.sam
+samtools sort -@ 8 -o HCC1395_tumor_rep2.bam HCC1395_tumor_rep2.sam
+samtools sort -@ 8 -o HCC1395_tumor_rep3.bam HCC1395_tumor_rep3.sam
 
-    samtools sort -@ 8 -o HCC1395_normal_rep1.bam HCC1395_normal_rep1.sam
-    samtools sort -@ 8 -o HCC1395_normal_rep2.bam HCC1395_normal_rep2.sam
-    samtools sort -@ 8 -o HCC1395_normal_rep3.bam HCC1395_normal_rep3.sam
-    samtools sort -@ 8 -o HCC1395_tumor_rep1.bam HCC1395_tumor_rep1.sam
-    samtools sort -@ 8 -o HCC1395_tumor_rep2.bam HCC1395_tumor_rep2.sam
-    samtools sort -@ 8 -o HCC1395_tumor_rep3.bam HCC1395_tumor_rep3.sam
-
+```
 Merge HISAT2 BAM files
+```bash
+java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=HCC1395_normal.bam INPUT=HCC1395_normal_rep1.bam INPUT=HCC1395_normal_rep2.bam INPUT=HCC1395_normal_rep3.bam
+java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=HCC1395_tumor.bam INPUT=HCC1395_tumor_rep1.bam INPUT=HCC1395_tumor_rep2.bam INPUT=HCC1395_tumor_rep3.bam
 
-    java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=HCC1395_normal.bam INPUT=HCC1395_normal_rep1.bam INPUT=HCC1395_normal_rep2.bam INPUT=HCC1395_normal_rep3.bam
-    java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=HCC1395_tumor.bam INPUT=HCC1395_tumor_rep1.bam INPUT=HCC1395_tumor_rep2.bam INPUT=HCC1395_tumor_rep3.bam
-
+```
 **Answers**
 
 * What is the difference between a .sam and .bam file? The '.sam' or SAM file is a plain text sequence alignment map file. The '.bam' or BAM file is a binary compressed version of this same information.
@@ -189,11 +202,12 @@ Merge HISAT2 BAM files
 
 ### Practical Exercise 7 - Visualize
 <a id="Practical Excercise 7"></a>
+```bash
+cd $RNA_HOME/practice/alignments/hisat2
+samtools index HCC1395_normal.bam
+samtools index HCC1395_tumor.bam
 
-    cd $RNA_HOME/practice/alignments/hisat2
-    samtools index HCC1395_normal.bam
-    samtools index HCC1395_tumor.bam
-
+```
 Start IGV on your laptop. Load the HCC1395_normal.bam & HCC1395_tumor.bam files in IGV. You can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'.
 
 **HCC1395BL (normal) alignment:**
@@ -213,15 +227,17 @@ http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_nor
 
 ### Practical Exercise 8 - Expression
 <a id="Practical Excercise 8"></a>
+```bash
+cd $RNA_HOME/practice/
+mkdir -p expression/stringtie/ref_only/
+cd expression/stringtie/ref_only/
 
-    cd $RNA_HOME/practice/
-    mkdir -p expression/stringtie/ref_only/
-    cd expression/stringtie/ref_only/
+stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep1/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep1.bam
+stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep2/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep2.bam
+stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep3/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep3.bam
 
-    stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep1/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep1.bam
-    stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep2/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep2.bam
-    stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep3/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep3.bam
+stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep1/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep1.bam
+stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep2/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep2.bam
+stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep3/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep3.bam
 
-    stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep1/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep1.bam
-    stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep2/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep2.bam
-    stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep3/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep3.bam
+```

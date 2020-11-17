@@ -31,7 +31,7 @@ So to summarize we have:
 * HBR + ERCC Spike-In Mix2, Replicate 2
 * HBR + ERCC Spike-In Mix2, Replicate 3
 
-Each data set has a corresponding pair of FastQ files (read 1 and read 2 of paired end reads).
+Each data set has a corresponding pair of FASTQ files (read 1 and read 2 of paired end reads).
 
 ```bash
 echo $RNA_DATA_DIR
