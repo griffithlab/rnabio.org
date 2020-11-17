@@ -39,7 +39,7 @@ library(org.Hs.eg.db)
 library(GO.db)
 library(gage)
 
-setwd (~/workspace/rnaseq/dehtseq_counts/)
+setwd ("~/workspace/rnaseq/de/htseq_counts/")
 
 ```
 ### Setting up gene set databases
