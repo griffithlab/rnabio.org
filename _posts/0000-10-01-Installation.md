@@ -30,10 +30,10 @@ The following tool is installed by downloading a compressed archive using `wget`
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
-bunzip2 samtools-1.9.tar.bz2
-tar -xvf samtools-1.9.tar
-cd samtools-1.9
+wget https://github.com/samtools/samtools/releases/download/1.11/samtools-1.11.tar.bz2
+bunzip2 samtools-1.11.tar.bz2
+tar -xvf samtools-1.11.tar
+cd samtools-1.11
 make
 ./samtools
 ```
@@ -45,10 +45,10 @@ Installation of the bam-readcount tool involves "cloning" the source code with a
 
 ```bash
 cd $RNA_HOME/student_tools/
-export SAMTOOLS_ROOT=$RNA_HOME/student_tools/samtools-1.9
+export SAMTOOLS_ROOT=/home/ubuntu/bin/samtools-1.11
 git clone https://github.com/genome/bam-readcount.git
 cd bam-readcount
-cmake -Wno-dev $RNA_HOME/student_tools/bam-readcount
+cmake -Wno-dev .
 make
 ./bin/bam-readcount
 ```
@@ -61,9 +61,9 @@ The `hisat2` aligner is installed below by simply downloading an archive of bina
 ```bash
 uname -m
 cd $RNA_HOME/student_tools/
-wget ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-2.1.0-Linux_x86_64.zip
-unzip hisat2-2.1.0-Linux_x86_64.zip
-cd hisat2-2.1.0
+curl -s https://cloud.biohpc.swmed.edu/index.php/s/4pMgDq4oAF9QCfA/download > hisat2-2.2.1-Linux_x86_64.zip
+unzip hisat2-2.2.1-Linux_x86_64.zip
+cd hisat2-2.2.1
 ./hisat2 -h
 ```
 
@@ -74,9 +74,9 @@ The `stringtie` reference guided transcript assembly and abundance estimation to
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-1.3.4d.Linux_x86_64.tar.gz
-tar -xzvf stringtie-1.3.4d.Linux_x86_64.tar.gz
-cd stringtie-1.3.4d.Linux_x86_64
+wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.1.4.Linux_x86_64.tar.gz
+tar -xzvf stringtie-2.1.4.Linux_x86_64.tar.gz
+cd stringtie-2.1.4.Linux_x86_64
 ./stringtie -h
 ```
 
@@ -86,10 +86,9 @@ Installation type: download a precompiled binary. Citation: [PMID: 25690850](htt
 The `gffcompare` tool for comparing transcript annotations is installed below by simply downloading an archive with `wget`, unpacking it with `tar`, and executing `gffcompare` to ensure it runs without error on our system.
 
 ```bash
-cd $RNA_HOME/student_tools/
-wget http://ccb.jhu.edu/software/stringtie/dl/gffcompare-0.10.6.Linux_x86_64.tar.gz
-tar -xzvf gffcompare-0.10.6.Linux_x86_64.tar.gz
-cd gffcompare-0.10.6.Linux_x86_64
+wget http://ccb.jhu.edu/software/stringtie/dl/gffcompare-0.12.1.Linux_x86_64.tar.gz
+tar -xzvf gffcompare-0.12.1.Linux_x86_64.tar.gz
+cd gffcompare-0.12.1.Linux_x86_64/
 ./gffcompare
 ```
 
@@ -100,9 +99,10 @@ The htseq-count read counting tools is installed below by downloading an archive
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget https://github.com/simon-anders/htseq/archive/release_0.11.0.tar.gz
-tar -zxvf release_0.11.0.tar.gz
-cd htseq-release_0.11.0/
+git clone https://github.com/htseq/htseq.git
+cd htseq/
+git fetch --all --tags
+git checkout release_0.12.4
 python setup.py install --user
 chmod +x scripts/htseq-count
 ./scripts/htseq-count -h
@@ -139,8 +139,8 @@ Installation type: download precompiled binary. Citation: [s-andrews/FastQC](htt
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.8.zip --no-check-certificate
-unzip fastqc_v0.11.8.zip
+wget http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
+unzip fastqc_v0.11.9.zip
 cd FastQC/
 chmod 755 fastqc
 ./fastqc --help
@@ -152,7 +152,8 @@ Installation type: use pip. Citation: [PMID: 27312411](https://pubmed.ncbi.nlm.n
 Multiqc, a tool for assembling QC reports is a python package that can be installed using the python package manager `pip`.
 
 ```bash
-pip install --user multiqc
+pip3 install --user multiqc
+export PATH=/home/ubuntu/.local/bin:$PATH
 python3 -m multiqc --help
 ```
 
@@ -163,7 +164,7 @@ Picard is a rich tool kit for BAM file manipulation that is installed below simp
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget https://github.com/broadinstitute/picard/releases/download/2.18.15/picard.jar -O picard.jar
+wget https://github.com/broadinstitute/picard/releases/download/2.23.8/picard.jar -O picard.jar
 java -jar $RNA_HOME/student_tools/picard.jar
 ```
         
@@ -172,10 +173,10 @@ Installation type: download precompiled binary. Citation: [PMID: 24832523](https
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget https://github.com/seqan/flexbar/releases/download/v3.4.0/flexbar-3.4.0-linux.tar.gz
-tar -xzvf flexbar-3.4.0-linux.tar.gz
-cd flexbar-3.4.0-linux/
-export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.4.0-linux:$LD_LIBRARY_PATH
+wget https://github.com/seqan/flexbar/releases/download/v3.5.0/flexbar-3.5.0-linux.tar.gz
+tar -xzvf flexbar-3.5.0-linux.tar.gz
+cd flexbar-3.5.0-linux/
+export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.5.0-linux:$LD_LIBRARY_PATH
 ./flexbar
 ```
 
@@ -206,10 +207,10 @@ Installation type: download precompiled binary. Citation: [PMID: 22576172](https
 
 ```bash
 cd $RNA_HOME/student_tools/
-mkdir bedops_linux_x86_64-v2.4.35
-cd bedops_linux_x86_64-v2.4.35
-wget -c https://github.com/bedops/bedops/releases/download/v2.4.35/bedops_linux_x86_64-v2.4.35.tar.bz2
-tar -jxvf bedops_linux_x86_64-v2.4.35.tar.bz2
+mkdir bedops_linux_x86_64-v2.4.39
+cd bedops_linux_x86_64-v2.4.39
+wget -c https://github.com/bedops/bedops/releases/download/v2.4.39/bedops_linux_x86_64-v2.4.39.tar.bz2
+tar -jxvf bedops_linux_x86_64-v2.4.39.tar.bz2
 ./bin/bedops
 ./bin/gff2bed
 ```
@@ -236,6 +237,13 @@ cd genePredToBed
 wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/genePredToBed
 chmod a+x genePredToBed
 ./genePredToBed
+```
+
+## [how_are_we_stranded_here](https://github.com/betsig/how_are_we_stranded_here)
+
+```bash
+pip3 install git+https://github.com/kcotto/how_are_we_stranded_here.git
+check_strandedness
 ```
 
 ## [R](http://www.r-project.org/)
@@ -339,9 +347,9 @@ Solution: When you are ready you can check your approach against the [Solutions]
 To use the locally installed version of each tool without having to specify complete paths, you could add the install directory of each tool to your '$PATH' variable
 
 ```bash
-PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.35/bin:$RNA_HOME/student_tools/samtools-1.9:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.1.0:$RNA_HOME/student_tools/stringtie-1.3.4d.Linux_x86_64:$RNA_HOME/student_tools/gffcompare-0.10.6.Linux_x86_64:$RNA_HOME/student_tools/htseq-release_0.11.0/scripts:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/flexbar-3.4.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:$PATH
+PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.39/bin:$RNA_HOME/student_tools/samtools-1.11:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.1.4.Linux_x86_64:$RNA_HOME/student_tools/gffcompare-0.12.1.Linux_x86_64:$RNA_HOME/student_tools/htseq-release_0.12.4/scripts:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/flexbar-3.5.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:$PATH
 
-export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.4.0-linux:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.5.0-linux:$LD_LIBRARY_PATH
 
 echo $PATH
 ```
