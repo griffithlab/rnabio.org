@@ -102,15 +102,17 @@ awk '{ if ($0 ~ "transcript_id") print $0; else print $0" transcript_id \"\";"; 
 
 ```
 
-Now that we have created our input files, we can now run the check_strandedness tool on some of our instrument data.
+Now that we have created our input files, we can now run the check_strandedness tool on some of our instrument data. Note: we are using a docker image for this tool.
 
 ```bash
-cd $RNA_HOME
-mkdir strandedness
-cd strandedness
-check_strandedness --gtf $RNA_HOME/refs/chr22_with_ERCC92_tidy.gtf --transcripts $RNA_HOME/refs/chr22_ERCC92_transcripts.clean.fa --reads_1 $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz --reads_2 $RNA_DATA_DIR/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
-
+docker run -v /home/ubuntu/workspace/rnaseq:/docker_workspace chrisamiller/how_stranded:latest check_strandedness --gtf /docker_workspace/refs/chr22_with_ERCC92_tidy.gtf --transcripts /docker_workspace/refs/chr22_ERCC92_transcripts.clean.fa --reads_1 /docker_workspace/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz --reads_2 /docker_workspace/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
 ```
+`docker run` is how you initialize a docker container to run a command
+
+`-v` is the parameter used to mount your workspace so that the docker container can see the files that you're working with. In the example above, `/home/ubuntu/workspace/rnaseq` from the EC2 instance has been mounted as `/docker_workspace` within the docker container. 
+
+`chrisamiller/how_stranded` is the docker container name. The `:latest` refers to the specific tag and release of the docker container.
+
 
 The output of this command should look like so:
 ```bash
