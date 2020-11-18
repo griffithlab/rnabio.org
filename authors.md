@@ -51,6 +51,22 @@ Brian Haas earned a master’s degree in molecular biology and biochemistry at t
 
 ***
 
+
+### Allegra Petti
+<nav class="nav  nav--social">
+{% for link in site.contact_allegra %}
+    {% assign id = link[0] | downcase %}
+    {% capture refer %}{{link[1]}}{% endcapture %}
+<a class="link" target="_blank" href="{{refer}}" title="{{link[0]}}">{% include icon.html id=id %}</a>
+{% endfor %}
+</nav>
+{% include figure.html image="/assets/Authors/AllegraPetti.png" position="right" class="rounded-circle" width="300" %}
+
+Allegra Petti is an Assistant Professor in the Department of Medicine, Division of Oncology, and the McDonnell Genome Institute at Washington University School of Medicine. Her research focuses on gene regulation during the development and evolution of cancer. She       develops analytical approaches for the integration and interpretation of multidimensional genomic data, with an emphasis on single-cell RNA-sequencing (scRNA-seq) data. Dr. Petti’s current research is aimed at deciphering the relationships among genetic,                 transcriptional, and microenvironmental heterogeneity in AML and solid tumors. Before coming to Washington University, Dr. Petti was a post-doctoral fellow with Prof. David Botstein at Princeton University. She earned a PhD from Harvard Medical School in the lab of      Prof. George Church, and received a BA in Biology from Rice University.
+
+***
+
+
 ### Jason Walker
 <nav class="nav  nav--social">
 {% for link in site.contact_jason %}
@@ -126,21 +142,6 @@ Chris Miller is an Assistant Professor in the Division of Oncology and a member 
 </nav>
 {% include figure.html image="/assets/Authors/HuimingXia.png" position="right" class="rounded-circle" width="300"%}
 Huiming Xia is a PhD Candidate in the Computational Systems & Biology program at Washington University in St. Louis. She graduated from Carnegie Mellon University in 2017 with a dual degree in Computational Biology and Chemistry. She is interested in developing machine learning models for improving current strategies of neoantigen design and prioritization for cancer immunotherapy.<br><br><br><br>
-
-***
-
-### Allegra Petti
-<nav class="nav  nav--social">
-{% for link in site.contact_allegra %}
-    {% assign id = link[0] | downcase %}
-    {% capture refer %}{{link[1]}}{% endcapture %}
-<a class="link" target="_blank" href="{{refer}}" title="{{link[0]}}">{% include icon.html id=id %}</a>
-{% endfor %}
-</nav>
-{% include figure.html image="/assets/Authors/AllegraPetti.png" position="right" class="rounded-circle" width="300" %}
-Allegra Petti is an Assistant Professor in the Department of Medicine, Division of Oncology, and the McDonnell Genome Institute at Washington University School of Medicine. Her research focuses on gene regulation during the development and evolution of cancer. She develops analytical approaches for the integration and interpretation of multidimensional genomic data, with an emphasis on single-cell RNA-sequencing (scRNA-seq) data. Dr. Petti’s current research is aimed at deciphering the relationships among genetic, transcriptional, and microenvironmental heterogeneity in AML and solid tumors. Before coming to Washington University, Dr. Petti was a post-doctoral fellow with Prof. David Botstein at Princeton University. She earned a PhD from Harvard Medical School in the lab of Prof. George Church, and received a BA in Biology from Rice University.
-
-
 
 ***
 
