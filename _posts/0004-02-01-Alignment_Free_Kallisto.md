@@ -462,7 +462,7 @@ Take a look at the list of genes found to be significant according to all three 
 First produce a simple gene list from the sleuth significant transcripts file
 ```bash
 cd $RNA_HOME/de
-cat sleuth/results/UHR_vs_HBR_transcript_results_sig.tsv | cut -f 13 | sort | uniq > sleuth_genes_with_de_transcripts.txt
+cat sleuth/results/UHR_vs_HBR_transcript_results_sig.tsv | cut -f 13 | sort | grep -v gene_name | uniq > sleuth_genes_with_de_transcripts.txt
 wc -l *.txt
 
 ```
