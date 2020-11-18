@@ -203,4 +203,4 @@ chmod +x Tutorial_ERCC_expression.R
 
 To view the resulting figure, navigate to the below URL replacing YOUR_IP_ADDRESS with your amazon instance IP address:
 
-* http://**YOUR_IP_ADDRESS**/rnaseq/expression/htseq_counts/Tutorial_ERCC_expression.pdf
+* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/expression/htseq_counts/Tutorial_ERCC_expression.pdf
