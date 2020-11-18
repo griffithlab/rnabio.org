@@ -78,6 +78,8 @@ flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_REFS_DI
 
 ```
 
+### Use FastQC and multiqc to compare the impact of trimming
+
 Optional exercise: Compare the FastQC reports for fastq files before and after trimming. All fastqc reports can be generated on the commandline.
 
 ```bash
@@ -92,6 +94,18 @@ The resulting html reports can be viewed by navigating to:
 
 * http://**YOUR_IP_ADDRESS**/rnaseq/data/
 * http://**YOUR_IP_ADDRESS**/rnaseq/data/trimmed/
+
+
+### Clean up
+Move the fastqc results into a sub-directory to keep things tidy
+
+```bash
+cd $RNA_DATA_TRIM_DIR
+mkdir fastqc
+mv *fastqc* fastqc
+
+```
+
 
 ***
 
