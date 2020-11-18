@@ -90,6 +90,18 @@ python3 -m multiqc .
 
 ```
 
+### Clean up
+
+Move all the FASTQC files into their own directory
+
+```bash
+cd $RNA_HOME/data
+mkdir fastqc
+mv *fastqc* fastqc
+
+```
+
+
 ### PRACTICAL EXERCISE 4
 Assignment: Run FASTQC on one of the additional fastq files you downloaded in the previous practical exercise.
 
