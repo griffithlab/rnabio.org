@@ -302,7 +302,7 @@ Pull out the gene IDs
 cd $RNA_HOME/de/
 
 cut -f 1 $RNA_HOME/de/ballgown/ref_only/DE_genes.txt | sort  > ballgown_DE_gene_symbols.txt
-cut -f 2 $RNA_HOME/de/htseq_counts/DE_genes.txt | sort > htseq_counts_edgeR_DE_gene_symbols.txt
+cut -f 2 $RNA_HOME/de/htseq_counts/DE_genes.txt | sort | uniq | grep -v Gene_Name > htseq_counts_edgeR_DE_gene_symbols.txt
 
 ```
 
