@@ -34,11 +34,14 @@ We can also use BedTools to create a transcripts fastq file from our transcript 
 cd $RNA_HOME/refs
 bedtools getfasta -fi chr22_with_ERCC92.fa -bed chr22_with_ERCC92.bed12 -s -split -name -fo chr22_ERCC92_transcripts.fa
 
+# to see an explanation of the options used in this command:
+bedtools getfasta
+
 ```
 
 Note that we could have instead used a tool from `tophat` called `gtf_to_fasta` to generate the fasta sequence from our GTF file.  HOWEVER, when this tool splices defined exons in our GTF together using the sequence in our reference genome FASTA file it does NOT reverse complement the genes expressed on the -ve strand. This is fine if you do NOT specify the strand option when running kallisto quant. BUT, if you intend to use the strand specific options, then all of your transcripts MUST be represented in the forward (5'->3' direction). `gtf_to_fasta` does not have an option to create them this way. So you should use one of the approaches two described above. Either download a transcript file where all sequences are already represented in the correct forward orientation, OR use the `getfasta` strategy above on a `bed12` version of your transcript GTF.
 
-Use `less` to view the file `chr22_ERCC92_transcripts.fa`. Note that this file has messy transcript names. Use the following hairball perl one-liner to tidy up the header line for each fasta sequence
+Use `less` to view the file `chr22_ERCC92_transcripts.fa`. Note that this file has messy transcript names. Use the following hairball Perl one-liner to tidy up the header line for each fasta sequence. This Perl expression looks complex but it is really just looking for header lines the FASTA file that match one of two patterns (those that have names like ERCC... and those that have regular Ensembl transcript names). To learn more about this kind of string matching/parsing, you can refer to the [Perl regular expression](https://perldoc.perl.org/perlre) documentation. 
 
 ```bash
 cd $RNA_HOME/refs
