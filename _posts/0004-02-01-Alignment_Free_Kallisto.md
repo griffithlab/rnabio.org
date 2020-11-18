@@ -17,7 +17,7 @@ We have also made a mini lecture  describing the differences between [alignment,
 
 ***
 
-For more information on Kallisto, refer to the [Kallisto project page](https://pachterlab.github.io/kallisto/about.html) and [Kallisto manual page](https://pachterlab.github.io/kallisto/about.html).
+For more information on Kallisto, refer to the [Kallisto project page](https://pachterlab.github.io/kallisto/about.html), the [Kallisto manual page](https://pachterlab.github.io/kallisto/about.html) and the [Kallisto manuscript](http://www.nature.com/nbt/journal/v34/n5/full/nbt.3519.html).
 
 ***
 
