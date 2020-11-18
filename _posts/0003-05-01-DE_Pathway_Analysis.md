@@ -73,7 +73,7 @@ OK, so we have our differentially expressed genes and we have our gene sets. How
 ```R
 DE_genes$entrez <- mapIds(org.Hs.eg.db, keys=DE_genes$Gene, column="ENTREZID", keytype="ENSEMBL", multiVals="first")
 ```
-### Some clean-up 
+### Some clean-up and identifier mapping
 After completing the annotation above you will notice that some of our Ensembl gene IDs were not mapped to an Entrez gene ID. Why did this happen?  Well, this is actually a complicated point and gets at some nuanced concepts of how to define and annotate a gene. The short answer is that we are using two different resources that have annotated the human genome and there are some differences in how these resources have completed this task. Therefore, it is expected that there are some discrepencies. In the next few steps we will clean up what we can by first removing the ERCC spike-in genes and then will use a different identifier for futher mapping.  
 
 ```R
@@ -82,6 +82,7 @@ DE_genes_clean <- DE_genes[!grepl("ERCC",DE_genes$Gene_Name),]
 
 ##Just so we know what we have removed 
 ERCC_gene_count <-nrow(DE_genes[grepl("ERCC",DE_genes$Gene_Name),])
+ERCC_gene_count
 
 ###Deal with genes that we do not have an Entrez ID for 
 missing_ensembl_key<-DE_genes_clean[is.na(DE_genes_clean$entrez),]
@@ -93,7 +94,7 @@ missing_ensembl_key$entrez <- mapIds(org.Hs.eg.db, keys=missing_ensembl_key$Gene
 #Remove remaining genes 
 missing_ensembl_key_update <- missing_ensembl_key[!is.na(missing_ensembl_key$entrez),]
 
-#Final Gene list with Entrez ID
+#Create a Final Gene list of all genes where we were able to find an Entrez ID (using two approaches)
 DE_genes_clean <-rbind(DE_genes_clean,missing_ensembl_key_update)
 ```
 
@@ -103,6 +104,8 @@ OK, last step.  Let's format the differential expression results into a format s
 ```R
 # grab the log fold changes for everything
 De_gene.fc <- DE_genes_clean$Log_fold_change
+
+# set the name for each row to be the Entrez Gene ID
 names(De_gene.fc) <- DE_genes_clean$entrez
 ```
 
@@ -147,7 +150,7 @@ head(fc.go.cc.p.down[order(fc.go.cc.p.down$p.val),], n=20)
 #You can do the same thing with your results from MSigDB
 
 head(fc.go.c8.p.up)
-headd(fc.go.c8.p.down)
+head(fc.go.c8.p.down)
 
 ```
 
