@@ -95,12 +95,12 @@ boxplot(fpkm[2763,] ~ pheno_data$type, border=c(2,3), main=paste(ballgown::geneN
 points(fpkm[2763,] ~ jitter(c(2,2,2,1,1,1)), col=c(2,2,2,1,1,1)+1, pch=16)
 
 # Create a plot of transcript structures observed in each replicate and color transcripts by expression level
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('Gene in sample HBR_Rep1'), sample=c('HBR_Rep1'))
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('Gene in sample HBR_Rep2'), sample=c('HBR_Rep2'))
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('Gene in sample HBR_Rep3'), sample=c('HBR_Rep3'))
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('Gene in sample UHR_Rep1'), sample=c('UHR_Rep1'))
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('Gene in sample UHR_Rep2'), sample=c('UHR_Rep2'))
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('Gene in sample UHR_Rep3'), sample=c('UHR_Rep3'))
+plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample HBR_Rep1'), sample=c('HBR_Rep1'), labelTranscripts=TRUE)
+plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample HBR_Rep2'), sample=c('HBR_Rep2'), labelTranscripts=TRUE)
+plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample HBR_Rep3'), sample=c('HBR_Rep3'), labelTranscripts=TRUE)
+plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample UHR_Rep1'), sample=c('UHR_Rep1'), labelTranscripts=TRUE)
+plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample UHR_Rep2'), sample=c('UHR_Rep2'), labelTranscripts=TRUE)
+plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample UHR_Rep3'), sample=c('UHR_Rep3'), labelTranscripts=TRUE)
 
 #plotMeans('TST',bg,groupvar="type",legend=FALSE)
 
