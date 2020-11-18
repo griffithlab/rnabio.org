@@ -107,7 +107,7 @@ names(De_gene.fc) <- DE_genes_clean$entrez
 ```
 
 ### Running pathway analysis
-We can now use the [GAGE()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/gage) function to obtain the significantly perturbed pathways from our differential expression experiment. 
+We can now use the [gage()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/gage) function to obtain the significantly perturbed pathways from our differential expression experiment. 
 
 Note on the abbreviations below: "bp" refers to biological process, "mf" refers to molecular function, and "cc" refers to cellular process. These are the three main categories of gene ontology terms/annotations that were mentioned above. 
 
@@ -152,7 +152,7 @@ headd(fc.go.c8.p.down)
 ```
 
 ### More exploration
-At this point, it will be helpful to move out of R and further explore our results locally. For the remainder of the exercise we are going to focus on the results from GO. We will also use an online tool to visualize how the GO terms we uncovered are related to each other. 
+At this point, it will be helpful to move out of R and further explore our results locally. For the remainder of the exercise we are going to focus on the results from GO. We will use an online tool to visualize how the GO terms we uncovered are related to each other. 
 
 ```R
 write.table(fc.go.cc.p.up,"/home/ubuntu/workspace/rnaseq/de/htseq_counts/fc.go.cc.p.up.tsv",quote = F,sep = "\t",col.names = T,row.names = T)
