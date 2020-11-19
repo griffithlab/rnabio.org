@@ -160,7 +160,7 @@ At this point, it will be helpful to move out of R and further explore our resul
 ```R
 write.table(fc.go.cc.p.up,"/home/ubuntu/workspace/rnaseq/de/htseq_counts/fc.go.cc.p.up.tsv",quote = F,sep = "\t",col.names = T,row.names = T)
 write.table(fc.go.cc.p.down,"/home/ubuntu/workspace/rnaseq/de/htseq_counts/fc.go.cc.p.down.tsv",quote = F,sep = "\t",col.names = T,row.names = T)
-quit()
+quit(save="no")
 ```
 
 ### Visualize
