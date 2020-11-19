@@ -136,8 +136,8 @@ flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_mul
 ```
 Compare these files using FastQC:
 ```bash
-    cd $RNA_HOME/practice/data/trimmed/
-    fastqc *.fastq.gz
+cd $RNA_HOME/practice/data/trimmed/
+fastqc *.fastq.gz
 
 ```
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/hcc1395_normal_rep1_r1_fastqc.html
