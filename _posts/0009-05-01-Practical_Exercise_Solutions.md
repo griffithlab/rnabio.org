@@ -145,7 +145,7 @@ Compare these files using FastQC:
 
 **Answers**
 
-* After trimming, what is the range of read lengths observed for hcc1395 normal replicate 1, read 1? 25-151
+* After trimming, what is the range of read lengths observed for hcc1395 normal replicate 1, read 1? 118-151
 
 * Which sections of the FastQC report are most informative for observing the effect of trimming? 'Basic Statistics', 'Sequence Length Distribution', and 'Adapter Content'
 
