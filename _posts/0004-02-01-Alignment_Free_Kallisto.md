@@ -171,14 +171,14 @@ library(cowplot)
 data <- read.delim('~/workspace/rnaseq/expression/kallisto/strand_option_test/transcript_tpms_strand-modes.tsv')
 
 # log2 transform the data
-FR_data=log2((data$UHR_Rep1_ERCC.Mix1_FR.Stranded)+0.1)
-RF_data=log2((data$UHR_Rep1_ERCC.Mix1_RF.Stranded)+0.1)
-unstranded_data=log2((data$UHR_Rep1_ERCC.Mix1_No.Strand)+0.1)
+FR_data=log2((data$UHR_Rep1_ERCC.Mix1_FR.Stranded)+1)
+RF_data=log2((data$UHR_Rep1_ERCC.Mix1_RF.Stranded)+1)
+unstranded_data=log2((data$UHR_Rep1_ERCC.Mix1_No.Strand)+1)
 
 # create scatterplots for each pairwise comparison of kallisto abundance estimates generated using each of the different kallisto strand modes
-FR_vs_unstranded <- ggplot(data, aes(x=FR_data, y=unstranded_data)) + geom_point() + ggtitle('FR vs No Strand') + xlab('FR log2(expression+1)') + ylab('No Strand log2(expression+1)')
-RF_vs_unstranded <- ggplot(data, aes(x=RF_data, y=unstranded_data)) + geom_point() + ggtitle('RF vs No Strand') + xlab('RF log2(expression+1)') + ylab('No Strand log2(expression+1)')
-FR_vs_RF <- ggplot(data, aes(x=FR_data, y=RF_data)) + geom_point() + ggtitle('FR vs RF') + xlab('FR log2(expression+1)') + ylab('RF log2(expression+1)')
+FR_vs_unstranded <- ggplot(data, aes(x=FR_data, y=unstranded_data)) + geom_point(alpha = 0.1) + ggtitle('FR vs No Strand') + xlab('FR log2(expression+1)') + ylab('No Strand log2(expression+1)')
+RF_vs_unstranded <- ggplot(data, aes(x=RF_data, y=unstranded_data)) + geom_point(alpha = 0.1) + ggtitle('RF vs No Strand') + xlab('RF log2(expression+1)') + ylab('No Strand log2(expression+1)')
+FR_vs_RF <- ggplot(data, aes(x=FR_data, y=RF_data)) + geom_point(alpha = 0.1) + ggtitle('FR vs RF') + xlab('FR log2(expression+1)') + ylab('RF log2(expression+1)')
 
 # plot the set of comparisons as a multipanel figure
 pdf(file="Kallisto_Strand_Option_Comparisons.pdf")
