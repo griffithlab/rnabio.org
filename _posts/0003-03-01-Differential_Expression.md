@@ -20,7 +20,7 @@ date: 0003-03-01
 If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
 
 
-### Ballgown DE Analyis
+### Ballgown DE Analysis
 Use Ballgown to compare the UHR and HBR conditions. Refer to the Ballgown manual for a more detailed explanation:
 
 * [https://www.bioconductor.org/packages/release/bioc/html/ballgown.html](https://www.bioconductor.org/packages/release/bioc/html/ballgown.html)
