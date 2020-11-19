@@ -79,7 +79,7 @@ zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 1
 zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | perl -ne '$_ = s/T/X/g; print "\n\n$_\n\n"'
 
 #Alternatively:
-zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | grep -o T | wc
+zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | grep -o T | wc -l
 
 ```
 **Answers**
