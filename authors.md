@@ -66,6 +66,19 @@ Allegra Petti is an Assistant Professor in the Department of Medicine, Division 
 
 ***
 
+### Aaron Quinlan
+<nav class="nav  nav--social">
+{% for link in site.contact_aaron %}
+    {% assign id = link[0] | downcase %}
+    {% capture refer %}{{link[1]}}{% endcapture %}
+<a class="link" target="_blank" href="{{refer}}" title="{{link[0]}}">{% include icon.html id=id %}</a>
+{% endfor %}
+</nav>
+{% include figure.html image="/assets/Authors/AaronQuinlan.png" position="right" class="rounded-circle" width="300" %}
+
+Aaron Quinlan is a Professor in the Departments of Human Genetics and Biomedical Informatics at the University of Utah. He received his bachelor’s degree in Computer Science from the College of William and Mary and his Ph.D. from Boston College where he focused on population genetics, new methods for emerging DNA sequencing technologies, and the discovery and characterization of genetic variation. During his NRSA postdoctoral fellowship at the University of Virginia he developed expertise in structural variation of mammalian genomes and somatic genome mutation. He started his laboratory at the University of Virginia in 2011. He was recruited to the University of Utah in early 2015 to become the Associate Director of the Utah Center for Genetic Discovery. Broadly speaking, the Quinlan laboratory is interested in the development and application of new computational and statistical techniques for understanding the biology of genomes. His team tackles problems with practical importance to identifying genome variation, understanding genome evolution, and mining genetic variation underlying rare genetic disease. The Quinlan laboratory’s ultimate goal is to develop and apply computational technologies that improve our understanding of human disease.
+
+***
 
 ### Jason Walker
 <nav class="nav  nav--social">

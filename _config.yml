@@ -106,17 +106,25 @@ navigation_footer:
 contact_obi:
     twitter:    https://twitter.com/obigriffith
     github:     https://github.com/obigriffith
-    link:       "https://obigriffith.github.io/"
+    link:       https://griffithlab.org/
 
 contact_malachi:
     twitter:    https://twitter.com/malachigriffith
     github: https://github.com/malachig
-    link: "https://malachigriffith.org/"
+    link: https://griffithlab.org/
 
 contact_brian:
     twitter: https://twitter.com/brianjhaas
     github: https://github.com/brianjohnhaas
 
+contact_allegra:
+    link: https://sites.wustl.edu/pettilab/
+
+contact_aaron:
+    twitter: https://twitter.com/aaronquinlan
+    github: https://github.com/arq5x
+    link: http://quinlanlab.org/
+    
 contact_jason:
     github: https://github.com/jasonwalker80
 
@@ -136,9 +144,6 @@ contact_zach:
 contact_chris:
     twitter: https://twitter.com/chrisamiller
     github: https://github.com/chrisamiller
-
-contact_allegra:
-    link: https://sites.wustl.edu/pettilab/
 
 contact_megan:
     github: https://github.com/mrichters
