@@ -38,6 +38,5 @@ date: 0008-01-01
 
 ### Module 8 - Lecture
 
-* [scRNAseq part1 lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/full/scRNAseq_1.pdf)
-* [scRNAseq part2 lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2020/full/scRNAseq_2.pdf)
+* [scRNAseq lecture](https://wustl.box.com/s/qidsvx5of7yd79a04xf9d2hv3buksg6b))
 
