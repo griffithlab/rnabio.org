@@ -42,7 +42,27 @@ The entire RNA-seq dataset for [PMID: 25150835](https://pubmed.ncbi.nlm.nih.gov/
 
 To do this analysis quickly, we will download pre-computed raw read counts for this dataset: [GSE48035_ILMN.counts.txt.gz](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE48035&format=file&file=GSE48035%5FILMN%2Ecounts%2Etxt%2Egz)
 
+Set up a working directory and download the RNA-seq counts file needed for the following exercise as follows:
 
+```bash
+cd $RNA_HOME
+mkdir batch_correction
+cd batch_correction
+wget https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE48035&format=file&file=GSE48035%5FILMN%2Ecounts%2Etxt%2Egz
+
+```
+
+Create a simplified version of this file that has only the counts for the samples we wish to use for this analysis as follows:
+
+```bash
+
+```
+
+Further limit these counts to those that correspond to known protein coding genes:
+
+```bash
+
+```
 
 
 
