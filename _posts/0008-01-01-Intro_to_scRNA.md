@@ -38,5 +38,5 @@ date: 0008-01-01
 
 ### Module 8 - Lecture
 
-* [scRNAseq lecture](https://wustl.box.com/s/qidsvx5of7yd79a04xf9d2hv3buksg6b))
+* [scRNAseq lecture](https://wustl.box.com/s/qidsvx5of7yd79a04xf9d2hv3buksg6b)
 
