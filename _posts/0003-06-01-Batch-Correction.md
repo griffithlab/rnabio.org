@@ -72,7 +72,7 @@ perl -ne 'chomp; if ($_ =~ /^(chr\w+)\!(\S+)(.*)/){print "$1\t$2$3\n"}else{print
 grep -v --color=never ABRF GSE48035_ILMN.counts.tmp2.txt | cat header.txt - > GSE48035_ILMN.counts.clean.txt
 
 #cut out columns for the UHR (A) and HBR (B) samples, replicates 1-4, and PolyA vs Enrichment 
-cut -f 1-2,3-6,7-10,19-22,23-26 GSE48035_ILMN.counts.clean.txt > GSE48035_ILMN.counts.subset.txt
+cut -f 1-2,3-6,7-10,19-22,23-26 GSE48035_ILMN.counts.clean.txt > GSE48035_ILMN.Counts.SampleSubset.txt
 
 #cleanup 
 rm -f GSE48035_ILMN.counts.txt.gz GSE48035_ILMN.counts.tmp.txt GSE48035_ILMN.counts.tmp2.txt GSE48035_ILMN.counts.clean.txt header.txt
@@ -89,6 +89,8 @@ wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.
 
 #grab all the gene records, limit to gene with "protein_coding" biotype, create unique gene name list
 zcat Homo_sapiens.GRCh38.101.gtf.gz | grep -w gene | grep "gene_biotype \"protein_coding\"" | cut -f 9 | cut -d ";" -f 3 | tr -d " gene_name " | tr -d '"' | sort | uniq > Ensembl101_ProteinCodingGeneNames.txt
+
+grep -f Ensembl101_ProteinCodingGeneNames.txt GSE48035_ILMN.Counts.SampleSubset.txt > GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt
 
 ```
 
