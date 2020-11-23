@@ -66,7 +66,7 @@ zcat GSE48035_ILMN.counts.txt.gz | tr -d '"' > GSE48035_ILMN.counts.tmp.txt
 head -n 1 GSE48035_ILMN.counts.tmp.txt | perl -ne 'print "Chr\tGene\t$_"' > header.txt
 
 #split the chromosome and gene names on each line
-perl -ne 'chomp; if ($_ =~ /^(chr\w+)\!(\S+)(.*)/){print "$1\t$2\t$3\n"}else{print "$_\n"}' GSE48035_ILMN.counts.tmp.txt > GSE48035_ILMN.counts.tmp2.txt
+perl -ne 'chomp; if ($_ =~ /^(chr\w+)\!(\S+)(.*)/){print "$1\t$2$3\n"}else{print "$_\n"}' GSE48035_ILMN.counts.tmp.txt > GSE48035_ILMN.counts.tmp2.txt
 
 #replace the old header with the corrected one
 grep -v --color=never ABRF GSE48035_ILMN.counts.tmp2.txt | cat header.txt - > GSE48035_ILMN.counts.clean.txt
