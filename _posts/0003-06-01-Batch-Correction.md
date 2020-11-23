@@ -63,7 +63,10 @@ cd $RNA_HOME/batch_correction
 zcat GSE48035_ILMN.counts.txt.gz | tr -d '"' > GSE48035_ILMN.counts.tmp.txt
 
 #fix the header which is missing a column
-head -n 1 GSE48035_ILMN.counts.tmp.txt | perl -ne 'print "Feature\t$_"' > header.txt
+head -n 1 GSE48035_ILMN.counts.tmp.txt | perl -ne 'print "Chr\tGene\t$_"' > header.txt
+
+#split the chromosome and gene names on each line
+perl -ne 'if ($_ =~ /^(chr\w+)\!(\S+)(.*)/){print "$1\t$2\t$3"}else{print $_}' GSE48035_ILMN.counts.tmp.txt
 
 #replace the old header with the corrected one
 grep -v --color=never ABRF GSE48035_ILMN.counts.tmp.txt | cat header.txt - > GSE48035_ILMN.counts.clean.txt
