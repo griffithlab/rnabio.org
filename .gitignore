@@ -8,3 +8,4 @@ Gemfile.lock
 ~$*.xls*
 ~$*.doc*
 *.xlk
+*.swp
