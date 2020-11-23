@@ -81,6 +81,11 @@ Further limit these counts to those that correspond to known protein coding gene
 ```bash
 cd $RNA_HOME/batch_correction
 
+#download complete Ensembl GTF file
+wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.101.gtf.gz
+
+#grab all the gene records, limit to gene with "protein_coding" biotype, create unique gene name list
+zcat Homo_sapiens.GRCh38.101.gtf.gz | grep -w gene | grep "gene_biotype \"protein_coding\"" | cut -f 9 | cut -d ";" -f 3 | tr -d " gene_name " | tr -d '"' | sort | uniq > Ensembl101_ProteinCodingGeneNames.txt
 
 ```
 
