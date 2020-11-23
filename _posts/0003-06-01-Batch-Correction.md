@@ -75,6 +75,9 @@ grep -v --color=never ABRF GSE48035_ILMN.counts.tmp2.txt > GSE48035_ILMN.counts.
 cut -f 1-2,3-6,7-10,19-22,23-26 GSE48035_ILMN.counts.clean.txt > GSE48035_ILMN.Counts.SampleSubset.txt
 cut -f 1-2,3-6,7-10,19-22,23-26 header.txt > header.SampleSubset.txt
 
+#how many gene lines are we starting with?
+wc -l GSE48035_ILMN.Counts.SampleSubset.txt
+
 #cleanup 
 rm -f GSE48035_ILMN.counts.txt.gz GSE48035_ILMN.counts.tmp.txt GSE48035_ILMN.counts.tmp2.txt GSE48035_ILMN.counts.clean.txt header.txt
 
@@ -91,15 +94,21 @@ wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.
 #grab all the gene records, limit to gene with "protein_coding" biotype, create unique gene name list
 zcat Homo_sapiens.GRCh38.101.gtf.gz | grep -w gene | grep "gene_biotype \"protein_coding\"" | cut -f 9 | cut -d ";" -f 3 | tr -d " gene_name " | tr -d '"' | sort | uniq > Ensembl101_ProteinCodingGeneNames.txt
 
+#how many unique protein coding genes names does Ensembl have?
+wc -l Ensembl101_ProteinCodingGeneNames.txt
+
 #filter our gene count matrix down to only the protein coding genes
 join -j 1 -t $'\t' Ensembl101_ProteinCodingGeneNames.txt GSE48035_ILMN.Counts.SampleSubset.txt | cat header.SampleSubset.txt - > GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt
+
+#how many lines of RNA-seq count do we still have?
+wc -l GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt
 
 #clean up 
 rm -f header.SampleSubset.txt GSE48035_ILMN.Counts.SampleSubset.txt
 
 ```
 
-
+Note that filtering gene lists by gene name as we have done above is generally not advised as we usually can't guarantee that gene names from two different lists are compatible. Mapping between unique identifiers would be preferable.  But for demonstrating the batch analysis below this should be fine...
 
 ### Introduction to Bioconductor SVA and ComBat-Seq in R
 The ComBat-Seq package is made available as part of the [SVA package](https://www.bioconductor.org/packages/release/bioc/html/sva.html) for Surrogate Variable Analysis. This package is a collection of methods for removing batch effects and other unwanted variation in large datasets. It includes the ComBat method that has been widely used for batch correction of gene expression datasets, especially those generated on microarray platforms. ComBat-Seq is a modification of the ComBat approach that has been tailored to the count based data of bulk RNA-seq datasets. Particular advantages of the ComBat-Seq approach are that it: (1) uses a negative binomial regression model (the negative binomial distribution is thought to model the characteristics bulk RNA-seq count data), and (2) allows the output of corrected data that retain count nature of the data and can be safely fed into many existing methods for DE analysis (such as EdgeR and DESeq2).  
