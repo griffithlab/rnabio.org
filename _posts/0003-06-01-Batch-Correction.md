@@ -63,12 +63,12 @@ cd $RNA_HOME/batch_correction
 zcat GSE48035_ILMN.counts.txt.gz | tr -d '"' > GSE48035_ILMN.counts.tmp.txt
 
 #fix the header which is missing a column
-head -n 1 GSE48035_ILMN.counts.tmp.txt | perl -ne 'print "Chr\tGene\t$_"' > header.txt
+head -n 1 GSE48035_ILMN.counts.tmp.txt | perl -ne 'print "Gene\tChr\t$_"' > header.txt
 
-#split the chromosome and gene names on each line
-perl -ne 'chomp; if ($_ =~ /^(chr\w+)\!(\S+)(.*)/){print "$1\t$2$3\n"}else{print "$_\n"}' GSE48035_ILMN.counts.tmp.txt > GSE48035_ILMN.counts.tmp2.txt
+#split the chromosome and gene names on each line, sort the file by gene name
+perl -ne 'chomp; if ($_ =~ /^(chr\w+)\!(\S+)(.*)/){print "$2\t$1$3\n"}else{print "$_\n"}' GSE48035_ILMN.counts.tmp.txt | sort > GSE48035_ILMN.counts.tmp2.txt
 
-#replace the old header with the corrected one
+#remove the old header line add the corrected one
 grep -v --color=never ABRF GSE48035_ILMN.counts.tmp2.txt | cat header.txt - > GSE48035_ILMN.counts.clean.txt
 
 #cut out columns for the UHR (A) and HBR (B) samples, replicates 1-4, and PolyA vs Enrichment 
