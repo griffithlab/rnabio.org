@@ -90,7 +90,14 @@ wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.
 #grab all the gene records, limit to gene with "protein_coding" biotype, create unique gene name list
 zcat Homo_sapiens.GRCh38.101.gtf.gz | grep -w gene | grep "gene_biotype \"protein_coding\"" | cut -f 9 | cut -d ";" -f 3 | tr -d " gene_name " | tr -d '"' | sort | uniq > Ensembl101_ProteinCodingGeneNames.txt
 
-grep -f Ensembl101_ProteinCodingGeneNames.txt GSE48035_ILMN.Counts.SampleSubset.txt > GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt
+#store the header
+head -n 1 GSE48035_ILMN.Counts.SampleSubset.txt > header.txt
+
+#filter our gene count matrix down to only the protein coding genes
+join Ensembl101_ProteinCodingGeneNames.txt GSE48035_ILMN.Counts.SampleSubset.txt | cat header.txt - > GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt
+
+#clean up 
+rm -f header.txt
 
 ```
 
