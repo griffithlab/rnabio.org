@@ -66,16 +66,16 @@ zcat GSE48035_ILMN.counts.txt.gz | tr -d '"' > GSE48035_ILMN.counts.tmp.txt
 head -n 1 GSE48035_ILMN.counts.tmp.txt | perl -ne 'print "Chr\tGene\t$_"' > header.txt
 
 #split the chromosome and gene names on each line
-perl -ne 'if ($_ =~ /^(chr\w+)\!(\S+)(.*)/){print "$1\t$2\t$3"}else{print $_}' GSE48035_ILMN.counts.tmp.txt
+perl -ne 'if ($_ =~ /^(chr\w+)\!(\S+)(.*)/){print "$1\t$2\t$3"}else{print $_}' GSE48035_ILMN.counts.tmp.txt > GSE48035_ILMN.counts.tmp2.txt
 
 #replace the old header with the corrected one
-grep -v --color=never ABRF GSE48035_ILMN.counts.tmp.txt | cat header.txt - > GSE48035_ILMN.counts.clean.txt
+grep -v --color=never ABRF GSE48035_ILMN.counts.tmp2.txt | cat header.txt - > GSE48035_ILMN.counts.clean.txt
 
 #cut out columns for the UHR (A) and HBR (B) samples, replicates 1-4, and PolyA vs Enrichment 
 cut -f 1,2-5,6-9,18-21,22-25 GSE48035_ILMN.counts.clean.txt > GSE48035_ILMN.counts.subset.txt
 
 #cleanup 
-rm -f GSE48035_ILMN.counts.txt.gz GSE48035_ILMN.counts.tmp.txt GSE48035_ILMN.counts.clean.txt header.txt
+rm -f GSE48035_ILMN.counts.txt.gz GSE48035_ILMN.counts.tmp.txt GSE48035_ILMN.counts.tmp2.txt GSE48035_ILMN.counts.clean.txt header.txt
 
 ```
 
