@@ -62,7 +62,7 @@ cd $RNA_HOME/batch_correction
 #remove all quotes from file
 zcat GSE48035_ILMN.counts.txt.gz | tr -d '"' > GSE48035_ILMN.counts.tmp.txt
 
-#fix the header which is missing a column
+#create a fixed version of the header and store for later
 head -n 1 GSE48035_ILMN.counts.tmp.txt | perl -ne 'print "Gene\tChr\t$_"' > header.txt
 
 #split the chromosome and gene names on each line, sort the file by gene name
@@ -73,9 +73,10 @@ grep -v --color=never ABRF GSE48035_ILMN.counts.tmp2.txt > GSE48035_ILMN.counts.
 
 #cut out columns for the UHR (A) and HBR (B) samples, replicates 1-4, and PolyA vs Enrichment 
 cut -f 1-2,3-6,7-10,19-22,23-26 GSE48035_ILMN.counts.clean.txt > GSE48035_ILMN.Counts.SampleSubset.txt
+cut -f 1-2,3-6,7-10,19-22,23-26 header.txt > header.SampleSubset.txt
 
 #cleanup 
-rm -f GSE48035_ILMN.counts.txt.gz GSE48035_ILMN.counts.tmp.txt GSE48035_ILMN.counts.tmp2.txt GSE48035_ILMN.counts.clean.txt
+rm -f GSE48035_ILMN.counts.txt.gz GSE48035_ILMN.counts.tmp.txt GSE48035_ILMN.counts.tmp2.txt GSE48035_ILMN.counts.clean.txt header.txt
 
 ```
 
@@ -91,10 +92,10 @@ wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.
 zcat Homo_sapiens.GRCh38.101.gtf.gz | grep -w gene | grep "gene_biotype \"protein_coding\"" | cut -f 9 | cut -d ";" -f 3 | tr -d " gene_name " | tr -d '"' | sort | uniq > Ensembl101_ProteinCodingGeneNames.txt
 
 #filter our gene count matrix down to only the protein coding genes
-join -j 1 -t $'\t' Ensembl101_ProteinCodingGeneNames.txt GSE48035_ILMN.Counts.SampleSubset.txt | cat header.txt - > GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt
+join -j 1 -t $'\t' Ensembl101_ProteinCodingGeneNames.txt GSE48035_ILMN.Counts.SampleSubset.txt | cat header.SampleSubset.txt - > GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt
 
 #clean up 
-rm -f header.txt GSE48035_ILMN.Counts.SampleSubset.txt
+rm -f header.SampleSubset.txt GSE48035_ILMN.Counts.SampleSubset.txt
 
 ```
 
