@@ -50,19 +50,34 @@ Set up a working directory and download the RNA-seq counts file needed for the f
 cd $RNA_HOME
 mkdir batch_correction
 cd batch_correction
-wget https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE48035&format=file&file=GSE48035%5FILMN%2Ecounts%2Etxt%2Egz
+wget http://genomedata.org/rnaseq-tutorial/batch_correction/GSE48035_ILMN.counts.txt.gz
 
 ```
 
 Create a simplified version of this file that has only the counts for the samples we wish to use for this analysis as follows:
 
 ```bash
+cd $RNA_HOME/batch_correction
+
+#remove all quotes from file
+zcat GSE48035_ILMN.counts.txt.gz | tr -d '"' > GSE48035_ILMN.counts.tmp.txt
+
+#fix the header which is missing a column
+head -n 1 GSE48035_ILMN.counts.tmp.txt | perl -ne 'print "Feature\t$_"' > header.txt
+
+#replace the old header with the corrected one
+grep -v --color=never ABRF GSE48035_ILMN.counts.tmp.txt | cat header.txt - > GSE48035_ILMN.counts.final.txt
+
+#cleanup 
+rm -f GSE48035_ILMN.counts.txt.gz GSE48035_ILMN.counts.tmp.txt header.txt
 
 ```
 
 Further limit these counts to those that correspond to known protein coding genes:
 
 ```bash
+cd $RNA_HOME/batch_correction
+
 
 ```
 
