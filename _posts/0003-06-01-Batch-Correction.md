@@ -72,7 +72,7 @@ perl -ne 'chomp; if ($_ =~ /^(chr\w+)\!(\S+)(.*)/){print "$1\t$2\t$3\n"}else{pri
 grep -v --color=never ABRF GSE48035_ILMN.counts.tmp2.txt | cat header.txt - > GSE48035_ILMN.counts.clean.txt
 
 #cut out columns for the UHR (A) and HBR (B) samples, replicates 1-4, and PolyA vs Enrichment 
-cut -f 1,2-5,6-9,18-21,22-25 GSE48035_ILMN.counts.clean.txt > GSE48035_ILMN.counts.subset.txt
+cut -f 1-2,3-6,7-10,19-22,23-26 GSE48035_ILMN.counts.clean.txt > GSE48035_ILMN.counts.subset.txt
 
 #cleanup 
 rm -f GSE48035_ILMN.counts.txt.gz GSE48035_ILMN.counts.tmp.txt GSE48035_ILMN.counts.tmp2.txt GSE48035_ILMN.counts.clean.txt header.txt
