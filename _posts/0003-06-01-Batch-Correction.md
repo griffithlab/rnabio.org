@@ -66,10 +66,13 @@ zcat GSE48035_ILMN.counts.txt.gz | tr -d '"' > GSE48035_ILMN.counts.tmp.txt
 head -n 1 GSE48035_ILMN.counts.tmp.txt | perl -ne 'print "Feature\t$_"' > header.txt
 
 #replace the old header with the corrected one
-grep -v --color=never ABRF GSE48035_ILMN.counts.tmp.txt | cat header.txt - > GSE48035_ILMN.counts.final.txt
+grep -v --color=never ABRF GSE48035_ILMN.counts.tmp.txt | cat header.txt - > GSE48035_ILMN.counts.clean.txt
+
+#cut out columns for the UHR (A) and HBR (B) samples, replicates 1-4, and PolyA vs Enrichment 
+cut -f 1,2-5,6-9,18-21,22-25 GSE48035_ILMN.counts.clean.txt > GSE48035_ILMN.counts.subset.txt
 
 #cleanup 
-rm -f GSE48035_ILMN.counts.txt.gz GSE48035_ILMN.counts.tmp.txt header.txt
+rm -f GSE48035_ILMN.counts.txt.gz GSE48035_ILMN.counts.tmp.txt GSE48035_ILMN.counts.clean.txt header.txt
 
 ```
 
