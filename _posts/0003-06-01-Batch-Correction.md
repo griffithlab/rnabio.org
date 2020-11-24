@@ -98,16 +98,16 @@ zcat Homo_sapiens.GRCh38.101.gtf.gz | grep -w gene | grep "gene_biotype \"protei
 wc -l Ensembl101_ProteinCodingGeneNames.txt
 
 #filter our gene count matrix down to only the protein coding genes
-join -j 1 -t $'\t' Ensembl101_ProteinCodingGeneNames.txt GSE48035_ILMN.Counts.SampleSubset.txt | cat header.SampleSubset.txt - > GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt
+join -j 1 -t $'\t' Ensembl101_ProteinCodingGeneNames.txt GSE48035_ILMN.Counts.SampleSubset.txt | cat header.SampleSubset.txt - > GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv
 
 #how many lines of RNA-seq count do we still have?
-wc -l GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt
+wc -l GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv
 
 #clean up 
 rm -f header.SampleSubset.txt GSE48035_ILMN.Counts.SampleSubset.txt
 
 #take a look at the final filtered read count matrix to be used for the following analysis
-column -t GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt | less -S
+column -t GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv | less -S
 
 ```
 
