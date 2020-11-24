@@ -129,8 +129,59 @@ We will perform PCA analysis before and after batch correction. Samples will be 
 Perform the following analyses in `R`:
 
 ```R
+#load in the uncorrected data as raw counts
+setwd("/home/ubuntu/workspace/rnaseq/batch_correction") 
 
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("sva")
 
+install.packages("gridExtra")
+
+library("sva")
+library("ggplot2")
+library("gridExtra")
+
+#load in the uncorrected data as raw counts
+setwd("~/Downloads")
+uncorrected_data = read.table("GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv", header=TRUE, sep="\t", as.is=c(1,2))
+
+#simplify the names of the data columns
+# (A = Universal Human Reference RNA and B = Human Brain Reference RNA)
+# RNA = polyA enrichment and RIBO = ribosomal RNA depletion
+# 1, 2, 3, 4 are replicates
+names(uncorrected_data) = c("Gene", "Chr", "UHR_Ribo_1", "UHR_Ribo_2", "UHR_Ribo_3", "UHR_Ribo_4", "HBR_Ribo_1", "HBR_Ribo_2", "HBR_Ribo_3", "HBR_Ribo_4", 
+                            "UHR_Poly_1", "UHR_Poly_2", "UHR_Poly_3", "UHR_Poly_4", "HBR_Poly_1", "HBR_Poly_2", "HBR_Poly_3", "HBR_Poly_4")
+sample_names = names(uncorrected_data)[3:length(names(uncorrected_data))]
+
+#review data structure
+head(uncorrected_data)
+dim(uncorrected_data)
+
+#define conditions, library methods, and replicates
+conditions = c("UHR", "UHR", "UHR", "UHR", "HBR", "HBR", "HBR", "HBR", "UHR", "UHR", "UHR", "UHR", "HBR", "HBR", "HBR", "HBR")
+library_methods = c("Ribo", "Ribo", "Ribo", "Ribo", "Ribo", "Ribo", "Ribo", "Ribo", "Poly", "Poly", "Poly", "Poly", "Poly", "Poly", "Poly", "Poly")
+replicates = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4)
+
+#calculate principal components for the uncorrected data
+pca_uncorrected_obj = prcomp(uncorrected_data[,sample_names])
+
+#pull PCA values out of the PCA object
+pca_uncorrected = as.data.frame(pca_uncorrected_obj[2]$rotation)
+
+#assign labels to the data frame
+pca_uncorrected[,"condition"] = conditions
+pca_uncorrected[,"library_method"] = library_methods
+pca_uncorrected[,"replicate"] = replicates
+
+#plot the PCA
+#create a classic 2-dimension PCA plot (first two principal components) with conditions and library methods indicated
+cols <- c("UHR" = "#481567FF", "HBR" = "#1F968BFF")
+p1 = ggplot(data=pca_uncorrected, aes(x=PC1, y=PC2, color=condition, shape=library_method))
+p1 = p1 + geom_point(size=3)
+p1 = p1 + stat_ellipse(type="norm", linetype=2)
+p1 = p1 + labs(title="PCA, RNA-seq counts for 16 HBR/UHR and Ribo/PolyA samples (uncorrected data)", color="Condition", shape="Library Method")
+p1 = p1 + scale_colour_manual(values = cols)
 
 ```
 
@@ -162,17 +213,49 @@ Continuing the R session started above, use ComBat-Seq to perform batch correcti
 
 ```R
 
-#load in the uncorrected data as raw counts
-setwd("/home/ubuntu/workspace/rnaseq/batch_correction") 
-uncorrected_data = read.table("GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv", header=TRUE, sep="\t", as.is=c(1,2))
+#perform the batch correction
+groups = sapply(as.character(conditions), switch, "UHR" = 1, "HBR" = 2, USE.NAMES = F)
+batches = sapply(as.character(library_methods), switch, "Ribo" = 1, "Poly" = 2, USE.NAMES = F)
+corrected_data = ComBat_seq(counts = as.matrix(uncorrected_data[,sample_names]), batch = batches, group = groups)
+corrected_data = cbind(uncorrected_data[,c("Gene","Chr")], corrected_data)
+
+#compare dimensions of corrected and uncorrected data sets
+dim(uncorrected_data)
+dim(corrected_data)
+
+#visually compare values of corrected and uncorrected data sets
+head(uncorrected_data)
+head(corrected_data)
 
 ```
 
 ### Perform PCA analysis on the batch corrected data and contrast with the uncorrected data
-As performed above, use PCA to examine whether batch correction changes the grouping of samples by the expression patterns.  Does the corrected data cluster according to biological condition (UHR vs HBR) now regardless of library preparation type (Ribo vs PolyA)?
+As performed above, use PCA to examine whether batch correction changes the grouping of samples by the expression patterns.  Does the corrected data cluster according to biological condition (UHR vs HBR) better now regardless of library preparation type (Ribo vs PolyA)?
 
 ```R
 
+#calculate principal components for the uncorrected data
+pca_corrected_obj = prcomp(corrected_data[,sample_names])
+
+#pull PCA values out of the PCA object
+pca_corrected = as.data.frame(pca_corrected_obj[2]$rotation)
+
+#assign labels to the data frame
+pca_corrected[,"condition"] = conditions
+pca_corrected[,"library_method"] = library_methods
+pca_corrected[,"replicate"] = replicates
+
+#as above, create a PCA plot for comparison to the uncorrected data
+cols <- c("UHR" = "#481567FF", "HBR" = "#1F968BFF")
+p2 = ggplot(data=pca_corrected, aes(x=PC1, y=PC2, color=condition, shape=library_method))
+p2 = p2 + geom_point(size=3)
+p2 = p2 + stat_ellipse(type="norm", linetype=2)
+p2 = p2 + labs(title="PCA, RNA-seq counts for 16 HBR/UHR and Ribo/PolyA samples (batch corrected data)", color="Condition", shape="Library Method")
+p2 = p2 + scale_colour_manual(values = cols)
+
+pdf(file="Uncorrected-vs-BatchCorrected-PCA.pdf")
+grid.arrange(p1, p2, nrow = 2)
+dev.off()
 
 ```
 
