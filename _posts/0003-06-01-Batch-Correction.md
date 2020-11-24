@@ -259,6 +259,9 @@ dev.off()
 
 ```
 
+If the above analysis worked you should have an image that looks like this:
+![RNA-seq_Flowchart](/assets/module_3/Uncorrected-vs-BatchCorrected-PCA.png)
+
 ### Perform differential expression analysis of the corrected and uncorrected data
 How does batch correction influence differential gene expression results?  Use upset plots to examine the overlap of significant DE genes found for the following comparisons:
 
