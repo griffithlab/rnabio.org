@@ -162,6 +162,9 @@ Continuing the R session started above, use ComBat-Seq to perform batch correcti
 
 ```R
 
+#load in the uncorrected data as raw counts
+setwd("/home/ubuntu/workspace/rnaseq/batch_correction") 
+uncorrected_data = read.table("GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv", header=TRUE, sep="\t", as.is=c(1,2))
 
 ```
 
