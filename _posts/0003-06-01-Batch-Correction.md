@@ -113,6 +113,27 @@ column -t GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt | less -S
 
 Note that filtering gene lists by gene name as we have done above is generally not advised as we usually can't guarantee that gene names from two different lists are compatible. Mapping between unique identifiers would be preferable.  But for demonstrating the batch analysis below this should be fine...
 
+### Samples abbreviations used in the following analysis 
+
+- HBR -> Human Brain Reference, Biological condition (pool of adult brain tissues)
+- UHR -> Universal Human Reference, Biological condition (pool of cancer cell lines)
+- Ribo -> Library preparation method using ribosomal reduction, Batch group
+- Poly -> Library preparation method using polyA enrichment, Batch group
+- 1-4 -> Replicate number: 1, 2, 3, 4. 
+
+### Perform principal component analysis (PCA) on the uncorrected counts
+PCA analysis can be used to identify potential batch effects in your data. The general strategy is to use PCA to identify patterns of similarity/difference in the expression signatures of your samples and to ask whether it appears to be driven by the expected biological conditions of interest.  The PCA plot can be labeled with the biological conditions and also with potential source of batch effects such as: sequencing source, date of data generation, lab technician, library construction kit batches, matrigel batches, mouse litters, software or instrumentation versions, etc. Does this analysis suggest that sample grouping is being influenced by batch?
+
+We will perform PCA analysis before and after batch correction. Samples will be labelled according to biological condition (UHR vs HBR) and library preparation type (Ribo vs PolyA).
+
+Perform the following analyses in `R`:
+
+```R
+
+
+
+```
+
 ### Introduction to Bioconductor SVA and ComBat-Seq in R
 The ComBat-Seq package is made available as part of the [SVA package](https://www.bioconductor.org/packages/release/bioc/html/sva.html) for Surrogate Variable Analysis. This package is a collection of methods for removing batch effects and other unwanted variation in large datasets. It includes the ComBat method that has been widely used for batch correction of gene expression datasets, especially those generated on microarray platforms. ComBat-Seq is a modification of the ComBat approach that has been tailored to the count based data of bulk RNA-seq datasets. Particular advantages of the ComBat-Seq approach are that it: (1) uses a negative binomial regression model (the negative binomial distribution is thought to model the characteristics bulk RNA-seq count data), and (2) allows the output of corrected data that retain count nature of the data and can be safely fed into many existing methods for DE analysis (such as EdgeR and DESeq2).  
 
@@ -135,6 +156,38 @@ covariate_matrix = cbind(treatment_group, sex_group)
 
 A detailed discussion of *shrinkage* (related to the `shrink`, `shrink.disp`, and `gene_subset.n` arguments is beyond the scope of this tutorial. Briefly, shrinkage refers to a set of methods that attempt to correct for gene-specific variability in the counts observed in RNA-seq datasets. More specifically, it relates to the *dispersion parameter* of the [negative binomial distribution](https://en.wikipedia.org/wiki/Negative_binomial_distribution) used to model RNA-seq count data that can suffer from [overdispersion](https://en.wikipedia.org/wiki/Overdispersion). The dispersion parameter describes how much variance deviates from the mean. In simple terms, shrinkage methods are an attempt to correct for problematic dispersion. A more detailed discussion of these statistical concepts can be found in the [DESeq2 paper](https://pubmed.ncbi.nlm.nih.gov/25516281/). However, for our purposes here, the bottom line is that the ComBat-Seq authors state that "We have shown that applying empirical Bayes shrinkage is not necessary for ComBat-seq because the approach is already sufficiently robust due to the distributional assumption." So we will leave these arguments at their default `FALSE` settings.
 
+
+### Demonstration of ComBat-Seq on the UHR/HBR data with type library types (Ribo/PolyA)
+Continuing the R session started above, use ComBat-Seq to perform batch correction as follows:
+
+```R
+
+
+```
+
+### Perform PCA analysis on the batch corrected data and contrast with the uncorrected data
+As performed above, use PCA to examine whether batch correction changes the grouping of samples by the expression patterns.  Does the corrected data cluster according to biological condition (UHR vs HBR) now regardless of library preparation type (Ribo vs PolyA)?
+
+```R
+
+
+```
+
+### Perform differential expression analysis of the corrected and uncorrected data
+How does batch correction influence differential gene expression results?  Use upset plots to examine the overlap of significant DE genes found for the following comparisons:
+
+- UHR-Ribo vs HBR-Ribo (same library type, 4 vs 4 replicates)
+- UHR-Poly vs HBR-Poly (same library type, 4 vs 4 replicates)
+- UHR-Ribo vs HBR-Poly (different library types, 4 vs 4 replicates)
+- UHR-Poly vs HBR-Ribo (different library types, 4 vs 4 replicates)
+- UHR-Comb vs HBR-Comb (combined library types, 8 vs 8 replicates)
+
+These five differential expression analysis comparisons will be performed with both the uncorrected and corrected data. Does correction increase agreement between the five comparisons?  Does it appear to increase the power of combining all 8 replicates of UHR and HBR?
+
+```R
+
+
+```
 
 
 
