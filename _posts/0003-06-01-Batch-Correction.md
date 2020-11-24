@@ -106,6 +106,9 @@ wc -l GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt
 #clean up 
 rm -f header.SampleSubset.txt GSE48035_ILMN.Counts.SampleSubset.txt
 
+#take a look at the final filtered read count matrix to be used for the following analysis
+column -t GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.txt | less -S
+
 ```
 
 Note that filtering gene lists by gene name as we have done above is generally not advised as we usually can't guarantee that gene names from two different lists are compatible. Mapping between unique identifiers would be preferable.  But for demonstrating the batch analysis below this should be fine...
