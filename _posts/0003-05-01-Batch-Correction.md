@@ -193,9 +193,9 @@ Our attempt to explain each of the ComBat-Seq arguments (for optional arguments,
 - `group = NULL`. This is a vector describing your biological condition of interest. For example, if your experiment involved *pairs* of drug treated and untreated cells.  And you did 4 biological replicates.  You would define your `group` vector as: c(1,2,1,2,1,2,1,2).
 - `covar_mod = NULL`. If you have multiple biological conditions of interest, you can define these with `covar_mod` (covariates) instead of `group`.  For example, lets assume we have the same experiment as described above, except that we did four replicates (treated vs untreated pairs), but we alternated use of male and female cells for each of the replicates.  You then would define a covariate matrix to supply to `covar_mod` as follows:
 ```R
-treatment_group = c(1,2,1,2,1,2,1,2)
-sex_group = c(1,1,2,2,1,1,2,2)
-covariate_matrix = cbind(treatment_group, sex_group)
+  #treatment_group = c(1,2,1,2,1,2,1,2)
+  #sex_group = c(1,1,2,2,1,1,2,2)
+  #covariate_matrix = cbind(treatment_group, sex_group)
 ```
 - `full_mod = TRUE`. If TRUE include condition of interest in model. Generally we believe this should be set to the default TRUE. We have yet to find a cohesive explanation for a situation where one would want this to be FALSE.
 - `shrink = FALSE`. Whether to apply shrinkage on parameter estimation.  
