@@ -143,6 +143,8 @@ install.packages("gridExtra")
 library("sva")
 library("ggplot2")
 library("gridExtra")
+library("edgeR")
+library("UpSetR")
 
 #load in the uncorrected data as raw counts
 setwd("~/Downloads")
