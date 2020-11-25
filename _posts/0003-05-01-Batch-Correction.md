@@ -131,15 +131,8 @@ Does the analysis below suggest that sample grouping according to PCA is being i
 Perform the following analyses in `R`:
 
 ```R
-#load in the uncorrected data as raw counts
-setwd("/home/ubuntu/workspace/rnaseq/batch_correction") 
 
-if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
-BiocManager::install("sva")
-
-install.packages("gridExtra")
-
+#load neccessary libraries
 library("sva")
 library("ggplot2")
 library("gridExtra")
