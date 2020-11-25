@@ -17,7 +17,7 @@ Covered in this section: logging into AWS EC2 console, starting an instance from
 ## Launching an AWS instance for the course
 In the previous section [Introduction to AWS](https://rnabio.org/module-00-setup/0000/04/01/Intro_to_AWS/) we reviewed fundamental concepts of cloud computing and some of the jargon and features specific to AWS. In this section we will learn how to launch an instance specifically for this course.
 
-In order to launch your own instance you will either need to use your own personal AWS account (not recommended unless you are already familiar with and using AWS) OR if you are taking a live version of this course you will be assigned an AWS account using the IAMS system. If neither of these is possible, the instructors will have to launch an instance for you and provide the login details.
+In order to launch your own instance you will either need to use your own personal AWS account, an account provided through your institution OR if you are taking a live version of this course you will be assigned an AWS account using the IAMS system. The following instructions are used for a live version of this course, but the process would be essentially the same when using a personal or institutional account. 
 
 * Detailed instructions for launching an EC2 instance are provided at the end of these slides: [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/full/RNASeq_Module0_CloudComputing.pdf)
 * Once your EC2 instance is up and running, make note of its IP address. 
