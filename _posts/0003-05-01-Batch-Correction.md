@@ -327,6 +327,12 @@ run_edgeR = function(data, group_a_name, group_a_samples, group_b_samples, group
   #order by log fold change
   o <- order(et$table$logFC[as.logical(de)],decreasing=TRUE)
   mat <- mat[o,]
+
+  #fix the issue where corrected p-values that are 0 become -Inf upon log10 conversion
+  x = as.numeric(mat[,"Log10_Pvalue"])
+  lowest_pvalue = min(x[which(!x == -Inf)])
+  i = which(mat[,"Log10_Pvalue"] == -Inf)
+  mat[i,"Log10_Pvalue"] = lowest_pvalue
   
   return(mat)
 }
