@@ -15,7 +15,7 @@ date: 0003-05-01
 
 ***
 
-In this section we will use the ComBat-Seq tool in R (Bioconductor) to demonstrate the principle and application of batch correction. Due to the way our test data was generated (at a single center, at one time, with consistent methodology) we do NOT expect batch effects in these data.  Therefore we will use a different dataset to demonstrate the impact of Batch correction in this module. 
+In this section we will use the ComBat-Seq tool in R (Bioconductor) to demonstrate the principles and application of batch correction. Due to the way our test data was generated (at a single center, at one time, with consistent methodology) we do NOT expect batch effects in these data. Therefore we will use a different (but highly related) dataset to demonstrate the impact of Batch correction in this module. 
 
 ### Introduction to Batch correction
 We highly recommend reading the entire [ComBat-Seq manuscript](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7518324/) by Yuqing Zhang, Giovanni Parmigiani, and W Evan Johnson. This manuscript does a beautiful job of briefly introducing the concept of batch correction and the differences between `normalization` and `batch correction`. If you find this exercise helpful in your research, please cite the ComBat-Seq paper ([PMID: 33015620](https://pubmed.ncbi.nlm.nih.gov/33015620/)).
@@ -26,19 +26,19 @@ In particular, this excerpt covers the basics:
 > Batch effects often cannot be fully addressed by normalization methods and procedures. The differences in the overall expression distribution of each sample across batch may be corrected by normalization methods, such as transforming the raw counts to (logarithms of) CPM, TPM or RPKM/FPKM, the trimmed mean of M values (TMM), or relative log expression (RLE). However, batch effects in composition, i.e. the level of expression of genes scaled by the total expression (coverage) in each sample, cannot be fully corrected with normalization. ... while the overall distribution of samples may be normalized to the same level across batches, individual genes may still be affected by batch-level bias.
 
 ### Download and prepare some test data where some batch effects are expected
-For this exercise we obtain public RNA-seq data from an extensive multi-platform comparison of sequencing platforms that also examined the impact of generating data at multiple sites, using polyA vs ribo-reduction for enrichment, and the impact of RNA degradation ([PMID: 25150835](https://pubmed.ncbi.nlm.nih.gov/25150835/)): "Multi-platform and cross-methodological reproducibility of transcriptome profiling by RNA-seq in the ABRF Next-Generation Sequencing Study".
+For this exercise we will obtain public RNA-seq data from an extensive multi-platform comparison of sequencing platforms that also examined the impact of generating data at multiple sites, using polyA vs ribo-reduction for enrichment, and the impact of RNA degradation ([PMID: 25150835](https://pubmed.ncbi.nlm.nih.gov/25150835/)): "Multi-platform and cross-methodological reproducibility of transcriptome profiling by RNA-seq in the ABRF Next-Generation Sequencing Study".
 
-This publication used the same UHR and HBR samples we have been using throughout this course. To examine a strong batch effect we will consider a DE analysis of UHR vs HBR where we compare Ribo-depleted (RD) and polyA-enriched (PE) samples. 
+This publication used the same UHR (cancer cell lines) and HBR (brain tissue) samples we have been using throughout this course. To examine a strong batch effect, we will consider a DE analysis of UHR vs HBR where we compare Ribo-depleted ("Ribo") and polyA-enriched ("Poly") samples. 
 
-If we do DE analysis of UHR vs. HBR for replicates that are consistent with respect to Ribo-depletion or PolyA-enrichment, how does the compare to the results where we compare Ribo-depleted data vs PolyA-enriched data?  If you do batch correction and redo these comparisons does it make the results more comparable? i.e. can we correct for the technical differences and see the same biological differences?
+If we do DE analysis of UHR vs. HBR for replicates that are consistent with respect to Ribo-depletion or PolyA-enrichment, how does the result compare to when we use Ribo-depleted data vs PolyA-enriched data?  If you do batch correction and redo these comparisons does it make the results more comparable? i.e. can we correct for the technical differences introduced by the library construction approach and see the same biological differences?
 
-This is a bit contrived because there really are true biological differences expected for polyA vs. Ribo-depleted data. To counter this, we will limit the analysis to only know protein coding genes.
+This is a bit contrived because there really are true biological differences expected for polyA vs. Ribo-depleted data. To counter this, we will limit the analysis to only know protein coding genes. For those genes we expect essentially the same biological answer when comparing UHR vs HBR expression patterns.
 
 This exercise is also a bit simplistic in the sense that we have perfectly balanced conditions and batches. Our conditions of interest are: HBR (brain) vs. UHR (cancer cell line) expression patterns.  Our batches are the two methods of processing: Riboreduction and PolyA enrichment. And we have 4 replicates of both conditions in both batches.  To perform this kind of batch correction you need at least some representation of each of your conditions of interest in each batch.  So, for example, if we processed all the HBR samples with Riboreduction and all the UHR samples with PolyA enrichment, we would be unable to model the batch effect vs the condition effect.  
 
-There are also other experiments from this dataset we could use instead. For example, different levels of degradation?, data generated by different labs? [Figure 1](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4167418/) and [Figure 2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4167418/) give a nice high level summary of all the data generated.
+There are also other experiments from this published dataset we could use instead. For example, different levels of degradation?, data generated by different labs? [Figure 1](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4167418/) and [Figure 2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4167418/) give a nice high level summary of all the data generated. We chose the Ribo-reduction and PolyA enrichment data for this exercise because we expect this would introduce a very strong batch effect. It is also the kind of thing that one could imagine really coming up in a meta-analysis where one if pooling data from multiple studies.  For example, imagine we find three published studies from three labs that all assayed some number of normal breast tissue and breast tumor.  Each used a different approach to generate their data but they all involved this same biological comparison and by combining the three datasets we hope to substantially increase our power. If we can correct for batch effects arising from the three labs, this may be successful. 
 
-The entire RNA-seq dataset for [PMID: 25150835](https://pubmed.ncbi.nlm.nih.gov/25150835/) has been deposited in GEO. In GEO, these data are organized as a `superseries`: [GSE46876](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE46876) which has data for several sequencing platforms. The data from the Illumina Platform are part of this `subseries`: [GSE48035](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE48035).
+The entire RNA-seq dataset [PMID: 25150835](https://pubmed.ncbi.nlm.nih.gov/25150835/) used for this module has been deposited in GEO. In GEO, these data are organized as a `superseries`: [GSE46876](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE46876) which has data for several sequencing platforms. The data from the Illumina Platform are part of this `subseries`: [GSE48035](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE48035).
 
 To do this analysis quickly, we will download pre-computed raw read counts for this dataset: [GSE48035_ILMN.counts.txt.gz](https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE48035&format=file&file=GSE48035%5FILMN%2Ecounts%2Etxt%2Egz)
 
@@ -120,11 +120,13 @@ Note that filtering gene lists by gene name as we have done above is generally n
 - 1-4 -> Replicate number: 1, 2, 3, 4. 
 
 ### Perform principal component analysis (PCA) on the uncorrected counts
-PCA analysis can be used to identify potential batch effects in your data. The general strategy is to use PCA to identify patterns of similarity/difference in the expression signatures of your samples and to ask whether it appears to be driven by the expected biological conditions of interest.  The PCA plot can be labeled with the biological conditions and also with potential sources of batch effects such as: sequencing source, date of data generation, lab technician, library construction kit batches, matrigel batches, mouse litters, software or instrumentation versions, etc. Does this analysis suggest that sample grouping is being influenced by batch?
+PCA analysis can be used to identify potential batch effects in your data. The general strategy is to use PCA to identify patterns of similarity/difference in the expression signatures of your samples and to ask whether it appears to be driven by the expected biological conditions of interest.  The PCA plot can be labeled with the biological conditions and also with potential sources of batch effects such as: sequencing source, date of data generation, lab technician, library construction kit batches, matrigel batches, mouse litters, software or instrumentation versions, etc. 
 
-[Principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis) is a [dimensionality-reduction](https://en.wikipedia.org/wiki/Dimensionality_reduction) method that can be applied to large datasets (e.g. thousands of gene expression values for many samples). PCA tries to represent a large set of variables as a smaller set of variables that capture the information content of the larger set. PCA is a general exploratory data analysis approach with many applications and nuances, the details of which are beyond the scope of this demonstration of batch effect correction. However, in the context of this module PCA provides a way to visualize samples as "clusters" based on their overall pattern of gene expression values. The composition and arangement of these cclusters (usually visualized in 2D or 3D plots) can be helpful in interpreting high level differences between samples and testing prior expectations for the similarity between conditions, replicates, etc.
+[Principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis) is a [dimensionality-reduction](https://en.wikipedia.org/wiki/Dimensionality_reduction) method that can be applied to large datasets (e.g. thousands of gene expression values for many samples). PCA tries to represent a large set of variables as a smaller set of variables that maximally capture the information content of the larger set. PCA is a general exploratory data analysis approach with many applications and nuances, the details of which are beyond the scope of this demonstration of batch effect correction. However, in the context of this module PCA provides a way to visualize samples as "clusters" based on their overall pattern of gene expression values. The composition and arangement of these cclusters (usually visualized in 2D or interactive 3D plots) can be helpful in interpreting high level differences between samples and testing prior expectations about the similarity between conditions, replicates, etc.
 
-We will perform PCA analysis before and after batch correction. Samples will be labelled according to biological condition (UHR vs HBR) and library preparation type (Ribo vs PolyA).
+We will perform PCA analysis before AND after batch correction. Samples will be labelled according to biological condition (UHR vs HBR) and library preparation type (Ribo vs PolyA).
+
+Does the analysis below suggest that sample grouping according to PCA is being influenced by batch?
 
 Perform the following analyses in `R`:
 
@@ -186,18 +188,18 @@ p1 = p1 + scale_colour_manual(values = cols)
 ```
 
 ### Introduction to Bioconductor SVA and ComBat-Seq in R
-The ComBat-Seq package is made available as part of the [SVA package](https://www.bioconductor.org/packages/release/bioc/html/sva.html) for Surrogate Variable Analysis. This package is a collection of methods for removing batch effects and other unwanted variation in large datasets. It includes the ComBat method that has been widely used for batch correction of gene expression datasets, especially those generated on microarray platforms. ComBat-Seq is a modification of the ComBat approach that has been tailored to the count based data of bulk RNA-seq datasets. Particular advantages of the ComBat-Seq approach are that it: (1) uses a negative binomial regression model (the negative binomial distribution is thought to model the characteristics bulk RNA-seq count data), and (2) allows the output of corrected data that retain count nature of the data and can be safely fed into many existing methods for DE analysis (such as EdgeR and DESeq2).  
+The ComBat-Seq package is made available as part of the [SVA package](https://www.bioconductor.org/packages/release/bioc/html/sva.html) for Surrogate Variable Analysis. This package is a collection of methods for removing batch effects and other unwanted variation in large datasets. It includes the ComBat method that has been widely used for batch correction of gene expression datasets, especially those generated on microarray platforms. ComBat-Seq is a modification of the ComBat approach. ComBat-Seq has been tailored to the count based data of bulk RNA-seq datasets. Particular advantages of the ComBat-Seq approach are that it: (1) uses a negative binomial regression model (the negative binomial distribution is thought to model the characteristics of bulk RNA-seq count data), and (2) allows the output of corrected data that retain the count nature of the data and can be safely fed into many existing methods for DE analysis (such as EdgeR and DESeq2).
 
 ComBat-Seq has a relatively short list of arguments, and for several of these we will use the default setting. Very basic documentation of these arguments can be found [here](https://rdrr.io/bioc/sva/man/ComBat_seq.html) and [here](https://github.com/zhangyuqing/ComBat-seq).
 
 Our attempt to explain each of the ComBat-Seq arguments (for optional arguments, default is shown):
-- `counts`. This is your matrix of gene expression read counts (raw counts). Each row is a gene, and each column is a sample, and each cell has an integer count for the number of RNA-seq counts observed for that gene/sample combination. In R we want this data to be passed into ComBat-Seq in matrix format (use `as.matrix()` if neccessary).
+- `counts`. This is your matrix of gene expression read counts (raw counts). Each row is a gene, each column is a sample, and each cell has an integer count for the number of RNA-seq counts observed for that gene/sample combination. In R we want this data to be passed into ComBat-Seq in matrix format (use `as.matrix()` if neccessary).
 - `batch`. This is a vector describing the batches you are concerned about. For example, if you have six samples that you created RNA-seq data for but for the first four you used one library kit (A) but then you had to use a different library kit (B) for the last four samples, you would define your `batch` vector as: `c(1,1,1,1,2,2,2,2)`. 
-- `group = NULL`. This is a vector describing your biological condition of interest. For example, if your experiment involved *pairs* of drug treated and untreated cells.  And you did 4 biological replicates.  You would define your `group` vector as: c(1,2,1,2,1,2,1,2).   
-- `covar_mod = NULL`. If you have multiple biological conditions of interest, you can define these with `covar_mod` (covariates) instead of `group`.  For example, lets assume we have the same experiment as described above, except that we did four replicates (treated vs untreated pairs), but the first two replicates were done with male cells and the second two replicates were done with female cells.  You then would define a covariate matrix to supply to `covar_mod` as follows:
+- `group = NULL`. This is a vector describing your biological condition of interest. For example, if your experiment involved *pairs* of drug treated and untreated cells.  And you did 4 biological replicates.  You would define your `group` vector as: c(1,2,1,2,1,2,1,2).
+- `covar_mod = NULL`. If you have multiple biological conditions of interest, you can define these with `covar_mod` (covariates) instead of `group`.  For example, lets assume we have the same experiment as described above, except that we did four replicates (treated vs untreated pairs), but we alternated use of male and female cells for each of the replicates.  You then would define a covariate matrix to supply to `covar_mod` as follows:
 ```R
 treatment_group = c(1,2,1,2,1,2,1,2)
-sex_group = c(1,1,1,1,2,2,2,2)
+sex_group = c(1,1,2,2,1,1,2,2)
 covariate_matrix = cbind(treatment_group, sex_group)
 ```
 - `full_mod = TRUE`. If TRUE include condition of interest in model. Generally we believe this should be set to the default TRUE. We have yet to find a cohesive explanation for a situation where one would want this to be FALSE.
@@ -207,8 +209,7 @@ covariate_matrix = cbind(treatment_group, sex_group)
 
 A detailed discussion of *shrinkage* (related to the `shrink`, `shrink.disp`, and `gene_subset.n` arguments is beyond the scope of this tutorial. Briefly, shrinkage refers to a set of methods that attempt to correct for gene-specific variability in the counts observed in RNA-seq datasets. More specifically, it relates to the *dispersion parameter* of the [negative binomial distribution](https://en.wikipedia.org/wiki/Negative_binomial_distribution) used to model RNA-seq count data that can suffer from [overdispersion](https://en.wikipedia.org/wiki/Overdispersion). The dispersion parameter describes how much variance deviates from the mean. In simple terms, shrinkage methods are an attempt to correct for problematic dispersion. A more detailed discussion of these statistical concepts can be found in the [DESeq2 paper](https://pubmed.ncbi.nlm.nih.gov/25516281/). However, for our purposes here, the bottom line is that the ComBat-Seq authors state that "We have shown that applying empirical Bayes shrinkage is not necessary for ComBat-seq because the approach is already sufficiently robust due to the distributional assumption." So we will leave these arguments at their default `FALSE` settings.
 
-
-### Demonstration of ComBat-Seq on the UHR/HBR data with type library types (Ribo/PolyA)
+### Demonstration of ComBat-Seq on the UHR/HBR data with two library types (Ribo/Poly)
 Continuing the R session started above, use ComBat-Seq to perform batch correction as follows:
 
 ```R
@@ -262,8 +263,12 @@ dev.off()
 If the above analysis worked you should have an image that looks like this:
 ![PCA-Plot](/assets/module_3/Uncorrected-vs-BatchCorrected-PCA.png)
 
+Note that prior to correction the UHR samples are separate from the HBR samples.  Note that the PolyA and Ribo-reduction samples are also separated. The 16 samples group into 4 fairly distinct clusters. In other words, the overall expression signatures of these samples seem to reflect both the biological condition (UHR vs HBR) and library construction approach (Ribo vs PolyA). 
+
+However, after correcting for the batch effect of library construction approach, we see a marked improvement.  The library construction approach still seems to be noticeable, but the 16 samples now essentially group into two distinct clusters: HBR and UHR.
+
 ### Perform differential expression analysis of the corrected and uncorrected data
-How does batch correction influence differential gene expression results?  Use upset plots to examine the overlap of significant DE genes found for the following comparisons:
+How does batch correction influence differential gene expression results?  Use UpSet plots to examine the overlap of significant DE genes found for the following comparisons:
 
 - UHR-Ribo vs HBR-Ribo (same library type, 4 vs 4 replicates)
 - UHR-Poly vs HBR-Poly (same library type, 4 vs 4 replicates)
@@ -271,7 +276,7 @@ How does batch correction influence differential gene expression results?  Use u
 - UHR-Poly vs HBR-Ribo (different library types, 4 vs 4 replicates)
 - UHR-Comb vs HBR-Comb (combined library types, 8 vs 8 replicates)
 
-These five differential expression analysis comparisons will be performed with both the uncorrected and corrected data. Does correction increase agreement between the five comparisons?  Does it appear to increase the power of combining all 8 replicates of UHR and HBR?
+These five differential expression analysis comparisons will be performed with both the uncorrected and corrected data. Does correction increase agreement between the five comparisons? Does it appear to increase statistic power when combining all 8 replicates of UHR and HBR?
 
 Explore these questions by continuing on with the R session started above and doing the following:
 ```R
@@ -354,21 +359,21 @@ dim(uhr_vs_hbr_corrected)
 
 #first from uncorrected data
 pdf(file="Uncorrected-UpSet.pdf")
-listInput = list("UHR Ribo vs HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[,"Gene"], 
-                 "UHR Poly vs HBR Poly" = uhr_poly_vs_hbr_poly_uncorrected[,"Gene"],
-                 "UHR Ribo vs HBR Poly" = uhr_ribo_vs_hbr_poly_uncorrected[,"Gene"],
-                 "UHR Poly vs HBR Ribo" = uhr_poly_vs_hbr_ribo_uncorrected[,"Gene"],
-                 "UHR ALL  vs HBR ALL" = uhr_vs_hbr_uncorrected[,"Gene"])
+listInput = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[,"Gene"], 
+                 "4 UHR Poly vs 4HBR Poly" = uhr_poly_vs_hbr_poly_uncorrected[,"Gene"],
+                 "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_uncorrected[,"Gene"],
+                 "4 UHR Poly vs 4 HBR Ribo" = uhr_poly_vs_hbr_ribo_uncorrected[,"Gene"],
+                 "8 UHR vs 8 HBR" = uhr_vs_hbr_uncorrected[,"Gene"])
 upset(fromList(listInput), order.by = "freq", number.angles=45, point.size=3)
 dev.off()
 
 #now from corrected data
 pdf(file="BatchCorrected-UpSet.pdf")
-listInput = list("UHR Ribo vs HBR Ribo" = uhr_ribo_vs_hbr_ribo_corrected[,"Gene"], 
-                 "UHR Poly vs HBR Poly" = uhr_poly_vs_hbr_poly_corrected[,"Gene"],
-                 "UHR Ribo vs HBR Poly" = uhr_ribo_vs_hbr_poly_corrected[,"Gene"],
-                 "UHR Poly vs HBR Ribo" = uhr_poly_vs_hbr_ribo_corrected[,"Gene"],
-                 "UHR ALL  vs HBR ALL" = uhr_vs_hbr_corrected[,"Gene"])
+listInput = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_corrected[,"Gene"], 
+                 "4 UHR Poly vs 4 HBR Poly" = uhr_poly_vs_hbr_poly_corrected[,"Gene"],
+                 "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_corrected[,"Gene"],
+                 "4 UHR Poly vs 4 HBR Ribo" = uhr_poly_vs_hbr_ribo_corrected[,"Gene"],
+                 "8 UHR vs 8 HBR" = uhr_vs_hbr_corrected[,"Gene"])
 upset(fromList(listInput), order.by = "freq", number.angles=45, point.size=3)
 dev.off()
 
@@ -385,22 +390,21 @@ Note that an UpSet plot is an alternative to a Venn Diagram. It shows the overla
 Remember, in this analysis, all five comparisons are asking the same biological question. What genes are differentially expressed between UHR (cancer cell lines) and HBR (brain tissue)?   
 
 What differs in each comparison is: 
-- whether we are comparing replicates prepared with same library construction approach (Ribo reduction or PolyA) or whether we are comparing data prepared with different approaches
+- whether we are comparing replicates prepared with the same library construction approach (Ribo reduction or PolyA) or whether we are comparing data prepared with different approaches
 - whether we are comparing 4 UHR vs 4 HBR replicates according to these library construction approaches, or pooling all 8 UHR and all 8 HBR samples (ignoring their different library types)
 - whether we are doing these comparisons before or after batch correction
 
-** Before batch correction **
+#### Before batch correction
 ![Uncorrected-UpSet](/assets/module_3/Uncorrected-UpSet.png)
 
-** After batch correction **
+#### After batch correction
 ![BatchCorrected-UpSet](/assets/module_3/BatchCorrected-UpSet.png)
 
 There are several notable observations from the analysis above and the two UpSet plots.
 
-- In the uncorrected data, we actually see more DE genes when comparing a mix library contruction approaches (e.g. UHR-Ribo vs UHR-Poly). There are likely false positives in these results.  Genes that appear to be different between UHR and HBR, but where the difference is actually caused by differences in the library preparation.
+- In the uncorrected data, we actually see more DE genes when comparing a mix of library contruction approaches (e.g. UHR-Ribo vs UHR-Poly). There are likely false positives in these results.  i.e. Genes that appear to be different between UHR and HBR, but where the difference is actually caused by differences in the library preparation not the biology.
 - If we combine all 8 samples together for each biological condition we can see that we actually get considerably *fewer* significant genes. Presumably this is because we are now introducing noise caused by a mix of different library construction approaches and this impacts the statistical analysis.
 - When we apply batch correction, we see that now all five comparisons tend to agree with each other for the most part on what genes are differentially expressed.
-- With the batch corrected data we now see that combining all 8 samples actually improves statistical power and results in a larger number of significant DE genes relative to the 4 vs 4 comparisons.
-
+- With the batch corrected data we now see that combining all 8 samples actually improves statistical power and results in a *larger* number of significant DE genes relative to the 4 vs 4 comparisons.
 
 
