@@ -133,7 +133,7 @@ Perform the following analyses in `R`:
 ```R
 
 #load neccessary libraries
-library("sva")
+library("sva") #Note this exercise requires sva (>= v3.36.0) which is only available for R (>= v4.x)
 library("ggplot2")
 library("gridExtra")
 library("edgeR")
