@@ -140,7 +140,6 @@ library("edgeR")
 library("UpSetR")
 
 #load in the uncorrected data as raw counts
-setwd("~/Downloads")
 uncorrected_data = read.table("GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv", header=TRUE, sep="\t", as.is=c(1,2))
 
 #simplify the names of the data columns
