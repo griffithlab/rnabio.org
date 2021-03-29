@@ -229,18 +229,18 @@ rawdata=read.table("~/workspace/rnaseq/expression/htseq_counts/gene_read_counts_
 dim(rawdata)
 
 # Require at least 1/6 of samples to have expressed count >= 10
-sample_cutoff <- (1/6)*100
+sample_cutoff <- (1/6)
 count_cutoff <- 10 
 
-#Define a function to calculate the percent of values above the count cutoff
-getPE <- function(data,count_cutoff){
- PE <- (sum(data >= count_cutoff)/length(data)) * 100
- return(PE)
+#Define a function to calculate the fraction of values expressed above the count cutoff
+getFE <- function(data,count_cutoff){
+ FE <- (sum(data >= count_cutoff)/length(data))
+ return(FE)
 }
 
 #Apply the function to all genes, and filter out genes not meeting the sample cutoff
-percent_expressed <- apply(rawdata, 1, getPE,count_cutoff)
-keep <- which(percent_expressed >= sample_cutoff)
+fraction_expressed <- apply(rawdata, 1, getFE, count_cutoff)
+keep <- which(fraction_expressed >= sample_cutoff)
 rawdata <- rawdata[keep,]
 
 # Check dimensions again to see effect of filtering
