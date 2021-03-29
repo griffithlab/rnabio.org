@@ -228,10 +228,22 @@ rawdata=read.table("~/workspace/rnaseq/expression/htseq_counts/gene_read_counts_
 # Check dimensions
 dim(rawdata)
 
-# Require at least 25% of samples to have count > 25
-quant <- apply(rawdata,1,quantile,0.75)
-keep <- which((quant >= 25) == 1)
+# Require at least 1/6 of samples to have expressed count >= 10
+sample_cutoff <- (1/6)*100
+count_cutoff <- 10 
+
+#Define a function to calculate the percent of values above the count cutoff
+getPE <- function(data,count_cutoff){
+ PE <- (sum(data >= count_cutoff)/length(data)) * 100
+ return(PE)
+}
+
+#Apply the function to all genes, and filter out genes not meeting the sample cutoff
+percent_expressed <- apply(rawdata, 1, getPE,count_cutoff)
+keep <- which(percent_expressed >= sample_cutoff)
 rawdata <- rawdata[keep,]
+
+# Check dimensions again to see effect of filtering
 dim(rawdata)
 
 #################
@@ -242,15 +254,15 @@ dim(rawdata)
 library('edgeR')
 
 # make class labels
-class <- factor( c( rep("UHR",3), rep("HBR",3) ))
+class <- c( rep("UHR",3), rep("HBR",3) )
 
 # Get common gene names
-genes=rownames(rawdata)
-gene_names=mapping[genes,1]
-
+Gene=rownames(rawdata)
+Symbol=mapping[Gene,1]
+gene_annotations=cbind(Gene,Symbol)
 
 # Make DGEList object
-y <- DGEList(counts=rawdata, genes=genes, group=class)
+y <- DGEList(counts=rawdata, genes=gene_annotations, group=class)
 nrow(y)
 
 # TMM Normalization
@@ -263,28 +275,30 @@ y <- estimateTagwiseDisp(y)
 # Differential expression test
 et <- exactTest(y)
 
+# Extract raw counts to add back onto DE results
+counts <- getCounts(y)
+
 # Print top genes
 topTags(et)
 
 # Print number of up/down significant genes at FDR = 0.05  significance level
-summary(de <- decideTestsDGE(et, p=.05))
-detags <- rownames(y)[as.logical(de)]
+summary(de <- decideTestsDGE(et, adjust.method="BH", p=.05))
 
-# Output DE genes
-# Matrix of significantly DE genes
-mat <- cbind(
- genes,gene_names,
- sprintf('%0.3f',log10(et$table$PValue)),
- sprintf('%0.3f',et$table$logFC)
-)[as.logical(de),]
-colnames(mat) <- c("Gene", "Gene_Name", "Log10_Pvalue", "Log_fold_change")
+#Get output with BH-adjusted FDR values - all genes, any p-value, unsorted
+out <- topTags(et, n = "Inf", adjust.method="BH", sort.by="none", p.value=1)$table
 
-# Order by log fold change
-o <- order(et$table$logFC[as.logical(de)],decreasing=TRUE)
-mat <- mat[o,]
+#Add raw counts back onto results for convenience (make sure sort and total number of elements allows proper join)
+out2 <- cbind(out, counts)
+
+#Limit to significantly DE genes
+out3 <- out2[as.logical(de),]
+
+# Order by p-value
+o <- order(et$table$PValue[as.logical(de)],decreasing=FALSE)
+out4 <- out3[o,]
 
 # Save table
-write.table(mat, file="DE_genes.txt", quote=FALSE, row.names=FALSE, sep="\t")
+write.table(out4, file="DE_genes.txt", quote=FALSE, row.names=FALSE, sep="\t")
 
 #To exit R type the following
 quit(save="no")
