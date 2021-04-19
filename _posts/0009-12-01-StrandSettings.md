@@ -15,6 +15,8 @@ There are various strand-related settings for RNA-seq tools that must be adjuste
 
 *NOTE*: A useful tool to infer strandedness of your raw sequence data is the [check_strandedness tool](https://github.com/betsig/how_are_we_stranded_here). We provide a tutorial for using this tool [here](/module-01-inputs/0001/05/01/RNAseq_Data/#determining-the-strandedness-of-rna-seq-data).
 
+*NOTE*: In the table below, the list of methods/kits for specific strand settings **assumes that these kits are used as specified by their manufacturer**. It is very possible that a sequencing provider/core may make modifications to these kits. For example, in one case we obtained RNAseq data processed with NEBNext Ultra II Directional kit (dUTP method). However instead of using the NEB hairpin adapters, IDT xGen UDI-UMI adapters were substituted, and this [results in the insert strandedness being flipped](https://www.idtdna.com/pages/support/faqs/can-the-xgen-unique-dual-index-umi-adapters-be-used-for-rna-seq) (from RF/fr-firststrand to FR/fr-secondstrand). Because this level of detail is not always provided it is highly recommended to [confirm your data's strandedness empirically](https://github.com/betsig/how_are_we_stranded_here).  
+
 
 | **Tool**                                                       | **RF/fr-firststrand stranded (dUTP)**                         | **FR/fr-secondstrand stranded (Ligation)**             | **Unstranded**                                        |
 |----------------------------------------------------------------|---------------------------------------------------------------|--------------------------------------------------------|-------------------------------------------------------|
