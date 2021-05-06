@@ -33,7 +33,8 @@ There are various strand-related settings for RNA-seq tools that must be adjuste
 | **Salmon (--libType parameter)**                               | ISR (assuming paired-end with inward read orientation)        | ISF (assuming paired-end with inward read orientation) | IU (assuming paired-end with inward read orientation) |
 | **Trinity (–SS_lib_type parameter)**                           | RF                                                            | FR                                                     | NONE                                                  |
 | **MGI CWL YAML (strand parameter)**                            | first                                                         | second                                                 | NONE                                                  |
-|                                                                | **Example methods/kits:** dUTP, NSR, NNSR, Illumina TruSeq Strand Specific Total RNA, NEBNext Ultra II Directional | **Example methods/kits:** Ligation, Standard SOLiD, NuGEN Encore    | **Example kit(s):** Standard Illumina, NuGEN OvationV2            |
+| **RegTools (strand parameter)**                                | -s 1                                                          | -s 2                                                   | -s 0                                                  |
+|                                                                | **Example methods/kits:** dUTP, NSR, NNSR, Illumina TruSeq Strand Specific Total RNA, NEBNext Ultra II Directional | **Example methods/kits:** Ligation, Standard SOLiD, NuGEN Encore, 10X scRNA data    | **Example kits/data:** Standard Illumina, NuGEN OvationV2, GDC normalized TCGA data           |
 
 
 ### Notes
