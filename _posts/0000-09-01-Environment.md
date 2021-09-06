@@ -31,7 +31,7 @@ In order to view the contents of this file, you can type:
 
 ```bash
 less ~/.bashrc
-``` 
+```
 
 To exit the file, type `q`.
 
@@ -50,7 +50,7 @@ export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
 We will be using picard tools throughout this workshop. To follow along, you will need to set an environment variable pointing to your picard installation.
 
 ```bash
-export PICARD=/home/ubuntu/bin/picard.jar
+export PICARD=/usr/local/picard/picard.jar
 ```
 
 If these variables are not part of your .bashrc, you can type the following. First, you can open your .bashrc file with nano by simply typing:
