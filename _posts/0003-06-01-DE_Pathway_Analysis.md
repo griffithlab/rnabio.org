@@ -78,24 +78,24 @@ After completing the annotation above you will notice that some of our Ensembl g
 
 ```R
 #Remove spike-in
-DE_genes_clean <- DE_genes[!grepl("ERCC",DE_genes$Gene_Name),]
+DE_genes_clean <- DE_genes[!grepl("ERCC",DE_genes$Gene),]
 
 ##Just so we know what we have removed 
-ERCC_gene_count <-nrow(DE_genes[grepl("ERCC",DE_genes$Gene_Name),])
+ERCC_gene_count <-nrow(DE_genes[grepl("ERCC",DE_genes$Gene),])
 ERCC_gene_count
 
 ###Deal with genes that we do not have an Entrez ID for 
-missing_ensembl_key<-DE_genes_clean[is.na(DE_genes_clean$entrez),]
-DE_genes_clean <-DE_genes_clean[!DE_genes_clean$Gene_Name %in% missing_ensembl_key$Gene_Name,]
+#missing_ensembl_key<-DE_genes_clean[is.na(DE_genes_clean$entrez),]
+#DE_genes_clean <-DE_genes_clean[!DE_genes_clean$Gene_Name %in% missing_ensembl_key$Gene_Name,]
 
 ###Try mapping using a different key
-missing_ensembl_key$entrez <- mapIds(org.Hs.eg.db, keys=missing_ensembl_key$Gene_Name, column="ENTREZID", keytype="SYMBOL", multiVal='first')
+#missing_ensembl_key$entrez <- mapIds(org.Hs.eg.db, keys=missing_ensembl_key$Gene_Name, column="ENTREZID", keytype="SYMBOL", multiVal='first')
 
 #Remove remaining genes 
-missing_ensembl_key_update <- missing_ensembl_key[!is.na(missing_ensembl_key$entrez),]
+#missing_ensembl_key_update <- missing_ensembl_key[!is.na(missing_ensembl_key$entrez),]
 
 #Create a Final Gene list of all genes where we were able to find an Entrez ID (using two approaches)
-DE_genes_clean <-rbind(DE_genes_clean,missing_ensembl_key_update)
+#DE_genes_clean <-rbind(DE_genes_clean,missing_ensembl_key_update)
 ```
 
 ### Final preparation of edgeR results for gage
@@ -103,7 +103,7 @@ OK, last step.  Let's format the differential expression results into a format s
 
 ```R
 # grab the log fold changes for everything
-De_gene.fc <- DE_genes_clean$Log_fold_change
+De_gene.fc <- DE_genes_clean$logFC
 
 # set the name for each row to be the Entrez Gene ID
 names(De_gene.fc) <- DE_genes_clean$entrez
