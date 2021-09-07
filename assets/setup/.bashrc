@@ -2,40 +2,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-# ENV variables
-export RNA_HOME=~/workspace/rnaseq
-export RNA_DATA_DIR=$RNA_HOME/data
-export RNA_DATA_TRIM_DIR=$RNA_DATA_DIR/trimmed
-export RNA_REFS_DIR=$RNA_HOME/refs
-export RNA_REF_INDEX=$RNA_REFS_DIR/chr22_with_ERCC92
-export RNA_REF_FASTA=$RNA_REF_INDEX.fa
-export RNA_REF_GTF=$RNA_REF_INDEX.gtf
-export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
-export PICARD=/home/ubuntu/bin/picard.jar
-
-
-# export statements for tools
-export PATH=/home/ubuntu/bin/samtools-1.11:$PATH
-export SAMTOOLS_ROOT=/home/ubuntu/bin/samtools-1.11
-export PATH=/home/ubuntu/bin/bam-readcount/bin:$PATH
-export PATH=/home/ubuntu/bin/hisat2-2.2.1:$PATH
-export PATH=/home/ubuntu/bin/stringtie-2.1.4.Linux_x86_64:$PATH
-export PATH=/home/ubuntu/bin/gffcompare-0.12.1.Linux_x86_64:$PATH
-export PATH=/home/ubuntu/bin/htseq:$PATH
-export PATH=/home/ubuntu/bin/tophat-2.1.1.Linux_x86_64:$PATH
-export PATH=/home/ubuntu/bin/kallisto_linux-v0.44.0:$PATH
-export PATH=/home/ubuntu/bin/FastQC:$PATH
-export PATH=/home/ubuntu/.local/bin:$PATH
-export LD_LIBRARY_PATH=/home/ubuntu/bin/flexbar-3.5.0-linux:$LD_LIBRARY_PATH
-export PATH=/home/ubuntu/bin/flexbar-3.5.0-linux:$PATH
-export PATH=/home/ubuntu/bin/regtools/build:$PATH
-export PATH=/home/ubuntu/bin/bedops_linux_x86_64-v2.4.35/bin:$PATH
-export PATH=/home/ubuntu/bin/gtfToGenePred:$PATH
-export PATH=/home/ubuntu/bin/bedtools2/bin:$PATH
-export PATH=/home/ubuntu/bin/genePredtoBed:$PATH
-export PATH=/home/ubuntu/bin/cellranger-4.0.0:$PATH
-export PATH=/home/ubuntu/bin/gffread:$PATH
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -149,3 +115,15 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+export PATH=/usr/local/tmhmm-2.0c/bin:/usr/local/signalp-4.1:/usr/local/gmap-gsnap/bin:$PATH:/usr/local/tophat-2.1.1.Linux_x86_64:/usr/local/minimap2-2.16_x64-linux:/usr/local/racon/bin:/usr/local/wtdbg-2.3_x64_linux:/usr/local/Trinotate-Trinotate-v3.2.2:/usr/local/trinityrnaseq-v2.12.0:/usr/local/TransDecoder-TransDecoder-v5.5.0:/usr/local/STAR-Fusion-v1.10.0:/usr/local/SPAdes-3.15.2-Linux/bin:/usr/local/salmon-latest_linux_x86_64/bin:/usr/local/hisat2-2.2.1:/usr/local/GATK:/usr/local/centrifuge-1.0.4-beta:/usr/local/canu/bin:/usr/local/libexec
+
+export RNA_HOME=~/workspace/rnaseq
+export RNA_DATA_DIR=$RNA_HOME/data
+export RNA_DATA_TRIM_DIR=$RNA_DATA_DIR/trimmed
+export RNA_REFS_DIR=$RNA_HOME/refs
+export RNA_REF_INDEX=$RNA_REFS_DIR/chr22_with_ERCC92
+export RNA_REF_FASTA=$RNA_REF_INDEX.fa
+export RNA_REF_GTF=$RNA_REF_INDEX.gtf
+export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
+export PICARD=/usr/local/picard/picard.jar
