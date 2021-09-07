@@ -29,10 +29,10 @@ BiocManager::install();
 
 7) Install Slack. Go to the [slack downloads page](https://slack.com/downloads). Once downloaded, sign into the course slack with the link you received via email.
 
-8) Install or update to Zoom 5.4.2 from the [Zoom downloads page](https://zoom.us/download). If you have Zoom already, please make sure that you update to this particular version as it has functionality we will be relying on for this course.
+8) Install or update to Zoom 5.4.2 (or higher) from the [Zoom downloads page](https://zoom.us/download). If you have Zoom already, please make sure that you update to this particular version (or higher) as it has functionality we may be relying on for this course.
 
 9) Install the Loupe browser.  First go to the [10x download pages](https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest). Enter your info and select the Loupe Browser 4.0.0 download for your operating system.
 
-10) Download all example scRNAseq files for a loupe demonstration from our [course server](http://genomedata.org/rnaseq-tutorial/scrna/).
+10) If relevant to course version, download all example scRNAseq files for a loupe demonstration from our [course server](http://genomedata.org/rnaseq-tutorial/scrna/).
 
-11) Sign in to the test AWS instance. A security certificate or “key file" and an ip address should have been shared with you via email and slack. Please try to use these to log in to this test AWS instance. Instructions for Mac/Linux users can be found [here](https://rnabio.org/module-00-setup/0000/07/01/Log_into_AWS/#logging-in-with-terminal-maclinux) and instructions for Windows users can be found [here](https://rnabio.org/module-00-setup/0000/07/01/Log_into_AWS/#logging-in-with-putty-windows).
+11) If instructed by email, sign in to the test AWS instance. A security certificate or “key file" and an ip address should have been shared with you via email and slack. Please try to use these to log in to this test AWS instance. Instructions for Mac/Linux users can be found [here](https://rnabio.org/module-00-setup/0000/07/01/Log_into_AWS/#logging-in-with-terminal-maclinux) and instructions for Windows users can be found [here](https://rnabio.org/module-00-setup/0000/07/01/Log_into_AWS/#logging-in-with-putty-windows).

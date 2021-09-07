@@ -21,7 +21,7 @@ You are expected to be familiar with **R** before the workshop. If you are unfam
 You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, below is a suggested tutorial. If you have a Mac computer you can use the "Terminal" application to complete this tutorial. If you have access to a linux server at your institution you could do it there. If neither of those is available you can try a free online termline application that runs in your browser such as [COCALC](https://cocalc.com/app?anonymous=terminal).
 
 * [UNIX Intro Tutorial](https://rnabio.org/module-00-setup/0000/08/01/Unix/)
-* [Unix Cheat sheet](http://www.rain.org/~mkummel/unix.html) 
+* [Unix Cheat sheet](http://www.mathcs.emory.edu/~valerie/courses/fall10/155/resources/unix_cheatsheet.html) 
 
 ### 3.) Reading materials
 Please read these two articles before coming to the workshop:
