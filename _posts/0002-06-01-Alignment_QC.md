@@ -16,7 +16,7 @@ date: 0002-06-01
 ***
 
 ### Alignment QC mini lecture
-If you would like a refresher on alignment QC, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_02_04_alignmentQC.pdf) briefly covering the topic.
+If you would like a refresher on alignment QC, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/mini/RNASeq_MiniLecture_02_04_alignmentQC.pdf) briefly covering the topic.
 
 ### Use samtools and FastQC to evaluate the alignments
 Use `samtools view` to see the format of a SAM/BAM alignment file
@@ -157,7 +157,7 @@ rm -f log.txt
 
 
 ### MultiQC
-We will now use multiQC to compile a QC report from all the QC tools above. 
+We will now use multiQC to compile a QC report from all the QC tools above.
 
 ```bash
 cd $RNA_ALIGN_DIR
