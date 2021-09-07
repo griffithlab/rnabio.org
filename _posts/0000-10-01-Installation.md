@@ -39,7 +39,7 @@ make
 ```
 
 ## [bam-readcount](https://github.com/genome/bam-readcount)
-Installation type: build C++ binary from source code using `cmake` and `make`. Citation: [genome/bam-readcount](https://github.com/genome/bam-readcount).
+Installation type: build C++ binary from source code using `cmake` and `make`. Citation: [PMID: 34341766](https://pubmed.ncbi.nlm.nih.gov/34341766/).
 
 Installation of the bam-readcount tool involves "cloning" the source code with a code version control system called `git`. The code is then compiled using `cmake` and `make`. `cmake` is an application for managing the build process of software using a compiler-independent method. It is used in conjunction with native build environments such as `make` ([cmake ref](https://en.wikipedia.org/wiki/CMake)). Note that bam-readcount relies on another tool, samtools, as a dependency. An environment variable is used to specify the path to the samtools install.
 
