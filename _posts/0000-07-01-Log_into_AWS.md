@@ -23,7 +23,9 @@ For the 2021 CBW course, remember to log into AWS Educate system: https://aws.am
 
 * Detailed instructions for logging into AWS and launching an EC2 instance are provided in these slides: [CBW_2021_AWS.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/full/CBW_2021_AWS.pdf). 
 
-NOTE: for the CBW 2021 course, please follow the instructions in that presentation. The correct community AMI to use is: `CBW_RNA_210906 - ami-0a4372d1e124818dc`. The following is a conceptually very similar walk through with a few more details but is not exactly the same. YOU CAN SKIP TO THE NEXT SECTION FROM HERE.
+NOTE: for the CBW 2021 course, please follow the instructions in that presentation. The correct community AMI to use is: `CBW_RNA_210906 - ami-0a4372d1e124818dc`. The following is a conceptually very similar walk through with a few more details but is not exactly the same. 
+
+YOU CAN SKIP TO THE NEXT SECTION FROM HERE.
 
 * Once your EC2 instance is up and running, make note of its IP address. 
 * Instructions for logging into this cloud instance (including instructions for Windows systems, if applicable) can be found below.
