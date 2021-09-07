@@ -179,11 +179,11 @@ For this last step we will do a very brief introduction to visualizing our resul
  
 **Step Two**
 
-* Navigate to [NaviGO](http://kiharalab.org/web/navigo/views/goset.php) 
+* Navigate to the [WEB-based Gene Set Analysis ToolKit (WebGestalt)](http://www.webgestalt.org/) 
 
 **Step Three**
 
-* Input the GO terms you would like to explore into the [NaviGO](http://kiharalab.org/web/navigo/views/goset.php) interface 
+* Input the GO terms you would like to explore into the [GOView](http://www.webgestalt.org/2017/GOView/) interface by following the steps described in the "Beginning an analysis" section of the webpage.  We will walk through a sample analysis. 
 
 * Explore the outputs! 
 
