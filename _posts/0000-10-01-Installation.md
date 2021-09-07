@@ -115,7 +115,7 @@ Note, this tool is currently only installed for the gtf_to_fasta tool used in ka
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget https://ccb.jhu.edu/software/tophat/downloads/tophat-2.1.1.Linux_x86_64.tar.gz
+wget http://genomedata.org/rnaseq-tutorial/tophat-2.1.1.Linux_x86_64.tar.gz
 tar -zxvf tophat-2.1.1.Linux_x86_64.tar.gz
 cd tophat-2.1.1.Linux_x86_64/
 ./gtf_to_fasta
