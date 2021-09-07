@@ -183,7 +183,9 @@ For this last step we will do a very brief introduction to visualizing our resul
 
 **Step Three**
 
-* Input the GO terms you would like to explore into the [GOView](http://www.webgestalt.org/2017/GOView/) interface by following the steps described in the "Beginning an analysis" section of the webpage.  We will walk through a sample analysis. 
+* Navigate to the [GOView](http://www.webgestalt.org/2017/GOView/) tool 
+
+* Then, input the GO terms you would like to explore into the [GOView](http://www.webgestalt.org/2017/GOView/) interface by following the steps described in the "Beginning an analysis" section of the webpage.  We will walk through a sample analysis. 
 
 * Explore the outputs! 
 
