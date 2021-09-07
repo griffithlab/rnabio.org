@@ -102,7 +102,7 @@ fastqc *.fastq.gz
 ```
 Then, go to the following url in your browser:
 
-* http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/
+* http://**YOUR_DNS_NAME**/rnaseq/practice/data/
 * Note, you must replace **YOUR_DNS_NAME** with your own amazon instance IP or DNS (e.g., cbw##.dyndns.info)
 * Click on any of the `*_fastqc.html` files to view the FastQC report (e.g., `hcc1395_normal_rep1_r1_fastqc.html`)
 
@@ -140,8 +140,8 @@ cd $RNA_HOME/practice/data/trimmed/
 fastqc *.fastq.gz
 
 ```
-* http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/hcc1395_normal_rep1_r1_fastqc.html
-* http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/trimmed/hcc1395_normal_rep1_1_fastqc.html
+* http://**YOUR_DNS_NAME**/rnaseq/practice/data/hcc1395_normal_rep1_r1_fastqc.html
+* http://**YOUR_DNS_NAME**/rnaseq/practice/data/trimmed/hcc1395_normal_rep1_1_fastqc.html
 
 **Answers**
 
@@ -211,9 +211,9 @@ samtools index HCC1395_tumor.bam
 Start IGV on your laptop. Load the HCC1395_normal.bam & HCC1395_tumor.bam files in IGV. You can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'.
 
 **HCC1395BL (normal) alignment:**
-http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_normal.bam
+http://**YOUR_DNS_NAME**/rnaseq/practice/alignments/hisat2/HCC1395_normal.bam
 
-**HCC1395 tumor alignment:** http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_tumor.bam
+**HCC1395 tumor alignment:** http://**YOUR_DNS_NAME**/rnaseq/practice/alignments/hisat2/HCC1395_tumor.bam
 
 **Answers**
 
