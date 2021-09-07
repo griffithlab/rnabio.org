@@ -19,7 +19,7 @@ In the previous section [Introduction to AWS](https://rnabio.org/module-00-setup
 
 In order to launch your own instance you will either need to use your own personal AWS account, an account provided through your institution OR if you are taking a live version of this course you will be assigned an AWS account using the IAMS system. The following instructions are used for a live version of this course, but the process would be essentially the same when using a personal or institutional account. 
 
-For the 2021 CBW course, remember to log into AWS Educate system: https://aws.amazon.com/education/awseducate/ 
+For the 2021 CBW course, remember to log into [AWS Educate system](https://aws.amazon.com/education/awseducate/).  
 
 * Detailed instructions for logging into AWS and launching an EC2 instance are provided in these slides: [CBW_2021_AWS.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/full/CBW_2021_AWS.pdf). 
 
