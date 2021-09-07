@@ -37,7 +37,7 @@ samtools index UHR_Rep3.bam
 
 Optional:
 
-Try to create an index file for one of your bam files using a samtools docker image rather than the locally installed version of samtools. Below is an example docker run command. 
+Try to create an index file for one of your bam files using a samtools docker image rather than the locally installed version of samtools. Below is an example docker run command.
 
 ```bash
 cp HBR.bam /tmp/
@@ -48,24 +48,24 @@ ls /tmp/HBR.bam*
 
 `docker run` is how you initialize a docker container to run a command
 
-`-v` is the parameter used to mount your workspace so that the docker container can see the files that you're working with. In the example above, `/tmp` from the EC2 instance has been mounted as `/docker_workspace` within the docker container. 
+`-v` is the parameter used to mount your workspace so that the docker container can see the files that you're working with. In the example above, `/tmp` from the EC2 instance has been mounted as `/docker_workspace` within the docker container.
 
 `biocontainers/samtools` is the docker container name. The `:v1.9-4-deb_cv1` refers to the specific tag and release of the docker container.
 
 
 ### Visualize alignments
-Start IGV on your laptop. Load the UHR.bam & HBR.bam files in IGV. If you're using AWS, you can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'. 
+Start IGV on your laptop. Load the UHR.bam & HBR.bam files in IGV. If you're using AWS, you can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'.
 
 Make sure you select the appropriate reference genome build in IGV (top left corner of IGV): in this case `hg38`.
 
 #### AWS links to bam files
 **UHR hisat2 alignment:**
 
-http://**YOUR_DNS_NAME**/workspace/rnaseq/alignments/hisat2/UHR.bam
+http://**YOUR_DNS_NAME**/rnaseq/alignments/hisat2/UHR.bam
 
 **HBR hisat2 alignment:**
 
-http://**YOUR_DNS_NAME**/workspace/rnaseq/alignments/hisat2/HBR.bam
+http://**YOUR_DNS_NAME**/rnaseq/alignments/hisat2/HBR.bam
 
 
 You may wish to customize the track names as you load them in to keep them straight. Do this by right-clicking on the alignment track and choosing 'Rename Track'.
@@ -157,7 +157,7 @@ Assignment: Index your bam files from Practical Exercise 6 and visualize in IGV.
 
 * Hint: As before, it may be simplest to just index and visualize the combined/merged bam files HCC1395_normal.bam and HCC1395_tumor.bam.
 * If this works, you should have two BAM files that can be loaded into IGV from the following location on your cloud instance:
-  * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/
+  * http://**YOUR_DNS_NAME**/rnaseq/practice/alignments/hisat2/
 
 **Questions**
 
@@ -166,5 +166,3 @@ Assignment: Index your bam files from Practical Exercise 6 and visualize in IGV.
 * What are the options for visualizing splicing or alternative splicing patterns in IGV? Navigate to this location on chromosome 22: 'chr22:40,363,200-40,367,500'. What splicing event do you see?
 
 Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-7---visualize).
-
-

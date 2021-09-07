@@ -436,7 +436,7 @@ dev.off()
 
 #The output file can be viewed in your browser at the following url:
 #Note, you must replace __YOUR_IP_ADDRESS__ with your own amazon instance IP
-#http://__YOUR_IP_ADDRESS__/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
+#http://__YOUR_IP_ADDRESS__/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
 #To exit R type:
 quit(save="no")
 ```
