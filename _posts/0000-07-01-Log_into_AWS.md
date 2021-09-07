@@ -19,7 +19,9 @@ In the previous section [Introduction to AWS](https://rnabio.org/module-00-setup
 
 In order to launch your own instance you will either need to use your own personal AWS account, an account provided through your institution OR if you are taking a live version of this course you will be assigned an AWS account using the IAMS system. The following instructions are used for a live version of this course, but the process would be essentially the same when using a personal or institutional account. 
 
-* Detailed instructions for launching an EC2 instance are provided at the end of these slides: [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/full/RNASeq_Module0_CloudComputing.pdf)
+For the 2021 CBW course, remember to log into AWS Educate system: https://aws.amazon.com/education/awseducate/ 
+
+* Detailed instructions for launching an EC2 instance are provided at the end of these slides: [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/full/CBW_2021_AWS.pdf)
 * Once your EC2 instance is up and running, make note of its IP address. 
 * Instructions for logging into this cloud instance (including instructions for Windows systems, if applicable) can be found below.
 * This will ONLY occur once we are in the classroom as it costs money to have these servers running.
