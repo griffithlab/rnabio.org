@@ -22,6 +22,9 @@ In order to launch your own instance you will either need to use your own person
 For the 2021 CBW course, remember to log into AWS Educate system: https://aws.amazon.com/education/awseducate/ 
 
 * Detailed instructions for launching an EC2 instance are provided at the end of these slides: [IntroductionToCloudComputing.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/full/CBW_2021_AWS.pdf)
+
+NOTE: for the CBW 2021 course, please follow the instructions in that presentation. The following is a conceptually very similar walk through with a few more details but is not exactly the same. YOU CAN SKIP TO THE NEXT SECTION FROM HERE.
+
 * Once your EC2 instance is up and running, make note of its IP address. 
 * Instructions for logging into this cloud instance (including instructions for Windows systems, if applicable) can be found below.
 * This will ONLY occur once we are in the classroom as it costs money to have these servers running.
