@@ -35,7 +35,7 @@ fastqc *.fastq.gz
 
 Then, go to the following url in your browser:
 
-* http://**YOUR_DNS_NAME**/workspace/rnaseq/data/
+* http://**YOUR_DNS_NAME**/rnaseq/data/
 * Note, you must replace **YOUR_DNS_NAME** with your own amazon instance DNS (e.g., ec2-54-187-159-113.us-west-2.compute.amazonaws.com))
 * Click on any of the `*_fastqc.html` files to view the FastQC report
 
@@ -119,5 +119,3 @@ Run FASTQC on the file 'hcc1395_normal_1.fastq.gz' and answer these questions by
 Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-4---data-qc).
 
 ***
-
-
