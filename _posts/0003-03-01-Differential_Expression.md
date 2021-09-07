@@ -17,7 +17,7 @@ date: 0003-03-01
 
 
 ### Differential Expression mini lecture
-If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
+If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
 
 
 ### Ballgown DE Analysis
@@ -230,7 +230,7 @@ dim(rawdata)
 
 # Require at least 1/6 of samples to have expressed count >= 10
 sample_cutoff <- (1/6)
-count_cutoff <- 10 
+count_cutoff <- 10
 
 #Define a function to calculate the fraction of values expressed above the count cutoff
 getFE <- function(data,count_cutoff){

@@ -16,7 +16,7 @@ date: 0001-03-01
 ***
 
 ### FASTA/FASTQ/GTF mini lecture
-If you would like a refresher on common file formats such as FASTA, FASTQ, and GTF files, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf) briefly covering these.
+If you would like a refresher on common file formats such as FASTA, FASTQ, and GTF files, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf) briefly covering these.
 
 
 ### Obtain Known Gene/Transcript Annotations
@@ -124,7 +124,7 @@ Based on UCSC annotations or several other possible annotation sources collected
 * Select 'GTF - gene transfer format' for output format and enter 'UCSC_Genes.gtf' for output file.
 * Hit the 'get output' button and save the file. Make note of its location
 
-In addition to the .gtf file you may find uses for some extra files providing alternatively formatted or additional information on the same transcripts. For example: 
+In addition to the .gtf file you may find uses for some extra files providing alternatively formatted or additional information on the same transcripts. For example:
 
 ##### How to get a Gene bed file:
 
