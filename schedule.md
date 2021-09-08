@@ -7,8 +7,13 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 excerpt: ""
 layout: "home"
 ---
-Each day runs from 10:00 AM Eastern to 5:00 PM Eastern
 
+For the CBW Sept 2021 RNA-seq course, please refer to the [CBW schedule](https://bioinformaticsdotca.github.io/RNA_2021). 
+
+
+The following schedule reflects a 5-day version of this course that was hosted by Cold Spring Harbor in Fall of 2020.
+
+Each day runs from 10:00 AM Eastern to 5:00 PM Eastern
 
 | Day |  Time (ET)  | Duration | Module | Topic                                                                                         |
 |-----|-------------|----------|--------|-----------------------------------------------------------------------------------------------|
