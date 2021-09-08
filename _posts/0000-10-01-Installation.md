@@ -86,6 +86,7 @@ Installation type: download a precompiled binary. Citation: [PMID: 25690850](htt
 The `gffcompare` tool for comparing transcript annotations is installed below by simply downloading an archive with `wget`, unpacking it with `tar`, and executing `gffcompare` to ensure it runs without error on our system.
 
 ```bash
+cd $RNA_HOME/student_tools/
 wget http://ccb.jhu.edu/software/stringtie/dl/gffcompare-0.12.1.Linux_x86_64.tar.gz
 tar -xzvf gffcompare-0.12.1.Linux_x86_64.tar.gz
 cd gffcompare-0.12.1.Linux_x86_64/
