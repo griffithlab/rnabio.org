@@ -97,7 +97,7 @@ Move all the FASTQC files into their own directory
 ```bash
 cd $RNA_HOME/data
 mkdir fastqc
-mv *fastqc* fastqc
+mv *_fastqc* fastqc
 
 ```
 
