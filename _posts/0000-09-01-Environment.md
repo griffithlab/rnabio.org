@@ -25,6 +25,12 @@ Make sure whatever the working dir is, that it is set and is valid
 ```bash
 echo $RNA_HOME
 ```
+Since all the environment variables we set up for the RNA-seq workshop start with 'RNA' we can easily view them all by combined use of the `env` and `grep` commands as shown below. The `env` command shows all environment variables currently defined and the `grep` command identifies string matches.
+
+```bash
+env | grep RNA
+```
+
 You can place the RNA_HOME variable (and other environment variables) in your .bashrc and then logout and login again to avoid having to worry about it. A `.bashrc` file with these variables has already been created for you.
 
 In order to view the contents of this file, you can type:
@@ -59,7 +65,7 @@ nano ~/.bashrc
 ```
 You can now see the contents of this file. Then, you want to add the above environment variables to the bottom of the file. You can do this by copying and pasting. Once you have the variables in the file, you'll want to type `ctrl` + `o` to save the file, then `enter` to confirm you want the same filename, then `ctrl` + `x` to exit nano.
 
-Since all the environment variables we set up for the RNA-seq workshop start with 'RNA' we can easily view them all by combined use of the `env` and `grep` commands as shown below. The `env` command shows all environment variables currently defined and the `grep` command identifies string matches.
+Again, check all the RNA related environment variables to make sure things look right.
 
 ```bash
 env | grep RNA
