@@ -95,12 +95,8 @@ boxplot(fpkm[2763,] ~ pheno_data$type, border=c(2,3), main=paste(ballgown::geneN
 points(fpkm[2763,] ~ jitter(c(2,2,2,1,1,1)), col=c(2,2,2,1,1,1)+1, pch=16)
 
 # Create a plot of transcript structures observed in each replicate and color transcripts by expression level
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample HBR_Rep1'), sample=c('HBR_Rep1'), labelTranscripts=TRUE)
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample HBR_Rep2'), sample=c('HBR_Rep2'), labelTranscripts=TRUE)
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample HBR_Rep3'), sample=c('HBR_Rep3'), labelTranscripts=TRUE)
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample UHR_Rep1'), sample=c('UHR_Rep1'), labelTranscripts=TRUE)
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample UHR_Rep2'), sample=c('UHR_Rep2'), labelTranscripts=TRUE)
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in sample UHR_Rep3'), sample=c('UHR_Rep3'), labelTranscripts=TRUE)
+plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in all HBR samples'), sample=c('HBR_Rep1', 'HBR_Rep2', 'HBR_Rep3'), labelTranscripts=TRUE)
+plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in all UHR samples'), sample=c('UHR_Rep1', 'UHR_Rep2', 'UHR_Rep3'), labelTranscripts=TRUE)
 
 #plotMeans('TST',bg,groupvar="type",legend=FALSE)
 
@@ -152,6 +148,7 @@ library(ggplot2)
 library(gplots)
 library(GenomicRanges)
 library(ballgown)
+library(ggrepel)
 
 #If X11 not available, open a pdf device for output of all plots
 pdf(file="Tutorial_Part3_Supplementary_R_output.pdf")
@@ -431,6 +428,28 @@ sig_gene_names_de=sig_tn_de[,"gene_name"]
 
 data=log2(as.matrix(gene_expression[as.vector(sig_genes_de),data_columns])+1)
 heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="none", dendrogram="both", margins=c(10,4), Rowv=TRUE, Colv=TRUE, symbreaks=FALSE, key=TRUE, symkey=FALSE, density.info="none", trace="none", main=main_title, cexRow=0.3, cexCol=1, labRow=sig_gene_names_de,col=rev(heat.colors(75)))
+
+#### Plot #12 - Volcano plot
+
+# default all genes to "no change"
+results_genes$diffexpressed <- "NO"
+# if log2Foldchange > 2 and pvalue < 0.05, set as "Up regulated"
+results_genes$diffexpressed[results_genes$de > 0.6 & results_genes$pval < 0.05] <- "UP"
+# if log2Foldchange < -2 and pvalue < 0.05, set as "Down regulated"
+results_genes$diffexpressed[results_genes$de < -0.6 & results_genes$pval < 0.05] <- "DOWN"
+
+results_genes$gene_label <- NA
+# write the gene names of those significantly upregulated to a new column
+results_genes$gene_label[results_genes$diffexpressed != "NO"] <- results_genes$gene_name[results_genes$diffexpressed != "NO"]
+
+p <- ggplot(data=results_genes, aes(x=de, y=-log10(pval), col=diffexpressed, label=delabel)) +
+             geom_point() +
+             theme_minimal() +
+             geom_text_repel() +
+             scale_color_manual(values=c("blue", "black", "red")) +
+             geom_vline(xintercept=c(-0.6, 0.6), col="red") +
+             geom_hline(yintercept=-log10(0.05), col="red")
+p
 
 dev.off()
 
