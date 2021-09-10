@@ -439,10 +439,10 @@ results_genes$diffexpressed[results_genes$de > 0.6 & results_genes$pval < 0.05] 
 results_genes$diffexpressed[results_genes$de < -0.6 & results_genes$pval < 0.05] <- "DOWN"
 
 results_genes$gene_label <- NA
-# write the gene names of those significantly upregulated to a new column
+# write the gene names of those significantly upregulated/downregulated to a new column
 results_genes$gene_label[results_genes$diffexpressed != "NO"] <- results_genes$gene_name[results_genes$diffexpressed != "NO"]
 
-p <- ggplot(data=results_genes, aes(x=de, y=-log10(pval), col=diffexpressed, label=delabel)) +
+p <- ggplot(data=results_genes, aes(x=de, y=-log10(pval), col=diffexpressed, label=gene_label)) +
              geom_point() +
              theme_minimal() +
              geom_text_repel() +
