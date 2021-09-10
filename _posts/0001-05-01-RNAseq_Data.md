@@ -133,7 +133,7 @@ Assignment: Download an additional dataset and unpack it. This data will be used
 * Hint: Do this in a separate working directory called ‘practice’ and create sub-directories for organization (data, alignments, etc).
 * In this exercise you will download an archive of publicly available read data from here: [http://genomedata.org/rnaseq-tutorial/practical.tar](http://genomedata.org/rnaseq-tutorial/practical.tar)
 
-The practice dataset includes 3 replicates of data from the HCC1395 breast cancer cell line and 3 replicates of data from HCC1395BL matched lymphoblastoid line. So, this will be a tumor vs normal (cell line) comparison. The reads are paired-end 151-mers generated on an Illumina HiSeq instrument. The test data has been pre-filtered for reads that appear to map to chromosome 22.
+The practice dataset includes 3 replicates of data from the HCC1395 breast cancer cell line and 3 replicates of data from HCC1395BL matched lymphoblastoid line. So, this will be a tumor vs normal (cell line) comparison. The reads are paired-end 151-mers generated on an Illumina HiSeq instrument from TruSeq Stranded Total RNA Libraries. The test data has been pre-filtered for reads that appear to map to chromosome 22.
 
 **Questions**
 
