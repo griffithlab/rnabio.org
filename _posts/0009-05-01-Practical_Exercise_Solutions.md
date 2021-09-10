@@ -232,12 +232,12 @@ cd $RNA_HOME/practice/
 mkdir -p expression/stringtie/ref_only/
 cd expression/stringtie/ref_only/
 
-stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep1/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep1.bam
-stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep2/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep2.bam
-stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep3/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep3.bam
+stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep1/transcripts.gtf -A HCC1395_tumor_rep1/gene_abundances.tsv $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep1.bam
+stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep2/transcripts.gtf -A HCC1395_tumor_rep2/gene_abundances.tsv $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep2.bam
+stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_tumor_rep3/transcripts.gtf -A HCC1395_tumor_rep3/gene_abundances.tsv $RNA_HOME/practice/alignments/hisat2/HCC1395_tumor_rep3.bam
 
-stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep1/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep1.bam
-stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep2/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep2.bam
-stringtie -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep3/transcripts.gtf $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep3.bam
+stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep1/transcripts.gtf -A HCC1395_normal_rep1/gene_abundances.tsv $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep1.bam
+stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep2/transcripts.gtf -A HCC1395_normal_rep2/gene_abundances.tsv $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep2.bam
+stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep3/transcripts.gtf -A HCC1395_normal_rep3/gene_abundances.tsv $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep3.bam
 
 ```
