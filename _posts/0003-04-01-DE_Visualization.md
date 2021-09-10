@@ -197,7 +197,7 @@ dim(gene_expression)
 You'll then get the first 3 rows of data and view expression and transcript information.
 
 ```R
-***R code***
+###R code###
 #Get the first 3 rows of data and a selection of columns
 gene_expression[1:3,c(1:3,6)]
 
