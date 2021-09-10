@@ -322,7 +322,7 @@ cut -f 2 $RNA_HOME/de/htseq_counts/DE_genes.txt | sort | uniq | grep -v Gene_Nam
 
 Visualize overlap with a venn diagram. This can be done with simple web tools like:
 
-* [http://www.cmbi.ru.nl/cdd/biovenn/](http://www.cmbi.ru.nl/cdd/biovenn/)
+* [https://www.biovenn.nl/](https://www.biovenn.nl/)
 * [http://bioinfogp.cnb.csic.es/tools/venny/](http://bioinfogp.cnb.csic.es/tools/venny/)
 
 To get the two gene lists you could use `cat` to print out each list in your terminal and then copy/paste.
