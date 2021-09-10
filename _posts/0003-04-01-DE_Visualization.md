@@ -432,24 +432,27 @@ heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="none", d
 #### Plot #12 - Volcano plot
 
 # default all genes to "no change"
-results_genes$diffexpressed <- "NO"
+results_genes$diffexpressed <- "No"
 # if log2Foldchange > 2 and pvalue < 0.05, set as "Up regulated"
-results_genes$diffexpressed[results_genes$de > 0.6 & results_genes$pval < 0.05] <- "UP"
+results_genes$diffexpressed[results_genes$de > 0.6 & results_genes$pval < 0.05] <- "Up"
 # if log2Foldchange < -2 and pvalue < 0.05, set as "Down regulated"
-results_genes$diffexpressed[results_genes$de < -0.6 & results_genes$pval < 0.05] <- "DOWN"
+results_genes$diffexpressed[results_genes$de < -0.6 & results_genes$pval < 0.05] <- "Down"
 
 results_genes$gene_label <- NA
 # write the gene names of those significantly upregulated/downregulated to a new column
-results_genes$gene_label[results_genes$diffexpressed != "NO"] <- results_genes$gene_name[results_genes$diffexpressed != "NO"]
+results_genes$gene_label[results_genes$diffexpressed != "No"] <- results_genes$gene_name[results_genes$diffexpressed != "No"]
 
-p <- ggplot(data=results_genes, aes(x=de, y=-log10(pval), col=diffexpressed, label=gene_label)) +
+ggplot(data=results_genes[results_genes$diffexpressed != "No",], aes(x=de, y=-log10(pval), label=gene_label, color = diffexpressed)) +
+             xlab("log2Foldchange") +
+             scale_color_manual(name = "Differentially expressed", values=c("blue", "red")) +
              geom_point() +
              theme_minimal() +
              geom_text_repel() +
-             scale_color_manual(values=c("blue", "black", "red")) +
              geom_vline(xintercept=c(-0.6, 0.6), col="red") +
-             geom_hline(yintercept=-log10(0.05), col="red")
-p
+             geom_hline(yintercept=-log10(0.05), col="red") +
+             guides(colour = guide_legend(override.aes = list(size=5))) +
+             geom_point(data = results_genes[results_genes$diffexpressed == "No",], aes(x=de, y=-log10(pval)), colour = "black")
+
 
 dev.off()
 
