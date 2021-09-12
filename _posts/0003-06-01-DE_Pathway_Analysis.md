@@ -164,7 +164,7 @@ quit(save="no")
 ```
 
 ### Visualize
-For this last step we will do a very brief introduction to visualizing our results. We will use a tool called [GOView](http://www.webgestalt.org/2017/GOView/), which is part of the [WEB-based Gene Set Ananlysis ToolKit (WebGestalt)]((http://www.webgestalt.org/) suite of tools. 
+For this last step we will do a very brief introduction to visualizing our results. We will use a tool called [GOView](http://www.webgestalt.org/2017/GOView/), which is part of the [WEB-based Gene Set Ananlysis ToolKit (WebGestalt)](http://www.webgestalt.org/) suite of tools. 
 
 **Step One**
  * Use a web browser to download your results
