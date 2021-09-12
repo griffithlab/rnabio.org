@@ -177,7 +177,7 @@ For this last step we will do a very brief introduction to visualizing our resul
  * Open the result file in your text editor of choice. We like [text wrangler](https://www.barebones.com/products/textwrangler/).
    You should also be able to open the file in excel, google sheets, or another spreadsheet tool. This might help you visualize the data in rows and columns (NB: There might be a small amount of formatting necessary to get the header to line up properly).
   
-  * You can either create an input file using [this file] as a guide, or you can simply use your downloaded data to cut and paste your GO terms of interest directly into[GOView](http://www.webgestalt.org/2017/GOView/)
+  * You can either create an input file using [this file] as a guide, or you can simply use your downloaded data to cut and paste your GO terms of interest directly into [GOView](http://www.webgestalt.org/2017/GOView/)
  
 **Step Two*]
 
