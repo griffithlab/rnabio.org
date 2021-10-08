@@ -68,7 +68,7 @@ zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | grep -P "
 
 ### Determining the strandedness of RNA-seq data (Optional)
 
-In order to determine strandedness, we will be using [check_strandedness](https://github.com/betsig/how_are_we_stranded_here)([docker image](https://hub.docker.com/r/smk5g5/checkstranded)). In order use this tool, there are a few steps we need to get our inputs ready, specifically creating a fasta of our GTF file.
+In order to determine strandedness, we will be using [check_strandedness](https://github.com/betsig/how_are_we_stranded_here)([docker image](https://hub.docker.com/r/mgibio/checkstrandedness)). In order use this tool, there are a few steps we need to get our inputs ready, specifically creating a fasta of our GTF file.
 
 ```bash
 cd $RNA_HOME/refs/
@@ -105,7 +105,7 @@ awk '{ if ($0 ~ "transcript_id") print $0; else print $0" transcript_id \"\";"; 
 Now that we have created our input files, we can now run the check_strandedness tool on some of our instrument data. Note: we are using a docker image for this tool.
 
 ```bash
-docker run -v /home/ubuntu/workspace/rnaseq:/docker_workspace chrisamiller/how_stranded:latest check_strandedness --gtf /docker_workspace/refs/chr22_with_ERCC92_tidy.gtf --transcripts /docker_workspace/refs/chr22_ERCC92_transcripts.clean.fa --reads_1 /docker_workspace/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz --reads_2 /docker_workspace/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+docker run -v /home/ubuntu/workspace/rnaseq:/docker_workspace mgibio/checkstrandedness:latest check_strandedness --gtf /docker_workspace/refs/chr22_with_ERCC92_tidy.gtf --transcripts /docker_workspace/refs/chr22_ERCC92_transcripts.clean.fa --reads_1 /docker_workspace/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz --reads_2 /docker_workspace/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
 ```
 `docker run` is how you initialize a docker container to run a command
 
