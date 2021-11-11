@@ -8,23 +8,20 @@ excerpt: ""
 layout: "home"
 ---
 
-For the CBW Sept 2021 RNA-seq course, please refer to the [CBW schedule](https://bioinformaticsdotca.github.io/RNA_2021). 
-
-
-The following schedule reflects a 5-day version of this course that was hosted by Cold Spring Harbor in Fall of 2020.
+The following schedule reflects a 7-day version of this course that is being hosted by Cold Spring Harbor in the Fall of 2021.
 
 Each day runs from 10:00 AM Eastern to 5:00 PM Eastern
 
 | Day |  Time (ET)  | Duration | Module | Topic                                                                                         |
 |-----|-------------|----------|--------|-----------------------------------------------------------------------------------------------|
-|  1  | 10:00-10:15 | 0:15     |        | Introduction to the course                                     					                      |
+|  1  | 10:00-10:15 | 0:15     |        | Introduction to the course and curriculum. Instructor/student introductions.                  |
 |     | 10:15-11:15 | 1:00     |        | “Overview of Next-generation Short Read Sequencing Technologies and Methods” lecture          |
 |     | 11:15-12:15 | 1:00     |        | “PacBIO and Oxford Nanopore Long read sequencing” lecture                                     |
-|     | 12:15-13:00 | 0:45     |        | “Single Cell Sequencing Technology and Applications” lecture                                  |
+|     | 12:15-13:00 | 0:45     |        | “Improved detection of DNA insertions with Absinthe” lecture                                  |
 |     | 13:00-14:00 | 1:00     |        | Midday Break                                                                                  |
-|     | 14:00-15:00 | 1:00     |        | “Epigenomics and NGS” lecture		                                                              |
-|     | 15:00-15:15 | 0:15     |        | Introduction to bioinformatics instructors                                                    |
-|     | 15:15-16:00 | 0:45     | 0      | Introduction to Cloud Computing and Cloud Set-up                                              |
+|     | 14:00-14:45 | 0:45     |        | Oxford Nanopore Technology demo and tour                                                      |
+|     | 14:45-16:00 | 1:15     |        | “Single Cell Technologies and Applications” lecture                                           |
+|     | 16:0016:30 45     | 0      | Introduction to Cloud Computing and Cloud Set-up                                              |
 |     | 16:00-17:00 | 1:00     |        | Command line warm up                                                                          |
 |  2  | 10:00-11:00 | 1:00     |        | “Intro to RNA-sequencing and analysis” lecture                                                |
 |     | 11:00-11:30 | 0:30     |        | Environment setup and tool installation lab                                                   |
