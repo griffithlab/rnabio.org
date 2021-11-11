@@ -35,7 +35,7 @@ YOU CAN SKIP TO THE NEXT SECTION FROM HERE.
 Briefly the process for launching an EC2 instance for this course involves these steps:
 1. Login to AWS using the specific url and credentials (user/password) you were provided. 
 2. Search for and select EC2 to access the EC2 console.
-3. Select Launch Instance, search for "cshl-seqtech-2020" in Community AMIs and Select.
+3. Select Launch Instance, search for "cshl-seqtech-2021" in Community AMIs and Select.
 4. Choose "m5.2xlarge" instance type.
 5. Select one instance to launch, and select "Protect against accidental termination".
 6. Make sure that you see two snapshots.
