@@ -23,7 +23,5 @@ date: 0000-01-01
 * Set up environment and install necessary tools
 
 ### Lectures
-For 2021 CBW RNA course students, please follow the AWS instructions here instead for cloud computing:
-[CBW_2021_AWS.pdf](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/full/CBW_2021_AWS.pdf).
 
-* [Introduction to cloud computing](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2020/full/RNASeq_Module0_CloudComputing.pdf)
+* [Introduction to cloud computing](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2021/full/RNASeq_Module0_CloudComputing.pdf)
