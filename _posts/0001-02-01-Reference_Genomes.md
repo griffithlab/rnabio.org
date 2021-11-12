@@ -95,11 +95,15 @@ time cat chr22_with_ERCC92.fa | grep -v ">" | awk '{for (i=1; i<=NF; i++){a[$i]+
 #3. The Sed approach. Sed is an alternative scripting language. "tr" is used to remove newline characters. Then sed is used simply to split each character onto its own line, effectively creating a file with millions of lines. Then unix sort and uniq are used to produce counts of each unique character, and sort is used to order the results consistently with the previous approaches.
 time cat chr22_with_ERCC92.fa | grep -v ">" | tr -d '\n' | sed 's/\(.\)/\1\n/g'  - | sort | uniq -c | sort -k 2 | column -t
 
-#4. Finally, the simplest/shortest approach that leverages the unix fold command to split each character onto its own line as in the Sed example.
+#4. The grep appoach. The "-o" option of grep splits each match onto a line which we then use to get a count. The "-i" option makes the matching work for upper/lower case. The "-P" option allows us to use Perl style regular expressions with Greg.
+time cat chr22_with_ERCC92.fa | grep -v ">" | grep -i -o -P "a|c|g|t|y|n" | sort | uniq -c 
+
+#5. Finally, the simplest/shortest approach that leverages the unix fold command to split each character onto its own line as in the Sed example.
 time cat chr22_with_ERCC92.fa | grep -v ">" | fold -w1 | sort | uniq -c | column -t
 
+
 ```
-Which method is fastest? Why are the first two approaches so much faster than the second two?
+Which method is fastest? Why are the first two approaches so much faster than the others?
 
 ***
 
