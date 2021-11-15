@@ -179,7 +179,7 @@ For this last step we will do a very brief introduction to visualizing our resul
   
   * You can either create an input file using [this file](http://genomedata.org/rnaseq-tutorial/fc.go.cc.p.down_web_ges.tsv) as a guide, or you can simply use your downloaded data to cut and paste your GO terms of interest directly into [GOView](http://www.webgestalt.org/2017/GOView/)
  
-**Step Two*]
+**Step Two**
 
 * Navigate to the [WEB-based Gene Set Analysis ToolKit (WebGestalt)](http://www.webgestalt.org/) 
 
