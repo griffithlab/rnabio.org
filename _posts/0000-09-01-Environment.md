@@ -42,6 +42,7 @@ less ~/.bashrc
 To exit the file, type `q`.
 
 Environment variables used throughout this tutorial:
+
 ```bash
 export RNA_HOME=~/workspace/rnaseq
 export RNA_DATA_DIR=$RNA_HOME/data
@@ -59,10 +60,27 @@ We will be using picard tools throughout this workshop. To follow along, you wil
 export PICARD=/usr/local/picard/picard.jar
 ```
 
-If these variables are not part of your .bashrc, you can type the following. First, you can open your .bashrc file with nano by simply typing:
+For simplicity, we are going to download a preconfigured `.bashrc` file to use.
+
+```bash
+cd ~
+wget http://genomedata.org/rnaseq-tutorial/bashrc_copy
+mv bashrc_copy ~/.bashrc
+source ~/.bashrc
+```
+
+Now if you run the following command, you should see the RNA environment variables present.
+
+```bash
+env | grep RNA
+```
+
+Alternatively, you could have add these enivroment variables manually if they were not part of your .bashrc. First, you can open your .bashrc file with nano by simply typing:
+
 ```bash
 nano ~/.bashrc
 ```
+
 You can now see the contents of this file. Then, you want to add the above environment variables to the bottom of the file. You can do this by copying and pasting. Once you have the variables in the file, you'll want to type `ctrl` + `o` to save the file, then `enter` to confirm you want the same filename, then `ctrl` + `x` to exit nano.
 
 Again, check all the RNA related environment variables to make sure things look right.
