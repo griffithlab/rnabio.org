@@ -9,22 +9,27 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0000-09-01
 ---
 
-### Getting Started
+## Getting Started
+
 This tutorial assumes use of a Linux computer with an 'x86_64' architecture. The rest of the tutorial should be conducted in a linux Terminal session. In other words you must already be logged into the Amazon EC2 instance as described in the previous section.
 
 Before proceeding you must define a global working directory by setting the environment variable: 'RNA_HOME'
 Log into a server and SET THIS BEFORE RUNNING EVERYTHING.
 
 Create a working directory and set the 'RNA_HOME' environment variable
+
 ```bash
 mkdir -p ~/workspace/rnaseq/
 
 export RNA_HOME=~/workspace/rnaseq
 ```
+
 Make sure whatever the working dir is, that it is set and is valid
+
 ```bash
 echo $RNA_HOME
 ```
+
 Since all the environment variables we set up for the RNA-seq workshop start with 'RNA' we can easily view them all by combined use of the `env` and `grep` commands as shown below. The `env` command shows all environment variables currently defined and the `grep` command identifies string matches.
 
 ```bash
