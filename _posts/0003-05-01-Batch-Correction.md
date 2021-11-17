@@ -217,6 +217,8 @@ batches = sapply(as.character(library_methods), switch, "Ribo" = 1, "Poly" = 2, 
 
 #now run ComBat_seq
 corrected_data = ComBat_seq(counts = as.matrix(uncorrected_data[,sample_names]), batch = batches, group = groups)
+
+#join the gene and chromosome names onto the now corrected counts from ComBat_seq
 corrected_data = cbind(uncorrected_data[,c("Gene","Chr")], corrected_data)
 
 #compare dimensions of corrected and uncorrected data sets
@@ -275,7 +277,12 @@ How does batch correction influence differential gene expression results?  Use U
 - UHR-Poly vs HBR-Ribo (different library types, 4 vs 4 replicates)
 - UHR-Comb vs HBR-Comb (combined library types, 8 vs 8 replicates)
 
-These five differential expression analysis comparisons will be performed with both the uncorrected and corrected data. Does correction increase agreement between the five comparisons? Does it appear to increase statistic power when combining all 8 replicates of UHR and HBR?
+These five differential expression analysis comparisons will be performed with both the uncorrected and corrected data. 
+
+- Does correction increase agreement between the five comparisons? 
+- Does it appear to increase statistical power when combining all 8 replicates of UHR and HBR?
+- What do we expect to see for comparisons like UHR-Ribo vs HBR-Poly before and after batch correction? Do we expect correction to increase or decrease the number of significant results?
+
 
 Explore these questions by continuing on with the R session started above and doing the following:
 ```R
@@ -342,14 +349,14 @@ run_edgeR = function(data, group_a_name, group_a_samples, group_b_samples, group
   return(mat)
 }
 
-#run the five comparisons through edgeR using the uncorrected data
+#run the five comparisons through edgeR using the *uncorrected data*
 uhr_ribo_vs_hbr_ribo_uncorrected = run_edgeR(data=uncorrected_data, group_a_name="UHR", group_a_samples=uhr_ribo_samples, group_b_name="HBR", group_b_samples=hbr_ribo_samples)
 uhr_poly_vs_hbr_poly_uncorrected = run_edgeR(data=uncorrected_data, group_a_name="UHR", group_a_samples=uhr_poly_samples, group_b_name="HBR", group_b_samples=hbr_poly_samples)
 uhr_ribo_vs_hbr_poly_uncorrected = run_edgeR(data=uncorrected_data, group_a_name="UHR", group_a_samples=uhr_ribo_samples, group_b_name="HBR", group_b_samples=hbr_poly_samples)
 uhr_poly_vs_hbr_ribo_uncorrected = run_edgeR(data=uncorrected_data, group_a_name="UHR", group_a_samples=uhr_poly_samples, group_b_name="HBR", group_b_samples=hbr_ribo_samples)
 uhr_vs_hbr_uncorrected = run_edgeR(data=uncorrected_data, group_a_name="UHR", group_a_samples=uhr_samples, group_b_name="HBR", group_b_samples=hbr_samples)
 
-#run the same five comparisons through edgeR using the batch corrected data
+#run the same five comparisons through edgeR using the *batch corrected data*
 uhr_ribo_vs_hbr_ribo_corrected = run_edgeR(data=corrected_data, group_a_name="UHR", group_a_samples=uhr_ribo_samples, group_b_name="HBR", group_b_samples=hbr_ribo_samples)
 uhr_poly_vs_hbr_poly_corrected = run_edgeR(data=corrected_data, group_a_name="UHR", group_a_samples=uhr_poly_samples, group_b_name="HBR", group_b_samples=hbr_poly_samples)
 uhr_ribo_vs_hbr_poly_corrected = run_edgeR(data=corrected_data, group_a_name="UHR", group_a_samples=uhr_ribo_samples, group_b_name="HBR", group_b_samples=hbr_poly_samples)
@@ -362,7 +369,7 @@ dim(uhr_vs_hbr_corrected)
 
 #create upset plots to summarize the overlap between the comparisons performed above
 
-#first from uncorrected data
+#first create upset plot from the uncorrected data
 pdf(file="Uncorrected-UpSet.pdf")
 listInput = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[,"Gene"], 
                  "4 UHR Poly vs 4HBR Poly" = uhr_poly_vs_hbr_poly_uncorrected[,"Gene"],
@@ -372,7 +379,7 @@ listInput = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[,
 upset(fromList(listInput), order.by = "freq", number.angles=45, point.size=3)
 dev.off()
 
-#now from corrected data
+#now create an upset plot from the batch corrected data
 pdf(file="BatchCorrected-UpSet.pdf")
 listInput = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_corrected[,"Gene"], 
                  "4 UHR Poly vs 4 HBR Poly" = uhr_poly_vs_hbr_poly_corrected[,"Gene"],
@@ -390,7 +397,7 @@ quit(save="no")
 
 ```
 
-Note that an UpSet plot is an alternative to a Venn Diagram. It shows the overlap (intersection) between an arbitrary number of sets of values. In this case we are comparing the list of genes identified as significantly DE by five different comparisons.  The black circles connected by a line indicate each combination of sets being considered and the bar graph above shows how many genes are shared across those sets.  For example, the first column has all five black circles.  The bar above that column indicates how many genes were found in all five DE comparisons performed. 
+Note that an UpSet plot is an alternative to a Venn Diagram. It shows the overlap (intersection) between an arbitrary number of sets of values. In this case we are comparing the list of genes identified as significantly DE by five different comparisons.  The black circles connected by a line indicate each combination of sets being considered. The bar graph above each column shows how many genes are shared across those sets.  For example, the first column has all five black circles.  The bar above that column indicates how many genes were found in all five DE comparisons performed. 
 
 Remember, in this analysis, all five comparisons are asking the same biological question. What genes are differentially expressed between UHR (cancer cell lines) and HBR (brain tissue)?   
 
@@ -408,8 +415,8 @@ What differs in each comparison is:
 There are several notable observations from the analysis above and the two UpSet plots.
 
 - In the uncorrected data, we actually see more DE genes when comparing a mix of library contruction approaches (e.g. UHR-Ribo vs UHR-Poly). There are likely false positives in these results.  i.e. Genes that appear to be different between UHR and HBR, but where the difference is actually caused by differences in the library preparation not the biology.
-- If we combine all 8 samples together for each biological condition we can see that we actually get considerably *fewer* significant genes. Presumably this is because we are now introducing noise caused by a mix of different library construction approaches and this impacts the statistical analysis.
-- When we apply batch correction, we see that now all five comparisons tend to agree with each other for the most part on what genes are differentially expressed.
-- With the batch corrected data we now see that combining all 8 samples actually improves statistical power and results in a *larger* number of significant DE genes relative to the 4 vs 4 comparisons.
+- If we combine all 8 samples together for each biological condition we can see that we actually get considerably *fewer* significant genes with the uncorrected data. Presumably this is because we are now introducing noise caused by a mix of different library construction approaches and this impacts the statistical analysis (more variability).
+- When we apply batch correction, we see that now all five comparisons tend to agree with each other for the most part on what genes are differentially expressed. Overall agreement across comparisons is improved.
+- With the batch corrected data we now see that combining all 8 samples actually improves statistical power and results in a *larger* number of significant DE genes relative to the 4 vs 4 comparisons. This is presumably the most accurate result of all the comparisons we did.
 
 
