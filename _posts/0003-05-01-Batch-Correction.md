@@ -209,8 +209,13 @@ Continuing the R session started above, use ComBat-Seq to perform batch correcti
 ```R
 
 #perform the batch correction
+
+#first we need to transform the format of our groups and batches from names (e.g. "UHR", "HBR", etc.) to numbers (e.g. 1, 2, etc.)
+#in the command below "sapply" is used to apply the "switch" command to each element and convert names to numbers as we define
 groups = sapply(as.character(conditions), switch, "UHR" = 1, "HBR" = 2, USE.NAMES = F)
 batches = sapply(as.character(library_methods), switch, "Ribo" = 1, "Poly" = 2, USE.NAMES = F)
+
+#now run ComBat_seq
 corrected_data = ComBat_seq(counts = as.matrix(uncorrected_data[,sample_names]), batch = batches, group = groups)
 corrected_data = cbind(uncorrected_data[,c("Gene","Chr")], corrected_data)
 
