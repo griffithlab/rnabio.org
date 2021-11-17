@@ -85,17 +85,17 @@ ERCC_gene_count <-nrow(DE_genes[grepl("ERCC",DE_genes$Gene),])
 ERCC_gene_count
 
 ###Deal with genes that we do not have an Entrez ID for 
-#missing_ensembl_key<-DE_genes_clean[is.na(DE_genes_clean$entrez),]
-#DE_genes_clean <-DE_genes_clean[!DE_genes_clean$Gene_Name %in% missing_ensembl_key$Gene_Name,]
+missing_ensembl_key<-DE_genes_clean[is.na(DE_genes_clean$entrez),]
+DE_genes_clean <-DE_genes_clean[!DE_genes_clean$Gene %in% missing_ensembl_key$Gene,]
 
 ###Try mapping using a different key
-#missing_ensembl_key$entrez <- mapIds(org.Hs.eg.db, keys=missing_ensembl_key$Gene_Name, column="ENTREZID", keytype="SYMBOL", multiVal='first')
+missing_ensembl_key$entrez <- mapIds(org.Hs.eg.db, keys=missing_ensembl_key$Symbol, column="ENTREZID", keytype="SYMBOL", multiVal='first')
 
 #Remove remaining genes 
-#missing_ensembl_key_update <- missing_ensembl_key[!is.na(missing_ensembl_key$entrez),]
+missing_ensembl_key_update <- missing_ensembl_key[!is.na(missing_ensembl_key$entrez),]
 
 #Create a Final Gene list of all genes where we were able to find an Entrez ID (using two approaches)
-#DE_genes_clean <-rbind(DE_genes_clean,missing_ensembl_key_update)
+DE_genes_clean <-rbind(DE_genes_clean,missing_ensembl_key_update)
 ```
 
 ### Final preparation of edgeR results for gage
