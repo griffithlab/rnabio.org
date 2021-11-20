@@ -23,8 +23,8 @@ date: 0002-01-01
 * BAM read counting and determination of variant allele expression status
 
 ### Lectures
-* [Introduction to alignment mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/mini/RNASeq_MiniLecture_02_01_Alignment.pdf)
-* [Alignment/Assembly/kmer mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/mini/RNASeq_MiniLecture_02_02_Alignment_vs_Assembly_vs_Kmer.pdf)
-* [SAM/BAM/BED formats mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/mini/RNASeq_MiniLecture_02_03_SAM_BAM_BED.pdf)
-* [Introduction to IGV lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/full/RNASeq_Module2_IGV_Tutorial_Brief.pdf)
-* [Alignment QC mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/mini/RNASeq_MiniLecture_02_04_alignmentQC.pdf)
+* [Introduction to alignment mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2021/mini/RNASeq_MiniLecture_02_01_Alignment.pdf)
+* [Alignment/Assembly/kmer mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2021/mini/RNASeq_MiniLecture_02_02_Alignment_vs_Assembly_vs_Kmer.pdf)
+* [SAM/BAM/BED formats mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2021/mini/RNASeq_MiniLecture_02_03_SAM_BAM_BED.pdf)
+* [Introduction to IGV lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2021/full/RNASeq_Module2_IGV_Tutorial_Brief.pdf)
+* [Alignment QC mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2021/mini/RNASeq_MiniLecture_02_04_alignmentQC.pdf)

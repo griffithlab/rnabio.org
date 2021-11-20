@@ -80,7 +80,7 @@ fpkm = log2(fpkm+1)
 tail(fpkm)
 
 # Create boxplots to display summary statistics for the FPKM values for each sample
-boxplot(fpkm,col=as.numeric(pheno_data$type)+1,las=2,ylab='log2(FPKM+1)')
+boxplot(fpkm,col=as.numeric(as.factor(pheno_data$type))+1,las=2,ylab='log2(FPKM+1)')
 
 # Display the transcript ID for a single row of data
 ballgown::transcriptNames(bg)[2763]
