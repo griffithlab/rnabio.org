@@ -10,9 +10,9 @@ date: 0002-03-01
 ---
 
 ### Alignment mini lecture
-If you would like a refresher on alignment, we have created an [alignment mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/mini/RNASeq_MiniLecture_02_01_Alignment.pdf).
+If you would like a refresher on alignment, we have created an [alignment mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2021/mini/RNASeq_MiniLecture_02_01_Alignment.pdf).
 
-We have also provided a mini lectures describing the differences between [alignment, assembly, and pseudoalignment](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/mini/RNASeq_MiniLecture_02_02_Alignment_vs_Assembly_vs_Kmer.pdf) and describing [sam, bam, and bed file formats](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2021/mini/RNASeq_MiniLecture_02_03_SAM_BAM_BED.pdf).
+We have also provided a mini lectures describing the differences between [alignment, assembly, and pseudoalignment](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2021/mini/RNASeq_MiniLecture_02_02_Alignment_vs_Assembly_vs_Kmer.pdf) and describing [sam, bam, and bed file formats](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2021/mini/RNASeq_MiniLecture_02_03_SAM_BAM_BED.pdf).
 
 ### HISAT2 alignment
 Perform alignments with HISAT2 to the genome and transcriptome.
@@ -30,7 +30,7 @@ HISAT2 uses a graph-based alignment and has succeeded HISAT and TOPHAT2. The out
 
 Refer to HISAT2 manual for a more detailed explanation:
 
-* [https://ccb.jhu.edu/software/hisat2/manual.shtml](https://ccb.jhu.edu/software/hisat2/manual.shtml)
+* [http://daehwankimlab.github.io/hisat2/manual/](http://daehwankimlab.github.io/hisat2/manual/)
 
 HISAT2 basic usage:
 
