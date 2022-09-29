@@ -18,7 +18,7 @@ You are expected to be familiar with basic command line usage before the worksho
 * [Unix cheat sheet](https://www.guru99.com/linux-commands-cheat-sheet.html)
 
 ### 2.) Reading materials
-Please read these two articles before coming to the workshop:
+Please read these articles before coming to the workshop:
 
 * RNA-seq data fundamentals. [RNA Sequencing: The Teenage Years](https://pubmed.ncbi.nlm.nih.gov/31341269/).
 * RNA-seq analysis and statistics fundamentals. [RNA Sequencing Data: Hitchhiker’s Guide to Expression Analysis](https://www.annualreviews.org/doi/pdf/10.1146/annurev-biodatasci-072018-021255).
@@ -26,6 +26,6 @@ Please read these two articles before coming to the workshop:
 
 Optional readings:
 
-These are just two recently published examples that we find particularly good. We have collected a much more extensive list of resources that should be aware of below. Simply take a look at these and note for future reference.
+These are just three recently published examples that we find particularly good. We have collected a much more extensive list of resources that should be aware of below. Simply take a look at these and note for future reference.
 
 * [RNA-seq resources](https://rnabio.org/resources/)
