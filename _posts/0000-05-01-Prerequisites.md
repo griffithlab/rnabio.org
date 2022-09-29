@@ -21,14 +21,14 @@ You are expected to be familiar with **R** before the workshop. If you are unfam
 You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, below is a suggested tutorial. If you have a Mac computer you can use the "Terminal" application to complete this tutorial. If you have access to a linux server at your institution you could do it there. If neither of those is available you can try a free online termline application that runs in your browser such as [COCALC](https://cocalc.com/app?anonymous=terminal).
 
 * [UNIX Intro Tutorial](https://rnabio.org/module-00-setup/0000/08/01/Unix/)
-* [Unix Cheat sheet](http://www.mathcs.emory.edu/~valerie/courses/fall10/155/resources/unix_cheatsheet.html) 
+* [Unix cheat sheet](https://www.guru99.com/linux-commands-cheat-sheet.html)
 
 ### 3.) Reading materials
 Please read these two articles before coming to the workshop:
 
 * RNA-seq data fundamentals. [RNA Sequencing: The Teenage Years](https://pubmed.ncbi.nlm.nih.gov/31341269/).
-
 * RNA-seq analysis and statistics fundamentals. [RNA Sequencing Data: Hitchhiker’s Guide to Expression Analysis](https://www.annualreviews.org/doi/pdf/10.1146/annurev-biodatasci-072018-021255).
+* scRNA-seq technologies and applications. [Single-cell RNA sequencing technologies and applications: A brief overview](https://doi.org/10.1002/ctm2.694)
 
 Optional readings:
 
