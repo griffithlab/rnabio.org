@@ -11,19 +11,13 @@ date: 0000-05-01
 
 ## Do these before coming to the workshop:
 
-### 1.) R tutorial 
-You are expected to be familiar with **R** before the workshop. If you are unfamiliar with **R**, here is a suggested tutorial and command reference. Using R installed on your computer please work through the tutorial.  
-
-* The [GenViz Intro R tutorial](https://genviz.org/module-02-r/0002/02/01/introductionToR/) 
-* The [R command cheat sheet](https://github.com/bioinformaticsdotca/bioinformaticsdotca.github.io/blob/master/resources/R_Short-refcard.pdf)
-
-### 2.) Command line tutorial
+### 1.) Command line tutorial
 You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, below is a suggested tutorial. If you have a Mac computer you can use the "Terminal" application to complete this tutorial. If you have access to a linux server at your institution you could do it there. If neither of those is available you can try a free online termline application that runs in your browser such as [COCALC](https://cocalc.com/app?anonymous=terminal).
 
 * [UNIX Intro Tutorial](https://rnabio.org/module-00-setup/0000/08/01/Unix/)
 * [Unix cheat sheet](https://www.guru99.com/linux-commands-cheat-sheet.html)
 
-### 3.) Reading materials
+### 2.) Reading materials
 Please read these two articles before coming to the workshop:
 
 * RNA-seq data fundamentals. [RNA Sequencing: The Teenage Years](https://pubmed.ncbi.nlm.nih.gov/31341269/).
