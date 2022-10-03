@@ -39,7 +39,7 @@ A [live version of Jupyter][live-Jupyter] is available to try online, and provid
 
 [git]: https://git-scm.com/
 [GitHub]: https://github.com/
-[GitHub-guide]: https://guides.github.com/activities/hello-world/
+[GitHub-guide]: https://docs.github.com/en/get-started/quickstart/hello-world
 
 ## Managing Your Compute Environment
 
@@ -53,7 +53,7 @@ One of the most challenging aspects of bioinformatics workflows is reproducibili
 
 [Conda][Conda] is a language-agnostic package, dependency and environment management system. It is included in the data-science-focused distribution of Conda, [Anaconda][Anaconda]. Anaconda is based on Python and R packages for the analysis of scientific, large-scale data. Bioinformaticians also commonly use [Bioconda][Bioconda], which add channels to Conda with bioinformatics tools (such as the popular sequence alignment tool BWA).
 
-[Anaconda]: https://www.anaconda.com/why-anaconda/
+[Anaconda]: https://www.anaconda.com/about-us
 [Conda]: http://conda.pydata.org/docs/
 [Bioconda]: https://bioconda.github.io/
 [EC2]: https://aws.amazon.com/ec2/
