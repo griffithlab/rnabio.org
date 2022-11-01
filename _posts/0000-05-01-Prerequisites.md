@@ -23,6 +23,7 @@ Please read these articles before coming to the workshop:
 * RNA-seq data fundamentals. [RNA Sequencing: The Teenage Years](https://pubmed.ncbi.nlm.nih.gov/31341269/).
 * RNA-seq analysis and statistics fundamentals. [RNA Sequencing Data: Hitchhiker’s Guide to Expression Analysis](https://www.annualreviews.org/doi/pdf/10.1146/annurev-biodatasci-072018-021255).
 * scRNA-seq technologies and applications. [Single-cell RNA sequencing technologies and applications: A brief overview](https://doi.org/10.1002/ctm2.694)
+* DNA sequencing and variant calling overview [Novel sequencing technologies and bioinformatic tools for deciphering the non-coding genome](https://doi.org/10.1515/medgen-2021-2072)
 
 Optional readings:
 
