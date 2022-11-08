@@ -17,23 +17,23 @@ Covered in this section: logging into AWS EC2 console, starting an instance from
 ## Launching an AWS instance for the course
 In the previous section [Introduction to AWS](https://rnabio.org/module-00-setup/0000/04/01/Intro_to_AWS/) we reviewed fundamental concepts of cloud computing and some of the jargon and features specific to AWS. In this section we will learn how to launch an instance specifically for this course.
 
-In order to launch your own instance you will either need to use your own personal AWS account, an account provided through your institution OR if you are taking a live version of this course you will be assigned an AWS account using the IAMS system. The following instructions are used for a live version of this course, but the process would be essentially the same when using a personal or institutional account. 
+In order to launch your own instance you will either need to use your own personal AWS account, an account provided through your institution OR if you are taking a live version of this course you will be assigned an AWS account using the IAMS system. The following instructions are used for a live version of this course, but the process would be essentially the same when using a personal or institutional account.
 
-* Once your EC2 instance is up and running, make note of its IP address. 
+* Once your EC2 instance is up and running, make note of its IP address.
 * Instructions for logging into this cloud instance (including instructions for Windows systems, if applicable) can be found below.
 * This will ONLY occur once we are in the classroom as it costs money to have these servers running.
-* Each student will launch their own instance from a preconfigured AMI. 
+* Each student will launch their own instance from a preconfigured AMI.
 
 Briefly the process for launching an EC2 instance for this course involves these steps:
-1. Login to AWS using the specific url and credentials (user/password) you were provided. 
+1. Login to AWS using the specific url and credentials (user/password) you were provided.
 2. Search for and select EC2 to access the EC2 console.
-3. Select Launch Instance, search for "cshl-seqtech-2021" in My AMIs and Select.
+3. Select Launch Instance, search for "cshl-seqtec-2022" in My AMIs and Select.
 4. Choose and Instance Type: Select "m5.2xlarge" and then "Next".
 5. Configure Instance Details: Select one instance to launch, select "Protect against accidental termination", and then "Next".
 6. Add Storage: Make sure that you see two snapshots and then "Next".
 7. Add Tags: Create a tag with **name=StudentName** (We recommend First initial and last name. e.g. MGriffith).
 8. Configure Security Group: Choose existing security group called "SSH and HTTP". Review and Launch.
-9. Choose an existing key pair (cshl_2021_student) and "Launch Instances".
+9. Choose an existing key pair (cshl_2022_student) and "Launch Instances".
 10. View instances and wait for your instance to finish initiating.
 11. Find your instance in console and select it, then hit connect to get your public.ip.address (EC2 Instance Connect).
 12. Login to the instance as described below.
@@ -43,7 +43,7 @@ Briefly the process for launching an EC2 instance for this course involves these
 ### Preamble
 
 * In order to log in to your instance, you will need a security certificate or "key file".
- * You will be provided with a key file called: "cshl_2021_student.pem" (for Mac/Linux users) OR "cshl_2021_student.ppk" (for Windows/PuTTy users).
+ * You will be provided with a key file called: "cshl_2022_student.pem" (for Mac/Linux users) OR "cshl_2022_student.ppk" (for Windows/PuTTy users).
 * NOTE: It is very important that you use only your own instance (ip address or dns name) when logging in!  If two people log into the same Amazon machine they may have collisions as they try to write files to the same places and this will cause errors and confusion.
 * On the cloud, we are going to use the default username: "ubuntu"
 
@@ -53,13 +53,13 @@ Briefly the process for launching an EC2 instance for this course involves these
 * Make sure the permissions on your certificate are secure. Use chmod on your downloaded key file:
 
 ```bash
-chmod 400 cshl_2021_student.pem
+chmod 400 cshl_2022_student.pem
 ```
 
 * To log in to the node, use the -i command line argument to specify your certificate:
 
 ```bash
-ssh -i cshl_2021_student.pem ubuntu@[your ip address]
+ssh -i cshl_2022_student.pem ubuntu@[your ip address]
 ```
 
 `-i` selects a file from which the public key authentication is read.  `ubuntu` is the name of a user on the system you are logging into (a default user of the Ubuntu operating system). `[your ip address]` is the address of the linux system on Amazon that you are logging into. Instead of ip address you can also use a public dns name.
@@ -75,7 +75,7 @@ To configure PuTTy, start PuTTy and do the following:
 
 ![Logging in with putty (Windows)](/assets/module_0/PuTTY_Data.png)
 
-* In the left hand categories, in the Connection category next to SSH click on the +. Click on Auth. In the private-key file for authentication field, hit browse and find the `cshl_2021_student.ppk` certificate that you downloaded above.
+* In the left hand categories, in the Connection category next to SSH click on the +. Click on Auth. In the private-key file for authentication field, hit browse and find the `cshl_2022_student.ppk` certificate that you downloaded above.
 
 ![Logging in with putty (Windows)](/assets/module_0/PuTTY_SSH_Auth.png)
 
@@ -90,7 +90,7 @@ To configure PuTTy, start PuTTy and do the following:
 * To copy files from an instance, use scp in a similar fashion (in this case to copy a file called nice_alignments.bam):
 
 ```bash
-scp -i cshl_2021_student.pem ubuntu@[your ip address]:nice_alignments.bam .
+scp -i cshl_2022_student.pem ubuntu@[your ip address]:nice_alignments.bam .
 ```
 
 * Everything created in your workspace on the cloud is also available by a web server on your cloud instance.  Simply go to the following in your browser:
@@ -101,19 +101,19 @@ http://[your ip address]/ or http://[your dns name]
 
 When you log in, you will notice that you have one  directory already: "workspace".
 
-* The "workspace" directory is where we will keep all files and analysis results for this course. 
+* The "workspace" directory is where we will keep all files and analysis results for this course.
 
 ## Uploading your data to the AWS instance
 If you would like to upload your data to the AWS instance, use the example scp command below.  Be sure to replace the variables below with the local path to your data, __MY_DATA__, and the amazon instance IP, __YOUR_IP_ADDRESS__.
 
 ```bash
-scp -i cshl_2021_student.pem __MY_DATA__ ubuntu@[your ip address]:/
+scp -i cshl_2022_student.pem __MY_DATA__ ubuntu@[your ip address]:/
 ```
 
 ## Doing this course outside of a workshop
 If you are trying to do this course on your own using the online materials only, of course an AWS EC2 instance has not been set up for you. If you have access to an AWS account though you can can start with the same Amazon AMI we use to create instances for each student. Currently this is:
 
-Name: `cshl-seqtech-2021` (ID: `ami-07524de9e52dbd348`) available in the US East, N. Virginia region (us-east-1).
+Name: `cshl-seqtech-2022` (ID: `ami-03fd53fd1063112d2`) available in the US East, N. Virginia region (us-east-1).
 
 We typically use an instance type of `m5.2xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-09-appendix/0009/09/01/AWS_Setup/) page.
 
@@ -135,4 +135,3 @@ lshw
 top
 
 ```
-

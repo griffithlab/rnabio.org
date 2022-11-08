@@ -16,7 +16,7 @@ date: 0001-02-01
 ***
 
 ### FASTA/FASTQ/GTF mini lecture
-If you would like a refresher on common file formats such as FASTA, FASTQ, and GTF files, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2021/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf) briefly covering these.
+If you would like a refresher on common file formats such as FASTA, FASTQ, and GTF files, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2022/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf) briefly covering these.
 
 ### Obtain a reference genome from Ensembl, iGenomes, NCBI or UCSC.
 
@@ -81,7 +81,7 @@ grep ">" chr22_with_ERCC92.fa
 ### Note on complex commands and scripting in Unix
 Take a closer look at the command above that counts the occurrence of each nucleotide base in our chr22 reference sequence. Note that for even a seemingly simple question, commands can become quite complex. In that approach, a combination of Unix commands, pipes, and the scripting language Perl are used to answer the question. In bioinformatics, generally this kind of scripting comes up before too long, because you have an analysis question that is so specific there is no out of the box tool available. Or an existing tool will give perform a much more complex and involved analysis than needed to answer a very focused question.
 
-In Unix there are usually many ways to solve the same problem. Perl as a language has mostly fallen out of favor. This kind of simple text parsing problem is one area it perhaps still remains relevant. Let's benchmark the run time of the previous approach and constrast with several alternatives that do not rely on Perl. 
+In Unix there are usually many ways to solve the same problem. Perl as a language has mostly fallen out of favor. This kind of simple text parsing problem is one area it perhaps still remains relevant. Let's benchmark the run time of the previous approach and constrast with several alternatives that do not rely on Perl.
 
 Each of the following gives exactly the same answer. `time` is used to measure the run time of each alternative. Each starts by using `cat` to dump the file to standard out and then using `grep` to remove the header lines starting with ">". Each ends with `column -t` to make the output line up consistently.
 
@@ -96,7 +96,7 @@ time cat chr22_with_ERCC92.fa | grep -v ">" | awk '{for (i=1; i<=NF; i++){a[$i]+
 time cat chr22_with_ERCC92.fa | grep -v ">" | tr -d '\n' | sed 's/\(.\)/\1\n/g'  - | sort | uniq -c | sort -k 2 | column -t
 
 #4. The grep appoach. The "-o" option of grep splits each match onto a line which we then use to get a count. The "-i" option makes the matching work for upper/lower case. The "-P" option allows us to use Perl style regular expressions with Greg.
-time cat chr22_with_ERCC92.fa | grep -v ">" | grep -i -o -P "a|c|g|t|y|n" | sort | uniq -c 
+time cat chr22_with_ERCC92.fa | grep -v ">" | grep -i -o -P "a|c|g|t|y|n" | sort | uniq -c
 
 #5. Finally, the simplest/shortest approach that leverages the unix fold command to split each character onto its own line as in the Sed example.
 time cat chr22_with_ERCC92.fa | grep -v ">" | fold -w1 | sort | uniq -c | column -t
