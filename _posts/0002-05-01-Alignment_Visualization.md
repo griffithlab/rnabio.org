@@ -61,11 +61,11 @@ Make sure you select the appropriate reference genome build in IGV (top left cor
 #### AWS links to bam files
 **UHR hisat2 alignment:**
 
-http://**YOUR_DNS_NAME**/rnaseq/alignments/hisat2/UHR.bam
+http://**YOUR_DNS_NAME**/workspace/rnaseq/alignments/hisat2/UHR.bam
 
 **HBR hisat2 alignment:**
 
-http://**YOUR_DNS_NAME**/rnaseq/alignments/hisat2/HBR.bam
+http://**YOUR_DNS_NAME**/workspace/rnaseq/alignments/hisat2/HBR.bam
 
 
 You may wish to customize the track names as you load them in to keep them straight. Do this by right-clicking on the alignment track and choosing 'Rename Track'.
@@ -157,7 +157,7 @@ Assignment: Index your bam files from Practical Exercise 6 and visualize in IGV.
 
 * Hint: As before, it may be simplest to just index and visualize the combined/merged bam files HCC1395_normal.bam and HCC1395_tumor.bam.
 * If this works, you should have two BAM files that can be loaded into IGV from the following location on your cloud instance:
-  * http://**YOUR_DNS_NAME**/rnaseq/practice/alignments/hisat2/
+  * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/
 
 **Questions**
 

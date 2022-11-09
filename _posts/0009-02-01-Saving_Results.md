@@ -19,7 +19,7 @@ tar -czvf rnaseq_tutorial.tar.gz rnaseq/
 ```
 
 Now you can download this to your own computer from here:
- * http://__YOUR_IP_ADDRESS__/rnaseq_tutorial.tar.gz
+ * http://__YOUR_IP_ADDRESS__/workspace/rnaseq_tutorial.tar.gz
 	
 To unpack this archive at a terminal session on your own Linux or Mac computer you can do the following:
 
