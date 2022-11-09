@@ -23,7 +23,7 @@ R
 
 A separate R tutorial file has been provided below. Run the R commands detailed in the R script. All results are directed to pdf file(s). The output pdf files can be viewed in your browser at the following urls. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
-* http://**YOUR_IP_ADDRESS**/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.pdf
+* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.pdf
 
 First you'll need to load the libraries needed for this analysis and define a path for the output PDF to be written.
 
@@ -109,7 +109,7 @@ quit(save="no")
 
 Remember that you can view the output graphs of this step on your instance by navigating to this location in a web browser window:
 
-http://YOUR_IP_ADDRESS/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.pdf
+http://YOUR_IP_ADDRESS/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.pdf
 
 The above code can be found in a single R script located [here](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part2_ballgown.R).
 
@@ -458,7 +458,7 @@ dev.off()
 
 #The output file can be viewed in your browser at the following url:
 #Note, you must replace __YOUR_IP_ADDRESS__ with your own amazon instance IP
-#http://__YOUR_IP_ADDRESS__/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
+#http://__YOUR_IP_ADDRESS__/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
 #To exit R type:
 quit(save="no")
 ```
@@ -467,4 +467,4 @@ Run the R commands detailed in the R script above. A R script containing all of 
 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
-* http://**YOUR_IP_ADDRESS**/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
+* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
