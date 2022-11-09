@@ -102,7 +102,7 @@ Move the fastqc results into a sub-directory to keep things tidy
 ```bash
 cd $RNA_DATA_TRIM_DIR
 mkdir fastqc
-mv *fastqc* fastqc
+mv *_fastqc* fastqc
 
 ```
 
