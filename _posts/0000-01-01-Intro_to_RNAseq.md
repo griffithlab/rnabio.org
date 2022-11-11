@@ -11,7 +11,7 @@ date: 0000-01-01
 
 ### Module 0 - Key concepts
 
-* Introduction to the intructors, student introductions, course overview.
+* Introduction to the instructors, student introductions, course overview.
 * Cloud computing, UNIX/Linux OS, bioinformatics tool installation, course website review.
 
 ### Module 0 - Learning objectives
