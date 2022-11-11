@@ -274,7 +274,7 @@ check_strandedness
 * Must register to get download link
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 wget `download_link`
 tar -xzvf cellranger-6.1.2.tar.gz
 ```
@@ -288,26 +288,16 @@ sudo apt-get install tabix
 ## Install [BWA](http://bio-bwa.sourceforge.net/bwa.shtml)
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 git clone https://github.com/lh3/bwa.git
 cd bwa
 make
 ```
 
-## Install [bedtools](https://bedtools.readthedocs.io/en/latest/)
-
-```bash
-cd ~/bin
-wget https://github.com/arq5x/bedtools2/releases/download/v2.30.0/bedtools-2.30.0.tar.gz
-tar -zxvf bedtools-2.30.0.tar.gz
-cd bedtools2
-make
-```  
-
 ## Install [BCFtools](http://www.htslib.org/download/)
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 wget https://github.com/samtools/bcftools/releases/download/1.14/bcftools-1.14.tar.bz2
 bunzip2 bcftools-1.14.tar.bz2
 tar -xvf bcftools-1.14.tar
@@ -319,7 +309,7 @@ make
 ## Install [htslib](http://www.htslib.org/download/)
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 wget https://github.com/samtools/htslib/releases/download/1.14/htslib-1.14.tar.bz2
 bunzip2 htslib-1.14.tar.bz2
 tar -xvf htslib-1.14.tar
@@ -331,7 +321,7 @@ make
 ## Install [peddy](https://github.com/brentp/peddy)
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 git clone https://github.com/brentp/peddy
 cd peddy
 pip install -r requirements.txt
@@ -342,7 +332,7 @@ peddy
 ## Install [slivar](https://github.com/brentp/slivar)
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 wget https://github.com/brentp/slivar/releases/download/v0.2.7/slivar
 chmod +x ./slivar
 ```
@@ -350,7 +340,7 @@ chmod +x ./slivar
 ## Install [STRling](https://strling.readthedocs.io/en/latest/index.html)
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 wget https://github.com/quinlan-lab/STRling/releases/download/v0.5.1/strling
 chmod +x ./strling
 ```
@@ -358,6 +348,7 @@ chmod +x ./strling
 ## Install [freebayes](https://github.com/freebayes/freebayes)
 
 ```bash
+cd $RNA_HOME/student_tools/
 git clone --recursive https://github.com/freebayes/freebayes.git
 cd freebayes
 meson build/ --buildtype debug
@@ -370,14 +361,14 @@ ninja test
 ## Install [R](http://www.r-project.org/)
 
 ```bash
-sudo apt-get remove r-base-core
-sudo apt-get remove r-base
-wget -c https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz
-tar -xf R-4.0.0.tar.gz
-cd R-4.0.0
-./configure
-make -j9
-sudo make install
+#sudo apt-get remove r-base-core
+#sudo apt-get remove r-base
+#wget -c https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz
+#tar -xf R-4.0.0.tar.gz
+#cd R-4.0.0
+#./configure
+#make -j9
+#sudo make install
 ```
 
 Note, if X11 libraries are not available you may need to use `--with-x=no` during config, on a regular linux system you would not use this option.
