@@ -94,14 +94,14 @@ You can use Picard to generate RNA-seq specific quality metrics and figures
 cd $RNA_HOME/refs
 
 # Create a .dict file for our reference
-java -jar $PICARD CreateSequenceDictionary R=chr22_with_ERCC92.fa O=chr22_with_ERCC92.dict
+java -jar $PICARD CreateSequenceDictionary -R chr22_with_ERCC92.fa -O chr22_with_ERCC92.dict
 
 # Create a bed file of the location of ribosomal sequences in our reference (first extract from the gtf then convert to bed)
 grep --color=none -i rrna chr22_with_ERCC92.gtf > ref_ribosome.gtf
 gff2bed < ref_ribosome.gtf > ref_ribosome.bed
 
 # Create interval list file for the location of ribosomal sequences in our reference
-java -jar $PICARD BedToIntervalList I=ref_ribosome.bed O=ref_ribosome.interval_list SD=chr22_with_ERCC92.dict
+java -jar $PICARD BedToIntervalList -I ref_ribosome.bed -O ref_ribosome.interval_list -SD chr22_with_ERCC92.dict
 
 # Create a genePred file for our reference transcriptome
 gtfToGenePred -genePredExt chr22_with_ERCC92.gtf chr22_with_ERCC92.ref_flat.txt
