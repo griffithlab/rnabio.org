@@ -94,10 +94,6 @@ The resulting html reports can be viewed by navigating to:
 
 * http://**YOUR_IP_ADDRESS**/workspace/rnaseq/data/
 * http://**YOUR_IP_ADDRESS**/workspace/rnaseq/data/trimmed/
-<<<<<<< HEAD
-=======
-
->>>>>>> 7f2e346e2d0752115548516e31a02d55cffd1f80
 
 ### Clean up
 
