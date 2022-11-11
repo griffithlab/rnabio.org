@@ -184,8 +184,8 @@ samtools sort -@ 8 -o HCC1395_tumor_rep3.bam HCC1395_tumor_rep3.sam
 ```
 Merge HISAT2 BAM files
 ```bash
-java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=HCC1395_normal.bam INPUT=HCC1395_normal_rep1.bam INPUT=HCC1395_normal_rep2.bam INPUT=HCC1395_normal_rep3.bam
-java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=HCC1395_tumor.bam INPUT=HCC1395_tumor_rep1.bam INPUT=HCC1395_tumor_rep2.bam INPUT=HCC1395_tumor_rep3.bam
+java -Xmx2g -jar $PICARD MergeSamFiles -OUTPUT HCC1395_normal.bam -INPUT HCC1395_normal_rep1.bam -INPUT HCC1395_normal_rep2.bam -INPUT HCC1395_normal_rep3.bam
+java -Xmx2g -jar $PICARD MergeSamFiles -OUTPUT HCC1395_tumor.bam -INPUT HCC1395_tumor_rep1.bam -INPUT HCC1395_tumor_rep2.bam -INPUT HCC1395_tumor_rep3.bam
 
 ```
 **Answers**
