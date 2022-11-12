@@ -8,9 +8,9 @@ excerpt: ""
 layout: "home"
 ---
 
-The following schedule reflects a 7-day version of this course that is being hosted by Cold Spring Harbor in the Fall of 2021.
+The following is a representative schedule for a 7-day version of this course that was hosted by Cold Spring Harbor in the Fall of 2021.
 
-Each day runs from 10:00 AM Eastern to 5:00 PM Eastern
+Each day ran from 10:00 AM Eastern to 5:00 PM Eastern
 
 | Day |  Time (ET)  | Duration | Module | Topic                                                                                         |
 |-----|-------------|----------|--------|-----------------------------------------------------------------------------------------------|
