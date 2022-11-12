@@ -90,6 +90,10 @@ python3 -m multiqc .
 
 ```
 
+Then, go to the following url in your browser:
+* http://**YOUR_DNS_NAME**/workspace/rnaseq/data/multiqc_report.html
+
+
 ### Clean up
 
 Move all the FASTQC files into their own directory
