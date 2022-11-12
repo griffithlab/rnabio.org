@@ -31,9 +31,11 @@ In this module, we will run Stringtie in 'reference only' mode. For simplicity a
 * [https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual)
 
 Stringtie basic usage:
+
 ```bash
     stringtie <aligned_reads.bam> [options]*
 ```
+
 Extra options specified below:
 
 * '--rf' tells StringTie that our data is stranded and to use the correct strand specific mode (i.e. assume a stranded library fr-firststrand).
@@ -203,4 +205,4 @@ chmod +x Tutorial_ERCC_expression.R
 
 To view the resulting figure, navigate to the below URL replacing YOUR_IP_ADDRESS with your amazon instance IP address:
 
-* http://**YOUR_IP_ADDRESS**/rnaseq/expression/htseq_counts/Tutorial_ERCC_expression.pdf
+* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/expression/htseq_counts/Tutorial_ERCC_expression.pdf

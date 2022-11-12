@@ -170,7 +170,7 @@ For this last step we will do a very brief introduction to visualizing our resul
  * Use a web browser to download your results
 
  * Navigate to the URL below replacing YOUR_IP_ADDRESS with your amazon instance IP address:
-     http://**YOUR_IP_ADDRESS**/rnaseq/de/htseq_counts
+     http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/htseq_counts
 
  * Download the linked files by right clicking on the two saved result files: `fc.go.cc.p.up.tsv` and `fc.go.cc.p.down.tsv`.
 

@@ -32,10 +32,10 @@ The following tool is installed by downloading a compressed archive using `wget`
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget https://github.com/samtools/samtools/releases/download/1.14/samtools-1.14.tar.bz2
-bunzip2 samtools-1.14.tar.bz2
-tar -xvf samtools-1.14.tar
-cd samtools-1.14
+wget https://github.com/samtools/samtools/releases/download/1.16.1/samtools-1.16.1.tar.bz2
+bunzip2 samtools-1.16.1.tar.bz2
+tar -xvf samtools-1.16.1.tar
+cd samtools-1.16.1
 make
 ./samtools
 ```
@@ -48,7 +48,7 @@ Installation of the bam-readcount tool involves "cloning" the source code with a
 
 ```bash
 cd $RNA_HOME/student_tools/
-export SAMTOOLS_ROOT=$RNA_HOME/student_tools/samtools-1.14
+export SAMTOOLS_ROOT=$RNA_HOME/student_tools/samtools-1.16.1
 git clone https://github.com/genome/bam-readcount 
 cd bam-readcount
 mkdir build
@@ -96,28 +96,20 @@ The `gffcompare` tool for comparing transcript annotations is installed below by
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget http://ccb.jhu.edu/software/stringtie/dl/gffcompare-0.12.1.Linux_x86_64.tar.gz
-tar -xzvf gffcompare-0.12.1.Linux_x86_64.tar.gz
-cd gffcompare-0.12.1.Linux_x86_64/
+wget http://ccb.jhu.edu/software/stringtie/dl/gffcompare-0.12.6.Linux_x86_64.tar.gz
+tar -xzvf gffcompare-0.12.6.Linux_x86_64.tar.gz
+cd gffcompare-0.12.6.Linux_x86_64/
 ./gffcompare
 ```
 
 ## [htseq-count](https://htseq.readthedocs.io/en/master/install.html)
 
-Installation type: use python setup script. Citation: [PMID: 25260700](https://pubmed.ncbi.nlm.nih.gov/25260700/).
+Installation type: apt install. Citation: [PMID: 25260700](https://pubmed.ncbi.nlm.nih.gov/25260700/).
 
-The htseq-count read counting tools is installed below by downloading an archive with `wget`, unpacking the archive using `tar` and running a setup script written in Python. After setup, `chmod` is used to change permissions of the `htseq-count` file to be executable.
+The htseq-count read counting tools is a python package that can be installed using the linux package manager `apt`.
 
 ```bash
-cd $RNA_HOME/student_tools/
-git clone https://github.com/htseq/htseq.git
-cd htseq/
-git fetch --all --tags
-git checkout release_0.13.5
-python setup.py build
-python setup.py install
-chmod +x scripts/htseq-count
-./scripts/htseq-count -h
+sudo apt install python3-htseq
 ```
 
 ## [TopHat](https://ccb.jhu.edu/software/tophat/index.shtml)
@@ -274,7 +266,7 @@ check_strandedness
 * Must register to get download link
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 wget `download_link`
 tar -xzvf cellranger-6.1.2.tar.gz
 ```
@@ -288,26 +280,16 @@ sudo apt-get install tabix
 ## Install [BWA](http://bio-bwa.sourceforge.net/bwa.shtml)
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 git clone https://github.com/lh3/bwa.git
 cd bwa
 make
 ```
 
-## Install [bedtools](https://bedtools.readthedocs.io/en/latest/)
-
-```bash
-cd ~/bin
-wget https://github.com/arq5x/bedtools2/releases/download/v2.30.0/bedtools-2.30.0.tar.gz
-tar -zxvf bedtools-2.30.0.tar.gz
-cd bedtools2
-make
-```  
-
 ## Install [BCFtools](http://www.htslib.org/download/)
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 wget https://github.com/samtools/bcftools/releases/download/1.14/bcftools-1.14.tar.bz2
 bunzip2 bcftools-1.14.tar.bz2
 tar -xvf bcftools-1.14.tar
@@ -316,22 +298,10 @@ make
 ./bcftools
 ```
 
-## Install [htslib](http://www.htslib.org/download/)
-
-```bash
-cd ~/bin
-wget https://github.com/samtools/htslib/releases/download/1.14/htslib-1.14.tar.bz2
-bunzip2 htslib-1.14.tar.bz2
-tar -xvf htslib-1.14.tar
-cd htslib-1.14
-make
-./htslib
-```
-
 ## Install [peddy](https://github.com/brentp/peddy)
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 git clone https://github.com/brentp/peddy
 cd peddy
 pip install -r requirements.txt
@@ -342,7 +312,7 @@ peddy
 ## Install [slivar](https://github.com/brentp/slivar)
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 wget https://github.com/brentp/slivar/releases/download/v0.2.7/slivar
 chmod +x ./slivar
 ```
@@ -350,7 +320,7 @@ chmod +x ./slivar
 ## Install [STRling](https://strling.readthedocs.io/en/latest/index.html)
 
 ```bash
-cd ~/bin
+cd $RNA_HOME/student_tools/
 wget https://github.com/quinlan-lab/STRling/releases/download/v0.5.1/strling
 chmod +x ./strling
 ```
@@ -358,6 +328,7 @@ chmod +x ./strling
 ## Install [freebayes](https://github.com/freebayes/freebayes)
 
 ```bash
+cd $RNA_HOME/student_tools/
 git clone --recursive https://github.com/freebayes/freebayes.git
 cd freebayes
 meson build/ --buildtype debug
@@ -370,14 +341,14 @@ ninja test
 ## Install [R](http://www.r-project.org/)
 
 ```bash
-sudo apt-get remove r-base-core
-sudo apt-get remove r-base
-wget -c https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz
-tar -xf R-4.0.0.tar.gz
-cd R-4.0.0
-./configure
-make -j9
-sudo make install
+#sudo apt-get remove r-base-core
+#sudo apt-get remove r-base
+#wget -c https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz
+#tar -xf R-4.0.0.tar.gz
+#cd R-4.0.0
+#./configure
+#make -j9
+#sudo make install
 ```
 
 Note, if X11 libraries are not available you may need to use `--with-x=no` during config, on a regular linux system you would not use this option.
@@ -468,7 +439,7 @@ Solution: When you are ready you can check your approach against the [Solutions]
 To use the locally installed version of each tool without having to specify complete paths, you could add the install directory of each tool to your '$PATH' variable
 
 ```bash
-PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.39/bin:$RNA_HOME/student_tools/samtools-1.11:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.1.4.Linux_x86_64:$RNA_HOME/student_tools/gffcompare-0.12.1.Linux_x86_64:$RNA_HOME/student_tools/htseq-release_0.12.4/scripts:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/flexbar-3.5.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:$PATH
+PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.39/bin:$RNA_HOME/student_tools/samtools-1.16.1:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.1.4.Linux_x86_64:$RNA_HOME/student_tools/gffcompare-0.12.6.Linux_x86_64:$RNA_HOME/student_tools/htseq-release_0.12.4/scripts:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/flexbar-3.5.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:$PATH
 
 export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.5.0-linux:$LD_LIBRARY_PATH
 
@@ -497,7 +468,8 @@ NOTE: If you are worried your .bashrc is messed up you can redownload as follows
 
 ```bash
 cd ~
-wget -N https://raw.githubusercontent.com/griffithlab/rnabio.org/master/assets/setup/.bashrc
+wget http://genomedata.org/rnaseq-tutorial/bashrc_copy
+mv bashrc_copy ~/.bashrc
 source ~/.bashrc
 ```
 
