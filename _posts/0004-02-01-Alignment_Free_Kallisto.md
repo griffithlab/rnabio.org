@@ -320,7 +320,7 @@ quit(save="no")
 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
-http://**YOUR_IP_ADDRESS**/workspace/rnaseq/expression/Tutorial_comparisons.pdf
+http://**YOUR_IP_ADDRESS**/workspace/rnaseq/expression/Kallisto-StringTie-HTSeqCount_Comparisons.pdf
 
 A file copy of the above R code can be found [here](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_comparisons.R).
 
