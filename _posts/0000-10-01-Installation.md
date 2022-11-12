@@ -32,7 +32,7 @@ The following tool is installed by downloading a compressed archive using `wget`
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget https://github.com/samtools/samtools/releases/download/1.14/samtools-1.14.tar.bz2
+wget https://github.com/samtools/samtools/releases/download/1.16/samtools-1.16.1.tar.bz2
 bunzip2 samtools-1.16.1.tar.bz2
 tar -xvf samtools-1.16.1.tar
 cd samtools-1.16.1
