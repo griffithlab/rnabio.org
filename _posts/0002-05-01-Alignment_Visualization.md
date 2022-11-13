@@ -85,6 +85,10 @@ Try to find a variant position in the RNAseq data:
 * How should we interpret the allele frequency of each variant? Remember that we have rather unusual samples here in that they are actually pooled RNAs corresponding to multiple individuals (genotypes).
 * Take note of the genomic position of your variant. We will need this later.
 
+##### IGV visualization example (DDX17 3 prime region)
+
+![IVG-DDX17](/assets/module_2/igv-ddx17.png)
+
 ### BAM Read Counting
 Using one of the variant positions identified above, count the number of supporting reference and variant reads. First, use `samtools mpileup` to visualize a region of alignment with a variant.
 
@@ -149,6 +153,8 @@ cat UHR_bam-readcounts.txt | perl -ne '@data=split("\t", $_); @Adata=split(":", 
 cat HBR_bam-readcounts.txt | perl -ne '@data=split("\t", $_); @Adata=split(":", $data[5]); @Cdata=split(":", $data[6]); @Gdata=split(":", $data[7]); @Tdata=split(":", $data[8]); print "HBR Counts\t$data[0]\t$data[1]\tA: $Adata[1]\tC: $Cdata[1]\tT: $Tdata[1]\tG: $Gdata[1]\n";'
 
 ```
+
+If reading perl code isn't your favorite thing to do, here's a [bam-readcount tutorial](https://github.com/genome/bam-readcount/tree/master/tutorial) that uses python to parse output from bam-readcount to identify a Omicron SARS-CoV-2 variant of concern from raw sequence data.
 
 ***
 
