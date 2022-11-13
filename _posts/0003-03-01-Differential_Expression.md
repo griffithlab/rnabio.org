@@ -352,6 +352,6 @@ Alternatively you could view both lists in a web browser as you have done with o
 
 ##### Example Venn Diagram of agreement between DE genes from StringTie/Ballgown vs HTSeq/EdgeR
 
-![Venn-Ballgown-vs-EdgeR](/assets/module_3/venn-ballgown-vs-edger.png)
+{% include figure.html image="/assets/module_3/venn-ballgown-vs-edger.png" width="450" %}
 
 
