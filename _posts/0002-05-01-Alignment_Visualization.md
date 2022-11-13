@@ -85,6 +85,10 @@ Try to find a variant position in the RNAseq data:
 * How should we interpret the allele frequency of each variant? Remember that we have rather unusual samples here in that they are actually pooled RNAs corresponding to multiple individuals (genotypes).
 * Take note of the genomic position of your variant. We will need this later.
 
+##### IGV visualization example (DDX17 3 prime region)
+
+![IVG-DDX17](/assets/module_2/igv-ddx17.png)
+
 ### BAM Read Counting
 Using one of the variant positions identified above, count the number of supporting reference and variant reads. First, use `samtools mpileup` to visualize a region of alignment with a variant.
 

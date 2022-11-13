@@ -167,7 +167,11 @@ python3 -m multiqc ./
 
 ```
 
-### View a MultiQC report for full bam files
+##### MultiQC screenshot
+![MultiQC](/assets/module_2/multiqc.png)
+
+
+### View a pre-generated MultiQC report for full bam files
 View a multiQC on QC reports from non-downsampled bam files:
 ```bash
 mkdir $RNA_ALIGN_DIR/example_QC
