@@ -161,7 +161,7 @@ Assignment: Use Ballgown to identify filtered and significantly differentially e
 
 * Hint: Follow the example R code above. 
 * Hint: You will need to change how the `pheno_data` object is created to point to the correct sample ids, type, and path to StringTie results files.
-* Hint: Make sure to save your ballgown data object to file (e.g., `bg.rda`) for use in subsequent practical exercises
+* Hint: Make sure to save your ballgown data object to file (e.g., `bg.rda`) for use in subsequent practical exercises.
 
 Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-9---differential-expression)
 
