@@ -150,6 +150,8 @@ cat HBR_bam-readcounts.txt | perl -ne '@data=split("\t", $_); @Adata=split(":", 
 
 ```
 
+If reading perl code isn't your favorite thing to do, here's a [bam-readcount tutorial](https://github.com/genome/bam-readcount/tree/master/tutorial) that uses python to parse output from bam-readcount to identify a Omicron SARS-CoV-2 variant of concern from raw sequence data.
+
 ***
 
 ### PRACTICAL EXERCISE 7
