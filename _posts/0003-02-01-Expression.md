@@ -203,6 +203,26 @@ chmod +x Tutorial_ERCC_expression.R
 
 ```
 
-To view the resulting figure, navigate to the below URL replacing YOUR_IP_ADDRESS with your amazon instance IP address:
+Now let's also create a plot for the ERCC spike-in StringTie TPM estimates versus the known concentration of the ERCC spike-in Mix.
+
+```bash
+cd $RNA_HOME/expression/stringtie/ref_only
+wget http://genomedata.org/rnaseq-tutorial/ERCC_Controls_Analysis.txt
+cat ERCC_Controls_Analysis.txt
+
+wget https://github.com/griffithlab/rnabio.org/raw/master/assets/scripts/Tutorial_ERCC_expression_tpm.pl
+chmod +x Tutorial_ERCC_expression_tpm.pl
+./Tutorial_ERCC_expression_tpm.pl
+cat $RNA_HOME/expression/stringtie/ref_only/ercc_tpm.tsv
+
+wget https://github.com/griffithlab/rnabio.org/raw/master/assets/scripts/Tutorial_ERCC_expression_tpm.R
+chmod +x Tutorial_ERCC_expression_tpm.R
+./Tutorial_ERCC_expression_tpm.R ercc_tpm.tsv
+
+```
+
+To view the resulting figures, navigate to the below URL replacing YOUR_IP_ADDRESS with your amazon instance IP address:
 
 * http://**YOUR_IP_ADDRESS**/workspace/rnaseq/expression/htseq_counts/Tutorial_ERCC_expression.pdf
+* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/expression/stringtie/ref_only/Tutorial_ERCC_expression_tpm.pdf
+
