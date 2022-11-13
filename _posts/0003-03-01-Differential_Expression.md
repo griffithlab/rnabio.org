@@ -156,6 +156,15 @@ head DE_genes.txt
 
 ***
 
+### PRACTICAL EXERCISE 9
+Assignment: Use Ballgown to identify filtered and significantly differentially expressed genes from the StringTie expression estimates (i.e., Ballgown table files) which you created in Practical Exercise 8.
+
+* Hint: Follow the example R code above. You will need to change how the `pheno_data` object is created to point to the correct sample ids, type, and path to StringTie results files.
+
+Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-9---differential-expression)
+
+***
+
 ### ERCC DE Analysis
 This section will compare the observed versus expected differential expression estimates for the ERCC spike-in RNAs:
 ```bash
