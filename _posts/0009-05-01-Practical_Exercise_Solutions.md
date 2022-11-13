@@ -10,7 +10,8 @@ date: 0009-05-01
 ---
 
 ### Practical Exercise 1 - Software installation
-<a id="Practical Excercise 1"></a>
+
+<a id="Practical Exercise 1"></a>
 To install bedtools:
 
 * Google "bedtools" and find
@@ -30,7 +31,7 @@ To install bedtools:
 
 ```
 
-**Answers**
+#### Answers
 
 * What happens when you run bedtools without any options? The basic usage documentation is printed.
 
@@ -41,7 +42,8 @@ To install bedtools:
 ***
 
 ### Practical Exercise 2 - Reference Genomes
-<a id="Practical Excercise 2"></a>
+
+<a id="Practical Exercise 2"></a>
 
 ```bash
 cd $RNA_HOME/refs
@@ -57,7 +59,7 @@ cat chr22_only.fa | grep -v ">" | perl -ne 'chomp $_; $s = uc($_); print $_;' | 
 
 ```
 
-**Answers**
+#### Answers
 
 * How many bases on chromosome 22 correspond to repetitive elements? What is the percentage of the whole length? Of 50,818,468 total bases on chr 22, there are 21,522,339 that correspond to repetitive elements (42.35%).
 
@@ -66,7 +68,8 @@ cat chr22_only.fa | grep -v ">" | perl -ne 'chomp $_; $s = uc($_); print $_;' | 
 ***
 
 ### Practical Exercise 3 - Data
-<a id="Practical Excercise 3"></a>
+
+<a id="Practical Exercise 3"></a>
 
 ```bash
 cd $RNA_HOME
@@ -82,7 +85,8 @@ zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | perl -ne '$_ = s/
 zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | grep -o T | wc -l
 
 ```
-**Answers**
+
+#### Answers
 
 * How many data files were contained in the 'practical.tar' archive? What commonly used sequence data file format are they? There are 12 data files in the package. Each is a FASTQ file that has been compressed.
 
@@ -93,20 +97,22 @@ zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | grep -o T | wc -l
 ***
 
 ### Practical Exercise 4 - Data QC
-<a id="Practical Excercise 4"></a>
+
+<a id="Practical Exercise 4"></a>
 
 ```bash
 cd $RNA_HOME/practice/data
 fastqc *.fastq.gz
 
 ```
+
 Then, go to the following url in your browser:
 
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/
 * Note, you must replace **YOUR_DNS_NAME** with your own amazon instance IP or DNS (e.g., cbw##.dyndns.info)
 * Click on any of the `*_fastqc.html` files to view the FastQC report (e.g., `hcc1395_normal_rep1_r1_fastqc.html`)
 
-**Answers**
+#### Answers
 
 * How many total sequences are there? 331,958
 
@@ -119,7 +125,8 @@ Then, go to the following url in your browser:
 ***
 
 ### Practical Exercise 5 - Trim
-<a id="Practical Excercise 5"></a>
+
+<a id="Practical Exercise 5"></a>
 
 ```bash
 cd $RNA_HOME/practice/data/
@@ -134,12 +141,15 @@ flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_mul
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_tumor_rep3_r1.fastq.gz --reads2 hcc1395_tumor_rep3_r2.fastq.gz --target trimmed/hcc1395_tumor_rep3
 
 ```
+
 Compare these files using FastQC:
+
 ```bash
 cd $RNA_HOME/practice/data/trimmed/
 fastqc *.fastq.gz
 
 ```
+
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/hcc1395_normal_rep1_r1_fastqc.html
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/trimmed/hcc1395_normal_rep1_1_fastqc.html
 
@@ -154,8 +164,11 @@ fastqc *.fastq.gz
 ***
 
 ### Practical Exercise 6 - Alignment
-<a id="Practical Excercise 6"></a>
+
+<a id="Practical Exercise 6"></a>
+
 Perform alignments:
+
 ```bash
 export RNA_PRACTICE_DATA_DIR=$RNA_HOME/practice/data
 cd $RNA_HOME/practice/
@@ -172,7 +185,9 @@ hisat2 -p 8 --rg-id=HCC1395_tumor_rep2 --rg SM:HCC1395_tumor_rep2 --rg PL:ILLUMI
 hisat2 -p 8 --rg-id=HCC1395_tumor_rep3 --rg SM:HCC1395_tumor_rep3 --rg PL:ILLUMINA -x $RNA_REF_INDEX --dta --rna-strandness RF -1 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep3_r1.fastq.gz -2 $RNA_PRACTICE_DATA_DIR/hcc1395_tumor_rep3_r2.fastq.gz -S ./HCC1395_tumor_rep3.sam
 
 ```
+
 Sort and convert SAM to BAM:
+
 ```bash
 samtools sort -@ 8 -o HCC1395_normal_rep1.bam HCC1395_normal_rep1.sam
 samtools sort -@ 8 -o HCC1395_normal_rep2.bam HCC1395_normal_rep2.sam
@@ -182,12 +197,15 @@ samtools sort -@ 8 -o HCC1395_tumor_rep2.bam HCC1395_tumor_rep2.sam
 samtools sort -@ 8 -o HCC1395_tumor_rep3.bam HCC1395_tumor_rep3.sam
 
 ```
+
 Merge HISAT2 BAM files
+
 ```bash
 java -Xmx2g -jar $PICARD MergeSamFiles -OUTPUT HCC1395_normal.bam -INPUT HCC1395_normal_rep1.bam -INPUT HCC1395_normal_rep2.bam -INPUT HCC1395_normal_rep3.bam
 java -Xmx2g -jar $PICARD MergeSamFiles -OUTPUT HCC1395_tumor.bam -INPUT HCC1395_tumor_rep1.bam -INPUT HCC1395_tumor_rep2.bam -INPUT HCC1395_tumor_rep3.bam
 
 ```
+
 **Answers**
 
 * What is the difference between a .sam and .bam file? The '.sam' or SAM file is a plain text sequence alignment map file. The '.bam' or BAM file is a binary compressed version of this same information.
@@ -201,13 +219,16 @@ java -Xmx2g -jar $PICARD MergeSamFiles -OUTPUT HCC1395_tumor.bam -INPUT HCC1395_
 ***
 
 ### Practical Exercise 7 - Visualize
-<a id="Practical Excercise 7"></a>
+
+<a id="Practical Exercise 7"></a>
+
 ```bash
 cd $RNA_HOME/practice/alignments/hisat2
 samtools index HCC1395_normal.bam
 samtools index HCC1395_tumor.bam
 
 ```
+
 Start IGV on your laptop. Load the HCC1395_normal.bam & HCC1395_tumor.bam files in IGV. You can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'.
 
 **HCC1395BL (normal) alignment:**
@@ -226,7 +247,9 @@ http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_nor
 ***
 
 ### Practical Exercise 8 - Expression
-<a id="Practical Excercise 8"></a>
+
+<a id="Practical Exercise 8"></a>
+
 ```bash
 cd $RNA_HOME/practice/
 mkdir -p expression/stringtie/ref_only/
@@ -243,8 +266,11 @@ stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep3/transcripts.gtf
 ```
 
 ### Practical Exercise 9 - Differential expression
-<a id="Practical Excercise 9"></a>
+
+<a id="Practical Exercise 9"></a>
+
 Create a new folder for DE results and then start an R session
+
 ```bash
 mkdir -p $RNA_HOME/practice/de/ballgown/ref_only/
 cd $RNA_HOME/practice/de/ballgown/ref_only/
@@ -253,6 +279,7 @@ R
 ```
 
 Run the following R commands in your R session.
+
 ```R
 # load the required libraries
 library(ballgown)
@@ -297,4 +324,3 @@ write.table(sig_genes, "HCC1395_Tumor_vs_Normal_gene_results_sig.tsv", sep="\t",
 quit(save="no")
 
 ```
-
