@@ -126,6 +126,7 @@ http://YOUR_IP_ADDRESS/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ball
 The above code can be found in a single R script located [here](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part2_ballgown.R).
 
 ### SUPPLEMENTARY R ANALYSIS
+
 Occasionally you may wish to reformat and work with stringtie output in R manually. Therefore we provide an optional/advanced tutorial on how to format your results for R and perform "old school" (non-ballgown analysis) on your data.
 
 In this tutorial you will:
