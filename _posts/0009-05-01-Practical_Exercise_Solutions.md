@@ -307,3 +307,84 @@ write.table(sig_genes, "HCC1395_Tumor_vs_Normal_gene_results_sig.tsv", sep="\t",
 quit(save="no")
 
 ```
+
+### Practical Exercise 10 - Volcano plot
+
+Navigate to previously created folder for DE results and then start an R session
+
+```bash
+cd $RNA_HOME/practice/de/ballgown/ref_only/
+
+R
+```
+
+Run the following R commands in your R session.
+
+```R
+#Load libraries
+
+library(ballgown)
+library(ggplot2)
+library(ggrepel)
+
+#If X11 not available, open a pdf device for output of all plots
+pdf(file="practical_exercise_10_volcano.pdf")
+
+#### Import the gene expression data from the practical exercises (HISAT2/StringTie/Ballgown practicals)
+
+#Set working directory where results files exist
+working_dir = "~/workspace/rnaseq/practice/de/ballgown/ref_only"
+setwd(working_dir)
+
+# List the current contents of this directory
+dir()
+
+#Import expression and differential expression results from the HISAT2/StringTie/Ballgown pipeline
+load('bg.rda')
+
+# View a summary of the ballgown object
+bg
+
+# Load gene names for lookup later in the tutorial
+bg_table = texpr(bg, 'all')
+bg_gene_names = unique(bg_table[, 9:10])
+
+# Calculate the differential expression results including significance
+results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
+results_genes = merge(results_genes,bg_gene_names,by.x=c("id"),by.y=c("gene_id"))
+results_genes[,"de"] = log2(results_genes[,"fc"])
+
+#### Plot a volcano plot
+
+# Create a new diffexpressed column and set all genes to "no change"
+results_genes$diffexpressed <- "No"
+
+# if log2Foldchange > 2 and pvalue < 0.05, set as "Up regulated"
+results_genes$diffexpressed[results_genes$de > 0.6 & results_genes$pval < 0.05] <- "Up"
+
+# if log2Foldchange < -2 and pvalue < 0.05, set as "Down regulated"
+results_genes$diffexpressed[results_genes$de < -0.6 & results_genes$pval < 0.05] <- "Down"
+
+# Create a new gene label column and populate with NA values
+results_genes$gene_label <- NA
+
+# write the gene names of those significantly upregulated/downregulated to a new column
+results_genes$gene_label[results_genes$diffexpressed != "No"] <- results_genes$gene_name[results_genes$diffexpressed != "No"]
+
+ggplot(data=results_genes[results_genes$diffexpressed != "No",], aes(x=de, y=-log10(pval), label=gene_label, color = diffexpressed)) +
+             xlab("log2Foldchange") +
+             scale_color_manual(name = "Differentially expressed", values=c("blue", "red")) +
+             geom_point() +
+             theme_minimal() +
+             geom_text_repel() +
+             geom_vline(xintercept=c(-0.6, 0.6), col="red") +
+             geom_hline(yintercept=-log10(0.05), col="red") +
+             guides(colour = guide_legend(override.aes = list(size=5))) +
+             geom_point(data = results_genes[results_genes$diffexpressed == "No",], aes(x=de, y=-log10(pval)), colour = "black")
+
+
+dev.off()
+
+quit(save="no")
+
+```
