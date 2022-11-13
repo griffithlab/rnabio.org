@@ -241,3 +241,60 @@ stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep2/transcripts.gtf
 stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep3/transcripts.gtf -A HCC1395_normal_rep3/gene_abundances.tsv $RNA_HOME/practice/alignments/hisat2/HCC1395_normal_rep3.bam
 
 ```
+
+### Practical Exercise 9 - Expression
+<a id="Practical Excercise 9"></a>
+Create a new folder for DE results and then start an R session
+```bash
+mkdir -p $RNA_HOME/practice/de/ballgown/ref_only/
+cd $RNA_HOME/practice/de/ballgown/ref_only/
+
+R
+```
+
+Run the following R commands in your R session.
+```R
+# load the required libraries
+library(ballgown)
+library(genefilter)
+library(dplyr)
+library(devtools)
+
+# Create phenotype data needed for ballgown analysis
+ids=c("HCC1395_normal_rep1","HCC1395_normal_rep2","HCC1395_normal_rep3","HCC1395_tumor_rep1","HCC1395_tumor_rep2","HCC1395_tumor_rep3")
+type=c("normal","normal","normal","tumor","tumor","tumor")
+results="/home/ubuntu/workspace/rnaseq/practice/expression/stringtie/ref_only/"
+path=paste(results,ids,sep="")
+pheno_data=data.frame(ids,type,path)
+
+# Load ballgown data structure and save it to a variable "bg"
+bg = ballgown(samples=as.vector(pheno_data$path), pData=pheno_data)
+
+# Display a description of this object
+bg
+
+# Save the ballgown object to a file for later use
+save(bg, file='bg.rda')
+
+# Filter low-abundance genes. Here we remove all transcripts with a variance across the samples of less than one
+bg_filt = subset (bg,"rowVars(texpr(bg)) > 1", genomesubset=TRUE)
+
+# Load all attributes including gene name
+bg_filt_table = texpr(bg_filt , 'all')
+bg_filt_gene_names = unique(bg_filt_table[, 9:10])
+
+# Perform DE analysis now using the filtered data
+results_genes = stattest(bg_filt, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
+results_genes = merge(results_genes, bg_filt_gene_names, by.x=c("id"), by.y=c("gene_id"))
+
+# Identify the significant genes with p-value < 0.05
+sig_genes = subset(results_genes, results_genes$pval<0.05)
+
+# Output the signifant gene results to a pair of tab delimited files
+write.table(sig_genes, "HCC1395_Tumor_vs_Normal_gene_results_sig.tsv", sep="\t", quote=FALSE, row.names = FALSE)
+
+# Exit the R session
+quit(save="no")
+
+```
+
