@@ -337,3 +337,9 @@ Alternatively you could view both lists in a web browser as you have done with o
 
 * http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/ballgown_DE_gene_symbols.txt
 * http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/htseq_counts_edgeR_DE_gene_symbols.txt
+
+##### Example Venn Diagram of agreement between DE genes from StringTie/Ballgown vs HTSeq/EdgeR
+
+![Venn-Ballgown-vs-EdgeR](/assets/module_3/venn-ballgown-vs-edger.png)
+
+
