@@ -11,7 +11,6 @@ date: 0009-05-01
 
 ### Practical Exercise 1 - Software installation
 
-<a id="Practical Exercise 1"></a>
 To install bedtools:
 
 * Google "bedtools" and find
@@ -43,8 +42,6 @@ To install bedtools:
 
 ### Practical Exercise 2 - Reference Genomes
 
-<a id="Practical Exercise 2"></a>
-
 ```bash
 cd $RNA_HOME/refs
 #first produce a fasta with only the chr22 sequence (i.e. remove the ERCC sequences).
@@ -68,8 +65,6 @@ cat chr22_only.fa | grep -v ">" | perl -ne 'chomp $_; $s = uc($_); print $_;' | 
 ***
 
 ### Practical Exercise 3 - Data
-
-<a id="Practical Exercise 3"></a>
 
 ```bash
 cd $RNA_HOME
@@ -98,8 +93,6 @@ zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | grep -o T | wc -l
 
 ### Practical Exercise 4 - Data QC
 
-<a id="Practical Exercise 4"></a>
-
 ```bash
 cd $RNA_HOME/practice/data
 fastqc *.fastq.gz
@@ -126,8 +119,6 @@ Then, go to the following url in your browser:
 
 ### Practical Exercise 5 - Trim
 
-<a id="Practical Exercise 5"></a>
-
 ```bash
 cd $RNA_HOME/practice/data/
 mkdir trimmed
@@ -153,7 +144,7 @@ fastqc *.fastq.gz
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/hcc1395_normal_rep1_r1_fastqc.html
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/trimmed/hcc1395_normal_rep1_1_fastqc.html
 
-**Answers**
+#### Answers
 
 * After trimming, what is the range of read lengths observed for hcc1395 normal replicate 1, read 1? 118-151
 
@@ -164,8 +155,6 @@ fastqc *.fastq.gz
 ***
 
 ### Practical Exercise 6 - Alignment
-
-<a id="Practical Exercise 6"></a>
 
 Perform alignments:
 
@@ -206,7 +195,7 @@ java -Xmx2g -jar $PICARD MergeSamFiles -OUTPUT HCC1395_tumor.bam -INPUT HCC1395_
 
 ```
 
-**Answers**
+#### Answers
 
 * What is the difference between a .sam and .bam file? The '.sam' or SAM file is a plain text sequence alignment map file. The '.bam' or BAM file is a binary compressed version of this same information.
 
@@ -219,8 +208,6 @@ java -Xmx2g -jar $PICARD MergeSamFiles -OUTPUT HCC1395_tumor.bam -INPUT HCC1395_
 ***
 
 ### Practical Exercise 7 - Visualize
-
-<a id="Practical Exercise 7"></a>
 
 ```bash
 cd $RNA_HOME/practice/alignments/hisat2
@@ -236,7 +223,7 @@ http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_nor
 
 **HCC1395 tumor alignment:** http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_tumor.bam
 
-**Answers**
+#### Answers
 
 * Load your merged normal and tumor BAM files into IGV. Navigate to this location on chromosome 22: 'chr22:38,466,394-38,508,115'. What do you see here? How would you describe the direction of transcription for the two genes? Does the reported strand for the reads aligned to each of these genes appear to make sense? How do you modify IGV settings to see the strand clearly? This region contains two genes, 'KDELR3' and 'DDX17'. With repect to direction of transcription, these genes are arranged in a tail-to-tail fashion (their transcription end points are coming together). KDELR3 is transcribed from the '+ve' or 'top' strand (left to right) and DDX17 is transcribed from the '-ve' or 'bottom' strand (right to left). Yes, the reads aligned appear to correspond to the expected strand of transcription. To view this pattern, do an option click within the alignment track and select 'Color alignments by' and 'first-of-pair strand' from the viewing options. You can do this for both normal and tumor alignment tracks seperately.
 
@@ -247,8 +234,6 @@ http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_nor
 ***
 
 ### Practical Exercise 8 - Expression
-
-<a id="Practical Exercise 8"></a>
 
 ```bash
 cd $RNA_HOME/practice/
@@ -266,8 +251,6 @@ stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep3/transcripts.gtf
 ```
 
 ### Practical Exercise 9 - Differential expression
-
-<a id="Practical Exercise 9"></a>
 
 Create a new folder for DE results and then start an R session
 
