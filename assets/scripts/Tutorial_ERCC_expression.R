@@ -19,10 +19,11 @@ data$logConc= log2(data$Concentration)
 
 count_model <- lm(logCount ~ logConc, data=data)
 count_r_squared = summary(count_model)[['r.squared']]
+tpm_slope = coef(count_model)["logConc"]
 
 p = ggplot(data, aes(x=logConc, y=logCount))
 p = p + geom_point(aes(shape=Label,color=Label))
-p = p + geom_smooth(method=lm) + annotate('text', 5, -3, label=paste("R^2 =", count_r_squared, sep=' '))
+p = p + geom_smooth(method=lm) + annotate('text', 5, -3, label=paste("R^2 =", count_r_squared, sep=' ')) + annotate('text', 5, -4, label=paste("Slope =", tpm_slope, sep=' '))
 p = p + xlab("Expected concentration (log2 scale)") + ylab("Observed read count (log2 scale)")
 
 pdf('Tutorial_ERCC_expression.pdf')
