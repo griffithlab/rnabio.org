@@ -34,14 +34,13 @@ cd $RNA_HOME/de/ballgown/ref_only/
 
 Perform UHR vs. HBR comparison, using all replicates, for known (reference only mode) transcripts:
 
-First create a file that lists our 6 expression files, then view that file, then start an R session where we will examine these results:
-```bash
-printf "\"ids\",\"type\",\"path\"\n\"UHR_Rep1\",\"UHR\",\"$RNA_HOME/expression/stringtie/ref_only/UHR_Rep1\"\n\"UHR_Rep2\",\"UHR\",\"$RNA_HOME/expression/stringtie/ref_only/UHR_Rep2\"\n\"UHR_Rep3\",\"UHR\",\"$RNA_HOME/expression/stringtie/ref_only/UHR_Rep3\"\n\"HBR_Rep1\",\"HBR\",\"$RNA_HOME/expression/stringtie/ref_only/HBR_Rep1\"\n\"HBR_Rep2\",\"HBR\",\"$RNA_HOME/expression/stringtie/ref_only/HBR_Rep2\"\n\"HBR_Rep3\",\"HBR\",\"$RNA_HOME/expression/stringtie/ref_only/HBR_Rep3\"\n" > UHR_vs_HBR.csv
-cat UHR_vs_HBR.csv
+First, start an R session:
 
+```bash
 R
 ```
-A separate R tutorial file has been provided below. Run the R commands detailed in the R script.
+
+A separate R tutorial file has been provided below. Run the R commands in your R session.
 
 ```R
 ###R code###
@@ -52,8 +51,12 @@ library(genefilter)
 library(dplyr)
 library(devtools)
 
-# Load phenotype data from a file we saved in the current working directory
-pheno_data = read.csv("UHR_vs_HBR.csv")
+# Create phenotype data needed for ballgown analysis
+ids=c("UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3")
+type=c("UHR","UHR","UHR","HBR","HBR","HBR")
+results="/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/"
+path=paste(results,ids,sep="")
+pheno_data=data.frame(ids,type,path)
 
 # Load ballgown data structure and save it to a variable "bg"
 bg = ballgown(samples=as.vector(pheno_data$path), pData=pheno_data)
