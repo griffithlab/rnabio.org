@@ -242,7 +242,7 @@ stringtie --rf -p 8 -G $RNA_REF_GTF -e -B -o HCC1395_normal_rep3/transcripts.gtf
 
 ```
 
-### Practical Exercise 9 - Expression
+### Practical Exercise 9 - Differential expression
 <a id="Practical Excercise 9"></a>
 Create a new folder for DE results and then start an R session
 ```bash
