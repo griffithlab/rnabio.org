@@ -109,7 +109,7 @@ Prior to aligning RNA-seq data, teams should perform adapter trimming using `fle
 - Obtain an alignment summary
 - Convert your alignments into compressed BAM format
 
-*A useful option to add to the end of your commands is `2>`, which redirects the stdout from any command into a specific file. This can be used to redirect your stdout into a summary file, and can be used as follows: `My_alignment_script 2> alignment_metrics.txt`. The advantage of this is being able to view the alignment metrics later on.*
+*A useful option to add to the end of your commands is `2>`, which redirects the stderr from any command into a specific file. This can be used to redirect your stderr into a summary file, and can be used as follows: `My_alignment_script 2> alignment_metrics.txt`. The advantage of this is being able to view the alignment metrics later on.*
 
 **\<L1\>** Q4. What were the percentages of reads that aligned to the reference for each sample?
 
