@@ -97,7 +97,9 @@ cd $RNA_HOME/refs
 java -jar $PICARD CreateSequenceDictionary -R chr22_with_ERCC92.fa -O chr22_with_ERCC92.dict
 
 # Create a bed file of the location of ribosomal sequences in our reference (first extract from the gtf then convert to bed)
-grep --color=none -i rrna chr22_with_ERCC92.gtf > ref_ribosome.gtf
+# Note that here we pull all the "rrna" transcripts from the GTF. This is a good strategy for the whole transcriptome ...
+# ... but on chr22 there is very little "rrna" content, leading to 0 coverage for all samples, so we are also adding a single protein coding ribosomal gene "RRP7A" (normally we would not do this)
+grep --color=none -i -P "rrna|rrp7a" chr22_with_ERCC92.gtf > ref_ribosome.gtf
 gff2bed < ref_ribosome.gtf > ref_ribosome.bed
 
 # Create interval list file for the location of ribosomal sequences in our reference
