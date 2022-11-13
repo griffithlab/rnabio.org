@@ -82,6 +82,10 @@ tail(fpkm)
 # Create boxplots to display summary statistics for the FPKM values for each sample
 boxplot(fpkm,col=as.numeric(as.factor(pheno_data$type))+1,las=2,ylab='log2(FPKM+1)')
 
+# col=as.numeric(as.factor(pheno_data$type))+1 - set color based on pheno_data$type which is UHR vs. HBR
+# las=2 - labels are perpendicular to axis 
+# ylab='log2(FPKM+1)' - set ylab to indicate that values are log2 transformed
+
 # Display the transcript ID for a single row of data
 ballgown::transcriptNames(bg)[2763]
 
@@ -91,8 +95,16 @@ ballgown::geneNames(bg)[2763]
 # Create a BoxPlot comparing the expression of a single gene for all replicates of both conditions
 boxplot(fpkm[2763,] ~ pheno_data$type, border=c(2,3), main=paste(ballgown::geneNames(bg)[2763],' : ', ballgown::transcriptNames(bg)[2763]),pch=19, xlab="Type", ylab='log2(FPKM+1)')
 
+# border=c(2,3) - set border color for each of the boxplots
+# main=paste(ballgown::geneNames(bg)[2763],' : ', ballgown::transcriptNames(bg)[2763]) - set title to gene : transcript
+# xlab="Type" - set x label to Type
+# ylab='log2(FPKM+1)' - set ylab to indicate that values are log2 transformed
+
+
 # Add the FPKM values for each sample onto the plot
 points(fpkm[2763,] ~ jitter(c(2,2,2,1,1,1)), col=c(2,2,2,1,1,1)+1, pch=16)
+# pch=16 - set plot symbol to solid circle, default is empty circle
+
 
 # Create a plot of transcript structures observed in each replicate and color transcripts by expression level
 plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in all HBR samples'), sample=c('HBR_Rep1', 'HBR_Rep2', 'HBR_Rep3'), labelTranscripts=TRUE)
