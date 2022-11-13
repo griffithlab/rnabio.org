@@ -226,3 +226,4 @@ To view the resulting figures, navigate to the below URL replacing YOUR_IP_ADDRE
 * http://**YOUR_IP_ADDRESS**/workspace/rnaseq/expression/htseq_counts/Tutorial_ERCC_expression.pdf
 * http://**YOUR_IP_ADDRESS**/workspace/rnaseq/expression/stringtie/ref_only/Tutorial_ERCC_expression_tpm.pdf
 
+Which expression estimation (read counts or TPM values) are better representing the known/expected ERCC concentrations?  Why?
