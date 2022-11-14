@@ -43,8 +43,12 @@ Next we'll load our data into R.
 
 ```R
 ###R code###
-# Load phenotype data
-pheno_data = read.csv("UHR_vs_HBR.csv")
+# Generate phenotype data
+ids=c("UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3")
+type=c("UHR","UHR","UHR","HBR","HBR","HBR")
+results="/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/"
+path=paste(results,ids,sep="")
+pheno_data=data.frame(ids,type,path)
 
 # Display the phenotype data
 pheno_data
