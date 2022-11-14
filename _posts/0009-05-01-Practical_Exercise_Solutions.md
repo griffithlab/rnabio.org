@@ -102,7 +102,7 @@ fastqc *.fastq.gz
 Then, go to the following url in your browser:
 
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/
-* Note, you must replace **YOUR_DNS_NAME** with your own amazon instance IP or DNS (e.g., cbw##.dyndns.info)
+* Note, you must replace **YOUR_DNS_NAME** with your own amazon instance IP or DNS
 * Click on any of the `*_fastqc.html` files to view the FastQC report (e.g., `hcc1395_normal_rep1_r1_fastqc.html`)
 
 #### Answers
@@ -388,3 +388,9 @@ dev.off()
 quit(save="no")
 
 ```
+
+To view your plot, go to the following url in your browser:
+
+* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/practice/de/ballgown/ref_only/practical_exercise_10_volcano.pdf
+* Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP or DNS
+
