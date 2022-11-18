@@ -100,7 +100,7 @@ write.table(results_genes, "UHR_vs_HBR_gene_results_filtered.tsv", sep="\t", quo
 sig_transcripts = subset(results_transcripts, results_transcripts$pval<0.05)
 sig_genes = subset(results_genes, results_genes$pval<0.05)
 
-# Output the signifant gene results to a pair of tab delimited files
+# Output the significant gene results to a pair of tab delimited files
 write.table(sig_transcripts, "UHR_vs_HBR_transcript_results_sig.tsv", sep="\t", quote=FALSE, row.names = FALSE)
 write.table(sig_genes, "UHR_vs_HBR_gene_results_sig.tsv", sep="\t", quote=FALSE, row.names = FALSE)
 
@@ -157,11 +157,12 @@ head DE_genes.txt
 ***
 
 ### PRACTICAL EXERCISE 9
-Assignment: Use Ballgown to identify filtered and significantly differentially expressed genes from the StringTie expression estimates (i.e., Ballgown table files) which you created in Practical Exercise 8.
+Assignment: Use Ballgown to identify differentially expressed genes from the StringTie expression estimates (i.e., Ballgown table files) which you created in Practical Exercise 8.
 
 * Hint: Follow the example R code above. 
 * Hint: You will need to change how the `pheno_data` object is created to point to the correct sample ids, type, and path to StringTie results files.
-* Hint: Make sure to save your ballgown data object to file (e.g., `bg.rda`) for use in subsequent practical exercises
+* Hint: Make sure to save your ballgown data object to file (e.g., `bg.rda`) for use in subsequent practical exercises.
+* Hint: You may wish to save both a complete list of genes with differential expression results as well as a subset which are filtered and pass a significance test
 
 Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-9---differential-expression)
 
