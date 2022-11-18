@@ -17,7 +17,7 @@ Covered in this section: logging into AWS EC2 console, starting an instance from
 ## Launching an AWS instance for the course
 In the previous section [Introduction to AWS](https://rnabio.org/module-00-setup/0000/04/01/Intro_to_AWS/) we reviewed fundamental concepts of cloud computing and some of the jargon and features specific to AWS. In this section we will learn how to launch an instance specifically for this course.
 
-In order to launch your own instance you will either need to use your own personal AWS account, an account provided through your institution OR if you are taking a live version of this course you will be assigned an AWS account using the IAMS system. The following instructions are used for a live version of this course, but the process would be essentially the same when using a personal or institutional account.
+In order to launch your own instance you will either need to use your own personal AWS account, an account provided through your institution OR if you are taking a live version of this course you will be assigned an AWS account using the IAM system. The following instructions are used for a live version of this course, but the process would be essentially the same when using a personal or institutional account.
 
 * Once your EC2 instance is up and running, make note of its IP address.
 * Instructions for logging into this cloud instance (including instructions for Windows systems, if applicable) can be found below.
@@ -27,16 +27,18 @@ In order to launch your own instance you will either need to use your own person
 Briefly the process for launching an EC2 instance for this course involves these steps:
 1. Login to AWS using the specific url and credentials (user/password) you were provided.
 2. Search for and select EC2 to access the EC2 console.
-3. Select Launch Instance, search for "cshl-seqtec-2022" in My AMIs and Select.
-4. Choose and Instance Type: Select "m5.2xlarge" and then "Next".
-5. Configure Instance Details: Select one instance to launch, select "Protect against accidental termination", and then "Next".
-6. Add Storage: Make sure that you see two snapshots and then "Next".
-7. Add Tags: Create a tag with **name=StudentName** (We recommend First initial and last name. e.g. MGriffith).
-8. Configure Security Group: Choose existing security group called "SSH and HTTP". Review and Launch.
-9. Choose an existing key pair (cshl_2022_student) and "Launch Instances".
-10. View instances and wait for your instance to finish initiating.
-11. Find your instance in console and select it, then hit connect to get your public.ip.address (EC2 Instance Connect).
-12. Login to the instance as described below.
+3. Select Launch Instance.
+4. Name and tags: Name your instance (e.g., Firstname_Lastname). 
+5. Amazon Machine Image: Search for "cshl-seqtec-2022" in My AMIs and Select.
+6. Instance type: Select "m5.2xlarge" and then "Next".
+7. Key pair (login): Choose an existing key pair (cshl_2022_student).
+8. Network settings: Choose existing security group called "SSH/HTTP/Jupyter".
+9. Configure storage: Make sure that you see two volumes.
+10. Advanced details: Select "Termination Protection: Enable".
+11. Summary: Review and then Launch instance.
+12. View all instances and wait for your instance to finish initiating.
+13. Find your instance in console and select it, then hit connect to get your Public IP address (EC2 Instance Connect).
+14. Login to the instance as described below.
 
 ## Logging in to your own EC2 instance
 

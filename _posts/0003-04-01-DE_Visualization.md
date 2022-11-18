@@ -43,8 +43,12 @@ Next we'll load our data into R.
 
 ```R
 ###R code###
-# Load phenotype data
-pheno_data = read.csv("UHR_vs_HBR.csv")
+# Generate phenotype data
+ids = c("UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3")
+type = c("UHR","UHR","UHR","HBR","HBR","HBR")
+results = "/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/"
+path = paste(results,ids,sep="")
+pheno_data = data.frame(ids,type,path)
 
 # Display the phenotype data
 pheno_data
@@ -469,9 +473,6 @@ ggplot(data=results_genes[results_genes$diffexpressed != "No",], aes(x=de, y=-lo
 
 dev.off()
 
-#The output file can be viewed in your browser at the following url:
-#Note, you must replace __YOUR_IP_ADDRESS__ with your own amazon instance IP
-#http://__YOUR_IP_ADDRESS__/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
 #To exit R type:
 quit(save="no")
 ```
@@ -481,3 +482,16 @@ Run the R commands detailed in the R script above. A R script containing all of 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
 * http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
+
+***
+
+### PRACTICAL EXERCISE 10 (ADVANCED)
+Assignment: Use R to create a volcano plot for the differentially expressed genes you identified with Ballgown in Practical Exercise 9.
+
+* Hint: Follow the example R code above.
+* Hint: Import the ballgown data object (e.g., `bg.rda`) that you should have saved in Practical Exercise 9.
+ 
+Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-10---volcano-plot)
+
+***
+
