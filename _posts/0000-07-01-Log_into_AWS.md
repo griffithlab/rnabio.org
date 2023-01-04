@@ -27,18 +27,19 @@ In order to launch your own instance you will either need to use your own person
 Briefly the process for launching an EC2 instance for this course involves these steps:
 1. Login to AWS using the specific url and credentials (user/password) you were provided.
 2. Search for and select EC2 to access the EC2 console.
-3. Select Launch Instance.
-4. Name and tags: Name your instance (e.g., Firstname_Lastname). 
-5. Amazon Machine Image: Search for "cshl-seqtec-2022" in My AMIs and Select.
-6. Instance type: Select "m5.2xlarge" and then "Next".
-7. Key pair (login): Choose an existing key pair (cshl_2022_student).
-8. Network settings: Choose existing security group called "SSH/HTTP/Jupyter".
-9. Configure storage: Make sure that you see two volumes.
-10. Advanced details: Select "Termination Protection: Enable".
-11. Summary: Review and then Launch instance.
-12. View all instances and wait for your instance to finish initiating.
-13. Find your instance in console and select it, then hit connect to get your Public IP address (EC2 Instance Connect).
-14. Login to the instance as described below.
+3. Make sure that you are in the N. Virginia region
+4. Select Launch Instance.
+5. Name and tags: Name your instance (e.g., Firstname_Lastname). 
+6. Amazon Machine Image: Search for "cshl-seqtec-2022" in My AMIs and Select.
+7. Instance type: Select "m5.2xlarge" and then "Next".
+8. Key pair (login): Choose an existing key pair (cshl_2022_student).
+9. Network settings: Choose existing security group called "SSH/HTTP/Jupyter".
+10. Configure storage: Make sure that you see two volumes.
+11. Advanced details: Select "Termination Protection: Enable".
+12. Summary: Review and then Launch instance.
+13. View all instances and wait for your instance to finish initiating.
+14. Find your instance in console and select it, then hit connect to get your Public IP address (EC2 Instance Connect).
+15. Login to the instance as described below.
 
 ## Logging in to your own EC2 instance
 
