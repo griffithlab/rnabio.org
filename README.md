@@ -15,6 +15,18 @@ The site should now be running on localhost port 4000. Changes to files will sho
 
 **Note:** The _config.yml file is only read during the initial serve, changing this file will require re-running step 4 for changes to appear.
 
+## Docker Installation
+
+To install the site locally with docker run the following commands:
+
+1. Clone the repo `$ git clone git@github.com:griffithlab/rnabio.org.git`
+2. Pull the docker image `$ docker pull griffithlab/rnabiodev:0.0.1`
+3. Run the docker `$ docker run -p 4000:4000 -v ~/git/rnabio.org/:/opt/git/rnabio.org -it griffithlab/rnabiodev:0.0.1`
+
+Make sure that the above command has correct path to cloned git repo (The first part specified with -v option). The site should now be running on localhost port 4000. Changes to files will show up interactively on localhost:4000.
+
+**Note:** The _config.yml file is only read during the initial serve, changing this file will require re-running step 3 for changes to appear.
+
 ## Adding Course Content
 
 Course content is located in the _posts directory, course pages must be named following the format: year-month-day-name.md for example `0000-00-00-name.md`. This naming is important for ordering course content, further the front matter tag in the markdown file should include date as well for the same reason. Additional useful tags are `categories` for locating a course in a specific module. An example of front matter tags in a markdown file is supplied below:
