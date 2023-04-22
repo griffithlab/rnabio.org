@@ -25,6 +25,8 @@ To install the site locally with docker run the following commands:
 
 Make sure that the above command has correct path to cloned git repo (The first part specified with -v option). The site should now be running on localhost port 4000. Changes to files will show up interactively on localhost:4000.
 
+**Note:** The Dockerfile for this image is maintained in [this repo](https://github.com/griffithlab/rnabio.org/tree/master/docker) and the image itself is hosted on [dockerhub](https://hub.docker.com/r/griffithlab/rnabiodev).
+
 **Note:** The _config.yml file is only read during the initial serve, changing this file will require re-running step 3 for changes to appear.
 
 ## Adding Course Content
