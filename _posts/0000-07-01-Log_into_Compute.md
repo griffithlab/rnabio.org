@@ -164,12 +164,9 @@ docker pull griffithlab/rnabio:0.0.1
 ```bash
 mkdir -p ~/rnabio-workspace
 ```
-3. Initialize a Docker container using the image we pulled above. -v tells Docker to mount our workspace directory within the Docker container as /workspace with read-write priveleges. You'll see in the RNAseq course /workspace is the base directory for nearly all commands and steps. Note: we are running this docker container interactively and entering it at a bash shell prompt.
+3. Initialize a Docker container using the image we pulled above. -v tells Docker to mount our workspace directory within the Docker container as /workspace with read-write priveleges. You'll see in the RNAseq course /workspace is the base directory for nearly all commands and steps. Note: we are running this docker container interactively and entering it at a bash shell prompt. We also switch the default user to "ubuntu" to match the RNAseq course tutorials.
 ```bash
-docker run -v ~/rnabio-workspace:/workspace:rw -it griffithlab/rnabio:0.0.1 /bin/bash
+docker run -v ~/rnabio-workspace:/workspace:rw --user ubuntu:ubuntu -it griffithlab/rnabio:0.0.1 /bin/bash
 ```
-4. Switch User to the ubuntu user. Now that we are running a Docker container, Docker, by default, will log you in as the "root" user. We need to run as the "ubuntu" user to match the RNAseq course tutorials.
-```bash
-su ubuntu
-```
+
 The docker session should now be ready for the Unix tutorial and practical exercises.
