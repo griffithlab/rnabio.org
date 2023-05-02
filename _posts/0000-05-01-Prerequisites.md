@@ -12,7 +12,7 @@ date: 0000-05-01
 ## Do these before coming to the workshop:
 
 ### 1.) Command line tutorial
-You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, below is a suggested tutorial. If you have a Mac computer you can use the "Terminal" application to complete this tutorial. If you have access to a linux server at your institution you could do it there. If neither of those is available you can try a free online termline application that runs in your browser such as [COCALC](https://cocalc.com/app?anonymous=terminal).
+You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, below is a suggested tutorial. If you have a Mac computer you can use the "Terminal" application to complete this tutorial. If you have access to a linux server at your institution you could do it there. If neither of those is available you can try a free online termline application that runs in your browser such as [sandbox.io](https://sandbox.bio/playground) or [COCALC](https://cocalc.com/app?anonymous=terminal).
 
 * [UNIX Intro Tutorial](https://rnabio.org/module-00-setup/0000/08/01/Unix/)
 * [Unix cheat sheet](https://www.guru99.com/linux-commands-cheat-sheet.html)
