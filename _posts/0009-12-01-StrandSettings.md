@@ -42,4 +42,6 @@ To identify which '--library-type' setting to use with TopHat, Illumina specific
 
 For HTSeq, the htseq-count manual indicates that for the '--stranded' option, 'stranded=no' means that a read is considered overlapping with a feature regardless of whether it is mapped to the same or the opposite strand as the feature. For 'stranded=yes' and single-end reads, the read has to be mapped to the same strand as the feature. For paired-end reads, the first read has to be on the same strand and the second read on the opposite strand. For 'stranded=reverse', these rules are reversed.
 
+Test Double Dash: &dash;&dash;
+
 For the 'CollectRnaSeqMetrics' sub-command of Picard, the Picard manual indicates that one should use 'FIRST_READ_TRANSCRIPTION_STRAND' if the reads are expected to be on the transcription strand.
