@@ -33,8 +33,9 @@ There are various strand-related settings for RNA-seq tools that must be adjuste
 | **Salmon (`--libType` parameter)**                               | `ISR` (assuming paired-end with inward read orientation)        | `ISF` (assuming paired-end with inward read orientation) | `IU` (assuming paired-end with inward read orientation) |
 | **Trinity (`–SS_lib_type` parameter)**                           | `RF`                                                            | `FR`                                                     | NONE                                                    |
 | **MGI CWL YAML (`strand` parameter)**                            | `first`                                                         | `second`                                                 | NONE                                                    |
+| **WASHU WDL YAML (`strand` parameter)**                          | `first`                                                         | `second`                                                 | `unstranded`                                            |
 | **RegTools (`strand` parameter)**                                | `-s 1`                                                          | `-s 2`                                                   | `-s 0`                                                  |
-|                                                                  | **Example methods/kits:** dUTP, NSR, NNSR, Illumina TruSeq Strand Specific Total RNA, NEBNext Ultra II Directional | **Example methods/kits:** Ligation, Standard SOLiD, NuGEN Encore, 10X 5’ scRNA data    | **Example kits/data:** Standard Illumina, NuGEN OvationV2, SMARTer universal low input RNA kit (TaKara), GDC normalized TCGA data           |
+| **Example kits**                                                 | **Example methods/kits:** dUTP, NSR, NNSR, Illumina TruSeq Strand Specific Total RNA, NEBNext Ultra II Directional | **Example methods/kits:** Ligation, Standard SOLiD, NuGEN Encore, 10X 5’ scRNA data    | **Example kits/data:** Standard Illumina, NuGEN OvationV2, SMARTer universal low input RNA kit (TaKara), GDC normalized TCGA data           |
 
 ### Notes
 
@@ -43,3 +44,14 @@ To identify which `--library-type` setting to use with TopHat, Illumina specific
 For HTSeq, the htseq-count manual indicates that for the `--stranded` option, `stranded=no` means that a read is considered overlapping with a feature regardless of whether it is mapped to the same or the opposite strand as the feature. For `stranded=yes` and single-end reads, the read has to be mapped to the same strand as the feature. For paired-end reads, the first read has to be on the same strand and the second read on the opposite strand. For `stranded=reverse`, these rules are reversed.
 
 For the 'CollectRnaSeqMetrics' sub-command of Picard, the Picard manual indicates that one should use `FIRST_READ_TRANSCRIPTION_STRAND` if the reads are expected to be on the transcription strand.
+
+### Example data providers
+
+Examples (from check_strandedness) that we have observed from different providers (note that these could be changed by the provider at any time, so you should always check your own data):
+
+- Boston Gene: RF/fr-firststrand
+- Personalis: RF/fr-firststrand
+- WASHU CLE Lab: RF/fr-firststrand
+- Tempus: FR/fr-secondstrand
+- IGM @ Nationwide Children’s Hospital: FR/fr-secondstrand
+
