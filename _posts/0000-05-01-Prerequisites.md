@@ -18,7 +18,12 @@ You are expected to be familiar with basic command line usage before the worksho
 * [Unix command-line bootcamp](http://korflab.ucdavis.edu/bootcamp.html)
 * [Unix cheat sheet](https://www.guru99.com/linux-commands-cheat-sheet.html)
 
-### 2.) Reading materials
+### 2.) Introduction to R tutorial
+Knowing R is critical to this workshop. Using R installed on your computer, please work through the tutorial (~3 hours). Note that the final exercise is optional and quite advanced. It is not required.
+
+* [GenViz Intro R tutorial](https://genviz.org/module-02-r/0002/02/01/introductionToR/)
+
+### 3.) Reading materials
 Please read these articles before coming to the workshop:
 
 * RNA-seq data fundamentals. [RNA Sequencing: The Teenage Years](https://pubmed.ncbi.nlm.nih.gov/31341269/).
