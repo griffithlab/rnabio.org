@@ -52,6 +52,7 @@ Examples (from check_strandedness) that we have observed from different provider
 - Boston Gene: RF/fr-firststrand
 - Personalis: RF/fr-firststrand
 - WASHU CLE Lab: RF/fr-firststrand
+- Caris: RF/fr-firststrand
 - Tempus: FR/fr-secondstrand
 - IGM @ Nationwide Children’s Hospital: FR/fr-secondstrand
 
