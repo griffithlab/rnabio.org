@@ -93,17 +93,19 @@ zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 2 | tail -n 1 | grep -o T | wc -l
 
 ### Practical Exercise 4 - Data QC
 
+Use FastQC, Fastp, and/or MultiQC to summarize data QC
+
 ```bash
 cd $RNA_HOME/practice/data
 fastqc *.fastq.gz
-
+python3 -m multiqc .
 ```
 
 Then, go to the following url in your browser:
 
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/
 * Note, you must replace **YOUR_DNS_NAME** with your own amazon instance IP or DNS
-* Click on any of the `*_fastqc.html` files to view the FastQC report (e.g., `hcc1395_normal_rep1_r1_fastqc.html`)
+* Click on any of the `*_fastqc.html` files to view the FastQC reports (e.g., `hcc1395_normal_rep1_r1_fastqc.html`)
 
 #### Answers
 
@@ -133,11 +135,12 @@ flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_mul
 
 ```
 
-Compare these files using FastQC:
+Compare these files using FastQC, Fastp and/or MultiQC:
 
 ```bash
 cd $RNA_HOME/practice/data/trimmed/
 fastqc *.fastq.gz
+python3 -m multiqc .
 
 ```
 
