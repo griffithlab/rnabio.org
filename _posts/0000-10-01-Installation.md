@@ -153,6 +153,20 @@ chmod 755 fastqc
 ./fastqc --help
 ```
 
+## [Fastp](https://github.com/OpenGene/fastp)
+
+Installation type: download precompiled binary. Citation: [PMID: 30423086](https://pubmed.ncbi.nlm.nih.gov/30423086/)
+
+```bash
+cd $RNA_HOME/student_tools/
+mkdir fastp
+cd fastp
+wget http://opengene.org/fastp/fastp
+chmod a+x ./fastp
+./fastp
+```
+
+
 ## [MultiQC](http://multiqc.info/)
 
 Installation type: use pip. Citation: [PMID: 27312411](https://pubmed.ncbi.nlm.nih.gov/27312411/).
@@ -259,6 +273,16 @@ chmod a+x genePredToBed
 ```bash
 pip3 install git+https://github.com/betsig/how_are_we_stranded_here.git
 check_strandedness
+```
+
+## Install [Cell Ranger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/installation)
+
+* Must register to get download link, modify command below to match downloaded tar
+
+```bash
+cd $RNA_HOME/student_tools/
+wget `download_link`
+tar -xzvf cellranger-6.1.2.tar.gz
 ```
 
 ## Install [R](http://www.r-project.org/)
