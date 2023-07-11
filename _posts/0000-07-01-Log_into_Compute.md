@@ -41,7 +41,7 @@ Briefly the process for launching an EC2 instance for this course involves these
 4. Select Launch Instance.
 5. Name and tags: Name your instance (e.g., Firstname_Lastname). 
 6. Amazon Machine Image: Search for "cshl-seqtec-2022" in My AMIs and Select.
-7. Instance type: Select "m5.2xlarge" and then "Next".
+7. Instance type: Select "m6a.xlarge" and then "Next".
 8. Key pair (login): Choose an existing key pair (e.g., cshl_2022_student).
 9. Network settings: Choose existing security group called "SSH/HTTP/Jupyter".
 10. Configure storage: Make sure that you see two volumes.
@@ -126,7 +126,7 @@ If you are trying to do this course on your own using the online materials only,
 
 Name: `cshl-seqtec-2022` (ID: `ami-09e0764f72d9687e0`) available in the US East, N. Virginia region (us-east-1).
 
-We typically use an instance type of `m5.2xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-09-appendix/0009/09/01/AWS_Setup/) page.
+We typically use an instance type of `m6a.xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-09-appendix/0009/09/01/AWS_Setup/) page.
 
 ### Basic introduction to your AWS EC2 instance
 
