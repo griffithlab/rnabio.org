@@ -53,12 +53,12 @@ We will use basic functionality of RegTools to extract a junction.bed file for e
 ```bash
 cd $RNA_HOME/alignments/hisat2
 
-regtools junctions extract HBR.bam > HBR.junctions.bed
+regtools junctions extract -s RF HBR.bam > HBR.junctions.bed
 head HBR.junctions.bed
 regtools junctions annotate HBR.junctions.bed $RNA_REF_FASTA $RNA_REF_GTF > HBR.junctions.anno.bed
 head HBR.junctions.anno.bed
 
-regtools junctions extract UHR.bam > UHR.junctions.bed
+regtools junctions extract -s RF UHR.bam > UHR.junctions.bed
 head UHR.junctions.bed
 regtools junctions annotate UHR.junctions.bed $RNA_REF_FASTA $RNA_REF_GTF > UHR.junctions.anno.bed
 head UHR.junctions.anno.bed
