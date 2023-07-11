@@ -111,7 +111,7 @@ docker run -v /home/ubuntu/workspace/rnaseq:/docker_workspace mgibio/checkstrand
 
 `-v` is the parameter used to mount your workspace so that the docker container can see the files that you're working with. In the example above, `/home/ubuntu/workspace/rnaseq` from the EC2 instance has been mounted as `/docker_workspace` within the docker container. 
 
-`chrisamiller/how_stranded` is the docker container name. The `:latest` refers to the specific tag and release of the docker container.
+`mgibio/checkstrandedness` is the docker container name. The `:latest` refers to the specific tag and release of the docker container.
 
 
 The output of this command should look like so:

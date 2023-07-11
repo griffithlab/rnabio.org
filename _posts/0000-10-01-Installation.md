@@ -383,14 +383,15 @@ Solution: When you are ready you can check your approach against the [Solutions]
 
 ## Add locally installed tools to your PATH [OPTIONAL]
 
-To use the locally installed version of each tool without having to specify complete paths, you could add the install directory of each tool to your '$PATH' variable
+To use the locally installed version of each tool without having to specify complete paths, you could add the install directory of each tool to your '$PATH' variable and set some other environment variables:
 
 ```bash
-PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.39/bin:$RNA_HOME/student_tools/samtools-1.16.1:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.1.4.Linux_x86_64:$RNA_HOME/student_tools/gffcompare-0.12.6.Linux_x86_64:$RNA_HOME/student_tools/htseq-release_0.12.4/scripts:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/flexbar-3.5.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:$PATH
-
-export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.5.0-linux:$LD_LIBRARY_PATH
+PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.40/bin:$RNA_HOME/student_tools/samtools-1.16.1:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.1.6.Linux_x86_64:$RNA_HOME/student_tools/gffcompare-0.12.6.Linux_x86_64:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/fastp:$RNA_HOME/student_tools/flexbar-3.5.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:/home/ubuntu/.local/bin:$PATH
 
 echo $PATH
+
+export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.5.0-linux:$LD_LIBRARY_PATH
+export PICARD=$RNA_HOME/student_tools/picard.jar
 ```
 
 You can make these changes permanent by adding the above lines to your .bashrc file
