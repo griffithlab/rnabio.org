@@ -62,7 +62,7 @@ export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
 We will be using picard tools throughout this workshop. To follow along, you will need to set an environment variable pointing to your picard installation.
 
 ```bash
-export PICARD=/usr/local/picard/picard.jar
+export PICARD=/home/ubuntu/bin/picard.jar
 ```
 
 For simplicity, we are going to download a preconfigured `.bashrc` file to use.
