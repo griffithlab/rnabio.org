@@ -124,7 +124,7 @@ scp -i cshl_2022_student.pem __MY_DATA__ ubuntu@[your ip address]:/
 ### Doing this course with AWS outside of a workshop
 If you are trying to do this course on your own using the online materials only, of course an AWS EC2 instance has not been set up for you. If you have access to an AWS account though you can can start with the same Amazon AMI we use to create instances for each student. Currently this is:
 
-Name: `cshl-seqtec-2022` (ID: `ami-09e0764f72d9687e0`) available in the US East, N. Virginia region (us-east-1).
+Name: `cbw-rnabio-2023` (ID: `ami-09b3fd07d90812201`) available in the US East, N. Virginia region (us-east-1).
 
 We typically use an instance type of `m6a.xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-09-appendix/0009/09/01/AWS_Setup/) page.
 
