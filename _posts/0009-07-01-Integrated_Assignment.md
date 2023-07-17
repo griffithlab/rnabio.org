@@ -9,7 +9,7 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0009-07-01
 ---
 
-**Preamble:** Note that the following integrated assignment asks you to work on new RNA-seq data and apply the concepts you have learned up to this point. To complete this assignment you will need to review commands we performed in many of the earlier sections. Try to construct these commands on your own and get all the way to the end of the assignment. If you get very stuck or would like to compare your solutions to those suggested by the instructors, refer to the answers page. The integrated assignment answers page is an expanded version of this page with all of the questions plus detailed code solutions to all problems. The answer page is available in the git repository for this wiki. It is slightly hidden to reduce temptation to look at it without trying on your own. Ask an instructor if you have trouble finding it.
+**Preamble:** Note that the following integrated assignment asks you to work on new RNA-seq data and apply the concepts you have learned up to this point. To complete this assignment you will need to review commands we performed in many of the earlier sections. Try to construct these commands on your own and get all the way to the end of the assignment. If you get very stuck or would like to compare your solutions to those suggested by the instructors, refer to the answers page. The integrated assignment answers page is an expanded version of this page with all of the questions plus detailed code solutions to all problems. Avoid the temptation to look at it without trying on your own.
 
 **Background:** The use of cell lines are often implemented in order to study different experimental conditions. One such kind of study is the effects of shRNA on expression profiles, to determine whether these effects target specific genes. Experimental models for these include using control shRNA to account for any expression changes that may occur from just the introduction of these molecules.
 
@@ -18,12 +18,12 @@ date: 0009-07-01
 Experimental information and other things to keep in mind:
 
 - The libraries are prepared as paired end.
-- The samples are sequenced on a Illumina 4000.
+- The samples are sequenced on an Illumina 4000.
 - Each read is 150 bp long
 - The dataset is located here: [GSE114360](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA471072)
 - 3 samples transfected with target shRNA and 3 samples with control shRNA
 - Libraries were prepared using standard Illumina protocols
-- For this exercise we will be using all a subset of the reads (first 1000000 reads from each pair).
+- For this exercise we will be using a subset of the reads (first 1,000,000 reads from each pair).
 - The files are named based on their SRR id's, and obey the following key:
   - SRR7155055 = transfected sample 1
   - SRR7155056 = transfected sample 2
@@ -66,21 +66,9 @@ Note: when initiating an environment variable, we do not need the $; however, ev
 ```bash
 echo $RNA_INT_ASSIGNMENT
 cd $RNA_INT_ASSIGNMENT
-<<<<<<< HEAD
-<<<<<<< HEAD
-ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/reference/
-ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/raw_reads/top_1mil/ raw_reads
-ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/adapter
-=======
-ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/reference/
-ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/raw_reads/top_1mil/
-ln -s ~/CourseData/CG_data/Integrative_Assignment_RNA/adapter
->>>>>>> 7974a343cd6fbaddcb0a516cbccbe0cf7df72076
-=======
-ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/reference/
-ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/raw_reads/top_1mil/
-ln -s ~/CourseData/RNA_data/Integrative_Assignment_RNA/adapter/
->>>>>>> c0327b7617aad95661853ebd26473fac0958ac53
+
+wget http://genomedata.org/rnaseq-tutorial/Integrative_Assignment_RNA.tar.gz
+
 ```
 
 **Q1.)** How many items are there under the “reference” directory (counting all files in all sub-directories)? What if this reference file was not provided for you - how would you obtain/create a reference genome fasta file. How about the GTF transcripts file from Ensembl?
