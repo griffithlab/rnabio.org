@@ -20,6 +20,7 @@ In this assignment, we will be using subsets of the GSE136366 dataset (Roczniak-
 - The libraries are prepared as paired end.
 - The samples are sequenced on a Illumina’s HiSeq 2500.
 - Each read is 70 bp long
+- The data are RF/fr-firststrand stranded (dUTP)
 - The source dataset is located here: [GSE136366](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE136366)
 - 3 samples are from TDP-43 Knockout HeLa cells and 3 samples wherein a wildtype TDP-43 transgene was re-expressed.
 - For this exercise we will be using different subsets (Team A: chr11  Team B: chr12  Team C: chr17  Team D: chr19  Team E: chr6) of the reads.
