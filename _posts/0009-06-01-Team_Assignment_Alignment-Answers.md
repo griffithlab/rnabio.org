@@ -109,7 +109,7 @@ Create FastQC and MultiQC reports for all bam files
 
 ```bash
 cd $RNA_HOME/team_exercise/alignments 
-fastqc ../*.bam
+fastqc *.bam
 mkdir fastqc
 mv *_fastqc* fastqc
 cd fastqc 
@@ -120,6 +120,7 @@ python3 -m multiqc .
 Use Picard to merge individual bam files into single bam file for each condition
 
 ```bash
+cd $RNA_HOME/team_exercise/alignments 
 java -Xmx2g -jar $PICARD MergeSamFiles -OUTPUT KO_merged.bam -INPUT SRR10045016.bam -INPUT SRR10045017.bam -INPUT SRR10045018.bam
 java -Xmx2g -jar $PICARD MergeSamFiles -OUTPUT RESCUE_merged.bam -INPUT SRR10045019.bam -INPUT SRR10045020.bam -INPUT SRR10045021.bam
 ```
