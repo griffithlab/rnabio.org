@@ -22,6 +22,19 @@ wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exerci
 tar -xzvf dataset.tar.gz
 ```
 
+#### Download reference files
+Download chromosome-specific reference fasta, gtf and also Illumina adaptor sequences
+
+```bash
+mkdir -p $RNA_HOME/team_exercise/references
+cd $RNA_HOME/team_exercise/references
+
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chr11.fa
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chr11_Homo_sapiens.GRCh38.95.gtf
+wget -c http://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex.fa
+
+```
+
 #### Trim provided data
 Create a new folder for trimmed data and run flexbar to trim for adaptor and read ends
 
@@ -30,15 +43,10 @@ cd $RNA_HOME/team_exercise
 mkdir trimmed
 
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_HOME/team_exercise/references/illumina_multiplex.fa --pre-trim-right 5 --max-uncalled 300 --min-read-length 25 --threads 4 --zip-output GZ --reads untrimmed/SRR10045016_1.fastq.gz --reads2 untrimmed/SRR10045016_2.fastq.gz --target trimmed/SRR10045016
-
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_HOME/team_exercise/references/illumina_multiplex.fa --pre-trim-right 5 --max-uncalled 300 --min-read-length 25 --threads 4 --zip-output GZ --reads untrimmed/SRR10045017_1.fastq.gz --reads2 untrimmed/SRR10045017_2.fastq.gz --target trimmed/SRR10045017
-
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_HOME/team_exercise/references/illumina_multiplex.fa --pre-trim-right 5 --max-uncalled 300 --min-read-length 25 --threads 4 --zip-output GZ --reads untrimmed/SRR10045018_1.fastq.gz --reads2 untrimmed/SRR10045018_2.fastq.gz --target trimmed/SRR10045018
-
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_HOME/team_exercise/references/illumina_multiplex.fa --pre-trim-right 5 --max-uncalled 300 --min-read-length 25 --threads 4 --zip-output GZ --reads untrimmed/SRR10045019_1.fastq.gz --reads2 untrimmed/SRR10045019_2.fastq.gz --target trimmed/SRR10045019
-
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_HOME/team_exercise/references/illumina_multiplex.fa --pre-trim-right 5 --max-uncalled 300 --min-read-length 25 --threads 4 --zip-output GZ --reads untrimmed/SRR10045020_1.fastq.gz --reads2 untrimmed/SRR10045020_2.fastq.gz --target trimmed/SRR10045020
-
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_HOME/team_exercise/references/illumina_multiplex.fa --pre-trim-right 5 --max-uncalled 300 --min-read-length 25 --threads 4 --zip-output GZ --reads untrimmed/SRR10045021_1.fastq.gz --reads2 untrimmed/SRR10045021_2.fastq.gz --target trimmed/SRR10045021
 ```
 
@@ -53,20 +61,6 @@ python3 -m multiqc .
 cd $RNA_HOME/team_exercise/trimmed
 fastqc *.fastq.gz
 python3 -m multiqc .
-
-```
-
- 
-#### Download reference files
-Download chromosome-specific reference fasta, gtf and also Illumina adaptor sequences
-
-```bash
-mkdir -p $RNA_HOME/team_exercise/references
-cd $RNA_HOME/team_exercise/references
-
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chr11.fa
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chr11_Homo_sapiens.GRCh38.95.gtf
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex.fa
 
 ```
 
