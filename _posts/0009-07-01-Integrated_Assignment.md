@@ -67,7 +67,7 @@ Note: when initiating an environment variable, we do not need the $; however, ev
 echo $RNA_INT_ASSIGNMENT
 cd $RNA_INT_ASSIGNMENT
 
-wget http://genomedata.org/rnaseq-tutorial/Integrative_Assignment_RNA.tar.gz
+wget http://genomedata.org/rnaseq-tutorial/Integrated_Assignment_RNA_Data.tar.gz
 
 ```
 
