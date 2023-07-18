@@ -131,6 +131,7 @@ Now create a new folder that will house the outputs from FastQC. Use the `-h` op
 cd $RNA_INT_ASSIGNMENT
 mkdir raw_fastqc
 fastqc $RNA_INT_DATA_DIR/* -o raw_fastqc/
+cd raw_fastqc
 python3 -m multiqc .
 
 ```
