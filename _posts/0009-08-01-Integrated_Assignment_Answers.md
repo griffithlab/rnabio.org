@@ -484,6 +484,7 @@ short_names=c("T1","T2","T3","C1","C2","C3")
 #Calculate the FPKM sum for all 6 libraries
 gene_expression[,"sum"]=apply(gene_expression[,data_columns], 1, sum)
 
+#Identify genes where the sum of FPKM across all samples is above some arbitrary threshold
 i = which(gene_expression[,"sum"] > 5)
 
 #Calculate the correlation between all pairs of data
@@ -502,6 +503,7 @@ data_colors=c("tomato1","tomato2","tomato3","royalblue1","royalblue2","royalblue
 #This step calculates 2-dimensional coordinates to plot points for each library
 #Libraries with similar expression patterns (highly correlated to each other) should group together
 
+#note that the x and y display limits will have to be adjusted for each dataset depending on the amount of variability
 d=1-r
 mds=cmdscale(d, k=2, eig=TRUE)
 par(mfrow=c(1,1))
