@@ -40,10 +40,9 @@ First, start an R session:
 R
 ```
 
-A separate R tutorial file has been provided below. Run the R commands in your R session.
+Run the following R commands in your R session.
 
 ```R
-###R code###
 
 # load the required libraries
 library(ballgown)
