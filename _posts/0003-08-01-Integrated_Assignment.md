@@ -25,12 +25,12 @@ Experimental information and other things to keep in mind:
 - Libraries were prepared using standard Illumina protocols
 - For this exercise we will be using a subset of the reads (first 1,000,000 reads from each pair).
 - The files are named based on their SRR id's, and obey the following key:
-  - SRR7155055 = transfected sample 1
-  - SRR7155056 = transfected sample 2
-  - SRR7155057 = transfected sample 3
-  - SRR7155058 = control sample 1
-  - SRR7155059 = control sample 2
-  - SRR7155060 = control sample 3
+  - SRR7155055 = CBSLR knockdown sample 1 (T1 - aka transfected 1)
+  - SRR7155056 = CBSLR knockdown sample 2 (T2 - aka transfected 2)
+  - SRR7155057 = CBSLR knockdown sample 3 (T3 - aka transfected 3)
+  - SRR7155058 = control sample 1 (C1 - aka control 1)
+  - SRR7155059 = control sample 2 (C2 - aka control 2)
+  - SRR7155060 = control sample 3 (C3 - aka control 3)
 
 Experimental descriptions from the study authors:
 
@@ -122,14 +122,14 @@ In order to make visualization easier, we're going to merge each of our bams int
 ```bash
 #merge the bams for visulization purposes
 cd $RNA_INT_ALIGN_DIR
-java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
+java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=cbslr-knockdown.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
 java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
 ```
 
 Try viewing genes such as TP53 to get a sense of how the data is aligned. To do this:
 - Load up IGV
 - Change the reference genome to "Human hg38" in the top-left category
-- Click on File > Load from URL, and in the File URL enter: "http://##.oicrcbw.ca/rnaseq/integrated_assignment/hisat2/transfected.bam". Repeat this step and enter "http://##.oicrcbw.ca/rnaseq/integrated_assignment/hisat2/control.bam" to load the other bam, where ## is your student number for the AWS instance.
+- Click on File > Load from URL, and in the File URL enter: "http://##.oicrcbw.ca/rnaseq/integrated_assignment/hisat2/cbslr-knockdown.bam". Repeat this step and enter "http://##.oicrcbw.ca/rnaseq/integrated_assignment/hisat2/control.bam" to load the other bam, where ## is your student number for the AWS instance.
 - Right-click on the alignments track in the middle, and Group alignments by "Library"
 - Jump to TP53 by typing it into the search bar above
 
@@ -153,8 +153,8 @@ Try viewing genes such as TP53 to get a sense of how the data is aligned. To do 
 
 **Goals:**
 
-- Perform differential analysis between the transfected and control samples
-- Check if is differentially expressed
+- Perform differential analysis between the CBSLR knockdown and control samples
+- Check if CBSLR (tcons_00001221) on chromosome 1, is itself differentially expressed
 
 First create a file that lists our 6 expression files, then view that file, then start an R session. Adapt the R tutorial file has been provided in the github repo for part 1 of the tutorial: Tutorial_Part1_ballgown.R. Modify it to fit the goals of this assignment then run it.
 

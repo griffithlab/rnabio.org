@@ -11,26 +11,36 @@ date: 0009-08-01
 
 # Integrated Assignment answers
 
-**Background:** The use of cell lines are often implemented in order to study different experimental conditions. One such kind of study is the effects of shRNA on expression profiles, to determine whether these effects target specific genes. Experimental models for these include using control shRNA to account for any expression changes that may occur from just the introduction of these molecules.
+**Background:** Cell lines are often used to study different experimental conditions and to study the function of specific genes by various perturbation approaches. One such type of study involves knocking down expression of a target of interest by shRNA and then using RNA-seq to measure the impact on gene expression. These eperiments often include use of a control shRNA to account for any expression changes that may occur from just the introduction of these molecules. Differential expression is performed by comparing biological replicates of shRNA knockdown vs shRNA control.
 
-**Objectives:** In this assignment, we will be using a subset of the GSE114360 dataset, which consists of 6 RNA sequence files on the SGC-7901 gastric cancer cell line, (3 transfected with tcons_00001221 shRNA, and 3 control shRNA), and determine the number of differentially expressed genes.
+**Objectives:** In this assignment, we will be using a subset of the [GSE114360 dataset](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA471072), which consists of 6 RNA-seq datasets generated from a cell line (3 transfected with shRNA, and 3 controls). Our goal will be to determine differentially expressed genes.
 
 Experimental information and other things to keep in mind:
 
 - The libraries are prepared as paired end.
-- The samples are sequenced on a Illumina 4000.
+- The samples are sequenced on an Illumina 4000.
 - Each read is 150 bp long
 - The dataset is located here: [GSE114360](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA471072)
 - 3 samples transfected with target shRNA and 3 samples with control shRNA
 - Libraries were prepared using standard Illumina protocols
-- For this exercise we will be using all a subset of the reads (first 1000000 reads from each pair).
+- For this exercise we will be using a subset of the reads (first 1,000,000 reads from each pair).
 - The files are named based on their SRR id's, and obey the following key:
-  - SRR7155055 = transfected sample 1
-  - SRR7155056 = transfected sample 2
-  - SRR7155057 = transfected sample 3
-  - SRR7155058 = control sample 1
-  - SRR7155059 = control sample 2
-  - SRR7155060 = control sample 3
+  - SRR7155055 = CBSLR knockdown sample 1 (T1 - aka transfected 1)
+  - SRR7155056 = CBSLR knockdown sample 2 (T2 - aka transfected 2)
+  - SRR7155057 = CBSLR knockdown sample 3 (T3 - aka transfected 3) 
+  - SRR7155058 = control sample 1 (C1 - aka control 1)
+  - SRR7155059 = control sample 2 (C2 - aka control 2)
+  - SRR7155060 = control sample 3 (C3 - aka control 3)
+
+Experimental descriptions from the study authors:
+
+Experimental details from the [paper](https://pubmed.ncbi.nlm.nih.gov/35499052/):
+"An RNA transcriptome-sequencing analysis was performed in shRNA-NC or shRNA-CBSLR-1 MKN45 cells cultured under hypoxic conditions for 24 h (Fig. 2A)."
+
+Experimental details from the GEO submission:
+"An RNA transcriptome sequencing analysis was performed in MKN45 cells that were transfected with tcons_00001221 shRNA or control shRNA."
+
+Note that according to [GeneCards](https://www.genecards.org/cgi-bin/carddisp.pl?gene=CBSLR) and [HGNC](https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/55459), *CBSLR* and *tcons_00001221* refer to the same thing.
 
 ## PART 0 : Obtaining Data and References
 
