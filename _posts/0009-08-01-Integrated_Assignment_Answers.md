@@ -307,10 +307,9 @@ Right-click in the middle of the page, and click on "Expanded" to view the reads
 
 **Goals:**
 
-- Familiarize yourself with Stringtie options
-- Run Stringtie to obtain expression values
+- Familiarize yourself with Stringtie options and how to run Stringtie in "reference-only" mode
+- Create an expression results directory, run `stringtie` on all 6 samples, and store the results in appropriately named subdirectories in this results dir
 - Obtain expression values for the gene SOX4
-- Create an expression results directory, run Stringtie on all samples, and store the results in appropriately named subdirectories in this results dir
 
 ```bash
 cd $RNA_INT_ASSIGNMENT/
@@ -329,7 +328,7 @@ stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/contr
 **A11.)** To look for the expression value of a specific gene, you can use the command ‘grep’ followed by the gene name and the path to the expression file
 
 ```bash
-grep ENSG00000124766 $RNA_INT_ASSIGNMENT/expression/*/transcripts.gtf | cut -f1,9 | grep FPKM
+grep SOX4 $RNA_INT_ASSIGNMENT/expression/*/transcripts.gtf | cut -f 1,9 | grep FPKM
 ```
 
 ## PART 4: Differential Expression Analysis
@@ -344,18 +343,50 @@ mkdir -p $RNA_INT_ASSIGNMENT/ballgown/
 cd $RNA_INT_ASSIGNMENT/ballgown/
 ```
 
-Perform transfect vs. control comparison, using all samples, for known (reference only mode) transcripts:
-First create a file that lists our 6 expression files, then view that file, then start an R session where we will examine these results:
+Perform transfected vs. control comparison, using all samples, for known transcripts:
+
+Adapt the R tutorial code that was used in [Differential Expression](https://rnabio.org/module-03-expression/0003/03/01/Differential_Expression/) section. Modify it to work on these data (which are also a 3x3 replicate comparison of two conditions).
+
+First, start an R session:
 
 ```bash
-printf "\"ids\",\"type\",\"path\"\n\"transfect1\",\"Transfect\",\"/home/ubuntu/workspace/rnaseq/integrated_assignment/expression/transfect1\"\n\"transfect2\",\"Transfect\",\"/home/ubuntu/workspace/rnaseq/integrated_assignment/expression/transfect2\"\n\"transfect3\",\"Transfect\",\"/home/ubuntu/workspace/rnaseq/integrated_assignment/expression/transfect3\"\n\"control1\",\"Control\",\"/home/ubuntu/workspace/rnaseq/integrated_assignment/expression/control1\"\n\"control2\",\"Control\",\"/home/ubuntu/workspace/rnaseq/integrated_assignment/expression/control2\"\n\"control3\",\"Control\",\"/home/ubuntu/workspace/rnaseq/integrated_assignment/expression/control3\"\n" > Transfect_vs_Control.csv
-
-cat Transfect_vs_Control.csv
-
 R
 ```
 
-*Adapt the  R tutorial file that has been provided in the github repo for part 1 of the tutorial: [Tutorial_Part1_ballgown.R](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part1_ballgown.R). Modify it to fit the goals of this assignment then run it.
+Run the following R commands in your R session.
+
+```R
+
+# load the required libraries
+library(ballgown)
+library(genefilter)
+library(dplyr)
+library(devtools)
+
+# Create phenotype data needed for ballgown analysis. Recall that:
+# "T1-T3" refers to "transfected" (CBSLR shRNA knockdown) replicates
+# "C1-C3" refers to "control" (shRNA control) replicates
+
+ids=c("transfected1","transfected2","transfected3","control1","control2","control3")
+type=c("Tranfected","Tranfected","Tranfected","Control","Control","Control")
+results="/home/ubuntu/workspace/rnaseq/integrated_assignment/expression/"
+path=paste(results,ids,sep="")
+pheno_data=data.frame(ids,type,path)
+
+pheno_data
+
+# Load ballgown data structure and save it to a variable "bg"
+bg = ballgown(samples=as.vector(pheno_data$path), pData=pheno_data)
+
+# Display a description of this object
+bg
+
+
+
+
+
+```
+
 
 **Q12.)** Are there any significant differentially expressed genes? How many in total do you see? If we expected SOX4 to be differentially expressed, why don't we see it in this case?
 
