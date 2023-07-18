@@ -104,7 +104,7 @@ NOTE: The fastq files you have copied above contain only the first 1000000 reads
 
 **Q6.)** What sample has the largest number of reads after trimming?
 
-## PART 2: Data alignment
+## Part 2: Data alignment
 
 **Goals:**
 - Familiarize yourself with HISAT2 alignment options
@@ -138,7 +138,7 @@ Try viewing genes such as TP53 to get a sense of how the data is aligned. To do 
 **Q10.)** What are the lines connecting the reads trying to convey?
 
 
-## PART 3: Expression Estimation
+## Part 3: Expression Estimation
 
 **Goals:**
 
@@ -149,20 +149,19 @@ Try viewing genes such as TP53 to get a sense of how the data is aligned. To do 
 
 **Q11.)** How do you get the expression of the gene SOX4 across the transfect and control samples?
 
-## PART 4: Differential Expression Analysis
+## Part 4: Differential Expression Analysis
 
 **Goals:**
 
-- Perform differential analysis between the CBSLR knockdown and control samples
+- Perform differential analysis between the transfected and control samples
 
-First create a file that lists our 6 expression files, then view that file, then start an R session. Adapt the R tutorial file has been provided in the github repo for part 1 of the tutorial: Tutorial_Part1_ballgown.R. Modify it to fit the goals of this assignment then run it.
+Adapt the R tutorial code that was used in [Differential Expression](https://rnabio.org/module-03-expression/0003/03/01/Differential_Expression/) section. Modify it to work on these data (which are also a 3x3 replicate comparison of two conditions).
 
 **Q12.)** Are there any significant differentially expressed genes? How many in total do you see? If we expected SOX4 to be differentially expressed, why don't we see it in this case?
 
-## PART 4: Differential Expression Analysis Visualization
+## Part 5: Differential Expression Analysis Visualization
 
 **Q13.)** What plots can you generate to help you visualize this gene expression profile?
 
 Hint, a volcano plot is often the one figure used to provide a high level summary of a differential expression analysis. Refer to the [DE Visualization](https://rnabio.org/module-03-expression/0003/04/01/DE_Visualization/) section for example R code.
-
 

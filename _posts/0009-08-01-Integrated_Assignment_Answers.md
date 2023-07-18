@@ -42,7 +42,7 @@ Experimental details from the GEO submission:
 
 Note that according to [GeneCards](https://www.genecards.org/cgi-bin/carddisp.pl?gene=CBSLR) and [HGNC](https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/55459), *CBSLR* and *tcons_00001221* refer to the same thing.
 
-## PART 0 : Obtaining Data and References
+## Part 0 : Obtaining Data and References
 
 **Goals:**
 
@@ -191,7 +191,7 @@ python3 -m multiqc .
 
 ```
 
-## PART 2: Data alignment
+## Part 2: Data alignment
 
 **Goals:**
 
@@ -303,7 +303,7 @@ Right-click in the middle of the page, and click on "Expanded" to view the reads
 
 **A10.)** The lines show a connected read, where one part of the read begins mapping to one exon, while the other part maps to the next exon. This is important in RNA-Sequencing alignment as aligners must be aware to take this partial alignment strategy into account.
 
-## PART 3: Expression Estimation
+## Part 3: Expression Estimation
 
 **Goals:**
 
@@ -331,7 +331,7 @@ stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/contr
 grep SOX4 $RNA_INT_ASSIGNMENT/expression/*/transcripts.gtf | cut -f 1,9 | grep FPKM
 ```
 
-## PART 4: Differential Expression Analysis
+## Part 4: Differential Expression Analysis
 
 **Goals:**
 
@@ -432,7 +432,7 @@ quit(save="no")
 
 **A12.)** Yes, there are about 523 significantly differntially expressed genes. Due to the fact that we're using a subset of the fully sequenced library for each sample, the SOX4 signal is not significant at the adjusted p-value level. You can try re-running the above exercise on your own by using all the reads from each sample in the original data set, which will give you greater resolution of the expression of each gene to build mean and variance estimates for eacch gene's expression.
 
-## PART 4: Differential Expression Analysis Visualization
+## Part 5: Differential Expression Analysis Visualization
 
 **Q13.)** What plots can you generate to help you visualize this gene expression profile
 
