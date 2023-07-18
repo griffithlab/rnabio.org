@@ -270,7 +270,8 @@ du -h $RNA_INT_ALIGN_DIR/*.sam
 du -h $RNA_INT_ALIGN_DIR/*.bam
 ```
 
-In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
+In order to make visualization easier, merge the replicate bams for each sample (transfected vs control) into one BAM using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
+
 ```bash
 #merge the bams for visulization purposes
 cd $RNA_INT_ALIGN_DIR
@@ -280,6 +281,7 @@ java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam I
 
 To visualize these merged bam files in IGV, we'll need to index them. We can do so with the following commands.
 ```bash
+cd $RNA_INT_ALIGN_DIR
 samtools index $RNA_INT_ALIGN_DIR/control.bam
 samtools index $RNA_INT_ALIGN_DIR/transfected.bam
 ```
@@ -313,14 +315,13 @@ Right-click in the middle of the page, and click on "Expanded" to view the reads
 ```bash
 cd $RNA_INT_ASSIGNMENT/
 mkdir -p $RNA_INT_ASSIGNMENT/expression
-```
-```bash
-stringtie -p 8 -G $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf -e -B -o $RNA_INT_ASSIGNMENT/expression/transfect1/transcripts.gtf -A Tumor1/gene_abundances.tsv $RNA_INT_ALIGN_DIR/SRR7155055.bam
-stringtie -p 8 -G $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf -e -B -o $RNA_INT_ASSIGNMENT/expression/transfect2/transcripts.gtf -A Tumor2/gene_abundances.tsv $RNA_INT_ALIGN_DIR/SRR7155056.bam
-stringtie -p 8 -G $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf -e -B -o $RNA_INT_ASSIGNMENT/expression/transfect3/transcripts.gtf -A Tumor3/gene_abundances.tsv $RNA_INT_ALIGN_DIR/SRR7155057.bam
-stringtie -p 8 -G $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf -e -B -o $RNA_INT_ASSIGNMENT/expression/control1/transcripts.gtf -A Normal1/gene_abundances.tsv $RNA_INT_ALIGN_DIR/SRR7155058.bam
-stringtie -p 8 -G $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf -e -B -o $RNA_INT_ASSIGNMENT/expression/control2/transcripts.gtf -A Normal2/gene_abundances.tsv $RNA_INT_ALIGN_DIR/SRR7155059.bam
-stringtie -p 8 -G $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf -e -B -o $RNA_INT_ASSIGNMENT/expression/control3/transcripts.gtf -A Normal3/gene_abundances.tsv $RNA_INT_ALIGN_DIR/SRR7155060.bam
+
+stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/transfected1/transcripts.gtf -A expression/transfected1/gene_abundances.tsv alignments/SRR7155055.bam
+stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/transfected2/transcripts.gtf -A expression/transfected2/gene_abundances.tsv alignments/SRR7155056.bam
+stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/transfected3/transcripts.gtf -A expression/transfected3/gene_abundances.tsv alignments/SRR7155057.bam
+stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/control1/transcripts.gtf -A expression/control1/gene_abundances.tsv alignments/SRR7155058.bam
+stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/control2/transcripts.gtf -A expression/control2/gene_abundances.tsv alignments/SRR7155059.bam
+stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/control3/transcripts.gtf -A expression/control3/gene_abundances.tsv alignments/SRR7155060.bam
 ```
 
 **Q11.)** How do you get the expression of the gene SOX4 across the transfect and control samples?
