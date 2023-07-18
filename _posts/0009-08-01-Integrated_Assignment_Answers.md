@@ -67,7 +67,7 @@ export RNA_INT_ILL_ADAPT=$RNA_INT_ASSIGNMENT/adapter
 export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38
 export RNA_INT_REF_FASTA=$RNA_INT_REF_INDEX.dna.primary_assembly.fa
 export RNA_INT_REF_GTF=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf
-export RNA_INT_ALIGN_DIR=$RNA_INT_ASSIGNMENT/hisat2
+export RNA_INT_ALIGN_DIR=$RNA_INT_ASSIGNMENT/alignments
 ```
 
 Obtain reference, annotation, adapter and data files and place them in the integrated assignment directory
@@ -196,11 +196,9 @@ python3 -m multiqc .
 **Goals:**
 
 - Familiarize yourself with HISAT2 alignment options
-- Perform alignments
+- Perform alignments using the trimmed version of the raw data above
 - Obtain alignment summary
 - Convert your alignment into compressed bam format
-
-A useful option to add to the end of your commands is `2>`, which redirects the stdout from any command into a specific file. This can be used to redirect your stdout into a summary file, and can be used as follows: `My_alignment_script 2> alignment_metrics.txt`. The advantage of this is being able to view the alignment metrics later on.
 
 To create HISAT2 alignment commands for all of the six samples and run alignments:
 
@@ -215,12 +213,12 @@ cd $RNA_INT_ALIGN_DIR
 Run alignment commands for each sample
 
 ```bash
-hisat2 -p 8 --rg-id=Transfect1 --rg SM:Transfect --rg LB:Transfect1_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155055_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155055_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155055.sam
-hisat2 -p 8 --rg-id=Transfect2 --rg SM:Transfect --rg LB:Transfect2_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155056_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155056_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155056.sam
-hisat2 -p 8 --rg-id=Transfect3 --rg SM:Transfect --rg LB:Transfect3_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155057_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155057_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155057.sam
-hisat2 -p 8 --rg-id=Control1 --rg SM:Control --rg LB:Control1_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155058_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155058_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155058.sam
-hisat2 -p 8 --rg-id=Control2 --rg SM:Control --rg LB:Control2_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155059_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155059_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155059.sam
-hisat2 -p 8 --rg-id=Control3 --rg SM:Control --rg LB:Control3_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155060_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155060_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155060.sam
+hisat2 -p 8 --rg-id=T1 --rg SM:Transfected1 --rg LB:Transfected1_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155055_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155055_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155055.sam
+hisat2 -p 8 --rg-id=T2 --rg SM:Transfected2 --rg LB:Transfected2_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155056_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155056_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155056.sam
+hisat2 -p 8 --rg-id=T3 --rg SM:Transfected3 --rg LB:Transfected3_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155057_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155057_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155057.sam
+hisat2 -p 8 --rg-id=C1 --rg SM:Control1 --rg LB:Control1_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155058_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155058_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155058.sam
+hisat2 -p 8 --rg-id=C2 --rg SM:Control2 --rg LB:Control2_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155059_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155059_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155059.sam
+hisat2 -p 8 --rg-id=C3 --rg SM:Control3 --rg LB:Control3_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155060_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155060_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155060.sam
 
 ```
 
@@ -289,7 +287,7 @@ samtools index $RNA_INT_ALIGN_DIR/transfected.bam
 Try viewing genes such as TP53 to get a sense of how the data is aligned. To do this:
 - Load up IGV
 - Change the reference genome to "Human hg38" in the top-left category
-- Click on File > Load from URL, and in the File URL enter: "http://##.oicrcbw.ca/rnaseq/integrated_assignment/hisat2/transfected.bam". Repeat this step and enter "http://##.oicrcbw.ca/rnaseq/integrated_assignment/hisat2/control.bam" to load the other bam.
+- Click on File > Load from URL, and in the File URL enter: "http://<your IP>/rnaseq/integrated_assignment/alignments/transfected.bam". Repeat this step and enter "http://<your IP>/rnaseq/integrated_assignment/alignments/control.bam" to load the other bam.
 - Right-click on the alignments track in the middle, and Group alignments by "Library"
 - Jump to TP53 by typing it into the search bar above
 
