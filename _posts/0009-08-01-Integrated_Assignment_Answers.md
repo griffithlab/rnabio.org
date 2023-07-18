@@ -505,7 +505,7 @@ data_colors=c("tomato1","tomato2","tomato3","royalblue1","royalblue2","royalblue
 d=1-r
 mds=cmdscale(d, k=2, eig=TRUE)
 par(mfrow=c(1,1))
-plot(mds$points, type="n", xlab="", ylab="", main="MDS distance plot (all non-zero genes)", xlim=c(-0.025,0.025), ylim=c(-0.025,0.025))
+plot(mds$points, type="n", xlab="", ylab="", main="MDS distance plot (all non-zero genes)", xlim=c(-0.01,0.01), ylim=c(-0.01,0.01))
 points(mds$points[,1], mds$points[,2], col="grey", cex=2, pch=16)
 text(mds$points[,1], mds$points[,2], short_names, col=data_colors)
 
