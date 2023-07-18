@@ -204,19 +204,20 @@ A useful option to add to the end of your commands is `2>`, which redirects the 
 
 To create HISAT2 alignment commands for all of the six samples and run alignments:
 
+Create a directory to store the alignment results
+
 ```bash
 echo $RNA_INT_ALIGN_DIR
 mkdir -p $RNA_INT_ALIGN_DIR
 cd $RNA_INT_ALIGN_DIR
-
 ```
+
+Run alignment commands for each sample
+
 ```bash
 hisat2 -p 8 --rg-id=Transfect1 --rg SM:Transfect --rg LB:Transfect1_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155055_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155055_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155055.sam
 hisat2 -p 8 --rg-id=Transfect2 --rg SM:Transfect --rg LB:Transfect2_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155056_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155056_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155056.sam
 hisat2 -p 8 --rg-id=Transfect3 --rg SM:Transfect --rg LB:Transfect3_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155057_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155057_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155057.sam
-
-```
-```bash
 hisat2 -p 8 --rg-id=Control1 --rg SM:Control --rg LB:Control1_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155058_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155058_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155058.sam
 hisat2 -p 8 --rg-id=Control2 --rg SM:Control --rg LB:Control2_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155059_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155059_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155059.sam
 hisat2 -p 8 --rg-id=Control3 --rg SM:Control --rg LB:Control3_sub --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155060_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155060_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155060.sam
