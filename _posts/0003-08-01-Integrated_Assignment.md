@@ -50,7 +50,7 @@ Note that according to [GeneCards](https://www.genecards.org/cgi-bin/carddisp.pl
 - Familiarize yourself with reference and annotation file format
 - Familiarize yourself with sequence FASTQ format
 
-Create a working directory ~/workspace/rnaseq/integrated_assignment/ to store this exercise. Then create a unix environment variable named RNA_ASSIGNMENT that stores this path for convenience in later commands.
+Create a working directory ~/workspace/rnaseq/integrated_assignment/ to store this exercise. Then create a unix environment variable named `RNA_INT_ASSIGNMENT` that stores this path for convenience in later commands.
 
 ```bash
 export RNA_HOME=~/workspace/rnaseq
@@ -87,7 +87,7 @@ wget http://genomedata.org/rnaseq-tutorial/Integrated_Assignment_RNA_Data.tar.gz
 
 **Q3.)** How many samples do you see under the data directory?
 
-NOTE: The fastq files you have copied above contain only the first 1000000 reads. Keep this in mind when you are combing through the results of the differential expression analysis.
+NOTE: The fastq files you have copied above contain only the first 1,000,000 reads. Keep this in mind when you are combing through the results of the differential expression analysis.
 
 ## Part 1 : Data preprocessing
 
