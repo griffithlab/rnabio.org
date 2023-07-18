@@ -106,15 +106,15 @@ grep -w "PCA3" Homo_sapiens.GRCh38.92.gtf | grep -w "exon" | cut -f 9 | cut -d "
 
 **Q3.)** How many samples do you see under the data directory?
 
-**A3.)** The answer is 6. The samples are paired per file, and are named based on their accession number.
+**A3.)** The answer is 6 samples. The number of files is 12 because the sequence data is paired (an R1 and R2 file for each sample). The files are named based on their SRA accession number.
 
 ```bash
-cd $RNA_INT_ASSIGNMENT/raw_reads/
+cd $RNA_INT_ASSIGNMENT/data/
 ls -l
-ls -l | wc -l
+ls -1 | wc -l
 ```
 
-NOTE: The fastq files you have copied above contain only the first 1000000 reads. Keep this in mind when you are combing through the results of the differential expression analysis.
+NOTE: The fastq files you have copied above contain only the first 1,000,000 reads. Keep this in mind when you are combing through the results of the differential expression analysis.
 
 ## Part 1 : Data preprocessing
 
