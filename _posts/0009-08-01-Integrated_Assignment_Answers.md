@@ -565,6 +565,10 @@ ggplot(data=results_genes[results_genes$diffexpressed != "No",], aes(x=de, y=-lo
 
 dev.off()
 
+# Exit the R session
+quit(save="no")
+
+
 ```
 
 
