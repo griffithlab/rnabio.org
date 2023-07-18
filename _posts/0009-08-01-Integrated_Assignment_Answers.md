@@ -129,9 +129,9 @@ Now create a new folder that will house the outputs from FastQC. Use the `-h` op
 
 ```bash
 cd $RNA_INT_ASSIGNMENT
-mkdir raw_fastqc
-fastqc $RNA_INT_DATA_DIR/* -o raw_fastqc/
-cd raw_fastqc
+mkdir -p qc/raw_fastqc
+fastqc $RNA_INT_DATA_DIR/* -o qc/raw_fastqc/
+cd qc/raw_fastqc
 python3 -m multiqc .
 
 ```
@@ -143,6 +143,7 @@ python3 -m multiqc .
 Now based on the output of the html summary, proceed to clean up the reads and rerun fastqc to see if an improvement can be made to the data. Make sure to create a directory to hold any processed reads you may create.
 
 ```bash
+cd $RNA_INT_DATA_DIR
 mkdir trimmed_reads
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DATA_DIR/SRR7155055_1.fastq.gz --reads2 $RNA_INT_DATA_DIR/SRR7155055_2.fastq.gz --target trimmed_reads/SRR7155055
 flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DATA_DIR/SRR7155056_1.fastq.gz --reads2 $RNA_INT_DATA_DIR/SRR7155056_2.fastq.gz --target trimmed_reads/SRR7155056
@@ -176,7 +177,16 @@ Alternatively, you can make use of the command ‘wc’. This command counts the
 zcat $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155059_1.fastq.gz | wc -l
 ```
 
-We could also run `multiqc` and visualize the remaining reads that way.
+We could also run `fastqc` and `multiqc` on the trimmed data and visualize the remaining reads that way.
+
+```bash
+cd $RNA_INT_ASSIGNMENT
+mkdir -p qc/trimmed_fastqc
+fastqc $RNA_INT_DATA_DIR/trimmed/* -o qc/trimmed_fastqc/
+cd qc/trimmed_fastqc
+python3 -m multiqc .
+
+```
 
 ## PART 2: Data alignment
 
