@@ -82,7 +82,7 @@ tar -xvf Integrated_Assignment_RNA_Data.tar.gz
 
 **Q1.)** How many items are there under the “reference” directory (counting all files in all sub-directories)? What if this reference file was not provided for you - how would you obtain/create a reference genome fasta file. How about the GTF transcripts file from Ensembl?
 
-**A1.)** The answer is 19. Review these files so that you are familiar with them. If the reference fasta or gtf was not provided, you could obtain them from the Ensembl website under their downloads > databases.
+**A1.)** The answer is 10. Review these files so that you are familiar with them. If the reference fasta or gtf was not provided, you could obtain them from the Ensembl website under their downloads > databases.
 
 ```bash
 cd $RNA_INT_ASSIGNMENT/reference/
