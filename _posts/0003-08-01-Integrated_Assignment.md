@@ -160,4 +160,10 @@ First create a file that lists our 6 expression files, then view that file, then
 
 **Q12.)** Are there any significant differentially expressed genes? How many in total do you see? If we expected SOX4 to be differentially expressed, why don't we see it in this case?
 
+## PART 4: Differential Expression Analysis Visualization
+
 **Q13.)** What plots can you generate to help you visualize this gene expression profile?
+
+Hint, a volcano plot is often the one figure used to provide a high level summary of a differential expression analysis. Refer to the [DE Visualization](https://rnabio.org/module-03-expression/0003/04/01/DE_Visualization/) section for example R code.
+
+
