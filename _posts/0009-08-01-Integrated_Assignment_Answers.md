@@ -61,7 +61,7 @@ export RNA_INT_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment
 You will also need the following environment variables througout the assignment:
 
 ```bash
-export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/top_1mil
+export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/data
 export RNA_INT_REFS_DIR=$RNA_INT_ASSIGNMENT/reference
 export RNA_INT_ILL_ADAPT=$RNA_INT_ASSIGNMENT/adapter
 export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38
