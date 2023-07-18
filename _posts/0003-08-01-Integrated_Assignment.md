@@ -129,7 +129,7 @@ java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam I
 Try viewing genes such as TP53 to get a sense of how the data is aligned. To do this:
 - Load up IGV
 - Change the reference genome to "Human hg38" in the top-left category
-- Click on File > Load from URL, and in the File URL enter: "http://##.oicrcbw.ca/rnaseq/integrated_assignment/hisat2/cbslr-knockdown.bam". Repeat this step and enter "http://##.oicrcbw.ca/rnaseq/integrated_assignment/hisat2/control.bam" to load the other bam, where ## is your student number for the AWS instance.
+- Click on File > Load from URL, and in the File URL enter: "http://<your IP>/rnaseq/integrated_assignment/hisat2/cbslr-knockdown.bam". Repeat this step and enter "http://<your IP>/rnaseq/integrated_assignment/hisat2/control.bam" to load the other bam.
 - Right-click on the alignments track in the middle, and Group alignments by "Library"
 - Jump to TP53 by typing it into the search bar above
 
@@ -154,7 +154,6 @@ Try viewing genes such as TP53 to get a sense of how the data is aligned. To do 
 **Goals:**
 
 - Perform differential analysis between the CBSLR knockdown and control samples
-- Check if CBSLR (tcons_00001221) on chromosome 1, is itself differentially expressed
 
 First create a file that lists our 6 expression files, then view that file, then start an R session. Adapt the R tutorial file has been provided in the github repo for part 1 of the tutorial: Tutorial_Part1_ballgown.R. Modify it to fit the goals of this assignment then run it.
 
