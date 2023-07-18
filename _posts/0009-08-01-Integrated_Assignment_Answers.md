@@ -130,7 +130,7 @@ Now create a new folder that will house the outputs from FastQC. Use the `-h` op
 ```bash
 cd $RNA_INT_ASSIGNMENT
 mkdir -p qc/raw_fastqc
-fastqc $RNA_INT_DATA_DIR/* -o qc/raw_fastqc/
+fastqc $RNA_INT_DATA_DIR/*.fastq.gz -o qc/raw_fastqc/
 cd qc/raw_fastqc
 python3 -m multiqc .
 
@@ -138,7 +138,7 @@ python3 -m multiqc .
 
 **Q4.)** What metrics, if any, have the samples failed? Are the errors related?
 
-**A4.)** The per base sequence content of the samples don't show a flat distribution and do have a bias towards certain bases at particular positions. The reason for this is the presense of adapters in the reads, which also shows a warning if not a failure in the html output summary.
+**A4.)** The per base sequence content of the samples don't show a flat distribution and do have a bias towards certain bases at the beginning of the reads. The reason for this bias could be non-random priming during cDNA synthesis giving rise to non-random bases near the beginning/end of each fragment. The QC reports also flag the presense of adapters in the reads.
 
 Now based on the output of the html summary, proceed to clean up the reads and rerun fastqc to see if an improvement can be made to the data. Make sure to create a directory to hold any processed reads you may create.
 
@@ -159,9 +159,10 @@ flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_ILL
 **A5.)** At this point, we could look in the log files individually. Alternatively, we could utilize the command line with a command like the one below.
 
 ```bash
-tail -n 15 $RNA_INT_ASSIGNMENT/trimmed_reads/*.log
+tail -n 15 $RNA_INT_ASSIGNMENT/data/trimmed_reads/*.log
 ```
-Doing this, we find that around 99% of reads still survive after adapter trimming. The reads that get tossed are due to being too short after trimming. They fall below our threshold of minimum read length of 25.
+
+Doing this, we find that around 99% of reads survive after adapter trimming. The reads that get tossed are due to being too short after trimming. They fall below our threshold of minimum read length of 25.
 
 **Q6.)** What sample has the largest number of reads after trimming?
 
@@ -169,12 +170,14 @@ Doing this, we find that around 99% of reads still survive after adapter trimmin
 An easy way to figure out the number of reads is to check the output log file from the trimming output. Looking at the "remaining reads" row, we see the reads (each read in a pair counted individually) that survive the trimming. We can also look at this from the command line.
 
 ```bash
-grep 'Remaining reads' $RNA_INT_ASSIGNMENT/trimmed_reads/*.log
+grep "Remaining reads" $RNA_INT_ASSIGNMENT/data/trimmed_reads/*.log
 ```
 
 Alternatively, you can make use of the command ‘wc’. This command counts the number of lines in a file. Since fastq files have 4 lines per read, the total number of lines must be divided by 4. Running this command only give you the total number of lines in the fastq file (Note that because the data is compressed, we need to use zcat to unzip it and print it to the screen, before passing it on to the wc command):
 ```bash
-zcat $RNA_INT_ASSIGNMENT/trimmed_reads/SRR7155059_1.fastq.gz | wc -l
+zcat $RNA_INT_ASSIGNMENT/data/SRR7155059_1.fastq.gz | wc -l
+zcat $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155059_1.fastq.gz | wc -l
+
 ```
 
 We could also run `fastqc` and `multiqc` on the trimmed data and visualize the remaining reads that way.
@@ -182,7 +185,7 @@ We could also run `fastqc` and `multiqc` on the trimmed data and visualize the r
 ```bash
 cd $RNA_INT_ASSIGNMENT
 mkdir -p qc/trimmed_fastqc
-fastqc $RNA_INT_DATA_DIR/trimmed/* -o qc/trimmed_fastqc/
+fastqc $RNA_INT_DATA_DIR/trimmed_reads/*.fastq.gz -o qc/trimmed_fastqc/
 cd qc/trimmed_fastqc
 python3 -m multiqc .
 
