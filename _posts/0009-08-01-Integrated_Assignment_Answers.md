@@ -336,7 +336,6 @@ grep SOX4 $RNA_INT_ASSIGNMENT/expression/*/transcripts.gtf | cut -f 1,9 | grep F
 **Goals:**
 
 - Perform differential analysis between the transfected and control samples
-- Check if is differentially expressed
 
 ```bash
 mkdir -p $RNA_INT_ASSIGNMENT/ballgown/
