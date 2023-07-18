@@ -93,13 +93,15 @@ find . -type f | wc -l
 
 The `.` tells the `find` command to look in the current directory and `-type f` restricts the search to files only. The `|` uses the output from the `find` command and `wc -l` counts the lines of that output
 
-**Q2.)** How many exons does the gene SOX4 have? How about the longest isoform of PCA3?
+**Q2.)** How many exons does the gene SOX4 have? Which PCA3 isoform has the most exons?
 
-**A2.)** SOX4 only has 1 exon, while the longest isoform of PCA3 has 7 exons. Review the GTF file so that you are familiar with it. What downstream steps will we need this gtf file for?
+**A2.)** SOX4 only has 1 exon, while the longest isoform of PCA3 (ENST00000645704) has 7 exons. Review the GTF file so that you are familiar with it. What downstream steps will we need this gtf file for?
 
 ```bash
 grep -w "SOX4" Homo_sapiens.GRCh38.92.gtf
-grep -w "PCA3" Homo_sapiens.GRCh38.92.gtf | grep "exon_number" | cut -f9 | awk '{split($0,a,";"); print a[5]}' | sort -r | head
+
+grep -w "PCA3" Homo_sapiens.GRCh38.92.gtf | grep -w "exon" | cut -f 9 | cut -d ";" -f 3 | sort | uniq -c
+
 ```
 
 **Q3.)** How many samples do you see under the data directory?
