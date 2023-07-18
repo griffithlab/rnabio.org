@@ -570,7 +570,5 @@ dev.off()
 # Exit the R session
 quit(save="no")
 
-
 ```
-
 
