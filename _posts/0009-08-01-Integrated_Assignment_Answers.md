@@ -88,7 +88,7 @@ The `.` tells the `find` command to look in the current directory and `-type f` 
 **A2.)** SOX4 only has 1 exon, while the longest isoform of PCA3 (ENST00000645704) has 7 exons. Review the GTF file so that you are familiar with it. What downstream steps will we need this gtf file for?
 
 ```bash
-grep -w "SOX4" Homo_sapiens.GRCh38.92.gtf
+grep -w "SOX4" Homo_sapiens.GRCh38.92.gtf | less -S
 
 grep -w "PCA3" Homo_sapiens.GRCh38.92.gtf | grep -w "exon" | cut -f 9 | cut -d ";" -f 3 | sort | uniq -c
 
@@ -120,7 +120,7 @@ Now create a new folder that will house the outputs from FastQC. Use the `-h` op
 ```bash
 cd $RNA_INT_DIR
 mkdir -p qc/raw_fastqc
-fastqc $RNA_INT_DIR/*.fastq.gz -o qc/raw_fastqc/
+fastqc $RNA_INT_DIR/data/*.fastq.gz -o qc/raw_fastqc/
 cd qc/raw_fastqc
 python3 -m multiqc .
 
