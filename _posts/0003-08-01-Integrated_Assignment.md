@@ -83,16 +83,17 @@ NOTE: The fastq files you have copied above contain only the first 1,000,000 rea
 
 **Goals:**
 
-- Run quality check before and after cleaning up your data
-- Familiarize yourself with the options for Fastqc to be able to redirect your output
-- Perform adapter trimming on your data
+- Run a quality check with `fastqc` before and after trimming
+- Familiarize yourself with the options for `fastqc` to be able to redirect your output
+- Perform adapter trimming and data cleanup on your data using `fastp`
 - Familiarize yourself with the output metrics from adapter trimming
+- Examine `fastqc` and/or `multiqc` reports for the pre- and post-trimmed data
 
 **Q4.)** What metrics, if any, have the samples failed? Are the errors related?
 
 **Q5.)** What average percentage of reads remain after adapter trimming? Why do reads get tossed out?
 
-**Q6.)** What sample has the largest number of reads after trimming?
+**Q6.)** What sample has the largest number of reads after trimming/cleanup?
 
 ## Part 2: Data alignment
 
