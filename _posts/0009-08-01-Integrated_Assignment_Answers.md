@@ -206,12 +206,12 @@ cd $RNA_INT_DIR/alignments
 Run alignment commands for each sample
 
 ```bash
-hisat2 -p 8 --rg-id=T1 --rg SM:Transfected1 --rg LB:Transfected1_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155055_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155055_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155055.sam
-hisat2 -p 8 --rg-id=T2 --rg SM:Transfected2 --rg LB:Transfected2_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155056_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155056_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155056.sam
-hisat2 -p 8 --rg-id=T3 --rg SM:Transfected3 --rg LB:Transfected3_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155057_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155057_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155057.sam
-hisat2 -p 8 --rg-id=C1 --rg SM:Control1 --rg LB:Control1_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155058_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155058_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155058.sam
-hisat2 -p 8 --rg-id=C2 --rg SM:Control2 --rg LB:Control2_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155059_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155059_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155059.sam
-hisat2 -p 8 --rg-id=C3 --rg SM:Control3 --rg LB:Control3_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155060_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155060_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155060.sam
+hisat2 -p 8 --rg-id=T1 --rg SM:Transfected1 --rg LB:Transfected1_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/trimmed_reads/SRR7155055_1.fastq.gz -2 $RNA_INT_DIR/trimmed_reads/SRR7155055_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155055.sam
+hisat2 -p 8 --rg-id=T2 --rg SM:Transfected2 --rg LB:Transfected2_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/trimmed_reads/SRR7155056_1.fastq.gz -2 $RNA_INT_DIR/trimmed_reads/SRR7155056_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155056.sam
+hisat2 -p 8 --rg-id=T3 --rg SM:Transfected3 --rg LB:Transfected3_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/trimmed_reads/SRR7155057_1.fastq.gz -2 $RNA_INT_DIR/trimmed_reads/SRR7155057_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155057.sam
+hisat2 -p 8 --rg-id=C1 --rg SM:Control1 --rg LB:Control1_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/trimmed_reads/SRR7155058_1.fastq.gz -2 $RNA_INT_DIR/trimmed_reads/SRR7155058_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155058.sam
+hisat2 -p 8 --rg-id=C2 --rg SM:Control2 --rg LB:Control2_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/trimmed_reads/SRR7155059_1.fastq.gz -2 $RNA_INT_DIR/trimmed_reads/SRR7155059_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155059.sam
+hisat2 -p 8 --rg-id=C3 --rg SM:Control3 --rg LB:Control3_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/trimmed_reads/SRR7155060_1.fastq.gz -2 $RNA_INT_DIR/trimmed_reads/SRR7155060_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155060.sam
 
 ```
 
