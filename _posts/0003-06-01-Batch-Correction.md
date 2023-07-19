@@ -98,7 +98,7 @@ wc -l Ensembl101_ProteinCodingGeneNames.txt
 #filter our gene count matrix down to only the protein coding genes
 join -j 1 -t $'\t' Ensembl101_ProteinCodingGeneNames.txt GSE48035_ILMN.Counts.SampleSubset.txt | cat header.SampleSubset.txt - > GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv
 
-#how many lines of RNA-seq count do we still have?
+#how many lines of RNA-seq counts do we still have?
 wc -l GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv
 
 #clean up 
