@@ -40,7 +40,7 @@ Experimental details from the [paper](https://pubmed.ncbi.nlm.nih.gov/35499052/)
 Experimental details from the GEO submission:
 "An RNA transcriptome sequencing analysis was performed in MKN45 cells that were transfected with tcons_00001221 shRNA or control shRNA."
 
-Note that according to [GeneCards](https://www.genecards.org/cgi-bin/carddisp.pl?gene=CBSLR) and [HGNC](https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/55459), *CBSLR* and *tcons_00001221* refer to the same thing.
+Note that according to [GeneCards](https://www.genecards.org/cgi-bin/carddisp.pl?gene=CBSLR) and [HGNC](https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/55459), *CBSLR* and *tcons_00001221* refer to the same gene.
 
 ## PART 0 : Obtaining Data and References
 
@@ -56,26 +56,26 @@ Create a working directory ~/workspace/rnaseq/integrated_assignment/ to store th
 export RNA_HOME=~/workspace/rnaseq
 cd $RNA_HOME
 mkdir -p ~/workspace/rnaseq/integrated_assignment/
-export RNA_INT_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment
+export RNA_INT_DIR=~/workspace/rnaseq/integrated_assignment
 ```
 You will also need the following environment variables througout the assignment:
 
 ```bash
-export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/top_1mil
-export RNA_INT_REFS_DIR=$RNA_INT_ASSIGNMENT/reference
-export RNA_INT_ILL_ADAPT=$RNA_INT_ASSIGNMENT/adapter
+export RNA_INT_DATA_DIR=$RNA_INT_DIR/data
+export RNA_INT_REFS_DIR=$RNA_INT_DIR/reference
+export RNA_INT_ILL_ADAPT=$RNA_INT_DIR/adapter
 export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38
 export RNA_INT_REF_FASTA=$RNA_INT_REF_INDEX.dna.primary_assembly.fa
 export RNA_INT_REF_GTF=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf
-export RNA_INT_ALIGN_DIR=$RNA_INT_ASSIGNMENT/hisat2
+export RNA_INT_ALIGN_DIR=$RNA_INT_DIR/alignments
 ```
 
 Obtain reference, annotation, adapter and data files and place them in the integrated assignment directory
 Note: when initiating an environment variable, we do not need the $; however, everytime we call the variable, it needs to be preceeded by a $.
 
 ```bash
-echo $RNA_INT_ASSIGNMENT
-cd $RNA_INT_ASSIGNMENT
+echo $RNA_INT_DIR
+cd $RNA_INT_DIR
 
 wget http://genomedata.org/rnaseq-tutorial/Integrated_Assignment_RNA_Data.tar.gz
 
