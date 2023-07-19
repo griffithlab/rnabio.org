@@ -58,20 +58,10 @@ cd $RNA_HOME
 mkdir -p ~/workspace/rnaseq/integrated_assignment/
 export RNA_INT_DIR=~/workspace/rnaseq/integrated_assignment
 ```
-You will also need the following environment variables througout the assignment:
-
-```bash
-export RNA_INT_DATA_DIR=$RNA_INT_DIR/data
-export RNA_INT_REFS_DIR=$RNA_INT_DIR/reference
-export RNA_INT_ILL_ADAPT=$RNA_INT_DIR/adapter
-export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38
-export RNA_INT_REF_FASTA=$RNA_INT_REF_INDEX.dna.primary_assembly.fa
-export RNA_INT_REF_GTF=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf
-export RNA_INT_ALIGN_DIR=$RNA_INT_DIR/alignments
-```
 
 Obtain reference, annotation, adapter and data files and place them in the integrated assignment directory
-Note: when initiating an environment variable, we do not need the $; however, everytime we call the variable, it needs to be preceeded by a $.
+
+Remember: when initiating an environment variable, we do NOT need the $; however, everytime we call the variable, it needs to be preceeded by a $.
 
 ```bash
 echo $RNA_INT_DIR
@@ -112,24 +102,16 @@ NOTE: The fastq files you have copied above contain only the first 1,000,000 rea
 - Obtain alignment summary
 - Convert your alignment into compressed bam format
 
-*A useful option to add to the end of your commands is `2>`, which redirects the stdout from any command into a specific file. This can be used to redirect your stdout into a summary file, and can be used as follows: `My_alignment_script 2> alignment_metrics.txt`. The advantage of this is being able to view the alignment metrics later on.*
-
 **Q7.)** How would you obtain summary statistics for each aligned file?
 
-**Q8.)** Approximatly how much space is saved by converting the sam to a bam format?
+**Q8.)** Approximately how much space is saved by converting the sam to a bam format?
 
-In order to make visualization easier, we're going to merge each of our bams into one using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
-```bash
-#merge the bams for visulization purposes
-cd $RNA_INT_ALIGN_DIR
-java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=cbslr-knockdown.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
-java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
-```
+In order to make visualization easier, you should now merge each of your replicate sample bams into one combined BAM for each condition. Make sure to index these bams afterwards to be able to view them on IGV.
 
 Try viewing genes such as TP53 to get a sense of how the data is aligned. To do this:
 - Load up IGV
 - Change the reference genome to "Human hg38" in the top-left category
-- Click on File > Load from URL, and in the File URL enter: "http://<your IP>/rnaseq/integrated_assignment/hisat2/cbslr-knockdown.bam". Repeat this step and enter "http://<your IP>/rnaseq/integrated_assignment/hisat2/control.bam" to load the other bam.
+- Click on File > Load from URL, and in the File URL enter: "http://<your IP>/rnaseq/integrated_assignment/alignments/transfected.bam". Repeat this step and enter "http://<your IP>/rnaseq/integrated_assignment/alignments/control.bam" to load the other bam.
 - Right-click on the alignments track in the middle, and Group alignments by "Library"
 - Jump to TP53 by typing it into the search bar above
 
@@ -147,7 +129,7 @@ Try viewing genes such as TP53 to get a sense of how the data is aligned. To do 
 - Obtain expression values for the gene SOX4
 - Create an expression results directory, run Stringtie on all samples, and store the results in appropriately named subdirectories in this results dir
 
-**Q11.)** How do you get the expression of the gene SOX4 across the transfect and control samples?
+**Q11.)** How can you obtain the expression of the gene SOX4 across the transfected and control samples?
 
 ## Part 4: Differential Expression Analysis
 
@@ -163,5 +145,5 @@ Adapt the R tutorial code that was used in [Differential Expression](https://rna
 
 **Q13.)** What plots can you generate to help you visualize this gene expression profile?
 
-Hint, a volcano plot is often the one figure used to provide a high level summary of a differential expression analysis. Refer to the [DE Visualization](https://rnabio.org/module-03-expression/0003/04/01/DE_Visualization/) section for example R code.
+Hint, a volcano plot is popular approach to provide a high level summary of a differential expression analysis. Refer to the [DE Visualization](https://rnabio.org/module-03-expression/0003/04/01/DE_Visualization/) section for example R code. 
 

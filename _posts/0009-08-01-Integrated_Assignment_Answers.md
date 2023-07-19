@@ -58,20 +58,10 @@ cd $RNA_HOME
 mkdir -p ~/workspace/rnaseq/integrated_assignment/
 export RNA_INT_DIR=~/workspace/rnaseq/integrated_assignment
 ```
-You will also need the following environment variables througout the assignment:
-
-```bash
-export RNA_INT_DATA_DIR=$RNA_INT_DIR/data
-export RNA_INT_REFS_DIR=$RNA_INT_DIR/reference
-export RNA_INT_ILL_ADAPT=$RNA_INT_DIR/adapter
-export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38
-export RNA_INT_REF_FASTA=$RNA_INT_REF_INDEX.dna.primary_assembly.fa
-export RNA_INT_REF_GTF=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf
-export RNA_INT_ALIGN_DIR=$RNA_INT_DIR/alignments
-```
 
 Obtain reference, annotation, adapter and data files and place them in the integrated assignment directory
-Note: when initiating an environment variable, we do not need the $; however, everytime we call the variable, it needs to be preceeded by a $.
+
+Remember: when initiating an environment variable, we do NOT need the $; however, everytime we call the variable, it needs to be preceeded by a $.
 
 ```bash
 echo $RNA_INT_DIR
@@ -130,7 +120,7 @@ Now create a new folder that will house the outputs from FastQC. Use the `-h` op
 ```bash
 cd $RNA_INT_DIR
 mkdir -p qc/raw_fastqc
-fastqc $RNA_INT_DATA_DIR/*.fastq.gz -o qc/raw_fastqc/
+fastqc $RNA_INT_DIR/*.fastq.gz -o qc/raw_fastqc/
 cd qc/raw_fastqc
 python3 -m multiqc .
 
@@ -143,14 +133,14 @@ python3 -m multiqc .
 Now based on the output of the html summary, proceed to clean up the reads and rerun fastqc to see if an improvement can be made to the data. Make sure to create a directory to hold any processed reads you may create.
 
 ```bash
-cd $RNA_INT_DATA_DIR
+cd $RNA_INT_DIR
 mkdir trimmed_reads
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DATA_DIR/SRR7155055_1.fastq.gz --reads2 $RNA_INT_DATA_DIR/SRR7155055_2.fastq.gz --target trimmed_reads/SRR7155055
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DATA_DIR/SRR7155056_1.fastq.gz --reads2 $RNA_INT_DATA_DIR/SRR7155056_2.fastq.gz --target trimmed_reads/SRR7155056
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DATA_DIR/SRR7155057_1.fastq.gz --reads2 $RNA_INT_DATA_DIR/SRR7155057_2.fastq.gz --target trimmed_reads/SRR7155057
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DATA_DIR/SRR7155058_1.fastq.gz --reads2 $RNA_INT_DATA_DIR/SRR7155058_2.fastq.gz --target trimmed_reads/SRR7155058
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DATA_DIR/SRR7155059_1.fastq.gz --reads2 $RNA_INT_DATA_DIR/SRR7155059_2.fastq.gz --target trimmed_reads/SRR7155059
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_ILL_ADAPT/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DATA_DIR/SRR7155060_1.fastq.gz --reads2 $RNA_INT_DATA_DIR/SRR7155060_2.fastq.gz --target trimmed_reads/SRR7155060
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155055_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155055_2.fastq.gz --target trimmed_reads/SRR7155055
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155056_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155056_2.fastq.gz --target trimmed_reads/SRR7155056
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155057_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155057_2.fastq.gz --target trimmed_reads/SRR7155057
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155058_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155058_2.fastq.gz --target trimmed_reads/SRR7155058
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155059_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155059_2.fastq.gz --target trimmed_reads/SRR7155059
+flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155060_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155060_2.fastq.gz --target trimmed_reads/SRR7155060
 
 ```
 
@@ -185,7 +175,7 @@ We could also run `fastqc` and `multiqc` on the trimmed data and visualize the r
 ```bash
 cd $RNA_INT_DIR
 mkdir -p qc/trimmed_fastqc
-fastqc $RNA_INT_DATA_DIR/trimmed_reads/*.fastq.gz -o qc/trimmed_fastqc/
+fastqc $RNA_INT_DIR/data/trimmed_reads/*.fastq.gz -o qc/trimmed_fastqc/
 cd qc/trimmed_fastqc
 python3 -m multiqc .
 
@@ -205,33 +195,33 @@ To create HISAT2 alignment commands for all of the six samples and run alignment
 Create a directory to store the alignment results
 
 ```bash
-echo $RNA_INT_ALIGN_DIR
-mkdir -p $RNA_INT_ALIGN_DIR
-cd $RNA_INT_ALIGN_DIR
+echo $RNA_INT_DIR/alignments
+mkdir -p $RNA_INT_DIR/alignments
+cd $RNA_INT_DIR/alignments
 ```
 
 Run alignment commands for each sample
 
 ```bash
-hisat2 -p 8 --rg-id=T1 --rg SM:Transfected1 --rg LB:Transfected1_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155055_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155055_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155055.sam
-hisat2 -p 8 --rg-id=T2 --rg SM:Transfected2 --rg LB:Transfected2_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155056_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155056_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155056.sam
-hisat2 -p 8 --rg-id=T3 --rg SM:Transfected3 --rg LB:Transfected3_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155057_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155057_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155057.sam
-hisat2 -p 8 --rg-id=C1 --rg SM:Control1 --rg LB:Control1_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155058_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155058_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155058.sam
-hisat2 -p 8 --rg-id=C2 --rg SM:Control2 --rg LB:Control2_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155059_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155059_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155059.sam
-hisat2 -p 8 --rg-id=C3 --rg SM:Control3 --rg LB:Control3_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155060_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155060_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155060.sam
+hisat2 -p 8 --rg-id=T1 --rg SM:Transfected1 --rg LB:Transfected1_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155055_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155055_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155055.sam
+hisat2 -p 8 --rg-id=T2 --rg SM:Transfected2 --rg LB:Transfected2_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155056_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155056_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155056.sam
+hisat2 -p 8 --rg-id=T3 --rg SM:Transfected3 --rg LB:Transfected3_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155057_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155057_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155057.sam
+hisat2 -p 8 --rg-id=C1 --rg SM:Control1 --rg LB:Control1_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155058_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155058_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155058.sam
+hisat2 -p 8 --rg-id=C2 --rg SM:Control2 --rg LB:Control2_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155059_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155059_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155059.sam
+hisat2 -p 8 --rg-id=C3 --rg SM:Control3 --rg LB:Control3_lib --rg PL:ILLUMINA -x $RNA_INT_DIR/reference/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155060_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155060_2.fastq.gz -S $RNA_INT_DIR/alignments/SRR7155060.sam
 
 ```
 
 Next, convert sam alignments to bam.
 
 ```bash
-cd $RNA_INT_ALIGN_DIR
-samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155055.bam $RNA_INT_ALIGN_DIR/SRR7155055.sam
-samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155056.bam $RNA_INT_ALIGN_DIR/SRR7155056.sam
-samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155057.bam $RNA_INT_ALIGN_DIR/SRR7155057.sam
-samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155058.bam $RNA_INT_ALIGN_DIR/SRR7155058.sam
-samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155059.bam $RNA_INT_ALIGN_DIR/SRR7155059.sam
-samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155060.bam $RNA_INT_ALIGN_DIR/SRR7155060.sam
+cd $RNA_INT_DIR/alignments
+samtools sort -@ 8 -o $RNA_INT_DIR/alignments/SRR7155055.bam $RNA_INT_DIR/alignments/SRR7155055.sam
+samtools sort -@ 8 -o $RNA_INT_DIR/alignments/SRR7155056.bam $RNA_INT_DIR/alignments/SRR7155056.sam
+samtools sort -@ 8 -o $RNA_INT_DIR/alignments/SRR7155057.bam $RNA_INT_DIR/alignments/SRR7155057.sam
+samtools sort -@ 8 -o $RNA_INT_DIR/alignments/SRR7155058.bam $RNA_INT_DIR/alignments/SRR7155058.sam
+samtools sort -@ 8 -o $RNA_INT_DIR/alignments/SRR7155059.bam $RNA_INT_DIR/alignments/SRR7155059.sam
+samtools sort -@ 8 -o $RNA_INT_DIR/alignments/SRR7155060.bam $RNA_INT_DIR/alignments/SRR7155060.sam
 
 ```
 
@@ -241,7 +231,7 @@ samtools sort -@ 8 -o $RNA_INT_ALIGN_DIR/SRR7155060.bam $RNA_INT_ALIGN_DIR/SRR71
 **A7.)** There are many RNA-seq QC tools available that can provide you with detailed information about the quality of the aligned sample (e.g. FastQC and RSeQC). However, for a simple summary of aligned reads counts you can use samtools flagstat.
 
 ```bash
-cd $RNA_INT_ALIGN_DIR/
+cd $RNA_INT_DIR/alignments
 samtools flagstat SRR7155055.bam > SRR7155055.flagstat.txt
 samtools flagstat SRR7155056.bam > SRR7155056.flagstat.txt
 samtools flagstat SRR7155057.bam > SRR7155057.flagstat.txt
@@ -257,32 +247,33 @@ grep "mapped (" *.flagstat.txt
 
 ```
 
-**Q8.)** Approximatly how much space is saved by converting the sam to a bam format?
+**Q8.)** Approximately how much space is saved by converting the sam to a bam format?
 
 **A8.)** We get about a 5.5x compression by using the bam format instead of the sam format. This can be seen by adding the `-lh` option when listing the files in the aligntments directory.
+
 ```bash
-ls -lh $RNA_INT_ALIGN_DIR/
+ls -lh $RNA_INT_DIR/alignments/
 ```
 
 To specifically look at the sizes of the sam and bam files, we could use `du -h`, which shows us the disk space they are utilizing in human readable format.
 ```bash
-du -h $RNA_INT_ALIGN_DIR/*.sam
-du -h $RNA_INT_ALIGN_DIR/*.bam
+du -h $RNA_INT_DIR/alignments/*.sam
+du -h $RNA_INT_DIR/alignments/*.bam
 ```
 
-In order to make visualization easier, merge the replicate bams for each sample (transfected vs control) into one BAM using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
+In order to make visualization easier, you should now merge each of your replicate sample bams into one combined BAM for each condition. Make sure to index these bams afterwards to be able to view them on IGV.
 
 ```bash
-cd $RNA_INT_ALIGN_DIR
+cd $RNA_INT_DIR/alignments
 java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
 java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
 ```
 
 To visualize these merged bam files in IGV, we'll need to index them. We can do so with the following commands.
 ```bash
-cd $RNA_INT_ALIGN_DIR
-samtools index $RNA_INT_ALIGN_DIR/control.bam
-samtools index $RNA_INT_ALIGN_DIR/transfected.bam
+cd $RNA_INT_DIR/alignments
+samtools index $RNA_INT_DIR/alignments/control.bam
+samtools index $RNA_INT_DIR/alignments/transfected.bam
 ```
 
 Try viewing genes such as TP53 to get a sense of how the data is aligned. To do this:
@@ -322,7 +313,7 @@ stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/contr
 stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/control3/transcripts.gtf -A expression/control3/gene_abundances.tsv alignments/SRR7155060.bam
 ```
 
-**Q11.)** How do you get the expression of the gene SOX4 across the transfect and control samples?
+**Q11.)** How can you obtain the expression of the gene SOX4 across the transfected and control samples?
 
 **A11.)** To look for the expression value of a specific gene, you can use the command ‘grep’ followed by the gene name and the path to the expression file
 
