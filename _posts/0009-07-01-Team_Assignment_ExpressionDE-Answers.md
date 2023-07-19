@@ -27,6 +27,9 @@ stringtie -p 4 -G references/chr11_Homo_sapiens.GRCh38.95.gtf -e -B -o expressio
 stringtie -p 4 -G references/chr11_Homo_sapiens.GRCh38.95.gtf -e -B -o expression/Rescue_sample3/transcripts.gtf -A expression/Rescue_sample3/gene_abundances.tsv alignments/SRR10045021.bam
 ```
 
+**Q1.** Based on your stringtie results, what are the top 5 genes with highest average expression levels across all knockout samples? What about in your rescue samples? (Hint: You can use R, command-line tools, or download files to your desktop for this analysis)
+
+**A1.** TO BE COMPLETED
 
 #### Perform differential expression analysis
 Use ballgown to identify differentially expressed genes between KO and Rescue samples
@@ -121,12 +124,13 @@ quit(save="no")
 
 ```
 
+**Q2.** How many significant differentially expressed genes do you observe?
 
+**A2.** TO BE COMPLETED
 
+**Q3.** By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a volcano plot showcasing the significantly de genes?
 
-
-
-
+**A3.** See below.
 
 #### Perform differential expression analysis visualization
 

@@ -96,11 +96,11 @@ wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chrXX_Homo_sapiens
 - Perform adapter trimming on your data and also pre-trim 5 bases from **end (right)** of reads
 - Perform QC on your data with `fastqc` and `multiqc` before and after trimming your data
 
-Q1. What is the average percentage of reads that are trimmed?
+**Q1.** What is the average percentage of reads that are trimmed?
 
-Q2. How do you expect the sequence length distribution to look prior to and after trimming? Is your answer confirmed by the multiqc report results?
+**Q2.** How do you expect the sequence length distribution to look prior to and after trimming? Is your answer confirmed by the multiqc report results?
 
-Q3. Are there any metrics where the sample(s) failed?
+**Q3.** Are there any metrics where the sample(s) failed?
 
 
 ### Alignment Exercise
@@ -115,9 +115,9 @@ Q3. Are there any metrics where the sample(s) failed?
 
 *A useful option to add to the end of your commands is `2>`, which redirects the stderr from any command into a specific file. This can be used to redirect your stderr into a summary file, and can be used as follows: `my_alignment_command 2> alignment_metrics.txt`. The advantage of this is being able to view the alignment metrics later on.*
 
-Q4. What were the percentages of reads that aligned to the reference for each sample?
+**Q4.** What were the percentages of reads that aligned to the reference for each sample?
 
-Q5. By compressing your sam format to bam, approximately how much space is saved (fold change in size)?
+**Q5.** By compressing your sam format to bam, approximately how much space is saved (fold change in size)?
 
 
 ### Post-alignment QC & IGV Visualization
@@ -129,13 +129,13 @@ Q5. By compressing your sam format to bam, approximately how much space is saved
 - Index the bam files
 - Explore the alignments using IGV
 
-Q6. How does the information from your post-alignment QC report differ from pre-alignment QC?
+**Q6.** How does the information from your post-alignment QC report differ from pre-alignment QC?
 
-Q7. IGV: Can you identify certain exons that have significantly more/less coverage in one of your KO/RESCUE samples compared to the other? What is happening here?
+**Q7.** IGV: Can you identify certain exons that have significantly more/less coverage in one of your KO/RESCUE samples compared to the other? What is happening here?
 
-Q8. IGV: Can you identify regions where the RNAseq reads are mapping to unexpected regions? What do you think is the reason for this phenomenon?
+**Q8.** IGV: Can you identify regions where the RNAseq reads are mapping to unexpected regions? What do you think is the reason for this phenomenon?
 
-Q9. IGV: Can you identify a gene region that has RNA sequencing support for multiple isoforms?
+**Q9.** IGV: Can you identify a gene region that has RNA sequencing support for multiple isoforms?
 
 
 ### Presenting Your Results
