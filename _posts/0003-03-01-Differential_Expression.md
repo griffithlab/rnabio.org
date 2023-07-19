@@ -65,15 +65,19 @@ bg
 
 # Load all attributes including gene name
 bg_table = texpr(bg, 'all')
-bg_gene_names = unique(bg_table[, 9:10])
+bg_gene_names = unique(bg_table[,9:10])
+bg_transcript_names = unique(bg_table[,c(1,6)])
 
 # Save the ballgown object to a file for later use
 save(bg, file='bg.rda')
 
-# Perform differential expression (DE) analysis with no filtering
+# Perform differential expression (DE) analysis with no filtering, at both gene and transcript level
 results_transcripts = stattest(bg, feature="transcript", covariate="type", getFC=TRUE, meas="FPKM")
+results_transcripts = merge(results_transcripts, bg_transcript_names, by.x=c("id"), by.y=c("t_id"))
+
 results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
 results_genes = merge(results_genes, bg_gene_names, by.x=c("id"), by.y=c("gene_id"))
+
 
 # Save a tab delimited file for both the transcript and gene results
 write.table(results_transcripts, "UHR_vs_HBR_transcript_results.tsv", sep="\t", quote=FALSE, row.names = FALSE)
