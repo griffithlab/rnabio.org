@@ -35,7 +35,7 @@ In order to launch your own instance you will either need to use your own person
 * Each student will launch their own instance from a preconfigured AMI.
 
 Briefly the process for launching an EC2 instance for this course involves these steps:
-1. Login to AWS using the specific url and credentials (user/password) you were provided.
+1. Login to AWS using the specific url and credentials (user/password) you were provided (or our own AWS account).
 2. Search for and select EC2 to access the EC2 console.
 3. Make sure that you are in the N. Virginia region
 4. Select Launch Instance.
@@ -43,7 +43,7 @@ Briefly the process for launching an EC2 instance for this course involves these
 6. Amazon Machine Image: Search for "cbw-rnabio-2023" in My AMIs and Select.
 7. Instance type: Select "m6a.xlarge" and then "Next".
 8. Key pair (login): Choose an existing key pair (e.g., CBW) or create a new one and store it somewhere safe.
-9. Network settings: Choose existing security group called "SSH/HTTP/Jupyter".
+9. Network settings: Choose existing security group called "SSH/HTTP/Jupyter" (or create one with SSH and HTTP access).
 10. Configure storage: Make sure that you see two volumes.
 11. Advanced details: Select "Termination Protection: Enable".
 12. Summary: Review and then Launch instance.
