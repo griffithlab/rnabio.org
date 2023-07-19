@@ -102,19 +102,20 @@ The resulting html reports can be viewed by navigating to:
 
 ### Clean up
 
-Move the fastqc results into a sub-directory to keep things tidy
+Move the fastqc and fastp results into sub-directories to keep things tidy
 
 ```bash
 cd $RNA_DATA_TRIM_DIR
 mkdir fastqc
 mv *_fastqc* fastqc
-
+mkdir fastp
+mv *fastp.* fastp
 ```
 
 ***
 
 ### PRACTICAL EXERCISE 5
-Assignment: Using the approach above, trim the reads for both normal and tumor samples that you downloaded for the previous practical exercise. NOTE: try dropping the hard left trim option used above ('--pre-trim-left'). Once you have trimmed the reads, compare a pre- and post- trimming FastQ file using the FastQC tool.
+Assignment: Using the approach above, trim the reads for both normal and tumor samples that you downloaded for the previous practical exercise. NOTE: try dropping the hard left trim option used above ('--trim_front1 13' and '--trim_front2 13'). Once you have trimmed the reads, compare a pre- and post- trimming FastQ file using the FastQC and multiqc tools.
 
 * Hint: These files should have been downloaded to $RNA_HOME/practice/data/.
 
