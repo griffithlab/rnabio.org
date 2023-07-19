@@ -40,7 +40,7 @@ Experimental details from the [paper](https://pubmed.ncbi.nlm.nih.gov/35499052/)
 Experimental details from the GEO submission:
 "An RNA transcriptome sequencing analysis was performed in MKN45 cells that were transfected with tcons_00001221 shRNA or control shRNA."
 
-Note that according to [GeneCards](https://www.genecards.org/cgi-bin/carddisp.pl?gene=CBSLR) and [HGNC](https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/55459), *CBSLR* and *tcons_00001221* refer to the same thing.
+Note that according to [GeneCards](https://www.genecards.org/cgi-bin/carddisp.pl?gene=CBSLR) and [HGNC](https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/55459), *CBSLR* and *tcons_00001221* refer to the same gene.
 
 ## Part 0 : Obtaining Data and References
 
@@ -50,32 +50,32 @@ Note that according to [GeneCards](https://www.genecards.org/cgi-bin/carddisp.pl
 - Familiarize yourself with reference and annotation file format
 - Familiarize yourself with sequence FASTQ format
 
-Create a working directory ~/workspace/rnaseq/integrated_assignment/ to store this exercise. Then create a unix environment variable named RNA_INT_ASSIGNMENT that stores this path for convenience in later commands.
+Create a working directory ~/workspace/rnaseq/integrated_assignment/ to store this exercise. Then create a unix environment variable named RNA_INT_DIR that stores this path for convenience in later commands.
 
 ```bash
 export RNA_HOME=~/workspace/rnaseq
 cd $RNA_HOME
 mkdir -p ~/workspace/rnaseq/integrated_assignment/
-export RNA_INT_ASSIGNMENT=~/workspace/rnaseq/integrated_assignment
+export RNA_INT_DIR=~/workspace/rnaseq/integrated_assignment
 ```
 You will also need the following environment variables througout the assignment:
 
 ```bash
-export RNA_INT_DATA_DIR=$RNA_INT_ASSIGNMENT/data
-export RNA_INT_REFS_DIR=$RNA_INT_ASSIGNMENT/reference
-export RNA_INT_ILL_ADAPT=$RNA_INT_ASSIGNMENT/adapter
+export RNA_INT_DATA_DIR=$RNA_INT_DIR/data
+export RNA_INT_REFS_DIR=$RNA_INT_DIR/reference
+export RNA_INT_ILL_ADAPT=$RNA_INT_DIR/adapter
 export RNA_INT_REF_INDEX=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38
 export RNA_INT_REF_FASTA=$RNA_INT_REF_INDEX.dna.primary_assembly.fa
 export RNA_INT_REF_GTF=$RNA_INT_REFS_DIR/Homo_sapiens.GRCh38.92.gtf
-export RNA_INT_ALIGN_DIR=$RNA_INT_ASSIGNMENT/alignments
+export RNA_INT_ALIGN_DIR=$RNA_INT_DIR/alignments
 ```
 
 Obtain reference, annotation, adapter and data files and place them in the integrated assignment directory
 Note: when initiating an environment variable, we do not need the $; however, everytime we call the variable, it needs to be preceeded by a $.
 
 ```bash
-echo $RNA_INT_ASSIGNMENT
-cd $RNA_INT_ASSIGNMENT
+echo $RNA_INT_DIR
+cd $RNA_INT_DIR
 wget http://genomedata.org/rnaseq-tutorial/Integrated_Assignment_RNA_Data.tar.gz
 tar -xvf Integrated_Assignment_RNA_Data.tar.gz
 ```
@@ -85,7 +85,7 @@ tar -xvf Integrated_Assignment_RNA_Data.tar.gz
 **A1.)** The answer is 10. Review these files so that you are familiar with them. If the reference fasta or gtf was not provided, you could obtain them from the Ensembl website under their downloads > databases.
 
 ```bash
-cd $RNA_INT_ASSIGNMENT/reference/
+cd $RNA_INT_DIR/reference/
 tree
 find . -type f
 find . -type f | wc -l
@@ -109,7 +109,7 @@ grep -w "PCA3" Homo_sapiens.GRCh38.92.gtf | grep -w "exon" | cut -f 9 | cut -d "
 **A3.)** The answer is 6 samples. The number of files is 12 because the sequence data is paired (an R1 and R2 file for each sample). The files are named based on their SRA accession number.
 
 ```bash
-cd $RNA_INT_ASSIGNMENT/data/
+cd $RNA_INT_DIR/data/
 ls -l
 ls -1 | wc -l
 ```
@@ -128,7 +128,7 @@ NOTE: The fastq files you have copied above contain only the first 1,000,000 rea
 Now create a new folder that will house the outputs from FastQC. Use the `-h` option to view the potential output on the data to determine the quality of the data.
 
 ```bash
-cd $RNA_INT_ASSIGNMENT
+cd $RNA_INT_DIR
 mkdir -p qc/raw_fastqc
 fastqc $RNA_INT_DATA_DIR/*.fastq.gz -o qc/raw_fastqc/
 cd qc/raw_fastqc
@@ -159,7 +159,7 @@ flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_ILL
 **A5.)** At this point, we could look in the log files individually. Alternatively, we could utilize the command line with a command like the one below.
 
 ```bash
-tail -n 15 $RNA_INT_ASSIGNMENT/data/trimmed_reads/*.log
+tail -n 15 $RNA_INT_DIR/data/trimmed_reads/*.log
 ```
 
 Doing this, we find that around 99% of reads survive after adapter trimming. The reads that get tossed are due to being too short after trimming. They fall below our threshold of minimum read length of 25.
@@ -170,20 +170,20 @@ Doing this, we find that around 99% of reads survive after adapter trimming. The
 An easy way to figure out the number of reads is to check the output log file from the trimming output. Looking at the "remaining reads" row, we see the reads (each read in a pair counted individually) that survive the trimming. We can also look at this from the command line.
 
 ```bash
-grep "Remaining reads" $RNA_INT_ASSIGNMENT/data/trimmed_reads/*.log
+grep "Remaining reads" $RNA_INT_DIR/data/trimmed_reads/*.log
 ```
 
 Alternatively, you can make use of the command ‘wc’. This command counts the number of lines in a file. Since fastq files have 4 lines per read, the total number of lines must be divided by 4. Running this command only give you the total number of lines in the fastq file (Note that because the data is compressed, we need to use zcat to unzip it and print it to the screen, before passing it on to the wc command):
 ```bash
-zcat $RNA_INT_ASSIGNMENT/data/SRR7155059_1.fastq.gz | wc -l
-zcat $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155059_1.fastq.gz | wc -l
+zcat $RNA_INT_DIR/data/SRR7155059_1.fastq.gz | wc -l
+zcat $RNA_INT_DIR/data/trimmed_reads/SRR7155059_1.fastq.gz | wc -l
 
 ```
 
 We could also run `fastqc` and `multiqc` on the trimmed data and visualize the remaining reads that way.
 
 ```bash
-cd $RNA_INT_ASSIGNMENT
+cd $RNA_INT_DIR
 mkdir -p qc/trimmed_fastqc
 fastqc $RNA_INT_DATA_DIR/trimmed_reads/*.fastq.gz -o qc/trimmed_fastqc/
 cd qc/trimmed_fastqc
@@ -213,12 +213,12 @@ cd $RNA_INT_ALIGN_DIR
 Run alignment commands for each sample
 
 ```bash
-hisat2 -p 8 --rg-id=T1 --rg SM:Transfected1 --rg LB:Transfected1_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155055_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155055_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155055.sam
-hisat2 -p 8 --rg-id=T2 --rg SM:Transfected2 --rg LB:Transfected2_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155056_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155056_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155056.sam
-hisat2 -p 8 --rg-id=T3 --rg SM:Transfected3 --rg LB:Transfected3_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155057_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155057_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155057.sam
-hisat2 -p 8 --rg-id=C1 --rg SM:Control1 --rg LB:Control1_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155058_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155058_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155058.sam
-hisat2 -p 8 --rg-id=C2 --rg SM:Control2 --rg LB:Control2_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155059_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155059_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155059.sam
-hisat2 -p 8 --rg-id=C3 --rg SM:Control3 --rg LB:Control3_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155060_1.fastq.gz -2 $RNA_INT_ASSIGNMENT/data/trimmed_reads/SRR7155060_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155060.sam
+hisat2 -p 8 --rg-id=T1 --rg SM:Transfected1 --rg LB:Transfected1_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155055_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155055_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155055.sam
+hisat2 -p 8 --rg-id=T2 --rg SM:Transfected2 --rg LB:Transfected2_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155056_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155056_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155056.sam
+hisat2 -p 8 --rg-id=T3 --rg SM:Transfected3 --rg LB:Transfected3_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155057_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155057_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155057.sam
+hisat2 -p 8 --rg-id=C1 --rg SM:Control1 --rg LB:Control1_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155058_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155058_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155058.sam
+hisat2 -p 8 --rg-id=C2 --rg SM:Control2 --rg LB:Control2_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155059_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155059_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155059.sam
+hisat2 -p 8 --rg-id=C3 --rg SM:Control3 --rg LB:Control3_lib --rg PL:ILLUMINA -x $RNA_INT_REFS_DIR/Homo_sapiens.GRCh38 --dta --rna-strandness RF -1 $RNA_INT_DIR/data/trimmed_reads/SRR7155060_1.fastq.gz -2 $RNA_INT_DIR/data/trimmed_reads/SRR7155060_2.fastq.gz -S $RNA_INT_ALIGN_DIR/SRR7155060.sam
 
 ```
 
@@ -312,8 +312,8 @@ Right-click in the middle of the page, and click on "Expanded" to view the reads
 - Obtain expression values for the gene SOX4
 
 ```bash
-cd $RNA_INT_ASSIGNMENT/
-mkdir -p $RNA_INT_ASSIGNMENT/expression
+cd $RNA_INT_DIR/
+mkdir -p $RNA_INT_DIR/expression
 
 stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/transfected1/transcripts.gtf -A expression/transfected1/gene_abundances.tsv alignments/SRR7155055.bam
 stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/transfected2/transcripts.gtf -A expression/transfected2/gene_abundances.tsv alignments/SRR7155056.bam
@@ -328,7 +328,7 @@ stringtie -p 8 -G reference/Homo_sapiens.GRCh38.92.gtf -e -B -o expression/contr
 **A11.)** To look for the expression value of a specific gene, you can use the command ‘grep’ followed by the gene name and the path to the expression file
 
 ```bash
-grep SOX4 $RNA_INT_ASSIGNMENT/expression/*/transcripts.gtf | cut -f 1,9 | grep FPKM
+grep SOX4 $RNA_INT_DIR/expression/*/transcripts.gtf | cut -f 1,9 | grep FPKM
 ```
 
 ## Part 4: Differential Expression Analysis
@@ -338,8 +338,8 @@ grep SOX4 $RNA_INT_ASSIGNMENT/expression/*/transcripts.gtf | cut -f 1,9 | grep F
 - Perform differential analysis between the transfected and control samples
 
 ```bash
-mkdir -p $RNA_INT_ASSIGNMENT/ballgown/
-cd $RNA_INT_ASSIGNMENT/ballgown/
+mkdir -p $RNA_INT_DIR/ballgown/
+cd $RNA_INT_DIR/ballgown/
 ```
 
 Perform transfected vs. control comparison, using all samples, for known transcripts:
@@ -440,7 +440,7 @@ quit(save="no")
 
 Make sure we are in the directory with our DE results
 ```bash
-cd $RNA_INT_ASSIGNMENT/ballgown/
+cd $RNA_INT_DIR/ballgown/
 ```
 
 Restart an R session:
