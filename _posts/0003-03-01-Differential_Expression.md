@@ -43,7 +43,6 @@ R
 Run the following R commands in your R session.
 
 ```R
-
 # load the required libraries
 library(ballgown)
 library(genefilter)
@@ -77,7 +76,6 @@ results_transcripts = merge(results_transcripts, bg_transcript_names, by.x=c("id
 
 results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
 results_genes = merge(results_genes, bg_gene_names, by.x=c("id"), by.y=c("gene_id"))
-
 
 # Save a tab delimited file for both the transcript and gene results
 write.table(results_transcripts, "UHR_vs_HBR_transcript_results.tsv", sep="\t", quote=FALSE, row.names = FALSE)
