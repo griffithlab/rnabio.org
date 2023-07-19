@@ -110,12 +110,14 @@ NOTE: The fastq files you have copied above contain only the first 1,000,000 rea
 
 **Goals:**
 
-- Run quality check before and after cleaning up your data
-- Familiarize yourself with the options for Fastqc to be able to redirect your output
-- Perform adapter trimming on your data
+- Run a quality check with `fastqc` before and after trimming
+- Familiarize yourself with the options for `fastqc` to be able to redirect your output
+- Perform adapter trimming and data cleanup on your data using `fastp`
 - Familiarize yourself with the output metrics from adapter trimming
+- Examine `fastqc` and/or `multiqc` reports for the pre- and post-trimmed data
 
-Now create a new folder that will house the outputs from FastQC. Use the `-h` option to view the potential output on the data to determine the quality of the data.
+
+Create a new folder that will house the outputs from FastQC. Use the `-h` option to view the potential output on the data to determine the quality of the data.
 
 ```bash
 cd $RNA_INT_DIR
@@ -135,12 +137,18 @@ Now based on the output of the html summary, proceed to clean up the reads and r
 ```bash
 cd $RNA_INT_DIR
 mkdir trimmed_reads
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155055_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155055_2.fastq.gz --target trimmed_reads/SRR7155055
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155056_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155056_2.fastq.gz --target trimmed_reads/SRR7155056
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155057_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155057_2.fastq.gz --target trimmed_reads/SRR7155057
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155058_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155058_2.fastq.gz --target trimmed_reads/SRR7155058
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155059_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155059_2.fastq.gz --target trimmed_reads/SRR7155059
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters $RNA_INT_DIR/adapter/illumina_multiplex.fa --pre-trim-left 13 --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads $RNA_INT_DIR/data/SRR7155060_1.fastq.gz --reads2 $RNA_INT_DIR/data/SRR7155060_2.fastq.gz --target trimmed_reads/SRR7155060
+
+fastp -i $RNA_INT_DIR/data/SRR7155055_1.fastq.gz -I $RNA_INT_DIR/data/SRR7155055_2.fastq.gz -o trimmed_reads/SRR7155055_1.fastq.gz -O trimmed_reads/SRR7155055_2.fastq.gz -l 25 --adapter_fasta $RNA_INT_DIR/adapter/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json trimmed_reads/SRR7155055.fastp.json --html trimmed_reads/SRR7155055.fastp.html 2>trimmed_reads/SRR7155055.fastp.log
+
+fastp -i $RNA_INT_DIR/data/SRR7155056_1.fastq.gz -I $RNA_INT_DIR/data/SRR7155056_2.fastq.gz -o trimmed_reads/SRR7155056_1.fastq.gz -O trimmed_reads/SRR7155056_2.fastq.gz -l 25 --adapter_fasta $RNA_INT_DIR/adapter/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json trimmed_reads/SRR7155056.fastp.json --html trimmed_reads/SRR7155056.fastp.html 2>trimmed_reads/SRR7155056.fastp.log
+
+fastp -i $RNA_INT_DIR/data/SRR7155057_1.fastq.gz -I $RNA_INT_DIR/data/SRR7155057_2.fastq.gz -o trimmed_reads/SRR7155057_1.fastq.gz -O trimmed_reads/SRR7155057_2.fastq.gz -l 25 --adapter_fasta $RNA_INT_DIR/adapter/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json trimmed_reads/SRR7155057.fastp.json --html trimmed_reads/SRR7155057.fastp.html 2>trimmed_reads/SRR7155057.fastp.log
+
+fastp -i $RNA_INT_DIR/data/SRR7155058_1.fastq.gz -I $RNA_INT_DIR/data/SRR7155058_2.fastq.gz -o trimmed_reads/SRR7155058_1.fastq.gz -O trimmed_reads/SRR7155058_2.fastq.gz -l 25 --adapter_fasta $RNA_INT_DIR/adapter/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json trimmed_reads/SRR7155058.fastp.json --html trimmed_reads/SRR7155058.fastp.html 2>trimmed_reads/SRR7155058.fastp.log
+
+fastp -i $RNA_INT_DIR/data/SRR7155059_1.fastq.gz -I $RNA_INT_DIR/data/SRR7155059_2.fastq.gz -o trimmed_reads/SRR7155059_1.fastq.gz -O trimmed_reads/SRR7155059_2.fastq.gz -l 25 --adapter_fasta $RNA_INT_DIR/adapter/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json trimmed_reads/SRR7155059.fastp.json --html trimmed_reads/SRR7155059.fastp.html 2>trimmed_reads/SRR7155059.fastp.log
+
+fastp -i $RNA_INT_DIR/data/SRR7155060_1.fastq.gz -I $RNA_INT_DIR/data/SRR7155060_2.fastq.gz -o trimmed_reads/SRR7155060_1.fastq.gz -O trimmed_reads/SRR7155060_2.fastq.gz -l 25 --adapter_fasta $RNA_INT_DIR/adapter/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json trimmed_reads/SRR7155060.fastp.json --html trimmed_reads/SRR7155060.fastp.html 2>trimmed_reads/SRR7155060.fastp.log
 
 ```
 
