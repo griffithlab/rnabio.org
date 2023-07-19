@@ -125,17 +125,18 @@ Then, go to the following url in your browser:
 cd $RNA_HOME/practice/data/
 mkdir trimmed
 wget http://genomedata.org/rnaseq-tutorial/illumina_multiplex.fa
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_normal_rep1_r1.fastq.gz --reads2 hcc1395_normal_rep1_r2.fastq.gz --target trimmed/hcc1395_normal_rep1
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_normal_rep2_r1.fastq.gz --reads2 hcc1395_normal_rep2_r2.fastq.gz --target trimmed/hcc1395_normal_rep2
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_normal_rep3_r1.fastq.gz --reads2 hcc1395_normal_rep3_r2.fastq.gz --target trimmed/hcc1395_normal_rep3
 
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_tumor_rep1_r1.fastq.gz --reads2 hcc1395_tumor_rep1_r2.fastq.gz --target trimmed/hcc1395_tumor_rep1
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_tumor_rep2_r1.fastq.gz --reads2 hcc1395_tumor_rep2_r2.fastq.gz --target trimmed/hcc1395_tumor_rep2
-flexbar --adapter-min-overlap 7 --adapter-trim-end RIGHT --adapters illumina_multiplex.fa --max-uncalled 300 --min-read-length 25 --threads 8 --zip-output GZ --reads hcc1395_tumor_rep3_r1.fastq.gz --reads2 hcc1395_tumor_rep3_r2.fastq.gz --target trimmed/hcc1395_tumor_rep3
+fastp -i hcc1395_normal_rep1_r1.fastq.gz -I hcc1395_normal_rep1_r2.fastq.gz -o trimmed/hcc1395_normal_rep1_r1.fastq.gz -O trimmed/hcc1395_normal_rep1_r2.fastq.gz -l 25 --adapter_fasta illumina_multiplex.fa --json trimmed/hcc1395_normal_rep1.fastp.json --html trimmed/hcc1395_normal_rep1.fastp.html 2>trimmed/hcc1395_normal_rep1.fastp.log
+fastp -i hcc1395_normal_rep2_r1.fastq.gz -I hcc1395_normal_rep2_r2.fastq.gz -o trimmed/hcc1395_normal_rep2_r1.fastq.gz -O trimmed/hcc1395_normal_rep2_r2.fastq.gz -l 25 --adapter_fasta illumina_multiplex.fa --json trimmed/hcc1395_normal_rep2.fastp.json --html trimmed/hcc1395_normal_rep2.fastp.html 2>trimmed/hcc1395_normal_rep2.fastp.log
+fastp -i hcc1395_normal_rep3_r1.fastq.gz -I hcc1395_normal_rep3_r2.fastq.gz -o trimmed/hcc1395_normal_rep3_r1.fastq.gz -O trimmed/hcc1395_normal_rep3_r2.fastq.gz -l 25 --adapter_fasta illumina_multiplex.fa --json trimmed/hcc1395_normal_rep3.fastp.json --html trimmed/hcc1395_normal_rep3.fastp.html 2>trimmed/hcc1395_normal_rep3.fastp.log
+
+fastp -i hcc1395_tumor_rep1_r1.fastq.gz -I hcc1395_tumor_rep1_r2.fastq.gz -o trimmed/hcc1395_tumor_rep1_r1.fastq.gz -O trimmed/hcc1395_tumor_rep1_r2.fastq.gz -l 25 --adapter_fasta illumina_multiplex.fa --json trimmed/hcc1395_tumor_rep1.fastp.json --html trimmed/hcc1395_tumor_rep1.fastp.html 2>trimmed/hcc1395_tumor_rep1.fastp.log
+fastp -i hcc1395_tumor_rep2_r1.fastq.gz -I hcc1395_tumor_rep2_r2.fastq.gz -o trimmed/hcc1395_tumor_rep2_r1.fastq.gz -O trimmed/hcc1395_tumor_rep2_r2.fastq.gz -l 25 --adapter_fasta illumina_multiplex.fa --json trimmed/hcc1395_tumor_rep2.fastp.json --html trimmed/hcc1395_tumor_rep2.fastp.html 2>trimmed/hcc1395_tumor_rep2.fastp.log
+fastp -i hcc1395_tumor_rep3_r1.fastq.gz -I hcc1395_tumor_rep3_r2.fastq.gz -o trimmed/hcc1395_tumor_rep3_r1.fastq.gz -O trimmed/hcc1395_tumor_rep3_r2.fastq.gz -l 25 --adapter_fasta illumina_multiplex.fa --json trimmed/hcc1395_tumor_rep3.fastp.json --html trimmed/hcc1395_tumor_rep3.fastp.html 2>trimmed/hcc1395_tumor_rep3.fastp.log
 
 ```
 
-Compare these files using FastQC, Fastp and/or MultiQC:
+Compare these files using FastQC and/or MultiQC:
 
 ```bash
 cd $RNA_HOME/practice/data/trimmed/
