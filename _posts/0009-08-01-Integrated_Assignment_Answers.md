@@ -273,7 +273,6 @@ du -h $RNA_INT_ALIGN_DIR/*.bam
 In order to make visualization easier, merge the replicate bams for each sample (transfected vs control) into one BAM using the following commands. Make sure to index these bams afterwards to be able to view them on IGV.
 
 ```bash
-#merge the bams for visulization purposes
 cd $RNA_INT_ALIGN_DIR
 java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=transfected.bam INPUT=SRR7155055.bam INPUT=SRR7155056.bam INPUT=SRR7155057.bam
 java -Xmx2g -jar $PICARD MergeSamFiles OUTPUT=control.bam INPUT=SRR7155058.bam INPUT=SRR7155059.bam INPUT=SRR7155060.bam
