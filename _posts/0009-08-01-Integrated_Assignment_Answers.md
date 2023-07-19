@@ -169,7 +169,7 @@ grep "passed" trimmed_reads/*.log
 Alternatively, you can make use of the command ‘wc’. This command counts the number of lines in a file. Since fastq files have 4 lines per read, the total number of lines must be divided by 4. Running this command only give you the total number of lines in the fastq file (Note that because the data is compressed, we need to use zcat to unzip it and print it to the screen, before passing it on to the wc command):
 ```bash
 zcat $RNA_INT_DIR/data/SRR7155059_1.fastq.gz | wc -l
-zcat $RNA_INT_DIR/data/trimmed_reads/SRR7155059_1.fastq.gz | wc -l
+zcat $RNA_INT_DIR/trimmed_reads/SRR7155059_1.fastq.gz | wc -l
 
 ```
 
