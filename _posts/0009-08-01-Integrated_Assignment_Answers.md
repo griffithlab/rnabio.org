@@ -178,7 +178,7 @@ We could also run `fastqc` and `multiqc` on the trimmed data and visualize the r
 ```bash
 cd $RNA_INT_DIR
 mkdir -p qc/trimmed_fastqc
-fastqc $RNA_INT_DIR/data/trimmed_reads/*.fastq.gz -o qc/trimmed_fastqc/
+fastqc $RNA_INT_DIR/trimmed_reads/*.fastq.gz -o qc/trimmed_fastqc/
 cd qc/trimmed_fastqc
 python3 -m multiqc .
 
