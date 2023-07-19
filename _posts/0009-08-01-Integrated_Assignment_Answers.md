@@ -147,23 +147,23 @@ fastp -i $RNA_INT_DIR/data/SRR7155060_1.fastq.gz -I $RNA_INT_DIR/data/SRR7155060
 
 ```
 
-**Q5.)** What average percentage of reads remain after adapter trimming? Why do reads get tossed out?
+**Q5.)** What average percentage of reads remain after adapter trimming/cleanup with fastp? Why do reads get tossed out?
 
 **A5.)** At this point, we could look in the log files individually. Alternatively, we could utilize the command line with a command like the one below.
 
 ```bash
-tail -n 15 $RNA_INT_DIR/data/trimmed_reads/*.log
+grep -A 1 Read1 trimmed_reads/*.log
 ```
 
-Doing this, we find that around 99% of reads survive after adapter trimming. The reads that get tossed are due to being too short after trimming. They fall below our threshold of minimum read length of 25.
+Doing this, we find that around 93-95% of reads survive after adapter trimming and cleanup with fastp. The reads that get tossed are due to being too short after trimming. They fall below our threshold of minimum read length of 25 (too short), poor sequence quality, or too many N's.
 
 **Q6.)** What sample has the largest number of reads after trimming?
 
-**A6.)** The control sample 2 (SRR7155059) has the most reads (1999678/2 =  reads).
+**A6.)** The control sample 2 (SRR7155060) has the most reads (1,907,336 individual reads).
 An easy way to figure out the number of reads is to check the output log file from the trimming output. Looking at the "remaining reads" row, we see the reads (each read in a pair counted individually) that survive the trimming. We can also look at this from the command line.
 
 ```bash
-grep "Remaining reads" $RNA_INT_DIR/data/trimmed_reads/*.log
+grep "passed" trimmed_reads/*.log
 ```
 
 Alternatively, you can make use of the command ‘wc’. This command counts the number of lines in a file. Since fastq files have 4 lines per read, the total number of lines must be divided by 4. Running this command only give you the total number of lines in the fastq file (Note that because the data is compressed, we need to use zcat to unzip it and print it to the screen, before passing it on to the wc command):
