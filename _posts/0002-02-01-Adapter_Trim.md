@@ -39,7 +39,7 @@ Extra options specified below:
 * '--html' the path to store a web report file
 * '2>' use to store the information that would be printed to the screen into a file instead
 
-### Flexbar trim
+### Read trimming with Fastp
 First, set up some directories for output
 
 ```bash
