@@ -12,16 +12,19 @@ date: 0000-05-01
 ## Do these before coming to the workshop:
 
 ### 1.) Command line tutorial
-You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, below is a suggested tutorial. If you have a Mac computer you can use the "Terminal" application to complete this tutorial. If you have access to a linux server at your institution you could do it there. If neither of those is available you can try a free online termline application that runs in your browser such as [sandbox.io](https://sandbox.bio/playground) or [COCALC](https://cocalc.com/app?anonymous=terminal).
+You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, below are some suggested tutorials. If you have a Mac computer you can use the "Terminal" application to complete these tutorials. If you have access to a linux server at your institution you could also do them there. If neither of those is available you can try a free online terminal application that runs in your browser such as [sandbox.io](https://sandbox.bio/playground) (also includes several relevant tutorials) or [COCALC](https://cocalc.com/app?anonymous=terminal).
 
 * [Unix Intro Tutorial](https://rnabio.org/module-00-setup/0000/08/01/Unix/)
 * [Unix command-line bootcamp](http://korflab.ucdavis.edu/bootcamp.html)
 * [Unix cheat sheet](https://www.guru99.com/linux-commands-cheat-sheet.html)
 
 ### 2.) Introduction to R tutorial
-Knowing R is critical to this workshop. Using R installed on your computer, please work through the tutorial (~3 hours). Note that the final exercise is optional and quite advanced. It is not required.
+Knowing R is critical to this workshop. Using R installed on your computer, please work through the following tutorials (~3 hours).
 
-* [GenViz Intro R tutorial](https://genviz.org/module-02-r/0002/02/01/introductionToR/)
+* [R Tutorial (W3 Schools)](https://www.w3schools.com/r/default.asp)
+* [Introduction to R (datacamp)](https://app.datacamp.com/learn/courses/free-introduction-to-r) (Take first free chapter)
+* [R Review & Assessment](https://nceas.github.io/oss-lessons/r-review-and-assessment/r-review-and-assessment.html)
+* [GenViz Intro R tutorial](https://genviz.org/module-02-r/0002/02/01/introductionToR/) (Note this tutorial is more advanced, especially the final exerxise, and not required)
 
 ### 3.) Reading materials
 Please read these articles before coming to the workshop:
