@@ -153,6 +153,20 @@ chmod 755 fastqc
 ./fastqc --help
 ```
 
+## [Fastp](https://github.com/OpenGene/fastp)
+
+Installation type: download precompiled binary. Citation: [PMID: 30423086](https://pubmed.ncbi.nlm.nih.gov/30423086/)
+
+```bash
+cd $RNA_HOME/student_tools/
+mkdir fastp
+cd fastp
+wget http://opengene.org/fastp/fastp
+chmod a+x ./fastp
+./fastp
+```
+
+
 ## [MultiQC](http://multiqc.info/)
 
 Installation type: use pip. Citation: [PMID: 27312411](https://pubmed.ncbi.nlm.nih.gov/27312411/).
@@ -263,79 +277,12 @@ check_strandedness
 
 ## Install [Cell Ranger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/installation)
 
-* Must register to get download link
+* Must register to get download link, modify command below to match downloaded tar
 
 ```bash
 cd $RNA_HOME/student_tools/
 wget `download_link`
 tar -xzvf cellranger-6.1.2.tar.gz
-```
-
-## Install [TABIX](http://www.htslib.org/download/)
-
-```bash
-sudo apt-get install tabix
-```
-
-## Install [BWA](http://bio-bwa.sourceforge.net/bwa.shtml)
-
-```bash
-cd $RNA_HOME/student_tools/
-git clone https://github.com/lh3/bwa.git
-cd bwa
-make
-```
-
-## Install [BCFtools](http://www.htslib.org/download/)
-
-```bash
-cd $RNA_HOME/student_tools/
-wget https://github.com/samtools/bcftools/releases/download/1.14/bcftools-1.14.tar.bz2
-bunzip2 bcftools-1.14.tar.bz2
-tar -xvf bcftools-1.14.tar
-cd bcftools-1.14
-make
-./bcftools
-```
-
-## Install [peddy](https://github.com/brentp/peddy)
-
-```bash
-cd $RNA_HOME/student_tools/
-git clone https://github.com/brentp/peddy
-cd peddy
-pip install -r requirements.txt
-pip install --editable .
-peddy
-```
-
-## Install [slivar](https://github.com/brentp/slivar)
-
-```bash
-cd $RNA_HOME/student_tools/
-wget https://github.com/brentp/slivar/releases/download/v0.2.7/slivar
-chmod +x ./slivar
-```
-
-## Install [STRling](https://strling.readthedocs.io/en/latest/index.html)
-
-```bash
-cd $RNA_HOME/student_tools/
-wget https://github.com/quinlan-lab/STRling/releases/download/v0.5.1/strling
-chmod +x ./strling
-```
-
-## Install [freebayes](https://github.com/freebayes/freebayes)
-
-```bash
-cd $RNA_HOME/student_tools/
-git clone --recursive https://github.com/freebayes/freebayes.git
-cd freebayes
-meson build/ --buildtype debug
-cd build
-ninja
-ninja test
-./freebayes
 ```
 
 ## Install [R](http://www.r-project.org/)
@@ -436,14 +383,15 @@ Solution: When you are ready you can check your approach against the [Solutions]
 
 ## Add locally installed tools to your PATH [OPTIONAL]
 
-To use the locally installed version of each tool without having to specify complete paths, you could add the install directory of each tool to your '$PATH' variable
+To use the locally installed version of each tool without having to specify complete paths, you could add the install directory of each tool to your '$PATH' variable and set some other environment variables:
 
 ```bash
-PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.39/bin:$RNA_HOME/student_tools/samtools-1.16.1:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.1.4.Linux_x86_64:$RNA_HOME/student_tools/gffcompare-0.12.6.Linux_x86_64:$RNA_HOME/student_tools/htseq-release_0.12.4/scripts:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/flexbar-3.5.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:$PATH
-
-export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.5.0-linux:$LD_LIBRARY_PATH
+PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.40/bin:$RNA_HOME/student_tools/samtools-1.16.1:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.1.6.Linux_x86_64:$RNA_HOME/student_tools/gffcompare-0.12.6.Linux_x86_64:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/fastp:$RNA_HOME/student_tools/flexbar-3.5.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:/home/ubuntu/.local/bin:$PATH
 
 echo $PATH
+
+export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.5.0-linux:$LD_LIBRARY_PATH
+export PICARD=$RNA_HOME/student_tools/picard.jar
 ```
 
 You can make these changes permanent by adding the above lines to your .bashrc file

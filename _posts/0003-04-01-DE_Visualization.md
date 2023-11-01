@@ -43,8 +43,12 @@ Next we'll load our data into R.
 
 ```R
 ###R code###
-# Load phenotype data
-pheno_data = read.csv("UHR_vs_HBR.csv")
+# Generate phenotype data
+ids = c("UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3")
+type = c("UHR","UHR","UHR","HBR","HBR","HBR")
+results = "/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/"
+path = paste(results,ids,sep="")
+pheno_data = data.frame(ids,type,path)
 
 # Display the phenotype data
 pheno_data
@@ -82,6 +86,10 @@ tail(fpkm)
 # Create boxplots to display summary statistics for the FPKM values for each sample
 boxplot(fpkm,col=as.numeric(as.factor(pheno_data$type))+1,las=2,ylab='log2(FPKM+1)')
 
+# col=as.numeric(as.factor(pheno_data$type))+1 - set color based on pheno_data$type which is UHR vs. HBR
+# las=2 - labels are perpendicular to axis 
+# ylab='log2(FPKM+1)' - set ylab to indicate that values are log2 transformed
+
 # Display the transcript ID for a single row of data
 ballgown::transcriptNames(bg)[2763]
 
@@ -91,8 +99,16 @@ ballgown::geneNames(bg)[2763]
 # Create a BoxPlot comparing the expression of a single gene for all replicates of both conditions
 boxplot(fpkm[2763,] ~ pheno_data$type, border=c(2,3), main=paste(ballgown::geneNames(bg)[2763],' : ', ballgown::transcriptNames(bg)[2763]),pch=19, xlab="Type", ylab='log2(FPKM+1)')
 
+# border=c(2,3) - set border color for each of the boxplots
+# main=paste(ballgown::geneNames(bg)[2763],' : ', ballgown::transcriptNames(bg)[2763]) - set title to gene : transcript
+# xlab="Type" - set x label to Type
+# ylab='log2(FPKM+1)' - set ylab to indicate that values are log2 transformed
+
+
 # Add the FPKM values for each sample onto the plot
 points(fpkm[2763,] ~ jitter(c(2,2,2,1,1,1)), col=c(2,2,2,1,1,1)+1, pch=16)
+# pch=16 - set plot symbol to solid circle, default is empty circle
+
 
 # Create a plot of transcript structures observed in each replicate and color transcripts by expression level
 plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in all HBR samples'), sample=c('HBR_Rep1', 'HBR_Rep2', 'HBR_Rep3'), labelTranscripts=TRUE)
@@ -114,6 +130,7 @@ http://YOUR_IP_ADDRESS/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ball
 The above code can be found in a single R script located [here](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part2_ballgown.R).
 
 ### SUPPLEMENTARY R ANALYSIS
+
 Occasionally you may wish to reformat and work with stringtie output in R manually. Therefore we provide an optional/advanced tutorial on how to format your results for R and perform "old school" (non-ballgown analysis) on your data.
 
 In this tutorial you will:
@@ -456,9 +473,6 @@ ggplot(data=results_genes[results_genes$diffexpressed != "No",], aes(x=de, y=-lo
 
 dev.off()
 
-#The output file can be viewed in your browser at the following url:
-#Note, you must replace __YOUR_IP_ADDRESS__ with your own amazon instance IP
-#http://__YOUR_IP_ADDRESS__/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
 #To exit R type:
 quit(save="no")
 ```
@@ -468,3 +482,16 @@ Run the R commands detailed in the R script above. A R script containing all of 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
 * http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
+
+***
+
+### PRACTICAL EXERCISE 10 (ADVANCED)
+Assignment: Use R to create a volcano plot for the differentially expressed genes you identified with Ballgown in Practical Exercise 9.
+
+* Hint: Follow the example R code above.
+* Hint: Import the ballgown data object (e.g., `bg.rda`) that you should have saved in Practical Exercise 9.
+ 
+Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-10---volcano-plot)
+
+***
+

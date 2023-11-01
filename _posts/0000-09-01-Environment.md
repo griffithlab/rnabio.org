@@ -62,7 +62,7 @@ export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
 We will be using picard tools throughout this workshop. To follow along, you will need to set an environment variable pointing to your picard installation.
 
 ```bash
-export PICARD=/usr/local/picard/picard.jar
+export PICARD=/home/ubuntu/bin/picard.jar
 ```
 
 For simplicity, we are going to download a preconfigured `.bashrc` file to use.
@@ -93,3 +93,7 @@ Again, check all the RNA related environment variables to make sure things look 
 ```bash
 env | grep RNA
 ```
+
+Note that if you are doing this course on the Google Cloud Platform instead of AWS, you should instead use this `.bashrc` file: http://genomedata.org/rnaseq-tutorial/bashrc_copy_gcp.sh 
+
+

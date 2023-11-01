@@ -2,6 +2,18 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# add PATH modifications
+export PATH=~/bin:~/bin/R-4.0.0/bin:~/src/bedops_linux_x86_64-v2.4.40/bin:~/src/hisat2-2.2.1:$PATH
+export RNA_HOME=~/workspace/rnaseq
+export RNA_DATA_DIR=$RNA_HOME/data
+export RNA_DATA_TRIM_DIR=$RNA_DATA_DIR/trimmed
+export RNA_REFS_DIR=$RNA_HOME/refs
+export RNA_REF_INDEX=$RNA_REFS_DIR/chr22_with_ERCC92
+export RNA_REF_FASTA=$RNA_REF_INDEX.fa
+export RNA_REF_GTF=$RNA_REF_INDEX.gtf
+export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
+export PICARD=/home/ubuntu/bin/picard.jar
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -116,14 +128,23 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export PATH=/usr/local/tmhmm-2.0c/bin:/usr/local/signalp-4.1:/usr/local/gmap-gsnap/bin:$PATH:/usr/local/tophat-2.1.1.Linux_x86_64:/usr/local/minimap2-2.16_x64-linux:/usr/local/racon/bin:/usr/local/wtdbg-2.3_x64_linux:/usr/local/Trinotate-Trinotate-v3.2.2:/usr/local/trinityrnaseq-v2.12.0:/usr/local/TransDecoder-TransDecoder-v5.5.0:/usr/local/STAR-Fusion-v1.10.0:/usr/local/SPAdes-3.15.2-Linux/bin:/usr/local/salmon-latest_linux_x86_64/bin:/usr/local/hisat2-2.2.1:/usr/local/GATK:/usr/local/centrifuge-1.0.4-beta:/usr/local/canu/bin:/usr/local/libexec
 
-export RNA_HOME=~/workspace/rnaseq
-export RNA_DATA_DIR=$RNA_HOME/data
-export RNA_DATA_TRIM_DIR=$RNA_DATA_DIR/trimmed
-export RNA_REFS_DIR=$RNA_HOME/refs
-export RNA_REF_INDEX=$RNA_REFS_DIR/chr22_with_ERCC92
-export RNA_REF_FASTA=$RNA_REF_INDEX.fa
-export RNA_REF_GTF=$RNA_REF_INDEX.gtf
-export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
-export PICARD=/usr/local/picard/picard.jar
+export MANPAGER=less
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/ubuntu/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/ubuntu/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/ubuntu/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/ubuntu/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+export PATH=/home/ubuntu/anaconda3/bin:$PATH
+
