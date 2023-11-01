@@ -16,7 +16,7 @@ date: 0002-06-01
 ***
 
 ### Alignment QC mini lecture
-If you would like a refresher on alignment QC, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2022/mini/RNASeq_MiniLecture_02_04_alignmentQC.pdf) briefly covering the topic.
+If you would like a refresher on alignment QC, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2023/mini/RNASeq_MiniLecture_02_04_alignmentQC.pdf) briefly covering the topic.
 
 ### Use samtools and FastQC to evaluate the alignments
 Use `samtools view` to see the format of a SAM/BAM alignment file
@@ -97,7 +97,9 @@ cd $RNA_HOME/refs
 java -jar $PICARD CreateSequenceDictionary -R chr22_with_ERCC92.fa -O chr22_with_ERCC92.dict
 
 # Create a bed file of the location of ribosomal sequences in our reference (first extract from the gtf then convert to bed)
-grep --color=none -i rrna chr22_with_ERCC92.gtf > ref_ribosome.gtf
+# Note that here we pull all the "rrna" transcripts from the GTF. This is a good strategy for the whole transcriptome ...
+# ... but on chr22 there is very little "rrna" content, leading to 0 coverage for all samples, so we are also adding a single protein coding ribosomal gene "RRP7A" (normally we would not do this)
+grep --color=none -i -P "rrna|rrp7a" chr22_with_ERCC92.gtf > ref_ribosome.gtf
 gff2bed < ref_ribosome.gtf > ref_ribosome.bed
 
 # Create interval list file for the location of ribosomal sequences in our reference
@@ -165,7 +167,11 @@ python3 -m multiqc ./
 
 ```
 
-### View a MultiQC report for full bam files
+##### MultiQC screenshot
+![MultiQC](/assets/module_2/multiqc.png)
+
+
+### View a pre-generated MultiQC report for full bam files
 View a multiQC on QC reports from non-downsampled bam files:
 ```bash
 mkdir $RNA_ALIGN_DIR/example_QC

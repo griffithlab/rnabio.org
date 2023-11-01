@@ -38,9 +38,11 @@ layout: "home"
 - [A UNIX command cheat sheet](http://www.rain.org/~mkummel/unix.html)
 - [A UNIX tutorial for beginners](http://www.ee.surrey.ac.uk/Teaching/Unix/)
 - [A UNIX and Perl primer for biologists](http://korflab.ucdavis.edu/Unix_and_Perl/current.html)
+- [A command-line bootcamp](http://korflab.ucdavis.edu/bootcamp.html)
 - [A detailed Biostars thread describing resources for learning Unix](https://www.biostars.org/p/16315/)
 - [A codecademy tutorial to Learn the Command Line](https://www.codecademy.com/learn/learn-the-command-line)
 - [A command-line linux tutorial in your browser](http://rik.smith-unna.com/command_line_bootcamp/)
+- [A tutorial on terminal basics (with web-based sandbox)](https://sandbox.bio/tutorials?id=terminal-basics)
 
 #### 3. Text Editor (Vi/Vim) Tutorials
 - [An interactive Vim tutorial](http://www.openvim.com/)
@@ -73,6 +75,7 @@ layout: "home"
 - [A list of Genome Analysis Platforms like Galaxy, BaseSpace, etc.](https://docs.google.com/spreadsheets/d/1o8iYwYUy0V7IECmu21Und3XALwQihioj23WGv-w0itk/pubhtml)
 - [BioLinux - An Ubuntu Linux system with many Bioinformatics tools pre-installed](http://environmentalomics.org/bio-linux/)
 - [CloudBioLinux - A cloud ready version of BioLinux](http://cloudbiolinux.org/)
+- [sandbox.io - Interactive bioinformatics tutorials](https://sandbox.bio/)
 
 #### 8. Getting More Help
 - [Biostars - A forum for the bioinformatics community](http://www.biostars.org/)
