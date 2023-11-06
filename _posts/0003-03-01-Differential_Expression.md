@@ -184,7 +184,7 @@ chmod +x Tutorial_ERCC_DE.R
 
 View the results here:
 
-* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/ballgown/ref_only/Tutorial_ERCC_DE.pdf
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown/ref_only/Tutorial_ERCC_DE.pdf
 
 ***
 
@@ -354,8 +354,8 @@ cat htseq_counts_edgeR_DE_gene_symbols.txt
 
 Alternatively you could view both lists in a web browser as you have done with other files. These two files should be here:
 
-* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/ballgown_DE_gene_symbols.txt
-* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/htseq_counts_edgeR_DE_gene_symbols.txt
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/htseq_counts_edgeR_DE_gene_symbols.txt
 
 ##### Example Venn Diagram (DE genes from StringTie/Ballgown vs HTSeq/EdgeR)
 
