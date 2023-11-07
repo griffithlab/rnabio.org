@@ -97,8 +97,8 @@ python3 -m multiqc .
 
 The resulting html reports can be viewed by navigating to:
 
-* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/data/
-* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/data/trimmed/
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/trimmed/
 
 ### Clean up
 
