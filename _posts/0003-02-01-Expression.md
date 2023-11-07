@@ -223,7 +223,7 @@ chmod +x Tutorial_ERCC_expression_tpm.R
 
 To view the resulting figures, navigate to the below URL replacing YOUR_IP_ADDRESS with your amazon instance IP address:
 
-* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/expression/htseq_counts/Tutorial_ERCC_expression.pdf
-* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/expression/stringtie/ref_only/Tutorial_ERCC_expression_tpm.pdf
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/htseq_counts/Tutorial_ERCC_expression.pdf
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/stringtie/ref_only/Tutorial_ERCC_expression_tpm.pdf
 
 Which expression estimation (read counts or TPM values) are better representing the known/expected ERCC concentrations?  Why?
