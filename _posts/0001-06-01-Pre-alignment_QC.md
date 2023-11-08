@@ -35,8 +35,8 @@ fastqc *.fastq.gz
 
 Then, go to the following url in your browser:
 
-* http://**YOUR_DNS_NAME**/workspace/rnaseq/data/
-* Note, you must replace **YOUR_DNS_NAME** with your own amazon instance DNS (e.g., ec2-54-187-159-113.us-west-2.compute.amazonaws.com))
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/
+* Note, you must replace **YOUR_PUBLIC_IPv4_ADDRESS** with your own amazon instance DNS (e.g., ec2-54-187-159-113.us-west-2.compute.amazonaws.com))
 * Click on any of the `*_fastqc.html` files to view the FastQC report
 
 **Exercise:**
@@ -89,7 +89,7 @@ python3 -m multiqc .
 ```
 
 Then, go to the following url in your browser:
-* http://**YOUR_DNS_NAME**/workspace/rnaseq/data/multiqc_report.html
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/multiqc_report.html
 
 
 ### Clean up
