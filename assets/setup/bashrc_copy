@@ -2,18 +2,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-# add PATH modifications
-export PATH=~/bin:~/bin/R-4.0.0/bin:~/src/bedops_linux_x86_64-v2.4.40/bin:~/src/hisat2-2.2.1:$PATH
-export RNA_HOME=~/workspace/rnaseq
-export RNA_DATA_DIR=$RNA_HOME/data
-export RNA_DATA_TRIM_DIR=$RNA_DATA_DIR/trimmed
-export RNA_REFS_DIR=$RNA_HOME/refs
-export RNA_REF_INDEX=$RNA_REFS_DIR/chr22_with_ERCC92
-export RNA_REF_FASTA=$RNA_REF_INDEX.fa
-export RNA_REF_GTF=$RNA_REF_INDEX.gtf
-export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
-export PICARD=/home/ubuntu/bin/picard.jar
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -129,22 +117,50 @@ if ! shopt -oq posix; then
 fi
 
 
-export MANPAGER=less
+#RNAseq-specific environment variables
+export RNA_HOME=~/workspace/rnaseq
+export RNA_EXT_DATA_DIR=/home/ubuntu/CourseData/RNA_data
+export RNA_DATA_DIR=$RNA_HOME/data
+export RNA_DATA_TRIM_DIR=$RNA_DATA_DIR/trimmed
+export RNA_REFS_DIR=$RNA_HOME/refs
+export RNA_REF_INDEX=$RNA_REFS_DIR/chr22_with_ERCC92
+export RNA_REF_FASTA=$RNA_REF_INDEX.fa
+export RNA_REF_GTF=$RNA_REF_INDEX.gtf
+export RNA_ALIGN_DIR=$RNA_HOME/alignments/hisat2
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/ubuntu/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/ubuntu/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/ubuntu/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/ubuntu/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+#others
+export WORKSPACE=/home/ubuntu/workspace
+export HOME=/home/ubuntu
+export PICARD=/home/ubuntu/bin/picard.jar
+export GATK_REGIONS='-L chr17'
 
-export PATH=/home/ubuntu/anaconda3/bin:$PATH
+#add directories containing the executables of software dependencies to PATH
+export PATH=/home/ubuntu/bin:$PATH
+export PATH=/home/ubuntu/bin/samtools-1.18:$PATH
+export SAMTOOLS_ROOT=/home/ubuntu/bin/samtools-1.18
+export PATH=/home/ubuntu/bin/bam-readcount/build/bin:$PATH
+export PATH=/home/ubuntu/bin/hisat2-2.2.1:$PATH
+export PATH=/home/ubuntu/bin/stringtie-2.2.1:$PATH
+export PATH=/home/ubuntu/bin/gffcompare-0.12.6.Linux_x86_64:$PATH
+export PATH=$/home/ubuntu/bin/tophat-2.1.1.Linux_x86_64:$PATH
+export PATH=/home/ubuntu/bin/kallisto_linux-v0.44.0:$PATH
+export PATH=/home/ubuntu/bin/FastQC:$PATH
+export PATH=/home/ubuntu/.local/bin:$PATH
+export PATH=/home/ubuntu/bin/regtools/build:$PATH
+export PATH=~/.local/bin/:$PATH
+export PATH=~/bin/bedops_linux_x86_64-v2.4.41/bin:$PATH
+export PATH=/home/ubuntu/bin/gtfToGenePred:$PATH
+export PATH=/home/ubuntu/bin/genePredtoBed:$PATH
+export PATH=/home/ubuntu/bin/cellranger-7.2.0:$PATH
+export PATH=/home/ubuntu/bin/bwa:$PATH
+export PATH=/home/ubuntu/bin/bedtools2/bin:$PATH
+export PATH=/home/ubuntu/bin/bcftools-1.18:$PATH
+export PATH=/home/ubuntu/bin/htslib-1.18:$PATH
+export PATH=/home/ubuntu/bin/anaconda3/bin:$PATH
+export PATH=/home/ubuntu/workspace/ensembl-vep:$PATH
+export PATH=/home/ubuntu/bin/gatk-4.2.1.0:$PATH
+export PATH=/home/ubuntu/bin/minimap2-2.26_x64-linux:$PATH
+
+
+
 
