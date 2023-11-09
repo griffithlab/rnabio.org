@@ -40,9 +40,9 @@ Briefly the process for launching an EC2 instance for this course involves these
 3. Make sure that you are in the N. Virginia region
 4. Select Launch Instance.
 5. Name and tags: Name your instance (e.g., Firstname_Lastname). 
-6. Amazon Machine Image: Search for "cbw-rnabio-2023" in My AMIs and Select.
+6. Amazon Machine Image: Search for "cshl-seqtec-2023" in My AMIs and Select.
 7. Instance type: Select "m6a.xlarge" and then "Next".
-8. Key pair (login): Choose an existing key pair (e.g., CBW) or create a new one and store it somewhere safe.
+8. Key pair (login): Choose an existing key pair (e.g.,cshl_2023_student ) or create a new one and store it somewhere safe.
 9. Network settings: Choose existing security group called "SSH/HTTP/Jupyter" (or create one with SSH and HTTP access).
 10. Configure storage: Make sure that you see two volumes.
 11. Advanced details: Select "Termination Protection: Enable".
@@ -54,7 +54,7 @@ Briefly the process for launching an EC2 instance for this course involves these
 ### Logging in to your own AWS EC2 instance
 
 * In order to log in to your instance, you will need a security certificate or "key file".
- * You will be provided with a key file called: "CBW.pem" (for Mac/Linux users) OR "CBW.ppk" (for Windows/PuTTy users).
+ * You will be provided with a key file called: "cshl_2023_student.pem" (for Mac/Linux users) OR "cshl_2023_student.ppk" (for Windows/PuTTy users).
 * NOTE: It is very important that you use only your own instance (ip address or dns name) when logging in!  If two people log into the same Amazon machine they may have collisions as they try to write files to the same places and this will cause errors and confusion.
 * On the AWS cloud, we are going to use the default username: "ubuntu"
 
@@ -64,16 +64,19 @@ Briefly the process for launching an EC2 instance for this course involves these
 * Make sure the permissions on your certificate are secure. Use chmod on your downloaded key file:
 
 ```bash
-chmod 400 CBW.pem
+chmod 400 cshl_2023_student.pem
 ```
 
 * To log in to the node, use the -i command line argument to specify your certificate:
 
 ```bash
- ssh -i CBW.pem ubuntu@##.uhn-hpc.ca
+ ssh -i cshl_2023_student.pem ubuntu@[public_IP_address]
 ```
 
 `-i` selects a file from which the public key authentication is read.  `ubuntu` is the name of a user on the system you are logging into (a default user of the Ubuntu operating system). `[your ip address]` is the address of the linux system on Amazon that you are logging into. Instead of ip address you can also use a public dns name.
+
+#### Logging in to AWS with Powershell (Windows)
+Open a PowerShell session , and follow the steps as listed in Logging in to AWS with Terminal. 
 
 #### Logging in to AWS with PuTTy (Windows)
 
@@ -101,7 +104,7 @@ To configure PuTTy, start PuTTy and do the following:
 * To copy files from an instance, use scp in a similar fashion (in this case to copy a file called nice_alignments.bam):
 
 ```bash
-scp -i CBW.pem ubuntu@[your ip address]:nice_alignments.bam .
+scp -i cshl_2023_student.pem ubuntu@[your ip address]:nice_alignments.bam .
 ```
 
 * Everything created in your workspace on the cloud is also available by a web server on your cloud instance.  Simply go to the following in your browser:
@@ -118,13 +121,13 @@ When you log in, you will notice that you have one  directory already: "workspac
 If you would like to upload your data to the AWS instance, use the example scp command below.  Be sure to replace the variables below with the local path to your data, __MY_DATA__, and the amazon instance IP, __YOUR_IP_ADDRESS__.
 
 ```bash
-scp -i CBW.pem __MY_DATA__ ubuntu@[your ip address]:/
+scp -i cshl_2023_student.pem __MY_DATA__ ubuntu@[your ip address]:/
 ```
 
 ### Doing this course with AWS outside of a workshop
 If you are trying to do this course on your own using the online materials only, of course an AWS EC2 instance has not been set up for you. If you have access to an AWS account though you can can start with the same Amazon AMI we use to create instances for each student. Currently this is:
 
-Name: `cbw-rnabio-2023` (ID: `ami-09b3fd07d90812201`) available in the US East, N. Virginia region (us-east-1).
+Name: `cshl-seqtec-2023` available in the US East, N. Virginia region (us-east-1).
 
 We typically use an instance type of `m6a.xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-09-appendix/0009/09/01/AWS_Setup/) page.
 
