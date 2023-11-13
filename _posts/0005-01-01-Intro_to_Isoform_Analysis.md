@@ -20,4 +20,4 @@ date: 0005-01-01
 * Visualize junction counts and StringTie assembled transcripts in IGV
 
 ### Lecture
-* [Alternative Splicing lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2023/mini/RNASeq_MiniLecture_05_01_AlternativeSplicingAnalysis.pdf)
+* [Alternative Splicing lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2023/mini/RNASeq_MiniLecture_05_01_AlternativeSplicingAnalysis.pdf)
