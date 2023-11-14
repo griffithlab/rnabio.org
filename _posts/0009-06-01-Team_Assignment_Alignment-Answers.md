@@ -36,7 +36,7 @@ wget -c http://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex
 ```
 
 #### Trim provided data
-Create a new folder for trimmed data and run flexbar to trim for adaptor and read ends
+Create a new folder for trimmed data and run fastp to trim for adaptor and read ends
 
 ```bash
 cd $RNA_HOME/team_exercise
