@@ -48,7 +48,7 @@ Installation of the bam-readcount tool involves "cloning" the source code with a
 
 ```bash
 cd $RNA_HOME/student_tools/
-export SAMTOOLS_ROOT=$RNA_HOME/student_tools/samtools-1.16.1
+export SAMTOOLS_ROOT=$RNA_HOME/student_tools/samtools-1.18
 git clone https://github.com/genome/bam-readcount 
 cd bam-readcount
 mkdir build
@@ -81,9 +81,9 @@ The `stringtie` reference guided transcript assembly and abundance estimation to
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.1.6.Linux_x86_64.tar.gz
-tar -xzvf stringtie-2.1.6.Linux_x86_64.tar.gz
-cd stringtie-2.1.6.Linux_x86_64
+wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.2.1.tar.gz
+tar -xzvf stringtie-2.2.1.tar.gz
+cd stringtie-2.2.1
 make release
 ./stringtie -h
 ```
@@ -234,12 +234,11 @@ Installation type: download precompiled binary. Citation: [PMID: 22576172](https
 
 ```bash
 cd $RNA_HOME/student_tools/
-mkdir bedops_linux_x86_64-v2.4.40
-cd bedops_linux_x86_64-v2.4.40
-wget -c https://github.com/bedops/bedops/releases/download/v2.4.40/bedops_linux_x86_64-v2.4.40.tar.bz2
-tar -jxvf bedops_linux_x86_64-v2.4.40.tar.bz2
+mkdir bedops_linux_x86_64-v2.4.41
+cd bedops_linux_x86_64-v2.4.41
+wget -c https://github.com/bedops/bedops/releases/download/v2.4.41/bedops_linux_x86_64-v2.4.41.tar.bz2
+tar -jxvf bedops_linux_x86_64-v2.4.41.tar.bz2
 ./bin/bedops
-./bin/gff2bed
 ```
 
 ## [gtfToGenePred](https://bioconda.github.io/recipes/ucsc-gtftogenepred/README.html)
@@ -271,7 +270,7 @@ chmod a+x genePredToBed
 ## [how_are_we_stranded_here](https://github.com/betsig/how_are_we_stranded_here)
 
 ```bash
-pip3 install git+https://github.com/betsig/how_are_we_stranded_here.git
+pip3 install git+https://github.com/kcotto/how_are_we_stranded_here.git
 check_strandedness
 ```
 
@@ -282,20 +281,18 @@ check_strandedness
 ```bash
 cd $RNA_HOME/student_tools/
 wget `download_link`
-tar -xzvf cellranger-6.1.2.tar.gz
+tar -xzvf cellranger-7.2.0.tar.gz
 ```
 
 ## Install [R](http://www.r-project.org/)
 
 ```bash
 #sudo apt-get remove r-base-core
-#sudo apt-get remove r-base
-#wget -c https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz
-#tar -xf R-4.0.0.tar.gz
-#cd R-4.0.0
-#./configure
-#make -j9
-#sudo make install
+
+#wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo gpg --dearmor -o /usr/share/keyrings/r-project.gpg
+#echo "deb [signed-by=/usr/share/keyrings/r-project.gpg] https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/" | sudo tee -a /etc/apt/sources.list.d/r-project.list
+#sudo apt update
+#sudo apt install --no-install-recommends r-base
 ```
 
 Note, if X11 libraries are not available you may need to use `--with-x=no` during config, on a regular linux system you would not use this option.
