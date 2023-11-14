@@ -14,7 +14,7 @@ date: 0000-10-01
 First, make sure your [environment](https://rnabio.org/module-00-setup/0000/07/01/Environment/) is set up correctly.
 
 ***
-Tools needed for this analysis are: samtools, bam-readcount, HISAT2, stringtie, gffcompare, htseq-count, flexbar, R, ballgown, fastqc and picard-tools. In the following installation example, the installs are local and will work whether you have root (i.e. admin) access or not. However, if root is available some binaries can/will be copied to system-wide locations (e.g., ~/bin/).
+Tools needed for this analysis are: samtools, bam-readcount, HISAT2, stringtie, gffcompare, htseq-count, gtf_to_fasta (TopHat), kallisto, FastQC, Fastp, MultiQC, Picard, flexbar, Regtools, RSeqQC, bedops, gtfToGenePred, genePredToBed, how_are_we_stranded_here, CellRanger, R, BioConductor, ballgown, and other R packages. In the following installation example, the installs are local and will work whether you have root (i.e. admin) access or not. However, if root is available some binaries can/will be copied to system-wide locations (e.g., ~/bin/).
 
 Set up tool installation location:
 

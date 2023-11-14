@@ -46,9 +46,9 @@ In this assignment, we will be using subsets of the GSE136366 dataset (Roczniak-
 
 As mentioned previously, we have subsetted the 6 RNA-seq samples into 5 different chromosome regions. Each team can download their corresponding dataset using the following commands.
 ```bash
-mkdir -p $RNA_HOME/team_exercise/data
-cd $RNA_HOME/team_exercise/data
-
+cd $RNA_HOME/
+mkdir -p team_exercise/untrimmed
+cd team_exercise/untrimmed
 
 ### TEAM A
 wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_A/dataset.tar.gz
