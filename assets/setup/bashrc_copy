@@ -160,7 +160,7 @@ export PATH=/home/ubuntu/bin/anaconda3/bin:$PATH
 export PATH=/home/ubuntu/workspace/ensembl-vep:$PATH
 export PATH=/home/ubuntu/bin/gatk-4.2.1.0:$PATH
 export PATH=/home/ubuntu/bin/minimap2-2.26_x64-linux:$PATH
-
+export PATH=/home/ubuntu/.local/bin:$PATH
 
 
 

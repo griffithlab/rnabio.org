@@ -32,10 +32,10 @@ The following tool is installed by downloading a compressed archive using `wget`
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget https://github.com/samtools/samtools/releases/download/1.16.1/samtools-1.16.1.tar.bz2
-bunzip2 samtools-1.16.1.tar.bz2
-tar -xvf samtools-1.16.1.tar
-cd samtools-1.16.1
+wget https://github.com/samtools/samtools/releases/download/1.18/samtools-1.18.tar.bz2
+bunzip2 samtools-1.18.tar.bz2
+tar -xvf samtools-1.18.tar
+cd samtools-1.18
 make
 ./samtools
 ```
@@ -48,7 +48,7 @@ Installation of the bam-readcount tool involves "cloning" the source code with a
 
 ```bash
 cd $RNA_HOME/student_tools/
-export SAMTOOLS_ROOT=$RNA_HOME/student_tools/samtools-1.16.1
+export SAMTOOLS_ROOT=$RNA_HOME/student_tools/samtools-1.18
 git clone https://github.com/genome/bam-readcount 
 cd bam-readcount
 mkdir build
@@ -81,9 +81,9 @@ The `stringtie` reference guided transcript assembly and abundance estimation to
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.1.6.Linux_x86_64.tar.gz
-tar -xzvf stringtie-2.1.6.Linux_x86_64.tar.gz
-cd stringtie-2.1.6.Linux_x86_64
+wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.2.1.tar.gz
+tar -xzvf stringtie-2.2.1.tar.gz
+cd stringtie-2.2.1
 make release
 ./stringtie -h
 ```
@@ -234,12 +234,11 @@ Installation type: download precompiled binary. Citation: [PMID: 22576172](https
 
 ```bash
 cd $RNA_HOME/student_tools/
-mkdir bedops_linux_x86_64-v2.4.40
-cd bedops_linux_x86_64-v2.4.40
-wget -c https://github.com/bedops/bedops/releases/download/v2.4.40/bedops_linux_x86_64-v2.4.40.tar.bz2
-tar -jxvf bedops_linux_x86_64-v2.4.40.tar.bz2
+mkdir bedops_linux_x86_64-v2.4.41
+cd bedops_linux_x86_64-v2.4.41
+wget -c https://github.com/bedops/bedops/releases/download/v2.4.41/bedops_linux_x86_64-v2.4.41.tar.bz2
+tar -jxvf bedops_linux_x86_64-v2.4.41.tar.bz2
 ./bin/bedops
-./bin/gff2bed
 ```
 
 ## [gtfToGenePred](https://bioconda.github.io/recipes/ucsc-gtftogenepred/README.html)
@@ -271,7 +270,7 @@ chmod a+x genePredToBed
 ## [how_are_we_stranded_here](https://github.com/betsig/how_are_we_stranded_here)
 
 ```bash
-pip3 install git+https://github.com/betsig/how_are_we_stranded_here.git
+pip3 install git+https://github.com/kcotto/how_are_we_stranded_here.git
 check_strandedness
 ```
 
@@ -282,20 +281,18 @@ check_strandedness
 ```bash
 cd $RNA_HOME/student_tools/
 wget `download_link`
-tar -xzvf cellranger-6.1.2.tar.gz
+tar -xzvf cellranger-7.2.0.tar.gz
 ```
 
 ## Install [R](http://www.r-project.org/)
 
 ```bash
 #sudo apt-get remove r-base-core
-#sudo apt-get remove r-base
-#wget -c https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz
-#tar -xf R-4.0.0.tar.gz
-#cd R-4.0.0
-#./configure
-#make -j9
-#sudo make install
+
+#wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo gpg --dearmor -o /usr/share/keyrings/r-project.gpg
+#echo "deb [signed-by=/usr/share/keyrings/r-project.gpg] https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/" | sudo tee -a /etc/apt/sources.list.d/r-project.list
+#sudo apt update
+#sudo apt install --no-install-recommends r-base
 ```
 
 Note, if X11 libraries are not available you may need to use `--with-x=no` during config, on a regular linux system you would not use this option.
@@ -386,7 +383,7 @@ Solution: When you are ready you can check your approach against the [Solutions]
 To use the locally installed version of each tool without having to specify complete paths, you could add the install directory of each tool to your '$PATH' variable and set some other environment variables:
 
 ```bash
-PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.40/bin:$RNA_HOME/student_tools/samtools-1.16.1:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.1.6.Linux_x86_64:$RNA_HOME/student_tools/gffcompare-0.12.6.Linux_x86_64:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/fastp:$RNA_HOME/student_tools/flexbar-3.5.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:/home/ubuntu/.local/bin:$PATH
+PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.41/bin:$RNA_HOME/student_tools/samtools-1.18:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.2.1:$RNA_HOME/student_tools/gffcompare-0.12.6.Linux_x86_64:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/fastp:$RNA_HOME/student_tools/flexbar-3.5.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:/home/ubuntu/.local/bin:$PATH
 
 echo $PATH
 
