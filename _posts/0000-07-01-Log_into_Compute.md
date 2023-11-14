@@ -38,11 +38,11 @@ Briefly the process for launching an EC2 instance for this course involves these
 1. Login to AWS using the specific url and credentials (user/password) you were provided (or our own AWS account).
 2. Search for and select EC2 to access the EC2 console.
 3. Make sure that you are in the N. Virginia region
-4. Select Launch Instance.
+4. Select Launch Instances.
 5. Name and tags: Name your instance (e.g., Firstname_Lastname). 
 6. Amazon Machine Image: Search for "cshl-seqtec-2023" in My AMIs and Select.
 7. Instance type: Select "m6a.xlarge" and then "Next".
-8. Key pair (login): Choose an existing key pair (e.g.,cshl_2023_student ) or create a new one and store it somewhere safe.
+8. Key pair (login): Choose an existing key pair (e.g., cshl_2023_student) or create a new one and store it somewhere safe.
 9. Network settings: Choose existing security group called "SSH/HTTP/Jupyter" (or create one with SSH and HTTP access).
 10. Configure storage: Make sure that you see two volumes.
 11. Advanced details: Select "Termination Protection: Enable".
