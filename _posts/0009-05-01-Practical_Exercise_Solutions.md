@@ -98,7 +98,7 @@ Use FastQC, Fastp, and/or MultiQC to summarize data QC
 ```bash
 cd $RNA_HOME/practice/data
 fastqc *.fastq.gz
-python3 -m multiqc .
+multiqc ./
 ```
 
 Then, go to the following url in your browser:
@@ -141,7 +141,7 @@ Compare these files using FastQC and/or MultiQC:
 ```bash
 cd $RNA_HOME/practice/data/trimmed/
 fastqc *.fastq.gz
-python3 -m multiqc .
+multiqc ./
 
 ```
 

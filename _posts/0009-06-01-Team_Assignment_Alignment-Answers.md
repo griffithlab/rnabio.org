@@ -58,11 +58,11 @@ Create FastQC and MultiQC reports for all trimmed and untrimmed fastq files
 ```bash
 cd $RNA_HOME/team_exercise/untrimmed
 fastqc *.fastq.gz
-python3 -m multiqc .
+multiqc ./
 
 cd $RNA_HOME/team_exercise/trimmed
 fastqc *.fastq.gz
-python3 -m multiqc .
+multiqc ./
 
 ```
 
@@ -115,7 +115,7 @@ fastqc *.bam
 mkdir fastqc
 mv *_fastqc* fastqc
 cd fastqc 
-python3 -m multiqc .
+multiqc ./
 ```
 
 #### Merge the alignments

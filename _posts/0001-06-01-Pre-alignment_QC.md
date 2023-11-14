@@ -84,8 +84,7 @@ Run MultiQC on your fastqc reports to generate a single summary report across al
 
 ```bash
 cd $RNA_HOME/data
-python3 -m multiqc .
-
+multiqc ./
 ```
 
 Then, go to the following url in your browser:

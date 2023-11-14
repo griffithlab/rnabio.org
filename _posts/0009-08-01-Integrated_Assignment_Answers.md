@@ -124,7 +124,7 @@ cd $RNA_INT_DIR
 mkdir -p qc/raw_fastqc
 fastqc $RNA_INT_DIR/data/*.fastq.gz -o qc/raw_fastqc/
 cd qc/raw_fastqc
-python3 -m multiqc .
+multiqc ./
 
 ```
 
@@ -180,7 +180,7 @@ cd $RNA_INT_DIR
 mkdir -p qc/trimmed_fastqc
 fastqc $RNA_INT_DIR/trimmed_reads/*.fastq.gz -o qc/trimmed_fastqc/
 cd qc/trimmed_fastqc
-python3 -m multiqc .
+multiqc ./
 
 ```
 
