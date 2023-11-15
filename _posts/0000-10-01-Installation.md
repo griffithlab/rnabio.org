@@ -14,7 +14,7 @@ date: 0000-10-01
 First, make sure your [environment](https://rnabio.org/module-00-setup/0000/07/01/Environment/) is set up correctly.
 
 ***
-Tools needed for this analysis are: samtools, bam-readcount, HISAT2, stringtie, gffcompare, htseq-count, gtf_to_fasta (TopHat), kallisto, FastQC, Fastp, MultiQC, Picard, flexbar, Regtools, RSeqQC, bedops, gtfToGenePred, genePredToBed, how_are_we_stranded_here, CellRanger, R, BioConductor, ballgown, and other R packages. In the following installation example, the installs are local and will work whether you have root (i.e. admin) access or not. However, if root is available some binaries can/will be copied to system-wide locations (e.g., ~/bin/).
+Tools needed for this analysis are: samtools, bam-readcount, HISAT2, stringtie, gffcompare, htseq-count, gtf_to_fasta (TopHat), kallisto, FastQC, Fastp, MultiQC, Picard, Regtools, RSeqQC, bedops, gtfToGenePred, genePredToBed, how_are_we_stranded_here, CellRanger, R, BioConductor, ballgown, and other R packages. In the following installation example, the installs are local and will work whether you have root (i.e. admin) access or not. However, if root is available some binaries can/will be copied to system-wide locations (e.g., ~/bin/).
 
 Set up tool installation location:
 
@@ -189,19 +189,6 @@ Picard is a rich tool kit for BAM file manipulation that is installed below simp
 cd $RNA_HOME/student_tools/
 wget https://github.com/broadinstitute/picard/releases/download/2.26.4/picard.jar -O picard.jar
 java -jar $RNA_HOME/student_tools/picard.jar
-```
-
-## [Flexbar](https://github.com/seqan/flexbar)
-
-Installation type: download precompiled binary. Citation: [PMID: 24832523](https://pubmed.ncbi.nlm.nih.gov/24832523/).
-
-```bash
-cd $RNA_HOME/student_tools/
-wget https://github.com/seqan/flexbar/releases/download/v3.5.0/flexbar-3.5.0-linux.tar.gz
-tar -xzvf flexbar-3.5.0-linux.tar.gz
-cd flexbar-3.5.0-linux/
-export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.5.0-linux:$LD_LIBRARY_PATH
-./flexbar
 ```
 
 ## [RegTools](https://github.com/griffithlab/regtools#regtools)
@@ -383,11 +370,10 @@ Solution: When you are ready you can check your approach against the [Solutions]
 To use the locally installed version of each tool without having to specify complete paths, you could add the install directory of each tool to your '$PATH' variable and set some other environment variables:
 
 ```bash
-PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.41/bin:$RNA_HOME/student_tools/samtools-1.18:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.2.1:$RNA_HOME/student_tools/gffcompare-0.12.6.Linux_x86_64:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/fastp:$RNA_HOME/student_tools/flexbar-3.5.0-linux:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:/home/ubuntu/.local/bin:$PATH
+PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.41/bin:$RNA_HOME/student_tools/samtools-1.18:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.2.1:$RNA_HOME/student_tools/gffcompare-0.12.6.Linux_x86_64:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/fastp:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:/home/ubuntu/.local/bin:$PATH
 
 echo $PATH
 
-export LD_LIBRARY_PATH=$RNA_HOME/student_tools/flexbar-3.5.0-linux:$LD_LIBRARY_PATH
 export PICARD=$RNA_HOME/student_tools/picard.jar
 ```
 
