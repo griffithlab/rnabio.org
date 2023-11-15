@@ -20,8 +20,8 @@ The site should now be running on localhost port 4000. Changes to files will sho
 To install the site locally with docker run the following commands:
 
 1. Clone the repo `$ git clone git@github.com:griffithlab/rnabio.org.git`
-2. Pull the docker image `$ docker pull griffithlab/rnabiodev:0.0.1`
-3. Run the docker `$ docker run -p 4000:4000 -v ~/git/rnabio.org/:/opt/git/rnabio.org -it griffithlab/rnabiodev:0.0.1`
+2. Pull the docker image `$ docker pull griffithlab/rnabiodev:0.0.2`
+3. Run the docker `$ docker run -p 4000:4000 -v ~/git/rnabio.org/:/opt/git/rnabio.org -it griffithlab/rnabiodev:0.0.2`
 
 Make sure that the above command has correct path to cloned git repo (The first part specified with -v option). The site should now be running on localhost port 4000. Changes to files will show up interactively on localhost:4000.
 

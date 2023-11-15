@@ -1,0 +1,31 @@
+#To update ruby development environment docker for launching local development server for rnabio.org jekyll site
+
+#1. Create a new Dockerfile
+cd ~/git/rnabio.org/docker/site
+mkdir 0.0.2
+cd 0.0.2
+cp ~/git/rnabio.org/docker/site/0.0.1/Dockerfile .
+
+#2. Modify the new Dockerfile as needed
+
+#3. Make sure docker is running
+
+#4. Clean up docker environment
+#To ensure a clean/new build you may want to clean up (delete) old containers, images, volumes and cache
+#4.1 Deleted containers, images, and volumes directly in the docker desktop app
+#4.2 Check for any remaining data in docker environment
+docker system df
+
+#4.3 Remove cached files and check environment again
+docker buildx prune
+docker system df
+
+#Build a new image from modified Dockerfile
+docker build -t griffithlab/rnabiodev:0.0.2 ./
+
+#Test that the image is working
+docker run -p 4000:4000 -v ~/git/rnabio.org/:/opt/git/rnabio.org -it griffithlab/rnabiodev:0.0.2
+
+#Once satistfied, push the image to dockerhub
+docker push griffithlab/rnabiodev:0.0.2
+
