@@ -57,3 +57,6 @@ rm -rf rnabio.org.git
 cd ~/git
 git clone git@github.com:griffithlab/rnabio.org.git
 du -h rnabio.org
+
+#IMPORTANT - make sure that everyone working on repo starts from a fresh clone or risk re-contaminating commit history
+
