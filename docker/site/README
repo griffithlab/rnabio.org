@@ -1,4 +1,5 @@
 #To update ruby development environment docker for launching local development server for rnabio.org jekyll site
+#Inspired by: https://devopscube.com/build-docker-image/
 
 #1. Create a new Dockerfile
 cd ~/git/rnabio.org/docker/site
