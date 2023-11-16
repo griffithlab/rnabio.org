@@ -15,7 +15,7 @@ date: 0003-05-01
 
 ***
 
-In this secion we will use the GAGE tool in R to test for significantly enriched sets of genes within those genes found to be "up" and "down" in our HBR vs UHR differential gene expression analysis. Do we see enrichment for genes associated with brain related cell types and processes in the list of DE genes that have significant differential expression beween the HBR samples compared to the UHR samples?
+In this secion we will use the GAGE tool in R to test for significantly enriched sets of genes within those genes found to be significantly "up" and "down" in our UHR vs HBR differential gene expression analysis. Do we see enrichment for genes associated with brain related cell types and processes in the list of DE genes that have significant differential expression beween the UHR samples compared to the HBR samples?
 
 ### What is gage?
 The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and RNAseq data sets. In this section we will use [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) and the [MSigBDB](https://www.gsea-msigdb.org/gsea/msigdb) databases to perform pathway analysis. 
@@ -43,7 +43,7 @@ setwd ("~/workspace/rnaseq/de/htseq_counts/")
 
 ```
 ### Setting up gene set databases
-In order to perform our pathway analysis we need a list of pathways and their respective genes. There are many databases that contain collections of genes (or gene sets) that can be used to understand whether a set of mutated or differentially expressed genes are functionally related.  Some of these resources include: [GO](http://www.geneontology.org/), [KEGG](https://www.kegg.jp), [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb), and [WikiPathways](https://www.wikipathways.org/index.php/WikiPathways). For this exercise we are go to investigate [GO](http://www.geneontology.org/) and [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb).  The [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) package has a function for querying [GO](http://www.geneontology.org/) in real time: [go.gsets()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/go.gsets). This function takes a species as an argument and will return a list of gene sets and some helpful meta information for subsetting these lists. If you are unfamiliar with [GO](http://www.geneontology.org/), it is helpful to know that GO terms are categorized into the three gene ontologies: "Biological Process", "Molecular Function", and "Cellular Component". This information will come in handy later in our exercise. GAGE does not provide a similar tool to investigate the gene sets available in MSigDB. Fortunately, MSigDB provides a  download-able `.gmt` file for all gene sets. This format is easily read into GAGE using a function called [readList()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/readList). If you check out [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) you will see that there are 8 unique gene set collections, each with slightly different features. For this exercise we will use [c8](https://www.gsea-msigdb.org/gsea/msigdb/collection_details.jsp#C8), which is a collection of gene sets that contain cluster markers for cell types identified from single-cell sequencing studies of human tissue.
+In order to perform our pathway analysis we need a list of pathways and their respective genes. There are many databases that contain collections of genes (or gene sets) that can be used to understand whether a set of mutated or differentially expressed genes are functionally related.  Some of these resources include: [GO](http://www.geneontology.org/), [KEGG](https://www.kegg.jp), [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb), and [WikiPathways](https://www.wikipathways.org/index.php/WikiPathways). For this exercise we are going to investigate [GO](http://www.geneontology.org/) and [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb).  The [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) package has a function for querying [GO](http://www.geneontology.org/) in real time: [go.gsets()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/go.gsets). This function takes a species as an argument and will return a list of gene sets and some helpful meta information for subsetting these lists. If you are unfamiliar with [GO](http://www.geneontology.org/), it is helpful to know that GO terms are categorized into three gene ontologies: "Biological Process", "Molecular Function", and "Cellular Component". This information will come in handy later in our exercise. GAGE does not provide a similar tool to investigate the gene sets available in MSigDB. Fortunately, MSigDB provides a  download-able `.gmt` file for all gene sets. This format is easily read into GAGE using a function called [readList()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/readList). If you check out [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) you will see that there are 8 unique gene set collections, each with slightly different features. For this exercise we will use the [C8 - cell type signature gene sets collection](https://www.gsea-msigdb.org/gsea/msigdb/collection_details.jsp#C8), which is a collection of gene sets that contain cluster markers for cell types identified from single-cell sequencing studies of human tissue.
 
 ```R
 # Set up go database
@@ -62,7 +62,7 @@ all_cell_types <-readList(c8)
 Before we perform the pathway analysis we need to read in our differential expression results from the edgeR analysis. 
 
 ```R
-DE_genes <-read.table("/home/ubuntu/workspace/rnaseq/de/htseq_counts/DE_genes.txt",sep="\t",header=T,stringsAsFactors = F)
+DE_genes <-read.table("/home/ubuntu/workspace/rnaseq/de/htseq_counts/DE_genes.txt", sep="\t", header=T, stringsAsFactors = F)
 
 ```
 ### Annotating genes
@@ -76,10 +76,10 @@ After completing the annotation above you will notice that some of our Ensembl g
 
 ```R
 #Remove spike-in
-DE_genes_clean <- DE_genes[!grepl("ERCC",DE_genes$Gene),]
+DE_genes_clean <- DE_genes[!grepl("ERCC", DE_genes$Gene),]
 
 ##Just so we know what we have removed 
-ERCC_gene_count <-nrow(DE_genes[grepl("ERCC",DE_genes$Gene),])
+ERCC_gene_count <-nrow(DE_genes[grepl("ERCC", DE_genes$Gene),])
 ERCC_gene_count
 
 ###Deal with genes that we do not have an Entrez ID for 
@@ -93,7 +93,7 @@ missing_ensembl_key$entrez <- mapIds(org.Hs.eg.db, keys=missing_ensembl_key$Symb
 missing_ensembl_key_update <- missing_ensembl_key[!is.na(missing_ensembl_key$entrez),]
 
 #Create a Final Gene list of all genes where we were able to find an Entrez ID (using two approaches)
-DE_genes_clean <-rbind(DE_genes_clean,missing_ensembl_key_update)
+DE_genes_clean <-rbind(DE_genes_clean, missing_ensembl_key_update)
 ```
 
 ### Final preparation of edgeR results for gage
@@ -120,35 +120,43 @@ fc.go.mf.p <- gage(De_gene.fc, gsets = go.mf.gs)
 fc.go.cc.p <- gage(De_gene.fc, gsets = go.cc.gs)
 
 #msigdb
-fc.go.c8.p <- gage(De_gene.fc, gsets =all_cell_types)
+fc.c8.p <- gage(De_gene.fc, gsets =all_cell_types)
 
 ###Convert to dataframes 
+#Results for testing for GO terms which are up-regulated
 fc.go.bp.p.up <- as.data.frame(fc.go.bp.p$greater)
 fc.go.mf.p.up <- as.data.frame(fc.go.mf.p$greater)
 fc.go.cc.p.up <- as.data.frame(fc.go.cc.p$greater)
 
+#Results for testing for GO terms which are down-regulated
 fc.go.bp.p.down <- as.data.frame(fc.go.bp.p$less)
 fc.go.mf.p.down <- as.data.frame(fc.go.mf.p$less)
 fc.go.cc.p.down <- as.data.frame(fc.go.cc.p$less)
 
-fc.go.c8.p.up <- as.data.frame(fc.go.c8.p$greater)
-fc.go.c8.p.down <- as.data.frame(fc.go.c8.p$less)
+#Results for testing for MSigDB C8 gene sets which are up-regulated
+fc.c8.p.up <- as.data.frame(fc.c8.p$greater)
+
+#Results for testing for MSigDB C8 gene sets which are down-regulated
+fc.c8.p.down <- as.data.frame(fc.c8.p$less)
 ```
 
 ### Explore significant results
-Alright, now we have results with accompanying p-values (yay!).
+Alright, now we have results with accompanying p-values (yay!). 
+
+What does "up-" or "down-regulated" mean here, in the context of our UHR vs HBR comparison? It may help to open and review the data in your DE_genes.txt file. 
+
+Look at the cellular process results from our GO analysis. Do the results match your expectation?
+
 ```R
 
-#At this point we will give you a hint. Look at the cellular process results. Try doing something like this to find some significant results: 
-
+#Try doing something like this to find some significant results:
+#View the top 20 significantly up- or down-regulated GO terms from the Cellular Component Ontology
+head(fc.go.cc.p.up[order(fc.go.cc.p.up$p.val),], n=20)
 head(fc.go.cc.p.down[order(fc.go.cc.p.down$p.val),], n=20)
 
-#Do this with more of your results files to see what else you have uncovered
-
 #You can do the same thing with your results from MSigDB
-
-head(fc.go.c8.p.up)
-head(fc.go.c8.p.down)
+head(fc.c8.p.up)
+head(fc.c8.p.down)
 
 ```
 
@@ -156,8 +164,8 @@ head(fc.go.c8.p.down)
 At this point, it will be helpful to move out of R and further explore our results locally. For the remainder of the exercise we are going to focus on the results from GO. We will use an online tool to visualize how the GO terms we uncovered are related to each other. 
 
 ```R
-write.table(fc.go.cc.p.up,"/home/ubuntu/workspace/rnaseq/de/htseq_counts/fc.go.cc.p.up.tsv",quote = F,sep = "\t",col.names = T,row.names = T)
-write.table(fc.go.cc.p.down,"/home/ubuntu/workspace/rnaseq/de/htseq_counts/fc.go.cc.p.down.tsv",quote = F,sep = "\t",col.names = T,row.names = T)
+write.table(fc.go.cc.p.up, "/home/ubuntu/workspace/rnaseq/de/htseq_counts/fc.go.cc.p.up.tsv", quote = F, sep = "\t", col.names = T, row.names = T)
+write.table(fc.go.cc.p.down, "/home/ubuntu/workspace/rnaseq/de/htseq_counts/fc.go.cc.p.down.tsv", quote = F, sep = "\t", col.names = T, row.names = T)
 quit(save="no")
 ```
 
