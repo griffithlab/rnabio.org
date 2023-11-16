@@ -486,6 +486,19 @@ The output file can be viewed in your browser at the following url. Note, you mu
 
 * http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
 
+### Visual comparison of example genes from the volcano plot
+One can manually explore interesting looking genes from the volcano plot. In this case our analysis involves comparison of RNA isolated from tissues of different types (HBR -> brain tissue, UHR -> a collection of cancer cell lines).  So, in this analysis it might make sense to explore candidates in a tissue expression atlas such as [GTEX](https://www.gtexportal.org/).
+
+Looking at our gene plot, two example genes we could look at are: SEPT3 (significantly higher in HBR) and PRAME (significantly higher in UHR).
+
+*Expression of SEPT3 across tissues according to GTEX*
+![SEPT3](/assets/module_3/SEPT3.png)
+Note that this gene appears to be highly expressed in brain tissues.
+
+*Expression of PRAME across tissues according to GTEX*
+![PRAME](/assets/module_3/PRAME.png)
+Note that this gene appears to be almost uniquely expressed in testis tissue. Since one of the cell lines in the UHR sample is a testicular cancer cell line, this makes sense.
+
 ***
 
 ### PRACTICAL EXERCISE 10 (ADVANCED)
