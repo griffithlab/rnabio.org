@@ -30,7 +30,10 @@ For this exercise we will obtain public RNA-seq data from an extensive multi-pla
 
 This publication used the same UHR (cancer cell lines) and HBR (brain tissue) samples we have been using throughout this course. To examine a strong batch effect, we will consider a DE analysis of UHR vs HBR where we compare Ribo-depleted ("Ribo") and polyA-enriched ("Poly") samples.
 
-If we do DE analysis of UHR vs. HBR for replicates that are consistent with respect to Ribo-depletion or PolyA-enrichment, how does the result compare to when we use Ribo-depleted data vs PolyA-enriched data?  If you do batch correction and redo these comparisons does it make the results more comparable? i.e. can we correct for the technical differences introduced by the library construction approach and see the same biological differences?
+**Questions**
+If we do DE analysis of UHR vs. HBR for replicates that are consistent with respect to Ribo-depletion or PolyA-enrichment, how does the result compare to when we mix the Ribo-depleted data and PolyA-enriched data together?  
+
+If you do batch correction and redo these comparisons does it make the results more comparable? i.e. can we correct for the technical differences introduced by the library construction approach and see the same biological differences? Can we improve our statistical power by then benefitting from more samples?
 
 This is a bit contrived because there really are true biological differences expected for polyA vs. Ribo-depleted data. To counter this, we will limit the analysis to only know protein coding genes. For those genes we expect essentially the same biological answer when comparing UHR vs HBR expression patterns.
 
@@ -69,19 +72,19 @@ perl -ne 'chomp; if ($_ =~ /^(chr\w+)\!(\S+)(.*)/){print "$2\t$1$3\n"}else{print
 #remove the old header line
 grep -v --color=never ABRF GSE48035_ILMN.counts.tmp2.txt > GSE48035_ILMN.counts.clean.txt
 
-#cut out columns for the UHR (A) and HBR (B) samples, replicates 1-4, and PolyA vs Enrichment 
+#cut out only the columns for the UHR (A) and HBR (B) samples, replicates 1-4, and PolyA vs Enrichment 
 cut -f 1-2,3-6,7-10,19-22,23-26 GSE48035_ILMN.counts.clean.txt > GSE48035_ILMN.Counts.SampleSubset.txt
 cut -f 1-2,3-6,7-10,19-22,23-26 header.txt > header.SampleSubset.txt
 
 #how many gene lines are we starting with?
 wc -l GSE48035_ILMN.Counts.SampleSubset.txt
 
-#cleanup 
+#cleanup intermediate files created above
 rm -f GSE48035_ILMN.counts.txt.gz GSE48035_ILMN.counts.tmp.txt GSE48035_ILMN.counts.tmp2.txt GSE48035_ILMN.counts.clean.txt header.txt
 
 ```
 
-Further limit these counts to those that correspond to known protein coding genes:
+Further limit these counts to those that correspond to **known protein coding genes**:
 
 ```bash
 cd $RNA_HOME/batch_correction
@@ -123,7 +126,7 @@ Note that filtering gene lists by gene name as we have done above is generally n
 
 PCA analysis can be used to identify potential batch effects in your data. The general strategy is to use PCA to identify patterns of similarity/difference in the expression signatures of your samples and to ask whether it appears to be driven by the expected biological conditions of interest.  The PCA plot can be labeled with the biological conditions and also with potential sources of batch effects such as: sequencing source, date of data generation, lab technician, library construction kit batches, matrigel batches, mouse litters, software or instrumentation versions, etc.
 
-[Principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis) is a [dimensionality-reduction](https://en.wikipedia.org/wiki/Dimensionality_reduction) method that can be applied to large datasets (e.g. thousands of gene expression values for many samples). PCA tries to represent a large set of variables as a smaller set of variables that maximally capture the information content of the larger set. PCA is a general exploratory data analysis approach with many applications and nuances, the details of which are beyond the scope of this demonstration of batch effect correction. However, in the context of this module, PCA provides a way to visualize samples as "clusters" based on their overall pattern of gene expression values. The composition and arangement of these clusters (usually visualized in 2D or interactive 3D plots) can be helpful in interpreting high level differences between samples and testing prior expectations about the similarity between conditions, replicates, etc.
+[Principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis) is a [dimensionality-reduction](https://en.wikipedia.org/wiki/Dimensionality_reduction) method that can be applied to large datasets (e.g. thousands of gene expression values for many samples). PCA tries to represent a large set of variables as a smaller set of variables that maximally capture the information content of the larger set. PCA is a general exploratory data analysis approach with many applications and nuances, the details of which are beyond the scope of this demonstration of batch effect correction. However, in the context of this module, PCA provides a way to visualize samples as "clusters" based on their overall pattern of gene expression values. The composition and arrangement of these clusters (usually visualized in 2D or interactive 3D plots) can be helpful in interpreting high level differences between samples and testing prior expectations about the similarity between conditions, replicates, etc.
 
 We will perform PCA analysis before AND after batch correction. Samples will be labelled according to biological condition (UHR vs HBR) and library preparation type (Ribo vs PolyA).
 
@@ -192,7 +195,7 @@ Our attempt to explain each of the ComBat-Seq arguments (for optional arguments,
 
 - `counts`. This is your matrix of gene expression read counts (raw counts). Each row is a gene, each column is a sample, and each cell has an integer count for the number of RNA-seq counts observed for that gene/sample combination. In R we want this data to be passed into ComBat-Seq in matrix format (use `as.matrix()` if neccessary).
 - `batch`. This is a vector describing the batches you are concerned about. For example, if you have six samples that you created RNA-seq data for but for the first four you used one library kit (A) but then you had to use a different library kit (B) for the last four samples, you would define your `batch` vector as: `c(1,1,1,1,2,2,2,2)`.
-- `group = NULL`. This is a vector describing your biological condition of interest. For example, if your experiment involved *pairs* of drug treated and untreated cells.  And you did 4 biological replicates.  You would define your `group` vector as: c(1,2,1,2,1,2,1,2).
+- `group = NULL`. This is a vector describing your biological condition of interest. For example, if your experiment involved *pairs* of drug treated and untreated cells, and you did 4 biological replicates.  You would define your `group` vector as: c(1,2,1,2,1,2,1,2).
 - `covar_mod = NULL`. If you have multiple biological conditions of interest, you can define these with `covar_mod` (covariates) instead of `group`.  For example, lets assume we have the same experiment as described above, except that we did four replicates (treated vs untreated pairs), but we alternated use of male and female cells for each of the replicates.  You then would define a covariate matrix to supply to `covar_mod` as follows:
 
 ```R
@@ -378,7 +381,7 @@ dim(uhr_vs_hbr_corrected)
 
 #create upset plots to summarize the overlap between the comparisons performed above
 
-#first create upset plot from the uncorrected data
+#first create upset plot from the *uncorrected* data
 pdf(file="Uncorrected-UpSet.pdf")
 listInput = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[,"Gene"], 
                  "4 UHR Poly vs 4HBR Poly" = uhr_poly_vs_hbr_poly_uncorrected[,"Gene"],
@@ -388,7 +391,7 @@ listInput = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[,
 upset(fromList(listInput), order.by = "freq", number.angles=45, point.size=3)
 dev.off()
 
-#now create an upset plot from the batch corrected data
+#now create an upset plot from the *batch corrected* data
 pdf(file="BatchCorrected-UpSet.pdf")
 listInput = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_corrected[,"Gene"], 
                  "4 UHR Poly vs 4 HBR Poly" = uhr_poly_vs_hbr_poly_corrected[,"Gene"],
