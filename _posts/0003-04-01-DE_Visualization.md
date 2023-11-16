@@ -454,9 +454,9 @@ heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="none", d
 # default all genes to "no change"
 results_genes$diffexpressed <- "No"
 # if log2Foldchange > 2 and pvalue < 0.05, set as "Up regulated"
-results_genes$diffexpressed[results_genes$de > 0.6 & results_genes$pval < 0.05] <- "Up"
+results_genes$diffexpressed[results_genes$de > 0.6 & results_genes$pval < 0.05] <- "Higher in UHR"
 # if log2Foldchange < -2 and pvalue < 0.05, set as "Down regulated"
-results_genes$diffexpressed[results_genes$de < -0.6 & results_genes$pval < 0.05] <- "Down"
+results_genes$diffexpressed[results_genes$de < -0.6 & results_genes$pval < 0.05] <- "Higher in HBR"
 
 results_genes$gene_label <- NA
 # write the gene names of those significantly upregulated/downregulated to a new column
