@@ -52,3 +52,13 @@ sudo mount /dev/nvme1n1p1 /mnt/
 #13. Create a docker image from AMI root partition
 sudo tar zcpP -C /mnt/ . | docker import - griffithlab/rnabio:0.0.2
 
+#14. Test the image
+mkdir -p ~/rnabio-workspace
+docker run -v ~/rnabio-workspace:/workspace:rw --user ubuntu:ubuntu -it griffithlab/rnabio:0.0.1 /bin/bash
+
+#15. Login to dockerhub (you will need an account with permissions to push to the repo)
+docker login
+
+#16. Push the image to dockerhub
+docker push griffithlab/rnabio:0.0.2
+
