@@ -159,9 +159,9 @@ We have built a docker image with all necessary software tools installed to comp
 
 First you will need to install docker. Typically this involves installing [Docker Desktop](https://docs.docker.com/get-docker/). Once installed, start docker, and open a terminal application. Explanations of how to do this are detailed above in the [Using AWS](#using-aws) section.  At the terminal you can test your docker installation is working/running with `docker --help`. Once you have docker working you can use the following commands to download, set up, and run the rnabio image.
 
-1. Pull the image rnabio to your local Docker client with the tag 0.0.1 from the griffithlab repository:
+1. Pull the image rnabio to your local Docker client with the tag 0.0.2 from the griffithlab repository:
 ```bash
-docker pull griffithlab/rnabio:0.0.1
+docker pull griffithlab/rnabio:0.0.2
 ```
 2. Setup a local workspace directory for the RNAseq course. If you change the path or command used here in Step 2, make sure to update the path to the workspace directory accordingly in Step 3.
 ```bash
@@ -169,7 +169,7 @@ mkdir -p ~/rnabio-workspace
 ```
 3. Initialize a Docker container using the image we pulled above. -v tells Docker to mount our workspace directory within the Docker container as /workspace with read-write priveleges. You'll see in the RNAseq course /workspace is the base directory for nearly all commands and steps. Note: we are running this docker container interactively and entering it at a bash shell prompt. We also switch the default user to "ubuntu" to match the RNAseq course tutorials.
 ```bash
-docker run -v ~/rnabio-workspace:/workspace:rw --user ubuntu:ubuntu -it griffithlab/rnabio:0.0.1 /bin/bash
+docker run -v ~/rnabio-workspace:/workspace:rw --user ubuntu:ubuntu -it griffithlab/rnabio:0.0.2 /bin/bash
 ```
 
 The docker session should now be ready for the Unix tutorial and practical exercises.
