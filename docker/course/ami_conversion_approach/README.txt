@@ -50,5 +50,5 @@ nvme1n1
 sudo mount /dev/nvme1n1p1 /mnt/
 
 #13. Create a docker image from AMI root partition
-sudo tar zcpP -C /mnt/ . | docker import - ubuntu:ami-05d41e9b8c7eee2df
+sudo tar zcpP -C /mnt/ . | docker import - griffithlab/rnabio:0.0.2
 
