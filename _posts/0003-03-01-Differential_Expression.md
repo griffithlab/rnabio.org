@@ -188,7 +188,7 @@ View the results here:
 
 ***
 
-### edgeR Analysis
+### edgeR DE Analysis
 In this tutorial you will:
 
 * Make use of the raw counts you generated above using htseq-count
