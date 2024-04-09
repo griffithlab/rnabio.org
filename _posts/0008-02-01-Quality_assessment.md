@@ -11,7 +11,7 @@ date: 0008-02-01
 
 ## Quality assessment
 
-We are going to begin our single cell analysis by loading in the output from CellRanger. We will load in our different sample, create a Seurat object with them, and take a look at the quality of the cells. A Seurat object is (decribe better) a specfic data type built for exploring single cell data
+We are going to begin our single cell analysis by loading in the output from CellRanger. We will load in our different sample, create a Seurat object with then, and take a look at the quality of the cells. A Seurat object is (decribe better) a specfic data type built for exploring single cell data
 
 ### Step 1: Load in Data 
 
@@ -80,7 +80,7 @@ for (sample in sample_names) {
 ```
 
 ## Remove low quality cells based off the QC plots
-
+Mark cells before removal
 Might need to discuss these numbers 
 
 ```R
@@ -137,7 +137,7 @@ g2m.genes = cell.cycle.tirosh$Gene.Symbol[which(cell.cycle.tirosh$List == "G2/M"
 
 merged <- ScaleData(merged, verbose = TRUE) 
 merged <- RunPCA(merged, npcs = 50, assay = "RNA") # at least 10mins
-merged <- JackStraw(merged, num.replicate = 100, dims = 30)
+merged <- JackStraw(merged, num.replicate = 100, dims = 30) # MAYBE DON"T RUN
 merged <- ScoreJackStraw(merged, dims = 1:30)
 ```
 
@@ -176,24 +176,27 @@ ndims = length(which(merged@reductions$pca@stdev > 2)) # determines which PCs ar
 ndims
 ```
 
+After looking at the elbow plot, the PC heatmaps, and JackStraw plot (maybe this takes a long time to run so we might want to get rid of it) we decided to select 26 PCs.
+
+### Visualize Cell Clustering
 
 ```R
-PC = #A NUMBER # elbow = 15, jackstraw = 23, heatmap = 14
+PC = 26
 merged <- FindNeighbors(merged, dims = 1:PC)
 
-merged <- FindClusters(merged, resolution = 1.2)
+merged <- FindClusters(merged, resolution = 1.2, cluster.name = 'seurat_clusters_res1.2')
 
 merged <- RunUMAP(merged, dims = 1:PC)
 ```
 
 
 ```R
-jpeg(sprintf("UMAP.jpg"), width = 5, height = 4, units = 'in', res = 150)
-DimPlot(merged, label = TRUE)
+jpeg("UMAP.jpg", width = 5, height = 4, units = 'in', res = 150)
+DimPlot(merged, label = TRUE), group.by = 'seurat_clusters_res1.2'
 dev.off()
 
 # UMAP by sample/timepoint
-jpeg(sprintf("UMAP_orig.ident.jpg", patient, timepoints, run, type, PC, date), width = 5, height = 4, units = 'in', res = 150)
+jpeg("UMAP_orig.ident.jpg", width = 5, height = 4, units = 'in', res = 150)
 DimPlot(merged, label = TRUE, group.by = "orig.ident")
 dev.off()
 
@@ -202,6 +205,33 @@ highlighted_cells <- WhichCells(merged, expression = orig.ident == "Rep1_ICBdT")
 DimPlot(merged, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
 ```
 
+Choosing cluster resolution is somewhat arbitrary and effects the number of clusters called (higher resolution calls more clusters). 
+The shape of the UMAP does not change if you change the cluster resolution.
+```R
+merged <- FindClusters(merged, resolution = 0.8, cluster.name = 'seurat_clusters_res0.8')
 
+merged <- FindClusters(merged, resolution = 0.5, cluster.name = 'seurat_clusters_res0.5')
+
+jpeg("UMAP_compare_res.jpg", width = 5, height = 4, units = 'in', res = 150)
+DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.5') +
+  DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.8') + 
+  DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2') 
+dev.off()
+```
+
+The shape of the UMAP is determined by the number of PCs used to create the UMAP.
+
+```R
+merged <- RunUMAP(merged, dims = 1:5)
+
+jpeg("UMAP_5PCs.jpg", width = 5, height = 4, units = 'in', res = 150)
+DimPlot(merged, label = TRUE), group.by = 'seurat_clusters_res1.2'
+dev.off()
+
+jpeg("DimHm1_5.jpg", width = 10, height = 20, units = 'in', res = 150)
+DimHeatmap(merged, dims = 1:5, balanced = TRUE, cells = 500)
+dev.off()
+
+```
 
 
