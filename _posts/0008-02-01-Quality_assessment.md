@@ -152,23 +152,23 @@ merged <- ScoreJackStraw(merged, dims = 1:30)
 
 ```R
 plot <- JackStrawPlot(merged, dims = 1:30)
-jpeg(sprintf("JackStraw.jpg",), width = 8, height = 6, units = 'in', res = 150)
+jpeg(sprintf("outdir/JackStraw.jpg"), width = 8, height = 6, units = 'in', res = 150)
 print(plot)
 dev.off()
 
-jpeg(sprintf("DimHm1_12.jpg"), width = 10, height = 20, units = 'in', res = 150)
+jpeg(sprintf("outdir/DimHm1_12.jpg"), width = 10, height = 20, units = 'in', res = 150)
 DimHeatmap(merged, dims = 1:12, balanced = TRUE, cells = 500)
 dev.off()
 
-jpeg(sprintf("DimHm13_24.jpg"), width = 10, height = 20, units = 'in', res = 150)
+jpeg(sprintf("outdir/DimHm13_24.jpg"), width = 10, height = 20, units = 'in', res = 150)
 DimHeatmap(merged, dims = 13:24, balanced = TRUE, cells = 500)
 dev.off()
 
-jpeg(sprintf("DimHm25_36.jpg"), width = 10, height = 20, units = 'in', res = 150)
+jpeg(sprintf("outdir/DimHm25_36.jpg"), width = 10, height = 20, units = 'in', res = 150)
 DimHeatmap(merged, dims = 25:36, balanced = TRUE, cells = 500)
 dev.off()
 elbow <- ElbowPlot(merged)
-jpeg(sprintf("Elbow.jpg"), width = 8, height = 6, units = 'in', res = 150)
+jpeg(sprintf("outdir/Elbow.jpg"), width = 8, height = 6, units = 'in', res = 150)
 print(elbow)
 dev.off()
 
@@ -199,12 +199,12 @@ merged <- RunUMAP(merged, dims = 1:PC)
 
 
 ```R
-jpeg("UMAP.jpg", width = 5, height = 4, units = 'in', res = 150)
-DimPlot(merged, label = TRUE), group.by = 'seurat_clusters_res1.2'
+jpeg("outdir/UMAP.jpg", width = 5, height = 4, units = 'in', res = 150)
+DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2')
 dev.off()
 
 # UMAP by sample/timepoint
-jpeg("UMAP_orig.ident.jpg", width = 5, height = 4, units = 'in', res = 150)
+jpeg("outdir/UMAP_orig.ident.jpg", width = 5, height = 4, units = 'in', res = 150)
 DimPlot(merged, label = TRUE, group.by = "orig.ident")
 dev.off()
 
@@ -220,7 +220,7 @@ merged <- FindClusters(merged, resolution = 0.8, cluster.name = 'seurat_clusters
 
 merged <- FindClusters(merged, resolution = 0.5, cluster.name = 'seurat_clusters_res0.5')
 
-jpeg("UMAP_compare_res.jpg", width = 5, height = 4, units = 'in', res = 150)
+jpeg("outdir/UMAP_compare_res.jpg", width = 5, height = 4, units = 'in', res = 150)
 DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.5') +
   DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.8') + 
   DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2') 
@@ -233,7 +233,7 @@ The shape of the UMAP is determined by the number of PCs used to create the UMAP
 merged <- RunUMAP(merged, dims = 1:5)
 
 jpeg("UMAP_5PCs.jpg", width = 5, height = 4, units = 'in', res = 150)
-DimPlot(merged, label = TRUE), group.by = 'seurat_clusters_res1.2'
+DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2')
 dev.off()
 
 jpeg("DimHm1_5.jpg", width = 10, height = 20, units = 'in', res = 150)
