@@ -11,7 +11,7 @@ date: 0008-04-01
 
 ***
 
-In this section we will use the previously generated Seurat object that has gone through the various preprocessing steps, clustering, and celltyping, and use it for gene expression and differential expression analyses. Since we know that the tumor cells should be epithelial cells, we can begin by trying to identify epithelial cells in our data using expression of Epcam as a marker. We can then compare this against the celltype annotations determined by us in the previous section. Subsequently, we will carry out a differential expression analysis within the Epcam positive population(s). 
+In this section we will use the previously generated Seurat object that has gone through the various preprocessing steps, clustering, and celltyping, and use it for gene expression and differential expression analyses. Since we know that the tumor cells should be epithelial cells, we will begin by trying to identify epithelial cells in our data using expression of Epcam as a marker. Subsequently, we will carry out a differential expression analysis within the Epcam-positive population(s). 
 
 ***
 
@@ -64,7 +64,7 @@ merged$immgen_singler_fine[rownames(predictions_fine)] = predictions_fine$labels
 Compare the number of layers present before and after merging. This is an important step because many of the DE functions use the log normalized data (held in the `data` layer instead of the data kept in the `scale.data` layer.  
 
 Use Seurat's `FeaturePlot` function to color each cell by its Epcam expression on a UMAP.
-FeaturePlot requires at least 2 arguments- the seurat object, and the 'feature' you want to plot. The feature can be a gene, PC scores, any of the metadata columns, etc.). To customize the `FeaturePlot`, please refer to Seurat's documentation [here](https://satijalab.org/seurat/reference/featureplot)
+`FeaturePlot` requires at least 2 arguments- the seurat object, and the 'feature' you want to plot (where a 'feature' can be a gene, PC scores, any of the metadata columns, etc.). To customize the `FeaturePlot`, please refer to Seurat's documentation [here](https://satijalab.org/seurat/reference/featureplot)
 
 ```R
 FeaturePlot(merged, features = 'Epcam')
@@ -154,7 +154,7 @@ volcano_plot <- EnhancedVolcano(epithelial_de,
                                 pointSize = 3.0,
                                 labSize = 5.0,
                                 colAlpha = 0.3)
-
+```
 
 
 
