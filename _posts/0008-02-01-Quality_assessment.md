@@ -13,6 +13,9 @@ date: 0008-02-01
 
 We are going to begin our single cell analysis by loading in the output from CellRanger. We will load in our different sample, create a Seurat object with then, and take a look at the quality of the cells. A Seurat object is (decribe better) a specfic data type built for exploring single cell data
 
+#Note, we have provided the raw data for this exercise in your cloud workspace. They are also available at:
+http://genomedata.org/cri-workshop/counts_gex/
+
 ### Step 1: Load in Data 
 
 First load the needed packages
@@ -24,10 +27,14 @@ library("cowplot")
 library("dplyr")
 library("Matrix")
 library("viridis")
+library("hdf5r")
 ```
+
+Create and set some necessary directories
 
 ```R
 outdir="/cloud/project/outdir"
+dir.create(outdir)
 setwd("/cloud/project/")
 
 # List of sample names
@@ -43,6 +50,7 @@ for (sample in sample_names) {
   
   # Perform QC and Normalization here for each sample
   sample.data[[sample]] = seurat_obj
+}
 ```
 
 ### Calculate the Percent of Mitochondiral Genes within each cell
