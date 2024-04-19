@@ -24,7 +24,6 @@ http://genomedata.org/cri-workshop/counts_gex/
 First load the needed packages. The most important package for this step is Seurat. [Seurat](https://satijalab.org/seurat/#about-seurat) provides a unqiue data structure and tools for quality control, analysis, and exploration of single-cell RNA sequencing data. Seurat is very popular and is considered a standard tool for single-cell RNA analysis. Another example of a toolkit with similar functionality is [Scanpy](https://scanpy.readthedocs.io/en/stable/), which is implemented in Python.
 
 ```R
-<<<<<<< HEAD
 library("Seurat")
 library("ggplot2")
 library("cowplot")
