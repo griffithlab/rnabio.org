@@ -112,12 +112,12 @@ table(merged_epithelial$seurat_clusters_res0.8)
 
 Now we will use Seurat's `FindMarkers` function to carry out a differential expression analysis between both groups. `FindMarkers` also requires that we use `SetIdent` to change the default 'Ident' to the metadata column we want to use for our comparison. More information about `FindMarkers` is available [here](https://satijalab.org/seurat/reference/findmarkers).
 
-Note that here we use `FindMarkers` to compare clusters 10 and 12. The default syntax of `FindMarkers` requires that we provide each group of cells as `ident.1` and `ident.2`. The output of `FindMarkers` is a table with each gene that is differentially expressed and its corresponding log2FC. The direction of the log2FC is of `ident.1` with respect to `ident.2`. Therefore, genes upregulated in `ident.1` have positive log2FC, while those downregulated in `ident.1` have negative log2FC. Here, we also provide a `min.pct=0.25` argument so that we only test genes that are expressed in 25% of cells in either of the `ident.1` or `ident.2` groups. This can help reduce false positives as the genes must be expressed in a greater proportion of the cells compared to the default value of 1%. It also results in the function running faster as less genes are tested.
+Note that here we use `FindMarkers` to compare clusters 10 and 12. The default syntax of `FindMarkers` requires that we provide each group of cells as `ident.1` and `ident.2`. The output of `FindMarkers` is a table with each gene that is differentially expressed and its corresponding log2FC. The direction of the log2FC is of `ident.1` with respect to `ident.2`. Therefore, genes upregulated in `ident.1` have positive log2FC, while those downregulated in `ident.1` have negative log2FC. Here, we also provide a `min.pct=0.25` argument so that we only test genes that are expressed in 25% of cells in either of the `ident.1` or `ident.2` groups. This can help reduce false positives as the genes must be expressed in a greater proportion of the cells compared to the default value of 1%. We also specify the `logfc.threshold=0.1` parameter, which ensures our results only include genes that have a fold change of less than -0.1 or more than 0.1. Increasing the `min.pct` and `logfc.threshold` parameters can also result in the function running faster as they reduce the number of genes being tested.
 
 ```R
 #carry out DE analysis between both groups
 merged_epithelial <- SetIdent(merged_epithelial, value = "seurat_clusters_res0.8")
-epithelial_de <- FindMarkers(merged_epithelial, ident.1 = "10", ident.2 = "12", min.pct=0.25) #how cluster 10 changes wrt cluster 12
+epithelial_de <- FindMarkers(merged_epithelial, ident.1 = "10", ident.2 = "12", min.pct=0.25, logfc.threshold=0.1) #how cluster 10 changes wrt cluster 12
 ```
 On opening `epithelial_de` in your RStudio session, you'll see that it is a dataframe with the genes as rownames, and the following columns- `p_val`, `avg_log2FC`, `pct.1`, `pct.2`, `p_val_adj`. The p-values are dependent on the test used while running `FindMarkers`, and the adjusted p-value is based on the bonferroni correction test. `pct.1` and `pct.2` are the percentages of cells where the gene is detected in the `ident.1` and `ident.2` groups respectively. 
 
@@ -162,7 +162,13 @@ EnhancedVolcano(epithelial_de,
   colAlpha = 0.3)
 ```
 
-To find out how we can figure out what these genes mean, stay tuned! The next module on pathway analysis will help shed some light on that.
+To find out how we can figure out what these genes mean, stay tuned! The next module on pathway analysis will help shed some light on that. Let's create a TSV file containing our DE results for use later on. We will need to rerun `FindMarkers` with slightly different parameters for this- we will change the `logfc.threshold` parameter to 0, as one of the pathway analysis tools requires all genes to be included in the analysis (more on that later).
+```R
+#rerun FindMarkers
+epithelial_de_gsea <- FindMarkers(merged_epithelial, ident.1 = "10", ident.2 = "12", min.pct=0.25, logfc.threshold=0)
+#save this table as a TSV file
+write.table(x = epithelial_de_gsea, file = 'epithelial_de_gsea.tsv', sep='\t')
+``` 
 
 ### Differential expression for T cells
 
