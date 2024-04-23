@@ -30,7 +30,7 @@ Make sure you select the appropriate reference genome build in IGV (top left cor
 - **HBR hisat2 alignment**: http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/alignments/hisat2/HBR.bam
 
 #### Links to cached version of these bam files
-If for some reason you don't have access to the BAM files from running through this course you can download and use these cached versions instead:
+If for some reason you do not have access to the BAM files from running through this course you can download and use these cached versions instead:
 
 - **UHR hisat2 alignment**: [UHR.bam](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/HBR.bam) ([UHR.bam.bai](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/HBR.bam.bai))
 - **HBR hisat2 alignment**: [HBR.bam](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/UHR.bam) ([HBR.bam.bai](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/UHR.bam.bai))
