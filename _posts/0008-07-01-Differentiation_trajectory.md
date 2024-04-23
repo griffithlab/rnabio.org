@@ -167,6 +167,102 @@ FeaturePlot(object = rep135_luminal, features = c("S.Score", "G2M.Score", "diffe
 
 We still don't see a clear pattern, which illustrates the challenge and the danger of pseudotime.
 
+### Using Trajectory to Analyze Monocyte Differentiation 
+
+```R
+library("devtools")
+BiocManager::install("sva")
+devtools::install_local("CytoTRACE_0.3.3.tar.gz")
+library(CytoTRACE)
+library(cowplot)
+library(stringr)
+```
+
+CytoTRACE is also an R package!
+
+
+```R
+highlight = rep135$immgen_singler_main =="Macrophages"
+highlighted_cells <- WhichCells(rep135, expression = immgen_singler_main =="Macrophages")
+# Plot the UMAP
+DimPlot(rep135, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
+
+
+highlight = rep135$immgen_singler_main =="Monocytes"
+highlighted_cells <- WhichCells(rep135, expression = immgen_singler_main =="Monocytes")
+# Plot the UMAP
+DimPlot(rep135, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
+
+
+# grab all cells that are macrophages and monocytes
+Idents(rep135) <- "immgen_singler_main" 
+rep135_macro_mono_cells <- subset(rep135, idents = c("Macrophages", "Monocytes"), invert = FALSE) # 1092
+
+DimPlot(macro_mono_cells, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
+  DimPlot(macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) 
+```
+
+```R
+macro_mono_cells <- NormalizeData(macro_mono_cells)
+macro_mono_cells <- FindVariableFeatures(macro_mono_cells, selection.method = "vst", nfeatures = 2000)
+macro_mono_cells <- ScaleData(macro_mono_cells)
+ndims = length(which(macro_mono_cells@reductions$pca@stdev > 2))
+ndims
+macro_mono_cells <- RunPCA(macro_mono_cells, npcs = 26)
+macro_mono_cells <- FindNeighbors(macro_mono_cells, dims = 1:20)
+macro_mono_cells <- FindClusters(macro_mono_cells, resolution = 0.7, verbose = FALSE)
+macro_mono_cells <- RunUMAP(macro_mono_cells, dims = 1:20, set.ident = TRUE)
+
+DimPlot(macro_mono_cells, group.by = 'seurat_clusters', label = TRUE) + 
+  DimPlot(macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) 
+
+DimPlot(macro_mono_cells, group.by = 'immgen_singler_fine', label = TRUE)
+```
+
+```R
+macro_mono_cells_expression <- data.frame(GetAssayData(object = macro_mono_cells, slot = "data"))
+write.table(rmacro_mono_cells_expression, file="macro_mono_cells_expression_cytotrace.tsv", quote=FALSE, sep="\t", col.names = TRUE)
+
+rep135_expression <- read.table(file = "macro_mono_cells_expression_cytotrace.tsv", sep = "\t", header = TRUE)
+rep135_cytotrace_scores <- CytoTRACE(macro_mono_cells_expression, ncores = 4)
+```
+
+
+#### Monocle
+
+```R
+# convert from a seurat object to CDS
+# install.packages('R.utils')
+# remotes::install_github('satijalab/seurat-wrappers')
+cds <- SeuratWrappers::as.cell_data_set(macro_mono_cells)
+
+# now everything will
+cds <- cluster_cells(cds)
+
+plot_cells(cds, show_trajectory_graph = FALSE, color_cells_by = "partition")
+# monocle will create a trajectory for each partition, but we want all our clusters
+# to be on the same trajectory
+# if we use epithelial cells then this doens't matter
+
+cds <- learn_graph(cds, use_partition = FALSE) # graph learned across all partitions
+# this will have to be done before hand
+# unless we use epithelial cells (1331 cells ran in seconds)
+
+cds <- order_cells(cds)
+
+plot_cells(cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE)
+
+rowData(cds)$gene_name <- rownames(cds)
+rowData(cds)$gene_name <- rowData(cds)$gene_name
+
+plot_cells(cds,
+           genes=c('Ly6c2', 'Ccr2', 'Adgre1'),
+           label_cell_groups = FALSE,
+           show_trajectory_graph = FALSE,
+           min_expr = 3)
+
+```
+
 
 ### Notes 
 
