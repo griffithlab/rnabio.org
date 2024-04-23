@@ -16,24 +16,12 @@ date: 0008-02-01
 
 We are going to begin our single cell analysis by loading in the output from CellRanger. We will load in our different samples, create a Seurat object with then, and take a look at the quality of the cells. 
 
-#Note, we have provided the raw data for this exercise in your cloud workspace. They are also available at:
-http://genomedata.org/cri-workshop/counts_gex/
+**Note, we have provided the raw data for this exercise in your cloud workspace. They are also available at:
+http://genomedata.org/cri-workshop/counts_gex/**
 
 ### Step 1: Load in Data 
 
 First load the needed packages. The most important package for this step is Seurat. [Seurat](https://satijalab.org/seurat/#about-seurat) provides a unqiue data structure and tools for quality control, analysis, and exploration of single-cell RNA sequencing data. Seurat is very popular and is considered a standard tool for single-cell RNA analysis. Another example of a toolkit with similar functionality is [Scanpy](https://scanpy.readthedocs.io/en/stable/), which is implemented in Python.
-
-```R
-library("Seurat")
-library("ggplot2")
-library("cowplot")
-library("dplyr")
-library("Matrix")
-library("viridis")
-library("hdf5r")
-```
-
-Create and set some necessary directories
 
 ```R
 library("Seurat") 
@@ -42,6 +30,7 @@ library("cowplot") # add-on to ggplot, we use the plot_grid function to put mutp
 library("dplyr")   # a set of functions for dataframe manipulation -- core package of Tidyverse (THE R data manipualtion package)
 library("Matrix")  # a set of function for operating on matrices
 library("viridis") # color maps for graphs that are more readable then default colors
+library("hdf5r")
 ```
 
 Let's make sure our workspace is configured the way we like. We will set our working directory where files will be saved. It is always good practice to verify what directory you are in and to ensure that you set the directory to where you want your files to be saved. 
@@ -132,9 +121,11 @@ sample_names <- c("Rep1_ICBdT", "Rep1_ICB", "Rep3_ICBdT", "Rep3_ICB",
                   "Rep5_ICBdT", "Rep5_ICB")
 
 merged <- merge(x = sample.data[["Rep1_ICBdT"]], y = c(sample.data[["Rep1_ICB"]], 
-                                                       sample.data[["Rep3_ICBdT"]], sample.data[["Rep3_ICB"]], 
-                                                       sample.data[["Rep5_ICBdT"]], sample.data[["Rep5_ICB"]]), 
-                add.cell.ids = sample_names)
+sample.data[["Rep3_ICBdT"]],
+sample.data[["Rep3_ICB"]],                            
+sample.data[["Rep5_ICBdT"]],
+sample.data[["Rep5_ICB"]]), 
+add.cell.ids = sample_names)
 
 ```
 
@@ -148,7 +139,7 @@ for (sample in sample_names) {
 ```R
 for (sample in sample_names) {
   print(sample)
-  jpeg(sprintf("%s_filteredQC.jpg", sample), width = 16, height = 5, units = 'in', res = 150)
+  jpeg(sprintf("outdir/%s_filteredQC.jpg", sample), width = 16, height = 5, units = 'in', res = 150)
   p1 <- VlnPlot(sample.data[[sample]], features = c("nCount_RNA"), pt.size = 0) 
   p2 <- VlnPlot(sample.data[[sample]], features = c("nFeature_RNA"), pt.size = 0) + scale_y_continuous(breaks = c(0, 300, 500, 1000, 2000, 4000))
   p3 <- VlnPlot(sample.data[[sample]], features = c("percent.mt"), pt.size = 0) + scale_y_continuous(breaks = c(0, 12.5, 25, 50))
@@ -256,7 +247,7 @@ merged <- FindClusters(merged, resolution = 0.8, cluster.name = 'seurat_clusters
 
 merged <- FindClusters(merged, resolution = 0.5, cluster.name = 'seurat_clusters_res0.5')
 
-jpeg("outdir/UMAP_compare_res.jpg", width = 5, height = 4, units = 'in', res = 150)
+jpeg("outdir/UMAP_compare_res.jpg", width = 20, height = 5, units = 'in', res = 150)
 DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.5') +
   DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.8') + 
   DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2') 
@@ -268,11 +259,11 @@ The shape of the UMAP is determined by the number of PCs used to create the UMAP
 ```R
 merged <- RunUMAP(merged, dims = 1:5)
 
-jpeg("UMAP_5PCs.jpg", width = 5, height = 4, units = 'in', res = 150)
+jpeg("outdir/UMAP_5PCs.jpg", width = 10, height = 10, units = 'in', res = 150)
 DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2')
 dev.off()
 
-jpeg("DimHm1_5.jpg", width = 10, height = 20, units = 'in', res = 150)
+jpeg("outdir/DimHm1_5.jpg", width = 20, height = 10, units = 'in', res = 150)
 DimHeatmap(merged, dims = 1:5, balanced = TRUE, cells = 500)
 dev.off()
 
