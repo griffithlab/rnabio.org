@@ -33,12 +33,21 @@ mkdir bulk_rna
 - CellRanger outputs for reps1,3,5 (uploaded from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/CellRanger_v7_run/runs/cri_workshop_scrna_files/counts_gex/sample_filtered_feature_bc_matrix.h5.zip`)
 - BCR and TCR clonotypes (uploaded from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/CellRanger_v7_run/runs/cri_workshop_scrna_files/clonotypes_b_posit.zip` and `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/CellRanger_v7_run/runs/cri_workshop_scrna_files/clonotypes_t_posit.zip`)
 - MSigDB `M8: cell type signature gene sets` (downloaded GMT file from [MSigDB website](https://www.gsea-msigdb.org/gsea/msigdb/download_file.jsp?filePath=/msigdb/release/2023.2.Mm/m8.all.v2023.2.Mm.symbols.gmt) to laptop and then uploaded to single_cell_rna folder)
+- InferCNV Gene ordering files (download from TrinityCTAT - [annotation by gene id file](https://data.broadinstitute.org/Trinity/CTAT/cnv/mouse_gencode.GRCm38.p6.vM25.basic.annotation.by_gene_id.infercnv_positions) and [annotation by gene name file](https://data.broadinstitute.org/Trinity/CTAT/cnv/mouse_gencode.GRCm38.p6.vM25.basic.annotation.by_gene_name.infercnv_positions))
 
-Posit requires all files to be zipped prior to uploading and automatically unzips the folder after the upload. After uploading the files, made a folder for the cellranger outputs, and moved the `.h5` files there
+Posit requires all files to be zipped prior to uploading and automatically unzips the folder after the upload. After uploading the files, made a folder for the cellranger outputs, and moved the `.h5` files there. Will also download inferCNV files using `wget`
 ```bash
+#organize cellranger outputs
 cd /cloud/project/data/single_cell_rna
 mkdir cellranger_outputs
 mv *.h5 cellranger_outputs
+
+#download inferCNV reference files and organize all reference files
+mkdir reference_files
+mv m8.all.v2023.2.Mm.symbols.gmt reference_files
+cd reference_files
+wget https://data.broadinstitute.org/Trinity/CTAT/cnv/mouse_gencode.GRCm38.p6.vM25.basic.annotation.by_gene_id.infercnv_positions
+wget https://data.broadinstitute.org/Trinity/CTAT/cnv/mouse_gencode.GRCm38.p6.vM25.basic.annotation.by_gene_name.infercnv_positions
 ````
 
 ### Files in bulk_rna
@@ -112,6 +121,7 @@ BiocManager::install("edgeR")
 install.packages("UpSetR")
 BiocManager::install("DESeq2")
 install.packages('gtable')
+BiocManager::install("apeglm")
 
 ```
 
