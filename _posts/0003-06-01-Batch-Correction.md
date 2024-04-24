@@ -136,6 +136,10 @@ Perform the following analyses in `R`:
 
 ```R
 
+#Define working dir paths
+datadir = "/cloud/project/data"
+outdir = "/cloud/project/outdir"
+
 #load neccessary libraries
 library("sva") #Note this exercise requires sva (>= v3.36.0) which is only available for R (>= v4.x)
 library("ggplot2")
@@ -144,7 +148,9 @@ library("edgeR")
 library("UpSetR")
 
 #load in the uncorrected data as raw counts
+setwd(datadir)
 uncorrected_data = read.table("GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv", header=TRUE, sep="\t", as.is=c(1,2))
+setwd(outdir)
 
 #simplify the names of the data columns
 # (A = Universal Human Reference RNA and B = Human Brain Reference RNA)

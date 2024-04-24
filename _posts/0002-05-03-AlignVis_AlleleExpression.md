@@ -2,11 +2,11 @@
 feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
-title: Alignment Visualization
+title: Alignment Visualization - Allele Expression
 categories:
     - Module-02-Alignment
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0002-05-01
+date: 0002-05-03
 ---
 
 ***
@@ -15,79 +15,7 @@ date: 0002-05-01
 
 ***
 
-Before we can view our alignments in the IGV browser we need to index our BAM files. We will use samtools index for this purpose. For convenience later, index all bam files.
-
-```bash
-echo $RNA_ALIGN_DIR
-cd $RNA_ALIGN_DIR
-
-samtools index HBR.bam
-samtools index HBR_Rep1.bam
-samtools index HBR_Rep2.bam
-samtools index HBR_Rep3.bam
-samtools index UHR.bam
-samtools index UHR_Rep1.bam
-samtools index UHR_Rep2.bam
-samtools index UHR_Rep3.bam
-
-# Note that we could have created and run a samtools index command for all files ending in .bam using the following construct:
-# find *.bam -exec echo samtools index {} \; | sh
-
-```
-
-Optional:
-
-Try to create an index file for one of your bam files using a samtools docker image rather than the locally installed version of samtools. Below is an example docker run command.
-
-```bash
-cp HBR.bam /tmp/
-docker run -v /tmp:/docker_workspace biocontainers/samtools:v1.9-4-deb_cv1 samtools index /docker_workspace/HBR.bam
-ls /tmp/HBR.bam*
-
-```
-
-`docker run` is how you initialize a docker container to run a command
-
-`-v` is the parameter used to mount your workspace so that the docker container can see the files that you're working with. In the example above, `/tmp` from the EC2 instance has been mounted as `/docker_workspace` within the docker container.
-
-`biocontainers/samtools` is the docker container name. The `:v1.9-4-deb_cv1` refers to the specific tag and release of the docker container.
-
-
-### Visualize alignments
-Start IGV on your laptop. Load the UHR.bam & HBR.bam files in IGV. If you're using AWS, you can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'.
-
-Make sure you select the appropriate reference genome build in IGV (top left corner of IGV): in this case `hg38`.
-
-#### AWS links to bam files
-**UHR hisat2 alignment:**
-
-http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/alignments/hisat2/UHR.bam
-
-**HBR hisat2 alignment:**
-
-http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/alignments/hisat2/HBR.bam
-
-
-You may wish to customize the track names as you load them in to keep them straight. Do this by right-clicking on the alignment track and choosing 'Rename Track'.
-
-Go to an example gene locus on chr22:
-
-* e.g. EIF3L, NDUFA6, and RBX1 have nice coverage
-* e.g. SULT4A1 and GTSE1 are differentially expressed. Are they up-regulated or down-regulated in the brain (HBR) compared to cancer cell lines (UHR)?
-* Mouse over some reads and use the read group (RG) flag to determine which replicate the reads come from. What other details can you learn about each read and its alignment to the reference genome.
-
-#### Exercise
-Try to find a variant position in the RNAseq data:
-
-* HINT: DDX17 is a highly expressed gene with several variants in its 3 prime UTR.
-* Other highly expressed genes you might explore are: NUP50, CYB5R3, and EIF3L (all have at least one transcribed variant).
-* Are these variants previously known (e.g., present in dbSNP)?
-* How should we interpret the allele frequency of each variant? Remember that we have rather unusual samples here in that they are actually pooled RNAs corresponding to multiple individuals (genotypes).
-* Take note of the genomic position of your variant. We will need this later.
-
-##### IGV visualization example (DDX17 3 prime region)
-
-![IVG-DDX17](/assets/module_2/igv-ddx17.png)
+In this section we will demonstrate how to assess expression of specific variant alleles in the RNA-seq BAM using tools designed to interrogate read alignments and sequence base identities at particular positions.
 
 ### BAM Read Counting
 Using one of the variant positions identified above, count the number of supporting reference and variant reads. First, use `samtools mpileup` to visualize a region of alignment with a variant.
