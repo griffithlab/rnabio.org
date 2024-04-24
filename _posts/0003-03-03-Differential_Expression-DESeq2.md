@@ -72,7 +72,7 @@ R code has been provided below. If you wish to have a script with all of the cod
 # BiocManager::install("DESeq2", version = "3.8")
 
 #Define working dir paths
-datadir = "/cloud/project/bulk_rna_data"
+datadir = "/cloud/project/data/bulk_rna"
 outdir = "/cloud/project/outdir"
 
 # load the library
@@ -113,13 +113,13 @@ dds <- DESeqDataSetFromMatrix(countData = htseqCounts, colData = metaData, desig
 
 # run DE analysis () note look at results for direction of log2 fold-change
 dds <- DESeq(dds)
-res <- results(dds) # not really need, should use shrinkage below
+#res <- results(dds) # not really need, should use shrinkage below
 
 # shrink log2 fold change estimates
 resultsNames(dds)
-resLFC <- lfcShrink(dds, coef="Condition_HBR_vs_UHR", type="apeglm")
+resLFC <- lfcShrink(dds, coef="Condition_UHR_vs_HBR", type="apeglm")
 
-# merge on gene names
+# merge on gene names #Note - should also merge original raw count values onto final dataframe
 resLFC$ensemblID <- rownames(resLFC)
 resLFC <- as.data.table(resLFC)
 resLFC <- merge(resLFC, mapping, by='ensemblID', all.x=T)
