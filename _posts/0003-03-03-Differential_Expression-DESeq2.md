@@ -102,7 +102,7 @@ htseqCounts <- htseqCounts[which(rowSums(htseqCounts >= 10) >=1),]
 
 # construct mapping of meta data
 metaData <- data.frame('Condition'=c('UHR', 'UHR', 'UHR', 'HBR', 'HBR', 'HBR'))
-metaData$Condition <- factor(metaData$Condition, levels=c('UHR', 'HBR'))
+metaData$Condition <- factor(metaData$Condition, levels=c('HBR', 'UHR'))
 rownames(metaData) <- colnames(htseqCounts)
 
 # check that htseq count cols match meta data rows
