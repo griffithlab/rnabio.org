@@ -65,3 +65,22 @@ DimPlot(merged, group.by = c("immgen_singler_fine"))
 As one might expect, the choice of reference can have a major impact on the annotation results. It's essential to choose a reference dataset encompassing a broader spectrum of labels than those expected in our test dataset. Trust in the appropriateness of labels assigned by the original authors to reference samples is often a leap of faith, and it's unsurprising that certain references outperform others due to differences in sample preparation quality. Ideally, we favor a reference generated using a technology or protocol similar to our test dataset, although this consideration is typically not an issue when using SingleR() for annotating well-defined cell types.
 
 Users are advised to read the relevant vignette for more details about the available references as well as some recommendations on which to use. (As an aside, the ImmGen dataset and other references were originally supplied along with SingleR itself but have since been migrated to the separate celldex package for more general use throughout Bioconductor.) Of course, as we shall see in the next Chapter, it is entirely possible to supply your own reference datasets instead; all we need are log-expression values and a set of labels for the cells or samples
+
+
+### Understanding Clustering using Celltyping
+
+We know that the UMAP shape changes when we use different numbers of PCs but why does the UMAP shape change? Lets try creating a UMAP with only 5 PCs.
+
+```R
+merged_5PC <- RunUMAP(merged, dims = 1:5)
+
+DimPlot(merged_5PC, label = TRUE, group.by = 'seurat_clusters_res1.2')
+
+DimHeatmap(merged, dims = 1:5, balanced = TRUE, cells = 500)
+
+```
+
+We see that the cells form much more general clusters. For example, the immune cells are just in one big blob. When we increase our PCs we increase the amount of information that can be used to tease apart more specfic cell types. The distinct B cell cluster we saw earlier was only possible because we provided enough genetic expression information in the PCs we chose. 
+
+![Seurat FindVariableFeatures](/assets/module_8/5PC_umap.png)
+
