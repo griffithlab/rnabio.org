@@ -27,35 +27,6 @@ In this tutorial you will:
 * DESeq2 is a bioconductor package designed specifically for differential expression of count-based RNA-seq data
 * This is an alternative to using stringtie/ballgown to find differentially expressed genes
 
-First, create a directory for results:
-
-```bash
-cd $RNA_HOME/
-mkdir -p de/htseq_counts
-cd de/htseq_counts
-
-```
-
-Note that the htseq-count results provide counts for each gene but uses only the Ensembl Gene ID (e.g. ENSG00000054611).  This is not very convenient for biological interpretation.  This next step creates a mapping file that will help us translate from ENSG IDs to Symbols. It does this by parsing the GTF transcriptome file we got from Ensembl. That file contains both gene names and IDs. Unfortunately, this file is a bit complex to parse. Furthermore, it contains the ERCC transcripts, and these have their own naming convention which also complicated the parsing.
-
-```bash
-perl -ne 'if ($_ =~ /gene_id\s\"(ENSG\S+)\"\;/) { $id = $1; $name = undef; if ($_ =~ /gene_name\s\"(\S+)"\;/) { $name = $1; }; }; if ($id && $name) {print "$id\t$name\n";} if ($_=~/gene_id\s\"(ERCC\S+)\"/){print "$1\t$1\n";}' $RNA_REF_GTF | sort | uniq > ENSG_ID2Name.txt
-head ENSG_ID2Name.txt
-
-```
-
-Determine the number of unique Ensembl Gene IDs and symbols. What does this tell you?
-```bash
-#count unique gene ids
-cut -f 1 ENSG_ID2Name.txt | sort | uniq | wc -l
-#count unique gene names
-cut -f 2 ENSG_ID2Name.txt | sort | uniq | wc -l
-
-#show the most repeated gene names
-cut -f 2 ENSG_ID2Name.txt | sort | uniq -c | sort -r | head
-
-```
-
 Launch R:
 
 ```bash

@@ -2,7 +2,7 @@
 feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
-title: Expression
+title: Expression Analysis with Stringtie and htseq-count
 categories:
     - Module-03-Expression
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
@@ -187,6 +187,40 @@ head gene_read_counts_table_all_final.tsv | column -t
 
 -`awk -v OFS="\t" '$1=$1'` is using `awk` to replace the single space characters that were in the concatenated version of our `header.txt` and `gene_read_counts_table_all.tsv` with a tab character. `-v` is used to reset the variable `OFS`, which stands for Output Field Separator. By default, this is a single space. By specifying `OFS="\t"`, we are telling `awk` to replace the single space with a tab. The `'$1=$1'` tells awk to reevaluate the input using the new output variable.
 
+
+#### Prepare for DE analysis using htseq-count results
+
+Create a directory for the DEseq analysis based on the htseq-count results:
+
+```bash
+cd $RNA_HOME/
+mkdir -p de/htseq_counts
+cd de/htseq_counts
+
+```
+
+Note that the htseq-count results provide counts for each gene but uses only the Ensembl Gene ID (e.g. ENSG00000054611).  This is not very convenient for biological interpretation.  This next step creates a mapping file that will help us translate from ENSG IDs to Symbols. It does this by parsing the GTF transcriptome file we got from Ensembl. That file contains both gene names and IDs. Unfortunately, this file is a bit complex to parse. Furthermore, it contains the ERCC transcripts, and these have their own naming convention which also complicated the parsing.
+
+```bash
+perl -ne 'if ($_ =~ /gene_id\s\"(ENSG\S+)\"\;/) { $id = $1; $name = undef; if ($_ =~ /gene_name\s\"(\S+)"\;/) { $name = $1; }; }; if ($id && $name) {print "$id\t$name\n";} if ($_=~/gene_id\s\"(ERCC\S+)\"/){print "$1\t$1\n";}' $RNA_REF_GTF | sort | uniq > ENSG_ID2Name.txt
+head ENSG_ID2Name.txt
+
+```
+
+Determine the number of unique Ensembl Gene IDs and symbols. What does this tell you?
+```bash
+
+#count unique gene ids
+cut -f 1 ENSG_ID2Name.txt | sort | uniq | wc -l
+
+#count unique gene names
+cut -f 2 ENSG_ID2Name.txt | sort | uniq | wc -l
+
+#show the most repeated gene names
+cut -f 2 ENSG_ID2Name.txt | sort | uniq -c | sort -r | head
+
+```
+
 ***
 
 #### ERCC expression analysis
@@ -232,3 +266,7 @@ To view the resulting figures, navigate to the below URL replacing YOUR_IP_ADDRE
 * http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/stringtie/ref_only/Tutorial_ERCC_expression_tpm.pdf
 
 Which expression estimation (read counts or TPM values) are better representing the known/expected ERCC concentrations?  Why?
+
+
+
+
