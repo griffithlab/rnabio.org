@@ -62,7 +62,7 @@ Launch R:
 R
 ```
 
-R code has been provided below. If you wish to have a script with all of the code, it can be found [here](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_DESeq2.R). Run the R commands below.
+R code has been provided below for a demonstration analysis with DESeq2 comparing the UHR and HBR samples (three replicates each).
 
 ```R
 
@@ -205,6 +205,7 @@ fwrite(deGeneResultSorted, file='DE_all_genes_DESeq2.tsv', sep="\t")
 fwrite(deGeneResultSignificant, file='DE_sig_genes_DESeq2.tsv', sep="\t")
 
 #To exit R type the following
-quit(save="no")
+#quit(save="no")
+
 ```
 
