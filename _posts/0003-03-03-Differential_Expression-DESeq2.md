@@ -71,62 +71,113 @@ R code has been provided below. If you wish to have a script with all of the cod
 #   install.packages("BiocManager")
 # BiocManager::install("DESeq2", version = "3.8")
 
-#Define working dir paths
+# define working dir paths
 datadir = "/cloud/project/data/bulk_rna"
 outdir = "/cloud/project/outdir"
 
-# load the library
+# load R libraries we will use in this section
 library(DESeq2)
 library(data.table)
 
-#Set working directory to data dir
+# set working directory to data dir
 setwd(datadir)
 
-# read in gene mappings (using "fread" an alternative to "read.table")
+# read in gene ID to name mappings (using "fread" an alternative to "read.table")
 mapping <- fread("ENSG_ID2Name.txt", header=F)
 
-# add head names to the columns in the "mapping" dataframe 
+# add names to the columns in the "mapping" dataframe 
 setnames(mapping, c('ensemblID', 'Symbol'))
+
+# view the first few lines of the gene ID to name mappings
+head(mapping)
 
 # read in the RNAseq read counts for each gene (produced by htseq-count)
 htseqCounts <- fread("gene_read_counts_table_all_final.tsv")
+
+# convert the dataframe to matrix format
 htseqCounts <- as.matrix(htseqCounts)
+
+# set the gene ID values to be the row names for the matrix
 rownames(htseqCounts) <- htseqCounts[,"GeneID"]
+
+# now that the gene IDs are the row names, remove the redundant column that contains them
 htseqCounts <- htseqCounts[, colnames(htseqCounts) != "GeneID"]
+
+# convert the actual count values from strings (with spaces) to integers
 class(htseqCounts) <- "integer"
 
-#Set working directory to output dir
+# view the first few lines of our gene counts matrix
+head(htseqCounts)
+
+# set the working directory to the output dir where we will store any results files
 setwd(outdir)
 
-# run filtering i.e. 1/6 samples must have counts greater than 10
+# run a filtering step 
+# i.e. require that for every gene: at least 1 of 6 samples must have counts greater than 10
 # get index of rows with meet this criterion
+# note the dimensions of the matrix before and after filtering with dim
+dim(htseqCounts)
 htseqCounts <- htseqCounts[which(rowSums(htseqCounts >= 10) >=1),]
+dim(htseqCounts)
 
-# construct mapping of meta data
+# construct a mapping of the meta data for our experiment (comparing UHR cell lines to HBR brain tissues)
+# in simple terms this is defining the biological condition/label for each experimental replicate
+# create a simple one column dataframe to start
 metaData <- data.frame('Condition'=c('UHR', 'UHR', 'UHR', 'HBR', 'HBR', 'HBR'))
+
+# convert the "Condition" column to a factor data type
 metaData$Condition <- factor(metaData$Condition, levels=c('HBR', 'UHR'))
+
+# set the row names of the dataframe to be the names of our sample replicates
 rownames(metaData) <- colnames(htseqCounts)
 
-# check that htseq count cols match meta data rows
+# view the metadata dataframe
+head(metaData)
+
+# check that htseq count cols match meta data rows 
+# use the "all" function which tests whether an entire logical vector is TRUE
 all(rownames(metaData) == colnames(htseqCounts))
 
 # make deseq2 data sets
+# here we are setting up our experiment by supplying: (1) the gene counts matrix, (2) the sample/replicate for each column, and (3) the biological conditions we wish to compare.
+# this is a simple example that works for many experiments but these can also get more complex
+# for example, including designs with multiple variables, e.g., ~ group + condition, 
+# and designs with interactions, e.g., ~ genotype + treatment + genotype:treatment.
 dds <- DESeqDataSetFromMatrix(countData = htseqCounts, colData = metaData, design = ~Condition)
 
-# run DE analysis () note look at results for direction of log2 fold-change
+# run the DE analysis on the "dds" object, note look at results for direction of log2 fold-change
 dds <- DESeq(dds)
-#res <- results(dds) # not really need, should use shrinkage below
 
-# shrink log2 fold change estimates
+# view the DE results
+results(dds)
+
+# shrink the log2 fold change estimates
+
+# shrinkage of effect size (log fold change estimates) is useful for visualization and ranking of genes
+
+# In simplistic terms, the goal of calculating "dispersion estimates" and "shrinkage" is also to account for the problem that
+# genes with low mean counts across replicates tend of have higher variability than those with higher mean counts.
+# Shrinkage attempts to correct for this. For a detailed discussion of shrinkage refer to the DESeq2 vignette
+
+# first get the name of the coefficient (log fold change) to shrink
 resultsNames(dds)
+
+# now apply the shrinkage approach
 resLFC <- lfcShrink(dds, coef="Condition_UHR_vs_HBR", type="apeglm")
 
-# merge on gene names #Note - should also merge original raw count values onto final dataframe
+# merge on gene names
 resLFC$ensemblID <- rownames(resLFC)
 resLFC <- as.data.table(resLFC)
 resLFC <- merge(resLFC, mapping, by='ensemblID', all.x=T)
-fwrite(resLFC, file='DE_genes_DESeq2.tsv', sep="\t")
 
+#contrast the values for a few genes before and after shrinkage
+results(dds)
+head(resLFC)
+
+#Note - we could also merge the original raw count values onto this final dataframe to aid interpretation
+
+# save the final DE result to an output file
+fwrite(resLFC, file='DE_genes_DESeq2.tsv', sep="\t")
 
 #To exit R type the following
 quit(save="no")
