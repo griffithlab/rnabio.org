@@ -11,7 +11,7 @@ date: 0003-03-02
 
 ***
 
-![RNA-seq_Flowchart4](/assets/module_3/RNA-seq_Flowchart4.png)
+![RNA-seq_Flowchart4](/assets/module_3/RNA-seq_Flowchart4-2.png)
 
 ***
 
