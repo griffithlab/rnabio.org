@@ -2,7 +2,7 @@
 feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
-title: Batch Correction
+title: Batch Correction Analysis
 categories:
     - Module-03-Expression
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
@@ -65,6 +65,8 @@ Perform the following analyses in `R`:
 
 #Define working dir paths
 datadir = "/cloud/project/data"
+#datadir = "~/workspace/rnaseq/batch_correction"
+
 outdir = "/cloud/project/outdir"
 
 #load neccessary libraries

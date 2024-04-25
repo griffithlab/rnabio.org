@@ -2,7 +2,7 @@
 feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
-title: Batch Correction
+title: Batch Correction - Preparation
 categories:
     - Module-03-Expression
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
