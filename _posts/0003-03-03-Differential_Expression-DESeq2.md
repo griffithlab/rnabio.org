@@ -82,11 +82,13 @@ library(data.table)
 #Set working directory to data dir
 setwd(datadir)
 
-# read in gene mappings
+# read in gene mappings (using "fread" an alternative to "read.table")
 mapping <- fread("ENSG_ID2Name.txt", header=F)
+
+# add head names to the columns in the "mapping" dataframe 
 setnames(mapping, c('ensemblID', 'Symbol'))
 
-# read in counts
+# read in the RNAseq read counts for each gene (produced by htseq-count)
 htseqCounts <- fread("gene_read_counts_table_all_final.tsv")
 htseqCounts <- as.matrix(htseqCounts)
 rownames(htseqCounts) <- htseqCounts[,"GeneID"]
