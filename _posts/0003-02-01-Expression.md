@@ -122,6 +122,11 @@ Solution: When you are ready you can check your approach against the [Solutions]
 
 ***
 
+![RNA-seq_Flowchart4](/assets/module_3/RNA-seq_Flowchart4-2.png)
+
+***
+
+
 #### Mini-lecture
 
 For more on the differences between abundance estimates like FPKM and count data with HTSeq-count, see this [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2023/mini/RNASeq_MiniLecture_03_02_HTSEQ.pdf).

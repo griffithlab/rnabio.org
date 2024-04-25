@@ -6,7 +6,7 @@ title: DE Visualization with Ballgown
 categories:
     - Module-03-Expression
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0003-04-02
+date: 0003-04-01
 ---
 
 ***
