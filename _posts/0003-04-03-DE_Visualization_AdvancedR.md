@@ -45,19 +45,16 @@ R
 library(ggplot2)
 library(gplots)
 library(GenomicRanges)
-#library(ballgown)
 library(ggrepel)
-
-### REPLACE one big pdf with individual pdfs for each figure ###
-#If X11 not available, open a pdf device for output of all plots
-#pdf(file="Tutorial_Part3_Supplementary_R_output.pdf")
 
 #### Import the gene expression data from the HISAT2/StringTie/Ballgown tutorial
 
 #Set working directory where results files exist
-working_dir = "~/workspace/rnaseq/de/ballgown/ref_only"
-working_dir = "/cloud/project/data/bulk_rna"
-setwd(working_dir)
+#datadir = "~/workspace/rnaseq/de/ballgown/ref_only"
+datadir = "/cloud/project/data/bulk_rna"
+outdir = "/cloud/project/outdir"
+
+setwd(datadir)
 
 # List the current contents of this directory
 dir()
@@ -67,7 +64,8 @@ gene_expression=read.table("gene_tpm_all_samples.tsv", header=TRUE, stringsAsFac
 gene_names=read.table("ENSG_ID2Name.txt", header=TRUE, stringsAsFactors=FALSE)
 colnames(gene_names)=c("gene_id","gene_name")
 
-#Import DE results from the HISAT2/htseq-count/DESeq2 pipeline - TO DO
+#Import DE results from the HISAT2/htseq-count/DESeq2 pipeline
+setwd(outdir)
 results_genes <-read.table("DE_all_genes_DESeq2.tsv", sep="\t", header=T, stringsAsFactors = F)
 
 ```
@@ -260,10 +258,8 @@ ggplot(data=results_genes[results_genes$diffexpressed != "No",], aes(x=log2FoldC
              geom_point(data = results_genes[results_genes$diffexpressed == "No",], aes(x=log2FoldChange, y=-log10(pvalue)), colour = "black")
 
 
-dev.off()
-
 #To exit R type:
-quit(save="no")
+#quit(save="no")
 ```
 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_PUBLIC_IPv4_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
