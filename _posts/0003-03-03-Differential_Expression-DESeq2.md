@@ -174,7 +174,13 @@ resLFC <- merge(resLFC, mapping, by='ensemblID', all.x=T)
 results(dds)
 head(resLFC)
 
-#Note - we could also merge the original raw count values onto this final dataframe to aid interpretation
+# merge the original raw count values onto this final dataframe to aid interpretation
+original_counts = as.data.frame(htseqCounts)
+original_counts[,"ensemblID"] = rownames(htseqCounts)
+resLFC_merged = merge(resLFC, original_counts, by='ensemblID', all.x=T)
+
+#view the final dataframe before saving it
+head(resLFC_merged)
 
 # save the final DE result to an output file
 fwrite(resLFC, file='DE_genes_DESeq2.tsv', sep="\t")
