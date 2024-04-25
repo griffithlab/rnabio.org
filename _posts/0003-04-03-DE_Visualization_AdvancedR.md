@@ -2,11 +2,11 @@
 feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
-title: DE Visualization
+title: DE Visualization Advanced
 categories:
     - Module-03-Expression
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0003-04-01
+date: 0003-04-03
 ---
 
 ***
