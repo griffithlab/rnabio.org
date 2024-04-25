@@ -17,7 +17,7 @@ date: 0003-04-03
 
 ### Supplementary R DE Visualization
 
-Occasionally you may wish to reformat and work with stringtie output in R manually. Therefore we provide an optional/advanced tutorial on how to format your results for R and perform "old school" (non-ballgown) visualization of your data.
+Occasionally you may wish to reformat and work with expression estimates in R ad hoc. Therefore we provide an optional/advanced tutorial on how to formvisualize your results for R and perform "old school" (non-ballgown, non-DESeq2) visualization of your data.
 
 In this tutorial you will:
 
@@ -36,8 +36,6 @@ cd $RNA_HOME/de/ballgown/ref_only/
 R
 ```
 
-A separate R script has been provided below.
-
 First you'll load your libraries and your data.
 
 ```R
@@ -50,26 +48,32 @@ First you'll load your libraries and your data.
 library(ggplot2)
 library(gplots)
 library(GenomicRanges)
-library(ballgown)
+#library(ballgown)
 library(ggrepel)
 
+### REPLACE one big pdf with individual pdfs for each figure ###
 #If X11 not available, open a pdf device for output of all plots
-pdf(file="Tutorial_Part3_Supplementary_R_output.pdf")
+#pdf(file="Tutorial_Part3_Supplementary_R_output.pdf")
 
 #### Import the gene expression data from the HISAT2/StringTie/Ballgown tutorial
 
 #Set working directory where results files exist
 working_dir = "~/workspace/rnaseq/de/ballgown/ref_only"
+working_dir = "/cloud/project/data/bulk_rna"
 setwd(working_dir)
 
 # List the current contents of this directory
 dir()
 
-#Import expression and differential expression results from the HISAT2/StringTie/Ballgown pipeline
-load('bg.rda')
+#Import expression results (TPM values) from the HISAT2/Stringtie pipeline
+#Import DE results from the HISAT2/htseq-count/DESeq2 pipeline - TO DO
+#load('bg.rda')
+
+gene_expression=read.table("gene_tpm_all_samples.tsv", header=TRUE, stringsAsFactors=FALSE, row.names=1)
+gene_names=read.table("ENSG_ID2Name.txt", header=TRUE, stringsAsFactors=FALSE)
 
 # View a summary of the ballgown object
-bg
+#bg
 
 # Load gene names for lookup later in the tutorial
 bg_table = texpr(bg, 'all')
