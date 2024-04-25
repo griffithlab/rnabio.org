@@ -20,12 +20,7 @@ In this secion we will use the GAGE tool in R to test for significantly enriched
 ### What is gage?
 The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and RNAseq data sets. In this section we will use [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) and the [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) databases to perform pathway analysis. 
 
-```bash
-#Before we get started let's cd into the directory where our edgeR results are saved 
-
-cd ~/workspace/rnaseq/de/htseq_counts/
-```
-Launch R:
+First, launch R at the commandline, start RStudio, or launch a posit Cloud session:
 
 ```bash
 R
@@ -39,7 +34,11 @@ library(org.Hs.eg.db)
 library(GO.db)
 library(gage)
 
-setwd ("~/workspace/rnaseq/de/htseq_counts/")
+#Define working dir paths
+datadir = "/cloud/project/outdir"
+#datadir = "~/workspace/rnaseq/de/htseq_counts/"
+
+setwd (datadir)
 
 ```
 ### Setting up gene set databases
@@ -62,29 +61,29 @@ all_cell_types <-readList(c8)
 Before we perform the pathway analysis we need to read in our differential expression results from the edgeR analysis. 
 
 ```R
-DE_genes <-read.table("/home/ubuntu/workspace/rnaseq/de/htseq_counts/DE_genes.txt", sep="\t", header=T, stringsAsFactors = F)
+DE_genes <-read.table("DE_genes_DESeq2.tsv", sep="\t", header=T, stringsAsFactors = F)
 
 ```
 ### Annotating genes
 OK, so we have our differentially expressed genes and we have our gene sets. However, if you look at one of the objects containing the gene sets you'll notice that each gene set contains a series of integers. These integers are [Entrez](https://www.ncbi.nlm.nih.gov/gquery/) gene identifiers. But do we have comparable information in our DE gene list? Right now, no. Our previous results use Ensembl IDs as gene identifiers. We will need to convert our gene identifiers to the format used in the GO and MSigDB gene sets before we can perform the pathway analysis. Fortunately, Bioconductor maintains genome wide annotation data for many species, you can view these species with the [OrgDb bioc view](https://bioconductor.org/packages/release/BiocViews.html#___OrgDb). This makes converting the gene identifiers relatively straightforward, below we use the [mapIds()](https://www.rdocumentation.org/packages/OrganismDbi/versions/1.14.1/topics/MultiDb-class) function to query the OrganismDb object for the Entrez id based on the Ensembl id. Because there might not be a one-to-one relationship with these identifiers we also use `multiVals="first"` to specify that only the first identifier should be returned. Another option would be to use `multiVals="asNA"` to ignore one-to-many mappings.
 
 ```R
-DE_genes$entrez <- mapIds(org.Hs.eg.db, keys=DE_genes$Gene, column="ENTREZID", keytype="ENSEMBL", multiVals="first")
+DE_genes$entrez <- mapIds(org.Hs.eg.db, keys=DE_genes$ensemblID, column="ENTREZID", keytype="ENSEMBL", multiVals="first")
 ```
 ### Some clean-up and identifier mapping
 After completing the annotation above you will notice that some of our Ensembl gene IDs were not mapped to an Entrez gene ID. Why did this happen?  Well, this is actually a complicated point and gets at some nuanced concepts of how to define and annotate a gene. The short answer is that we are using two different resources that have annotated the human genome and there are some differences in how these resources have completed this task. Therefore, it is expected that there are some discrepencies. In the next few steps we will clean up what we can by first removing the ERCC spike-in genes and then will use a different identifier for futher mapping.  
 
 ```R
 #Remove spike-in
-DE_genes_clean <- DE_genes[!grepl("ERCC", DE_genes$Gene),]
+DE_genes_clean <- DE_genes[!grepl("ERCC", DE_genes$ensemblID),]
 
 ##Just so we know what we have removed 
-ERCC_gene_count <-nrow(DE_genes[grepl("ERCC", DE_genes$Gene),])
+ERCC_gene_count <-nrow(DE_genes[grepl("ERCC", DE_genes$ensemblID),])
 ERCC_gene_count
 
 ###Deal with genes that we do not have an Entrez ID for 
 missing_ensembl_key<-DE_genes_clean[is.na(DE_genes_clean$entrez),]
-DE_genes_clean <-DE_genes_clean[!DE_genes_clean$Gene %in% missing_ensembl_key$Gene,]
+DE_genes_clean <-DE_genes_clean[!DE_genes_clean$ensemblID %in% missing_ensembl_key$ensemblID,]
 
 ###Try mapping using a different key
 missing_ensembl_key$entrez <- mapIds(org.Hs.eg.db, keys=missing_ensembl_key$Symbol, column="ENTREZID", keytype="SYMBOL", multiVal='first')
@@ -96,12 +95,12 @@ missing_ensembl_key_update <- missing_ensembl_key[!is.na(missing_ensembl_key$ent
 DE_genes_clean <-rbind(DE_genes_clean, missing_ensembl_key_update)
 ```
 
-### Final preparation of edgeR results for gage
+### Final preparation of DESeq2 results for gage
 OK, last step.  Let's format the differential expression results into a format suitable for the [GAGE]() package. Basically this means obtaining the log2 fold change values and assigning entrez gene identifiers to these values.
 
 ```R
 # grab the log fold changes for everything
-De_gene.fc <- DE_genes_clean$logFC
+De_gene.fc <- DE_genes_clean$log2FoldChange
 
 # set the name for each row to be the Entrez Gene ID
 names(De_gene.fc) <- DE_genes_clean$entrez
@@ -143,7 +142,7 @@ fc.c8.p.down <- as.data.frame(fc.c8.p$less)
 ### Explore significant results
 Alright, now we have results with accompanying p-values (yay!). 
 
-What does "up-" or "down-regulated" mean here, in the context of our UHR vs HBR comparison? It may help to open and review the data in your DE_genes.txt file. 
+What does "up-" or "down-regulated" mean here, in the context of our UHR vs HBR comparison? It may help to open and review the data in your DE_genes_DESeq2.tsv file. 
 
 Look at the cellular process results from our GO analysis. Do the results match your expectation?
 
@@ -164,8 +163,8 @@ head(fc.c8.p.down)
 At this point, it will be helpful to move out of R and further explore our results locally. For the remainder of the exercise we are going to focus on the results from GO. We will use an online tool to visualize how the GO terms we uncovered are related to each other. 
 
 ```R
-write.table(fc.go.cc.p.up, "/home/ubuntu/workspace/rnaseq/de/htseq_counts/fc.go.cc.p.up.tsv", quote = F, sep = "\t", col.names = T, row.names = T)
-write.table(fc.go.cc.p.down, "/home/ubuntu/workspace/rnaseq/de/htseq_counts/fc.go.cc.p.down.tsv", quote = F, sep = "\t", col.names = T, row.names = T)
+write.table(fc.go.cc.p.up, "fc.go.cc.p.up.tsv", quote = F, sep = "\t", col.names = T, row.names = T)
+write.table(fc.go.cc.p.down, "fc.go.cc.p.down.tsv", quote = F, sep = "\t", col.names = T, row.names = T)
 quit(save="no")
 ```
 
