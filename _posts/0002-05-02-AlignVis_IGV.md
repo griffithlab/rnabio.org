@@ -65,6 +65,13 @@ Assignment: Index your bam files from Practical Exercise 6 and visualize in IGV.
 * If this works, you should have two BAM files that can be loaded into IGV from the following location on your cloud instance:
   * http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/practice/alignments/hisat2/
 
+#### Links to cached version of the practical exercise bam files
+If for some reason you do not have access to the BAM files from running through this course you can download and use these cached versions instead:
+
+- **HCC1395-normal hisat2 alignment**: [HCC1395-normal.bam](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/HCC1395_normal.bam) ([HCC1395-normal.bam.bai](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/HCC1395_normal.bam.bai))
+- **HCC1395-tumor hisat2 alignment**: [HCC1395-tumor.bam](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/HCC1395_tumor.bam) ([HCC1395-tumor.bam.bai](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/HCC1395_tumor.bam.bai))
+
+
 **Questions**
 
 * Load your merged normal and tumor BAM files into IGV. Navigate to this location on chromosome 22: 'chr22:38,466,394-38,508,115'. What do you see here? How would you describe the direction of transcription for the two genes? Does the reported strand for the reads aligned to each of these genes appear to make sense? How do you modify IGV settings to see the strand clearly?
