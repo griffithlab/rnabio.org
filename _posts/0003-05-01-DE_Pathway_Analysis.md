@@ -11,7 +11,7 @@ date: 0003-05-01
 
 ***
 
-![RNA-seq_Flowchart4](/assets/module_3/RNA-seq_Flowchart4.png)
+![RNA-seq_Flowchart4](/assets/module_3/RNA-seq_Flowchart4-2.png)
 
 ***
 
@@ -26,7 +26,22 @@ First, launch R at the commandline, start RStudio, or launch a posit Cloud sessi
 R
 ```
 
-Let's go ahead and load [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and some other useful packages and set our working directory. 
+### Importing DE results for gage
+Before we perform the pathway analysis we need to read in our differential expression results from the previous DE analysis.
+
+```R
+
+#Define working dir paths
+datadir = "/cloud/project/outdir"
+#datadir = "~/workspace/rnaseq/de/htseq_counts/"
+
+setwd(datadir)
+
+DE_genes <-read.table("DE_sig_genes_DESeq2.tsv", sep="\t", header=T, stringsAsFactors = F)
+
+```
+
+Now let's go ahead and load [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and some other useful packages. 
 
 ```R
 library(AnnotationDbi)
@@ -34,13 +49,8 @@ library(org.Hs.eg.db)
 library(GO.db)
 library(gage)
 
-#Define working dir paths
-datadir = "/cloud/project/outdir"
-#datadir = "~/workspace/rnaseq/de/htseq_counts/"
-
-setwd (datadir)
-
 ```
+
 ### Setting up gene set databases
 In order to perform our pathway analysis we need a list of pathways and their respective genes. There are many databases that contain collections of genes (or gene sets) that can be used to understand whether a set of mutated or differentially expressed genes are functionally related.  Some of these resources include: [GO](http://www.geneontology.org/), [KEGG](https://www.kegg.jp), [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb), and [WikiPathways](https://www.wikipathways.org/index.php/WikiPathways). For this exercise we are going to investigate [GO](http://www.geneontology.org/) and [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb).  The [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) package has a function for querying [GO](http://www.geneontology.org/) in real time: [go.gsets()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/go.gsets). This function takes a species as an argument and will return a list of gene sets and some helpful meta information for subsetting these lists. If you are unfamiliar with [GO](http://www.geneontology.org/), it is helpful to know that GO terms are categorized into three gene ontologies: "Biological Process", "Molecular Function", and "Cellular Component". This information will come in handy later in our exercise. GAGE does not provide a similar tool to investigate the gene sets available in MSigDB. Fortunately, MSigDB provides a  download-able `.gmt` file for all gene sets. This format is easily read into GAGE using a function called [readList()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/readList). If you check out [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) you will see that there are 8 unique gene set collections, each with slightly different features. For this exercise we will use the [C8 - cell type signature gene sets collection](https://www.gsea-msigdb.org/gsea/msigdb/collection_details.jsp#C8), which is a collection of gene sets that contain cluster markers for cell types identified from single-cell sequencing studies of human tissue.
 
@@ -57,19 +67,13 @@ all_cell_types <-readList(c8)
 
 ```
 
-### Importing edgeR results for gage
-Before we perform the pathway analysis we need to read in our differential expression results from the edgeR analysis. 
-
-```R
-DE_genes <-read.table("DE_genes_DESeq2.tsv", sep="\t", header=T, stringsAsFactors = F)
-
-```
 ### Annotating genes
 OK, so we have our differentially expressed genes and we have our gene sets. However, if you look at one of the objects containing the gene sets you'll notice that each gene set contains a series of integers. These integers are [Entrez](https://www.ncbi.nlm.nih.gov/gquery/) gene identifiers. But do we have comparable information in our DE gene list? Right now, no. Our previous results use Ensembl IDs as gene identifiers. We will need to convert our gene identifiers to the format used in the GO and MSigDB gene sets before we can perform the pathway analysis. Fortunately, Bioconductor maintains genome wide annotation data for many species, you can view these species with the [OrgDb bioc view](https://bioconductor.org/packages/release/BiocViews.html#___OrgDb). This makes converting the gene identifiers relatively straightforward, below we use the [mapIds()](https://www.rdocumentation.org/packages/OrganismDbi/versions/1.14.1/topics/MultiDb-class) function to query the OrganismDb object for the Entrez id based on the Ensembl id. Because there might not be a one-to-one relationship with these identifiers we also use `multiVals="first"` to specify that only the first identifier should be returned. Another option would be to use `multiVals="asNA"` to ignore one-to-many mappings.
 
 ```R
 DE_genes$entrez <- mapIds(org.Hs.eg.db, keys=DE_genes$ensemblID, column="ENTREZID", keytype="ENSEMBL", multiVals="first")
 ```
+
 ### Some clean-up and identifier mapping
 After completing the annotation above you will notice that some of our Ensembl gene IDs were not mapped to an Entrez gene ID. Why did this happen?  Well, this is actually a complicated point and gets at some nuanced concepts of how to define and annotate a gene. The short answer is that we are using two different resources that have annotated the human genome and there are some differences in how these resources have completed this task. Therefore, it is expected that there are some discrepencies. In the next few steps we will clean up what we can by first removing the ERCC spike-in genes and then will use a different identifier for futher mapping.  
 
