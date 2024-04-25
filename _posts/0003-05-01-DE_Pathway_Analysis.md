@@ -57,11 +57,11 @@ all_cell_types <-readList(c8)
 
 ```
 
-### Importing edgeR results for gage
-Before we perform the pathway analysis we need to read in our differential expression results from the edgeR analysis. 
+### Importing DE results for gage
+Before we perform the pathway analysis we need to read in our differential expression results from the DE analysis. 
 
 ```R
-DE_genes <-read.table("DE_genes_DESeq2.tsv", sep="\t", header=T, stringsAsFactors = F)
+DE_genes <-read.table("DE_sig_genes_DESeq2.tsv", sep="\t", header=T, stringsAsFactors = F)
 
 ```
 ### Annotating genes
