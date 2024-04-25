@@ -114,7 +114,7 @@ setwd(outdir)
 
 # run a filtering step 
 # i.e. require that for every gene: at least 1 of 6 samples must have counts greater than 10
-# get index of rows with meet this criterion
+# get index of rows that meet this criterion and use that to subset the matrix
 # note the dimensions of the matrix before and after filtering with dim
 dim(htseqCounts)
 htseqCounts <- htseqCounts[which(rowSums(htseqCounts >= 10) >=1),]
@@ -145,45 +145,64 @@ all(rownames(metaData) == colnames(htseqCounts))
 # and designs with interactions, e.g., ~ genotype + treatment + genotype:treatment.
 dds <- DESeqDataSetFromMatrix(countData = htseqCounts, colData = metaData, design = ~Condition)
 
-# run the DE analysis on the "dds" object, note look at results for direction of log2 fold-change
+# run the DESeq2 analysis on the "dds" object
 dds <- DESeq(dds)
 
 # view the DE results
 results(dds)
 
 # shrink the log2 fold change estimates
+#   shrinkage of effect size (log fold change estimates) is useful for visualization and ranking of genes
 
-# shrinkage of effect size (log fold change estimates) is useful for visualization and ranking of genes
-
-# In simplistic terms, the goal of calculating "dispersion estimates" and "shrinkage" is also to account for the problem that
-# genes with low mean counts across replicates tend of have higher variability than those with higher mean counts.
-# Shrinkage attempts to correct for this. For a detailed discussion of shrinkage refer to the DESeq2 vignette
+#   In simplistic terms, the goal of calculating "dispersion estimates" and "shrinkage" is also to account for the problem that
+#   genes with low mean counts across replicates tend of have higher variability than those with higher mean counts.
+#   Shrinkage attempts to correct for this. For a detailed discussion of shrinkage refer to the DESeq2 vignette
 
 # first get the name of the coefficient (log fold change) to shrink
 resultsNames(dds)
 
 # now apply the shrinkage approach
-resLFC <- lfcShrink(dds, coef="Condition_UHR_vs_HBR", type="apeglm")
+deGeneResult <- lfcShrink(dds, coef="Condition_UHR_vs_HBR", type="apeglm")
 
 # merge on gene names
-resLFC$ensemblID <- rownames(resLFC)
-resLFC <- as.data.table(resLFC)
-resLFC <- merge(resLFC, mapping, by='ensemblID', all.x=T)
+deGeneResult$ensemblID <- rownames(deGeneResult)
+deGeneResult <- as.data.table(deGeneResult)
+deGeneResult <- merge(deGeneResult, mapping, by='ensemblID', all.x=T)
 
 #contrast the values for a few genes before and after shrinkage
 results(dds)
-head(resLFC)
+head(deGeneResult)
 
 # merge the original raw count values onto this final dataframe to aid interpretation
 original_counts = as.data.frame(htseqCounts)
 original_counts[,"ensemblID"] = rownames(htseqCounts)
-resLFC_merged = merge(resLFC, original_counts, by='ensemblID', all.x=T)
+deGeneResult = merge(deGeneResult, original_counts, by='ensemblID', all.x=T)
 
-#view the final dataframe before saving it
-head(resLFC_merged)
+# view the final merged dataframe
+# based on the raw counts and fold change values what does a negative fold change mean with respect to our two conditions HBR and UHR?
+head(deGeneResult)
 
-# save the final DE result to an output file
-fwrite(resLFC, file='DE_genes_DESeq2.tsv', sep="\t")
+# view the top genes according to adjusted p-value
+deGeneResult[order(deGeneResult$padj),]
+
+# view the top genes according to fold change
+deGeneResult[order(deGeneResult$log2FoldChange),]
+
+# determine the number of up/down significant genes at FDR = 0.05 significance level
+dim(deGeneResult) # number of genes tested
+dim(deGeneResult[deGeneResult$padj < 0.05]) #number of significant genes
+
+# order the DE results by adjusted p-value
+deGeneResultSorted = deGeneResult[order(deGeneResult$padj),]
+
+# create a filtered data frame the limits to only significantly DE genes
+deGeneResultSignificant = deGeneResultSorted[deGeneResultSorted$padj < 0.05]
+
+# save the final DE result (all genes)  to an output file
+fwrite(deGeneResultSorted, file='DE_all_genes_DESeq2.tsv', sep="\t")
+
+# save the final DE result (significant genes only)  to an output file
+fwrite(deGeneResultSignificant, file='DE_sig_genes_DESeq2.tsv', sep="\t")
 
 #To exit R type the following
 quit(save="no")
