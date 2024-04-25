@@ -8,10 +8,7 @@ categories:
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0008-02-01
 ---
-## TO DO
-- add images
-- add explantion
-https://satijalab.org/seurat/articles/essential_commands.html
+
 
 ## Quality assessment
 
@@ -774,5 +771,7 @@ Active assay: RNA (18187 features, 2000 variable features)
 
 
 
+## Resources
 
+[Seurat Command Cheat Sheet](https://satijalab.org/seurat/articles/essential_commands.html)
 
