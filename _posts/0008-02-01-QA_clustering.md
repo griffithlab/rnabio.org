@@ -409,14 +409,28 @@ Let's now filter out merged object with the cutoffs deceided above.
 unfiltered_merged <- merged # save a copy of unfiltered merge for later
 
 merged <- subset(merged, nFeature_RNA > 1000 & percent.mt <= 12) 
+merged
 ```
 
+```
+An object of class Seurat 
+18187 features across 23185 samples within 1 assay 
+Active assay: RNA (18187 features, 0 variable features)
+ 6 layers present: counts.Rep1_ICBdT, counts.Rep1_ICB, counts.Rep3_ICBdT, counts.Rep3_ICB, counts.Rep5_ICBdT, counts.Rep5_ICB
+```
 As of now, the various replicates are in their own layers. They need to be merged into 1 single layer for further analysis. 
 ```R
-merged
 merged <- JoinLayers(merged)
 merged
 ```
+
+```
+An object of class Seurat 
+18187 features across 23185 samples within 1 assay 
+Active assay: RNA (18187 features, 0 variable features)
+ 1 layer present: counts
+```
+
 ### Normalize Data 
 
 Standard practice for scRNA data is to normalize your counts. mayn functions will only use the normalize counts and not look at the raw counts at all. The `NormslizeData` function takes our merged object and will log normalize our RNA assay. Log normalized in this context means that the  feature counts for each cell are divided by the total counts for that cell and multiplied by the `scale.factor`, then natural-log transformed using `log1p`. 
@@ -448,11 +462,11 @@ We can visualize the highly variable genes with a dot plot.
 ```R
 # Identify the 10 most highly variable genes
 top10 <- head(VariableFeatures(merged), 10)
+top10
 
 # plot variable features with and without labels
-plot1 <- VariableFeaturePlot(merged)
-plot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)
-plot1 + plot2
+plot1 <- VariableFeaturePlot(object=merged)
+HoverLocator(plot = plot1)
 ```
 
 Understanding where the information about the variable features are stored is a little tricky.
@@ -511,12 +525,11 @@ G2/M  CBX5  ENSG00000094916
 ```
 
 ```R
-cell.cycle.tirosh <- read.csv("http://genomedata.org/rnaseq-tutorial/scrna/CellCycleTiroshSymbol2ID.csv", header=TRUE); # read in the list of genes
-s.genes = cell.cycle.tirosh$Gene.Symbol[which(cell.cycle.tirosh$List == "G1/S")]; # create a vector of S-phase genes
-g2m.genes = cell.cycle.tirosh$Gene.Symbol[which(cell.cycle.tirosh$List == "G2/M")]; # create a vector of G2/M-phase genes
+library(gprofiler2) 
+s.genes = gorth(cc.genes.updated.2019$s.genes, source_organism = "hsapiens", target_organism = "mmusculus")$ortholog_name
+g2m.genes = gorth(cc.genes.updated.2019$g2m.genes, source_organism = "hsapiens", target_organism = "mmusculus")$ortholog_name
 
-
-merged <- CellCycleScoring(object=merged, s.features=s.genes, g2m.features=g2m.genes, set.ident=FALSE) # NOT WORKING???
+merged <- CellCycleScoring(object=merged, s.features=s.genes, g2m.features=g2m.genes, set.ident=FALSE)
 
 head(merged[[]])
 ```
@@ -595,8 +608,8 @@ Now we have to decide what are the most important PCs, which capture the most si
 One of the most common ways to understand PCs is an elbow plot. We choose the PC that is the 'elbox', that is where the standard deviation stops dramatically decreasing and levels out. 
 
 ```R
-elbow <- ElbowPlot(merged)
-jpeg(sprintf("outdir/Elbow.jpg"), width = 8, height = 6, units = 'in', res = 150)
+elbow <- ElbowPlot(merged, ndims = 30)
+jpeg(sprintf("%s/Elbow.jpg", outdir), width = 8, height = 6, units = 'in', res = 150)
 print(elbow)
 dev.off()
 ```
@@ -723,6 +736,14 @@ It looks like our samples are mixed nicely! We can check further by highlighting
 # UMAP with one day highlighted (not saved)
 highlighted_cells <- WhichCells(merged, expression = orig.ident == "Rep1_ICBdT")
 DimPlot(merged, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
+```
+
+Lets take a look at the cell cycle scoring calculations.
+
+```R
+DimPlot(merged, label = TRUE, group.by = "S.Score") +
+DimPlot(merged, label = TRUE, group.by = "G2M.Score") +
+DimPlot(merged, label = TRUE, group.by = "Phase") 
 ```
 
 #### Exploring Clustering Resolution
