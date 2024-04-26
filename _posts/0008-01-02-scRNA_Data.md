@@ -74,6 +74,27 @@ List of replicates with labels and links to CellRanger 7.0.0 multi QC reports:
 - [Rep5_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep5_ICBdT-web_summary.html): 6,074 cells, 1,336 genes per cell
 
 
+#### QC report discussion
+
+Using the report for [Rep1_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep1_ICB-web_summary.html) as an example, explore and discuss the following points: 
+
+- Alerts. We have one alert in this example and it is an expected consequence of how we ran Cell Ranger. Other alerts can indicate a variety of problems...
+
+- On the Cells tab. Note the number of cells identified (4,179), median reads per cell (96,808), median genes per cell (1,759), and confidently mapped reads in cells (94.82%).
+- Take a look at the t-SNE project. This will be your first crude glance at the heterogeneity of your cell population. Are distinct clusters forming, or just one big blob? How does that align with your biological expectation?
+- Could start to look at the genes expressed in each cluster, but we'll get into this a lot more deeply in Loupe and Seurat
+- Switch to the VDJ-T and VDJ-B tabs. Note the number of cells and number with a productive V-J pair. How does this compare to your expectation for the presence of T and B cells?  Is there any evidence for dominant clonotypes?
+
+- Switch to the Library tab and back to Gene Expression. Note the total number of reads (593,884,498). Is this close to what you ordered?
+- What proportion of reads were confidently mapped to the Genome (88.81%), Transcriptome (76.50%), and Exonic regions (74.60%)?
+
+- Look at the GEX Barcode Rank Plot. Is there a relatively sharp inflection point where drops are considered to be "Cells" compared to those considered "Background"?
+- In this case, we have 4,179 droplets being called "Cells". Note how this lines up on the x-axis ("Barcodes" == "Cells").
+- These cells have between ~500 and ~100,000 UMIs (unique fragments sequenced). Any droplet below ~500 UMIs is not being considered a cell according to Cell Ranger and is instead being considered "Background". In other words, indistinguishable from the free floating molecules that would wind up in droplet by chance (aka "ambient RNA" or "soup") even if there was no cell there.  
+
+- Now look at the Sequencing Saturation plot and the Sequencing saturation metric (93.21%).
+- Does it appear that we have exhausted or are close to exhausting the new information in the library?  Would it make sense to continue sequencing this same library deeper?
+
 #### Input files for the demonstration analysis
 
 We will not be running Cell Ranger ourselves and will instead be starting the scRNA analysis in R using matrix files from Cell Ranger and a few other input files briefly described here:
