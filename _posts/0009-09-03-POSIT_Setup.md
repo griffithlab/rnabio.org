@@ -13,7 +13,7 @@ date: 0009-09-03
 
 This tutorial explains how Posit cloud RStudio was configured for the course. This exercise is not to be completed by the students but is provided as a reference for future course developers that wish to conduct their hands on exercises on Posit RStudio.
 
-A Posit workspace was already created by the workshop organizers. We used Posit projects with 16GB RAM and 2 cores for the workshop with OS Ubuntu 20.04. Using these configurations, we created a template file that has all the raw data files uploaded along with the R packages needed for the workshop. From the students' side, the intention is to make copies off this template so that they have an RStudio environment with the raw data files that has the packages pre-installed.
+A Posit workspace was already created by the workshop organizers. We used Posit projects with 16GB RAM and 2 cores for the workshop with OS Ubuntu 20.04. Using these configurations, we created a template file that has all the raw data files uploaded along with the R packages needed for the workshop. From the student side, the intention is to make copies off this template so that they have an RStudio environment with the raw data files that has the packages pre-installed.
 
 ## Upload raw data
 
@@ -70,56 +70,11 @@ All package installations are from CRAN or BioConductor or GitHub pages, except 
 
 ```R
 #Download CytoTRACE tar.gz file
-download.file('https://cytotrace.stanford.edu/CytoTRACE_0.3.3.tar.gz', destfile = 'package_installation/CytoTRACE_0.3.3.tar.gz')
+download.file("https://cytotrace.stanford.edu/CytoTRACE_0.3.3.tar.gz", destfile = "package_installation/CytoTRACE_0.3.3.tar.gz")
 
 # Installing package installers
-install.packages('devtools')
+install.packages("devtools")
 install.packages("BiocManager")
-
-# Single-cell RNA seq libraries
-BiocManager::install("sva") #need this for cytotrace
-devtools::install_local("package_installation/CytoTRACE_0.3.3.tar.gz")
-install.packages('Seurat')
-install.packages('ggplot2')
-install.packages('dplyr')
-install.packages('Matrix')
-install.packages('hdf5r')
-install.packages('bench') # to mark time
-install.packages('viridis')
-install.packages('R.utils')
-remotes::install_github('satijalab/seurat-wrappers')
-BiocManager::install("celldex")
-BiocManager::install("SingleR")
-devtools::install_github('immunogenomics/presto')
-BiocManager::install("EnhancedVolcano")
-BiocManager::install("clusterProfiler")
-BiocManager::install("org.Mm.eg.db")
-install.packages("msigdbr")
-BiocManager::install("scRepertoire")
-BiocManager::install('BiocGenerics')
-BiocManager::install('DelayedArray')
-BiocManager::install('DelayedMatrixStats')
-BiocManager::install('limma')
-BiocManager::install('lme4')
-BiocManager::install('S4Vectors')
-BiocManager::install('SingleCellExperiment')
-BiocManager::install('SummarizedExperiment')
-BiocManager::install('batchelor')
-BiocManager::install('HDF5Array')
-BiocManager::install('terra')
-BiocManager::install('ggrastr')
-devtools::install_github('cole-trapnell-lab/monocle3')
-install.packages("beanplot")
-install.packages("mixtools")
-install.packages("pheatmap")
-install.packages("zoo")
-install.packages("squash")
-install.packages("showtext")
-BiocManager::install("biomaRt")
-BiocManager::install("scran")
-devtools::install_github("diazlab/CONICS/CONICSmat", dep = FALSE)
-install.packages("gprofiler2")
-
 
 # Bulk RNA seq libraries
 BiocManager::install("genefilter")
@@ -135,15 +90,61 @@ install.packages("gridExtra")
 BiocManager::install("edgeR")
 install.packages("UpSetR")
 BiocManager::install("DESeq2")
-install.packages('gtable')
+install.packages("gtable")
 BiocManager::install("apeglm")
+
+# Intro to R packages
+install.packages("tidyr")
+install.packages("stringr")
+install.packages("ggplot2")
+install.packages("dplyr")
+install.packages("tidyverse")
+install.packages("MASS")
+install.packages("ggpubr")
+
+# Single-cell RNA seq libraries
+BiocManager::install("sva") #need this for cytotrace
+devtools::install_local("package_installation/CytoTRACE_0.3.3.tar.gz")
+install.packages("Seurat")
+install.packages("ggplot2")
+install.packages("dplyr")
+install.packages("Matrix")
+install.packages("hdf5r")
+install.packages("bench") # to mark time
+install.packages("viridis")
+install.packages("R.utils")
+remotes::install_github("satijalab/seurat-wrappers")
+BiocManager::install("celldex")
+BiocManager::install("SingleR")
+devtools::install_github("immunogenomics/presto")
+BiocManager::install("EnhancedVolcano")
+BiocManager::install("clusterProfiler")
+BiocManager::install("org.Mm.eg.db")
+install.packages("msigdbr")
+BiocManager::install("scRepertoire")
+BiocManager::install("BiocGenerics")
+BiocManager::install("DelayedArray")
+BiocManager::install("DelayedMatrixStats")
+BiocManager::install("limma")
+BiocManager::install("lme4")
+BiocManager::install("S4Vectors")
+BiocManager::install("SingleCellExperiment")
+BiocManager::install("SummarizedExperiment")
+BiocManager::install("batchelor")
+BiocManager::install("HDF5Array")
+BiocManager::install("terra")
+BiocManager::install("ggrastr")
+devtools::install_github("cole-trapnell-lab/monocle3")
+install.packages("beanplot")
+install.packages("mixtools")
+install.packages("pheatmap")
+install.packages("zoo")
+install.packages("squash")
+install.packages("showtext")
+BiocManager::install("biomaRt")
+BiocManager::install("scran")
+devtools::install_github("diazlab/CONICS/CONICSmat", dep = FALSE)
+install.packages("gprofiler2")
+
 ```
-
-
-
-
-
-
-
-
 
