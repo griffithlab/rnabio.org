@@ -66,12 +66,12 @@ In the following demonstration analyses we will focus on a simplified comparison
 
 List of replicates with labels and links to CellRanger 7.0.0 multi QC reports:
 
-- [Rep1_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep1_ICB-web_summary.html)
-- [Rep3_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep3_ICB-web_summary.html)
-- [Rep5_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep5_ICB-web_summary.html)
-- [Rep1_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep1_ICBdT-web_summary.html)
-- [Rep3_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep3_ICBdT-web_summary.html)
-- [Rep5_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep5_ICBdT-web_summary.html)
+- [Rep1_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep1_ICB-web_summary.html): 4,179 cells, 1,759 genes per cell
+- [Rep3_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep3_ICB-web_summary.html): 6,486 cells, 1,645 genes per cell
+- [Rep5_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep5_ICB-web_summary.html): 3,006 cells, 1,163 genes per cell
+- [Rep1_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep1_ICBdT-web_summary.html): 4,024 cells, 2,096 genes per cell
+- [Rep3_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep3_ICBdT-web_summary.html): 5,665 cells, 1,735 genes per cell
+- [Rep5_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep5_ICBdT-web_summary.html): 6,074 cells, 1,336 genes per cell
 
 
 #### Input files for the demonstration analysis
@@ -85,6 +85,33 @@ We will not be running Cell Ranger ourselves and will instead be starting the sc
 - Somatic copy number variants (CNVs) identified by analysis of the tumor/normal WGS data for MCB6C
 
 #### Loupe browser demonstration for preliminary exploration of the MCB6C 
-...
 
+Briefly explore the MCB6C data using the [10X Loupe browser](https://www.10xgenomics.com/support/software/loupe-browser/latest). Use the following two samples as examples:
+
+##### Input data files
+
+| Sample | GEX Cloupe | TCR Vloupe | BCR Vloupe |
+|--------|------------|------------|------------|  
+| REP3_ICB: | [Rep3_ICB GEX cloupe](http://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICB-sample_cloupe.cloupe) | [Rep3_ICB TCR vloupe](http://genomedata.org/cri-workshop/vloupes_t/Rep3_ICB-t-vloupe.vloupe) | [Rep3_ICB BCR vloupe](http://genomedata.org/cri-workshop/vloupes_b/Rep3_ICB-b-vloupe.vloupe) |
+| REP3_ICBdT: | [Rep3_ICBdT GEX cloupe](http://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICBdT-sample_cloupe.cloupe) | [Rep3_ICBdT TCR vloupe](http://genomedata.org/cri-workshop/vloupes_t/Rep3_ICBdT-t-vloupe.vloupe) | [Rep3_ICBdT BCR vloupe](http://genomedata.org/cri-workshop/vloupes_b/Rep3_ICBdT-b-vloupe.vloupe) |
+
+.
+
+##### Exercise 
+
+Work through the following very basic intro to this tool with the following steps:
+
+- Open the Loupe browse and load the single cell gene expression data (`Open Loupe File`) for the **Rep3_ICB sample**.
+- Load the corresponding BCR and TCR single cell clonotype data (`V(D)J Clonotypes` -> `Upload a .vloupe file`).
+- Use the `Features` section to view cells with Epcam (epithelial marker) expression. Apply a filter and require a minimim cutoff of `1`.
+- Use the `Features` section to view cells with Cd3d expression. How does this compare with cells that have a TCR V(D)J sequence?
+- Use the `Features` section to view cells with Cd19 expression. How does this compare with cells that have a BCR V(D)J sequence?
+- Use the `Features` section to create a feature list: `Epithelial` with `Epcam` and `Psca`.
+- Use the `Features` section to create a feature list: `T cell` with `Cd3d`, `Cd3e`, `Cd3g`, `Cd4`, and `Cd8a`.
+- Use the `Features` section to create a feature list: `B cell` with `Cd19`, `Pax5`, `Cd79a`, and `Cd79b`.
+- Use the `Features` section to create a feature list: `Other` with `IFng`, `Gzma` and `Eomes`. Based on the markers these cells do and do not have, what are these cells likely to be?
+- What cluster # corresponds to the "Other" cells (cluster 13). Highlight that cluster in the Clusters view.
+- View the p-value sorted list for cluster 13.
+- Select the `Klra4` feature and view the Expression Distribution view.
+- Select all clusters and view the Heat Map view. What is notable about many of the most Up-regulated genes in this view?
 
