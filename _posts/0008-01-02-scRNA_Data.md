@@ -12,6 +12,11 @@ date: 0008-01-02
 ### Obtain RNA-seq test data.
 The data that will be used to demonstrate scRNA analysis in this module has been published by [Freshour et al. 2023](https://pubmed.ncbi.nlm.nih.gov/37810214/). If you use this data in your own benchmarking, tool development, or research please cite this article. The complete raw sequence dataset can be obtained from SRA at accession: [PRJNA934380](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA934380).
 
+***
+
+![MCBC6-overview](/assets/module_8/mcb6c-overview.png)
+
+***
 
 #### Model system
 
@@ -34,7 +39,7 @@ Briefly, the experimental details are depicted below and summarized briefly here
 
 ***
 
-![MCBC6-experimental-overview](/assets/module_8/mcb6c-experiment.png)
+![MCBC6-experiment](/assets/module_8/mcb6c-experiment.png)
 
 ***
 
@@ -51,7 +56,7 @@ The method and types of data generation are depicted below and summarized briefl
 
 ***
 
-![MCBC6-experimental-overview](/assets/module_8/mcb6c-data-generation.png)
+![MCBC6-data-generation](/assets/module_8/mcb6c-data-generation.png)
 
 ***
 
