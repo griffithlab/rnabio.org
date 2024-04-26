@@ -41,7 +41,7 @@ R
 # Install the latest version of DEseq2
 # if (!requireNamespace("BiocManager", quietly = TRUE))
 #   install.packages("BiocManager")
-# BiocManager::install("DESeq2", version = "3.8")
+# BiocManager::install("DESeq2")
 
 # define working dir paths
 datadir = "/cloud/project/data/bulk_rna"
@@ -85,7 +85,7 @@ class(htseqCounts) <- "integer"
 head(htseqCounts)
 
 # it can also be useful to view interactively (if in Rstudio)
-view(htseqCounts)
+View(htseqCounts)
 ```
 
 ### Filter raw counts
@@ -162,7 +162,7 @@ dds <- DESeq(dds)
 
 # view the DE results
 res <- results(dds)
-view(res)
+View(res)
 ```
 
 ### Log-fold change shrinkage
@@ -189,6 +189,9 @@ deGeneResult <- resLFC
 head(res)
 head(deGeneResult)
 ```
+
+How did the results change before and after shinkage? What direction is each log2 fold change value moving?
+
 
 ### Annotate gene symbols onto the DE results
 DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human friendly way to interpret results. Here gene symbols are merged onto the differential expressed gene list to make the results a bit more interpretable.
@@ -229,8 +232,8 @@ deGeneResult[order(deGeneResult$padj),]
 deGeneResult[order(deGeneResult$log2FoldChange),]
 
 # determine the number of up/down significant genes at FDR < 0.05 significance level
-dim(deGeneResult) # number of genes tested
-dim(deGeneResult[deGeneResult$padj < 0.05]) #number of significant genes
+dim(deGeneResult)[1] # number of genes tested
+dim(deGeneResult[deGeneResult$padj < 0.05])[1] #number of significant genes
 
 # order the DE results by adjusted p-value
 deGeneResultSorted = deGeneResult[order(deGeneResult$padj),]
