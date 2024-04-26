@@ -23,7 +23,7 @@ If you would like a brief refresher on differential expression analysis, please 
 ### edgeR DE Analysis
 In this tutorial you will:
 
-* Make use of the raw counts you generated above using htseq-count
+* Make use of the raw counts you generated previously using htseq-count
 * edgeR is a bioconductor package designed specifically for differential expression of count-based RNA-seq data
 * This is an alternative to using stringtie/ballgown to find differentially expressed genes
 
