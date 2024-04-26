@@ -89,6 +89,10 @@ repo: "https://github.com/griffithlab/rnabio.org"
 email: "zskidmor@wustl.edu"
 avatarurl:  "/assets/logos/DNA.jpg"# Uses avatars for favicons to get multple sites, eg Gravatar, Twitter, GitHub
 
+# Silence warnings caused by jekyll-sass-converter-3.0.0 until Jekyll is updated
+# For details: https://github.com/jekyll/minima/issues/709
+sass:
+  quiet_deps: true
 
 # 8. Site navigation
 navigation_header:
