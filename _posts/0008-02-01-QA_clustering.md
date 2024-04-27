@@ -675,7 +675,7 @@ After looking at the elbow plot, the PC heatmaps, and JackStraw plot (maybe this
 We are finally on the Cell Clustering step. The first step to clustering is the `FindNeighbors` which computes the k.param nearest neighbors for a given dataset. The concept is that given a data point, you want to identify the closest data points to it based on some similarity metric, such as Euclidean distance or cosine similarity. This helps to identify similar points in the dataset, which can be useful for making predictions or understanding the distribution of the data.
 
 ```R
-PC = 26
+PC = 22
 
 merged <- FindNeighbors(merged, dims = 1:PC)
 ```
