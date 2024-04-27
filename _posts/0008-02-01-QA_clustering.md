@@ -27,7 +27,7 @@ library("cowplot") # add-on to ggplot, we use the plot_grid function to put mult
 library("dplyr")   # a set of functions for data frame manipulation -- a core package of Tidyverse (THE R data manipulation package)
 library("Matrix")  # a set of functions for operating on matrices
 library("viridis") # color maps for graphs that are more readable than default colors
-# library("hdf5r")
+library(gprofiler2) 
 ```
 
 Let's make sure our workspace is configured the way we like. We will set our working directory where files will be saved. It is always good practice to verify what directory you are in and to ensure that you set the directory to where you want your files to be saved. 
@@ -236,11 +236,11 @@ for (sample in sample_names) {
 ```
 
 
-### Filtering Out Low Quality Cells
+### Filtering Out Low-Quality Cells
 
 #### Calculate the Percent of Mitochondrial Genes within each cell
 
-As we did for a single sample, we want to calculate percentage of mitochondrial genes for each cell. We will again use a for-loop to accomplish this for all samples:
+As we did for a single sample, we want to calculate the percentage of mitochondrial genes for each cell. We will again use a for-loop to accomplish this for all samples:
 
 ```R
 for (sample in sample_names) {
@@ -299,9 +299,9 @@ for (sample in sample_names) {
 
 #### Remove low-quality cells based on the QC plots
 
-Let's say we decide to remove all cells with gene counts greater than 1000 and mitochondrial percentage less than 12. 
+Let's say we decide to remove all cells with gene counts greater than 1000 and mitochondrial percentages less than 12. 
 
-We will mark cells that we want to keep. This `ifelse` function statement read: if `percent.mt` is less than or equal to 12 we will mark it as TRUE to keep it, otherwise we will mark it as FALSE to filter it out.
+We will mark cells that we want to keep. This `ifelse` function statement reads: if `percent.mt` is less than or equal to 12 we will mark it as TRUE to keep it, otherwise we will mark it as FALSE to filter it out.
 
 ```R
 Rep1_ICB_data_seurat_obj[["keep_cell_percent.mt"]] = ifelse(Rep1_ICB_data_seurat_obj[["percent.mt"]] <= 12, TRUE, FALSE)
@@ -527,24 +527,24 @@ head(merged[[]])
 ```
 
 ```
-                              orig.ident nCount_RNA nFeature_RNA percent.mt     S.Score   G2M.Score Phase
-Rep1_ICBdT_AAACCTGAGCCAACAG-1 Rep1_ICBdT      20585         4384   1.675978  0.63127142  0.21823009     S
-Rep1_ICBdT_AAACCTGAGCCTTGAT-1 Rep1_ICBdT       4528         1967   3.577739 -0.03253357 -0.11141842    G1
-Rep1_ICBdT_AAACCTGAGTACCGGA-1 Rep1_ICBdT      12732         3327   2.764687 -0.16579223 -0.15481808    G1
-Rep1_ICBdT_AAACCTGCACGGCCAT-1 Rep1_ICBdT       4903         2074   1.427697 -0.03259492 -0.04685228    G1
-Rep1_ICBdT_AAACCTGCACGGTAAG-1 Rep1_ICBdT      10841         3183   2.472097 -0.12269322 -0.05760946    G1
-Rep1_ICBdT_AAACCTGCATGCCACG-1 Rep1_ICBdT      10981         2788   2.030780 -0.09302601 -0.18653110    G1
+                              orig.ident nCount_RNA nFeature_RNA percent.mt keep_cell_percent.mt keep_cell_nFeature     S.Score   G2M.Score Phase
+Rep1_ICBdT_AAACCTGAGCCAACAG-1 Rep1_ICBdT      20585         4384   1.675978                 TRUE               TRUE  0.61857647  0.19639961     S
+Rep1_ICBdT_AAACCTGAGCCTTGAT-1 Rep1_ICBdT       4528         1967   3.577739                 TRUE               TRUE -0.06225445 -0.13230705    G1
+Rep1_ICBdT_AAACCTGAGTACCGGA-1 Rep1_ICBdT      12732         3327   2.764687                 TRUE               TRUE -0.14015383 -0.17780932    G1
+Rep1_ICBdT_AAACCTGCACGGCCAT-1 Rep1_ICBdT       4903         2074   1.427697                 TRUE               TRUE -0.05258375 -0.06400598    G1
+Rep1_ICBdT_AAACCTGCACGGTAAG-1 Rep1_ICBdT      10841         3183   2.472097                 TRUE               TRUE -0.10176717 -0.06637093    G1
+Rep1_ICBdT_AAACCTGCATGCCACG-1 Rep1_ICBdT      10981         2788   2.030780                 TRUE               TRUE -0.08794336 -0.21230015    G1
 ```
 
 ### Determine how many PCA should be used for clustering
 
-Looking at the count matrix for our Seurat object is a good reminder that there is no way we can process the amount of genes and cells present with just our eyes. We need a way of compressing this information into something we can more easy comprehend and manipulate. PCAs are a dimension reduction strategy which aim to show similarity without losing the patterns that drive variation. We can visualize this by picturing what it would look like if we had just two cells and a hand full of genes. If one cell's gene expression value was on the x-axis and the other on the y-axis you would get a simple dot plot and could draw two lines through those points to measure the spread of the data points in two directions. Those lines that you draw are a PC, they generalize the data points into a more manageble, single object. 
+Looking at the count matrix for our Seurat object is a good reminder that there is no way we can process the number of genes and cells present with just our eyes. We need a way of compressing this information into something we can more easy comprehend and manipulate. PCAs are a dimension reduction strategy that aims to show similarity without losing the patterns that drive variation. We can visualize this by picturing what it would look like if we had just two cells and a handful of genes. If one cell's gene expression value was on the x-axis and the other on the y-axis you would get a simple dot plot and could draw two lines through those points to measure the spread of the data points in two directions. Those lines that you draw are a PC, they generalize the data points into a more manageable, single object. 
 
-If we added another cell, we would add another axis to our graph AND we would add another direction in which we could have variation. So for our 23185 cells in our dataset we would have 23185 directions of variation or principal components (PC). The PC that deals wiht the largest variant is PC1. For further explanation and visuals please view this [page](https://hbctraining.github.io/scRNA-seq/lessons/05_normalization_and_PCA.html).
+If we added another cell, we would add another axis to our graph AND we would add another direction in which we could have variation. So for the 23185 cells in our dataset, we would have 23185 directions of variation or principal components (PC). The PC that deals with the largest variant is PC1. For further explanation and visuals please view this [page](https://hbctraining.github.io/scRNA-seq/lessons/05_normalization_and_PCA.html).
 
 #### Calculating PCAs
 
-Now we will calculate PCs on our dataset. We will calculate the defualt 50 PCs whihc should capture plenty of information on this dataset. 
+Now we will calculate PCs on our dataset. We will calculate the default 50 PCs which should capture plenty of information on this dataset. 
 
 ```R
 merged <- RunPCA(merged, npcs = 50, assay = "RNA") 
@@ -597,7 +597,7 @@ Now we have to decide what are the most important PCs, which capture the most si
 
 ##### Elbox Plot
 
-One of the most common ways to understand PCs is an elbow plot. We choose the PC that is the 'elbox', that is where the standard deviation stops dramatically decreasing and levels out. 
+One of the most common ways to understand PCs is an elbow plot. We choose the PC that is the 'elbow', that is where the standard deviation stops dramatically decreasing and levels out. 
 
 ```R
 elbow <- ElbowPlot(merged, ndims = 30)
@@ -610,7 +610,7 @@ dev.off()
 
 ##### Dimension Heat maps
 
-We can also view the PCs as heatmaps. We see the top genes which drive the PC and how much they are expressed or not expressed in each cell. We want our heatmaps to show contrast and not just look like a blobby mess. More importantly, we look at what genes are driving the PC and depending on what we would like to search for in our analysis, would want to make sure our PCs include genes that are relavent.
+We can also view the PCs as heatmaps. We see the top genes that drive the PC and how much they are expressed or not expressed in each cell. We want our heatmaps to show contrast and not just look like a blobby mess. More importantly, we look at what genes are driving the PC, and depending on what we would like to search for in our analysis, we would want to make sure our PCs include genes that are relavent.
 
 ```R
 jpeg(sprintf("%s/DimHm1_12.jpg", outdir), width = 10, height = 20, units = 'in', res = 150)
@@ -659,7 +659,7 @@ Jackstaw is an older and computationally expensive way to analyze the variabilit
 
 #### Choosing the number of PCAs
 
-Using the elbox, heatmap, and possibly jackstraw we can make an informed decsion on how many PCs we should use for cell clustering. We are trying to include as much information as possible without suffering form too much noise.
+Using the elbow, heatmap, and possibly jackstraw we can make an informed decision on how many PCs we should use for cell clustering. We are trying to include as much information as possible without suffering from too much noise.
 
 There is one tactic we can use to deduce our PC cutoff. We can see how many PCs have a standard deviation greater than 2.
 
@@ -672,7 +672,7 @@ After looking at the elbow plot, the PC heatmaps, and JackStraw plot (maybe this
 
 ### Cell Clustering
 
-We are finally on the Cell Clustering step. The first step to clustering is the `FindNeighbors` which computed the k.param nearest neighbors for a given dataset. The concept is that given a data point, you want to identify the closest data points to it based on some similarity metric, such as Euclidean distance or cosine similarity. This helps to identify similar points in the dataset, which can be useful for making predictions or understanding the distribution of the data.
+We are finally on the Cell Clustering step. The first step to clustering is the `FindNeighbors` which computes the k.param nearest neighbors for a given dataset. The concept is that given a data point, you want to identify the closest data points to it based on some similarity metric, such as Euclidean distance or cosine similarity. This helps to identify similar points in the dataset, which can be useful for making predictions or understanding the distribution of the data.
 
 ```R
 PC = 26
@@ -680,7 +680,7 @@ PC = 26
 merged <- FindNeighbors(merged, dims = 1:PC)
 ```
 
-We then run `FindClusters` were our cells will be grouped toegether based on similarity. `FindNeighbors` focuses on finding the nearest neighbors of a single data point,  whil `FindClusters` deals with grouping multiple data points into clusters based on their similarities. More extensive explanations found [here](https://www.biostars.org/p/9572463/),
+We then run `FindClusters` where our cells will be grouped together based on similarity. `FindNeighbors` focuses on finding the nearest neighbors of a single data point,  while `FindClusters` deals with grouping multiple data points into clusters based on their similarities. More extensive explanations are found [here](https://www.biostars.org/p/9572463/),
 
 ```R
 merged <- FindClusters(merged, resolution = 1.2, cluster.name = 'seurat_clusters_res1.2')
@@ -707,14 +707,14 @@ Active assay: RNA (18187 features, 2000 variable features)
 
 #### Plotting
 
-Lets view our clusters with `DimPlot`.
+Let's view our clusters with `DimPlot`.
 ```R
 jpeg(sprintf("%s/UMAP.jpg",outdir), width = 5, height = 4, units = 'in', res = 150)
 DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2')
 dev.off()
 ```
 
-Now, lets color by our samples ot make sure that no sample is clustering by itself -- this would be an indication of batch effects. We want similar cells to be clusters together becasue they have similar gene expression. We do NOT want our cells to cluster together becasue of technical errors.
+Now, let's color by our samples to make sure that no sample is clustering by itself -- this would be an indication of batch effects. We want similar cells to be clustered together because they have similar gene expression. We do NOT want our cells to cluster together because of technical errors.
 ```R
 # UMAP by sample
 jpeg(sprintf("%s/UMAP_orig.ident.jpg",outdir), width = 5, height = 4, units = 'in', res = 150)
@@ -740,7 +740,7 @@ DimPlot(merged, label = TRUE, group.by = "Phase")
 
 #### Exploring Clustering Resolution
 
-Now its time to explore the nurances of clustering resolution. Choosing cluster resolution is somewhat arbitrary and affects the number of clusters called (higher resolution calls more clusters). The shape of the UMAP does not change if you change the cluster resolution. The shape of the UMAP is determined by the number of PCs used to create the UMAP.
+Now it's time to explore the nuances of clustering resolution. Choosing cluster resolution is somewhat arbitrary and affects the number of clusters called (higher resolution calls more clusters). The shape of the UMAP does not change if you change the cluster resolution. The shape of the UMAP is determined by the number of PCs used to create the UMAP.
 
 ```R
 merged <- FindClusters(merged, resolution = 0.8, cluster.name = 'seurat_clusters_res0.8')
@@ -756,7 +756,7 @@ dev.off()
 
 ## Finishing up
 
-Finally, lets save our object for further analysis. 
+Finally, let's save our object for further analysis. 
 
 ```R
 saveRDS(merged, file = "outdir_single_cell_rna/rep135_clustered.rds")
@@ -769,7 +769,7 @@ Early we made a copy of our object before filtering. This object has two `meta.d
 
 **Can we visualize these cells on a UMAP?**
 
-The unfiltered_merge object did not go through any processing after the merging step, so those will have to be repeated to produce a UMAP. Pay attentions to what changes when you run the steps on the unfiltered object. Is the number of PCs different? Visualize the cell cycle scores, are there any patterns that you notice? Are the cells that are filtered out clustered together or scatter throughout the UMAP?
+The unfiltered_merge object did not go through any processing after the merging step, so those will have to be repeated to produce a UMAP. Pay attention to what changes when you run the steps on the unfiltered object. Is the number of PCs different? Visualize the cell cycle scores, are there any patterns that you notice? Are the cells that are filtered out clustered together or scattered throughout the UMAP?
 
 ```R
 unfiltered_merged
