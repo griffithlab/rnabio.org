@@ -25,7 +25,7 @@ There are various tools available for enrichment analysis, here we chose to use 
 
 We will also use a web tool [https://maayanlab.cloud/Enrichr/enrich](https://maayanlab.cloud/Enrichr/enrich) for some of our analysis.
 
-We will start by investigating the Epcam positive clusters we identified in the Differential Expression section. Let's load in the R libraries we will need and read in the DE file we generated previously. Recall that we generated this file using the `FindMarkers` function in Seurat, and had `ident.1` as `cluster 8` and `ident.2` as `cluster 12`. Therefore, we are looking at `cluster 8` with respect to `cluster 12`, that is, positive log2FC values correspond to genes upregulated in `cluster 8` or downregulated in `cluster 12` and vice versa for negative log2FC values.
+We will start by investigating the Epcam positive clusters we identified in the Differential Expression section. Let's load in the R libraries we will need and read in the DE file we generated previously. Recall that we generated this file using the `FindMarkers` function in Seurat, and had `ident.1` as `cluster 9` and `ident.2` as `cluster 12`. Therefore, we are looking at `cluster 9` with respect to `cluster 12`, that is, positive log2FC values correspond to genes upregulated in `cluster 9` or downregulated in `cluster 12` and vice versa for negative log2FC values.
 
 ```R
 #load R libraries
@@ -78,7 +78,7 @@ write.table(x = overrep_gene_list, file = 'outdir_single_cell_rna/epithelial_ove
 
 For the Enrichr webtool based analysis, we'll open that TSV file in our Rstudio session, copy the genes, and paste them directly into the textbox on the right. The webtool should load multiple barplots with different enriched pathways. Feel free to click around and explore here. To compare the results against the results we generated in R, navigate to the `Cell Types` tab on the top and look for `Tabula Muris`. 
 
-An important component to a 'good' overrepresentation analysis is using one's expertise about the biology in conjunction with the pathways identified to generate hypotheses. It is unlikely that every pathway in the plots above is meaningful, however knowledge of bladder cancer (for this dataset) tells us that basal and luminal bladder cancers share similar expression profiles to basal and luminal breast cancers [reference](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5078592/). So, the overrepresentation analysis showing genesets like 'Tabula Muris senis mammary gland basal cell ageing' and 'Tabula muris senis mammary gland luminal epithelial cell of mammary gland ageing' could suggest that the difference in unsupervised clusters 8 and 12 could be coming from the basal and luminal cells. To investigate this further, we can compile a list of basal and luminal markers from the literature, generate a combined score for those genes using Seurat's `AddModuleScore` function and determine if the clusters are split up as basal and luminal. For now we'll use the same markers defined in this dataset's original manuscript.
+An important component to a 'good' overrepresentation analysis is using one's expertise about the biology in conjunction with the pathways identified to generate hypotheses. It is unlikely that every pathway in the plots above is meaningful, however knowledge of bladder cancer (for this dataset) tells us that basal and luminal bladder cancers share similar expression profiles to basal and luminal breast cancers [reference](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5078592/). So, the overrepresentation analysis showing genesets like 'Tabula Muris senis mammary gland basal cell ageing' and 'Tabula muris senis mammary gland luminal epithelial cell of mammary gland ageing' could suggest that the difference in unsupervised clusters 9 and 12 could be coming from the basal and luminal cells. To investigate this further, we can compile a list of basal and luminal markers from the literature, generate a combined score for those genes using Seurat's `AddModuleScore` function and determine if the clusters are split up as basal and luminal. For now we'll use the same markers defined in this dataset's original manuscript.
 
 **TODO UPDATE BASED ON SAVED RDS OBJECT**
 ```R
@@ -98,7 +98,7 @@ FeaturePlot(merged, features=c('basal_markers_score1', 'luminal_markers_score1')
 VlnPlot(merged, features=c('basal_markers_score1', 'luminal_markers_score1'), group.by = 'seurat_clusters_res0.8', pt.size=0)
 ```
 
-Interesting! This analysis could lead us to conclude that cluster 12 is composed of basal epithelial cells, while cluster 8 is composed of luminal epithelial cells. Next, let's see if we can use GSEA to determine if there are certain biological processes that are distinct between these clusters?
+Interesting! This analysis could lead us to conclude that cluster 12 is composed of basal epithelial cells, while cluster 9 is composed of luminal epithelial cells. Next, let's see if we can use GSEA to determine if there are certain biological processes that are distinct between these clusters?
 
 For GSEA, we need to start by creating a named vector where the values are the log fold change values and the names are the gene's names. Recall that GSEA analysis relies on identifying any incremental gene expression changes (not just those that are statistically significant), so we will use our original unfiltered dataframe to get these values. This will be used as input to the `gseGO` function in the `clusterProfiler` library, which uses gene ontology for GSEA analysis. The other parameters for the function include `OrgDb = org.Mm.eg.db`, the organism database from where all the pathways' genesets will be determined; `ont = "ALL"`, specifies the subontologies, with possible options being `BP (Biological Process)`, `MF (Molecular Function)`, `CC (Cellular Compartment)`, or `ALL`; `keyType = "SYMBOL"` tells `gseGO` that the genes in our named vector are gene symbols as opposed to Entrez IDs, or Ensembl IDs; and `pAdjustMethod="BH"` and `pvalueCutoff=0.05` specify the p-value adjustment statistical method to use and the corresponding cutoff. 
 
@@ -148,7 +148,7 @@ heatplot(gse_epithelial, foldChange=gene_list)
 cnetplot(gse_epithelial, foldChange=gene_list)
 ```
 
-Based on these results, we could conclude that cluster 8 (putative luminal cells) have lower expression of quite a few pathways related to epithelial cell proliferation compared to cluster 12 (putative basal cells). 
+Based on these results, we could conclude that cluster 9 (putative luminal cells) have lower expression of quite a few pathways related to epithelial cell proliferation compared to cluster 12 (putative basal cells). 
 
 
 

@@ -22,7 +22,9 @@ For copy number alterations (CNAs), there are various tools that try to detect C
 ### Finding tumor cells based on Copy number data
 
 If you are working in a tumor sample where you expect to find CNAs, looking for copy number alterations in the scRNAseq data can be one way to identify tumor cells. In our case, whole genome sequencing was done on the cell line used for the mouse models, so we have some confidently determined CNAs we expect to find in the scRNAseq data- 
+
 ![CNV_LPWGS_scatterplot](/assets/module_8/CNV_scatterplot_fig2_manuscript.png)
+
 As we can see above, we expect to find gains in chromosome 2 and 11 and a loss in chromosome 12. 
 
 We will use CONICSmat to identify cells with CNAs in our scRNAseq data. While there is more information available on their [GitHub tutorial](https://github.com/diazlab/CONICS/wiki/Tutorial---CONICSmat;---Dataset:-SmartSeq2-scRNA-seq-of-Oligodendroglioma) and [paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7190654/), briefly CONICSmat fits a two-component Gaussian mixture model for each chromosomal region, and uses a Bayesian Information Criterion (BIC) statistical test to ask if a 1-component model (all cells are the same and there's no CNA) fits better than a 2-component model (some cells have altered copy number compared to others). Here, a better fit is defined by a lower BIC score. Note that since we are only using the gene by cell counts matrix, average expression of genes in that chromosomal region is used as a proxy for a CNA. The key to most single-cell CNA based tools is that we need both tumor cells and non-tumor cells in our analysis as a copy number gain or loss in the tumor cells can only be measured relative to healthy cells. While CONICSmat can be run on all cells in the sample together, for our purposes, we will subset the object to Epithelial cells and B cells so that it can run more efficiently. CONICSmat is a somewhat computationally intensive tool, so we will start by clearing our workspace using the broom icon on the top right pane, and also click on the drop-down menu with a piechart beside it and select `Free unused memory`.
@@ -40,7 +42,7 @@ library("hdf5r")
 library("CONICSmat")
 library("showtext")
 
-merged <- readRDS('merged_processed_object.rds')
+merged <- readRDS('preprocessed_object.rds')
 
 #subset Seurat object to only include epithelial cells and B cells
 merged <- SetIdent(merged, value = 'immgen_singler_main')

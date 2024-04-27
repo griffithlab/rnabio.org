@@ -13,7 +13,7 @@ date: 0009-09-03
 
 This tutorial explains how Posit cloud RStudio was configured for the course. This exercise is not to be completed by the students but is provided as a reference for future course developers that wish to conduct their hands on exercises on Posit RStudio.
 
-A Posit workspace was already created by the workshop organizers. We used Posit projects with 16GB RAM and 2 cores for the workshop with OS Ubuntu 20.04. Using these configurations, we created a template file that has all the raw data files uploaded along with the R packages needed for the workshop. From the students' side, the intention is to make copies off this template so that they have an RStudio environment with the raw data files that has the packages pre-installed.
+A Posit workspace was already created by the workshop organizers. We used Posit projects with 16GB RAM and 2 cores for the workshop with OS Ubuntu 20.04. Using these configurations, we created a template file that has all the raw data files uploaded along with the R packages needed for the workshop. From the student side, the intention is to make copies off this template so that they have an RStudio environment with the raw data files that has the packages pre-installed.
 
 ## Upload raw data
 
@@ -35,7 +35,9 @@ mkdir bulk_rna
 - BCR and TCR clonotypes (uploaded from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/CellRanger_v7_run/runs/cri_workshop_scrna_files/clonotypes_b_posit.zip` and `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/CellRanger_v7_run/runs/cri_workshop_scrna_files/clonotypes_t_posit.zip`)
 - MSigDB `M8: cell type signature gene sets` (downloaded GMT file from [MSigDB website](https://www.gsea-msigdb.org/gsea/msigdb/download_file.jsp?filePath=/msigdb/release/2023.2.Mm/m8.all.v2023.2.Mm.symbols.gmt) to laptop and then uploaded to single_cell_rna folder)
 - CONICSmat mm10 chr arms positions file (downloaded file from CONICSmat GitHub - [chromosome_full_positions_mm10.txt](https://github.com/diazlab/CONICS/blob/master/chromosome_full_positions_mm10.txt) to laptop and then uploaded to single_cell_rna folder)
-- Vartrix file with barcodes and tumor calls (uploaded from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/Tumor_Calls_per_Variants_for_CRI_Updated_Barcodes.tsv`)
+- VarTrix file with barcodes and tumor calls (uploaded from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/Tumor_Calls_per_Variants_for_CRI_Updated_Barcodes.tsv`) -> might not need this so may remove.
+- VarTrix output files (uploaded all matrices and the barcodes files from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/vartrix_outputs_for_CRI.zip` - uploaded to a `cancer_cell_id` folder in `data/single_cell_rna/`)
+- Mouse variants VCF file (uploaded file from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/exome/output_updated/final_basic_filtered_annotated.vcf`)
 
 Posit requires all files to be zipped prior to uploading and automatically unzips the folder after the upload. After uploading the files, made a folder for the cellranger outputs, and moved the `.h5` files there. Will also download inferCNV files using `wget`
 ```bash
@@ -51,6 +53,13 @@ mv Tumor_Calls_per_Variants_for_CRI.tsv reference_files
 cd reference_files
 wget https://data.broadinstitute.org/Trinity/CTAT/cnv/mouse_gencode.GRCm38.p6.vM25.basic.annotation.by_gene_id.infercnv_positions
 wget https://data.broadinstitute.org/Trinity/CTAT/cnv/mouse_gencode.GRCm38.p6.vM25.basic.annotation.by_gene_name.infercnv_positions
+
+#organize vartrix files
+cd /cloud/project/data/single_cell_rna
+mkdir cancer_cell_id 
+cd cancer_cell_id
+wget http://genomedata.org/cri-workshop/somatic_variants_exome/mcb6c-exome-somatic.variants.annotated.clean.tsv
+
 ````
 
 ### Files in bulk_rna
@@ -64,62 +73,20 @@ wget http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/ENSG_ID2Name.
 wget http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_read_counts_table_all_final.tsv
 ```
 
+### Back-up files
+- Created folder in `outdir/single_cell_rna` called `backup_files`. Ran through QA/QC assessment and celltyping modules and added `preprocessed_object.rds` Seurat object from there to backup_files.
+
 ## Installing packages
 
 All package installations are from CRAN or BioConductor or GitHub pages, except for CytoTRACE. That was downloaded to the `package_installation` folder and then installed using `devtools`. 
 
 ```R
 #Download CytoTRACE tar.gz file
-download.file('https://cytotrace.stanford.edu/CytoTRACE_0.3.3.tar.gz', destfile = 'package_installation/CytoTRACE_0.3.3.tar.gz')
+download.file("https://cytotrace.stanford.edu/CytoTRACE_0.3.3.tar.gz", destfile = "package_installation/CytoTRACE_0.3.3.tar.gz")
 
 # Installing package installers
-install.packages('devtools')
+install.packages("devtools")
 install.packages("BiocManager")
-
-# Single-cell RNA seq libraries
-BiocManager::install("sva") #need this for cytotrace
-devtools::install_local("package_installation/CytoTRACE_0.3.3.tar.gz")
-install.packages('Seurat')
-install.packages('ggplot2')
-install.packages('dplyr')
-install.packages('Matrix')
-install.packages('hdf5r')
-install.packages('bench') # to mark time
-install.packages('viridis')
-install.packages('R.utils')
-remotes::install_github('satijalab/seurat-wrappers')
-BiocManager::install("celldex")
-BiocManager::install("SingleR")
-devtools::install_github('immunogenomics/presto')
-BiocManager::install("EnhancedVolcano")
-BiocManager::install("clusterProfiler")
-BiocManager::install("org.Mm.eg.db")
-install.packages("msigdbr")
-BiocManager::install("scRepertoire")
-BiocManager::install('BiocGenerics')
-BiocManager::install('DelayedArray')
-BiocManager::install('DelayedMatrixStats')
-BiocManager::install('limma')
-BiocManager::install('lme4')
-BiocManager::install('S4Vectors')
-BiocManager::install('SingleCellExperiment')
-BiocManager::install('SummarizedExperiment')
-BiocManager::install('batchelor')
-BiocManager::install('HDF5Array')
-BiocManager::install('terra')
-BiocManager::install('ggrastr')
-devtools::install_github('cole-trapnell-lab/monocle3')
-install.packages("beanplot")
-install.packages("mixtools")
-install.packages("pheatmap")
-install.packages("zoo")
-install.packages("squash")
-install.packages("showtext")
-BiocManager::install("biomaRt")
-BiocManager::install("scran")
-devtools::install_github("diazlab/CONICS/CONICSmat", dep = FALSE)
-install.packages("gprofiler2")
-
 
 # Bulk RNA seq libraries
 BiocManager::install("genefilter")
@@ -135,15 +102,61 @@ install.packages("gridExtra")
 BiocManager::install("edgeR")
 install.packages("UpSetR")
 BiocManager::install("DESeq2")
-install.packages('gtable')
+install.packages("gtable")
 BiocManager::install("apeglm")
+
+# Intro to R packages
+install.packages("tidyr")
+install.packages("stringr")
+install.packages("ggplot2")
+install.packages("dplyr")
+install.packages("tidyverse")
+install.packages("MASS")
+install.packages("ggpubr")
+
+# Single-cell RNA seq libraries
+BiocManager::install("sva") #need this for cytotrace
+devtools::install_local("package_installation/CytoTRACE_0.3.3.tar.gz")
+install.packages("Seurat")
+install.packages("ggplot2")
+install.packages("dplyr")
+install.packages("Matrix")
+install.packages("hdf5r")
+install.packages("bench") # to mark time
+install.packages("viridis")
+install.packages("R.utils")
+remotes::install_github("satijalab/seurat-wrappers")
+BiocManager::install("celldex")
+BiocManager::install("SingleR")
+devtools::install_github("immunogenomics/presto")
+BiocManager::install("EnhancedVolcano")
+BiocManager::install("clusterProfiler")
+BiocManager::install("org.Mm.eg.db")
+install.packages("msigdbr")
+BiocManager::install("scRepertoire")
+BiocManager::install("BiocGenerics")
+BiocManager::install("DelayedArray")
+BiocManager::install("DelayedMatrixStats")
+BiocManager::install("limma")
+BiocManager::install("lme4")
+BiocManager::install("S4Vectors")
+BiocManager::install("SingleCellExperiment")
+BiocManager::install("SummarizedExperiment")
+BiocManager::install("batchelor")
+BiocManager::install("HDF5Array")
+BiocManager::install("terra")
+BiocManager::install("ggrastr")
+devtools::install_github("cole-trapnell-lab/monocle3")
+install.packages("beanplot")
+install.packages("mixtools")
+install.packages("pheatmap")
+install.packages("zoo")
+install.packages("squash")
+install.packages("showtext")
+BiocManager::install("biomaRt")
+BiocManager::install("scran")
+devtools::install_github("diazlab/CONICS/CONICSmat", dep = FALSE)
+install.packages("gprofiler2")
+devtools::install_github(repo = "ncborcherding/scRepertoire")
 ```
-
-
-
-
-
-
-
-
 
