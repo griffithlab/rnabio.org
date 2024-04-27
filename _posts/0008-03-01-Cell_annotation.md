@@ -30,7 +30,25 @@ Calling the ImmGenData() function returns a SummarizedExperiment object containi
 ref_immgen <- celldex::ImmGenData()
 
 ref_immgen
+```
 
+```
+class: SummarizedExperiment 
+dim: 22134 830 
+metadata(0):
+assays(1): logcounts
+rownames(22134): Zglp1 Vmn2r65 ... Tiparp Kdm1a
+rowData names(0):
+colnames(830):
+  GSM1136119_EA07068_260297_MOGENE-1_0-ST-V1_MF.11C-11B+.LU_1.CEL
+  GSM1136120_EA07068_260298_MOGENE-1_0-ST-V1_MF.11C-11B+.LU_2.CEL
+  ...
+  GSM920654_EA07068_201214_MOGENE-1_0-ST-V1_TGD.VG4+24ALO.E17.TH_1.CEL
+  GSM920655_EA07068_201215_MOGENE-1_0-ST-V1_TGD.VG4+24ALO.E17.TH_2.CEL
+colData names(3): label.main label.fine label.ont
+```
+
+```R
 head(ref_immgen$label.main)
 head(ref_immgen$label.fine)
 head(ref_immgen$label.ont)
