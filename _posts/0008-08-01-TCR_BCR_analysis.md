@@ -27,12 +27,12 @@ We first read in the `filtered_contig_annotations.csv` output from the [10x Geno
 
 ### Loading in data
 ```R
-Rep1_ICB_t <- read.csv("data/clonotypes_t_posit/Rep1_ICB-t-filtered_contig_annotations.csv")
-Rep1_ICBdT_t <- read.csv("data/clonotypes_t_posit/Rep1_ICBdT-t-filtered_contig_annotations.csv")
-Rep3_ICB_t <- read.csv("data/clonotypes_t_posit/Rep3_ICB-t-filtered_contig_annotations.csv")
-Rep3_ICBdT_t <- read.csv("data/clonotypes_t_posit/Rep3_ICBdT-t-filtered_contig_annotations.csv")
-Rep5_ICB_t <- read.csv("data/clonotypes_t_posit/Rep5_ICB-t-filtered_contig_annotations.csv")
-Rep5_ICBdT_t <- read.csv("data/clonotypes_t_posit/Rep5_ICBdT-t-filtered_contig_annotations.csv")
+Rep1_ICB_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep1_ICB-t-filtered_contig_annotations.csv")
+Rep1_ICBdT_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep1_ICBdT-t-filtered_contig_annotations.csv")
+Rep3_ICB_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep3_ICB-t-filtered_contig_annotations.csv")
+Rep3_ICBdT_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep3_ICBdT-t-filtered_contig_annotations.csv")
+Rep5_ICB_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep5_ICB-t-filtered_contig_annotations.csv")
+Rep5_ICBdT_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep5_ICBdT-t-filtered_contig_annotations.csv")
 
 # create a list all sample's TCR data 
 TCR.contigs <- list(Rep1_ICB_t, Rep1_ICBdT_t, Rep3_ICB_t, Rep3_ICBdT_t, Rep5_ICB_t, Rep5_ICBdT_t)

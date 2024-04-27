@@ -45,7 +45,7 @@ We already know that these two clusters can be separated into basal and luminal 
 FeaturePlot(object = rep135, features = c("Cd44", "Krt14", "Krt5", "Krt16", "Krt6a"))
 ```
 
-To more comprehensively see where the basal and luminal cells are, we can create a cell type score by averaging the expressio of a group of genes and ploting the score.
+To more comprehensively see where the basal and luminal cells are, we can create a cell type score by averaging the expression of a group of genes and ploting the score.
 
 ```R
 cell_type_Basal_marker_gene_list <- list(c("Cd44", "Krt14", "Krt5", "Krt16", "Krt6a"))
@@ -62,7 +62,7 @@ For more clarity, lets subset our seurat object to just the epithelial cell clus
 ```R
 ### Subsetting dataset epithelial
 rep135 <- SetIdent(rep135_processed_joined, value = 'seurat_clusters_res0.8')
-rep135_epithelial <- subset(rep135_processed_joined, idents = c('10', '12')) # 1750
+rep135_epithelial <- subset(rep135_processed_joined, idents = c('9', '12')) # 1750
 
 #confirm that we have subset the object as expected visually using a UMAP
 DimPlot(rep135, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
@@ -264,15 +264,6 @@ plot_cells(cds,
 ```
 
 
-### Notes 
-
-If the CytoTRACE webpage is too slow and we just want to get an idea of what the scores look like, we can use a copy of the CytoTRACE function which is preloaded in your workspace. It seems that there is some bug in the offical tar for CytoTRACE so we use instead a copy of the function with some changes to avoid the error.
-
-The function is named `Local_CytoTRACE`
-
-```R
-cytotrace_scores <- Local_CytoTRACE(mat = as.matrix(rep135), enableFast = FALSE)
-```
 
 #### Further Resources 
 [R Tutorial](https://bioconductor.org/books/3.14/OSCA.advanced/trajectory-analysis.html)

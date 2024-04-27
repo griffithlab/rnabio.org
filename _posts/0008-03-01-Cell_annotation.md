@@ -61,6 +61,7 @@ DimPlot(merged, group.by = c("immgen_singler_fine"))
 
 ```
 
+
 ### Note on reference annotation datasets
 As one might expect, the choice of reference can have a major impact on the annotation results. It's essential to choose a reference dataset encompassing a broader spectrum of labels than those expected in our test dataset. Trust in the appropriateness of labels assigned by the original authors to reference samples is often a leap of faith, and it's unsurprising that certain references outperform others due to differences in sample preparation quality. Ideally, we favor a reference generated using a technology or protocol similar to our test dataset, although this consideration is typically not an issue when using SingleR() for annotating well-defined cell types.
 
