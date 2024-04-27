@@ -18,7 +18,6 @@ Secondly, we will compare the T cell populations of mice treated with ICB therap
 
 Read-in the saved seurat object from the previous step if it is not already loaded in your current R session.
 
-**TODO SEE WHAT THIS NEW OBJECT IS NAMED AND WHERE IT'S KEPT FROM PREVIOUS STEPS**
 ```R
 library(Seurat)
 library(dplyr)
@@ -28,42 +27,6 @@ merged <- readRDS('outdir_single_cell_rna/preprocessed_object.rds')
 ```
 
 ### Gene expression analysis for epithelial cells
-
-**TODO we may take care of the step below in a previous section**
-
-As of now the various replicates are in their own layers. They need to be merged into 1 single layer for further analysis. Also add (draft) SingleR labels to the object.
-
-```R
-library(celldex)
-library(SingleR)
-
-merged
-merged <- JoinLayers(merged)
-merged
-
-#load singler immgen reference
-ref_immgen <- celldex::ImmGenData()
-#generate predictions for our seurat object
-predictions_main = SingleR(test = GetAssayData(merged), 
-                      ref = ref_immgen,
-                      labels = ref_immgen$label.main)
-
-predictions_fine = SingleR(test = GetAssayData(merged), 
-                           ref = ref_immgen,
-                           labels = ref_immgen$label.fine)
-
-#add main labels to object
-merged[['immgen_singler_main']] = rep('NA', ncol(merged))
-merged$immgen_singler_main[rownames(predictions_main)] = predictions_main$labels
-
-#add fine labels to object
-merged[['immgen_singler_fine']] = rep('NA', ncol(merged))
-merged$immgen_singler_fine[rownames(predictions_fine)] = predictions_fine$labels
-
-
-```
-
-Compare the number of layers present before and after merging. `JoinLayers` is an important step because many of the DE functions use the log-normalized data (held in the `data` layer) instead of the data kept in the `scale.data` layer.  
 
 Use Seurat's `FeaturePlot` function to color each cell by its Epcam expression on a UMAP.
 `FeaturePlot` requires at least 2 arguments- the seurat object, and the 'feature' you want to plot (where a 'feature' can be a gene, PC scores, any of the metadata columns, etc.). To customize the `FeaturePlot`, please refer to Seurat's documentation [here](https://satijalab.org/seurat/reference/featureplot)
@@ -76,7 +39,6 @@ While there are some Epcam positive cells scattered on the UMAP, there appear to
 
 There are a few different ways to go about identifying what those clusters are. We can start by trying to use the `DimPlot` plotting function from before along with the `FeaturePlot` function. Separating plots by the `+` symbol allows us to plot multiple plots side-by-side.
 
-**TODO UPDATE GROUP.BY ARGUMENT BASED ON WHAT THE CELLTYPE COLUMN IS CALLED**
 ```R
 DimPlot(merged, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
 FeaturePlot(merged, features = 'Epcam') + 
@@ -90,7 +52,7 @@ To learn more about customizing a Violin plot, please refer to the [Seurat docum
 VlnPlot(merged, group.by = 'seurat_clusters_res0.8', features = 'Epcam')
 ```
 
-Great! Looks like we can confirm that clusters 8 and 12 have the highest expression of Epcam. However, it is interesting that they are split into 2 clusters. This is a good place to use differential expression analysis to determine how these clusters differ from each other.
+Great! Looks like we can confirm that clusters 9 and 12 have the highest expression of Epcam. However, it is interesting that they are split into 2 clusters. This is a good place to use differential expression analysis to determine how these clusters differ from each other.
 
 ### Differential expression for epithelial cells
 
@@ -99,7 +61,7 @@ We can begin by restricting the Seurat object to the cells we are interested in.
 ```R
 #set ident to seurat clusters metadata column and subset object to Epcam positive clusters
 merged <- SetIdent(merged, value = 'seurat_clusters_res0.8')
-merged_epithelial <- subset(merged, idents = c('8', '12'))
+merged_epithelial <- subset(merged, idents = c('9', '12'))
 
 #confirm that we have subset the object as expected visually using a UMAP
 DimPlot(merged, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
@@ -112,12 +74,12 @@ table(merged_epithelial$seurat_clusters_res0.8)
 
 Now we will use Seurat's `FindMarkers` function to carry out a differential expression analysis between both groups. `FindMarkers` also requires that we use `SetIdent` to change the default 'Ident' to the metadata column we want to use for our comparison. More information about `FindMarkers` is available [here](https://satijalab.org/seurat/reference/findmarkers).
 
-Note that here we use `FindMarkers` to compare clusters 8 and 12. The default syntax of `FindMarkers` requires that we provide each group of cells as `ident.1` and `ident.2`. The output of `FindMarkers` is a table with each gene that is differentially expressed and its corresponding log2FC. The direction of the log2FC is of `ident.1` with respect to `ident.2`. Therefore, genes upregulated in `ident.1` have positive log2FC, while those downregulated in `ident.1` have negative log2FC. Here, we also provide a `min.pct=0.25` argument so that we only test genes that are expressed in 25% of cells in either of the `ident.1` or `ident.2` groups. This can help reduce false positives as the genes must be expressed in a greater proportion of the cells compared to the default value of 1%. We also specify the `logfc.threshold=0.1` parameter, which ensures our results only include genes that have a fold change of less than -0.1 or more than 0.1. Increasing the `min.pct` and `logfc.threshold` parameters can also result in the function running faster as they reduce the number of genes being tested.
+Note that here we use `FindMarkers` to compare clusters 9 and 12. The default syntax of `FindMarkers` requires that we provide each group of cells as `ident.1` and `ident.2`. The output of `FindMarkers` is a table with each gene that is differentially expressed and its corresponding log2FC. The direction of the log2FC is of `ident.1` with respect to `ident.2`. Therefore, genes upregulated in `ident.1` have positive log2FC, while those downregulated in `ident.1` have negative log2FC. Here, we also provide a `min.pct=0.25` argument so that we only test genes that are expressed in 25% of cells in either of the `ident.1` or `ident.2` groups. This can help reduce false positives as the genes must be expressed in a greater proportion of the cells compared to the default value of 1%. We also specify the `logfc.threshold=0.1` parameter, which ensures our results only include genes that have a fold change of less than -0.1 or more than 0.1. Increasing the `min.pct` and `logfc.threshold` parameters can also result in the function running faster as they reduce the number of genes being tested.
 
 ```R
 #carry out DE analysis between both groups
 merged_epithelial <- SetIdent(merged_epithelial, value = "seurat_clusters_res0.8")
-epithelial_de <- FindMarkers(merged_epithelial, ident.1 = "8", ident.2 = "12", min.pct=0.25, logfc.threshold=0.1) #how cluster 8 changes wrt cluster 12
+epithelial_de <- FindMarkers(merged_epithelial, ident.1 = "8", ident.2 = "12", min.pct=0.25, logfc.threshold=0.1) #how cluster 9 changes wrt cluster 12
 ```
 On opening `epithelial_de` in your RStudio session, you'll see that it is a dataframe with the genes as rownames, and the following columns- `p_val`, `avg_log2FC`, `pct.1`, `pct.2`, `p_val_adj`. The p-values are dependent on the test used while running `FindMarkers`, and the adjusted p-value is based on the bonferroni correction test. `pct.1` and `pct.2` are the percentages of cells where the gene is detected in the `ident.1` and `ident.2` groups respectively. 
 
@@ -154,7 +116,7 @@ EnhancedVolcano(epithelial_de,
   lab = rownames(epithelial_de),
   x = 'avg_log2FC',
   y = 'p_val_adj',
-  title = 'Cluster8 wrt Cluster 12',
+  title = 'Cluster9 wrt Cluster 12',
   pCutoff = 0.05,
   FCcutoff = 0.5,
   pointSize = 3.0,
@@ -166,7 +128,7 @@ To find out how we can figure out what these genes mean, stay tuned! The next mo
 
 ```R
 #rerun FindMarkers
-epithelial_de_gsea <- FindMarkers(merged_epithelial, ident.1 = "8", ident.2 = "12", min.pct=0.25, logfc.threshold=0)
+epithelial_de_gsea <- FindMarkers(merged_epithelial, ident.1 = "9", ident.2 = "12", min.pct=0.25, logfc.threshold=0)
 #save this table as a TSV file
 write.table(x = epithelial_de_gsea, file = 'outdir_single_cell_rna/epithelial_de_gsea.tsv', sep='\t')
 ``` 
@@ -174,8 +136,6 @@ write.table(x = epithelial_de_gsea, file = 'outdir_single_cell_rna/epithelial_de
 ### Differential expression for T cells
 
 For the T cell focused analysis, we will ask how T cells from mice treated with ICB compare against T cells from mice with (some of) their T cells depleted treated with ICB (ICBdT). We will start by subsetting our `merged` object to only have T cells, by combining the various T cell annotations from celltyping section. We'll start by seeing all the possible celltypes we have, and picking the ones that are related to T cells. Next, we will `SetIdent` to the celltype metadata column, and subset to the celltypes that correspond to T cells. Finally, we'll doublecheck that the subsetting happened as we expected it to. 
-
-**TODO UPDATE THESE BASED ON FINAL CELLTYPING**
 
 ```R
 #check all the annotated celltypes

@@ -35,7 +35,9 @@ mkdir bulk_rna
 - BCR and TCR clonotypes (uploaded from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/CellRanger_v7_run/runs/cri_workshop_scrna_files/clonotypes_b_posit.zip` and `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/CellRanger_v7_run/runs/cri_workshop_scrna_files/clonotypes_t_posit.zip`)
 - MSigDB `M8: cell type signature gene sets` (downloaded GMT file from [MSigDB website](https://www.gsea-msigdb.org/gsea/msigdb/download_file.jsp?filePath=/msigdb/release/2023.2.Mm/m8.all.v2023.2.Mm.symbols.gmt) to laptop and then uploaded to single_cell_rna folder)
 - CONICSmat mm10 chr arms positions file (downloaded file from CONICSmat GitHub - [chromosome_full_positions_mm10.txt](https://github.com/diazlab/CONICS/blob/master/chromosome_full_positions_mm10.txt) to laptop and then uploaded to single_cell_rna folder)
-- Vartrix file with barcodes and tumor calls (uploaded from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/Tumor_Calls_per_Variants_for_CRI_Updated_Barcodes.tsv`)
+- VarTrix file with barcodes and tumor calls (uploaded from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/Tumor_Calls_per_Variants_for_CRI_Updated_Barcodes.tsv`) -> might not need this so may remove.
+- VarTrix output files (uploaded all matrices and the barcodes files from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/scRNA/vartrix_outputs_for_CRI.zip` - uploaded to a `cancer_cell_id` folder in `data/single_cell_rna/`)
+- Mouse variants VCF file (uploaded file from `/storage1/fs1/mgriffit/Active/scrna_mcb6c/Mouse_Bladder_MCB6C_Arora/exome/output_updated/final_basic_filtered_annotated.vcf`)
 
 Posit requires all files to be zipped prior to uploading and automatically unzips the folder after the upload. After uploading the files, made a folder for the cellranger outputs, and moved the `.h5` files there. Will also download inferCNV files using `wget`
 ```bash
@@ -51,6 +53,13 @@ mv Tumor_Calls_per_Variants_for_CRI.tsv reference_files
 cd reference_files
 wget https://data.broadinstitute.org/Trinity/CTAT/cnv/mouse_gencode.GRCm38.p6.vM25.basic.annotation.by_gene_id.infercnv_positions
 wget https://data.broadinstitute.org/Trinity/CTAT/cnv/mouse_gencode.GRCm38.p6.vM25.basic.annotation.by_gene_name.infercnv_positions
+
+#organize vartrix files
+cd /cloud/project/data/single_cell_rna
+mkdir cancer_cell_id 
+cd cancer_cell_id
+wget http://genomedata.org/cri-workshop/somatic_variants_exome/mcb6c-exome-somatic.variants.annotated.clean.tsv
+
 ````
 
 ### Files in bulk_rna
@@ -63,6 +72,9 @@ wget http://genomedata.org/rnaseq-tutorial/batch_correction/GSE48035_ILMN.Counts
 wget http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/ENSG_ID2Name.txt
 wget http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_read_counts_table_all_final.tsv
 ```
+
+### Back-up files
+- Created folder in `outdir/single_cell_rna` called `backup_files`. Ran through QA/QC assessment and celltyping modules and added `preprocessed_object.rds` Seurat object from there to backup_files.
 
 ## Installing packages
 
@@ -145,6 +157,6 @@ BiocManager::install("biomaRt")
 BiocManager::install("scran")
 devtools::install_github("diazlab/CONICS/CONICSmat", dep = FALSE)
 install.packages("gprofiler2")
-
+devtools::install_github(repo = "ncborcherding/scRepertoire")
 ```
 
