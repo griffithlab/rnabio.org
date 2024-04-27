@@ -733,9 +733,7 @@ DimPlot(merged, reduction = 'umap', group.by = 'orig.ident', cells.highlight = h
 Lets take a look at the cell cycle scoring calculations.
 
 ```R
-DimPlot(merged, label = TRUE, group.by = "S.Score") +
-DimPlot(merged, label = TRUE, group.by = "G2M.Score") +
-DimPlot(merged, label = TRUE, group.by = "Phase") 
+FeaturePlot(merged, features = c("S.Score", "G2M.Score")) + DimPlot(merged,  group.by = "Phase")  
 ```
 
 #### Exploring Clustering Resolution
