@@ -130,7 +130,48 @@ predictions_main = SingleR(test = GetAssayData(merged),
 predictions_fine = SingleR(test = GetAssayData(merged), 
                            ref = ref_immgen,
                            labels = ref_immgen$label.fine)
+```
 
+What do these objects look like?
+
+```R
+head(predictions_main)
+
+```
+
+You should see something like the below, where each row is a barcode with columns for labels (assigned cell type), delta, and pruned.labels.
+
+```R
+DataFrame with 6 rows and 4 columns
+                                                         scores
+                                                       <matrix>
+Rep1_ICBdT_AAACCTGAGCCAACAG-1 0.4156037:0.4067582:0.2845856:...
+Rep1_ICBdT_AAACCTGAGCCTTGAT-1 0.4551058:0.3195934:0.2282272:...
+Rep1_ICBdT_AAACCTGAGTACCGGA-1 0.0717647:0.0621878:0.0710026:...
+Rep1_ICBdT_AAACCTGCACGGCCAT-1 0.2774994:0.2569566:0.2483387:...
+Rep1_ICBdT_AAACCTGCACGGTAAG-1 0.3486259:0.3135662:0.3145100:...
+Rep1_ICBdT_AAACCTGCATGCCACG-1 0.0399733:0.0229926:0.0669236:...
+                                   labels delta.next
+                              <character>  <numeric>
+Rep1_ICBdT_AAACCTGAGCCAACAG-1         NKT  0.0124615
+Rep1_ICBdT_AAACCTGAGCCTTGAT-1     B cells  0.1355124
+Rep1_ICBdT_AAACCTGAGTACCGGA-1 Fibroblasts  0.1981683
+Rep1_ICBdT_AAACCTGCACGGCCAT-1    NK cells  0.0577608
+Rep1_ICBdT_AAACCTGCACGGTAAG-1     T cells  0.1038542
+Rep1_ICBdT_AAACCTGCATGCCACG-1 Fibroblasts  0.2443470
+                              pruned.labels
+                                <character>
+Rep1_ICBdT_AAACCTGAGCCAACAG-1           NKT
+Rep1_ICBdT_AAACCTGAGCCTTGAT-1       B cells
+Rep1_ICBdT_AAACCTGAGTACCGGA-1   Fibroblasts
+Rep1_ICBdT_AAACCTGCACGGCCAT-1      NK cells
+Rep1_ICBdT_AAACCTGCACGGTAAG-1       T cells
+Rep1_ICBdT_AAACCTGCATGCCACG-1   Fibroblasts
+```
+
+Now that we understand what these data objects look like, let's add the cell type labels to our seurat object.
+
+```R
 #add main labels to object
 merged[['immgen_singler_main']] = rep('NA', ncol(merged))
 merged$immgen_singler_main[rownames(predictions_main)] = predictions_main$labels
@@ -146,8 +187,14 @@ How do our samples differ in their relative cell composition?
 ```R
 #visualizing the relative proportion of cell types across our samples
 library(viridis)
-ggplot(merged[[]], aes(x = orig.ident, fill = immgen_singler_main)) + geom_bar(position = "fill") + scale_fill_viridis(discrete = TRUE) 
+ggplot(merged[[]], aes(x = orig.ident, fill = immgen_singler_main)) + geom_bar(position = "fill") + scale_fill_viridis(discrete = TRUE)
 
+``` 
+
+We can also flip the samples and cell labels and view this data as below.
+
+```R
+ggplot(merged[[]], aes(x = immgen_singler_main, fill = orig.ident)) + geom_bar(position = "fill") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + scale_fill_viridis(discrete = TRUE)
 
 ggplot(merged[[]], aes(x = immgen_singler_fine, fill = orig.ident)) + geom_bar(position = "fill") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + scale_fill_viridis(discrete = TRUE) 
 
