@@ -31,7 +31,7 @@ First, we need to load the relevant libraries.
 ```R
 library(SingleR)
 library(celldex)
-readRDS()
+merged <- readRDS("outdir_single_cell_rna/rep135_clustered.rds")
 
 ```
 
