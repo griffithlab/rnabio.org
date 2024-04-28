@@ -9,21 +9,21 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0008-08-01
 ---
 
-In this module, we will use our scRNA seurat object to explore the immune receptor T and B cells diversity. To recognize both antigens and tumor neoantigens, T and B cells can generate diverse receptor sequences through somatic V(D)J recombination. We will be using [scRepertoire](https://www.borch.dev/uploads/screpertoire/) to explore the receptor data. This R package provides several convenient processing and visualization functions that are easy to understand and use. We will then add the clonal infomation for both B and T cells back onto our seurat object to be used in further analysis.
+In this module, we will use our scRNA seurat object to explore the immune receptor T and B cells diversity. To recognize both antigens and tumor neoantigens, T and B cells can generate diverse receptor sequences through somatic V(D)J recombination. We will be using [scRepertoire](https://www.borch.dev/uploads/screpertoire/) to explore the receptor data. This R package provides several convenient processing and visualization functions that are easy to understand and use. We will then add the clonal information for both B and T cells back onto our Seurat object to be used in further analysis.
 
 
 ```R
 #BiocManager::install("scRepertoire")
 
 library("scRepertoire")
-library(dplyr)
-library(Seurat)
+library("dplyr")
+library("Seurat")
 ```
 
 
 ## Exploring TCRs
 
-We first read in the `filtered_contig_annotations.csv` output from the [10x Genomics Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/outputs/cr-5p-outputs-annotations-vdj) for all samples. The cellranger vdj pipeline provides amino acid and nucleotide sequences for framework and complementarity determining regions (CDRs). The `filtered_contig_annotations.csv` file contains high-level annotations of each high-confidence contigs from cell-associated barcodes. 
+We first read in the `filtered_contig_annotations.csv` output from the [10x Genomics Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/outputs/cr-5p-outputs-annotations-vdj) for all samples. The cellranger vdj pipeline provides amino acid and nucleotide sequences for framework and complementarity determining regions (CDRs). The `filtered_contig_annotations.csv` file contains high-level annotations of each high-confidence contig from cell-associated barcodes. 
 
 ### Loading in data
 ```R
@@ -34,13 +34,13 @@ Rep3_ICBdT_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep3_ICBdT-t-f
 Rep5_ICB_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep5_ICB-t-filtered_contig_annotations.csv")
 Rep5_ICBdT_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep5_ICBdT-t-filtered_contig_annotations.csv")
 
-# create a list all sample's TCR data 
+# create a list of all samples' TCR data 
 TCR.contigs <- list(Rep1_ICB_t, Rep1_ICBdT_t, Rep3_ICB_t, Rep3_ICBdT_t, Rep5_ICB_t, Rep5_ICBdT_t)
 ```
 
 ### Combining contigs into clones
 
-Use scRepertoire's `combineTCR` fucntion to create an object with all samples TCR data. Additional filtering parameters are set to `FALSE`. `removeNA` will remove any chain wiht vlaues, `removeMulti` will remove barecodes with freater than 2 chains, and `filterMulti` will allow for the selection of the 2 corresponding chains with the highest expression for a single barcode. 
+Use scRepertoire's `combineTCR` function to create an object with all samples' TCR data. Additional filtering parameters are set to `FALSE`. `removeNA` will remove any chain with NA values, `removeMulti` will remove barcodes with greater than 2 chains, and `filterMulti` will allow for the selection of the 2 corresponding chains with the highest expression for a single barcode. 
 
 ```R
 
@@ -96,9 +96,9 @@ head(combined.TCR[[1]])
 
 ### Visualize the Number of Clones
 
-`scRepertoire` defines clones as the cells with shared/trackable complementarity-determining region 3 (CDR3) sequences. You can define clones using the amino acid sequence (`aa`), nucleotide (`nt`), or the V(D)JC genes (`genes`). The latter genes would be a more permissive definition of “clones”, as multiple amino acid or nucleotide sequences can result from the same gene combination. You can also use a comination of the V(D)JC and nucleotide sequence (`strict`). scRepertoire also allows for the users to select both or individual chains to examine.
+`scRepertoire` defines clones as TCRs/BCRs with shared/trackable complementarity-determining region 3 (CDR3) sequences. You can define clones using the amino acid sequence (`aa`), nucleotide (`nt`), or the V(D)JC genes (`genes`). The latter genes would be a more permissive definition of “clones”, as multiple amino acid or nucleotide sequences can result from the same gene combination. You can also use a combination of the V(D)JC and nucleotide sequence (`strict`). scRepertoire also allows for the users to select both or individual chains to examine.
 
-First, we will visualize the number of clones per sample. There are many ways to count clones and, as dicussed above, scReportoire gives us several options. Here are some sample commands to view the counts, try playing around with changing the `cloneCall` parameter to `gene`, `nt`, `aa`, or `strict`.
+First, we will visualize the number of clones per sample. There are many ways to count clones and, as discussed above, scReportoire gives us several options. Here are some sample commands to view the counts, try playing around with changing the `cloneCall` parameter to `gene`, `nt`, `aa`, or `strict`.
 
 ```R
 # view the total number of unique clones
@@ -123,7 +123,7 @@ clonalQuant(combined.TCR,
 
 ```
 
-We can also examine the relative distribution of clones by abundance. Using `clonalAbundance()` will produce a line graph with a total number of clones by the number of instances within the sample or run.
+We can also examine the relative distribution of clones by abundance. Using `clonalAbundance()` will produce a line graph with the total number of clones by the number of instances within the sample or run.
 
 ```R
 # line graph with a total number of clones by the number of instances within the sample or run
@@ -141,7 +141,7 @@ clonalLength(combined.TCR,
 
 ```
 
-The we can produce alluvial plots which compares the clone between samples. We don't expect to see much similarity because each sample is from a different mouse. 
+Then we can produce alluvial plots that compare the clone between samples. We don't expect to see much similarity because each sample is from a different mouse. 
 
 ```R
 # We can also look at clones between samples 
@@ -161,7 +161,7 @@ clonalCompare(combined.TCR,
               top.clones = 25, 
               samples = c("Rep3_ICB", "Rep3_ICBdT"), 
               cloneCall="nt", 
-              graph = "alluvial")
+              graph = "alluvial") + NoLegend()
 
 clonalCompare(combined.TCR, 
               top.clones = 10, 
@@ -173,10 +173,10 @@ clonalCompare(combined.TCR,
               top.clones = 25, 
               samples = c("Rep1_ICB", "Rep1_ICBdT", "Rep3_ICB", "Rep3_ICBdT", "Rep5_ICB", "Rep5_ICBdT"), 
               cloneCall="aa", 
-              graph = "alluvial")
+              graph = "alluvial") + NoLegend()
 ```
 
-If we wanted to export the results of our comparison, we could do something like tis:
+If we wanted to export the results of our comparison, we could do something like this:
 
 ```R
 clonotype_table <- clonalCompare(combined.TCR, 
@@ -188,20 +188,20 @@ clonotype_table <- clonalCompare(combined.TCR,
 
 ## Exploring BCR
 
-We can run almost the exact same commands with our BCR data. Lets read in our files and create a BCR object.
+We can run almost the exact same commands with our BCR data. Let's read in our files and create a BCR object.
 
 ```R
 
-Rep1_ICB_b <- read.csv("data/clonotypes_b_posit/Rep1_ICB-b-filtered_contig_annotations.csv")
-Rep1_ICBdT_b <- read.csv("data/clonotypes_b_posit/Rep1_ICBdT-b-filtered_contig_annotations.csv")
-Rep3_ICB_b <- read.csv("data/clonotypes_b_posit/Rep3_ICB-b-filtered_contig_annotations.csv")
-Rep3_ICBdT_b <- read.csv("data/clonotypes_b_posit/Rep3_ICBdT-b-filtered_contig_annotations.csv")
-Rep5_ICB_b <- read.csv("data/clonotypes_b_posit/Rep5_ICB-b-filtered_contig_annotations.csv")
-Rep5_ICBdT_b <- read.csv("data/clonotypes_b_posit/Rep5_ICBdT-b-filtered_contig_annotations.csv")
+Rep1_ICB_b <- read.csv("data/single_cell_rna/clonotypes_b_posit/Rep1_ICB-b-filtered_contig_annotations.csv")
+Rep1_ICBdT_b <- read.csv("data/single_cell_rna/clonotypes_b_posit/Rep1_ICBdT-b-filtered_contig_annotations.csv")
+Rep3_ICB_b <- read.csv("data/single_cell_rna/clonotypes_b_posit/Rep3_ICB-b-filtered_contig_annotations.csv")
+Rep3_ICBdT_b <- read.csv("data/single_cell_rna/clonotypes_b_posit/Rep3_ICBdT-b-filtered_contig_annotations.csv")
+Rep5_ICB_b <- read.csv("data/single_cell_rna/clonotypes_b_posit/Rep5_ICB-b-filtered_contig_annotations.csv")
+Rep5_ICBdT_b <- read.csv("data/single_cell_rna/clonotypes_b_posit/Rep5_ICBdT-b-filtered_contig_annotations.csv")
 
 ```
  
- Unlike `combineTCR`, `combineBCR` produces a column called CTstrict of an index of nucleotide sequence and the corresponding V gene. This index automatically calculates the Levenshtein distance between sequences with the same V gene and will index sequences using a normalized Levenshtein distance with the same ID. After which, clone clusters are called using the components function. Clones that are clustered across multiple sequences will then be labeled with "Cluster" in the CTstrict header. We use teh `theshold` parameter to set the normalized edit distance to consider, where the higher the number the more similarity of sequence will be used for clustering.
+Unlike `combineTCR`, `combineBCR` produces a column called CTstrict of an index of nucleotide sequence and the corresponding V gene. This index automatically calculates the Levenshtein distance between sequences with the same V gene and will index sequences using a normalized Levenshtein distance with the same ID. After which, clone clusters are called using the components function. Clones that are clustered across multiple sequences will then be labeled with "Cluster" in the CTstrict header. We use the `threshold` parameter to set the normalized edit distance to consider, where the higher the number the more similarity of sequence will be used for clustering.
 
 ```R
 BCR.contigs <- list(Rep1_ICB_b, Rep1_ICBdT_b, Rep3_ICB_b, Rep3_ICBdT_b, Rep5_ICB_b, Rep5_ICBdT_b)
@@ -240,16 +240,16 @@ clonalAbundance(combined.BCR,
 
 ```
 
-We see a surprising amount of similar clones between `Rep3`, why do we think that is?
+Next, looking at the alluvial plots for BCRs, we see a surprising amount of similar clones between `Rep3`, why do we think that is?
 
 ```R
-clonalCompare(combined.TCR, 
+clonalCompare(combined.BCR, 
               top.clones = 25, 
               samples = c("Rep1_ICB", "Rep1_ICBdT", "Rep3_ICB", "Rep3_ICBdT", "Rep5_ICB", "Rep5_ICBdT"), 
               cloneCall="aa", 
               graph = "alluvial")
 
-clonalCompare(combined.TCR, 
+clonalCompare(combined.BCR, 
               top.clones = 10, 
               samples = c("Rep3_ICB", "Rep3_ICBdT"), 
               cloneCall="strict", 
@@ -257,17 +257,17 @@ clonalCompare(combined.TCR,
 
 ```
 
-### Adding the BCR and TCR Data to your seurat object
+### Adding the BCR and TCR Data to your Seurat object
 
-We will now add the BCR and TCR information which has been handled by scRepotoire so far to our seurat object.
+We will now add the BCR and TCR information which has been handled by scRepertoire so far to our Seurat object.
 
-Read in your seurat object
+Read in your Seurat object
 ```R
 
-rep135 <- readRDS("processed_joined_celltyped_object_0418.rds")
+rep135 <- readRDS("outdir_single_cell_rna/preprocessed_object.rds")
 ```
 
-Use the `combineExpression` function to add the TCR data to your seurat object. The columns CTgene, CTnt, CTaa, CTstrict, clonalProportion, clonalFrequency, and cloneSize data will be added to your seurat object's meta data. Notice you can also decide the bins for grouping based on proportion or frequency.
+Use the `combineExpression` function to add the TCR data to your Seurat object. The columns CTgene, CTnt, CTaa, CTstrict, clonalProportion, clonalFrequency, and cloneSize data will be added to your Seurat object's metadata. Notice you can also decide the bins for grouping based on proportion or frequency.
 
 Here we group by frequency:
 
@@ -289,7 +289,7 @@ names(rep135@meta.data)[names(rep135@meta.data) %in% columns_to_modify] <- paste
 colnames(rep135@meta.data) # make sure the column names are changed 
 ```
 
-We can now plot the cells that with TCRs and compare that to our cell type annotations. Indeed, we see a majority of TCRs in the same clusters whihc are called T cells!
+We can now plot the cells with TCRs and compare that to our cell type annotations. Indeed, we see a majority of TCRs in the same clusters which are called T cells!
 
 ```R
 DimPlot(rep135, group.by = c("cloneSize_TCR", "immgen_singler_main"))
@@ -308,7 +308,7 @@ colnames(rep135@meta.data) # make sure the column names are changed
 ```
 
 
-Now lets visualize the TCR, BCR, and cell type annotations with a UMAP. 
+Now let's visualize the TCR, BCR, and cell type annotations with a UMAP. 
 ```R
 DimPlot(rep135, group.by = c("cloneSize_TCR", "cloneSize_BCR", "immgen_singler_main"))
 ```
@@ -318,16 +318,16 @@ DimPlot(rep135, group.by = c("cloneSize_TCR", "cloneSize_BCR", "immgen_singler_m
 
 ## Exercise: Create a custom bar graph with BCR and TCR information
 
-So now we have this data, but how do we use it. How could we use the information our seurat object already holds to analysis our BCR/TCR information further?
+So now we have this data, but how do we use it? How could we use the information our Seurat object already holds to analysis our BCR/TCR information further?
 
-Say we want to create a bar plot which shows the number of clones by each cell type. So we want the x-axis to be the number of clones and the y-axis to be counts of BCR or TCRs.
+Say we want to create a bar plot that shows the number of clones by each cell type. So we want the x-axis to be the number of clones and the y-axis to be counts of BCR or TCRs.
 
-Lets start by deciding what information we need to make this graph.
+Let's start by deciding what information we need to make this graph.
 ```R
 colnames(rep135@meta.data)
 ```
 
-Create a dataframe which contains just that information, mainly for ease. Here we are goign to grab the cell type labels and the amino acid sequences for the CDR3s.
+Create a dataframe that contains just that information, mainly for ease. Here we are going to grab the cell type labels and the amino acid sequences for the CDR3s.
 
 ```R
 rep135_TCR_clones <- rep135@meta.data[, c("CTaa_TCR", "immgen_singler_main")]
@@ -335,7 +335,7 @@ rep135_TCR_clones <- rep135@meta.data[, c("CTaa_TCR", "immgen_singler_main")]
 head(rep135_TCR_clones)
 ```
 
-The dataframe should look something like this, where we have some cells with a TCR and and there cell type label.
+The dataframe should look something like this, where we have some cells with a TCR and their cell type label.
 ```
                                                    CTaa_TCR immgen_singler_main
 Rep1_ICBdT_AAACCTGAGCCAACAG-1  CALGAVSAGNKLTF_CASRGGAYAEQFF                 NKT
@@ -346,7 +346,7 @@ Rep1_ICBdT_AAACCTGCACGGTAAG-1 CATDGGTGSNRLTF_CASSYGQGDSDYTF             T cells
 Rep1_ICBdT_AAACCTGCATGCCACG-1                          <NA>         Fibroblasts
 ```
 
-First we should use `groupby` to group our data into the categories that we want to plot.
+First, we should use `groupby` to group our data into the categories that we want to plot.
 
 ```R
 rep135_TCR_clones %>%
@@ -404,7 +404,7 @@ rep135_TCR_clones %>%
 18 Tgd                   193
 ```
 
-This looks good! Lets plot it with a barplot:
+This looks good! Let's plot it with a barplot:
 
 ```R
 TCR_celltypes_summary <- rep135_TCR_clones %>%
@@ -418,15 +418,15 @@ ggplot(TCR_celltypes_summary, aes(x = immgen_singler_main, y = Count)) +
 
 ```
 
-Hmmmmmmmmm, this looks a little suspicious. There are alot of B cells with TCRs... maybe our summarise function was incorrect?
+Hmmmmmmmmm, this looks a little suspicious. There are a lot of B cells with TCRs... maybe our summarise function was incorrect?
 
-Lets check the counts when we sum just our cell types column.
+Let's check the counts when we sum just our cell types column.
 
 ```R
 table(rep135@meta.data$immgen_singler_main)
 ```
 
-Unfortunately those are the same numbers as our summary dataframe above. We want to be counting how many TCRs are seen per cell type not how many of each cell type we have. **What do you think could be the problem?**
+Unfortunately, those are the same numbers as our summary dataframe above. We want to be counting how many TCRs are seen per cell type not how many of each cell type we have. **What do you think could be the problem?**
 ```
           B cells      B cells, pro         Basophils                DC Endothelial cells  Epithelial cells       Fibroblasts               ILC       Macrophages 
              3253                 3                37               295                71              1238               589               763               459 
@@ -499,7 +499,7 @@ ggplot(cell_type_counts_TCR, aes(x = immgen_singler_main, y = Count)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-And it looks great B-)
+And it looks great!
 
 Now we can do the same thing with the BCR data.
 ```R
@@ -519,7 +519,7 @@ ggplot(cell_type_counts_BCR, aes(x = immgen_singler_main, y = Count)) +
 
 ### Bonus Exercise: Stacked bar plot of cell types by counts grouped by TCR clones
 
-What if we wanted to see not just how many clones there are but how many unique clones there and how many cells we see that unique clones in. Lets create a stacked barplot that shows the the number of clones for each cell type but grouped by unique clones.
+What if we wanted to see not just how many clones there are, but also the number of unique clones, and how many cells we see each unique clone in? Let's create a stacked barplot that shows the the number of clones for each cell type, but grouped by unique clones.
 
 We can start by using the table function again.
 
@@ -583,7 +583,7 @@ ctaa_immgen_table_filtered <- ctaa_immgen_table[rowSums(ctaa_immgen_table > 1) >
   CAAHSNYQLIW_CASSPGTGGYEQYF                                               0         0           0        0   6          0             0       0   0
 ```
 
-This is a little bit more managable. Let's make this a dataframe and clean it up to get ready to plot.
+This is a little bit more manageable. Let's make this a dataframe and clean it up to get ready to plot.
 
 ```R
 # Convert the filtered contingency table to a dataframe
@@ -622,7 +622,7 @@ ggplot(ctaa_immgen_df[ctaa_immgen_df$Count > 5, ], aes(x = immgen_singler_main, 
         legend.position = "none")  # Remove the legend for CTaa_TCR
 ```
 
-This gets rid a majority fo cell types and only slightly clears up the different clones seen. Maybe we can try putting a border around the boxes:
+This gets rid a majority of cell types and only slightly clears up the different clones seen. Maybe we can try putting a border around the boxes:
 
 ```R
 ggplot(ctaa_immgen_df, aes(x = immgen_singler_main, y = Count, fill = CTaa_TCR)) +
@@ -632,7 +632,7 @@ ggplot(ctaa_immgen_df, aes(x = immgen_singler_main, y = Count, fill = CTaa_TCR))
         legend.position = "none")  # Hide the legend
 ```
 
-Data wrangling and visualization take alot of finagling to get just right, especially as your dataset grows and your information becomes more complex. It usually takes some time to figure out how to visualize your data and then playing with that visualization to get it just right. 
+Data wrangling and visualization take a lot of finagling to get just right, especially as your dataset grows and your information becomes more complex. It usually takes some time to figure out how to visualize your data and then playing with that visualization to get it just right. 
 
 ## Resources 
 
