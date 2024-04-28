@@ -442,7 +442,7 @@ table(Idents(merged)) # get summary table
 
 ### Normalize Data 
 
-Standard practice for scRNA data is to normalize your counts. Many functions will only use the normalized counts and not look at the raw counts. The `NormslizeData` function takes our merged object and will log normalize our RNA assay. Log normalized in this context means that the  feature counts for each cell are divided by the total counts for that cell and multiplied by the `scale.factor`, then natural-log transformed using `log1p`. 
+Standard practice for scRNA data is to normalize your counts. Many functions will only use the normalized counts and not look at the raw counts. The `NormalizeData` function takes our merged object and will log normalize our RNA assay. Log normalized in this context means that the  feature counts for each cell are divided by the total counts for that cell and multiplied by the `scale.factor`, then natural-log transformed using `log1p`. 
 
 ```R
 merged <- NormalizeData(merged, assay = "RNA", normalization.method = "LogNormalize", scale.factor = 10000)
@@ -595,7 +595,7 @@ Further resources [here](https://satijalab.org/seurat/archive/v3.0/dim_reduction
 
 Now we have to decide what are the most important PCs, which capture the most similarity and diversity without introducing too much noise. There are several methods for analyzing your PCs.
 
-##### Elbox Plot
+##### Elbow Plot
 
 One of the most common ways to understand PCs is an elbow plot. We choose the PC that is the 'elbow', that is where the standard deviation stops dramatically decreasing and levels out. 
 
