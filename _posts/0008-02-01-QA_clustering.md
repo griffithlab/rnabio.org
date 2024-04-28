@@ -398,7 +398,7 @@ Now that we have assessed the quality on a per-sample level we can merge all our
 sample_names <- c("Rep1_ICBdT", "Rep1_ICB", "Rep3_ICBdT", "Rep3_ICB",
                   "Rep5_ICBdT", "Rep5_ICB")
 
-merged <- merge(x = sample.data[["Rep1_ICBdT"]], y = c(sample.data[["Rep1_ICB"]], sample.data[["Rep3_ICBdT"]], sample.data[["Rep3_ICB"]],                          sample.data[["Rep5_ICBdT"]], sample.data[["Rep5_ICB"]]), add.cell.ids = sample_names)
+merged <- merge(x = sample.data[["Rep1_ICBdT"]], y = c(sample.data[["Rep1_ICB"]], sample.data[["Rep3_ICBdT"]], sample.data[["Rep3_ICB"]], sample.data[["Rep5_ICBdT"]], sample.data[["Rep5_ICB"]]), add.cell.ids = sample_names)  
 
 ```
 
@@ -785,4 +785,6 @@ Active assay: RNA (18187 features, 2000 variable features)
 ## Resources
 
 [Seurat Command Cheat Sheet](https://satijalab.org/seurat/articles/essential_commands.html)
+
+[Graphical Explanation of Seurat](https://twitter.com/theHumanBorch/status/1524747445346836482)
 
