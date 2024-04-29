@@ -432,6 +432,5 @@ We see that the cells form much more general clusters. For example, the immune c
 Let's save our seurat objects to use in future sections.
 
 ```R
-saveRDS(merged, file = "preprocessed_object.rds")
-
+saveRDS(merged, file = "outdir_single_cell_rna/preprocessed_object.rds")
 ```
