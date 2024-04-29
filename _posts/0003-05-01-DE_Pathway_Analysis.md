@@ -37,6 +37,7 @@ datadir = "/cloud/project/outdir"
 
 setwd(datadir)
 
+#Load in the DE results file with only significant genes (http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
 DE_genes <-read.table("DE_sig_genes_DESeq2.tsv", sep="\t", header=T, stringsAsFactors = F)
 
 ```

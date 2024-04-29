@@ -56,14 +56,14 @@ setwd(datadir)
 # List the current contents of this directory
 dir()
 
-#Import expression results (TPM values) from the HISAT2/Stringtie pipeline
+#Import expression results (TPM values) from the HISAT2/Stringtie pipeline (http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_tpm_all_samples.tsv)
 gene_expression=read.table("gene_tpm_all_samples.tsv", header=TRUE, stringsAsFactors=FALSE, row.names=1)
 
-#Import gene name mapping file
+#Import gene name mapping file (http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/ENSG_ID2Name.txt)
 gene_names=read.table("ENSG_ID2Name.txt", header=TRUE, stringsAsFactors=FALSE)
 colnames(gene_names)=c("gene_id","gene_name")
 
-#Import DE results from the HISAT2/htseq-count/DESeq2 pipeline
+#Import DE results from the HISAT2/htseq-count/DESeq2 pipeline (http://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
 setwd(outdir)
 results_genes <-read.table("DE_all_genes_DESeq2.tsv", sep="\t", header=T, stringsAsFactors = F)
 
