@@ -169,7 +169,7 @@ At this point, it will be helpful to move out of R and further explore our resul
 ```R
 write.table(fc.go.cc.p.up, "fc.go.cc.p.up.tsv", quote = F, sep = "\t", col.names = T, row.names = T)
 write.table(fc.go.cc.p.down, "fc.go.cc.p.down.tsv", quote = F, sep = "\t", col.names = T, row.names = T)
-quit(save="no")
+#quit(save="no")
 ```
 
 ### Visualize
