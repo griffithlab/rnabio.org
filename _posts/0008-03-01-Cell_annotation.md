@@ -139,7 +139,7 @@ head(predictions_main)
 
 ```
 
-You should see something like the below, where each row is a barcode with columns for labels (assigned cell type), delta, and pruned.labels.
+You should see something like the below, where each row is a barcode with columns for scores, labels (assigned cell type), delta, and pruned.labels.
 
 ```R
 DataFrame with 6 rows and 4 columns
@@ -169,6 +169,8 @@ Rep1_ICBdT_AAACCTGCACGGTAAG-1       T cells
 Rep1_ICBdT_AAACCTGCATGCCACG-1   Fibroblasts
 ```
 
+Okay...but 
+
 Now that we understand what these data objects look like, let's add the cell type labels to our seurat object.
 
 ```R
@@ -190,6 +192,8 @@ library(viridis)
 ggplot(merged[[]], aes(x = orig.ident, fill = immgen_singler_main)) + geom_bar(position = "fill") + scale_fill_viridis(discrete = TRUE)
 
 ``` 
+
+![Immgen Stacked Bar](/assets/module_8/immgen_main_stackedbar.png)
 
 We can also flip the samples and cell labels and view this data as below.
 
