@@ -79,12 +79,7 @@ Note that here we use `FindMarkers` to compare clusters 9 and 12. The default sy
 ```R
 #carry out DE analysis between both groups
 merged_epithelial <- SetIdent(merged_epithelial, value = "seurat_clusters_res0.8")
-<<<<<<< HEAD
-epithelial_de <- FindMarkers(merged_epithelial, ident.1 = "8", 
-ident.2 = "12", min.pct=0.25, logfc.threshold=0.1) #how cluster 9 changes wrt cluster 12
-=======
 epithelial_de <- FindMarkers(merged_epithelial, ident.1 = "9", ident.2 = "12", min.pct=0.25, logfc.threshold=0.1) #how cluster 9 changes wrt cluster 12
->>>>>>> db6c0443f08278067accfec186f2cca915e4d173
 ```
 On opening `epithelial_de` in your RStudio session, you'll see that it is a dataframe with the genes as rownames, and the following columns- `p_val`, `avg_log2FC`, `pct.1`, `pct.2`, `p_val_adj`. The p-values are dependent on the test used while running `FindMarkers`, and the adjusted p-value is based on the bonferroni correction test. `pct.1` and `pct.2` are the percentages of cells where the gene is detected in the `ident.1` and `ident.2` groups respectively. 
 
