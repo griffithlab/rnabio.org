@@ -64,7 +64,7 @@ Perform the following analyses in `R`:
 ```R
 
 #Define working dir paths
-datadir = "/cloud/project/data"
+datadir = "/cloud/project/data/bulk_rna"
 #datadir = "~/workspace/rnaseq/batch_correction"
 
 outdir = "/cloud/project/outdir"
@@ -129,8 +129,8 @@ ComBat-Seq has a relatively short list of arguments, and for several of these we
 Our attempt to explain each of the ComBat-Seq arguments (for optional arguments, default is shown):
 
 - `counts`. This is your matrix of gene expression read counts (raw counts). Each row is a gene, each column is a sample, and each cell has an integer count for the number of RNA-seq counts observed for that gene/sample combination. In R we want this data to be passed into ComBat-Seq in matrix format (use `as.matrix()` if neccessary).
-- `batch`. This is a vector describing the batches you are concerned about. For example, if you have six samples that you created RNA-seq data for but for the first four you used one library kit (A) but then you had to use a different library kit (B) for the last four samples, you would define your `batch` vector as: `c(1,1,1,1,2,2,2,2)`.
-- `group = NULL`. This is a vector describing your biological condition of interest. For example, if your experiment involved *pairs* of drug treated and untreated cells, and you did 4 biological replicates.  You would define your `group` vector as: c(1,2,1,2,1,2,1,2).
+- `batch`. This is a vector describing the batches you are concerned about. For example, if you have eight samples that you created RNA-seq data for, but for the first four you used library kit (A) and for the last four samples you used library kit (B). In this situation you would define your `batch` vector as: `c(1,1,1,1,2,2,2,2)`.
+- `group = NULL`. This is a vector describing your biological condition of interest. For example, if your experiment involved *pairs* of drug treated and untreated cells, and you did 4 biological replicates. You would define your `group` vector as: c(1,2,1,2,1,2,1,2).
 - `covar_mod = NULL`. If you have multiple biological conditions of interest, you can define these with `covar_mod` (covariates) instead of `group`.  For example, lets assume we have the same experiment as described above, except that we did four replicates (treated vs untreated pairs), but we alternated use of male and female cells for each of the replicates.  You then would define a covariate matrix to supply to `covar_mod` as follows:
 
 ```R
@@ -139,7 +139,7 @@ Our attempt to explain each of the ComBat-Seq arguments (for optional arguments,
   #covariate_matrix = cbind(treatment_group, sex_group)
 ```
 
-- `full_mod = TRUE`. If TRUE include condition of interest in model. Generally we believe this should be set to the default TRUE. We have yet to find a cohesive explanation for a situation where one would want this to be FALSE.
+- `full_mod = TRUE`. If TRUE include the condition of interest in model. Generally we believe this should be set to the default TRUE. We have yet to find a cohesive explanation for a situation where one would want this to be FALSE.
 - `shrink = FALSE`. Whether to apply shrinkage on parameter estimation.  
 - `shrink.disp = FALSE`. Whether to apply shrinkage on dispersion.  
 - `gene.subset.n = NULL`. Number of genes to use in empirical Bayes estimation, only useful when shrink = TRUE.
@@ -268,30 +268,25 @@ run_edgeR = function(data, group_a_name, group_a_samples, group_b_samples, group
   y <- estimateCommonDisp(y, verbose=TRUE)
   y <- estimateTagwiseDisp(y)
   
-  #differential expression test
+  #perform the differential expression test
   et <- exactTest(y)
   
   #print number of up/down significant genes at FDR = 0.05 significance level and store the DE status in a new variable (de)
-  summary(de <- decideTestsDGE(et, p=.05))
-  summary(de <- decideTestsDGE(et, adjust.method="fdr", p=.05))
+  summary(de <- decideTests(et, adjust.method="fdr", p=.05))
   
-  #create a matrix of significant DE genes
+  #create a matrix of the DE results
   mat <- cbind(
-    genes, gene_names,
+    genes, 
+    gene_names,
     sprintf('%0.3f', log10(et$table$PValue)),
     sprintf('%0.3f', et$table$logFC)
-  )[as.logical(de),]
-  colnames(mat) <- c("Gene", "Gene_Name", "Log10_Pvalue", "Log_fold_change")
-  
-  #order by log fold change
-  o <- order(et$table$logFC[as.logical(de)],decreasing=TRUE)
-  mat <- mat[o,]
+  )
 
-  #fix the issue where corrected p-values that are 0 become -Inf upon log10 conversion
-  x = as.numeric(mat[,"Log10_Pvalue"])
-  lowest_pvalue = min(x[which(!x == -Inf)])
-  i = which(mat[,"Log10_Pvalue"] == -Inf)
-  mat[i,"Log10_Pvalue"] = lowest_pvalue
+  #create a version of this matrix that is limited to only the *significant* results
+  mat <- mat[as.logical(de),]
+  
+  #add name to the columns of the final matrix
+  colnames(mat) <- c("Gene", "Gene_Name", "Log10_Pvalue", "Log_fold_change")
   
   return(mat)
 }
