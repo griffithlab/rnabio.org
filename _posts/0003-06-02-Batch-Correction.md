@@ -313,22 +313,22 @@ dim(uhr_vs_hbr_corrected)
 
 #first create upset plot from the *uncorrected* data
 pdf(file="Uncorrected-UpSet.pdf")
-listInput = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[,"Gene"], 
-                 "4 UHR Poly vs 4HBR Poly" = uhr_poly_vs_hbr_poly_uncorrected[,"Gene"],
-                 "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_uncorrected[,"Gene"],
-                 "4 UHR Poly vs 4 HBR Ribo" = uhr_poly_vs_hbr_ribo_uncorrected[,"Gene"],
-                 "8 UHR vs 8 HBR" = uhr_vs_hbr_uncorrected[,"Gene"])
-upset(fromList(listInput), order.by = "freq", number.angles=45, point.size=3)
+listInput1 = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[,"Gene"], 
+                  "4 UHR Poly vs 4HBR Poly" = uhr_poly_vs_hbr_poly_uncorrected[,"Gene"],
+                  "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_uncorrected[,"Gene"],
+                  "4 UHR Poly vs 4 HBR Ribo" = uhr_poly_vs_hbr_ribo_uncorrected[,"Gene"],
+                  "8 UHR vs 8 HBR" = uhr_vs_hbr_uncorrected[,"Gene"])
+upset(fromList(listInput1), order.by = "freq", number.angles=45, point.size=3)
 dev.off()
 
 #now create an upset plot from the *batch corrected* data
 pdf(file="BatchCorrected-UpSet.pdf")
-listInput = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_corrected[,"Gene"], 
-                 "4 UHR Poly vs 4 HBR Poly" = uhr_poly_vs_hbr_poly_corrected[,"Gene"],
-                 "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_corrected[,"Gene"],
-                 "4 UHR Poly vs 4 HBR Ribo" = uhr_poly_vs_hbr_ribo_corrected[,"Gene"],
-                 "8 UHR vs 8 HBR" = uhr_vs_hbr_corrected[,"Gene"])
-upset(fromList(listInput), order.by = "freq", number.angles=45, point.size=3)
+listInput2 = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_corrected[,"Gene"], 
+                  "4 UHR Poly vs 4 HBR Poly" = uhr_poly_vs_hbr_poly_corrected[,"Gene"],
+                  "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_corrected[,"Gene"],
+                  "4 UHR Poly vs 4 HBR Ribo" = uhr_poly_vs_hbr_ribo_corrected[,"Gene"],
+                  "8 UHR vs 8 HBR" = uhr_vs_hbr_corrected[,"Gene"])
+upset(fromList(listInput2), order.by = "freq", number.angles=45, point.size=3)
 dev.off()
 
 #write out the final set of DE genes where all UHR and HBR samples were compared using the corrected data
