@@ -317,6 +317,12 @@ DimPlot(merged, group.by = c("immgen_singler_fine")) + NoLegend()
 
 #### How do our cell annotations differ if we use a different reference set?
 
+We've selected the 
+
+This dataset was contributed by the Benayoun Lab that identified, downloaded and processed data sets on GEO that corresponded to sorted cell types [Benayoun et al., 2019](https://pubmed.ncbi.nlm.nih.gov/30858345/).
+
+The dataset contains 358 mouse RNA-seq samples annotated to 18 main cell types ("label.main"). These are split further into 28 subtypes ("label.fine"). The subtypes have also been mapped to the Cell Ontology as with the ImmGen reference.
+
 ```R
 ref_mouserna <- celldex::MouseRNAseqData()
 
@@ -363,13 +369,38 @@ merged$mouserna_singler_fine[rownames(predictions_mouse_fine)] = predictions_mou
 Let's visualize how the labeling of our cells differs between the main labels from ImmGen and MouseRNA.
 
 ```R
-p1 <- DimPlot(merged, group.by = c("immgen_singler_main"))
-p2 <- DimPlot(merged, group.by = c("mouserna_singler_main"))
+table(predictions_main$labels)
+table(predictions_mouse_main$labels)
+```
+
+```R
+          B cells      B cells, pro         Basophils                DC Endothelial cells 
+             3253                 3                37               295                71 
+ Epithelial cells       Fibroblasts               ILC       Macrophages        Mast cells 
+             1238               589               763               459                11 
+        Monocytes       Neutrophils          NK cells               NKT        Stem cells 
+              633                92               565              2249                 2 
+    Stromal cells           T cells               Tgd 
+               18             12714               193 
+
+
+       Adipocytes           B cells   Dendritic cells Endothelial cells       Fibroblasts 
+                4              3325                94               245               979 
+     Granulocytes       Hepatocytes       Macrophages         Monocytes          NK cells 
+              116               652               185              1013              1341 
+          T cells 
+            15231 
+```
+
+```R
+p1 <- DimPlot(merged, group.by = c("immgen_singler_main")) + scale_colour_viridis(option = 'turbo', discrete = TRUE)
+p2 <- DimPlot(merged, group.by = c("mouserna_singler_main")) + scale_colour_viridis(option = 'turbo', discrete = TRUE)
 p <- plot_grid(p1, p2, ncol = 2)
 p
 
-
 ```
+
+![Comparison UMAP](/assets/module_8/comparison_umap.png)
 
 ### Note on reference annotation datasets
 As one might expect, the choice of reference can have a major impact on the annotation results. It's essential to choose a reference dataset encompassing a broader spectrum of labels than those expected in our test dataset. Trust in the appropriateness of labels assigned by the original authors to reference samples is often a leap of faith, and it's unsurprising that certain references outperform others due to differences in sample preparation quality. Ideally, we favor a reference generated using a technology or protocol similar to our test dataset, although this consideration is typically not an issue when using SingleR() for annotating well-defined cell types.
