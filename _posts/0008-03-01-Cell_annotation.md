@@ -169,7 +169,22 @@ Rep1_ICBdT_AAACCTGCACGGTAAG-1       T cells
 Rep1_ICBdT_AAACCTGCATGCCACG-1   Fibroblasts
 ```
 
-Okay...but 
+Okay...but what do these columns actually tell us?
+
+The `scores` column contains a matrix for each barcode that corresponds to to how confident SingleR is in assigning each cell type to the barcode for that row. The `labels` column is the most confident assignment singleR has for that particular barcode. The `delta` column contains the  “delta” value for each cell, which is the gap, or the difference between the score for the assigned label and the median score across all labels. If the delta is small, this indicates that the cell matches all labels with the same confidence, so the assigned label is not very meaningful. SingleR can discard cells with low delta values caused by (i) ambiguous assignments with closely related reference labels and (ii) incorrect assignments that match poorly to all reference labels – so in the `pruned.labels` column you will find "cleaner" or more reliable labels.
+
+Now that we understand what the singleR dataframe looks like, let's begin to visualize the data.
+
+```R
+plotDeltaDistribution(predictions_main, ncol = 4, dots.on.top = FALSE)
+
+plotScoreHeatmap(predictions_main)
+```
+
+![Immgen Delta Dist](/assets/module_8/immgen_delta_dist.png)
+
+![Immgen Main heatmap](/assets/module_8/immgen_main_heatmap.png)
+
 
 Now that we understand what these data objects look like, let's add the cell type labels to our seurat object.
 
