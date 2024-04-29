@@ -173,7 +173,85 @@ Okay...but what do these columns actually tell us?
 
 The `scores` column contains a matrix for each barcode that corresponds to to how confident SingleR is in assigning each cell type to the barcode for that row. The `labels` column is the most confident assignment singleR has for that particular barcode. The `delta` column contains the  “delta” value for each cell, which is the gap, or the difference between the score for the assigned label and the median score across all labels. If the delta is small, this indicates that the cell matches all labels with the same confidence, so the assigned label is not very meaningful. SingleR can discard cells with low delta values caused by (i) ambiguous assignments with closely related reference labels and (ii) incorrect assignments that match poorly to all reference labels – so in the `pruned.labels` column you will find "cleaner" or more reliable labels.
 
-Now that we understand what the singleR dataframe looks like, let's begin to visualize the data.
+How many cells have low confidence labels?
+
+```R
+unique(predictions_main$pruned.labels)
+```
+
+```R
+ [1] "NKT"               "B cells"          
+ [3] "Fibroblasts"       "NK cells"         
+ [5] "T cells"           "Neutrophils"      
+ [7] "DC"                "Monocytes"        
+ [9] "ILC"               "Epithelial cells" 
+[11] "Macrophages"       "Basophils"        
+[13] "Tgd"               "Mast cells"       
+[15] "Endothelial cells" NA                 
+[17] "Stem cells"        "Stromal cells"    
+[19] "B cells, pro"   
+```
+
+```R
+table(predictions_main$pruned.labels)
+```
+
+```R
+          B cells      B cells, pro         Basophils 
+             3219                 3                33 
+               DC Endothelial cells  Epithelial cells 
+              295                67              1238 
+      Fibroblasts               ILC       Macrophages 
+              577               752               454 
+       Mast cells         Monocytes       Neutrophils 
+               11               617                92 
+         NK cells               NKT        Stem cells 
+              562              2241                 2 
+    Stromal cells           T cells               Tgd 
+               18             12631               189 
+
+```
+
+```R
+table(predictions_main$labels)
+```
+
+```R
+          B cells      B cells, pro         Basophils 
+             3253                 3                37 
+               DC Endothelial cells  Epithelial cells 
+              295                71              1238 
+      Fibroblasts               ILC       Macrophages 
+              589               763               459 
+       Mast cells         Monocytes       Neutrophils 
+               11               633                92 
+         NK cells               NKT        Stem cells 
+              565              2249                 2 
+    Stromal cells           T cells               Tgd 
+               18             12714               193 
+```
+
+```R
+summary(is.na(predictions_main$pruned.labels))
+```
+
+```R
+   Mode   FALSE    TRUE 
+logical   23001     184 
+```
+
+Are there more or less pruned labels for the fine labels?
+
+```R
+summary(is.na(predictions_fine$pruned.labels))
+```
+
+```R
+   Mode   FALSE    TRUE 
+logical   23006     179 
+```
+
+Now that we understand what the singleR dataframe looks like and what the data contains, let's begin to visualize the data.
 
 ```R
 plotDeltaDistribution(predictions_main, ncol = 4, dots.on.top = FALSE)
@@ -186,7 +264,7 @@ plotScoreHeatmap(predictions_main)
 ![Immgen Main heatmap](/assets/module_8/immgen_main_heatmap.png)
 
 
-Now that we understand what these data objects look like, let's add the cell type labels to our seurat object.
+Rather than only working with the singleR dataframe, we can add the labels to our Seurat data object as a metadata field, so let's add the cell type labels to our seurat object.
 
 ```R
 #add main labels to object
@@ -219,6 +297,10 @@ ggplot(merged[[]], aes(x = immgen_singler_fine, fill = orig.ident)) + geom_bar(p
 
 ```
 
+![Immgen Main Stacked Bar ](/assets/module_8/immgen_main_stackedbar_v2.png)
+
+![Immgen Fine Stacked Bar ](/assets/module_8/immgen_fine_stackedbar.png)
+
 How do our cell type annotations map to our clusters we defined previously?
 
 ```R
@@ -229,13 +311,9 @@ DimPlot(merged, group.by = c("immgen_singler_fine")) + NoLegend()
 
 ```
 
-Other ways to visualize data using Seurat plotting functions:
+![Immgen Main UMAP](/assets/module_8/immgen_umap.png)
 
-```R
-plotDeltaDistribution(predictions_main, ncol = 4, dots.on.top = FALSE)
-
-plotScoreHeatmap(predictions_main)
-```
+![Immgen Fine UMAP](/assets/module_8/immgen_umap_fine.png)
 
 #### How do our cell annotations differ if we use a different reference set?
 
