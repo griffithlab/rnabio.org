@@ -53,7 +53,8 @@ ggplot(de_gsea_df, aes(avg_log2FC)) + geom_histogram()
 You may notice that we have quite a few genes with fairly large fold change values- while fold change values do not impact the overrepresentation analysis, they can inform the thresholds we use for picking the genes. Since we know that we have quite a few genes with foldchanges greater/lower than +/- 2, we can use that as our cutoff. We will also impose an adj p-value cutoff of 0.01. Thus, for the overrepresentation analysis, we will begin by filtering `de_gsea_df` based on the log2FC and p-value, and then get the list of genes for our analysis.
 
 ```R
-#filter de_gsea_df by subsetting it to only include genes that are significantly DE (pval<0.01) and their absolute log2FC is > 2. The abs(de_gsea_df$avg_log2FC) ensures that we keep both the up and downregulated genes
+#filter de_gsea_df by subsetting it to only include genes that are significantly DE (pval<0.01) and their absolute log2FC is > 2.
+#The abs(de_gsea_df$avg_log2FC) ensures that we keep both the up and downregulated genes
 overrep_df <- de_gsea_df[de_gsea_df$p_val_adj < 0.01 & abs(de_gsea_df$avg_log2FC) > 2,] 
 overrep_gene_list <- rownames(overrep_df)
 ```
@@ -63,7 +64,7 @@ Next, we will set up our reference. By default `clusterProfiler` allows us to us
 ```R
 #read in the tabula muris gmt file
 msigdb_m8 <- read.gmt('/cloud/project/data/single_cell_rna/reference_files/m8.all.v2023.2.Mm.symbols.gmt')
-#click on the dataframe in RStudio to see how it's formatted- we have 2 columns, the first with the genesets, and the other with genes that are in that geneset.
+#click on the dataframe in RStudio to see how it's formatted- we have 2 columns, #the first with the genesets, and the other with genes that are in that geneset.
 #try to determine how many different pathways are in this database
 overrep_msigdb_m8 <- enricher(gene = overrep_gene_list, TERM2GENE = msigdb_m8, pAdjustMethod = "BH", pvalueCutoff = 0.05)
 
@@ -71,8 +72,11 @@ overrep_msigdb_m8 <- enricher(gene = overrep_gene_list, TERM2GENE = msigdb_m8, p
 barplot(overrep_msigdb_m8, showCategory = 10)
 dotplot(overrep_msigdb_m8, showCategory = 10)
 
-#save overrep_gene_list to a tsv file (overrep_gene_list is our list of genes and file is the name we want the file to have when it's saved. 
-#The remaining arguments are optional- row.names=FALSE stops R from adding numbers (effectively an S.No column), col.names gives our single column TSV a column name, and quote=FALSE ensures the genes don't have quotes around them which is the default way R saves string values to a TSV)
+#save overrep_gene_list to a tsv file (overrep_gene_list is our list of genes and 
+#file is the name we want the file to have when it's saved. 
+#The remaining arguments are optional- row.names=FALSE stops R from adding numbers (effectively an S.No column), 
+#col.names gives our single column TSV a column name, 
+#and quote=FALSE ensures the genes don't have quotes around them which is the default way R saves string values to a TSV)
 write.table(x = overrep_gene_list, file = 'outdir_single_cell_rna/epithelial_overrep_gene_list.tsv', row.names = FALSE, col.names = 'overrep_genes', quote=FALSE)
 ```
 
@@ -80,7 +84,6 @@ For the Enrichr webtool based analysis, we'll open that TSV file in our Rstudio 
 
 An important component to a 'good' overrepresentation analysis is using one's expertise about the biology in conjunction with the pathways identified to generate hypotheses. It is unlikely that every pathway in the plots above is meaningful, however knowledge of bladder cancer (for this dataset) tells us that basal and luminal bladder cancers share similar expression profiles to basal and luminal breast cancers [reference](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5078592/). So, the overrepresentation analysis showing genesets like 'Tabula Muris senis mammary gland basal cell ageing' and 'Tabula muris senis mammary gland luminal epithelial cell of mammary gland ageing' could suggest that the difference in unsupervised clusters 9 and 12 could be coming from the basal and luminal cells. To investigate this further, we can compile a list of basal and luminal markers from the literature, generate a combined score for those genes using Seurat's `AddModuleScore` function and determine if the clusters are split up as basal and luminal. For now we'll use the same markers defined in this dataset's original manuscript.
 
-**TODO UPDATE BASED ON SAVED RDS OBJECT**
 ```R
 #define lists of marker genes
 basal_markers <- c('Cd44', 'Krt14', 'Krt5', 'Krt16', 'Krt6a')
@@ -117,7 +120,9 @@ gse <- gseGO(geneList=gene_list,
              keyType = "SYMBOL", 
              pAdjustMethod = "BH",             
              pvalueCutoff = 0.05)
-#explore the gse object by opening it in RStudio. It basically has a record of all the parameters and inputs used for the function, along with a results dataframe.
+#explore the gse object by opening it in RStudio. 
+#It basically has a record of all the parameters and inputs used for the function, 
+#along with a results dataframe.
 #we can pull this result dataframe out to view it in more detail
 gse_result <- gse@result
 ```
@@ -141,10 +146,12 @@ gse_epithelial@result <- gse_epithelial@result[subset_indices,]
 #dotplot - splitting by 'sign' and facet_grid together allow us to separate activated and suppressed pathways
 dotplot(gse_epithelial, showCategory=20, split=".sign") + facet_grid(.~.sign) 
 
-#heatplot - allows us to see the genes that are being considered for each of the pathways/genesets and their corresponding fold change
+#heatplot - allows us to see the genes that are being considered 
+#for each of the pathways/genesets and their corresponding fold change
 heatplot(gse_epithelial, foldChange=gene_list)
 
-#cnetplot - allows us to see the genes along with the various pathways/genesets and how they related to each other
+#cnetplot - allows us to see the genes along with the various 
+#pathways/genesets and how they related to each other
 cnetplot(gse_epithelial, foldChange=gene_list)
 ```
 

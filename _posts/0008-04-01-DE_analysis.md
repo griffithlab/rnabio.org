@@ -79,7 +79,8 @@ Note that here we use `FindMarkers` to compare clusters 9 and 12. The default sy
 ```R
 #carry out DE analysis between both groups
 merged_epithelial <- SetIdent(merged_epithelial, value = "seurat_clusters_res0.8")
-epithelial_de <- FindMarkers(merged_epithelial, ident.1 = "8", ident.2 = "12", min.pct=0.25, logfc.threshold=0.1) #how cluster 9 changes wrt cluster 12
+epithelial_de <- FindMarkers(merged_epithelial, ident.1 = "8", 
+ident.2 = "12", min.pct=0.25, logfc.threshold=0.1) #how cluster 9 changes wrt cluster 12
 ```
 On opening `epithelial_de` in your RStudio session, you'll see that it is a dataframe with the genes as rownames, and the following columns- `p_val`, `avg_log2FC`, `pct.1`, `pct.2`, `p_val_adj`. The p-values are dependent on the test used while running `FindMarkers`, and the adjusted p-value is based on the bonferroni correction test. `pct.1` and `pct.2` are the percentages of cells where the gene is detected in the `ident.1` and `ident.2` groups respectively. 
 
@@ -103,13 +104,15 @@ There are a few different ways we can visualize the differentially expressed gen
 epithelial_de_sig_top20_genes <- rownames(epithelial_de_sig_top20)
 
 #plot all 20 genes in violin plots
-VlnPlot(merged_epithelial, features = epithelial_de_sig_top20_genes, group.by = 'seurat_clusters_res0.8', ncol = 5, pt.size = 0)
+VlnPlot(merged_epithelial, features = epithelial_de_sig_top20_genes, 
+  group.by = 'seurat_clusters_res0.8', ncol = 5, pt.size = 0)
 
 #plot all 20 genes in UMAP plots
 FeaturePlot(merged_epithelial, features = epithelial_de_sig_top20_genes, ncol = 5)
 
 #plot all 20 genes in a DotPlot
-DotPlot(merged_epithelial, features = epithelial_de_sig_top20_genes, group.by = 'seurat_clusters_res0.8') + RotatedAxis()
+DotPlot(merged_epithelial, features = epithelial_de_sig_top20_genes, 
+  group.by = 'seurat_clusters_res0.8') + RotatedAxis()
 
 #plot all differentially expressed genes in a volcano plot
 EnhancedVolcano(epithelial_de,
@@ -128,9 +131,11 @@ To find out how we can figure out what these genes mean, stay tuned! The next mo
 
 ```R
 #rerun FindMarkers
-epithelial_de_gsea <- FindMarkers(merged_epithelial, ident.1 = "9", ident.2 = "12", min.pct=0.25, logfc.threshold=0)
+epithelial_de_gsea <- FindMarkers(merged_epithelial, ident.1 = "9", 
+  ident.2 = "12", min.pct=0.25, logfc.threshold=0)
 #save this table as a TSV file
-write.table(x = epithelial_de_gsea, file = 'outdir_single_cell_rna/epithelial_de_gsea.tsv', sep='\t')
+write.table(x = epithelial_de_gsea, 
+  file = 'outdir_single_cell_rna/epithelial_de_gsea.tsv', sep='\t')
 ``` 
 
 ### Differential expression for T cells
@@ -168,11 +173,13 @@ unique(merged_tcells$orig.ident)
 #first initialize a metadata column for experimental_condition
 merged_tcells@meta.data$experimental_condition <- NA
 
-#Now we can take all cells that are in each replicate-condition, and assign them to the appropriate condition
+#Now we can take all cells that are in each replicate-condition, 
+#and assign them to the appropriate condition
 merged_tcells@meta.data$experimental_condition[merged_tcells@meta.data$orig.ident %in% c("Rep1_ICB", "Rep3_ICB", "Rep5_ICB")] <- "ICB"
 merged_tcells@meta.data$experimental_condition[merged_tcells@meta.data$orig.ident %in% c("Rep1_ICBdT", "Rep3_ICBdT", "Rep5_ICBdT")] <- "ICBdT"
 
-#double check that the new column we generated makes sense (each replicate should correspond to its experimental condition)
+#double check that the new column we generated makes sense 
+#(each replicate should correspond to its experimental condition)
 table(merged_tcells@meta.data$orig.ident, merged_tcells@meta.data$experimental_condition)
 ```
 
@@ -199,7 +206,8 @@ The most downregulated gene in the ICBdT condition based on foldchange is Cd4. T
 Interestingly, for the list of genes that are upregulated, we see Cd8b1 show up. It could be interesting to see if the CD8 T cells' phenotype changes based on the treatment condition. So now, let's subset the object to CD8 T cells only, find DE genes to see how ICBdT CD8 T cells change compared to ICB CD8 T cells, and visualize these similar to before. 
 
 ```R
-#subset object to CD8 T cells. Since we already showed how to subset cells using the clusters earlier, this time we'll subset to CD8 T cells by selecting for cells with high 
+#subset object to CD8 T cells. Since we already showed how to subset cells using the clusters earlier, 
+#this time we'll subset to CD8 T cells by selecting for cells with high 
 #expression of Cd8 genes and low expression of Cd4 genes
 merged_cd8tcells <- subset(merged_tcells, subset= Cd8b1 > 1 & Cd8a > 1 & Cd4 < 0.1)
 
