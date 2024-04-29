@@ -16,6 +16,16 @@ We are going to begin our single-cell analysis by loading in the output from Cel
 
 **Note, we have provided the raw data for this exercise in your cloud workspace. They are also available [here](http://genomedata.org/cri-workshop/counts_gex/).**
 
+The general steps to preprocessing your single-cell data with Seurat:
+1. Create a Seurat object
+2. Filter low-quality cells
+3. Merge samples
+4. Normalize counts
+5. Find variable features
+6. Scale data
+7. Determine PCs for Clustering
+8. Clustering -> FindNeighbors, FindClusters, RunUMAP
+
 ### Load in Data 
 
 First, create a new R script and load the needed packages. The most important package for this step is Seurat. [Seurat](https://satijalab.org/seurat/#about-seurat) provides a unique data structure and tools for quality control, analysis, and exploration of single-cell RNA sequencing data. Seurat is very popular and is considered a standard tool for single-cell RNA analysis. Another example of a toolkit with similar functionality is [Scanpy](https://scanpy.readthedocs.io/en/stable/), which is implemented in Python.
