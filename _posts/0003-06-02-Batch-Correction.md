@@ -26,7 +26,7 @@ In particular, this excerpt covers the basics:
 
 ### Introduction to this demonstration of a batch correction approach
 
-For this exercise we have obtain public RNA-seq data from an extensive multi-platform comparison of sequencing platforms that also examined the impact of generating data at multiple sites, using polyA vs ribo-reduction for enrichment, and the impact of RNA degradation ([PMID: 25150835](https://pubmed.ncbi.nlm.nih.gov/25150835/)): "Multi-platform and cross-methodological reproducibility of transcriptome profiling by RNA-seq in the ABRF Next-Generation Sequencing Study".
+For this exercise we have obtained public RNA-seq data from an extensive multi-platform comparison of sequencing platforms that also examined the impact of: (1) generating data at multiple sites, (2) using polyA vs ribo-reduction for enrichment, and (3) different levels of RNA degradation ([PMID: 25150835](https://pubmed.ncbi.nlm.nih.gov/25150835/)): "Multi-platform and cross-methodological reproducibility of transcriptome profiling by RNA-seq in the ABRF Next-Generation Sequencing Study".
 
 This publication used the same UHR (cancer cell lines) and HBR (brain tissue) samples we have been using throughout this course. To examine a strong batch effect, we will consider a DE analysis of UHR vs HBR where we compare Ribo-depleted ("Ribo") and polyA-enriched ("Poly") samples.
 
