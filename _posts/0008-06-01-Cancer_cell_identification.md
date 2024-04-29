@@ -300,17 +300,20 @@ all_samples_vartrix_df$num_alt_reads <- rowSums(all_samples_vartrix_df)
 #Now let's highlight cells in Seurat with at least 1 ALT read
 ## first get a dataframe where everything has at least 1 ALT read using that column we added
 all_samples_vartrix_df_1_ALT_read <- all_samples_vartrix_df[all_samples_vartrix_df$num_alt_reads >= 1,]
-DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_1_ALT_read))
+DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_1_ALT_read)) + 
+  ggtitle('UMAP highlighting cells with at least 1 ALT read')
 #that's way too many 'tumor' cells especially since we know a lot of the cells are not even epithelial cells.
 
 #Let's try this again but increase our requirement to 10 ALT reads. 
 #Also, we don't need to make a new dataframe every time, we can load the cells.highlight directly from the all_sample_vartrix_df table
-DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df[all_samples_vartrix_df$num_alt_reads >= 10,]))
+DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df[all_samples_vartrix_df$num_alt_reads >= 10,])) + 
+  ggtitle('UMAP highlighting cells with at least 10 ALT reads')
 
 #That seems to have helped, but we're still getting a lot more cells than we'd expect 
 #considering that the epithelial cells are largely in clusters 9 and 12
 #let's increase the number of ALT reads up to 20
-DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df[all_samples_vartrix_df$num_alt_reads >= 20,]))
+DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df[all_samples_vartrix_df$num_alt_reads >= 20,])) + 
+  ggtitle('UMAP highlighting cells with at least 20 ALT reads')
 ```
 
 We tried to get fairly strict with how we are defining a tumor cell, by requiring at least 20 reads carrying a mutation for a cell to be a tumor cell, but it seems like we're getting some pretty calls as we are identifying many cells that are unlikely to be epithelial cells as tumor cells. This could suggest that our original variant list was not filtered enough and still has germline variants. We can filter this variant file further by removing variants that are likely to be germline variants using the following filtering strategy. 
@@ -352,11 +355,14 @@ all_samples_vartrix_df_high_conf$num_alt_reads <- rowSums(all_samples_vartrix_df
 
 #let's plot potential tumor cells based on the high confidence variants using the same thresholds as before. 
 #At least 1 ALT read for a tumor cell
-DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 1,]))
+DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 1,])) + 
+  ggtitle('UMAP highlighting cells with at least 1 ALT read (filtered VCF)')
 #At least 10 ALT reads for a tumor cell
-DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 10,]))
+DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 10,])) + 
+  ggtitle('UMAP highlighting cells with at least 10 ALT reads (filtered VCF)')
 #At least 20 ALT reads for a tumor cell
-DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 20,]))
+DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 20,])) + 
+  ggtitle('UMAP highlighting cells with at least 20 ALT reads (filtered VCF)')
 
 #How does this compare against our previous plot?
 tumor_cells_10Kvars_dimplot <- DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df[all_samples_vartrix_df$num_alt_reads >= 20,])) + 
