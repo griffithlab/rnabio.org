@@ -299,7 +299,7 @@ for (sample in sample_names) {
 
 #### Remove low-quality cells based on the QC plots
 
-Let's say we decide to remove all cells with gene counts greater than 1000 and mitochondrial percentages less than 12. 
+Let's say we decide to keep all cells with gene counts greater than 1000 and mitochondrial percentages less than 12. 
 
 We will mark cells that we want to keep. This `ifelse` function statement reads: if `percent.mt` is less than or equal to 12 we will mark it as TRUE to keep it, otherwise we will mark it as FALSE to filter it out.
 
