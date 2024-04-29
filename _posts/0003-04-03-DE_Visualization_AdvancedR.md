@@ -197,7 +197,7 @@ dev.off()
 
 #### Plot #6 - View the distribution of differential expression values as a histogram
 #Display only those results that are significant according to DESeq2 (loaded above)
-pdf(file="UHR_vs_HBR_DE_dist.pdf")
+pdf(file="UHR_vs_HBR_DE_FC_distribution.pdf")
 sig=which(results_genes$pvalue<0.05)
 hist(results_genes[sig,"log2FoldChange"], breaks=50, col="seagreen", xlab="log2(Fold change) UHR vs HBR", main="Distribution of differential expression values")
 abline(v=-2, col="black", lwd=2, lty=2)
@@ -205,7 +205,9 @@ abline(v=2, col="black", lwd=2, lty=2)
 legend("topleft", "Fold-change > 4", lwd=2, lty=2)
 dev.off()
 
-#### Plot #7 - Display the grand expression values from UHR and HBR and mark those that are significantly differentially expressed
+#### Plot #7 - Display the mean expression values from UHR and HBR and mark those that are significantly differentially expressed
+pdf(file="UHR_vs_HBR_mean_TPM_scatter.pdf")
+
 gene_expression[,"HBR_mean"]=apply(gene_expression[,c(1:3)], 1, mean)
 gene_expression[,"UHR_mean"]=apply(gene_expression[,c(4:6)], 1, mean)
 
@@ -223,6 +225,8 @@ legend("topleft", "Significant", col="magenta", pch=16)
 topn = order(results_genes[sig,"padj"])[1:25]
 text(x[topn], y[topn], results_genes[topn,"Symbol"], col="black", cex=0.75, srt=45)
 
+dev.off()
+
 #### Plot #8 - Create a heatmap to vizualize expression differences between the six samples
 #Define custom dist and hclust functions for use with heatmaps
 mydist=function(c) {dist(c,method="euclidian")}
@@ -234,6 +238,7 @@ sigp = results_genes[sigpi,]
 sigfc = which(abs(sigp[,"log2FoldChange"]) >= 2)
 sigDE = sigp[sigfc,]
 
+pdf(file="EHR_vs_HBR_heatmap.pdf")
 main_title="sig DE Genes"
 par(cex.main=0.8)
 sigDE_genes=sigDE[,"ensemblID"]
@@ -241,6 +246,7 @@ sigDE_genenames=sigDE[,"Symbol"]
 
 data=log2(as.matrix(gene_expression[as.vector(sigDE_genes),data_columns])+1)
 heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="none", dendrogram="both", margins=c(10,4), Rowv=TRUE, Colv=TRUE, symbreaks=FALSE, key=TRUE, symkey=FALSE, density.info="none", trace="none", main=main_title, cexRow=0.3, cexCol=1, labRow=sigDE_genenames,col=rev(heat.colors(75)))
+dev.off()
 
 #### Plot #9 - Volcano plot
 
@@ -255,6 +261,8 @@ results_genes$diffexpressed[results_genes$log2FoldChange <= -2 & results_genes$p
 results_genes$gene_label <- NA
 results_genes$gene_label[results_genes$diffexpressed != "No"] <- results_genes$Symbol[results_genes$diffexpressed != "No"]
 
+pdf(file="EHR_vs_HBR_volcano.pdf")
+
 ggplot(data=results_genes[results_genes$diffexpressed != "No",], aes(x=log2FoldChange, y=-log10(pvalue), label=gene_label, color = diffexpressed)) +
              xlab("log2Foldchange") +
              scale_color_manual(name = "Differentially expressed", values=c("blue", "red")) +
@@ -265,7 +273,7 @@ ggplot(data=results_genes[results_genes$diffexpressed != "No",], aes(x=log2FoldC
              geom_hline(yintercept=-log10(0.05), col="red") +
              guides(colour = guide_legend(override.aes = list(size=5))) +
              geom_point(data = results_genes[results_genes$diffexpressed == "No",], aes(x=log2FoldChange, y=-log10(pvalue)), colour = "black")
-
+dev.off()
 
 #To exit R type:
 #quit(save="no")
