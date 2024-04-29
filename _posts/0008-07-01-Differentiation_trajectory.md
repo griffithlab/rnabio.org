@@ -11,17 +11,25 @@ date: 0008-07-01
 
 ## Trajectory Analysis Using CytoTRACE
 
-Single-cell sequences give us a snapshot of what a given population of cells is doing. This means we should see many different cells in many different phases of a cell's lifecycle. We use trajectory analysis to place our cells on a continuous 'timeline' based on expression data. The timeline does not have to mean that the cells are ordered from oldest to youngest (although many analysis uses trajectory to quantify developmental time). Generally, tools will create this timeline by finding paths through cellular space that minimize the transcriptional changes between neighboring cells. So for every cell, an algorithm asks the question: what cell or cells is/are most similar to the current cell we are looking at? Unlike clustering, which aims to group cells by what type they are, trajectory analysis aims to order the continuous changes associated with the cell process.
+Single-cell sequences give us a snapshot of what a population of cells is doing. This means we should see many different cells in many different phases of a cell's lifecycle. We use trajectory analysis to place our cells on a continuous 'timeline' based on expression data. The timeline does not have to mean that the cells are ordered from oldest to youngest (although many analysis uses trajectory to quantify developmental time). Generally, tools will create this timeline by finding paths through cellular space that minimize the transcriptional changes between neighboring cells. So for every cell, an algorithm asks the question: what cell or cells is/are most similar to the current cell we are looking at? Unlike clustering, which aims to group cells by what type they are, trajectory analysis aims to order the continuous changes associated with the cell process.
 
 The metric we use for assigning positions is called pseudotime. Pseudotime is an abstract unit of progress through a dynamic process. When we base our trajectory analysis on the transcriptomic profile of a cell, less mature cells are assigned smaller pseudotimes and more mature cells are assigned larger pseudotimes.
 
-Earlier we confirmed that our epithelial cell population corresponded to our tumor population (maybe provide graph). Then, through differential expression analysis, we saw that the epithelial cells form two disinct clusters that we indtified as luminal and basal cells. We can further confirm this conclusion by using trajectory analaysis to assign pseutime values to the epithelial cells. We expect see that basal cells are less differentiated than luminal cells. 
+Earlier we confirmed that our epithelial cell population corresponded to our tumor population. Then, through differential expression analysis, we saw that the epithelial cells form two disinct clusters that we indtified as luminal and basal cells. We can further confirm this conclusion by using trajectory analaysis to assign pseutime values to the epithelial cells. **We expect see that basal cells are less differentiated than luminal cells.**
+
+![epcam Clusters](/assets/module_8/epcam_clusters.png)
 
 
-First, load in our preprocessed object.
+First, lets load our libraries and our preprocessed object.
 
 ```R
-rep135 <- readRDS(file = "processed_joined_celltyped_object_0418.rds")
+library(Seurat)
+library(CytoTRACE)
+library(monocle3)
+library(ggplot2)
+
+
+rep135 <- readRDS('outdir_single_cell_rna/preprocessed_object.rds')
 ```
 
 Let's see what clusters our epithelial cells are located in.
@@ -57,12 +65,12 @@ rep135 <- AddModuleScore(object = rep135, features = cell_type_Luminal_marker_ge
 FeaturePlot(object = rep135, features = "cell_type_Luminal_score1")
 ```
 
-For more clarity, lets subset our seurat object to just the epithelial cell clusters. 
+For ease and clarity, lets subset our seurat object to just the epithelial cell clusters. 
 
 ```R
 ### Subsetting dataset epithelial
-rep135 <- SetIdent(rep135_processed_joined, value = 'seurat_clusters_res0.8')
-rep135_epithelial <- subset(rep135_processed_joined, idents = c('9', '12')) # 1750
+rep135 <- SetIdent(rep135, value = 'seurat_clusters_res0.8')
+rep135_epithelial <- subset(rep135, idents = c('9', '12')) # 1750
 
 #confirm that we have subset the object as expected visually using a UMAP
 DimPlot(rep135, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
@@ -81,8 +89,8 @@ Now let's run [CytoTRACE](https://www.science.org/doi/10.1126/science.aax0249). 
 First we have to export the counts. 
 
 ```R
-rep135_mtx <- GetAssayData(rep135_epithelial, slot = "counts")
-write.csv(rep135_mtx, "rep135_epithelial_counts.csv")
+rep135_mtx <- GetAssayData(rep135_epithelial, layer = "counts")
+write.csv(rep135_mtx, "outdir/rep135_epithelial_counts.csv")
 ```
 
 Then export the file from posit. In the File wndow select `rep135_epithelial_counts.csv`. Then go to More -> Export... and click Download. 
@@ -109,18 +117,18 @@ We now want to add our CytoTRACE scores onto our seurat object. So we naviagate 
 ```R
 library(readr)
 
-cytotrace_scores <- read.delim("CytoTRACE_results.txt", sep="\t") # read in the cytotrace scores
+cytotrace_scores <- read.table("outdir/CytoTRACE_results.txt", sep="\t") # read in the cytotrace scores
 
 rownames(cytotrace_scores) <- sub("\\.", "-", rownames(cytotrace_scores)) # the barcodes export with a `.` instead of a '-' at the end of the barcode so we have to remedy that before joining the cytotrace scores unto our seurat object
 
 # Add CytoTRACE scores matching on the cell barcodes
-rep135_epithelial[['cytotrace_scores']] <- cytotrace_scores$CytoTRACE[match(rownames(rep135_epithelial@meta.data), rownames(cytotrace_scores))] 
+rep135_epithelial <- AddMetaData(rep135_epithelial, cytotrace_scores %>% select("CytoTRACE"))
 ```
 
 Now we can plot our basal cell markers, our luminal cell markers, and the cytotrace scores together to compare. Since it is a little unintutive that less differentiated scores are closer to 1 we will also create a `differentiation_score` which will be a reverse of our CytoTRACE scores so that smaller scores means less differentian and larger scores mean more differntiated. 
 
 ```R
-rep135_epithelial[['differentiation_scores']] <- 1 - rep135_epithelial[['cytotrace_scores']] # Lets also reverse out cytotrace scores so that high means more differentiated and low means less differentiated
+rep135_epithelial[['differentiation_scores']] <- 1 - rep135_epithelial[['CytoTRACE']] # Lets also reverse out cytotrace scores so that high means more differentiated and low means less differentiated
 
 FeaturePlot(object = rep135_epithelial, features = c("cell_type_Basal_score1", "cell_type_Luminal_score1", "cytotrace_scores", "differentiation_scores"))
 ```
@@ -129,29 +137,43 @@ FeaturePlot(object = rep135_epithelial, features = c("cell_type_Basal_score1", "
 
 The most important part of trajectory analysis is to make sure you have some biological reasoning to back up the pseudotime values. The best practice for pseudotime means using it to support an biological pattern which has already been observed by some other method. 
 
+Let's separate our luminal cells from the basal cells and perfrom trajectory analysis.
+
 ```R
 ## Subset to just luminal cells
 DimPlot(rep135_epithelial) # cluster 10 is our luminal cells
-rep135_luminal <- subset(rep135_epithelial, idents = c('10')) # 863 cells
+rep135_luminal <- subset(rep135_epithelial, idents = c('9')) # 863 cells
+```
 
-# export the counts for CytoTRACE
-rep135_luminal_mtx <- GetAssayData(rep135_luminal, slot = "counts")
-write.csv(rep135_luminal_mtx, "rep135_luminal_counts.csv")
+We can also use the CytoTRACE R package to calculate our CytoTRACE scores.
 
-# run CytoTRACE on webpage
+```R
+# Creating a dataframe to pass to cytotrace
+rep135_luminal_expression <- data.frame(GetAssayData(object = rep135_luminal, layer = "data"))
 
-# Import CytoTRACE results
-cytotrace_scores <- read.delim("CytoTRACE_luminal_results.txt", sep="\t") # read in the cytotrace scores
+rep135_luminal_cytotrace_scores <- CytoTRACE(rep135_luminal_expression, ncores = 1)
 
-rownames(cytotrace_scores) <- sub("\\.", "-", rownames(cytotrace_scores)) # the barcodes export with a `.` instead of a '-' at the end of the barcode so we have to remedy that before joining the cytotrace scores unto our seurat object
+rep135_luminal_cytotrace_transposed <- as.data.frame(rep135_luminal_cytotrace_scores$CytoTRACE) %>% rename("cytotrace_scores" = "rep135_luminal_cytotrace_scores$CytoTRACE")
+head(rep135_luminal_cytotrace_transposed)
 
-# Add CytoTRACE scores matching on the cell barcodes
-rep135_luminal[['cytotrace_scores']] <- cytotrace_scores$CytoTRACE[match(rownames(rep135_luminal@meta.data), rownames(cytotrace_scores))] 
+# fix the barcode formatting, our seurat 
+rownames(rep135_luminal_cytotrace_transposed) <- sub("\\.", "-", rownames(rep135_luminal_cytotrace_transposed))
+rownames(rep135_luminal_cytotrace_transposed)
+```
 
-# compare the luminal only CytoTRACE scores to all epithelial cells
-FeaturePlot(object = rep135_luminal, features = c("differentiation_scores")) +
-  FeaturePlot(object = rep135_epithelial, features = c("differentiation_scores"))
+We the can add those CytoTRACE scores to our luminal cell object and visualize them.
 
+```R
+rep135_luminal <- AddMetaData(rep135_luminal, rep135_luminal_cytotrace_transposed)
+
+rep135_luminal[['differentiation_scores_luminal']] <- 1 - rep135_luminal[['CytoTRACE']]
+rep135_luminal[['differentiation_scores_epithelial']] <- 1 - rep135_luminal[['differentiation_scores']]
+
+# compare all epithelial cells  CytoTRACE scores to the luminal only CytoTRACE
+(FeaturePlot(object = rep135_luminal, features = c("differentiation_scores_epithelial")) +
+    ggtitle("Epithelial Cells CytoTRACE Scores")) +
+  (FeaturePlot(object = rep135_luminal, features = c("differentiation_scores_luminal")) +
+      ggtitle("Luminal Cells CytoTRACE Scores"))
 ```
 
 CytoTRACE will force all given cells onto the same scale meaning that there has to be cells at both the low and high ends of differentiation. the CytoTRACE scores could be a relection of cellcycling genes. We can check by using a feature plot the compare the S-phase genes, G2/M-phase genes, and differentiation scores.
@@ -167,19 +189,113 @@ FeaturePlot(object = rep135_luminal, features = c("S.Score", "G2M.Score", "diffe
 
 We still don't see a clear pattern, which illustrates the challenge and the danger of pseudotime.
 
-### Using Trajectory to Analyze Monocyte Differentiation 
+### Comparing CytoTRACE to Monocle3
+
+Now that we verified that we somewhat trust the results of CytoTRACE, we can try the algorithms on the entire dataset and compare it to another trajectory analysis method. Another popular method used is [Monocle3](https://cole-trapnell-lab.github.io/monocle3/docs/introduction/). Monocle3 is a analysis toolkit for scRNA and has many of the functions that Seurat has. We can use Monocle3's trajectory algorithm but since it uses its own unique data structure, we will have to convert our subsetted  object to a cell data set object. Luckily, there are tools that make that conversion realtively easy.
+
+You can also refer to the full [Monocle3 trajectory tutorial](https://cole-trapnell-lab.github.io/monocle3/docs/trajectories/).
+
+Before we start just running our data through the algorthem and seeing what we get, we should consider what we expect to get. Let's remember what cell types we have in our dataswet and where they are on our UMAP. **What pseudotime scores do you expect to be assigned to the clusters?**
 
 ```R
-library("devtools")
-BiocManager::install("sva")
-devtools::install_local("CytoTRACE_0.3.3.tar.gz")
-library(CytoTRACE)
-library(cowplot)
-library(stringr)
+DimPlot(rep135, group.by = 'immgen_singler_main', label = TRUE)
 ```
 
-CytoTRACE is also an R package!
+![Overview of haematopoiesis](/assets/module_8/haematopoiesis_redbloodcells.png)
+[Haematopoiesis and red blood cells](https://www.sciencedirect.com/science/article/pii/S0263931913000495)
 
+#### Running Monocle3
+
+Let's now run Monocle3, again we have to convert our seurat object to a Monocle 'Cell Data Set'. We will use a package made for this specific puropose.
+
+
+```R
+
+rep135_cds <- SeuratWrappers::as.cell_data_set(rep135)
+
+```
+
+Then we run the Monocle function `cluster_cells`
+
+```R
+rep135_cds <- cluster_cells(rep135_cds)
+```
+
+```R
+plot_cells(rep135_cds, show_trajectory_graph = FALSE, color_cells_by = "partition")
+
+# monocle will create a trajectory for each partition, but we want all our clusters
+# to be on the same trajectory so we will set `use_partition` to FALSE when 
+# we learn_graph
+
+rep135_cds <- learn_graph(rep135_cds, use_partition = FALSE) # graph learned across all partitions
+```
+
+Monocle3 requires you to choose a starting point or root for the calculuated trajectories. 
+
+```R
+rep135_cds <- order_cells(rep135_cds)
+# Pick a root or multiple roots
+```
+
+Plot the pseudotime:
+
+```R
+plot_cells(rep135_cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1)
+```
+
+When we choose a root around where the stem cells are located we see that the fibroblast and epithelial cells end with the higher pseudotime scores.
+
+![Monocle Pseudotime with Stem Cells as root](/assets/module_8/monocle_pseudotime_stemcellroot.png)
+
+But if we choose are roots to be stem cells, fibroblasts, and epithelial cells, we see that monocle changes the pseutime orderings accordingly.
+
+![Monocle Pseudotime with multiple roots](/assets/module_8/monocle_pseudotime_mulitpleroot.png)
+
+#### Loading in the CytoTRACE scores
+
+We need a significant amount of computational power to run CytoTRACE on all cells so we have ran CytoTRACE on a computing cluster and have saved the results to be loaded in and add to our seurat object. Of course we have to make sure the data is formatted in the correct way.
+
+
+```R
+# Cytotrace for all cells
+
+# read in the cytotrace scores
+rep135_cytotrace <- read.table("outdir_single_cell_rna/rep135_cytotrace_scores.tsv", sep="\t") 
+head(rep135_cytotrace)
+
+# rename the column that stores the scores to be more clearly accessed
+rep135_cytotrace_transposed <- t(rep135_cytotrace)
+colnames(rep135_cytotrace_transposed) <- "CytoTRACE"
+head(rep135_cytotrace_transposed)
+
+# fix the barcode formatting, our seurat 
+rownames(rep135_cytotrace_transposed) <- sub("\\.", "-", rownames(rep135_cytotrace_transposed))
+rownames(rep135_cytotrace_transposed)
+```
+
+Now we can add the scores to our seurat object and also create a inverse CytoTRACE score for clarity. So our differentiation score will be 0 for least differentiatated (smallest pseudotime) and 1 being most differentiatied (biggest pseutotime).
+
+```R
+# Add CytoTRACE scores matching on the cell barcodes
+rep135 <- AddMetaData(rep135, rep135_cytotrace_transposed)
+rep135[["differentiation_score"]] <- 1 - rep135[["cytotrace_scores"]]
+
+```
+
+Finally let's compare the pseudotime values to our cell types. **Do we get the results we want to get? Does Monocle and CytoTRACE agree with each other? What happens if you choose different roots for the Monocle pseudotimes?**
+
+```R
+plot_cells(rep135_cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1) + 
+  (FeaturePlot(rep135, features = 'differentiation_score') + scale_color_viridis(option = 'magma', discrete = FALSE)) +
+DimPlot(rep135, group.by = 'immgen_singler_main', label = TRUE)
+```
+
+![Monocle pseudotime compared with CytoTRACE pseudtime](/assets/module_8/monocle_cytotrace_celltypes.png)
+
+### Exercise: Using Trajectory to Analyze Monocyte Differentiation 
+
+For a final exercise we can apply the same steps as above to analyze another group of cells: macrophages and monocytes. 
 
 ```R
 highlight = rep135$immgen_singler_main =="Macrophages"
@@ -198,74 +314,88 @@ DimPlot(rep135, reduction = 'umap', group.by = 'orig.ident', cells.highlight = h
 Idents(rep135) <- "immgen_singler_main" 
 rep135_macro_mono_cells <- subset(rep135, idents = c("Macrophages", "Monocytes"), invert = FALSE) # 1092
 
-DimPlot(macro_mono_cells, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
-  DimPlot(macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) 
+DimPlot(rep135_macro_mono_cells, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
+  DimPlot(rep135_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) 
+
+# grab all cells that are macrophages and monocytes, we can subset by clusters 6 and 14 which seem to contain 
+Idents(rep135) <- "seurat_clusters_res0.8" 
+rep135_macro_mono_cells <- subset(rep135, idents = c(6, 14), invert = FALSE) # 1350
 ```
 
 ```R
-macro_mono_cells <- NormalizeData(macro_mono_cells)
-macro_mono_cells <- FindVariableFeatures(macro_mono_cells, selection.method = "vst", nfeatures = 2000)
-macro_mono_cells <- ScaleData(macro_mono_cells)
-ndims = length(which(macro_mono_cells@reductions$pca@stdev > 2))
-ndims
-macro_mono_cells <- RunPCA(macro_mono_cells, npcs = 26)
-macro_mono_cells <- FindNeighbors(macro_mono_cells, dims = 1:20)
-macro_mono_cells <- FindClusters(macro_mono_cells, resolution = 0.7, verbose = FALSE)
-macro_mono_cells <- RunUMAP(macro_mono_cells, dims = 1:20, set.ident = TRUE)
+DimPlot(rep135_macro_mono_cells, group.by = 'seurat_clusters', label = TRUE) + 
+  DimPlot(rep135_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) 
 
-DimPlot(macro_mono_cells, group.by = 'seurat_clusters', label = TRUE) + 
-  DimPlot(macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) 
-
-DimPlot(macro_mono_cells, group.by = 'immgen_singler_fine', label = TRUE)
+DimPlot(rep135_macro_mono_cells, group.by = 'immgen_singler_fine', label = TRUE)
 ```
 
 ```R
-macro_mono_cells_expression <- data.frame(GetAssayData(object = macro_mono_cells, slot = "data"))
-write.table(rmacro_mono_cells_expression, file="macro_mono_cells_expression_cytotrace.tsv", quote=FALSE, sep="\t", col.names = TRUE)
+# create a data frame with the counts from our subsetted obect
+rep135_macro_mono_cells_expression <- data.frame(GetAssayData(rep135_macro_mono_cells, layer = "data")) 
 
-rep135_expression <- read.table(file = "macro_mono_cells_expression_cytotrace.tsv", sep = "\t", header = TRUE)
-rep135_cytotrace_scores <- CytoTRACE(macro_mono_cells_expression, ncores = 4)
+# pass that dataframe to the CytoTRACE function
+rep135_macro_mono_cells_cytotrace_scores <- CytoTRACE(rep135_macro_mono_cells_expression, ncores = 4)
+
+# Create a dataframe out of the CytoTRACE scores
+rep135_macro_mono_cells_cytotrace_scores_df <- as.data.frame(rep135_macro_mono_cells_cytotrace_scores$CytoTRACE)
+
+# Make the rownames of the cytotraace scores function the cell barcodes and rename the CytoTRACE scores column approproately
+rownames(rep135_macro_mono_cells_cytotrace_scores_df) <- sub("\\.", "-", rownames(rep135_macro_mono_cells_cytotrace_scores_df))
 ```
 
-
-#### Monocle
+Now we will incorporate our CytoTRACE scores into our Seurat object. 
 
 ```R
-# convert from a seurat object to CDS
-# install.packages('R.utils')
-# remotes::install_github('satijalab/seurat-wrappers')
-cds <- SeuratWrappers::as.cell_data_set(macro_mono_cells)
+# Add CytoTRACE scores matching on the cell barcodes
+rep135_macro_mono_cells <- AddMetaData(rep135_macro_mono_cells, rep135_macro_mono_cells_cytotrace_scores_df)
+```
 
-# now everything will
+CytoTRACE assignes the least differentiated cells a score of 1 and the most differentiated cells a score of 0, which is sometimes not inutive. So lets create a inverse CytoTRACE score which we will call our differentiation score.
+
+```R
+rep135_macro_mono_cells[['differentiation_scores']] <- 1 - rep135_macro_mono_cells[['CytoTRACE']]
+
+# Plot the results
+DimPlot(rep135_macro_mono_cells, group.by = 'seurat_clusters', label = TRUE) + 
+  DimPlot(rep135_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) +
+  FeaturePlot(rep135_macro_mono_cells, features = 'differentiation_scores')
+```
+
+#### Running Monocole
+
+Let's compare our CytoTRACE scores to Monocle3's trajectory calculations. 
+
+```R
+cds <- SeuratWrappers::as.cell_data_set(rep135_macro_mono_cells)
+
 cds <- cluster_cells(cds)
 
+# View our clusters
 plot_cells(cds, show_trajectory_graph = FALSE, color_cells_by = "partition")
-# monocle will create a trajectory for each partition, but we want all our clusters
-# to be on the same trajectory
-# if we use epithelial cells then this doens't matter
 
 cds <- learn_graph(cds, use_partition = FALSE) # graph learned across all partitions
-# this will have to be done before hand
-# unless we use epithelial cells (1331 cells ran in seconds)
-
-cds <- order_cells(cds)
-
-plot_cells(cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE)
-
-rowData(cds)$gene_name <- rownames(cds)
-rowData(cds)$gene_name <- rowData(cds)$gene_name
-
-plot_cells(cds,
-           genes=c('Ly6c2', 'Ccr2', 'Adgre1'),
-           label_cell_groups = FALSE,
-           show_trajectory_graph = FALSE,
-           min_expr = 3)
 
 ```
 
+```R
+cds <- order_cells(cds) # choose your root(s)
+```
+
+```R
+plot_cells(cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1)
+```
+
+```R
+plot_cells(cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1) + 
+  (FeaturePlot(rep135_macro_mono_cells, features = 'CytoTRACE') + scale_color_viridis(option = 'magma', discrete = FALSE)) +
+  (FeaturePlot(rep135_macro_mono_cells, features = 'differentiation_score') + scale_color_viridis(option = 'magma', discrete = FALSE)) +
+  DimPlot(rep135_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE)
+```
+
+![Macrophages differentiation](/assets/module_8/monocle_cytotrace_celltypes.png)
 
 
-#### Further Resources 
+### Further Resources 
 [R Tutorial](https://bioconductor.org/books/3.14/OSCA.advanced/trajectory-analysis.html)
 
 
@@ -276,6 +406,8 @@ plot_cells(cds,
 
 
 [Does Monocole Use Clusters to Calculate Pseudotime](https://github.com/cole-trapnell-lab/monocle-release/issues/65)
+
+[Using_Monocle_For_Pseudotime_Trajectory](https://monashbioinformaticsplatform.github.io/Single-Cell-Workshop/pbmc3k_tutorial.html#Using_Monocle_For_Pseudotime_Trajectory_(Time_permits))
 
 
 #### Papers
