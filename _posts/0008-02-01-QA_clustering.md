@@ -718,7 +718,7 @@ DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2')
 dev.off()
 ```
 
-Now, let's color by our samples to make sure that no sample is clustering by itself -- this would be an indication of batch effects. We want similar cells to be clustered together because they have similar gene expression. We do NOT want our cells to cluster together because of technical errors.
+Now, let's color by our samples to make sure that no sample is clustering by itself -- this would be an indication of batch effects. We want similar cells to be clustered together because they have similar gene expression. We do NOT want our cells to cluster together because of technical reasons (e.g., different sequencing batch, different replicate, etc).
 ```R
 # UMAP by sample
 jpeg(sprintf("%s/UMAP_orig.ident.jpg",outdir), width = 5, height = 4, units = 'in', res = 150)
@@ -749,7 +749,7 @@ merged <- FindClusters(merged, resolution = 0.8, cluster.name = 'seurat_clusters
 
 merged <- FindClusters(merged, resolution = 0.5, cluster.name = 'seurat_clusters_res0.5')
 
-jpeg("outdir/UMAP_compare_res.jpg", width = 20, height = 5, units = 'in', res = 150)
+jpeg(sprintf("%s/UMAP_compare_res.jpg",outdir), width = 20, height = 5, units = 'in', res = 150)
 DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.5') +
   DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.8') + 
   DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2') 
