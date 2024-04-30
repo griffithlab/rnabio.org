@@ -198,7 +198,7 @@ Rep1_ICB_data_seurat_obj[["percent.mt"]] =
 head(Rep1_ICB_data_seurat_obj[[]]) # check to see the column in meta.data
 ```
 
-We will use `pecent.mt` to assess the quality if our cells, lets take a quick look at this one sample data before moving on to process all our samples. Using violin plots we take a look at the number of reads, the number of genes, and the percentage of mitochondrial genes in each cell. 
+We will use `percent.mt` to assess the quality if our cells, lets take a quick look at this one sample data before moving on to process all our samples. Using violin plots we take a look at the number of reads, the number of genes, and the percentage of mitochondrial genes in each cell. 
 
 ```R
 p1 <- VlnPlot(Rep1_ICB_data_seurat_obj, features = c("nCount_RNA"), pt.size = 0) 
