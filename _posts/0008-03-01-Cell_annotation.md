@@ -45,7 +45,7 @@ url <- "http://genomedata.org/cri-workshop/rep135_clustered.rds"
 file_name <- "rep135_clustered.rds"
 file_path <- "outdir_single_cell_rna/"
 download.file(url, paste(file_path, file_name, sep = ""), mode = "wb")
-merged <- readRDS('outdir_single_cell_rna/rep135_test_clustered.rds')
+merged <- readRDS('outdir_single_cell_rna/rep135_clustered.rds')
 ```
 
 #### Specifying which reference dataset to use
