@@ -63,8 +63,6 @@ conicsmat_expr <- CONICSmat::normMat(as.matrix(Seurat::GetAssayData(merged_subse
 gene_pos=getGenePositions(rownames(conicsmat_expr), ensembl_version = "https://oct2022.archive.ensembl.org/", species = "mouse")
 
 #Get coordinates for each region of interest (in our case we'll just use chromosome coordinates)
-#We'll download this file first
-download.file(url = 'http://genomedata.org/cri-workshop/reference_files/chromosome_full_positions_mm10.txt', destfile = '/cloud/project/data/single_cell_rna/reference_files/chromosome_full_positions_mm10.txt')
 regions=read.table("/cloud/project/data/single_cell_rna/reference_files/chromosome_full_positions_mm10.txt",sep="\t",header = T, row.names = 1)
 
 
@@ -187,11 +185,6 @@ library(ggplot2)
 
 #read in seurat object
 merged <- readRDS(file='data/single_cell_rna/backup_files/preprocessed_object.rds')
-
-#download the variants file using the R built-in download.file() function
-download.file(url = 'http://genomedata.org/cri-workshop/somatic_variants_exome/mcb6c-exome-somatic.variants.annotated.clean.filtered_10K.tsv',
-destfile = '/cloud/project/data/single_cell_rna/cancer_cell_id/mcb6c-exome-somatic.variants.annotated.clean.filtered_10K.tsv') 
-#downloads file from internet based on 'url' and puts it in the location specified by 'destfile'.
 
 #read in the variants file
 variants_file <- read.csv('/cloud/project/data/single_cell_rna/cancer_cell_id/mcb6c-exome-somatic.variants.annotated.clean.filtered_10K.tsv', sep='\t')
