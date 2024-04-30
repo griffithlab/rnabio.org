@@ -448,7 +448,7 @@ table(Idents(merged)) # get summary table
 
 ### Normalize Data 
 
-Standard practice for scRNA data is to normalize your counts. Many functions will only use the normalized counts and not look at the raw counts. The `NormalizeData` function takes our merged object and will log normalize our RNA assay. Log normalized in this context means that the  feature counts for each cell are divided by the total counts for that cell and multiplied by the `scale.factor`, then natural-log transformed using `log1p`. 
+Standard practice for scRNA data is to [normalize your counts](https://bioconductor.org/books/3.17/OSCA.basic/normalization.html). Many functions will only use the normalized counts and not look at the raw counts. The `NormalizeData` function takes our merged object and will log normalize our RNA assay. Log normalized in this context means that the  feature counts for each cell are divided by the total counts for that cell and multiplied by the `scale.factor`, then natural-log transformed using `log1p`. 
 
 ```R
 merged <- NormalizeData(merged, assay = "RNA", normalization.method = "LogNormalize", scale.factor = 10000)
