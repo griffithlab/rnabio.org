@@ -24,6 +24,9 @@ library(dplyr)
 library(EnhancedVolcano)
 library(presto)
 merged <- readRDS('outdir_single_cell_rna/preprocessed_object.rds')
+
+#alternatively we have a seurat object from the last step saved here if you need it.
+merged <- readRDS('/cloud/project/data/single_cell_rna/backup_files/preprocessed_object.rds')
 ```
 
 ### Gene expression analysis for epithelial cells
