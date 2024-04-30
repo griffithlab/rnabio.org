@@ -412,6 +412,7 @@ merged <- merge(x = sample.data[["Rep1_ICBdT"]], y = c(sample.data[["Rep1_ICB"]]
 Let's now filter out merged objects with the cutoffs decided above. 
 
 ```R
+unfiltered_merged <- merged # save a copy of unfiltered merge for later
 merged <- subset(merged, nFeature_RNA > 1000 & percent.mt <= 12) 
 merged
 ```
@@ -426,7 +427,6 @@ As of now, the various replicates are in their own layers. They need to be merge
 ```R
 merged <- JoinLayers(merged)
 merged
-unfiltered_merged <- merged # save a copy of unfiltered merge for later
 ```
 
 ```
