@@ -79,9 +79,6 @@ Rep1_ICBdT_data = Read10X_h5("data/single_cell_rna/cellranger_outputs/Rep1_ICBdT
 
 Rep1_ICB_data = Read10X_h5("data/single_cell_rna/cellranger_outputs/Rep1_ICB-sample_filtered_feature_bc_matrix.h5")
 
-
-sample.data  = list() # a list to hold all our Seurat object
-
 Rep1_ICBdT_data_seurat_obj = CreateSeuratObject(counts = Rep1_ICBdT_data, project = "Rep1_ICBdT", min.cells = 10, min.features = 100)
 sample.data[["Rep1_ICBdT"]] = Rep1_ICBdT_data_seurat_obj 
 
