@@ -283,6 +283,7 @@ How do our samples differ in their relative cell composition?
 ```R
 #visualizing the relative proportion of cell types across our samples
 library(viridis)
+library(ggplot2)
 ggplot(merged[[]], aes(x = orig.ident, fill = immgen_singler_main)) + geom_bar(position = "fill") + scale_fill_viridis(discrete = TRUE)
 
 ``` 
