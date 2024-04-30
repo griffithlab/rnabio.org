@@ -97,16 +97,11 @@ head(ref_immgen$label.fine, n=10)
 From the fine labels, we can see that we start to subtype the more general cell types we saw above. So rather than seeing 6 labels for Macrophages we now see specific Macrophage types such as Macrophages (MF.11C-11B+).
 
 ```R
- [1] "Macrophages (MF.11C-11B+)"
- [2] "Macrophages (MF.11C-11B+)"
- [3] "Macrophages (MF.11C-11B+)"
- [4] "Macrophages (MF.ALV)"     
- [5] "Macrophages (MF.ALV)"     
- [6] "Macrophages (MF.ALV)"     
- [7] "Monocytes (MO.6+I-)"      
- [8] "Monocytes (MO.6+2+)"      
- [9] "Monocytes (MO.6+2+)"      
-[10] "Monocytes (MO.6+2+)" 
+[1] "Macrophages (MF.11C-11B+)" "Macrophages (MF.11C-11B+)"
+[3] "Macrophages (MF.11C-11B+)" "Macrophages (MF.ALV)"     
+[5] "Macrophages (MF.ALV)"      "Macrophages (MF.ALV)"     
+[7] "Monocytes (MO.6+I-)"       "Monocytes (MO.6+2+)"      
+[9] "Monocytes (MO.6+2+)"       "Monocytes (MO.6+2+)" 
 ```
 
 ```R
@@ -117,9 +112,8 @@ head(ref_immgen$label.ont, n=10)
 From the ont labels, we can see that we start to subtypes are now mapped to Cell Ontology IDs.
 
 ```R
-[1] "CL:0000235" "CL:0000235" "CL:0000235" "CL:0000583"
-[5] "CL:0000583" "CL:0000583" "CL:0000576" "CL:0000576"
-[9] "CL:0000576" "CL:0000576"
+[1] "CL:0000235" "CL:0000235" "CL:0000235" "CL:0000583" "CL:0000583"
+[6] "CL:0000583" "CL:0000576" "CL:0000576" "CL:0000576" "CL:0000576"
 ```
 
 #### Applying the immgen cell reference to our data
