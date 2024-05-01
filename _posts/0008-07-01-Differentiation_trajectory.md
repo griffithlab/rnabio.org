@@ -401,6 +401,50 @@ plot_cells(cds, color_cells_by = "pseudotime", label_branch_points = FALSE, labe
 
 ![Macrophages differentiation](/assets/module_8/macro_mono_cytotrace_monocle_pseudotime.png)
 
+### Selecting a root in Monocle3
+
+Monocle3 proposes a method to choose a root more precisely in its [trajecotry tutorial](https://cole-trapnell-lab.github.io/monocle3/docs/trajectories/). It requires you to do the preprocessing steps specific to Monocle3. 
+
+```R
+rep135_cds <- SeuratWrappers::as.cell_data_set(rep135)
+
+# Monocle preprocessing steps
+rep135_cds <- preprocess_cds(rep135_cds, num_dim = 50, preprocess_method = 'PCA')
+# rep135_cds <- align_cds(rep135_cds, alignment_group = "orig.ident") # removes batch effect by fitting its a linear model to the cells
+rep135_cds <- reduce_dimension(rep135_cds, preprocess_method = 'PCA', reduction_method="UMAP") # calculate UMAPs
+
+rep135_cds <- cluster_cells(rep135_cds)
+
+plot_cells(rep135_cds, show_trajectory_graph = FALSE, color_cells_by = "immgen_singler_main")
+
+# monocle will create a trajectory for each partition, but we want all our clusters
+# to be on the same trajectory so we will set `use_partition` to FALSE when 
+# we learn_graph
+
+rep135_cds <- learn_graph(rep135_cds, use_partition = FALSE) # graph learned across all partitions
+
+# rep135_cds <- order_cells(rep135_cds)
+# Pick a root or multiple roots -- stem cell? or stem cell, fibroblasts, epithelial cells
+
+# a helper function to identify the root principal points:
+cell_ids <- which(colData(rep135_cds)[, "seurat_clusters_res0.8"] == 5)
+
+closest_vertex <-
+  rep135_cds@principal_graph_aux[["UMAP"]]$pr_graph_cell_proj_closest_vertex
+
+closest_vertex <- as.matrix(closest_vertex[colnames(rep135_cds), ])
+
+root_pr_nodes <-
+    igraph::V(principal_graph(rep135_cds)[["UMAP"]])$name[as.numeric(names
+                                                              (which.max(table(closest_vertex[cell_ids,]))))]
+root_pr_nodes
+
+rep135_cds <- order_cells(rep135_cds, root_pr_nodes=root_pr_nodes)
+
+plot_cells(rep135_cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1)
+
+```
+
 
 ### Further Resources 
 [R Tutorial](https://bioconductor.org/books/3.14/OSCA.advanced/trajectory-analysis.html)
