@@ -100,13 +100,30 @@ head(combined.TCR[[1]])
 
 First, we will visualize the number of clones per sample. There are many ways to count clones and, as discussed above, scReportoire gives us several options. Here are some sample commands to view the counts, try playing around with changing the `cloneCall` parameter to `gene`, `nt`, `aa`, or `strict`.
 
+Let's convince ourselves that the scReportoire counts the correct number of clones.
 ```R
 # view the total number of unique clones
+# Change whether the clone is called by nucleotides, amino acids, or 
+
 clonalQuant(combined.TCR, 
-            cloneCall="strict", 
+            cloneCall="nt", 
+            chain = "both", 
+            scale = FALSE) +
+clonalQuant(combined.TCR, 
+              cloneCall="aa", 
+              chain = "both", 
+              scale = FALSE) +
+clonalQuant(combined.TCR, 
+              cloneCall="gene", 
+              chain = "both", 
+              scale = FALSE) +
+clonalQuant(combined.TCR, 
+            cloneCall="strict", # gene and nucleotide 
             chain = "both", 
             scale = FALSE)
+```
 
+```R
 # view the relative percent of unique clones scaled by the total size of the clonal repertoire
 clonalQuant(combined.TCR, 
             cloneCall="strict", 
@@ -129,7 +146,7 @@ We can also examine the relative distribution of clones by abundance. Using `clo
 # line graph with a total number of clones by the number of instances within the sample or run
 # The relative distribution of clones by abundance
 clonalAbundance(combined.TCR, 
-                cloneCall = "strict", 
+                cloneCall = "aa", 
                 scale = FALSE)
 
 
@@ -222,9 +239,22 @@ Let's experiment again with visualizing the number of clones.
 
 # view the total number of unique clones
 clonalQuant(combined.BCR, 
-            cloneCall="strict", 
+            cloneCall="nt", 
             chain = "both", 
-            scale = FALSE)
+            scale = FALSE) +
+  clonalQuant(combined.BCR, 
+              cloneCall="aa", 
+              chain = "both", 
+              scale = FALSE) +
+  clonalQuant(combined.BCR, 
+              cloneCall="gene", 
+              chain = "both", 
+              scale = FALSE) +
+  clonalQuant(combined.BCR, 
+              cloneCall="strict", 
+              chain = "both", 
+              scale = FALSE)
+
 
 # view the relative percent of unique clones scaled by the total size of the clonal repertoire
 clonalQuant(combined.BCR, 
@@ -252,9 +282,36 @@ clonalCompare(combined.BCR,
 clonalCompare(combined.BCR, 
               top.clones = 10, 
               samples = c("Rep3_ICB", "Rep3_ICBdT"), 
-              cloneCall="strict", 
+              cloneCall="aa", 
               graph = "alluvial")
 
+```
+**We believe that there is something wrong with how the clones are being counted.** If you play around with the threshold you see that there is no change in the number of clones called.
+
+When we look at the counts of shared BCRs between both chains vs just the alpha chain, we see that it seems that when we consider both chains it counts the NAs as matching. IS this what we really want?
+```R
+clonalCompare(combined.BCR, 
+              top.clones = 10, 
+              samples = c("Rep3_ICB", "Rep3_ICBdT"), 
+              cloneCall="aa", 
+              chain = "IGH",
+              graph = "alluvial") +
+clonalCompare(combined.BCR, 
+              top.clones = 10, 
+              samples = c("Rep3_ICB", "Rep3_ICBdT"), 
+              cloneCall="aa", 
+              chain = "both",
+              graph = "alluvial")
+
+```
+
+```R
+clonalCompare(combined.BCR, 
+              top.clones = 25, 
+              samples = c("Rep1_ICB", "Rep1_ICBdT", "Rep3_ICB", "Rep3_ICBdT", "Rep5_ICB", "Rep5_ICBdT"), 
+              cloneCall="aa",
+              chain = "IGH",
+              graph = "alluvial") + NoLegend()
 ```
 
 ### Adding the BCR and TCR Data to your Seurat object
@@ -273,7 +330,7 @@ Here we group by frequency:
 
 ```R
 rep135 <- combineExpression(combined.TCR, rep135, 
-                         cloneCall="gene", proportion = FALSE,
+                         cloneCall="aa", proportion = FALSE,
                          group.by = "sample",
                          cloneSize=c(Single=1, Small=5, Medium=20, Large=100, Hyperexpanded=500))
 
@@ -299,7 +356,7 @@ Let's repeat the same steps with the BCR data.
 
 ```R
 rep135 <- combineExpression(combined.BCR, rep135, 
-                              cloneCall="gene", proportion = FALSE,
+                              cloneCall="aa", proportion = FALSE,
                               group.by = "sample",
                               cloneSize=c(Single=1, Small=5, Medium=20, Large=100, Hyperexpanded=500))
 
