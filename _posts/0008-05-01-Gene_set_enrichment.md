@@ -50,6 +50,8 @@ ggplot(de_gsea_df, aes(avg_log2FC)) + geom_histogram()
 #You can also go one step further and impose a p-value cutoff (say 0.01) and plot the distribution. 
 ```
 
+### Overrepresentation analysis
+
 You may notice that we have quite a few genes with fairly large fold change values- while fold change values do not impact the overrepresentation analysis, they can inform the thresholds we use for picking the genes. Since we know that we have quite a few genes with foldchanges greater/lower than +/- 2, we can use that as our cutoff. We will also impose an adj p-value cutoff of 0.01. Thus, for the overrepresentation analysis, we will begin by filtering `de_gsea_df` based on the log2FC and p-value, and then get the list of genes for our analysis.
 
 ```R
@@ -102,6 +104,8 @@ VlnPlot(merged, features=c('basal_markers_score1', 'luminal_markers_score1'), gr
 ```
 
 Interesting! This analysis could lead us to conclude that cluster 12 is composed of basal epithelial cells, while cluster 9 is composed of luminal epithelial cells. Next, let's see if we can use GSEA to determine if there are certain biological processes that are distinct between these clusters?
+
+### GSEA Analysis
 
 For GSEA, we need to start by creating a named vector where the values are the log fold change values and the names are the gene's names. Recall that GSEA analysis relies on identifying any incremental gene expression changes (not just those that are statistically significant), so we will use our original unfiltered dataframe to get these values. This will be used as input to the `gseGO` function in the `clusterProfiler` library, which uses gene ontology for GSEA analysis. The other parameters for the function include `OrgDb = org.Mm.eg.db`, the organism database from where all the pathways' genesets will be determined; `ont = "ALL"`, specifies the subontologies, with possible options being `BP (Biological Process)`, `MF (Molecular Function)`, `CC (Cellular Compartment)`, or `ALL`; `keyType = "SYMBOL"` tells `gseGO` that the genes in our named vector are gene symbols as opposed to Entrez IDs, or Ensembl IDs; and `pAdjustMethod="BH"` and `pvalueCutoff=0.05` specify the p-value adjustment statistical method to use and the corresponding cutoff. 
 
@@ -171,6 +175,6 @@ download.file(url = 'http://genomedata.org/cri-workshop/reference_files/cd8tcell
 
 Hints:
 
-* The ICB vs ICBdT comparison of CD8 T cells may be more subtle than the luminal vs basal epithelial cell. You may need to reduce the fold-change cutoff you consider differentially expressed genes (e.g., 0.5)
-* The M8: cell type signature gene sets may not be the most relevant. You may wish to download a different set of gene sets (e.g., MH: hallmark gene sets). Visit [msigdb mouse collections](https://www.gsea-msigdb.org/gsea/msigdb/mouse/collections.jsp?targetSpeciesDB=Mouse), download the 'Gene Symbols' GMT file, upload to your posit cloud environment, and modify the relevant R commands to load in the gmt file.
+* The ICB vs ICBdT comparison of CD8 T cells may be more subtle than the luminal vs basal epithelial cell. You may need to reduce the fold-change cutoff you consider for differentially expressed genes (e.g., 0.5)
+* The M8: cell type signature gene sets may not be the most relevant. You may wish to download a different set of gene sets (e.g., MH: hallmark gene sets). Visit [msigdb mouse collections](https://www.gsea-msigdb.org/gsea/msigdb/mouse/collections.jsp?targetSpeciesDB=Mouse), download the 'Gene Symbols' GMT file for the gene sets of interest, upload to your posit cloud environment, and modify the relevant R commands to load in the gmt file.
 
