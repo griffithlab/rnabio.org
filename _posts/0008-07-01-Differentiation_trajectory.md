@@ -211,6 +211,7 @@ DimPlot(rep135, group.by = 'immgen_singler_main', label = TRUE)
 ```
 
 ![Overview of haematopoiesis](/assets/module_8/haematopoiesis_redbloodcells.png)
+
 [Haematopoiesis and red blood cells](https://www.sciencedirect.com/science/article/pii/S0263931913000495)
 
 #### Running Monocle3
