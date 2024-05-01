@@ -298,7 +298,6 @@ plot_cells(rep135_cds, color_cells_by = "pseudotime", label_branch_points = FALS
   (FeaturePlot(rep135, features = 'differentiation_score') + scale_color_viridis(option = 'magma', discrete = FALSE)) +
 DimPlot(rep135, group.by = 'immgen_singler_main', label = TRUE)
 ```
-
 ![Monocle pseudotime compared with CytoTRACE pseudtime](/assets/module_8/monocle_cytotrace_celltypes.png)
 
 ### Exercise: Using Trajectory to Analyze Monocyte Differentiation 
@@ -400,7 +399,7 @@ plot_cells(cds, color_cells_by = "pseudotime", label_branch_points = FALSE, labe
   DimPlot(rep135_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE)
 ```
 
-![Macrophages differentiation](/assets/module_8/monocle_cytotrace_celltypes.png)
+![Macrophages differentiation](/assets/module_8/macro_mono_cytotrace_monocle_pseudotime.png)
 
 
 ### Further Resources 
