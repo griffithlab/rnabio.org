@@ -106,6 +106,11 @@ Interesting! This analysis could lead us to conclude that cluster 12 is composed
 For GSEA, we need to start by creating a named vector where the values are the log fold change values and the names are the gene's names. Recall that GSEA analysis relies on identifying any incremental gene expression changes (not just those that are statistically significant), so we will use our original unfiltered dataframe to get these values. This will be used as input to the `gseGO` function in the `clusterProfiler` library, which uses gene ontology for GSEA analysis. The other parameters for the function include `OrgDb = org.Mm.eg.db`, the organism database from where all the pathways' genesets will be determined; `ont = "ALL"`, specifies the subontologies, with possible options being `BP (Biological Process)`, `MF (Molecular Function)`, `CC (Cellular Compartment)`, or `ALL`; `keyType = "SYMBOL"` tells `gseGO` that the genes in our named vector are gene symbols as opposed to Entrez IDs, or Ensembl IDs; and `pAdjustMethod="BH"` and `pvalueCutoff=0.05` specify the p-value adjustment statistical method to use and the corresponding cutoff. 
 
 ```R
+#read in the epithelial de df we generated previously
+de_gsea_df <- read.csv('outdir_single_cell_rna/epithelial_de_gsea.tsv', sep = '\t')
+#if you can't find the file in your session, we have uploaded a version for you
+#de_gsea_df <- read.csv('/cloud/project/data/single_cell_rna/backup_files/epithelial_de_gsea.tsv', sep = '\t')
+
 #get all the foldchange values from the original dataframe
 gene_list <- de_gsea_df$avg_log2FC
 #set names for this vector to gene names
