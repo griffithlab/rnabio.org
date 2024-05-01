@@ -250,7 +250,7 @@ When we choose a root around where the stem cells are located we see that the fi
 
 But if we choose are roots to be stem cells, fibroblasts, and epithelial cells, we see that monocle changes the pseutime orderings accordingly.
 
-![Monocle Pseudotime with multiple roots](/assets/module_8/monocle_pseudotime_mulitpleroot.png)
+![Monocle Pseudotime with multiple roots](/assets/module_8/monocle_pseudotime_mutipleroots.png)
 
 #### Loading in the CytoTRACE scores
 
