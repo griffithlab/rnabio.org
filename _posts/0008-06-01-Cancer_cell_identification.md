@@ -366,14 +366,16 @@ ggtitle('Tumor cells with at least 20 ALT reads - 2K variants')
 
 #That looks way better! Based on this, I think we can be pretty happy about finding tumor cells from the high confidence variants 
 all_samples_vartrix_df_high_conf_20_ALT_read <- all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 20,]
+snv_tumor_bc <- rownames(all_samples_vartrix_df_high_conf_20_ALT_read)
+write.table(x = snv_tumor_bc, file = 'outdir_single_cell_rna/snv_tumor_bc_list.tsv', row.names = FALSE, col.names = 'snv_tumor_barcodes', quote=FALSE)
 ```
 
 Lastly, let's look into add the SNV and CNV based tumor cell classifications, to our Seurat object's metadata. To add metadata to a Seurat object, we need a dataframe where we have all the barcodes in the Seurat object as rownames, and column(s) that we want to add to the metadata with value(s) corresponding to each barcode. Recall that our tumor cell classification lists for both SNVs and CNVs include only the tumor cell barcodes. So we will need a list of all barcodes in the Seurat object. 
 
 ```R
 #read in our CNV and SNV tumor cell classification files
-snv_bc_df <- read.csv('outdir_single_cell_rna/snv_tumor_bc_list.tsv', sep='\t')
-cnv_bc_df <- read.csv('outdir_single_cell_rna/cnv_tumor_bc_list.tsv', sep='\t')
+snv_bc_df <- read.csv('data/single_cell_rna/backup_files/snv_tumor_bc_list.tsv', sep='\t')
+cnv_bc_df <- read.csv('data/single_cell_rna/backup_files/cnv_tumor_bc_list.tsv', sep='\t')
 #get lists of these barcodes
 snv_bc_list <- snv_bc_df$snv_tumor_barcodes
 cnv_bc_list <- cnv_bc_df$cnv_tumor_barcodes
