@@ -162,7 +162,7 @@ cnetplot(gse_epithelial, foldChange=gene_list)
 
 Based on these results, we could conclude that cluster 9 (putative luminal cells) have lower expression of quite a few pathways related to epithelial cell proliferation compared to cluster 12 (putative basal cells). 
 
-As an additional exercise, let's try to do an overrepresentation and GSEA analysis for the DE analysis we did on CD8 T cells. We did not have you save the file yesterday, so you can download the file first, and then use that for your analysis. 
+As an additional exercise, let's try to do an overrepresentation and GSEA analysis for the DE analysis we did on CD8 T cells. We did not have you save the DE results file yesterday, so you can download that DE file from the link below first, and then use that for your analysis. 
 
 ```R
 download.file(url = 'http://genomedata.org/cri-workshop/reference_files/cd8tcells_de_gsea.tsv',
