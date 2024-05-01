@@ -162,7 +162,7 @@ cnetplot(gse_epithelial, foldChange=gene_list)
 
 Based on these results, we could conclude that cluster 9 (putative luminal cells) have lower expression of quite a few pathways related to epithelial cell proliferation compared to cluster 12 (putative basal cells). 
 
-As an additional exercise, let's try to do an overrepresentation and/or GSEA analysis for the DE analysis we did on CD8 T cells. We did not have you save the file yesterday, so you can download the file first, and then use that for your analysis. 
+As an additional exercise, let's try to do an overrepresentation and/or GSEA analysis for the DE analysis we did on CD8 T cells. We did not have you save the DE results file yesterday, so you can download the DE file from the link below first, and then use that for your analysis. 
 
 ```R
 download.file(url = 'http://genomedata.org/cri-workshop/reference_files/cd8tcells_de_gsea.tsv',
@@ -173,5 +173,4 @@ Hints:
 
 * The ICB vs ICBdT comparison of CD8 T cells may be more subtle than the luminal vs basal epithelial cell. You may need to reduce the fold-change cutoff you consider differentially expressed genes (e.g., 0.5)
 * The M8: cell type signature gene sets may not be the most relevant. You may wish to download a different set of gene sets (e.g., MH: hallmark gene sets). Visit [msigdb mouse collections](https://www.gsea-msigdb.org/gsea/msigdb/mouse/collections.jsp?targetSpeciesDB=Mouse), download the 'Gene Symbols' GMT file, upload to your posit cloud environment, and modify the relevant R commands to load in the gmt file.
-
 
