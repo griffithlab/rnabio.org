@@ -44,8 +44,11 @@ R
 # BiocManager::install("DESeq2")
 
 # define working dir paths
-datadir = "/cloud/project/data/bulk_rna"
-outdir = "/cloud/project/outdir"
+datadir = "~/workspace/rnaseq/expression/htseq_counts/"
+outdir = "~/workspace/rnaseq/de/deseq2/"
+
+# create a directory for DESeq2 results, if none exists
+if (!dir.exists(outdir)) dir.create(outdir)
 
 # load R libraries we will use in this section
 library(DESeq2)
@@ -160,8 +163,11 @@ With all the data now in place DESeq2 can be run. Calling DESeq2 will perform th
 # run the DESeq2 analysis on the "dds" object
 dds <- DESeq(dds)
 
-# view the DE results
+# view the first 5 lines of the DE results
 res <- results(dds)
+head(res, 5)
+
+# A nicer and more comprehensive viewer, only available if you're in RStudio
 View(res)
 ```
 
@@ -198,7 +204,7 @@ DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human 
 
 ```R
 # read in gene ID to name mappings (using "fread" an alternative to "read.table")
-mapping <- fread("ENSG_ID2Name.txt", header=F)
+mapping <- fread("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header=F)
 
 # add names to the columns in the "mapping" dataframe
 setnames(mapping, c('ensemblID', 'Symbol'))
