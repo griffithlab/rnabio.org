@@ -47,9 +47,9 @@ library(GenomicRanges)
 library(ggrepel)
 
 #Set working directory where results files exist
-#datadir = "~/workspace/rnaseq/de/ballgown/ref_only"
-datadir = "/cloud/project/data/bulk_rna"
-outdir = "/cloud/project/outdir"
+datadir = "~/workspace/rnaseq/de/ballgown/ref_only"
+# datadir = "/cloud/project/data/bulk_rna"
+# outdir = "/cloud/project/outdir"
 
 setwd(datadir)
 

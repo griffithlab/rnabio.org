@@ -128,7 +128,7 @@ sampleDistMatrix <- as.matrix(sampleDists)
 # view the distance numbers directly in the pairwise distance matrix
 head(sampleDistMatrix)
 
-pdf("distance_sample_heatmap.pdf", width=8, height=8, units="in")
+pdf("distance_sample_heatmap.pdf", width=8, height=8)
 
 # construct clustered heatmap, important to use the computed sample distances for clustering
 pheatmap(sampleDistMatrix, clustering_distance_rows=sampleDists, clustering_distance_cols=sampleDists)
@@ -148,7 +148,7 @@ sampleCorrs <- cor(assay(rld), method="pearson")
 sampleCorrMatrix <- as.matrix(sampleCorrs)
 head(sampleCorrMatrix)
 
-pdf("similarity_sample_heatmap.pdf", width=8, height=8, units="in")
+pdf("similarity_sample_heatmap.pdf", width=8, height=8)
 
 pheatmap(sampleCorrMatrix)
 
@@ -161,11 +161,11 @@ get a similar sense of the pattern by just visualizing all the genes at once
 
 ```R
 
-pdf("all_gene_heatmap.pdf", width=10, height=10, units="in")
+pdf("all_gene_heatmap.pdf", width=10, height=10)
 
 # because there are so many gene we choose not to display them
 
-plot(pheatmap(mat=t(assay(rld)), show_colnames = FALSE))
+pheatmap(mat=t(assay(rld)), show_colnames = FALSE)
 
 dev.off()
 
