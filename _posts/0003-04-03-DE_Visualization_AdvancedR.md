@@ -49,7 +49,8 @@ library(ggrepel)
 #Set working directory where results files exist
 datadir = "~/workspace/rnaseq/de/ballgown/ref_only"
 # datadir = "/cloud/project/data/bulk_rna"
-# outdir = "/cloud/project/outdir"
+outdir = "~/workspace/rnaseq/de/manual_viz"
+if (!dir.exists(outdir)) dir.create(outdir)
 
 setwd(datadir)
 
@@ -57,15 +58,15 @@ setwd(datadir)
 dir()
 
 #Import expression results (TPM values) from the HISAT2/Stringtie pipeline (http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_tpm_all_samples.tsv)
-gene_expression=read.table("gene_tpm_all_samples.tsv", header=TRUE, stringsAsFactors=FALSE, row.names=1)
+gene_expression=read.table("~/workspace/rnaseq/expression/stringtie/ref_only/gene_tpm_all_samples.tsv", header=TRUE, stringsAsFactors=FALSE, row.names=1)
 
 #Import gene name mapping file (http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/ENSG_ID2Name.txt)
-gene_names=read.table("ENSG_ID2Name.txt", header=TRUE, stringsAsFactors=FALSE)
+gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header=TRUE, stringsAsFactors=FALSE)
 colnames(gene_names)=c("gene_id","gene_name")
 
 #Import DE results from the HISAT2/htseq-count/DESeq2 pipeline (http://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
 setwd(outdir)
-results_genes <-read.table("DE_all_genes_DESeq2.tsv", sep="\t", header=T, stringsAsFactors = F)
+results_genes <-read.table("~/workspace/rnaseq/de/deseq2/DE_all_genes_DESeq2.tsv", sep="\t", header=T, stringsAsFactors = F)
 
 ```
 

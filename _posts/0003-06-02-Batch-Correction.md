@@ -64,10 +64,15 @@ Perform the following analyses in `R`:
 ```R
 
 #Define working dir paths
-datadir = "/cloud/project/data/bulk_rna"
-#datadir = "~/workspace/rnaseq/batch_correction"
+# datadir = "/cloud/project/data/bulk_rna"
+# outdir = "/cloud/project/outdir"
 
-outdir = "/cloud/project/outdir"
+datadir = "~/workspace/rnaseq/batch_correction"
+outdir = "~/workspace/rnaseq/batch_correction/outputs"
+
+if (!dir.exists(outdir)) dir.create(outdir)
+
+
 
 #load neccessary libraries
 library("sva") #Note this exercise requires sva (>= v3.36.0) which is only available for R (>= v4.x)

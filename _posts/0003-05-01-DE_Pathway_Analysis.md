@@ -32,8 +32,8 @@ Before we perform the pathway analysis we need to read in our differential expre
 ```R
 
 #Define working dir paths
-datadir = "/cloud/project/outdir"
-#datadir = "~/workspace/rnaseq/de/htseq_counts/"
+# datadir = "/cloud/project/outdir"
+datadir = "~/workspace/rnaseq/de/deseq2/"
 
 setwd(datadir)
 
