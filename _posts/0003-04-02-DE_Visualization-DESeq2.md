@@ -24,7 +24,7 @@ If it is not already in your R environment, load the DESeqDataSet object and the
 
 ```R
 # set the working directory
-setwd('/cloud/project/outdir')
+setwd("~/workspace/rnaseq/de/deseq2/")
 
 # view the contents of this directory
 dir()
@@ -56,7 +56,9 @@ Using the build in `plotMA` function from DESeq2 we also see that the genes are 
 
 ```R
 # use DESeq2 built in MA-plot function
+pdf("maplot_preShrink.pdf")
 plotMA(res, ylim=c(-2, 2))
+dev.off()
 
 ```
 
@@ -65,7 +67,9 @@ When we ran DESeq2 we obtained two results, one with and one without log-fold ch
 
 ```R
 # ma plot
+pdf("maplot_postShrink.pdf")
 plotMA(resLFC, ylim=c(-2,2))
+dev.off()
 ```
 
 The effect is very subtle here due to the focused nature of our dataset (chr22 genes onle), but if you toggle between the two plots and look in the upper left and bottom left corners you can see some fold change values are moving closer to 0.
@@ -74,11 +78,17 @@ The effect is very subtle here due to the focused nature of our dataset (chr22 g
 Often it may be useful to view the normalized counts for a gene amongst our samples. DESeq2 provides a built in function for that which works off of the dds object. Here we view SEPT3 which we can see in our DE output is significantly higher in the UHR cohort. This is useful as we can see the per-sample distribution of our corrected counts, we can immediately determine if there are any outliers within each group and investigate further if need be.
 
 ```R
+
+pdf("normalized_count_examples.pdf")
+
 # view SEPT3 normalized counts
 plotCounts(dds, gene='ENSG00000100167', intgroup = 'Condition')
 
 # view PRAME normalized counts
 plotCounts(dds, gene='ENSG00000185686', intgroup = 'Condition')
+
+dev.off()
+
 ```
 
 # Viewing pairwise sample clustering
@@ -118,8 +128,12 @@ sampleDistMatrix <- as.matrix(sampleDists)
 # view the distance numbers directly in the pairwise distance matrix
 head(sampleDistMatrix)
 
+pdf("distance_sample_heatmap.pdf", width=8, height=8, units="in")
+
 # construct clustered heatmap, important to use the computed sample distances for clustering
 pheatmap(sampleDistMatrix, clustering_distance_rows=sampleDists, clustering_distance_cols=sampleDists)
+
+dev.off()
 ```
 
 Instead of a distance metric we could also use a similarity metric such as a Peason correlation
@@ -134,7 +148,11 @@ sampleCorrs <- cor(assay(rld), method="pearson")
 sampleCorrMatrix <- as.matrix(sampleCorrs)
 head(sampleCorrMatrix)
 
+pdf("similarity_sample_heatmap.pdf", width=8, height=8, units="in")
+
 pheatmap(sampleCorrMatrix)
+
+dev.off()
 
 ``` 
 
@@ -143,8 +161,13 @@ get a similar sense of the pattern by just visualizing all the genes at once
 
 ```R
 
+pdf("all_gene_heatmap.pdf", width=10, height=10, units="in")
+
 # because there are so many gene we choose not to display them
-pheatmap(mat=t(assay(rld)), show_colnames = FALSE)
+
+plot(pheatmap(mat=t(assay(rld)), show_colnames = FALSE))
+
+dev.off()
 
 ```
 
