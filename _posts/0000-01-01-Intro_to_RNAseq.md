@@ -24,5 +24,5 @@ date: 0000-01-01
 
 ### Lectures
 
-* [Introduction to instructors](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2023/full/RNASeq_Module0_Introductions.pdf)
-* [Introduction to cloud computing](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2023/full/RNASeq_Module0_CloudComputing.pdf)
+* [Introduction to instructors](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2024/full/RNASeq_Module0_Introductions.pdf)
+* [Introduction to cloud computing](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2024/full/RNASeq_Module0_CloudComputing.pdf)
