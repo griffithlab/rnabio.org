@@ -50,25 +50,14 @@ cd $RNA_HOME/
 mkdir -p team_exercise/untrimmed
 cd team_exercise/untrimmed
 
-### TEAM A
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_A/dataset.tar.gz
+# Fill in the "XX" below with your team's letter (A, B, C...)
+cp /home/ubuntu/workspace/team_exercise_data/data/dataset_XX.tar.gz ./dataset.tar.gz
 tar -xzvf dataset.tar.gz
 
-### TEAM B
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_B/dataset.tar.gz
-tar -xzvf dataset.tar.gz
+# Instructions below for how to download the datasets, if need be
+# wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_XX/dataset.tar.gz
+# tar -xzvf dataset.tar.gz
 
-### TEAM C
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_C/dataset.tar.gz
-tar -xzvf dataset.tar.gz
-
-### TEAM D
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_D/dataset.tar.gz
-tar -xzvf dataset.tar.gz
-
-### TEAM E
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_E/dataset.tar.gz
-tar -xzvf dataset.tar.gz
 
 ```
 
