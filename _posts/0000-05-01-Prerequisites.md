@@ -12,7 +12,7 @@ date: 0000-05-01
 ## Do these before coming to the workshop:
 
 ### 1.) Command line tutorial
-You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, below are some suggested tutorials. If you have a Mac computer you can use the "Terminal" application to complete these tutorials. If you have access to a linux server at your institution you could also do them there. If neither of those is available you can try a free online terminal application that runs in your browser such as [sandbox.io](https://sandbox.bio/playground) (also includes several relevant tutorials) or [COCALC](https://cocalc.com/app?anonymous=terminal).
+You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, below are some suggested tutorials. If you have a Mac computer you can use the "Terminal" application to complete these tutorials. If you have access to a linux server at your institution you could also do them there. If neither of those is available you can try a free online terminal application that runs in your browser such as [sandbox.io](https://sandbox.bio/tutorials/playground) (also includes several relevant tutorials).
 
 * [Unix Intro Tutorial](https://rnabio.org/module-00-setup/0000/08/01/Unix/)
 * [Unix command-line bootcamp](http://korflab.ucdavis.edu/bootcamp.html)
@@ -31,8 +31,9 @@ Please read these articles before coming to the workshop:
 
 * RNA-seq data fundamentals. [RNA Sequencing: The Teenage Years](https://pubmed.ncbi.nlm.nih.gov/31341269/).
 * RNA-seq analysis and statistics fundamentals. [RNA Sequencing Data: Hitchhiker’s Guide to Expression Analysis](https://www.annualreviews.org/doi/pdf/10.1146/annurev-biodatasci-072018-021255).
-* scRNA-seq technologies and applications. [Single-cell RNA sequencing technologies and applications: A brief overview](https://doi.org/10.1002/ctm2.694)
-* DNA sequencing and variant calling overview [Novel sequencing technologies and bioinformatic tools for deciphering the non-coding genome](https://doi.org/10.1515/medgen-2021-2072)
+* RNA-seq analysis for tumor immunity. [Tutorial: integrative computational analysis of bulk RNA-sequencing data to characterize tumor immunity using RIMA](https://doi.org/10.1038/s41596-023-00841-8).
+* scRNA-seq technologies and applications. [Single-cell RNA sequencing technologies and applications: A brief overview](https://doi.org/10.1002/ctm2.694).
+* DNA sequencing and variant calling overview [Novel sequencing technologies and bioinformatic tools for deciphering the non-coding genome](https://doi.org/10.1515/medgen-2021-2072).
 
 Optional readings:
 
