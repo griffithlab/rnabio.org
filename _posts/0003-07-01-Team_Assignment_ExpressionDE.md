@@ -14,13 +14,13 @@ In the [previous Team Assignment](/module-02-alignment/0002/07/01/Team_Assignmen
 Before starting this team exercise, first find the folder containing your **6** aligned bam files (along with the index files). Note: In the previous exercise, you merged bams files for easy visualization in IGV, we will not be using that for expression and de analysis.
 
 
-## Expression Estimation
+## Part I - Expression Estimation
 
 **Goals:**
 
 - Familiarize yourself with Stringtie options
 - Run Stringtie to obtain expression values
-
+- Optionally, run htseq-count to obtain raw count values
 
 ### Remember to do this in a new directory under team_exercises
 
@@ -33,7 +33,7 @@ Teams can now use `Stringtie` to estimate the gene expression levels in their sa
 
 **Q1.** Based on your stringtie results, what are the top 5 genes with highest average expression levels across all knockout samples? What about in your rescue samples? (Hint: You can use R, command-line tools, or download files to your desktop for this analysis)
 
-## Differential Expression
+## Part II - Differential Expression
 
 **Goals:**
 
@@ -41,9 +41,9 @@ Teams can now use `Stringtie` to estimate the gene expression levels in their sa
 - Check which genes are differentially expressed with statistical significance
 - Visualize DE results. For example you could create an MDS plot, x-y scatter plot of mean KO vs Rescue FPKM values, or a volcano plot.
 
-Teams will now use ballgown to perform differential analysis followed by visualization of their results.
+Teams will now use ballgown to perform differential expression analysis followed by visualization of their results. Alternatively, if raw counts were generated teams can use edgeR or DESeq2 for differential expression analysis.
 
-Hint: You will should create a separate directory under your team_exercises folder for your ballgown outputs.
+Hint: You will should create a separate directory under your team_exercises folder for your ballgown (or edgeR or DESeq2) outputs.
 
 **Q2.** How many significant differentially expressed genes do you observe?
 
