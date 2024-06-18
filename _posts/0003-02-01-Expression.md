@@ -138,7 +138,7 @@ Run htseq-count on alignments instead to produce raw counts instead of FPKM/TPM 
 
 Refer to the HTSeq documentation for a more detailed explanation:
 
-* [http://www-huber.embl.de/users/anders/HTSeq/doc/count.html](http://www-huber.embl.de/users/anders/HTSeq/doc/count.html)
+* [https://htseq.readthedocs.io/en/release_0.11.1/count.html](https://htseq.readthedocs.io/en/release_0.11.1/count.html)
 
 htseq-count basic usage:
 
