@@ -199,7 +199,7 @@ cd de/htseq_counts
 
 ```
 
-Note that the htseq-count results provide counts for each gene but uses only the Ensembl Gene ID (e.g. ENSG00000054611).  This is not very convenient for biological interpretation.  This next step creates a mapping file that will help us translate from ENSG IDs to Symbols. It does this by parsing the GTF transcriptome file we got from Ensembl. That file contains both gene names and IDs. Unfortunately, this file is a bit complex to parse. Furthermore, it contains the ERCC transcripts, and these have their own naming convention which also complicated the parsing.
+Note that the htseq-count results provide counts for each gene but uses only the Ensembl Gene ID (e.g. ENSG00000054611).  This is not very convenient for biological interpretation.  This next step creates a mapping file that will help us translate from ENSG IDs to Symbols. It does this by parsing the GTF transcriptome file we got from Ensembl. That file contains both gene names and IDs. Unfortunately, this file is a bit complex to parse. Furthermore, it contains the ERCC transcripts, and these have their own naming convention which also complicates the parsing.
 
 ```bash
 perl -ne 'if ($_ =~ /gene_id\s\"(ENSG\S+)\"\;/) { $id = $1; $name = undef; if ($_ =~ /gene_name\s\"(\S+)"\;/) { $name = $1; }; }; if ($id && $name) {print "$id\t$name\n";} if ($_=~/gene_id\s\"(ERCC\S+)\"/){print "$1\t$1\n";}' $RNA_REF_GTF | sort | uniq > ENSG_ID2Name.txt
@@ -266,10 +266,135 @@ chmod +x Tutorial_ERCC_expression_tpm.R
 
 ```
 
-To view the resulting figures, navigate to the below URL replacing YOUR_IP_ADDRESS with your amazon instance IP address:
+#### ERCC expression analysis - UPDATED - WORK IN PROGRESS
+Based on the above read counts, plot the linearity of the ERCC spike-in read counts observed in our RNA-seq data versus the expected concentration of the ERCC spike-in Mix. 
 
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/htseq_counts/Tutorial_ERCC_expression.pdf
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/stringtie/ref_only/Tutorial_ERCC_expression_tpm.pdf
+First download a file describing the expected concentrations and fold-change differences for the ERCC spike-in reagent. 
+
+```bash
+mkdir $RNA_HOME/expression/ercc_spikein_analysis/
+cd $RNA_HOME/expression/ercc_spikein_analysis/
+wget http://genomedata.org/rnaseq-tutorial/ERCC_Controls_Analysis.txt
+cat ERCC_Controls_Analysis.txt
+
+```
+
+We will then merge our experimental RNA-seq read counts, determined for the ERCC transcripts, onto the table of expected concentrations. Finally, we will produce an x-y scatter plot that compares the expected and observed values.
+
+
+First, start an R session:
+
+```R
+R
+```
+
+Now combine the ERCC expected concentration data with the observed RNA-seq expression values and produce x-y scatter plots that compare the expected and observed values for HTSEQ raw counts and StringTie TPM abundance estimates.
+
+```R
+library("ggplot2")
+library("data.table")
+
+#load in the reference/expected concentration and fold change values for each ERCC transcript
+ercc_ref = read.table("ERCC_Controls_Analysis.txt", header=TRUE, sep="\t")
+names(ercc_ref) = c("id", "ercc_id", "subgroup", "ref_conc_mix_1", "ref_conc_mix_2", "ref_fc_mix1_vs_mix2", "ref_log2_mix1_vs_mix2")
+dim(ercc_ref)
+head(ercc_ref)
+
+#load the RNA-seq raw counts values for all samples and combined with the expected ERCC values
+rna_counts_file = "~/workspace/rnaseq/expression/htseq_counts/gene_read_counts_table_all_final.tsv";
+rna_counts = read.table(rna_counts_file, header=TRUE, sep="\t")
+dim(rna_counts)
+ercc_ref_counts = merge(x = ercc_ref, y = rna_counts, by.x = "ercc_id", by.y = "GeneID", all.x = TRUE)
+
+#convert UHR data to "long" format
+uhr_data = ercc_ref_counts[,c("ercc_id","subgroup","ref_conc_mix_1","UHR_Rep1","UHR_Rep2","UHR_Rep3")]
+uhr_data_long = melt(setDT(uhr_data), id.vars = c("ercc_id","subgroup","ref_conc_mix_1"), variable.name = "sample")
+uhr_data_long$mix = 1
+names(uhr_data_long) = c("ercc_id", "subgroup", "concentration", "sample", "count", "mix")
+
+#convert HBR data to "long" format
+hbr_data = ercc_ref_counts[,c("ercc_id","subgroup","ref_conc_mix_2","HBR_Rep1","HBR_Rep2","HBR_Rep3")]
+hbr_data_long = melt(setDT(hbr_data), id.vars = c("ercc_id","subgroup","ref_conc_mix_2"), variable.name = "sample")
+hbr_data_long$mix = 2
+names(hbr_data_long) = c("ercc_id", "subgroup", "concentration", "sample", "count", "mix")
+
+#rejoin the UHR and HBR tpm data
+ercc_ref_counts_long <- rbind(uhr_data_long, hbr_data_long)
+dim(ercc_ref_counts_long)
+head(ercc_ref_counts_long)
+
+#fit a linear model and calculate correlation between expected concentations and observed TPM values
+ercc_ref_counts_long$log_count = log2(ercc_ref_counts_long$count + 1)
+ercc_ref_counts_long$log_concentration= log2(ercc_ref_counts_long$concentration)
+
+count_model <- lm(log_count ~ log_concentration, data=ercc_ref_counts_long)
+count_r_squared = summary(count_model)[["r.squared"]]
+count_slope = coef(count_model)["log_concentration"]
+
+p1 = ggplot(ercc_ref_counts_long, aes(x=log_concentration, y=log_count))
+p1 = p1 + geom_point(aes(shape=sample, color=sample))
+p1 = p1 + geom_smooth(method=lm) 
+p1 = p1 + annotate("text", 5, -3, label=paste("R^2 =", count_r_squared, sep=" ")) 
+p1 = p1 + annotate("text", 5, -4, label=paste("Slope =", count_slope, sep=" "))
+p1 = p1 + xlab("Expected concentration (log2 scale)") + ylab("Observed Count (log2 scale)")
+
+pdf("ERCC_Count_Expression_vs_SpikeInConcentration.pdf")
+print(p1)
+dev.off()
+
+#load the RNA-seq TPM values for all samples and combine with expected ERCC values
+rna_tpms_file = "~/workspace/rnaseq/expression/stringtie/ref_only/gene_tpm_all_samples.tsv"
+rna_tpms = read.table(rna_tpms_file, header=TRUE, sep="\t")
+dim(rna_tpms)
+ercc_ref_tpms = merge(x = ercc_ref, y = rna_tpms, by.x = "ercc_id", by.y = "Gene_ID", all.x = TRUE)
+dim(ercc_ref_tpms)
+
+#convert UHR data to "long" format
+uhr_data = ercc_ref_tpms[,c("ercc_id","subgroup","ref_conc_mix_1","UHR_Rep1","UHR_Rep2","UHR_Rep3")]
+uhr_data_long = melt(setDT(uhr_data), id.vars = c("ercc_id","subgroup","ref_conc_mix_1"), variable.name = "sample")
+uhr_data_long$mix = 1
+names(uhr_data_long) = c("ercc_id", "subgroup", "concentration", "sample", "tpm", "mix")
+
+#convert HBR data to "long" format
+hbr_data = ercc_ref_tpms[,c("ercc_id","subgroup","ref_conc_mix_2","HBR_Rep1","HBR_Rep2","HBR_Rep3")]
+hbr_data_long = melt(setDT(hbr_data), id.vars = c("ercc_id","subgroup","ref_conc_mix_2"), variable.name = "sample")
+hbr_data_long$mix = 2
+names(hbr_data_long) = c("ercc_id", "subgroup", "concentration", "sample", "tpm", "mix")
+
+#rejoin the UHR and HBR tpm data
+ercc_ref_tpms_long <- rbind(uhr_data_long, hbr_data_long)
+dim(ercc_ref_tpms_long)
+head(ercc_ref_tpms_long)
+
+#fit a linear model and calculate correlation between expected concentations and observed TPM values
+ercc_ref_tpms_long$log_tpm = log2(ercc_ref_tpms_long$tpm + 1)
+ercc_ref_tpms_long$log_concentration= log2(ercc_ref_tpms_long$concentration)
+
+tpm_model <- lm(log_tpm ~ log_concentration, data=ercc_ref_tpms_long)
+tpm_r_squared = summary(tpm_model)[["r.squared"]]
+tpm_slope = coef(tpm_model)["log_concentration"]
+
+p2 = ggplot(ercc_ref_tpms_long, aes(x=log_concentration, y=log_tpm))
+p2 = p2 + geom_point(aes(shape=sample, color=sample))
+p2 = p2 + geom_smooth(method=lm) 
+p2 = p2 + annotate("text", 5, -3, label=paste("R^2 =", tpm_r_squared, sep=" ")) 
+p2 = p2 + annotate("text", 5, -4, label=paste("Slope =", tpm_slope, sep=" "))
+p2 = p2 + xlab("Expected concentration (log2 scale)") + ylab("Observed TPM estimate (log2 scale)")
+
+pdf("ERCC_TPM_Expression_vs_SpikeInConcentration.pdf")
+print(p2)
+dev.off()
+
+# Exit the R session
+quit(save="no")
+
+```
+
+To view the resulting figures, navigate to the below URL replacing YOUR_IP_ADDRESS with your amazon instance IP address:
+$RNA_HOME/ercc_spikein_analysis/
+
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/ercc_spikein_analysis/ERCC_Count_Expression_vs_SpikeInConcentration.pdf
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/ercc_spikein_analysis/ERCC_TPM_Expression_vs_SpikeInConcentration.pdf
 
 Which expression estimation (read counts or TPM values) are better representing the known/expected ERCC concentrations?  Why?
 
