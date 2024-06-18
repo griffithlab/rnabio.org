@@ -224,7 +224,13 @@ cut -f 2 ENSG_ID2Name.txt | sort | uniq -c | sort -r | head
 ***
 
 #### ERCC expression analysis
-Based on the above read counts, plot the linearity of the ERCC spike-in read counts versus the known concentration of the ERCC spike-in Mix. In this step we will first download a file describing the expected concentrations and fold-change differences for the ERCC spike-in reagent. Next we will use a Perl script to organize the ERCC expected values and our observed counts for each ERCC sequence. Finally, we will use an R script to produce an x-y scatter plot that compares the expected and observed values.
+Based on the above read counts, plot the linearity of the ERCC spike-in read counts versus the known concentration of the ERCC spike-in Mix. 
+
+In this step we will first download a file describing the expected concentrations and fold-change differences for the ERCC spike-in reagent. 
+
+Next we will use a Perl script to organize the ERCC expected values and our observed **counts** for each ERCC sequence. 
+
+Finally, we will use an R script to produce an x-y scatter plot that compares the expected and observed values.
 
 ```bash
 cd $RNA_HOME/expression/htseq_counts
@@ -242,7 +248,7 @@ chmod +x Tutorial_ERCC_expression.R
 
 ```
 
-Now let's also create a plot for the ERCC spike-in StringTie TPM estimates versus the known concentration of the ERCC spike-in Mix.
+Now let's also create a plot for the ERCC spike-in StringTie **TPM estimates** versus the known concentration of the ERCC spike-in Mix.
 
 ```bash
 cd $RNA_HOME/expression/stringtie/ref_only
