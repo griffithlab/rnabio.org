@@ -36,7 +36,7 @@ In this assignment, we will be using subsets of the GSE136366 dataset (Roczniak-
   - SRR10045020 = Rescue sample 2
   - SRR10045021 = Rescue sample 3
 
-### Obtaining the dataset & reference files
+### Part I - Obtaining the dataset & reference files
 
 **Goals:**
 
@@ -78,7 +78,7 @@ wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chrXX_Homo_sapiens
 ```
 
 
-### Data Preprocessing (QC & Trimming)
+### Part II - Data Preprocessing (QC & Trimming)
 
 **Goals:**
 
@@ -92,7 +92,7 @@ wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chrXX_Homo_sapiens
 **Q3.** Are there any metrics where the sample(s) failed?
 
 
-### Alignment Exercise
+### Part III - Alignment
 
 **Goals:**
 
@@ -109,7 +109,7 @@ wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chrXX_Homo_sapiens
 **Q5.** By compressing your sam format to bam, approximately how much space is saved (fold change in size)?
 
 
-### Post-alignment QC & IGV Visualization
+### Part IV - Post-alignment QC & IGV Visualization
 
 **Goals:**
 
