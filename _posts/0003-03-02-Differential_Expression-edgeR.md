@@ -133,7 +133,7 @@ counts = getCounts(y)
 topTags(et)
 
 # Print number of up/down significant genes at FDR = 0.05  significance level
-summary(de = decideTestsDGE(et, adjust.method = "BH", p = 0.05))
+summary(de <- decideTestsDGE(et, adjust.method = "BH", p = 0.05))
 
 #Get output with BH-adjusted FDR values - all genes, any p-value, unsorted
 out = topTags(et, n = "Inf", adjust.method = "BH", sort.by = "none", p.value = 1)$table
