@@ -32,12 +32,11 @@ Before we perform the pathway analysis we need to read in our differential expre
 ```R
 
 #Define working dir paths
-# datadir = "/cloud/project/outdir"
 datadir = "~/workspace/rnaseq/de/deseq2/"
 
 setwd(datadir)
 
-#Load in the DE results file with only significant genes (http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
+#Load in the DE results file with only significant genes (e.g., http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
 DE_genes = read.table("DE_sig_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
 ```
@@ -72,7 +71,7 @@ all_cell_types = readList(c8)
 OK, so we have our differentially expressed genes and we have our gene sets. However, if you look at one of the objects containing the gene sets you'll notice that each gene set contains a series of integers. These integers are [Entrez](https://www.ncbi.nlm.nih.gov/gquery/) gene identifiers. But do we have comparable information in our DE gene list? Right now, no. Our previous results use Ensembl IDs as gene identifiers. We will need to convert our gene identifiers to the format used in the GO and MSigDB gene sets before we can perform the pathway analysis. Fortunately, Bioconductor maintains genome wide annotation data for many species, you can view these species with the [OrgDb bioc view](https://bioconductor.org/packages/release/BiocViews.html#___OrgDb). This makes converting the gene identifiers relatively straightforward, below we use the [mapIds()](https://www.rdocumentation.org/packages/OrganismDbi/versions/1.14.1/topics/MultiDb-class) function to query the OrganismDb object for the Entrez id based on the Ensembl id. Because there might not be a one-to-one relationship with these identifiers we also use `multiVals="first"` to specify that only the first identifier should be returned. Another option would be to use `multiVals="asNA"` to ignore one-to-many mappings.
 
 ```R
-DE_genes$entrez = mapIds(org.Hs.eg.db, keys = DE_genes$ensemblID, column = "ENTREZID", keytype = "ENSEMBL", multiVals = "first")
+DE_genes$entrez = mapIds(org.Hs.eg.db, column = "ENTREZID", keys = DE_genes$ensemblID, keytype = "ENSEMBL", multiVals = "first")
 ```
 
 ### Some clean-up and identifier mapping
@@ -91,7 +90,7 @@ missing_ensembl_key = DE_genes_clean[is.na(DE_genes_clean$entrez), ]
 DE_genes_clean = DE_genes_clean[!DE_genes_clean$ensemblID %in% missing_ensembl_key$ensemblID, ]
 
 ###Try mapping using a different key
-missing_ensembl_key$entrez = mapIds(org.Hs.eg.db, keys = missing_ensembl_key$Symbol, column = "ENTREZID", keytype = "SYMBOL", multiVal = "first")
+missing_ensembl_key$entrez = mapIds(org.Hs.eg.db, column = "ENTREZID", keys = missing_ensembl_key$Symbol, keytype = "SYMBOL", multiVal = "first")
 
 #Remove remaining genes 
 missing_ensembl_key_update = missing_ensembl_key[!is.na(missing_ensembl_key$entrez),]
@@ -161,6 +160,19 @@ head(fc.go.cc.p.down[order(fc.go.cc.p.down$p.val),], n = 20)
 #You can do the same thing with your results from MSigDB
 head(fc.c8.p.up)
 head(fc.c8.p.down)
+
+#What if we want to know which specific genes from our DE gene result were found in a specific significant pathway?
+#For example, one of the significant pathways from the fc.go.cc.p.down was "GO:0098794 postsynapse" with a reported set.size = 11 genes.
+#Let's extract the postsynapse DE gene results
+postsynapse = DE_genes_clean[which(DE_genes_clean$entrez %in% go.cc.gs$`GO:0098794 postsynapse`),]
+
+#How many total postsynapse genes are there in GO? How many total DE genes? How many overlap?
+length(go.cc.gs$`GO:0098794 postsynapse`)
+length(DE_genes_clean$entrez)
+length(postsynapse)
+
+#Are the postsynapse DE genes consistently down-regulated? Let's print out a subset of columns from the DE result for postsynapse genes
+postsynapse[,c("Symbol", "entrez", "log2FoldChange", "padj", "UHR_Rep1", "UHR_Rep2", "UHR_Rep3", "HBR_Rep1", "HBR_Rep2", "HBR_Rep3")]
 
 ```
 
