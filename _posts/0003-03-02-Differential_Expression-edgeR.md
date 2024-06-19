@@ -157,8 +157,8 @@ quit(save="no")
 
 Once you have run the edgeR tutorial, compare the sigDE genes to those saved earlier from ballgown:
 ```bash
-cat $RNA_HOME/de/ballgown/ref_only/DE_genes.txt
-cat $RNA_HOME/de/htseq_counts/DE_genes.txt
+head $RNA_HOME/de/ballgown/ref_only/DE_genes.txt
+head $RNA_HOME/de/htseq_counts/DE_genes.txt
 
 ```
 

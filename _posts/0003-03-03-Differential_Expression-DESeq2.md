@@ -301,11 +301,17 @@ cat DESeq2_DE_gene_symbols.txt
 Alternatively you could view both lists in a web browser as you have done with other files. These two files should be here:
 
 * http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/htseq_counts_edgeR_DE_gene_symbols.txt
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/DESeq2_DE_gene_symbols.txt
 
-##### Example Venn Diagram (DE genes from StringTie/Ballgown vs HTSeq/EdgeR)
+##### Example Venn Diagram (Two-way comparison: DE genes from StringTie/Ballgown vs HTSeq/DESeq2)
 
 <br>
 {% include figure.html image="/assets/module_3/venn-ballgown-vs-deseq2.png" width="400" %}
+
+
+##### Example Venn Diagram (Three-way comparison: DE genes from StringTie/Ballgown vs HTSeq/DESeq2 vs HTSeq/EdgeR)
+
+<br>
+{% include figure.html image="/assets/module_3/venn-ballgown-vs-deseq2-vs-edger.png" width="400" %}
 
 
