@@ -162,7 +162,7 @@ head(fc.c8.p.up)
 head(fc.c8.p.down)
 
 #What if we want to know which specific genes from our DE gene result were found in a specific significant pathway?
-#For example, one of the significant pathways from the fc.go.cc.p.down was "GO:0098794 postsynapse" with a reported set.size = 11 genes.
+#For example, one significant pathway from fc.go.cc.p.down was "GO:0098794 postsynapse" with set.size = 11 genes.
 #Let's extract the postsynapse DE gene results
 postsynapse = DE_genes_clean[which(DE_genes_clean$entrez %in% go.cc.gs$`GO:0098794 postsynapse`),]
 
