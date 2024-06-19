@@ -286,7 +286,7 @@ Pull out the gene IDs
 cd $RNA_HOME/de/
 
 cut -f 1 $RNA_HOME/de/ballgown/ref_only/DE_genes.txt | sort | uniq > ballgown_DE_gene_symbols.txt
-cut -f 2 $RNA_HOME/de/deseq2/DE_sig_genes_DESeq2.tsv | sort | uniq | grep -v Gene_Name > DESeq2_DE_gene_symbols.txt
+cut -f 7 $RNA_HOME/de/deseq2/DE_sig_genes_DESeq2.tsv | sort | uniq | grep -v Symbol > DESeq2_DE_gene_symbols.txt
 
 ```
 
