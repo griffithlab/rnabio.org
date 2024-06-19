@@ -46,15 +46,8 @@ Next we'll load our data into R.
 
 ```R
 
-# Generate phenotype data
-ids = c("UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3")
-type = c("UHR","UHR","UHR","HBR","HBR","HBR")
-results = "/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/"
-path = paste(results,ids,sep="")
-pheno_data = data.frame(ids,type,path)
-
-# Display the phenotype data
-pheno_data
+# Define the conditions being compared for use later
+condition = c("UHR","UHR","UHR","HBR","HBR","HBR")
 
 # Load the ballgown object from file
 load('bg.rda')
@@ -145,11 +138,11 @@ dev.off()
 
 #### Plot #3 - distribution of gene expression levels for each sample
 # Create boxplots to display summary statistics for the FPKM values for each sample
-# set color based on pheno_data$type which is UHR vs. HBR
+# set color based on condition which is UHR vs. HBR
 # set labels perpendicular to axis (las=2)
 # set ylab to indicate that values are log2 transformed
 pdf(file="All_samples_FPKM_boxplots.pdf")
-boxplot(fpkm,col=as.numeric(as.factor(pheno_data$type))+1,las=2,ylab='log2(FPKM+1)')
+boxplot(fpkm,col=as.numeric(as.factor(condition))+1,las=2,ylab='log2(FPKM+1)')
 dev.off()
 
 #### Plot 4 - BoxPlot comparing the expression of a single gene for all replicates of both conditions
@@ -160,7 +153,7 @@ dev.off()
 
 pdf(file="TST_ENST00000249042_boxplot.pdf")
 transcript=which(ballgown::transcriptNames(bg)=="ENST00000249042")[[1]]
-boxplot(fpkm[transcript,] ~ pheno_data$type, border=c(2,3), main=paste(ballgown::geneNames(bg)[transcript],': ', ballgown::transcriptNames(bg)[transcript]),pch=19, xlab="Type", ylab='log2(FPKM+1)')
+boxplot(fpkm[transcript,] ~ condition, border=c(2,3), main=paste(ballgown::geneNames(bg)[transcript],': ', ballgown::transcriptNames(bg)[transcript]),pch=19, xlab="Type", ylab='log2(FPKM+1)')
 
 # Add the FPKM values for each sample onto the plot
 # set plot symbol to solid circle, default is empty circle
