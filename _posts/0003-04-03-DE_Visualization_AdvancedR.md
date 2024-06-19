@@ -62,7 +62,7 @@ gene_expression = read.table("~/workspace/rnaseq/expression/stringtie/ref_only/g
 
 #Import gene name mapping file (http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/ENSG_ID2Name.txt)
 gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = TRUE, stringsAsFactors = FALSE)
-colnames(gene_names) = c("gene_id","gene_name")
+colnames(gene_names) = c("gene_id", "gene_name")
 
 #Import DE results from the HISAT2/htseq-count/DESeq2 pipeline (http://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
 setwd(outdir)
@@ -88,10 +88,10 @@ row.names(gene_expression)
 dim(gene_expression)
 
 #Get the first 3 rows of data and a selection of columns
-gene_expression[1:3,c(1:3,6)]
+gene_expression[1:3, c(1:3, 6)]
 
 #Do the same thing, but using the column names instead of numbers
-gene_expression[1:3, c("HBR_Rep1","HBR_Rep2","HBR_Rep3","UHR_Rep3")]
+gene_expression[1:3, c("HBR_Rep1", "HBR_Rep2", "HBR_Rep3", "UHR_Rep3")]
 
 #Now, exlore the differential expression (DESeq2 results) 
 head(results_genes)
@@ -100,7 +100,7 @@ dim(results_genes)
 #Assign some colors for use later.  You can specify color by RGB, Hex code, or name
 #To get a list of color names:
 colours()
-data_colors = c("tomato1","tomato2","tomato3","royalblue1","royalblue2","royalblue3")
+data_colors = c("tomato1", "tomato2", "tomato3", "royalblue1", "royalblue2", "royalblue3")
 
 ```
 
@@ -115,51 +115,51 @@ min_nonzero = 1
 
 # Set the columns for finding TPM and create shorter names for figures
 data_columns = c(1:6)
-short_names = c("HBR_1","HBR_2","HBR_3","UHR_1","UHR_2","UHR_3")
+short_names = c("HBR_1", "HBR_2", "HBR_3", "UHR_1", "UHR_2", "UHR_3")
 
 pdf(file = "All_samples_TPM_boxplots.pdf")
-boxplot(log2(gene_expression[,data_columns]+min_nonzero), col = data_colors, names = short_names, las = 2, ylab = "log2(TPM)", main = "Distribution of TPMs for all 6 libraries")
+boxplot(log2(gene_expression[, data_columns] + min_nonzero), col = data_colors, names = short_names, las = 2, ylab = "log2(TPM)", main = "Distribution of TPMs for all 6 libraries")
 #Note that the bold horizontal line on each boxplot is the median
 dev.off()
 
 #### Plot #2 - plot a pair of replicates to assess reproducibility of technical replicates
 #Tranform the data by converting to log2 scale after adding an arbitrary small value to avoid log2(0)
-x = gene_expression[,"UHR_Rep1"]
-y = gene_expression[,"UHR_Rep2"]
+x = gene_expression[, "UHR_Rep1"]
+y = gene_expression[, "UHR_Rep2"]
 pdf(file = "UHR_Rep1_vs_Rep2_scatter.pdf")
-plot(x = log2(x+min_nonzero), y = log2(y+min_nonzero), pch = 16, col = "blue", cex = 0.25, xlab = "TPM (UHR, Replicate 1)", ylab = "TPM (UHR, Replicate 2)", main = "Comparison of expression values for a pair of replicates")
+plot(x = log2(x + min_nonzero), y = log2(y + min_nonzero), pch = 16, col = "blue", cex = 0.25, xlab = "TPM (UHR, Replicate 1)", ylab = "TPM (UHR, Replicate 2)", main = "Comparison of expression values for a pair of replicates")
 
 #Add a straight line of slope 1, and intercept 0
 abline(a = 0, b = 1)
 
 #Calculate the correlation coefficient and display in a legend
-rs = cor(x,y)^2
+rs = cor(x, y)^2
 legend("topleft", paste("R squared = ", round(rs, digits = 3), sep = ""), lwd = 1, col = "black")
 dev.off()
 
 #### Plot #3 - Scatter plots with a large number of data points can be misleading ... regenerate this figure as a density scatter plot
 pdf(file = "UHR_Rep1_vs_Rep2_SmoothScatter.pdf")
 colors = colorRampPalette(c("white", "blue", "#007FFF", "cyan","#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
-smoothScatter(x = log2(x+min_nonzero), y = log2(y+min_nonzero), xlab = "TPM (UHR, Replicate 1)", ylab = "TPM (UHR, Replicate 2)", main = "Comparison of expression values for a pair of replicates", colramp = colors, nbin = 200)
+smoothScatter(x = log2(x + min_nonzero), y = log2(y + min_nonzero), xlab = "TPM (UHR, Replicate 1)", ylab = "TPM (UHR, Replicate 2)", main = "Comparison of expression values for a pair of replicates", colramp = colors, nbin = 200)
 dev.off()
 
 #### Plot #4 - Scatter plots of all sets of replicates on a single plot
 #Create a function that generates an R plot.  This function will take as input the two libraries to be compared and a plot name
 plotCor = function(lib1, lib2, name){
-	x = gene_expression[,lib1]
-	y = gene_expression[,lib2]
-	zero_count = length(which(x==0)) + length(which(y==0))
+	x = gene_expression[, lib1]
+	y = gene_expression[, lib2]
+	zero_count = length(which(x == 0)) + length(which(y == 0))
 	colors = colorRampPalette(c("white", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
-	smoothScatter(x = log2(x+min_nonzero), y = log2(y+min_nonzero), xlab = lib1, ylab = lib2, main = name, colramp = colors, nbin = 275)
-	abline(a = 0,b = 1)
+	smoothScatter(x = log2(x + min_nonzero), y = log2(y + min_nonzero), xlab = lib1, ylab = lib2, main = name, colramp = colors, nbin = 275)
+	abline(a = 0, b = 1)
 	rs = cor(x, y, method = "pearson")^2
 	legend_text = c(paste("R squared = ", round(rs, digits = 3), sep=""), paste("Zero count = ", zero_count, sep = ""))
-	legend("topleft", legend_text, lwd = c(1,NA), col = "black", bg = "white", cex = 0.8)
+	legend("topleft", legend_text, lwd = c(1, NA), col = "black", bg = "white", cex = 0.8)
 }
 
 #Now make a call to our custom function created above, once for each library comparison
 pdf(file = "UHR_All_Reps_SmoothScatter.pdf")
-par(mfrow = c(1,3))
+par(mfrow = c(1, 3))
 plotCor("UHR_Rep1", "UHR_Rep2", "UHR_1 vs UHR_2")
 plotCor("UHR_Rep2", "UHR_Rep3", "UHR_2 vs UHR_3")
 plotCor("UHR_Rep1", "UHR_Rep3", "UHR_1 vs UHR_3")
@@ -187,20 +187,20 @@ dev.off()
 #Libraries with similar expression patterns (highly correlated to each other) should group together
 #What pattern do we expect to see, given the types of libraries we have (technical replicates, biologal replicates, tumor/normal)?
 pdf(file = "UHR_vs_HBR_MDS.pdf")
-d = 1-r
+d = 1 - r
 mds = cmdscale(d, k = 2, eig = TRUE)
 par(mfrow = c(1,1))
-plot(mds$points, type = "n", xlab = "", ylab = "", main = "MDS distance plot (all non-zero genes)", xlim = c(-0.12,0.12), ylim = c(-0.12,0.12))
-points(mds$points[,1], mds$points[,2], col = "grey", cex = 2, pch = 16)
-text(mds$points[,1], mds$points[,2], short_names, col = data_colors)
+plot(mds$points, type = "n", xlab = "", ylab = "", main = "MDS distance plot (all non-zero genes)", xlim = c(-0.12, 0.12), ylim = c(-0.12, 0.12))
+points(mds$points[, 1], mds$points[, 2], col = "grey", cex = 2, pch = 16)
+text(mds$points[, 1], mds$points[, 2], short_names, col = data_colors)
 dev.off()
 
 
 #### Plot #6 - View the distribution of differential expression values as a histogram
 #Display only those results that are significant according to DESeq2 (loaded above)
 pdf(file = "UHR_vs_HBR_DE_FC_distribution.pdf")
-sig = which(results_genes$pvalue<0.05)
-hist(results_genes[sig,"log2FoldChange"], breaks=50, col="seagreen", xlab="log2(Fold change) UHR vs HBR", main="Distribution of differential expression values")
+sig = which(results_genes$pvalue < 0.05)
+hist(results_genes[sig, "log2FoldChange"], breaks = 50, col = "seagreen", xlab = "log2(Fold change) UHR vs HBR", main = "Distribution of differential expression values")
 abline(v = -2, col = "black", lwd = 2, lty = 2)
 abline(v = 2, col = "black", lwd = 2, lty = 2)
 legend("topleft", "Fold-change > 4", lwd = 2, lty = 2)
@@ -209,11 +209,11 @@ dev.off()
 #### Plot #7 - Display the mean expression values from UHR and HBR and mark those that are significantly differentially expressed
 pdf(file="UHR_vs_HBR_mean_TPM_scatter.pdf")
 
-gene_expression[,"HBR_mean"] = apply(gene_expression[,c(1:3)], 1, mean)
-gene_expression[,"UHR_mean"] = apply(gene_expression[,c(4:6)], 1, mean)
+gene_expression[, "HBR_mean"] = apply(gene_expression[,c(1:3)], 1, mean)
+gene_expression[, "UHR_mean"] = apply(gene_expression[,c(4:6)], 1, mean)
 
-x = log2(gene_expression[,"UHR_mean"] + min_nonzero)
-y = log2(gene_expression[,"HBR_mean"] + min_nonzero)
+x = log2(gene_expression[, "UHR_mean"] + min_nonzero)
+y = log2(gene_expression[, "HBR_mean"] + min_nonzero)
 plot(x = x, y = y, pch = 16, cex = 0.25, xlab = "UHR TPM (log2)", ylab = "HBR TPM (log2)", main = "UHR vs HBR TPMs")
 abline(a = 0, b = 1)
 xsig = x[sig]
@@ -223,7 +223,7 @@ legend("topleft", "Significant", col = "magenta", pch = 16)
 
 #Get the gene symbols for the top N (according to corrected p-value) and display them on the plot
 topn = order(results_genes[sig,"padj"])[1:25]
-text(x[topn], y[topn], results_genes[topn,"Symbol"], col = "black", cex = 0.75, srt = 45)
+text(x[topn], y[topn], results_genes[topn, "Symbol"], col = "black", cex = 0.75, srt = 45)
 
 dev.off()
 
@@ -233,16 +233,16 @@ mydist = function(c) {dist(c, method = "euclidian")}
 myclust = function(c) {hclust(c, method = "average")}
 
 #Create a subset of significant genes with p-value<0.05 and log2 fold-change >= 2
-sigpi = which(results_genes[,"pvalue"] < 0.05)
-sigp = results_genes[sigpi,]
-sigfc = which(abs(sigp[,"log2FoldChange"]) >= 2)
-sigDE = sigp[sigfc,]
+sigpi = which(results_genes[, "pvalue"] < 0.05)
+sigp = results_genes[sigpi, ]
+sigfc = which(abs(sigp[, "log2FoldChange"]) >= 2)
+sigDE = sigp[sigfc, ]
 
 pdf(file = "EHR_vs_HBR_heatmap.pdf")
 main_title = "sig DE Genes"
 par(cex.main = 0.8)
-sigDE_genes = sigDE[,"ensemblID"]
-sigDE_genenames = sigDE[,"Symbol"]
+sigDE_genes = sigDE[, "ensemblID"]
+sigDE_genenames = sigDE[, "Symbol"]
 
 data = log2(as.matrix(gene_expression[as.vector(sigDE_genes), data_columns]) + 1)
 heatmap.2(data, hclustfun = myclust, distfun = mydist, na.rm = TRUE, scale = "none", dendrogram = "both", margins = c(10,4), Rowv = TRUE, Colv = TRUE, symbreaks = FALSE, key = TRUE, symkey = FALSE, density.info = "none", trace = "none", main = main_title, cexRow = 0.3, cexCol = 1, labRow = sigDE_genenames, col = rev(heat.colors(75)))
@@ -278,7 +278,8 @@ ggplot(data = results_genes[results_genes$diffexpressed != "No",], aes(x = log2F
 dev.off()
 
 #To exit R type:
-#quit(save = "no")
+quit(save = "no")
+
 ```
 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_PUBLIC_IPv4_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
