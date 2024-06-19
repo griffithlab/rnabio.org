@@ -263,7 +263,7 @@ saveRDS(res, 'res.rds')
 saveRDS(resLFC, 'resLFC.rds')
 
 # to exit R type the following
-#quit(save="no")
+quit(save="no")
 ```
 
 
