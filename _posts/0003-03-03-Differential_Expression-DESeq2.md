@@ -87,8 +87,6 @@ class(htseqCounts) <- "integer"
 # view the first few lines of the gene count matrix
 head(htseqCounts)
 
-# it can also be useful to view interactively (if in Rstudio)
-View(htseqCounts)
 ```
 
 ### Filter raw counts
@@ -167,8 +165,6 @@ dds <- DESeq(dds)
 res <- results(dds)
 head(res, 5)
 
-# A nicer and more comprehensive viewer, only available if you're in RStudio
-View(res)
 ```
 
 ### Log-fold change shrinkage
