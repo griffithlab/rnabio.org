@@ -35,16 +35,16 @@ library(data.table)
 library(pheatmap)
 
 # Load in the DESeqDataSet object (http://genomedata.org/cri-workshop/deseq2/dds.rds)
-dds <- readRDS('dds.rds')
+dds = readRDS("dds.rds")
 
 # Load in the results object before shrinkage (http://genomedata.org/cri-workshop/deseq2/res.rds)
-res <- readRDS('res.rds')
+res = readRDS("res.rds")
 
 # Load in the results object after shrinkage (http://genomedata.org/cri-workshop/deseq2/resLFC.rds)
-resLFC <- readRDS('resLFC.rds')
+resLFC = readRDS("resLFC.rds")
 
 # Load in the final results file with all sorted DE results (http://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
-deGeneResultSorted <- fread('DE_all_genes_DESeq2.tsv') 
+deGeneResultSorted = fread("DE_all_genes_DESeq2.tsv") 
 ```
 
 #### MA-plot before LFC shrinkage
@@ -68,7 +68,7 @@ When we ran DESeq2 we obtained two results, one with and one without log-fold ch
 ```R
 # ma plot
 pdf("maplot_postShrink.pdf")
-plotMA(resLFC, ylim=c(-2,2))
+plotMA(resLFC, ylim = c(-2, 2))
 dev.off()
 ```
 
@@ -82,10 +82,10 @@ Often it may be useful to view the normalized counts for a gene amongst our samp
 pdf("normalized_count_examples.pdf")
 
 # view SEPT3 normalized counts
-plotCounts(dds, gene='ENSG00000100167', intgroup = 'Condition')
+plotCounts(dds, gene = "ENSG00000100167", intgroup = "Condition")
 
 # view PRAME normalized counts
-plotCounts(dds, gene='ENSG00000185686', intgroup = 'Condition')
+plotCounts(dds, gene = "ENSG00000185686", intgroup = "Condition")
 
 dev.off()
 
@@ -96,7 +96,7 @@ It may often be useful to view inter-sample relatedness. In other words, how sim
 
 ```R
 # note that we use rlog because we don't have a large number of genes, for a typical DE experiment with 1000's of genes use the vst() function
-rld <- rlog(dds, blind=F)
+rld <- rlog(dds, blind = FALSE)
 
 # view the structure of this object
 rld
@@ -114,7 +114,7 @@ head(assay(dds))
 head(assay(rld))
 
 # see the impact of transposing the matrix
-t(assay(rld))[1:6,1:5]
+t(assay(rld))[1:6, 1:5]
 
 # see the distance values
 dist(t(assay(rld)))
@@ -128,10 +128,10 @@ sampleDistMatrix <- as.matrix(sampleDists)
 # view the distance numbers directly in the pairwise distance matrix
 head(sampleDistMatrix)
 
-pdf("distance_sample_heatmap.pdf", width=8, height=8)
+pdf("distance_sample_heatmap.pdf", width = 8, height = 8)
 
 # construct clustered heatmap, important to use the computed sample distances for clustering
-pheatmap(sampleDistMatrix, clustering_distance_rows=sampleDists, clustering_distance_cols=sampleDists)
+pheatmap(sampleDistMatrix, clustering_distance_rows = sampleDists, clustering_distance_cols = sampleDists)
 
 dev.off()
 ```
@@ -144,11 +144,11 @@ Correlation: "pearson", "kendall", "spearman"
 Distance: "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"
 
 ```R
-sampleCorrs <- cor(assay(rld), method="pearson")
-sampleCorrMatrix <- as.matrix(sampleCorrs)
+sampleCorrs = cor(assay(rld), method = "pearson")
+sampleCorrMatrix = as.matrix(sampleCorrs)
 head(sampleCorrMatrix)
 
-pdf("similarity_sample_heatmap.pdf", width=8, height=8)
+pdf("similarity_sample_heatmap.pdf", width = 8, height = 8)
 
 pheatmap(sampleCorrMatrix)
 
@@ -161,11 +161,11 @@ get a similar sense of the pattern by just visualizing all the genes at once
 
 ```R
 
-pdf("all_gene_heatmap.pdf", width=10, height=10)
+pdf("all_gene_heatmap.pdf", width = 10, height = 10)
 
 # because there are so many gene we choose not to display them
 
-pheatmap(mat=t(assay(rld)), show_colnames = FALSE)
+pheatmap(mat = t(assay(rld)), show_colnames = FALSE)
 
 dev.off()
 

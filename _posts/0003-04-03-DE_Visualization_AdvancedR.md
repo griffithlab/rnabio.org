@@ -48,7 +48,6 @@ library(ggrepel)
 
 #Set working directory where results files exist
 datadir = "~/workspace/rnaseq/de/ballgown/ref_only"
-# datadir = "/cloud/project/data/bulk_rna"
 outdir = "~/workspace/rnaseq/de/manual_viz"
 if (!dir.exists(outdir)) dir.create(outdir)
 
