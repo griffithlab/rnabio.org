@@ -37,8 +37,9 @@ library(genefilter)
 library(dplyr)
 library(devtools)
 
-#designate output file
-outfile="~/workspace/rnaseq/de/ballgown/ref_only/Tutorial_Part2_ballgown_output.pdf"
+# set the working directory
+setwd("~/workspace/rnaseq/de/ballgown/ref_only")
+
 ```
 
 Next we'll load our data into R.
@@ -75,7 +76,8 @@ transcript_expression = as.data.frame(texpr(bg))
 
 #View expression values for the transcripts of a particular gene symbol of chromosome 22.  e.g. 'TST'
 #First determine the transcript_ids in the data.frame that match 'TST', aka. ENSG00000128311, then display only those rows of the data.frame
-i=bg_table[,"gene_id"]=="ENSG00000128311"
+#i=bg_table[,"gene_id"]=="ENSG00000128311"
+i=bg_table[,"gene_name"]=="TST"
 bg_table[i,]
 
 # Display the transcript ID for a single row of data
@@ -85,9 +87,11 @@ ballgown::transcriptNames(bg)[2763]
 ballgown::geneNames(bg)[2763]
 
 #What if we want to view values for a list of genes of interest all at once?
-#genes_of_interest = c("TST", "MMP11", "LGALS2", "ISX")
-genes_of_interest = c("ENSG00000128311","ENSG00000099953","ENSG00000100079","ENSG00000175329")
-i = bg_table[,"gene_id"] %in% genes_of_interest
+genes_of_interest = c("TST", "MMP11", "LGALS2", "ISX")
+#genes_of_interest = c("ENSG00000128311","ENSG00000099953","ENSG00000100079","ENSG00000175329")
+#i = bg_table[,"gene_id"] %in% genes_of_interest
+i = bg_table[,"gene_name"] %in% genes_of_interest
+
 bg_table[i,]
 
 # Load the transcript to gene index from the ballgown object
@@ -95,7 +99,7 @@ transcript_gene_table = indexes(bg)$t2g
 head(transcript_gene_table)
 
 #Each row of data represents a transcript. Many of these transcripts represent the same gene. Determine the numbers of transcripts and unique genes
-length(row.names(transcript_gene_table)) #Transcript count
+length(unique(transcript_gene_table[,"t_id"])) #Transcript count
 length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
 
 # Extract FPKM values from the 'bg' object
@@ -116,14 +120,12 @@ Now we'll start to generate figures with the following R code.
 
 ```R
 
-# Open a PDF file where we will save some plots. We will save all figures and then view the PDF at the end
-pdf(file=outfile)
-
 #### Plot #1 - the number of transcripts per gene.
 #Many genes will have only 1 transcript, some genes will have several transcripts
 #Use the 'table()' command to count the number of times each gene symbol occurs (i.e. the # of transcripts that have each gene symbol)
 #Then use the 'hist' command to create a histogram of these counts
 #How many genes have 1 transcript?  More than one transcript?  What is the maximum number of transcripts for a single gene?
+pdf(file="TranscriptCountDistribution.pdf")
 counts=table(transcript_gene_table[,"g_id"])
 c_one = length(which(counts == 1))
 c_more_than_one = length(which(counts > 1))
@@ -131,36 +133,47 @@ c_max = max(counts)
 hist(counts, breaks=50, col="bisque4", xlab="Transcripts per gene", main="Distribution of transcript count per gene")
 legend_text = c(paste("Genes with one transcript =", c_one), paste("Genes with more than one transcript =", c_more_than_one), paste("Max transcripts for single gene = ", c_max))
 legend("topright", legend_text, lty=NULL)
+dev.off()
 
 #### Plot #2 - the distribution of transcript sizes as a histogram
 #In this analysis we supplied StringTie with transcript models so the lengths will be those of known transcripts
 #However, if we had used a de novo transcript discovery mode, this step would give us some idea of how well transcripts were being assembled
 #If we had a low coverage library, or other problems, we might get short 'transcripts' that are actually only pieces of real transcripts
-
+pdf(file="TranscriptLengthDistribution.pdf")
 hist(bg_table$length, breaks=50, xlab="Transcript length (bp)", main="Distribution of transcript lengths", col="steelblue")
+dev.off()
 
 #### Plot #3 - distribution of gene expression levels for each sample
 # Create boxplots to display summary statistics for the FPKM values for each sample
 # set color based on pheno_data$type which is UHR vs. HBR
 # set labels perpendicular to axis (las=2)
 # set ylab to indicate that values are log2 transformed
+pdf(file="All_samples_FPKM_boxplots.pdf")
 boxplot(fpkm,col=as.numeric(as.factor(pheno_data$type))+1,las=2,ylab='log2(FPKM+1)')
+dev.off()
 
 #### Plot 4 - BoxPlot comparing the expression of a single gene for all replicates of both conditions
 # set border color for each of the boxplots
 # set title (main) to gene : transcript
 # set x label to Type
 # set ylab to indicate that values are log2 transformed
-boxplot(fpkm[2763,] ~ pheno_data$type, border=c(2,3), main=paste(ballgown::geneNames(bg)[2763],' : ', ballgown::transcriptNames(bg)[2763]),pch=19, xlab="Type", ylab='log2(FPKM+1)')
+
+pdf(file="TST_ENST00000249042_boxplot.pdf")
+transcript=which(ballgown::transcriptNames(bg)=="ENST00000249042")[[1]]
+boxplot(fpkm[transcript,] ~ pheno_data$type, border=c(2,3), main=paste(ballgown::geneNames(bg)[transcript],': ', ballgown::transcriptNames(bg)[transcript]),pch=19, xlab="Type", ylab='log2(FPKM+1)')
 
 # Add the FPKM values for each sample onto the plot
 # set plot symbol to solid circle, default is empty circle
-points(fpkm[2763,] ~ jitter(c(2,2,2,1,1,1)), col=c(2,2,2,1,1,1)+1, pch=16)
+points(fpkm[transcript,] ~ jitter(c(2,2,2,1,1,1)), col=c(2,2,2,1,1,1)+1, pch=16)
+dev.off()
 
 
 #### Plot 5 - Plot of transcript structures observed in each replicate and color transcripts by expression level
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in all HBR samples'), sample=c('HBR_Rep1', 'HBR_Rep2', 'HBR_Rep3'), labelTranscripts=TRUE)
-plotTranscripts(ballgown::geneIDs(bg)[2763], bg, main=c('TST in all UHR samples'), sample=c('UHR_Rep1', 'UHR_Rep2', 'UHR_Rep3'), labelTranscripts=TRUE)
+
+pdf(file="TST_transcript_structures_expression.pdf")
+
+plotTranscripts(ballgown::geneIDs(bg)[transcript], bg, main=c('TST in all HBR samples'), sample=c('HBR_Rep1', 'HBR_Rep2', 'HBR_Rep3'), labelTranscripts=TRUE)
+plotTranscripts(ballgown::geneIDs(bg)[transcript], bg, main=c('TST in all UHR samples'), sample=c('UHR_Rep1', 'UHR_Rep2', 'UHR_Rep3'), labelTranscripts=TRUE)
 
 # Close the PDF device where we have been saving our plots
 dev.off()
