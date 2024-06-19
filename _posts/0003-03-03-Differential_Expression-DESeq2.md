@@ -312,6 +312,6 @@ Alternatively you could view both lists in a web browser as you have done with o
 ##### Example Venn Diagram (Three-way comparison: DE genes from StringTie/Ballgown vs HTSeq/DESeq2 vs HTSeq/EdgeR)
 
 <br>
-{% include figure.html image="/assets/module_3/venn-ballgown-vs-deseq2-vs-edger.png" width="400" %}
+{% include figure.html image="/assets/module_3/venn-ballgown-vs-deseq2-vs-edger.png" width="500" %}
 
 
