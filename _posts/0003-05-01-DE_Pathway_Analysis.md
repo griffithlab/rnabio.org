@@ -123,7 +123,7 @@ fc.go.mf.p = gage(De_gene.fc, gsets = go.mf.gs)
 fc.go.cc.p = gage(De_gene.fc, gsets = go.cc.gs)
 
 #msigdb
-fc.c8.p <- gage(De_gene.fc, gsets =all_cell_types)
+fc.c8.p = gage(De_gene.fc, gsets = all_cell_types)
 
 ###Convert to dataframes 
 #Results for testing for GO terms which are up-regulated
@@ -182,7 +182,8 @@ At this point, it will be helpful to move out of R and further explore our resul
 ```R
 write.table(fc.go.cc.p.up, "fc.go.cc.p.up.tsv", quote = FALSE, sep = "\t", col.names = TRUE, row.names = TRUE)
 write.table(fc.go.cc.p.down, "fc.go.cc.p.down.tsv", quote = FALSE, sep = "\t", col.names = TRUE, row.names = TRUE)
-#quit(save="no")
+
+quit(save = "no")
 ```
 
 ### Visualize

@@ -33,7 +33,9 @@ Expression and differential expression files will be read into R. The R analysis
 Start RStudio, or launch a posit Cloud session, or if you are using AWS, navigate to the correct directory and then launch R:
 
 ```bash
-cd $RNA_HOME/de/ballgown/ref_only/
+mkdir $RNA_HOME/de/visualization_advanced
+cd $RNA_HOME/de/visualization_advanced
+
 R
 ```
 
@@ -46,16 +48,6 @@ library(gplots)
 library(GenomicRanges)
 library(ggrepel)
 
-#Set working directory where results files exist
-datadir = "~/workspace/rnaseq/de/ballgown/ref_only"
-outdir = "~/workspace/rnaseq/de/manual_viz"
-if (!dir.exists(outdir)) dir.create(outdir)
-
-setwd(datadir)
-
-# List the current contents of this directory
-dir()
-
 #Import expression results (TPM values) from the HISAT2/Stringtie pipeline (http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_tpm_all_samples.tsv)
 gene_expression = read.table("~/workspace/rnaseq/expression/stringtie/ref_only/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
 
@@ -64,7 +56,6 @@ gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", hea
 colnames(gene_names) = c("gene_id", "gene_name")
 
 #Import DE results from the HISAT2/htseq-count/DESeq2 pipeline (http://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
-setwd(outdir)
 results_genes = read.table("~/workspace/rnaseq/de/deseq2/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
 ```
@@ -237,7 +228,7 @@ sigp = results_genes[sigpi, ]
 sigfc = which(abs(sigp[, "log2FoldChange"]) >= 2)
 sigDE = sigp[sigfc, ]
 
-pdf(file = "EHR_vs_HBR_heatmap.pdf")
+pdf(file = "UHR_vs_HBR_heatmap.pdf")
 main_title = "sig DE Genes"
 par(cex.main = 0.8)
 sigDE_genes = sigDE[, "ensemblID"]
@@ -262,7 +253,7 @@ results_genes$diffexpressed[results_genes$log2FoldChange <= -2 & results_genes$p
 results_genes$gene_label = NA
 results_genes$gene_label[results_genes$diffexpressed != "No"] = results_genes$Symbol[results_genes$diffexpressed != "No"]
 
-pdf(file = "EHR_vs_HBR_volcano.pdf")
+pdf(file = "UHR_vs_HBR_volcano.pdf")
 
 ggplot(data = results_genes[results_genes$diffexpressed != "No",], aes(x = log2FoldChange, y = -log10(pvalue), label = gene_label, color = diffexpressed)) +
              xlab("log2Foldchange") +
