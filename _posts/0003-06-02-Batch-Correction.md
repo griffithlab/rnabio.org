@@ -277,7 +277,8 @@ run_edgeR = function(data, group_a_name, group_a_samples, group_b_samples, group
   et = exactTest(y)
   
   #print number of up/down significant genes at FDR = 0.05 significance level and store the DE status in a new variable (de)
-  summary(de <- decideTests(et, adjust.method = "fdr", p = 0.05))
+  de = decideTests(et, adjust.method = "fdr", p = 0.05)
+  summary(de)
   
   #create a matrix of the DE results
   mat = cbind(
