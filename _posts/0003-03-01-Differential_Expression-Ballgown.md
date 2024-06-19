@@ -50,66 +50,66 @@ library(dplyr)
 library(devtools)
 
 # Create phenotype data needed for ballgown analysis
-ids=c("UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3")
-type=c("UHR","UHR","UHR","HBR","HBR","HBR")
-results="/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/"
-path=paste(results,ids,sep="")
-pheno_data=data.frame(ids,type,path)
+ids = c("UHR_Rep1", "UHR_Rep2", "UHR_Rep3", "HBR_Rep1", "HBR_Rep2", "HBR_Rep3")
+type = c("UHR", "UHR", "UHR", "HBR", "HBR", "HBR")
+results = "/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/"
+path = paste(results, ids, sep="")
+pheno_data = data.frame(ids, type, path)
 
 # Load ballgown data structure and save it to a variable "bg"
-bg = ballgown(samples=as.vector(pheno_data$path), pData=pheno_data)
+bg = ballgown(samples = as.vector(pheno_data$path), pData = pheno_data)
 
 # Display a description of this object
 bg
 
 # Load all attributes including gene name
 bg_table = texpr(bg, 'all')
-bg_gene_names = unique(bg_table[,9:10])
-bg_transcript_names = unique(bg_table[,c(1,6)])
+bg_gene_names = unique(bg_table[, 9:10])
+bg_transcript_names = unique(bg_table[, c(1, 6)])
 
 # Save the ballgown object to a file for later use
-save(bg, file='bg.rda')
+save(bg, file = 'bg.rda')
 
 # Perform differential expression (DE) analysis with no filtering, at both gene and transcript level
-results_transcripts = stattest(bg, feature="transcript", covariate="type", getFC=TRUE, meas="FPKM")
-results_transcripts = merge(results_transcripts, bg_transcript_names, by.x=c("id"), by.y=c("t_id"))
+results_transcripts = stattest(bg, feature = "transcript", covariate = "type", getFC = TRUE, meas = "FPKM")
+results_transcripts = merge(results_transcripts, bg_transcript_names, by.x = c("id"), by.y = c("t_id"))
 
-results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
-results_genes = merge(results_genes, bg_gene_names, by.x=c("id"), by.y=c("gene_id"))
+results_genes = stattest(bg, feature = "gene", covariate = "type", getFC = TRUE, meas = "FPKM")
+results_genes = merge(results_genes, bg_gene_names, by.x = c("id"), by.y = c("gene_id"))
 
 # Save a tab delimited file for both the transcript and gene results
-write.table(results_transcripts, "UHR_vs_HBR_transcript_results.tsv", sep="\t", quote=FALSE, row.names = FALSE)
-write.table(results_genes, "UHR_vs_HBR_gene_results.tsv", sep="\t", quote=FALSE, row.names = FALSE)
+write.table(results_transcripts, "UHR_vs_HBR_transcript_results.tsv", sep = "\t", quote = FALSE, row.names = FALSE)
+write.table(results_genes, "UHR_vs_HBR_gene_results.tsv", sep = "\t", quote = FALSE, row.names = FALSE)
 
 # Filter low-abundance genes. Here we remove all transcripts with a variance across the samples of less than one
-bg_filt = subset (bg,"rowVars(texpr(bg)) > 1", genomesubset=TRUE)
+bg_filt = subset (bg, "rowVars(texpr(bg)) > 1", genomesubset = TRUE)
 
 # Load all attributes including gene name
 bg_filt_table = texpr(bg_filt , 'all')
 bg_filt_gene_names = unique(bg_filt_table[, 9:10])
-bg_filt_transcript_names = unique(bg_filt_table[,c(1,6)])
+bg_filt_transcript_names = unique(bg_filt_table[, c(1,6)])
 
 # Perform DE analysis now using the filtered data
-results_transcripts = stattest(bg_filt, feature="transcript", covariate="type", getFC=TRUE, meas="FPKM")
-results_transcripts = merge(results_transcripts, bg_filt_transcript_names, by.x=c("id"), by.y=c("t_id"))
+results_transcripts = stattest(bg_filt, feature = "transcript", covariate = "type", getFC = TRUE, meas = "FPKM")
+results_transcripts = merge(results_transcripts, bg_filt_transcript_names, by.x = c("id"), by.y = c("t_id"))
 
-results_genes = stattest(bg_filt, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
-results_genes = merge(results_genes, bg_filt_gene_names, by.x=c("id"), by.y=c("gene_id"))
+results_genes = stattest(bg_filt, feature = "gene", covariate = "type", getFC = TRUE, meas = "FPKM")
+results_genes = merge(results_genes, bg_filt_gene_names, by.x = c("id"), by.y = c("gene_id"))
 
 # Output the filtered list of genes and transcripts and save to tab delimited files
-write.table(results_transcripts, "UHR_vs_HBR_transcript_results_filtered.tsv", sep="\t", quote=FALSE, row.names = FALSE)
-write.table(results_genes, "UHR_vs_HBR_gene_results_filtered.tsv", sep="\t", quote=FALSE, row.names = FALSE)
+write.table(results_transcripts, "UHR_vs_HBR_transcript_results_filtered.tsv", sep = "\t", quote = FALSE, row.names = FALSE)
+write.table(results_genes, "UHR_vs_HBR_gene_results_filtered.tsv", sep = "\t", quote = FALSE, row.names = FALSE)
 
 # Identify the significant genes with p-value < 0.05
 sig_transcripts = subset(results_transcripts, results_transcripts$pval<0.05)
 sig_genes = subset(results_genes, results_genes$pval<0.05)
 
 # Output the significant gene results to a pair of tab delimited files
-write.table(sig_transcripts, "UHR_vs_HBR_transcript_results_sig.tsv", sep="\t", quote=FALSE, row.names = FALSE)
-write.table(sig_genes, "UHR_vs_HBR_gene_results_sig.tsv", sep="\t", quote=FALSE, row.names = FALSE)
+write.table(sig_transcripts, "UHR_vs_HBR_transcript_results_sig.tsv", sep = "\t", quote = FALSE, row.names = FALSE)
+write.table(sig_genes, "UHR_vs_HBR_gene_results_sig.tsv", sep = "\t", quote = FALSE, row.names = FALSE)
 
 # Exit the R session
-quit(save="no")
+quit(save = "no")
 ```
 
 Once you have completed the Ballgown analysis in R, exit the R session and continue with the steps below. A copy of the above R code is located [here](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_Part1_ballgown.R).
@@ -224,9 +224,9 @@ model = lm(observed_log2_fc ~ expected_log2_fc, data=ercc_ref_de)
 r_squared = summary(model)[["r.squared"]]
 
 #create a scatterplot to compare the observed and expected fold change values
-p = ggplot(ercc_ref_de, aes(x=expected_log2_fc, y=observed_log2_fc))
-p = p + geom_point(aes(color=subgroup)) 
-p = p + geom_smooth(method=lm) 
+p = ggplot(ercc_ref_de, aes(x = expected_log2_fc, y = observed_log2_fc))
+p = p + geom_point(aes(color = subgroup)) 
+p = p + geom_smooth(method = lm) 
 p = p + annotate("text", 1, 2, label=paste("R^2 =", r_squared, sep=" "))
 p = p + xlab("Expected Fold Change (log2 scale)") 
 p = p + ylab("Observed Fold Change in RNA-seq data (log2 scale)")

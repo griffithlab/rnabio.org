@@ -38,7 +38,7 @@ datadir = "~/workspace/rnaseq/de/deseq2/"
 setwd(datadir)
 
 #Load in the DE results file with only significant genes (http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
-DE_genes <-read.table("DE_sig_genes_DESeq2.tsv", sep="\t", header=T, stringsAsFactors = F)
+DE_genes = read.table("DE_sig_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
 ```
 
@@ -57,14 +57,14 @@ In order to perform our pathway analysis we need a list of pathways and their re
 
 ```R
 # Set up go database
-go.hs <- go.gsets(species="human")
-go.bp.gs <- go.hs$go.sets[go.hs$go.subs$BP]
-go.mf.gs <- go.hs$go.sets[go.hs$go.subs$MF]
-go.cc.gs <- go.hs$go.sets[go.hs$go.subs$CC]
+go.hs = go.gsets(species = "human")
+go.bp.gs = go.hs$go.sets[go.hs$go.subs$BP]
+go.mf.gs = go.hs$go.sets[go.hs$go.subs$MF]
+go.cc.gs = go.hs$go.sets[go.hs$go.subs$CC]
 
 # Here we will read in an MSigDB gene set that was selected for this exercise and saved to the course website. 
-c8 <-"http://genomedata.org/rnaseq-tutorial/c8.all.v7.2.entrez.gmt"
-all_cell_types <-readList(c8)
+c8 = "http://genomedata.org/rnaseq-tutorial/c8.all.v7.2.entrez.gmt"
+all_cell_types = readList(c8)
 
 ```
 
@@ -72,7 +72,7 @@ all_cell_types <-readList(c8)
 OK, so we have our differentially expressed genes and we have our gene sets. However, if you look at one of the objects containing the gene sets you'll notice that each gene set contains a series of integers. These integers are [Entrez](https://www.ncbi.nlm.nih.gov/gquery/) gene identifiers. But do we have comparable information in our DE gene list? Right now, no. Our previous results use Ensembl IDs as gene identifiers. We will need to convert our gene identifiers to the format used in the GO and MSigDB gene sets before we can perform the pathway analysis. Fortunately, Bioconductor maintains genome wide annotation data for many species, you can view these species with the [OrgDb bioc view](https://bioconductor.org/packages/release/BiocViews.html#___OrgDb). This makes converting the gene identifiers relatively straightforward, below we use the [mapIds()](https://www.rdocumentation.org/packages/OrganismDbi/versions/1.14.1/topics/MultiDb-class) function to query the OrganismDb object for the Entrez id based on the Ensembl id. Because there might not be a one-to-one relationship with these identifiers we also use `multiVals="first"` to specify that only the first identifier should be returned. Another option would be to use `multiVals="asNA"` to ignore one-to-many mappings.
 
 ```R
-DE_genes$entrez <- mapIds(org.Hs.eg.db, keys=DE_genes$ensemblID, column="ENTREZID", keytype="ENSEMBL", multiVals="first")
+DE_genes$entrez = mapIds(org.Hs.eg.db, keys = DE_genes$ensemblID, column = "ENTREZID", keytype = "ENSEMBL", multiVals = "first")
 ```
 
 ### Some clean-up and identifier mapping
@@ -80,24 +80,24 @@ After completing the annotation above you will notice that some of our Ensembl g
 
 ```R
 #Remove spike-in
-DE_genes_clean <- DE_genes[!grepl("ERCC", DE_genes$ensemblID),]
+DE_genes_clean = DE_genes[!grepl("ERCC", DE_genes$ensemblID), ]
 
 ##Just so we know what we have removed 
-ERCC_gene_count <-nrow(DE_genes[grepl("ERCC", DE_genes$ensemblID),])
+ERCC_gene_count = nrow(DE_genes[grepl("ERCC", DE_genes$ensemblID), ])
 ERCC_gene_count
 
 ###Deal with genes that we do not have an Entrez ID for 
-missing_ensembl_key<-DE_genes_clean[is.na(DE_genes_clean$entrez),]
-DE_genes_clean <-DE_genes_clean[!DE_genes_clean$ensemblID %in% missing_ensembl_key$ensemblID,]
+missing_ensembl_key = DE_genes_clean[is.na(DE_genes_clean$entrez), ]
+DE_genes_clean = DE_genes_clean[!DE_genes_clean$ensemblID %in% missing_ensembl_key$ensemblID, ]
 
 ###Try mapping using a different key
-missing_ensembl_key$entrez <- mapIds(org.Hs.eg.db, keys=missing_ensembl_key$Symbol, column="ENTREZID", keytype="SYMBOL", multiVal='first')
+missing_ensembl_key$entrez = mapIds(org.Hs.eg.db, keys = missing_ensembl_key$Symbol, column = "ENTREZID", keytype = "SYMBOL", multiVal = "first")
 
 #Remove remaining genes 
-missing_ensembl_key_update <- missing_ensembl_key[!is.na(missing_ensembl_key$entrez),]
+missing_ensembl_key_update = missing_ensembl_key[!is.na(missing_ensembl_key$entrez),]
 
 #Create a Final Gene list of all genes where we were able to find an Entrez ID (using two approaches)
-DE_genes_clean <-rbind(DE_genes_clean, missing_ensembl_key_update)
+DE_genes_clean = rbind(DE_genes_clean, missing_ensembl_key_update)
 ```
 
 ### Final preparation of DESeq2 results for gage
@@ -105,10 +105,10 @@ OK, last step.  Let's format the differential expression results into a format s
 
 ```R
 # grab the log fold changes for everything
-De_gene.fc <- DE_genes_clean$log2FoldChange
+De_gene.fc = DE_genes_clean$log2FoldChange
 
 # set the name for each row to be the Entrez Gene ID
-names(De_gene.fc) <- DE_genes_clean$entrez
+names(De_gene.fc) = DE_genes_clean$entrez
 ```
 
 ### Running pathway analysis
@@ -119,29 +119,29 @@ Note on the abbreviations below: "bp" refers to biological process, "mf" refers 
 ```R
 #Run GAGE
 #go 
-fc.go.bp.p <- gage(De_gene.fc, gsets = go.bp.gs)
-fc.go.mf.p <- gage(De_gene.fc, gsets = go.mf.gs)
-fc.go.cc.p <- gage(De_gene.fc, gsets = go.cc.gs)
+fc.go.bp.p = gage(De_gene.fc, gsets = go.bp.gs)
+fc.go.mf.p = gage(De_gene.fc, gsets = go.mf.gs)
+fc.go.cc.p = gage(De_gene.fc, gsets = go.cc.gs)
 
 #msigdb
 fc.c8.p <- gage(De_gene.fc, gsets =all_cell_types)
 
 ###Convert to dataframes 
 #Results for testing for GO terms which are up-regulated
-fc.go.bp.p.up <- as.data.frame(fc.go.bp.p$greater)
-fc.go.mf.p.up <- as.data.frame(fc.go.mf.p$greater)
-fc.go.cc.p.up <- as.data.frame(fc.go.cc.p$greater)
+fc.go.bp.p.up = as.data.frame(fc.go.bp.p$greater)
+fc.go.mf.p.up = as.data.frame(fc.go.mf.p$greater)
+fc.go.cc.p.up = as.data.frame(fc.go.cc.p$greater)
 
 #Results for testing for GO terms which are down-regulated
-fc.go.bp.p.down <- as.data.frame(fc.go.bp.p$less)
-fc.go.mf.p.down <- as.data.frame(fc.go.mf.p$less)
-fc.go.cc.p.down <- as.data.frame(fc.go.cc.p$less)
+fc.go.bp.p.down = as.data.frame(fc.go.bp.p$less)
+fc.go.mf.p.down = as.data.frame(fc.go.mf.p$less)
+fc.go.cc.p.down = as.data.frame(fc.go.cc.p$less)
 
 #Results for testing for MSigDB C8 gene sets which are up-regulated
-fc.c8.p.up <- as.data.frame(fc.c8.p$greater)
+fc.c8.p.up = as.data.frame(fc.c8.p$greater)
 
 #Results for testing for MSigDB C8 gene sets which are down-regulated
-fc.c8.p.down <- as.data.frame(fc.c8.p$less)
+fc.c8.p.down = as.data.frame(fc.c8.p$less)
 ```
 
 ### Explore significant results
@@ -155,8 +155,8 @@ Look at the cellular process results from our GO analysis. Do the results match 
 
 #Try doing something like this to find some significant results:
 #View the top 20 significantly up- or down-regulated GO terms from the Cellular Component Ontology
-head(fc.go.cc.p.up[order(fc.go.cc.p.up$p.val),], n=20)
-head(fc.go.cc.p.down[order(fc.go.cc.p.down$p.val),], n=20)
+head(fc.go.cc.p.up[order(fc.go.cc.p.up$p.val),], n = 20)
+head(fc.go.cc.p.down[order(fc.go.cc.p.down$p.val),], n = 20)
 
 #You can do the same thing with your results from MSigDB
 head(fc.c8.p.up)
@@ -168,8 +168,8 @@ head(fc.c8.p.down)
 At this point, it will be helpful to move out of R and further explore our results locally. For the remainder of the exercise we are going to focus on the results from GO. We will use an online tool to visualize how the GO terms we uncovered are related to each other. 
 
 ```R
-write.table(fc.go.cc.p.up, "fc.go.cc.p.up.tsv", quote = F, sep = "\t", col.names = T, row.names = T)
-write.table(fc.go.cc.p.down, "fc.go.cc.p.down.tsv", quote = F, sep = "\t", col.names = T, row.names = T)
+write.table(fc.go.cc.p.up, "fc.go.cc.p.up.tsv", quote = FALSE, sep = "\t", col.names = TRUE, row.names = TRUE)
+write.table(fc.go.cc.p.down, "fc.go.cc.p.down.tsv", quote = FALSE, sep = "\t", col.names = TRUE, row.names = TRUE)
 #quit(save="no")
 ```
 

@@ -58,7 +58,7 @@ library(data.table)
 setwd(datadir)
 
 # read in the RNAseq read counts for each gene (produced by htseq-count)
-htseqCounts <- fread("gene_read_counts_table_all_final.tsv")
+htseqCounts = fread("gene_read_counts_table_all_final.tsv")
 ```
 
 ### Format htseq counts data to work with DESeq2
@@ -72,17 +72,17 @@ It should be noted that while the replicate samples are technical replicates (i.
 class(htseqCounts)
 
 # convert the data.table to matrix format
-htseqCounts <- as.matrix(htseqCounts)
+htseqCounts = as.matrix(htseqCounts)
 class(htseqCounts)
 
 # set the gene ID values to be the row names for the matrix
-rownames(htseqCounts) <- htseqCounts[,"GeneID"]
+rownames(htseqCounts) = htseqCounts[, "GeneID"]
 
 # now that the gene IDs are the row names, remove the redundant column that contains them
-htseqCounts <- htseqCounts[, colnames(htseqCounts) != "GeneID"]
+htseqCounts = htseqCounts[, colnames(htseqCounts) != "GeneID"]
 
 # convert the actual count values from strings (with spaces) to integers, because originally the gene column contained characters, the entire matrix was set to character
-class(htseqCounts) <- "integer"
+class(htseqCounts) = "integer"
 
 # view the first few lines of the gene count matrix
 head(htseqCounts)
@@ -102,7 +102,7 @@ The amount of pre-filtering is up to the analyst however, it should be done in a
 # note the dimensions of the matrix before and after filtering with dim
 
 dim(htseqCounts)
-htseqCounts <- htseqCounts[which(rowSums(htseqCounts >= 10) >=1),]
+htseqCounts = htseqCounts[which(rowSums(htseqCounts >= 10) >= 1), ]
 dim(htseqCounts)
 
 # Hint! if you find the above command confusing, break it into pieces and observe the result
@@ -120,13 +120,13 @@ As mentioned above DESeq2 also needs to know the experimental design, that is wh
 # construct a mapping of the meta data for our experiment (comparing UHR cell lines to HBR brain tissues)
 # in simple terms this is defining the biological condition/label for each experimental replicate
 # create a simple one column dataframe to start
-metaData <- data.frame('Condition'=c('UHR', 'UHR', 'UHR', 'HBR', 'HBR', 'HBR'))
+metaData <- data.frame("Condition" = c("UHR", "UHR", "UHR", "HBR", "HBR", "HBR"))
 
 # convert the "Condition" column to a factor data type, this will determine the direction of log2 fold-changes for the genes (i.e. up or down regulated)
-metaData$Condition <- factor(metaData$Condition, levels=c('HBR', 'UHR'))
+metaData$Condition = factor(metaData$Condition, levels = c("HBR", "UHR"))
 
 # set the row names of the metaData dataframe to be the names of our sample replicates from the read counts matrix
-rownames(metaData) <- colnames(htseqCounts)
+rownames(metaData) = colnames(htseqCounts)
 
 # view the metadata dataframe
 head(metaData)
@@ -146,7 +146,7 @@ With all the data properly formatted it is now possible to combine all the infor
 # for example, including designs with multiple variables such as "~ group + condition",
 # and designs with interactions such as "~ genotype + treatment + genotype:treatment".
 
-dds <- DESeqDataSetFromMatrix(countData = htseqCounts, colData = metaData, design = ~Condition)
+dds = DESeqDataSetFromMatrix(countData = htseqCounts, colData = metaData, design = ~Condition)
 ```
 
 ### Running DESeq2
@@ -159,10 +159,10 @@ With all the data now in place DESeq2 can be run. Calling DESeq2 will perform th
 
 ```R
 # run the DESeq2 analysis on the "dds" object
-dds <- DESeq(dds)
+dds = DESeq(dds)
 
 # view the first 5 lines of the DE results
-res <- results(dds)
+res = results(dds)
 head(res, 5)
 
 ```
@@ -182,7 +182,7 @@ It is good practice to shrink the log-fold change values, this does exactly what
 resultsNames(dds)
 
 # now apply the shrinkage approach
-resLFC <- lfcShrink(dds, coef="Condition_UHR_vs_HBR", type="apeglm")
+resLFC = lfcShrink(dds, coef = "Condition_UHR_vs_HBR", type = "apeglm")
 
 # make a copy of the shrinkage results to manipulate
 deGeneResult <- resLFC
@@ -200,23 +200,23 @@ DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human 
 
 ```R
 # read in gene ID to name mappings (using "fread" an alternative to "read.table")
-mapping <- fread("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header=F)
+mapping <- fread("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = FALSE)
 
 # add names to the columns in the "mapping" dataframe
-setnames(mapping, c('ensemblID', 'Symbol'))
+setnames(mapping, c("ensemblID", "Symbol"))
 
 # view the first few lines of the gene ID to name mappings
 head(mapping)
 
 # merge on gene names
-deGeneResult$ensemblID <- rownames(deGeneResult)
-deGeneResult <- as.data.table(deGeneResult)
-deGeneResult <- merge(deGeneResult, mapping, by='ensemblID', all.x=T)
+deGeneResult$ensemblID = rownames(deGeneResult)
+deGeneResult = as.data.table(deGeneResult)
+deGeneResult = merge(deGeneResult, mapping, by = "ensemblID", all.x = TRUE)
 
 # merge the original raw count values onto this final dataframe to aid interpretation
 original_counts = as.data.frame(htseqCounts)
 original_counts[,"ensemblID"] = rownames(htseqCounts)
-deGeneResult = merge(deGeneResult, original_counts, by='ensemblID', all.x=T)
+deGeneResult = merge(deGeneResult, original_counts, by = 'ensemblID', all.x = TRUE)
 
 # view the final merged dataframe
 # based on the raw counts and fold change values what does a negative fold change mean with respect to our two conditions HBR and UHR?
@@ -228,17 +228,17 @@ With the DE analysis complete it is useful to view and filter the data frames to
 
 ```R
 # view the top genes according to adjusted p-value
-deGeneResult[order(deGeneResult$padj),]
+deGeneResult[order(deGeneResult$padj), ]
 
 # view the top genes according to fold change
-deGeneResult[order(deGeneResult$log2FoldChange),]
+deGeneResult[order(deGeneResult$log2FoldChange), ]
 
 # determine the number of up/down significant genes at FDR < 0.05 significance level
 dim(deGeneResult)[1] # number of genes tested
 dim(deGeneResult[deGeneResult$padj < 0.05])[1] #number of significant genes
 
 # order the DE results by adjusted p-value
-deGeneResultSorted = deGeneResult[order(deGeneResult$padj),]
+deGeneResultSorted = deGeneResult[order(deGeneResult$padj), ]
 
 # create a filtered data frame that limits to only the significant DE genes (adjusted p.value < 0.05)
 deGeneResultSignificant = deGeneResultSorted[deGeneResultSorted$padj < 0.05]
@@ -252,18 +252,18 @@ The data generated is now written out as tab separated files. Some of the DESeq2
 setwd(outdir)
 
 # save the final DE result (all genes)  to an output file
-fwrite(deGeneResultSorted, file='DE_all_genes_DESeq2.tsv', sep="\t")
+fwrite(deGeneResultSorted, file="DE_all_genes_DESeq2.tsv", sep="\t")
 
 # save the final DE result (significant genes only)  to an output file
-fwrite(deGeneResultSignificant, file='DE_sig_genes_DESeq2.tsv', sep="\t")
+fwrite(deGeneResultSignificant, file="DE_sig_genes_DESeq2.tsv", sep="\t")
 
 # save the DESeq2 objects for the data visualization section
-saveRDS(dds, 'dds.rds')
-saveRDS(res, 'res.rds')
-saveRDS(resLFC, 'resLFC.rds')
+saveRDS(dds, "dds.rds")
+saveRDS(res, "res.rds")
+saveRDS(resLFC, "resLFC.rds")
 
 # to exit R type the following
-quit(save="no")
+quit(save = "no")
 ```
 
 

@@ -83,7 +83,7 @@ library("UpSetR")
 
 #load in the uncorrected data as raw counts
 setwd(datadir)
-uncorrected_data = read.table("GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv", header=TRUE, sep="\t", as.is=c(1,2))
+uncorrected_data = read.table("GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv", header = TRUE, sep = "\t", as.is = c(1,2))
 setwd(outdir)
 
 #simplify the names of the data columns
@@ -117,10 +117,10 @@ pca_uncorrected[,"replicate"] = replicates
 #plot the PCA
 #create a classic 2-dimension PCA plot (first two principal components) with conditions and library methods indicated
 cols <- c("UHR" = "#481567FF", "HBR" = "#1F968BFF")
-p1 = ggplot(data=pca_uncorrected, aes(x=PC1, y=PC2, color=condition, shape=library_method))
-p1 = p1 + geom_point(size=3)
-p1 = p1 + stat_ellipse(type="norm", linetype=2)
-p1 = p1 + labs(title="PCA, RNA-seq counts for 16 HBR/UHR and Ribo/PolyA samples (uncorrected data)", color="Condition", shape="Library Method")
+p1 = ggplot(data = pca_uncorrected, aes(x = PC1, y = PC2, color = condition, shape = library_method))
+p1 = p1 + geom_point(size = 3)
+p1 = p1 + stat_ellipse(type = "norm", linetype = 2)
+p1 = p1 + labs(title = "PCA, RNA-seq counts for 16 HBR/UHR and Ribo/PolyA samples (uncorrected data)", color = "Condition", shape="Library Method")
 p1 = p1 + scale_colour_manual(values = cols)
 
 ```
@@ -161,14 +161,14 @@ Continuing the R session started above, use ComBat-Seq to perform batch correcti
 
 #first we need to transform the format of our groups and batches from names (e.g. "UHR", "HBR", etc.) to numbers (e.g. 1, 2, etc.)
 #in the command below "sapply" is used to apply the "switch" command to each element and convert names to numbers as we define
-groups = sapply(as.character(conditions), switch, "UHR" = 1, "HBR" = 2, USE.NAMES = F)
-batches = sapply(as.character(library_methods), switch, "Ribo" = 1, "Poly" = 2, USE.NAMES = F)
+groups = sapply(as.character(conditions), switch, "UHR" = 1, "HBR" = 2, USE.NAMES = FALSE)
+batches = sapply(as.character(library_methods), switch, "Ribo" = 1, "Poly" = 2, USE.NAMES = FALSE)
 
 #now run ComBat_seq
 corrected_data = ComBat_seq(counts = as.matrix(uncorrected_data[,sample_names]), batch = batches, group = groups)
 
 #join the gene and chromosome names onto the now corrected counts from ComBat_seq
-corrected_data = cbind(uncorrected_data[,c("Gene","Chr")], corrected_data)
+corrected_data = cbind(uncorrected_data[, c("Gene", "Chr")], corrected_data)
 
 #compare dimensions of corrected and uncorrected data sets
 dim(uncorrected_data)
@@ -187,7 +187,7 @@ As performed above, use PCA to examine whether batch correction changes the grou
 ```R
 
 #calculate principal components for the uncorrected data
-pca_corrected_obj = prcomp(corrected_data[,sample_names])
+pca_corrected_obj = prcomp(corrected_data[, sample_names])
 
 #pull PCA values out of the PCA object
 pca_corrected = as.data.frame(pca_corrected_obj[2]$rotation)
@@ -199,13 +199,13 @@ pca_corrected[,"replicate"] = replicates
 
 #as above, create a PCA plot for comparison to the uncorrected data
 cols <- c("UHR" = "#481567FF", "HBR" = "#1F968BFF")
-p2 = ggplot(data=pca_corrected, aes(x=PC1, y=PC2, color=condition, shape=library_method))
-p2 = p2 + geom_point(size=3)
-p2 = p2 + stat_ellipse(type="norm", linetype=2)
-p2 = p2 + labs(title="PCA, RNA-seq counts for 16 HBR/UHR and Ribo/PolyA samples (batch corrected data)", color="Condition", shape="Library Method")
+p2 = ggplot(data = pca_corrected, aes(x = PC1, y = PC2, color = condition, shape = library_method))
+p2 = p2 + geom_point(size = 3)
+p2 = p2 + stat_ellipse(type = "norm", linetype = 2)
+p2 = p2 + labs(title = "PCA, RNA-seq counts for 16 HBR/UHR and Ribo/PolyA samples (batch corrected data)", color = "Condition", shape = "Library Method")
 p2 = p2 + scale_colour_manual(values = cols)
 
-pdf(file="Uncorrected-vs-BatchCorrected-PCA.pdf")
+pdf(file = "Uncorrected-vs-BatchCorrected-PCA.pdf")
 grid.arrange(p1, p2, nrow = 2)
 dev.off()
 
@@ -254,41 +254,41 @@ run_edgeR = function(data, group_a_name, group_a_samples, group_b_samples, group
   samples_for_comparison = c(group_a_samples, group_b_samples)
   
   #define the class factor for this pair of sample sets
-  class = factor(c(rep(group_a_name,length(group_a_samples)), rep(group_b_name,length(group_b_samples))))
+  class = factor(c(rep(group_a_name, length(group_a_samples)), rep(group_b_name, length(group_b_samples))))
   
   #create a simplified data matrix for only these samples
-  rawdata = data[,samples_for_comparison]
+  rawdata = data[, samples_for_comparison]
   
   #store gene names for later
   genes = rownames(data)
   gene_names = data[,"Gene"]
   
   #make DGElist object
-  y = DGEList(counts=rawdata, genes=genes, group=class)
+  y = DGEList(counts = rawdata, genes = genes, group = class)
   
   #perform TMM normalization
-  y <- calcNormFactors(y)
+  y = calcNormFactors(y)
   
   #estimate dispersion
-  y <- estimateCommonDisp(y, verbose=TRUE)
-  y <- estimateTagwiseDisp(y)
+  y = estimateCommonDisp(y, verbose = TRUE)
+  y = estimateTagwiseDisp(y)
   
   #perform the differential expression test
-  et <- exactTest(y)
+  et = exactTest(y)
   
   #print number of up/down significant genes at FDR = 0.05 significance level and store the DE status in a new variable (de)
-  summary(de <- decideTests(et, adjust.method="fdr", p=.05))
+  summary(de = decideTests(et, adjust.method = "fdr", p = 0.05))
   
   #create a matrix of the DE results
-  mat <- cbind(
+  mat = cbind(
     genes, 
     gene_names,
-    sprintf('%0.3f', log10(et$table$PValue)),
-    sprintf('%0.3f', et$table$logFC)
+    sprintf("%0.3f", log10(et$table$PValue)),
+    sprintf("%0.3f", et$table$logFC)
   )
 
   #create a version of this matrix that is limited to only the *significant* results
-  mat <- mat[as.logical(de),]
+  mat = mat[as.logical(de),]
   
   #add name to the columns of the final matrix
   colnames(mat) <- c("Gene", "Gene_Name", "Log10_Pvalue", "Log_fold_change")
@@ -297,18 +297,18 @@ run_edgeR = function(data, group_a_name, group_a_samples, group_b_samples, group
 }
 
 #run the five comparisons through edgeR using the *uncorrected data*
-uhr_ribo_vs_hbr_ribo_uncorrected = run_edgeR(data=uncorrected_data, group_a_name="UHR", group_a_samples=uhr_ribo_samples, group_b_name="HBR", group_b_samples=hbr_ribo_samples)
-uhr_poly_vs_hbr_poly_uncorrected = run_edgeR(data=uncorrected_data, group_a_name="UHR", group_a_samples=uhr_poly_samples, group_b_name="HBR", group_b_samples=hbr_poly_samples)
-uhr_ribo_vs_hbr_poly_uncorrected = run_edgeR(data=uncorrected_data, group_a_name="UHR", group_a_samples=uhr_ribo_samples, group_b_name="HBR", group_b_samples=hbr_poly_samples)
-uhr_poly_vs_hbr_ribo_uncorrected = run_edgeR(data=uncorrected_data, group_a_name="UHR", group_a_samples=uhr_poly_samples, group_b_name="HBR", group_b_samples=hbr_ribo_samples)
-uhr_vs_hbr_uncorrected = run_edgeR(data=uncorrected_data, group_a_name="UHR", group_a_samples=uhr_samples, group_b_name="HBR", group_b_samples=hbr_samples)
+uhr_ribo_vs_hbr_ribo_uncorrected = run_edgeR(data = uncorrected_data, group_a_name = "UHR", group_a_samples = uhr_ribo_samples, group_b_name = "HBR", group_b_samples = hbr_ribo_samples)
+uhr_poly_vs_hbr_poly_uncorrected = run_edgeR(data = uncorrected_data, group_a_name = "UHR", group_a_samples = uhr_poly_samples, group_b_name = "HBR", group_b_samples = hbr_poly_samples)
+uhr_ribo_vs_hbr_poly_uncorrected = run_edgeR(data = uncorrected_data, group_a_name = "UHR", group_a_samples = uhr_ribo_samples, group_b_name = "HBR", group_b_samples = hbr_poly_samples)
+uhr_poly_vs_hbr_ribo_uncorrected = run_edgeR(data = uncorrected_data, group_a_name = "UHR", group_a_samples = uhr_poly_samples, group_b_name = "HBR", group_b_samples = hbr_ribo_samples)
+uhr_vs_hbr_uncorrected = run_edgeR(data = uncorrected_data, group_a_name = "UHR", group_a_samples = uhr_samples, group_b_name = "HBR", group_b_samples = hbr_samples)
 
 #run the same five comparisons through edgeR using the *batch corrected data*
-uhr_ribo_vs_hbr_ribo_corrected = run_edgeR(data=corrected_data, group_a_name="UHR", group_a_samples=uhr_ribo_samples, group_b_name="HBR", group_b_samples=hbr_ribo_samples)
-uhr_poly_vs_hbr_poly_corrected = run_edgeR(data=corrected_data, group_a_name="UHR", group_a_samples=uhr_poly_samples, group_b_name="HBR", group_b_samples=hbr_poly_samples)
-uhr_ribo_vs_hbr_poly_corrected = run_edgeR(data=corrected_data, group_a_name="UHR", group_a_samples=uhr_ribo_samples, group_b_name="HBR", group_b_samples=hbr_poly_samples)
-uhr_poly_vs_hbr_ribo_corrected = run_edgeR(data=corrected_data, group_a_name="UHR", group_a_samples=uhr_poly_samples, group_b_name="HBR", group_b_samples=hbr_ribo_samples)
-uhr_vs_hbr_corrected = run_edgeR(data=corrected_data, group_a_name="UHR", group_a_samples=uhr_samples, group_b_name="HBR", group_b_samples=hbr_samples)
+uhr_ribo_vs_hbr_ribo_corrected = run_edgeR(data = corrected_data, group_a_name = "UHR", group_a_samples = uhr_ribo_samples, group_b_name = "HBR", group_b_samples = hbr_ribo_samples)
+uhr_poly_vs_hbr_poly_corrected = run_edgeR(data = corrected_data, group_a_name = "UHR", group_a_samples = uhr_poly_samples, group_b_name = "HBR", group_b_samples = hbr_poly_samples)
+uhr_ribo_vs_hbr_poly_corrected = run_edgeR(data = corrected_data, group_a_name = "UHR", group_a_samples = uhr_ribo_samples, group_b_name = "HBR", group_b_samples = hbr_poly_samples)
+uhr_poly_vs_hbr_ribo_corrected = run_edgeR(data = corrected_data, group_a_name = "UHR", group_a_samples = uhr_poly_samples, group_b_name = "HBR", group_b_samples = hbr_ribo_samples)
+uhr_vs_hbr_corrected = run_edgeR(data = corrected_data, group_a_name = "UHR", group_a_samples = uhr_samples, group_b_name = "HBR", group_b_samples = hbr_samples)
 
 #how much of a difference does batch correction make when doing the comparison of all UHR vs all HBR samples?
 dim(uhr_vs_hbr_uncorrected)
@@ -317,17 +317,17 @@ dim(uhr_vs_hbr_corrected)
 #create upset plots to summarize the overlap between the comparisons performed above
 
 #first create upset plot from the *uncorrected* data
-pdf(file="Uncorrected-UpSet.pdf")
-listInput1 = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[,"Gene"], 
-                  "4 UHR Poly vs 4HBR Poly" = uhr_poly_vs_hbr_poly_uncorrected[,"Gene"],
-                  "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_uncorrected[,"Gene"],
-                  "4 UHR Poly vs 4 HBR Ribo" = uhr_poly_vs_hbr_ribo_uncorrected[,"Gene"],
-                  "8 UHR vs 8 HBR" = uhr_vs_hbr_uncorrected[,"Gene"])
-upset(fromList(listInput1), order.by = "freq", number.angles=45, point.size=3)
+pdf(file = "Uncorrected-UpSet.pdf")
+listInput1 = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[, "Gene"], 
+                  "4 UHR Poly vs 4HBR Poly" = uhr_poly_vs_hbr_poly_uncorrected[, "Gene"],
+                  "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_uncorrected[, "Gene"],
+                  "4 UHR Poly vs 4 HBR Ribo" = uhr_poly_vs_hbr_ribo_uncorrected[, "Gene"],
+                  "8 UHR vs 8 HBR" = uhr_vs_hbr_uncorrected[, "Gene"])
+upset(fromList(listInput1), order.by = "freq", number.angles = 45, point.size = 3)
 dev.off()
 
 #now create an upset plot from the *batch corrected* data
-pdf(file="BatchCorrected-UpSet.pdf")
+pdf(file = "BatchCorrected-UpSet.pdf")
 listInput2 = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_corrected[,"Gene"], 
                   "4 UHR Poly vs 4 HBR Poly" = uhr_poly_vs_hbr_poly_corrected[,"Gene"],
                   "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_corrected[,"Gene"],
@@ -337,10 +337,10 @@ upset(fromList(listInput2), order.by = "freq", number.angles=45, point.size=3)
 dev.off()
 
 #write out the final set of DE genes where all UHR and HBR samples were compared using the corrected data
-write.table(uhr_vs_hbr_corrected, file="DE_genes_uhr_vs_hbr_corrected.tsv", quote=FALSE, row.names=FALSE, sep="\t")
+write.table(uhr_vs_hbr_corrected, file = "DE_genes_uhr_vs_hbr_corrected.tsv", quote = FALSE, row.names = FALSE, sep = "\t")
 
 #To exit R type the following
-#quit(save="no")
+#quit(save = "no")
 
 ```
 
