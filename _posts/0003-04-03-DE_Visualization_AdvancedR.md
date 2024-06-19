@@ -228,7 +228,7 @@ sigp = results_genes[sigpi, ]
 sigfc = which(abs(sigp[, "log2FoldChange"]) >= 2)
 sigDE = sigp[sigfc, ]
 
-pdf(file = "EHR_vs_HBR_heatmap.pdf")
+pdf(file = "UHR_vs_HBR_heatmap.pdf")
 main_title = "sig DE Genes"
 par(cex.main = 0.8)
 sigDE_genes = sigDE[, "ensemblID"]
@@ -253,7 +253,7 @@ results_genes$diffexpressed[results_genes$log2FoldChange <= -2 & results_genes$p
 results_genes$gene_label = NA
 results_genes$gene_label[results_genes$diffexpressed != "No"] = results_genes$Symbol[results_genes$diffexpressed != "No"]
 
-pdf(file = "EHR_vs_HBR_volcano.pdf")
+pdf(file = "UHR_vs_HBR_volcano.pdf")
 
 ggplot(data = results_genes[results_genes$diffexpressed != "No",], aes(x = log2FoldChange, y = -log10(pvalue), label = gene_label, color = diffexpressed)) +
              xlab("log2Foldchange") +
