@@ -69,7 +69,6 @@ transcript_expression = as.data.frame(texpr(bg))
 
 #View expression values for the transcripts of a particular gene symbol of chromosome 22.  e.g. 'TST'
 #First determine the transcript_ids in the data.frame that match 'TST', aka. ENSG00000128311, then display only those rows of the data.frame
-#i=bg_table[,"gene_id"]=="ENSG00000128311"
 i=bg_table[,"gene_name"]=="TST"
 bg_table[i,]
 
@@ -81,8 +80,6 @@ ballgown::geneNames(bg)[2763]
 
 #What if we want to view values for a list of genes of interest all at once?
 genes_of_interest = c("TST", "MMP11", "LGALS2", "ISX")
-#genes_of_interest = c("ENSG00000128311","ENSG00000099953","ENSG00000100079","ENSG00000175329")
-#i = bg_table[,"gene_id"] %in% genes_of_interest
 i = bg_table[,"gene_name"] %in% genes_of_interest
 
 bg_table[i,]
