@@ -47,10 +47,10 @@ Next we'll load our data into R.
 ```R
 
 # Define the conditions being compared for use later
-condition = c("UHR","UHR","UHR","HBR","HBR","HBR")
+condition = c("UHR", "UHR", "UHR", "HBR", "HBR", "HBR")
 
 # Load the ballgown object from file
-load('bg.rda')
+load("bg.rda")
 
 # The load command, loads an R object from a file into memory in our R session.
 # You can use ls() to view the names of variables that have been loaded
@@ -60,7 +60,7 @@ ls()
 bg
 
 # Load gene names for lookup later in the tutorial
-bg_table = texpr(bg, 'all')
+bg_table = texpr(bg, "all")
 bg_gene_names = unique(bg_table[, 9:10])
 
 # Pull the gene and transcript expression data frame from the ballgown object
@@ -69,7 +69,7 @@ transcript_expression = as.data.frame(texpr(bg))
 
 #View expression values for the transcripts of a particular gene symbol of chromosome 22.  e.g. 'TST'
 #First determine the transcript_ids in the data.frame that match 'TST', aka. ENSG00000128311, then display only those rows of the data.frame
-i=bg_table[,"gene_name"]=="TST"
+i = bg_table[, "gene_name"] == "TST"
 bg_table[i,]
 
 # Display the transcript ID for a single row of data
@@ -80,7 +80,7 @@ ballgown::geneNames(bg)[2763]
 
 #What if we want to view values for a list of genes of interest all at once?
 genes_of_interest = c("TST", "MMP11", "LGALS2", "ISX")
-i = bg_table[,"gene_name"] %in% genes_of_interest
+i = bg_table[, "gene_name"] %in% genes_of_interest
 
 bg_table[i,]
 
@@ -89,17 +89,17 @@ transcript_gene_table = indexes(bg)$t2g
 head(transcript_gene_table)
 
 #Each row of data represents a transcript. Many of these transcripts represent the same gene. Determine the numbers of transcripts and unique genes
-length(unique(transcript_gene_table[,"t_id"])) #Transcript count
-length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
+length(unique(transcript_gene_table[, "t_id"])) #Transcript count
+length(unique(transcript_gene_table[, "g_id"])) #Unique Gene count
 
 # Extract FPKM values from the 'bg' object
-fpkm = texpr(bg,meas="FPKM")
+fpkm = texpr(bg, meas = "FPKM")
 
 # View the last several rows of the FPKM table
 tail(fpkm)
 
 # Transform the FPKM values by adding 1 and convert to a log2 scale
-fpkm = log2(fpkm+1)
+fpkm = log2(fpkm + 1)
 
 # View the last several rows of the transformed FPKM table
 tail(fpkm)
@@ -116,21 +116,21 @@ Now we'll start to generate figures with the following R code.
 #Then use the 'hist' command to create a histogram of these counts
 #How many genes have 1 transcript?  More than one transcript?  What is the maximum number of transcripts for a single gene?
 pdf(file="TranscriptCountDistribution.pdf")
-counts=table(transcript_gene_table[,"g_id"])
+counts=table(transcript_gene_table[, "g_id"])
 c_one = length(which(counts == 1))
 c_more_than_one = length(which(counts > 1))
 c_max = max(counts)
-hist(counts, breaks=50, col="bisque4", xlab="Transcripts per gene", main="Distribution of transcript count per gene")
+hist(counts, breaks = 50, col = "bisque4", xlab = "Transcripts per gene", main = "Distribution of transcript count per gene")
 legend_text = c(paste("Genes with one transcript =", c_one), paste("Genes with more than one transcript =", c_more_than_one), paste("Max transcripts for single gene = ", c_max))
-legend("topright", legend_text, lty=NULL)
+legend("topright", legend_text, lty = NULL)
 dev.off()
 
 #### Plot #2 - the distribution of transcript sizes as a histogram
 #In this analysis we supplied StringTie with transcript models so the lengths will be those of known transcripts
 #However, if we had used a de novo transcript discovery mode, this step would give us some idea of how well transcripts were being assembled
-#If we had a low coverage library, or other problems, we might get short 'transcripts' that are actually only pieces of real transcripts
-pdf(file="TranscriptLengthDistribution.pdf")
-hist(bg_table$length, breaks=50, xlab="Transcript length (bp)", main="Distribution of transcript lengths", col="steelblue")
+#If we had a low coverage library, or other problems, we might get short "transcripts" that are actually only pieces of real transcripts
+pdf(file = "TranscriptLengthDistribution.pdf")
+hist(bg_table$length, breaks = 50, xlab = "Transcript length (bp)", main = "Distribution of transcript lengths", col = "steelblue")
 dev.off()
 
 #### Plot #3 - distribution of gene expression levels for each sample
@@ -138,8 +138,8 @@ dev.off()
 # set color based on condition which is UHR vs. HBR
 # set labels perpendicular to axis (las=2)
 # set ylab to indicate that values are log2 transformed
-pdf(file="All_samples_FPKM_boxplots.pdf")
-boxplot(fpkm,col=as.numeric(as.factor(condition))+1,las=2,ylab='log2(FPKM+1)')
+pdf(file = "All_samples_FPKM_boxplots.pdf")
+boxplot(fpkm, col = as.numeric(as.factor(condition)) + 1,las = 2,ylab = "log2(FPKM + 1)")
 dev.off()
 
 #### Plot 4 - BoxPlot comparing the expression of a single gene for all replicates of both conditions
@@ -148,28 +148,28 @@ dev.off()
 # set x label to Type
 # set ylab to indicate that values are log2 transformed
 
-pdf(file="TST_ENST00000249042_boxplot.pdf")
-transcript=which(ballgown::transcriptNames(bg)=="ENST00000249042")[[1]]
-boxplot(fpkm[transcript,] ~ condition, border=c(2,3), main=paste(ballgown::geneNames(bg)[transcript],': ', ballgown::transcriptNames(bg)[transcript]),pch=19, xlab="Type", ylab='log2(FPKM+1)')
+pdf(file = "TST_ENST00000249042_boxplot.pdf")
+transcript = which(ballgown::transcriptNames(bg) == "ENST00000249042")[[1]]
+boxplot(fpkm[transcript,] ~ condition, border = c(2, 3), main = paste(ballgown::geneNames(bg)[transcript],": ", ballgown::transcriptNames(bg)[transcript]), pch = 19, xlab = "Type", ylab = "log2(FPKM+1)")
 
 # Add the FPKM values for each sample onto the plot
 # set plot symbol to solid circle, default is empty circle
-points(fpkm[transcript,] ~ jitter(c(2,2,2,1,1,1)), col=c(2,2,2,1,1,1)+1, pch=16)
+points(fpkm[transcript,] ~ jitter(c(2,2,2,1,1,1)), col = c(2,2,2,1,1,1)+1, pch = 16)
 dev.off()
 
 
 #### Plot 5 - Plot of transcript structures observed in each replicate and color transcripts by expression level
 
-pdf(file="TST_transcript_structures_expression.pdf")
+pdf(file = "TST_transcript_structures_expression.pdf")
 
-plotTranscripts(ballgown::geneIDs(bg)[transcript], bg, main=c('TST in all HBR samples'), sample=c('HBR_Rep1', 'HBR_Rep2', 'HBR_Rep3'), labelTranscripts=TRUE)
-plotTranscripts(ballgown::geneIDs(bg)[transcript], bg, main=c('TST in all UHR samples'), sample=c('UHR_Rep1', 'UHR_Rep2', 'UHR_Rep3'), labelTranscripts=TRUE)
+plotTranscripts(ballgown::geneIDs(bg)[transcript], bg, main = c("TST in all HBR samples"), sample = c("HBR_Rep1", "HBR_Rep2", "HBR_Rep3"), labelTranscripts = TRUE)
+plotTranscripts(ballgown::geneIDs(bg)[transcript], bg, main = c("TST in all UHR samples"), sample=c("UHR_Rep1", "UHR_Rep2", "UHR_Rep3"), labelTranscripts = TRUE)
 
 # Close the PDF device where we have been saving our plots
 dev.off()
 
 # Exit the R session
-quit(save="no")
+quit(save = "no")
 ```
 
 Remember that you can view the output graphs of this step on your instance by navigating to this location in a web browser window:
