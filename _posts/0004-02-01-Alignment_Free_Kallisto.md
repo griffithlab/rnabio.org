@@ -168,20 +168,20 @@ library(ggplot2)
 library(cowplot)
 
 # load input data
-data <- read.delim('~/workspace/rnaseq/expression/kallisto/strand_option_test/transcript_tpms_strand-modes.tsv')
+data <- read.delim("~/workspace/rnaseq/expression/kallisto/strand_option_test/transcript_tpms_strand-modes.tsv")
 
 # log2 transform the data
-FR_data=log2((data$UHR_Rep1_ERCC.Mix1_FR.Stranded)+1)
-RF_data=log2((data$UHR_Rep1_ERCC.Mix1_RF.Stranded)+1)
-unstranded_data=log2((data$UHR_Rep1_ERCC.Mix1_No.Strand)+1)
+FR_data = log2((data$UHR_Rep1_ERCC.Mix1_FR.Stranded) + 1)
+RF_data = log2((data$UHR_Rep1_ERCC.Mix1_RF.Stranded) + 1)
+unstranded_data = log2((data$UHR_Rep1_ERCC.Mix1_No.Strand) + 1)
 
 # create scatterplots for each pairwise comparison of kallisto abundance estimates generated using each of the different kallisto strand modes
-FR_vs_unstranded <- ggplot(data, aes(x=FR_data, y=unstranded_data)) + geom_point(alpha = 0.1) + ggtitle('FR vs No Strand') + xlab('FR log2(expression+1)') + ylab('No Strand log2(expression+1)')
-RF_vs_unstranded <- ggplot(data, aes(x=RF_data, y=unstranded_data)) + geom_point(alpha = 0.1) + ggtitle('RF vs No Strand') + xlab('RF log2(expression+1)') + ylab('No Strand log2(expression+1)')
-FR_vs_RF <- ggplot(data, aes(x=FR_data, y=RF_data)) + geom_point(alpha = 0.1) + ggtitle('FR vs RF') + xlab('FR log2(expression+1)') + ylab('RF log2(expression+1)')
+FR_vs_unstranded = ggplot(data, aes(x = FR_data, y = unstranded_data)) + geom_point(alpha = 0.1) + ggtitle('FR vs No Strand') + xlab('FR log2(expression + 1)') + ylab('No Strand log2(expression + 1)')
+RF_vs_unstranded = ggplot(data, aes(x = RF_data, y = unstranded_data)) + geom_point(alpha = 0.1) + ggtitle('RF vs No Strand') + xlab('RF log2(expression + 1)') + ylab('No Strand log2(expression + 1)')
+FR_vs_RF <- ggplot(data, aes(x = FR_data, y = RF_data)) + geom_point(alpha = 0.1) + ggtitle('FR vs RF') + xlab('FR log2(expression + 1)') + ylab('RF log2(expression + 1)')
 
 # plot the set of comparisons as a multipanel figure
-pdf(file="Kallisto_Strand_Option_Comparisons.pdf")
+pdf(file = "Kallisto_Strand_Option_Comparisons.pdf")
 plot_grid(FR_vs_unstranded, RF_vs_unstranded, FR_vs_RF, ncol = 1, nrow = 3)
 dev.off()
 
@@ -207,7 +207,7 @@ First create the gene version of the Kallisto TPM matrix
 cd $RNA_HOME/expression/kallisto
 wget https://raw.githubusercontent.com/griffithlab/rnabio.org/master/assets/scripts/kallisto_gene_matrix.pl
 chmod +x kallisto_gene_matrix.pl
-./kallisto_gene_matrix.pl --gtf_file=$RNA_HOME/refs/chr22_with_ERCC92.gtf  --kallisto_transcript_matrix_in=transcript_tpms_all_samples.tsv --kallisto_transcript_matrix_out=gene_tpms_all_samples.tsv
+./kallisto_gene_matrix.pl --gtf_file = $RNA_HOME/refs/chr22_with_ERCC92.gtf  --kallisto_transcript_matrix_in = transcript_tpms_all_samples.tsv --kallisto_transcript_matrix_out = gene_tpms_all_samples.tsv
 column -t gene_tpms_all_samples.tsv | less -S
 
 ```
@@ -227,17 +227,17 @@ R code has been provided below. Run the R commands detailed in this script in yo
 library(ggplot2)
 
 #Set the base working dir from which to access the input files
-working_dir = '~/workspace/rnaseq/expression'
+working_dir = "~/workspace/rnaseq/expression"
 setwd(working_dir)
 
 #Load in expression matrix files from each expression method
-htseq_gene_counts = read.table('htseq_counts/gene_read_counts_table_all_final.tsv', sep="\t", header=TRUE, as.is=1, row.names=1)
-stringtie_gene = read.table('stringtie/ref_only/gene_tpm_all_samples.tsv', sep="\t", header=TRUE, as.is=1, row.names=1)
-stringtie_tran = read.table('stringtie/ref_only/transcript_tpm_all_samples.tsv', sep="\t", header=TRUE, as.is=1, row.names=1)
-stringtie_gene_fpkm = read.table('stringtie/ref_only/gene_fpkm_all_samples.tsv', sep="\t", header=TRUE, as.is=1, row.names=1)
-stringtie_tran_fpkm = read.table('stringtie/ref_only/transcript_fpkm_all_samples.tsv', sep="\t", header=TRUE, as.is=1, row.names=1)
-kallisto_gene = read.table('kallisto/gene_tpms_all_samples.tsv', sep="\t", header=TRUE, as.is=1, row.names=1)
-kallisto_tran = read.table('kallisto/transcript_tpms_all_samples.tsv', sep="\t", header=TRUE, as.is=1, row.names=1)
+htseq_gene_counts = read.table("htseq_counts/gene_read_counts_table_all_final.tsv", sep = "\t", header = TRUE, as.is = 1, row.names = 1)
+stringtie_gene = read.table("stringtie/ref_only/gene_tpm_all_samples.tsv", sep = "\t", header = TRUE, as.is = 1, row.names = 1)
+stringtie_tran = read.table("stringtie/ref_only/transcript_tpm_all_samples.tsv", sep = "\t", header = TRUE, as.is = 1, row.names = 1)
+stringtie_gene_fpkm = read.table("stringtie/ref_only/gene_fpkm_all_samples.tsv", sep = "\t", header = TRUE, as.is = 1, row.names = 1)
+stringtie_tran_fpkm = read.table("stringtie/ref_only/transcript_fpkm_all_samples.tsv", sep = "\t", header = TRUE, as.is = 1, row.names = 1)
+kallisto_gene = read.table("kallisto/gene_tpms_all_samples.tsv", sep = "\t", header = TRUE, as.is = 1, row.names = 1)
+kallisto_tran = read.table("kallisto/transcript_tpms_all_samples.tsv", sep = "\t", header = TRUE, as.is = 1, row.names = 1)
 
 #Summarize the data.frames created
 dim(htseq_gene_counts)
@@ -279,7 +279,7 @@ head(kallisto_tran)
 stabvar = 0.1
 HBR1_gene_data = data.frame(kallisto_gene[,"HBR_Rep1"], stringtie_gene[,"HBR_Rep1"], htseq_gene_counts[,"HBR_Rep1"])
 names(HBR1_gene_data) = c("kallisto", "stringtie", "htseq")
-p1 = ggplot(HBR1_gene_data, aes(log2(kallisto+stabvar), log2(stringtie+stabvar)))
+p1 = ggplot(HBR1_gene_data, aes(log2(kallisto + stabvar), log2(stringtie + stabvar)))
 p1 = p1 + geom_point()
 p1 = p1 + geom_point(aes(colour = log2(htseq+stabvar))) + scale_colour_gradient(low = "yellow", high = "red")
 p1 = p1 + xlab("Kallisto TPM") + ylab("StringTie TPM") + labs(colour = "HtSeq Counts")
@@ -287,10 +287,10 @@ p1 = p1 + labs(title = "HBR1 GENE expression values [log2(value + 0.1) scaled]")
 
 #2. Plot kallisto transcript TPMs vs stringtie transcript TPMs
 # But now use color to indicate whether each data point corresponds to real transcripts vs. spike-in controls
-HBR1_tran_data = data.frame(kallisto_tran[,"HBR_Rep1"], stringtie_tran[,"HBR_Rep1"])
+HBR1_tran_data = data.frame(kallisto_tran[, "HBR_Rep1"], stringtie_tran[, "HBR_Rep1"])
 names(HBR1_tran_data) = c("kallisto", "stringtie")
-spikein_status=grepl("ERCC",tran_names)
-p2 = ggplot(HBR1_tran_data, aes(log2(kallisto+stabvar), log2(stringtie+stabvar)))
+spikein_status=grepl("ERCC", tran_names)
+p2 = ggplot(HBR1_tran_data, aes(log2(kallisto + stabvar), log2(stringtie + stabvar)))
 p2 = p2 + geom_point()
 p2 = p2 + geom_point(aes(colour = spikein_status))
 p2 = p2 + xlab("Kallisto TPM") + ylab("StringTie TPM") + labs(colour = "SpikeIn Status")
@@ -298,9 +298,9 @@ p2 = p2 + labs(title = "HBR1 TRANSCRIPT expression values [log2(value + 0.1) sca
 
 #3. Plot stringtie transcript TPMs vs. stringtie transcript FPKMs - Pick HBR_Rep1 data arbitrarily
 # Indicate with the points whether the data are real transcripts vs. spike-in controls
-HBR1_tran_data2 = data.frame(stringtie_tran[,"HBR_Rep1"], stringtie_tran_fpkm[,"HBR_Rep1"])
+HBR1_tran_data2 = data.frame(stringtie_tran[,"HBR_Rep1"], stringtie_tran_fpkm[, "HBR_Rep1"])
 names(HBR1_tran_data2) = c("stringtie_TPM", "stringtie_FPKM")
-p3 = ggplot(HBR1_tran_data2, aes(log2(stringtie_TPM+stabvar), log2(stringtie_FPKM+stabvar)))
+p3 = ggplot(HBR1_tran_data2, aes(log2(stringtie_TPM + stabvar), log2(stringtie_FPKM + stabvar)))
 p3 = p3 + geom_point()
 p3 = p3 + geom_point(aes(colour = spikein_status))
 p3 = p3 + geom_abline(intercept = 0, slope = 1)
@@ -449,10 +449,10 @@ map_ids = function(sleuthrow){
 sleuth_significant[,"gene_name"] = apply(sleuth_significant, 1, map_ids)
 
 # Output the significant transcript results to a pair of tab delimited files
-write.table(sleuth_significant, "UHR_vs_HBR_transcript_results_sig.tsv", sep="\t", quote=FALSE, row.names = FALSE)
+write.table(sleuth_significant, "UHR_vs_HBR_transcript_results_sig.tsv", sep = "\t", quote = FALSE, row.names = FALSE)
 
 # Exit the R session
-quit(save="no")
+quit(save = "no")
 
 ```
 
