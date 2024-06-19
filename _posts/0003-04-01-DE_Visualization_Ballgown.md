@@ -158,14 +158,12 @@ points(fpkm[transcript,] ~ jitter(c(2,2,2,1,1,1)), col = c(2,2,2,1,1,1)+1, pch =
 dev.off()
 
 
-#### Plot 5 - Plot of transcript structures observed in each replicate and color transcripts by expression level
+#### Plot 5 - Plot of transcript structures observed and expression level for UHR vs HBR with representative replicate
 
 pdf(file = "TST_transcript_structures_expression.pdf")
-
-plotTranscripts(ballgown::geneIDs(bg)[transcript], bg, main = c("TST in all HBR samples"), sample = c("HBR_Rep1", "HBR_Rep2", "HBR_Rep3"), labelTranscripts = TRUE)
-plotTranscripts(ballgown::geneIDs(bg)[transcript], bg, main = c("TST in all UHR samples"), sample=c("UHR_Rep1", "UHR_Rep2", "UHR_Rep3"), labelTranscripts = TRUE)
-
-# Close the PDF device where we have been saving our plots
+par(mfrow = c(2, 1))
+plotTranscripts(ballgown::geneIDs(bg)[transcript], bg, main = c("TST in HBR"), sample = c("HBR_Rep1"), labelTranscripts = TRUE)
+plotTranscripts(ballgown::geneIDs(bg)[transcript], bg, main = c("TST in UHR"), sample = c("UHR_Rep1"), labelTranscripts = TRUE)
 dev.off()
 
 # Exit the R session
