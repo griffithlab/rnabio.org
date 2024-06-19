@@ -173,16 +173,75 @@ Solution: When you are ready you can check your approach against the [Solutions]
 ***
 
 ### ERCC DE Analysis
-This section will compare the observed versus expected differential expression estimates for the ERCC spike-in RNAs:
+This section will compare the differential expression estimates obtained by the RNAseq analysis against the expected differential expression results for the ERCC spike-in RNAs (mix1-UHR vs mix2-HBR):
+
+First set up a directory to store the results of this analysis.
+
 ```bash
-cd $RNA_HOME/de/ballgown/ref_only
-wget https://raw.githubusercontent.com/griffithlab/rnabio.org/master/assets/scripts/Tutorial_ERCC_DE.R
-chmod +x Tutorial_ERCC_DE.R
-./Tutorial_ERCC_DE.R $RNA_HOME/expression/htseq_counts/ERCC_Controls_Analysis.txt $RNA_HOME/de/ballgown/ref_only/UHR_vs_HBR_gene_results.tsv
+mkdir $RNA_HOME/de/ercc_spikein_analysis/
+cd $RNA_HOME/de/ercc_spikein_analysis/
+wget http://genomedata.org/rnaseq-tutorial/ERCC_Controls_Analysis.txt
+cat ERCC_Controls_Analysis.txt
+```
+
+Using R load the expected and observed ERCC DE results and produce a visualization.
+
+First, start an R session:
+
+```R
+R
+```
+
+Work through the following R commands
+
+```R
+
+library(ggplot2)
+
+#load the ERCC expected fold change values for mix1 vs mix2
+ercc_ref = read.table("ERCC_Controls_Analysis.txt", header=TRUE, sep="\t")
+names(ercc_ref) = c("id", "ercc_id", "subgroup", "ref_conc_mix_1", "ref_conc_mix_2", "ref_fc_mix1_vs_mix2", "ref_log2_mix1_vs_mix2")
+head(ercc_ref)
+dim(ercc_ref)
+
+#load the observed fold change values determined by our RNA-seq analysis
+rna_de_file = "~/workspace/rnaseq/de/ballgown/ref_only/UHR_vs_HBR_gene_results.tsv";
+rna_de = read.table(rna_de_file, header=TRUE, sep="\t")
+tail(rna_de)
+dim(rna_de)
+
+#combine the expected and observed data into a single data table
+ercc_ref_de = merge(x = ercc_ref, y = rna_de, by.x = "ercc_id", by.y = "id", all.x = TRUE)
+head(ercc_ref_de)
+dim(ercc_ref_de)
+
+#convert fold change values to log2 scale
+ercc_ref_de$observed_log2_fc = log2(ercc_ref_de$fc)
+ercc_ref_de$expected_log2_fc = ercc_ref_de$ref_log2_mix1_vs_mix2
+
+#fit a linear model and calculate R squared between the observed and expected fold change values
+model = lm(observed_log2_fc ~ expected_log2_fc, data=ercc_ref_de)
+r_squared = summary(model)[["r.squared"]]
+
+#create a scatterplot to compare the observed and expected fold change values
+p = ggplot(ercc_ref_de, aes(x=expected_log2_fc, y=observed_log2_fc))
+p = p + geom_point(aes(color=subgroup)) 
+p = p + geom_smooth(method=lm) 
+p = p + annotate("text", 1, 2, label=paste("R^2 =", r_squared, sep=" "))
+p = p + xlab("Expected Fold Change (log2 scale)") 
+p = p + ylab("Observed Fold Change in RNA-seq data (log2 scale)")
+
+#save the plot to a PDF
+pdf("ERCC_Ballgown-DE_vs_SpikeInDE.pdf")
+print(p)
+dev.off()
+
+# Exit the R session
+quit(save="no")
 
 ```
 
 View the results here:
 
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown/ref_only/Tutorial_ERCC_DE.pdf
+* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ercc_spikein_analysis/ERCC_Ballgown-DE_vs_SpikeInDE.pdf
 

@@ -254,13 +254,15 @@ library("data.table")
 #load in the reference/expected concentration and fold change values for each ERCC transcript
 ercc_ref = read.table("ERCC_Controls_Analysis.txt", header=TRUE, sep="\t")
 names(ercc_ref) = c("id", "ercc_id", "subgroup", "ref_conc_mix_1", "ref_conc_mix_2", "ref_fc_mix1_vs_mix2", "ref_log2_mix1_vs_mix2")
-dim(ercc_ref)
 head(ercc_ref)
+dim(ercc_ref)
 
 #load the RNA-seq raw counts values for all samples and combined with the expected ERCC values
 rna_counts_file = "~/workspace/rnaseq/expression/htseq_counts/gene_read_counts_table_all_final.tsv";
 rna_counts = read.table(rna_counts_file, header=TRUE, sep="\t")
 dim(rna_counts)
+
+#combine the ERCC expected concentration information with the observed RNA-seq counts
 ercc_ref_counts = merge(x = ercc_ref, y = rna_counts, by.x = "ercc_id", by.y = "GeneID", all.x = TRUE)
 
 #convert UHR data to "long" format
@@ -277,8 +279,8 @@ names(hbr_data_long) = c("ercc_id", "subgroup", "concentration", "sample", "coun
 
 #rejoin the UHR and HBR tpm data
 ercc_ref_counts_long <- rbind(uhr_data_long, hbr_data_long)
-dim(ercc_ref_counts_long)
 head(ercc_ref_counts_long)
+dim(ercc_ref_counts_long)
 
 #fit a linear model and calculate correlation between expected concentations and observed TPM values
 ercc_ref_counts_long$log_count = log2(ercc_ref_counts_long$count + 1)
@@ -303,6 +305,8 @@ dev.off()
 rna_tpms_file = "~/workspace/rnaseq/expression/stringtie/ref_only/gene_tpm_all_samples.tsv"
 rna_tpms = read.table(rna_tpms_file, header=TRUE, sep="\t")
 dim(rna_tpms)
+
+#combine the ERCC expected concentration information with the observed RNA-seq TPM values
 ercc_ref_tpms = merge(x = ercc_ref, y = rna_tpms, by.x = "ercc_id", by.y = "Gene_ID", all.x = TRUE)
 dim(ercc_ref_tpms)
 
@@ -320,8 +324,8 @@ names(hbr_data_long) = c("ercc_id", "subgroup", "concentration", "sample", "tpm"
 
 #rejoin the UHR and HBR tpm data
 ercc_ref_tpms_long <- rbind(uhr_data_long, hbr_data_long)
-dim(ercc_ref_tpms_long)
 head(ercc_ref_tpms_long)
+dim(ercc_ref_tpms_long)
 
 #fit a linear model and calculate correlation between expected concentations and observed TPM values
 ercc_ref_tpms_long$log_tpm = log2(ercc_ref_tpms_long$tpm + 1)
