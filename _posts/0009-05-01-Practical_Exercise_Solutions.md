@@ -277,8 +277,8 @@ library(devtools)
 # Create phenotype data needed for ballgown analysis
 ids=c("HCC1395_normal_rep1","HCC1395_normal_rep2","HCC1395_normal_rep3","HCC1395_tumor_rep1","HCC1395_tumor_rep2","HCC1395_tumor_rep3")
 type=c("normal","normal","normal","tumor","tumor","tumor")
-results="/home/ubuntu/workspace/rnaseq/practice/expression/stringtie/ref_only/"
-path=paste(results,ids,sep="")
+inputs="/home/ubuntu/workspace/rnaseq/practice/expression/stringtie/ref_only/"
+path=paste(inputs,ids,sep="")
 pheno_data=data.frame(ids,type,path)
 
 # Load ballgown data structure and save it to a variable "bg"
