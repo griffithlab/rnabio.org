@@ -52,8 +52,8 @@ library(devtools)
 # Create phenotype data needed for ballgown analysis
 ids = c("UHR_Rep1", "UHR_Rep2", "UHR_Rep3", "HBR_Rep1", "HBR_Rep2", "HBR_Rep3")
 type = c("UHR", "UHR", "UHR", "HBR", "HBR", "HBR")
-results = "/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/"
-path = paste(results, ids, sep="")
+inputs = "/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/"
+path = paste(inputs, ids, sep="")
 pheno_data = data.frame(ids, type, path)
 
 # Load ballgown data structure and save it to a variable "bg"
@@ -164,7 +164,7 @@ head DE_genes.txt
 Assignment: Use Ballgown to identify differentially expressed genes from the StringTie expression estimates (i.e., Ballgown table files) which you created in Practical Exercise 8.
 
 * Hint: Follow the example R code above. 
-* Hint: You will need to change how the `pheno_data` object is created to point to the correct sample ids, type, and path to StringTie results files.
+* Hint: You will need to change how the `pheno_data` object is created to point to the correct sample ids, type, and path to your inputs (the StringTie results files).
 * Hint: Make sure to save your ballgown data object to file (e.g., `bg.rda`) for use in subsequent practical exercises.
 * Hint: You may wish to save both a complete list of genes with differential expression results as well as a subset which are filtered and pass a significance test
 
