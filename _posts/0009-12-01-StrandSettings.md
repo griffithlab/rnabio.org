@@ -35,7 +35,7 @@ There are various strand-related settings for RNA-seq tools that must be adjuste
 | **MGI CWL YAML (`strand` parameter)**                            | `first`                                                         | `second`                                                 | NONE                                                    |
 | **WASHU WDL YAML (`strand` parameter)**                          | `first`                                                         | `second`                                                 | `unstranded`                                            |
 | **RegTools (`strand` parameter)**                                | `-s RF`                                                          | `-s FR`                                                   | `-s XS`                                                  |
-| **Example kits**                                                 | **Example methods/kits:** dUTP, NSR, NNSR, Illumina TruSeq Strand Specific Total RNA, NEBNext Ultra II Directional | **Example methods/kits:** Ligation, Standard SOLiD, NuGEN Encore, 10X 5’ scRNA data    | **Example kits/data:** Standard Illumina, NuGEN OvationV2, SMARTer universal low input RNA kit (TaKara), GDC normalized TCGA data           |
+| **Example kits**                                                 | **Example methods/kits:** dUTP, NSR, NNSR, Illumina TruSeq Strand Specific Total RNA, NEBNext Ultra II Directional, Watchmaker RNA Library Prep Kit with Polaris Depletion | **Example methods/kits:** Ligation, Standard SOLiD, NuGEN Encore, 10X 5’ scRNA data    | **Example kits/data:** Standard Illumina, NuGEN OvationV2, SMARTer universal low input RNA kit (TaKara), GDC normalized TCGA data           |
 
 ### Notes
 
