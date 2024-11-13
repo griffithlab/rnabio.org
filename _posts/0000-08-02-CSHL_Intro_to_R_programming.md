@@ -1,5 +1,11 @@
 ---
-output: pdf_document
+title: "Introduction to R"
+date: '0000-08-02'
+feature_image: assets/genvis-dna-bg_optimized_v1a.png
+feature_text: |
+  ## RNA-seq Bioinformatics
+  Introduction to bioinformatics for RNA sequence analysis
+categories: Module-00-Setup
 ---
 # Introduction to R
 
