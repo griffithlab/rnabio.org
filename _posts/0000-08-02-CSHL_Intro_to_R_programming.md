@@ -7,6 +7,9 @@ feature_text: |
   Introduction to bioinformatics for RNA sequence analysis
 categories: Module-00-Setup
 ---
+**Author : Katie Campbell, UCLA**<br>
+
+***
 # Introduction to R
 
 This session will cover the basics of R programming, from setting up your environment to basic data analysis. In this tutorial, you will:
