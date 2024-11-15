@@ -17,7 +17,7 @@ date: 0003-03-01
 
 
 ### Differential Expression mini lecture
-If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2024/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
+If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2024/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
 
 
 ### Ballgown DE Analysis

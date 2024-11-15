@@ -19,6 +19,6 @@ date: 0003-01-01
 * Downstream interpretation of expression and differential estimates
 
 ### Lectures
-* [Abundance Estimations lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2024/mini/RNASeq_MiniLecture_03_01_AbundanceEstimation.pdf)
-* [HTSEQ lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2024/mini/RNASeq_MiniLecture_03_02_HTSEQ.pdf)
-* [Differential expression lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2024/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf)
+* [Abundance Estimations lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2024/mini/RNASeq_MiniLecture_03_01_AbundanceEstimation.pdf)
+* [HTSEQ lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2024/mini/RNASeq_MiniLecture_03_02_HTSEQ.pdf)
+* [Differential expression lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2024/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf)
