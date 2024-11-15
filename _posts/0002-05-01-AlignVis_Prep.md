@@ -23,7 +23,7 @@ Before we can view our alignments in the IGV browser we need to index our BAM fi
 echo $RNA_ALIGN_DIR
 cd $RNA_ALIGN_DIR
 
-samtools index -m *.bam
+samtools index -M *.bam
 
 # Note that we could have created and run a samtools index command for all files ending in .bam using the following construct:
 # find *.bam -exec echo samtools index {} \; | sh
