@@ -158,15 +158,15 @@ mkdir rseqc
 geneBody_coverage.py -i UHR_Rep1.bam,UHR_Rep2.bam,UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR
 geneBody_coverage.py -i HBR_Rep1.bam,HBR_Rep2.bam,HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR
 
-# Calculate the inner distance (insert size)  of RNA-seq fragments. 
+# Calculate the inner distance of RNA-seq fragments. 
 #              RNA fragment
 #  _________________||_________________
 # |                                    |
 # |                                    |
 # ||||||||||------------------||||||||||
-#   read_1      insert_size     read_2
+#   read_1    inner_distance    read_2
 #
-# fragment size = read_1 + insert_size + read_2
+# fragment size = read_1 + inner_distance + read_2
 find *Rep*.bam -exec echo inner_distance.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/{} \; | sh
 
 # Annotate exon-exon junctions observed in RNA-seq alignments compared to know exon-exon junctions
