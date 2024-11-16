@@ -224,7 +224,7 @@ At this point, to generate additional visualizations and gain more insight from 
 
 First, to use gseGO and enrichKEGG effectively, we need a ranked list of DE genes based on their log2 fold change values. This ranked list allows us to analyze and visualize enrichment based on the degree of differential expression, rather than just a binary presence or absence in a pathway.
 
-```
+```R
 # Create a named vector of log2 fold changes with Entrez IDs as names
 ranked_genes <- setNames(DE_genes_clean$log2FoldChange, DE_genes_clean$entrez)
 
@@ -232,7 +232,8 @@ ranked_genes <- setNames(DE_genes_clean$log2FoldChange, DE_genes_clean$entrez)
 ranked_genes <- sort(ranked_genes, decreasing = TRUE)
 ```
 Using gseGO, we can analyze the ranked DE genes list to create classic GSEA enrichment plots. These plots help us see how gene expression levels are distributed across the pathways that were identified as significant in our initial analysis. By examining the ranking of gene expression within these pathways, we can get a clearer picture of how specific pathways are activated or suppressed in our data set.
-```
+```R
+# Load relevant packages
 library(enrichplot)
 library(clusterProfiler)
 library(pathview)
@@ -248,29 +249,28 @@ gsea_res <- gseGO(
   verbose = TRUE
 )
 ```
-```
+Generate the classic GSEA enrichment plot
+```R
 # Plot the enrichment plot for a specific GO term or pathway
 gsea_plot <- gseaplot2(gsea_res, geneSetID = "GO:0043005", title = "Enrichment Plot for Neuron Projecton")
 ggsave("plotgsea_GO_0043005.jpg", gsea_plot)
 ```
-After generating classic GSEA enrichment plots, we can use additional visualizations, such as dot plots, ridge plots, and concept network plots, to gain further insights into the enriched pathways.
-```
+We can use additional visualizations, such as dot plots, ridge plots, and concept network plots, to gain further insights into the enriched pathways.
+```R
 # Dotplot for top GO pathways enriched with DE genes
 gsea_dot_plot <- dotplot(gsea_res, showCategory = 30) + ggtitle("GSEA Dotplot - Top 30 GO Categories")
 ggsave("gsea_dot_plot.jpg", gsea_dot_plot)
-```
-```
+
 #Ridgeplot for top GO pathways enriched with DE genes
 gsea_ridge_plot <-ridgeplot(gsea_res)
 ggsave("gsea_ridge_plot.jpg", gsea_ridge_plot)  
-```
-```
+
 # Concept network plot to illustrate relationships between the top enriched GO terms and DE genes
 gsea_cnetplot <- cnetplot(gsea_res, foldChange = ranked_genes, showCategory = 10)
 ggsave("gsea_cnetplot.jpg", gsea_cnetplot, bg='white')
 ```
 The enrichKEGG function can be used to visualize KEGG pathways, showing detailed diagrams with our DE genes highlighted. This approach is especially useful for understanding the biological roles of up- and down-regulated genes within specific metabolic or signaling pathways. By using the pathview package, we can generate pathway diagrams where each DE gene is displayed in its functional context and color-coded by expression level. This makes it easy to see which parts of a pathway are impacted and highlights any potential regulatory or metabolic shifts in a clear, intuitive format. We will start by downloading and installing the KEGG database and then run the `enrichKEGG` function.
-```
+```R
 # Download KEGG DB file and install
 download.file('https://www.bioconductor.org/packages/3.11/data/annotation/src/contrib/KEGG.db_3.2.4.tar.gz', destfile='/workspace/rnaseq/de/deseq2/KEGG.db_3.2.4.tar.gz')
 install.packages("KEGG.db_3.2.4.tar.gz", repos = NULL, type = "source")
@@ -279,7 +279,8 @@ install.packages("KEGG.db_3.2.4.tar.gz", repos = NULL, type = "source")
 pathways <- enrichKEGG(gene = names(ranked_genes), organism = "hsa", keyType = "kegg", use_internal_data=TRUE)
 head(pathways@result)
 ```
-```
+Based on above, it appears that the `hsa04122` pathway has a significant adjusted p-value, so let's focus on that below.
+```R
 # Define the KEGG pathway ID based on above, and run pathview (note this automatically generates and saves plots to your current directory)
 pathway_id <- "hsa04122"  # Replace with the KEGG pathway ID of interest
 pathview(
