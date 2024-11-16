@@ -182,7 +182,7 @@ find *Rep*.bam -exec echo read_distribution.py  -i {} -r $RNA_HOME/refs/chr22_wi
 find *Rep*.bam -exec echo RNA_fragment_size.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 \> rseqc/{}.frag_size.txt \; | sh
 
 # Summarizing mapping statistics of each BAM file
-find *Rep*.bam -exec echo bam_stat.py -i {} \> {}.bam_stat.txt \; | sh
+find *Rep*.bam -exec echo bam_stat.py -i {} \> rseqc/{}.bam_stat.txt \; | sh
 
 rm -f log.txt
 
