@@ -202,7 +202,15 @@ cd de/htseq_counts
 Note that the htseq-count results provide counts for each gene but uses only the Ensembl Gene ID (e.g. ENSG00000054611).  This is not very convenient for biological interpretation.  This next step creates a mapping file that will help us translate from ENSG IDs to Symbols. It does this by parsing the GTF transcriptome file we got from Ensembl. That file contains both gene names and IDs. Unfortunately, this file is a bit complex to parse. Furthermore, it contains the ERCC transcripts, and these have their own naming convention which also complicates the parsing.
 
 ```bash
-perl -ne 'if ($_ =~ /gene_id\s\"(ENSG\S+)\"\;/) { $id = $1; $name = undef; if ($_ =~ /gene_name\s\"(\S+)"\;/) { $name = $1; }; }; if ($id && $name) {print "$id\t$name\n";} if ($_=~/gene_id\s\"(ERCC\S+)\"/){print "$1\t$1\n";}' $RNA_REF_GTF | sort | uniq > ENSG_ID2Name.txt
+
+# cut the 9th column with all the gene annotation information
+# delete all the double quotes from this string
+# use perl to search for the pattern "gene_id" or "gene_name" followed by space character and then some non-space characters. 
+# the non-space characters are the actual gene ID or Name. Store these in variables $gid and $gname and then print them out
+# use sort and unique commands to produce a unique list of gene_name, gene_id combinations
+ 
+cut -f 9 $RNA_REF_GTF | tr -d '"' | perl -ne 'chomp; if ($_ =~ /gene_id\s+(\S+);/){$gid = $1}; if ($_ =~ /gene_name\s+(\S+);/){$gname = $1}; print "$gid\t$gname\n"' | sort | uniq > ENSG_ID2Name.txt
+
 head ENSG_ID2Name.txt
 
 ```
