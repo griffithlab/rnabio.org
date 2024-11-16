@@ -108,10 +108,13 @@ java -jar $PICARD BedToIntervalList -I ref_ribosome.bed -O ref_ribosome.interval
 # Create a genePred file for our reference transcriptome
 gtfToGenePred -genePredExt chr22_with_ERCC92.gtf chr22_with_ERCC92.ref_flat.txt
 
-# reformat this genePred file to first add the Ensembl gene ID column to the beginning of the dataframe using awk and then subset it down to the first 11 columns.
+# Reformat this genePred file to first add the Ensembl gene ID column to the beginning of the dataframe using "awk", and then subset it down to the first 11 columns using "cut".
 cat chr22_with_ERCC92.ref_flat.txt | awk '{print $12"\t"$0}' | cut -d$'\t' -f1-11 > tmp.txt
 mv tmp.txt chr22_with_ERCC92.ref_flat.txt
 
+# Use the "find" command to run "picard CollectRnaSeqMetrics" on all 6 BAM files. 
+# The basic structure of this kind of automation is: find <search pattern> -exec command {} \;
+# The "{}" will insert the file found by the "find" command using <search pattern>.  "\;" indicates the end of the command.
 cd $RNA_HOME/alignments/hisat2/
 mkdir picard
 find *Rep*.bam -exec echo java -jar $PICARD CollectRnaSeqMetrics I={} O=picard/{}.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list \; | sh
@@ -141,16 +144,30 @@ mkdir rseqc
 geneBody_coverage.py -i UHR_Rep1.bam,UHR_Rep2.bam,UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR
 geneBody_coverage.py -i HBR_Rep1.bam,HBR_Rep2.bam,HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR
 
+# Calculate the inner distance (insert size)  of RNA-seq fragments. 
+#              RNA fragment
+#  _________________||_________________
+# |                                    |
+# |                                    |
+# ||||||||||------------------||||||||||
+#   read_1      insert_size     read_2
+#
+# fragment size = read_1 + insert_size + read_2
 find *Rep*.bam -exec echo inner_distance.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/{} \; | sh
 
+# Annotate exon-exon junctions observed in RNA-seq alignments compared to know exon-exon junctions
 find *Rep*.bam -exec echo junction_annotation.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/{} \; | sh
 
+# Perform a saturation analysis using only exon-exon junction mapping reads
 find *Rep*.bam -exec echo junction_saturation.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/{} \; | sh
 
+# Determine the distribution of reads with respect to the parts of transcripts they align to (e.g. 5' UTR, CDS, 3'UTR, intron, etc.)
 find *Rep*.bam -exec echo read_distribution.py  -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 \> rseqc/{}.read_dist.txt \; | sh
 
+# Calculate the RNA fragment sizes and produce statistics for each transcript
 find *Rep*.bam -exec echo RNA_fragment_size.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 \> rseqc/{}.frag_size.txt \; | sh
 
+# Summarizing mapping statistics of each BAM file
 find *Rep*.bam -exec echo bam_stat.py -i {} \> {}.bam_stat.txt \; | sh
 
 rm -f log.txt
