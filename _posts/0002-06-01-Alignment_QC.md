@@ -118,18 +118,17 @@ convert2bed --input=gff --output=bed < ref_ribosome.gtf 2>/dev/null 1>ref_riboso
 java -jar $PICARD BedToIntervalList -I ref_ribosome.bed -O ref_ribosome.interval_list -SD chr22_with_ERCC92.dict
 
 # Create a genePred file for our whole reference transcriptome
-gtfToGenePred -genePredExt chr22_with_ERCC92.gtf chr22_with_ERCC92.ref_flat.txt
+gtfToGenePred -genePredExt chr22_with_ERCC92.gtf chr22_with_ERCC92.genePredExt
 
 # Reformat this genePred file to first add the Ensembl gene ID column to the beginning of the dataframe using "awk", and then subset it down to the first 11 columns using "cut".
-cat chr22_with_ERCC92.ref_flat.txt | awk '{print $12"\t"$0}' | cut -d$'\t' -f1-11 > tmp.txt
-mv tmp.txt chr22_with_ERCC92.ref_flat.txt
+cat chr22_with_ERCC92.genePredExt | awk '{print $12"\t"$0}' | cut -d$'\t' -f1-11 > chr22_with_ERCC92.refFlat.txt
 
 # Use the "find" command to run "picard CollectRnaSeqMetrics" on all 6 BAM files. 
 # The basic structure of this kind of automation is: find <search pattern> -exec command {} \;
 # The "{}" will insert the file found by the "find" command using <search pattern>.  "\;" indicates the end of the command.
 cd $RNA_HOME/alignments/hisat2/
 mkdir picard
-find *Rep*.bam -exec echo java -jar $PICARD CollectRnaSeqMetrics I={} O=picard/{}.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.ref_flat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list \; | sh
+find *Rep*.bam -exec echo java -jar $PICARD CollectRnaSeqMetrics I={} O=picard/{}.RNA_Metrics REF_FLAT=$RNA_HOME/refs/chr22_with_ERCC92.refFlat.txt STRAND=SECOND_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=$RNA_HOME/refs/ref_ribosome.interval_list \; | sh
 
 ```
 
@@ -145,10 +144,10 @@ Files needed:
 ```bash
 cd $RNA_HOME/refs/
 
-# Convert Gtf to genePred
+# Convert GTF to genePred
 gtfToGenePred chr22_with_ERCC92.gtf chr22_with_ERCC92.genePred
 
-# Convert genPred to bed12
+# Convert genePred to BED12
 genePredToBed chr22_with_ERCC92.genePred chr22_with_ERCC92.bed12
 
 cd $RNA_ALIGN_DIR
@@ -186,7 +185,6 @@ rm -f log.txt
 
 ```
 
-
 ### MultiQC
 We will now use multiQC to compile a QC report from all the QC tools above.
 
@@ -198,7 +196,6 @@ multiqc ./
 
 ##### MultiQC screenshot
 ![MultiQC](/assets/module_2/multiqc.png)
-
 
 ### View a pre-generated MultiQC report for full bam files
 View a multiQC on QC reports from non-downsampled bam files:
@@ -219,3 +216,5 @@ Below is a brief description of each of the samples included in the multiQC repo
 | Sample 4 | Melanoma                   |
 | Sample 5 | Small Cell Lung Cancer FFPE|
 | Sample 6 | Brain metastasis           |
+
+
