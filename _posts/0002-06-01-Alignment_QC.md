@@ -108,7 +108,7 @@ java -jar $PICARD BedToIntervalList -I ref_ribosome.bed -O ref_ribosome.interval
 # Create a genePred file for our reference transcriptome
 gtfToGenePred -genePredExt chr22_with_ERCC92.gtf chr22_with_ERCC92.ref_flat.txt
 
-# reformat this genePred file
+# reformat this genePred file to first add the Ensembl gene ID column to the beginning of the dataframe using awk and then subset it down to the first 11 columns.
 cat chr22_with_ERCC92.ref_flat.txt | awk '{print $12"\t"$0}' | cut -d$'\t' -f1-11 > tmp.txt
 mv tmp.txt chr22_with_ERCC92.ref_flat.txt
 
