@@ -70,13 +70,17 @@ zcat UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz | grep -P "
 
 In order to determine strandedness, we will be using [check_strandedness](https://github.com/betsig/how_are_we_stranded_here)([docker image](https://hub.docker.com/r/mgibio/checkstrandedness)). In order use this tool, there are a few steps we need to get our inputs ready, specifically creating a fasta of our GTF file.
 
+To create a transcripts FASTA file from our reference transcriptome in GTF format we need to get our transcript information into BED12 format. To get to that format we will convert GTF -> GenePred -> BED12. The GenePred format is just an intermediate that we create because we did not find a tool that would convert straight from GTF to BED12. 
+
+Once we have our transcriptome information (the position of exons for each transcript on each chromosome) we can use `bedtools getfasta` to splice the exon sequences from the chromosome sequence together into a full length transcript sequence.
+
 ```bash
 cd $RNA_HOME/refs/
 
-# Convert Gtf to genePred
+# Convert our reference transcriptome GTF to genePred format
 gtfToGenePred chr22_with_ERCC92.gtf chr22_with_ERCC92.genePred
 
-# Convert genPred to bed12
+# Convert the genPred format to bed12 format
 genePredToBed chr22_with_ERCC92.genePred chr22_with_ERCC92.bed12
 
 # Use bedtools to create fasta from GTF
@@ -145,6 +149,6 @@ Solution: When you are ready you can check your approach against the [Solutions]
 
 ***
 
-**NOTE**: various data sets used over time for our RNA-seq workshops can be found here: [https://xfer.genome.wustl.edu/gxfer1/project/gms/testdata/bams/](https://xfer.genome.wustl.edu/gxfer1/project/gms/testdata/bams/)
+**NOTE**: The complete RAW HCC1395 data sets can be found here: [http://genomedata.org/pmbio-workshop/fastqs/all/](http://genomedata.org/pmbio-workshop/fastqs/all/)
 
 If you use this data, please cite our paper: [Citation](https://github.com/griffithlab/rnaseq_tutorial/wiki/Citation)
