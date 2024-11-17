@@ -167,22 +167,22 @@ head(fc.c8.p.up)
 head(fc.c8.p.down)
 
 #What if we want to know which specific genes from our DE gene result were found in a specific significant pathway?
-#For example, one significant pathway from fc.go.cc.p.down was "GO:0098794 postsynapse" with set.size = 11 genes.
+#For example, one significant pathway from fc.go.cc.p.down was "GO:0045202 synapse" with set.size = 22 genes.
 #Let's extract the postsynapse DE gene results
-postsynapse = DE_genes_clean[which(DE_genes_clean$entrez %in% go.cc.gs$`GO:0098794 postsynapse`),]
+synapse = DE_genes_clean[which(DE_genes_clean$entrez %in% go.cc.gs$`GO:0045202 synapse`),]
 
-#How many total postsynapse genes are there in GO? How many total DE genes? How many overlap?
-length(go.cc.gs$`GO:0098794 postsynapse`)
+#How many total synapse genes are there in GO? How many total DE genes? How many overlap?
+length(go.cc.gs$`GO:0045202 synapse`)
 length(DE_genes_clean$entrez)
-length(postsynapse)
+length(synapse$entrez)
 
-#Are the postsynapse DE genes consistently down-regulated? Let's print out a subset of columns from the DE result for postsynapse genes
-postsynapse[,c("Symbol", "entrez", "log2FoldChange", "padj", "UHR_Rep1", "UHR_Rep2", "UHR_Rep3", "HBR_Rep1", "HBR_Rep2", "HBR_Rep3")]
+#Are the synapse DE genes consistently down-regulated? Let's print out a subset of columns from the DE result for synapse genes
+synapse[,c("Symbol", "entrez", "log2FoldChange", "padj", "UHR_Rep1", "UHR_Rep2", "UHR_Rep3", "HBR_Rep1", "HBR_Rep2", "HBR_Rep3")]
 
 ```
 
 ### More exploration
-At this point, it will be helpful to move out of R and further explore our results locally. For the remainder of the exercise we are going to focus on the results from GO. We will use an online tool to visualize how the GO terms we uncovered are related to each other. 
+At this point, it will be helpful to move out of R and further explore our results locally. We will use an online tool to visualize how the GO terms we uncovered are related to each other. 
 
 ```R
 write.table(fc.go.cc.p.up, "fc.go.cc.p.up.tsv", quote = FALSE, sep = "\t", col.names = TRUE, row.names = TRUE)
@@ -190,13 +190,13 @@ write.table(fc.go.cc.p.down, "fc.go.cc.p.down.tsv", quote = FALSE, sep = "\t", c
 ```
 
 ### Visualize
-For this last step we will do a very brief introduction to visualizing our results. We will use a tool called [GOView](http://www.webgestalt.org/2017/GOView/), which is part of the [WEB-based Gene Set Ananlysis ToolKit (WebGestalt)](http://www.webgestalt.org/) suite of tools. 
+For this next step we will do a very brief introduction to visualizing our results. We will use a tool called [GOView](http://www.webgestalt.org/2017/GOView/), which is part of the [WEB-based Gene Set Ananlysis ToolKit (WebGestalt)](http://www.webgestalt.org/) suite of tools. 
 
 **Step One**
  * Use a web browser to download your results
 
  * For AWS: Navigate to the URL below replacing YOUR_IP_ADDRESS with your amazon instance IP address:
-     http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/htseq_counts
+     http://**YOUR_IP_ADDRESS**/rnaseq/de/deseq2
 
  * Download the linked files by right clicking on the two saved result files: `fc.go.cc.p.up.tsv` and `fc.go.cc.p.down.tsv`.
 
@@ -251,9 +251,10 @@ gsea_res <- gseGO(
 ```
 Generate the classic GSEA enrichment plot
 ```R
-# Plot the enrichment plot for a specific GO term or pathway
-gsea_plot <- gseaplot2(gsea_res, geneSetID = "GO:0043005", title = "Enrichment Plot for Neuron Projecton")
-ggsave("plotgsea_GO_0043005.jpg", gsea_plot)
+# Plot the enrichment plot for a specific GO term or pathway - Synapse
+gsea_plot <- gseaplot2(gsea_res, geneSetID = "GO:0045202", title = "Enrichment Plot for Synapse")
+ggsave("plotgsea_GO_Synapse.jpg", gsea_plot)
+
 ```
 We can use additional visualizations, such as dot plots, ridge plots, and concept network plots, to gain further insights into the enriched pathways.
 ```R
@@ -279,10 +280,11 @@ install.packages("KEGG.db_3.2.4.tar.gz", repos = NULL, type = "source")
 pathways <- enrichKEGG(gene = names(ranked_genes), organism = "hsa", keyType = "kegg", use_internal_data=TRUE)
 head(pathways@result)
 ```
-Based on above, it appears that the `hsa04122` pathway has a significant adjusted p-value, so let's focus on that below.
+Let's choose one of the pathways above, for example `hsa04010 - MAPK signaling pathway` to visualize.
+
 ```R
 # Define the KEGG pathway ID based on above, and run pathview (note this automatically generates and saves plots to your current directory)
-pathway_id <- "hsa04122"  # Replace with the KEGG pathway ID of interest
+pathway_id <- "hsa04010"  # Replace with the KEGG pathway ID of interest
 pathview(
   gene.data = ranked_genes,    # DE gene data with Entrez IDs
   pathway.id = pathway_id,  # KEGG pathway ID
