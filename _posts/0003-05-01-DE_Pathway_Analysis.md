@@ -22,8 +22,7 @@ The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.o
 
 Let's create a new directory to store our pathway analysis i:
 ```bash
-mkdir -p 
-~/workspace/rnaseq/de/deseq2/pathway
+mkdir -p ~/workspace/rnaseq/de/deseq2/pathway
 ```
 
 Now, we will start a docker session to run the analysis in this section. This should directly place you in an R environment
@@ -282,7 +281,7 @@ ggsave("gsea_cnetplot.jpg", gsea_cnetplot, bg='white')
 The enrichKEGG function can be used to visualize KEGG pathways, showing detailed diagrams with our DE genes highlighted. This approach is especially useful for understanding the biological roles of up- and down-regulated genes within specific metabolic or signaling pathways. By using the pathview package, we can generate pathway diagrams where each DE gene is displayed in its functional context and color-coded by expression level. This makes it easy to see which parts of a pathway are impacted and highlights any potential regulatory or metabolic shifts in a clear, intuitive format. We will start by downloading and installing the KEGG database and then run the `enrichKEGG` function.
 ```R
 # Download KEGG DB file and install
-download.file('https://www.bioconductor.org/packages/3.11/data/annotation/src/contrib/KEGG.db_3.2.4.tar.gz', destfile='/workspace/rnaseq/de/deseq2/KEGG.db_3.2.4.tar.gz')
+download.file('https://www.bioconductor.org/packages/3.11/data/annotation/src/contrib/KEGG.db_3.2.4.tar.gz', destfile='/workspace/rnaseq/de/deseq2/pathway/KEGG.db_3.2.4.tar.gz')
 install.packages("KEGG.db_3.2.4.tar.gz", repos = NULL, type = "source")
 
 # Run enrichKEGG with local database option
