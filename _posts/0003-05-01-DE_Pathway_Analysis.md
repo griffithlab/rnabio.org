@@ -198,7 +198,7 @@ write.table(fc.go.cc.p.down, "fc.go.cc.p.down.tsv", quote = FALSE, sep = "\t", c
 ```
 
 ### Visualize
-For this next step we will do a very brief introduction to visualizing our results. We will use a tool called [GOView](http://www.webgestalt.org/2017/GOView/), which is part of the [WEB-based Gene Set Ananlysis ToolKit (WebGestalt)](http://www.webgestalt.org/) suite of tools. 
+For this next step we will do a very brief introduction to visualizing our results. We will use a tool called [GOView](https://2019.webgestalt.org/2017/GOView/), which is part of the [WEB-based Gene Set Ananlysis ToolKit (WebGestalt)](http://www.webgestalt.org/) suite of tools. 
 
 **Step One**
  * Use a web browser to download your results
