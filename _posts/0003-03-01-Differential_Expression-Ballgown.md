@@ -17,7 +17,7 @@ date: 0003-03-01
 
 
 ### Differential Expression mini lecture
-If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2024/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
+If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2024/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
 
 
 ### Ballgown DE Analysis
@@ -70,12 +70,19 @@ bg_transcript_names = unique(bg_table[, c(1, 6)])
 # Save the ballgown object to a file for later use
 save(bg, file = 'bg.rda')
 
+# Pull the gene and transcript expression data frame from the ballgown object
+gene_expression = as.data.frame(gexpr(bg))
+transcript_expression = as.data.frame(texpr(bg))
+
 # Perform differential expression (DE) analysis with no filtering, at both gene and transcript level
+# Then add on transcript/gene names and sample level fpkm values for export
 results_transcripts = stattest(bg, feature = "transcript", covariate = "type", getFC = TRUE, meas = "FPKM")
 results_transcripts = merge(results_transcripts, bg_transcript_names, by.x = c("id"), by.y = c("t_id"))
+results_transcripts = merge(results_transcripts, transcript_expression, by.x = c("id"), by.y = c("row.names"))
 
 results_genes = stattest(bg, feature = "gene", covariate = "type", getFC = TRUE, meas = "FPKM")
 results_genes = merge(results_genes, bg_gene_names, by.x = c("id"), by.y = c("gene_id"))
+results_genes = merge(results_genes, gene_expression, by.x = c("id"), by.y = c("row.names"))
 
 # Save a tab delimited file for both the transcript and gene results
 write.table(results_transcripts, "UHR_vs_HBR_transcript_results.tsv", sep = "\t", quote = FALSE, row.names = FALSE)
@@ -92,9 +99,11 @@ bg_filt_transcript_names = unique(bg_filt_table[, c(1,6)])
 # Perform DE analysis now using the filtered data
 results_transcripts = stattest(bg_filt, feature = "transcript", covariate = "type", getFC = TRUE, meas = "FPKM")
 results_transcripts = merge(results_transcripts, bg_filt_transcript_names, by.x = c("id"), by.y = c("t_id"))
+results_transcripts = merge(results_transcripts, transcript_expression, by.x = c("id"), by.y = c("row.names"))
 
 results_genes = stattest(bg_filt, feature = "gene", covariate = "type", getFC = TRUE, meas = "FPKM")
 results_genes = merge(results_genes, bg_filt_gene_names, by.x = c("id"), by.y = c("gene_id"))
+results_genes = merge(results_genes, gene_expression, by.x = c("id"), by.y = c("row.names"))
 
 # Output the filtered list of genes and transcripts and save to tab delimited files
 write.table(results_transcripts, "UHR_vs_HBR_transcript_results_filtered.tsv", sep = "\t", quote = FALSE, row.names = FALSE)

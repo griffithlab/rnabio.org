@@ -12,14 +12,14 @@ date: 0000-05-01
 ## Do these before coming to the workshop:
 
 ### 1.) Command line tutorial
-You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, below are some suggested tutorials. If you have a Mac computer you can use the "Terminal" application to complete these tutorials. If you have access to a linux server at your institution you could also do them there. If neither of those is available you can try a free online terminal application that runs in your browser such as [sandbox.io](https://sandbox.bio/tutorials/playground) (also includes several relevant tutorials).
+You are expected to be familiar with basic command line usage before the workshop. If you are unfamiliar with **the command line**, below are some suggested tutorials. If you have a Mac computer you can use the "Terminal" application to complete these tutorials. If you have access to a linux server at your institution you could also do them there. If neither of those is available you can try a free online terminal application that runs in your browser such as [sandbox.io](https://sandbox.bio/tutorials/playground) (also includes several relevant tutorials). Work through at least some of the below options.
 
 * [Unix Intro Tutorial](https://rnabio.org/module-00-setup/0000/08/01/Unix/)
-* [Unix command-line bootcamp](http://korflab.ucdavis.edu/bootcamp.html)
 * [Unix cheat sheet](https://www.guru99.com/linux-commands-cheat-sheet.html)
+* [More tutorials from BioStars](https://www.biostars.org/p/9572411/)
 
 ### 2.) Introduction to R tutorial
-Knowing R is critical to this workshop. Using R installed on your computer, please work through the following tutorials (~3 hours).
+Knowing R is critical to this workshop. Using R installed on your computer, please work through at least some of the following tutorials.
 
 * [R Tutorial (W3 Schools)](https://www.w3schools.com/r/default.asp)
 * [Introduction to R (datacamp)](https://app.datacamp.com/learn/courses/free-introduction-to-r) (Take first free chapter)
@@ -37,6 +37,6 @@ Please read these articles before coming to the workshop:
 
 Optional readings:
 
-These are just three recently published examples that we find particularly good. We have collected a much more extensive list of resources that should be aware of below. Simply take a look at these and note for future reference.
+The above are just a few published examples that we find particularly good. We have collected a much more extensive list of resources below. Simply take a look at these and note for future reference. Note, these are focused primary towards RNAseq analysis but are often more generally applicable. 
 
 * [RNA-seq resources](https://rnabio.org/resources/)

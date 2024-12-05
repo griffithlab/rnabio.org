@@ -20,6 +20,16 @@ In this section we will use the GAGE tool in R to test for significantly enriche
 ### What is gage?
 The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and RNAseq data sets. In this section we will use [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) and the [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) databases to perform pathway analysis. 
 
+Let's create a new directory to store our pathway analysis i:
+```bash
+mkdir -p ~/workspace/rnaseq/de/deseq2/pathway
+```
+
+Now, we will start a docker session to run the analysis in this section. This should directly place you in an R environment
+```bash
+docker run -it -v /home/ubuntu/workspace:/workspace cnithin7/bioc-custom:1.0 /bin/bash
+```
+
 First, launch R at the commandline, start RStudio, or launch a posit Cloud session:
 
 ```bash
@@ -32,12 +42,15 @@ Before we perform the pathway analysis we need to read in our differential expre
 ```R
 
 #Define working dir paths
-datadir = "~/workspace/rnaseq/de/deseq2/"
+datadir = "/workspace/rnaseq/de/deseq2/"
+outdir = "/workspace/rnaseq/de/deseq2/pathway/"
 
 setwd(datadir)
 
 #Load in the DE results file with only significant genes (e.g., http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
 DE_genes = read.table("DE_sig_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+
+setwd(outdir)
 
 ```
 
@@ -162,38 +175,36 @@ head(fc.c8.p.up)
 head(fc.c8.p.down)
 
 #What if we want to know which specific genes from our DE gene result were found in a specific significant pathway?
-#For example, one significant pathway from fc.go.cc.p.down was "GO:0098794 postsynapse" with set.size = 11 genes.
+#For example, one significant pathway from fc.go.cc.p.down was "GO:0045202 synapse" with set.size = 22 genes.
 #Let's extract the postsynapse DE gene results
-postsynapse = DE_genes_clean[which(DE_genes_clean$entrez %in% go.cc.gs$`GO:0098794 postsynapse`),]
+synapse = DE_genes_clean[which(DE_genes_clean$entrez %in% go.cc.gs$`GO:0045202 synapse`),]
 
-#How many total postsynapse genes are there in GO? How many total DE genes? How many overlap?
-length(go.cc.gs$`GO:0098794 postsynapse`)
+#How many total synapse genes are there in GO? How many total DE genes? How many overlap?
+length(go.cc.gs$`GO:0045202 synapse`)
 length(DE_genes_clean$entrez)
-length(postsynapse)
+length(synapse$entrez)
 
-#Are the postsynapse DE genes consistently down-regulated? Let's print out a subset of columns from the DE result for postsynapse genes
-postsynapse[,c("Symbol", "entrez", "log2FoldChange", "padj", "UHR_Rep1", "UHR_Rep2", "UHR_Rep3", "HBR_Rep1", "HBR_Rep2", "HBR_Rep3")]
+#Are the synapse DE genes consistently down-regulated? Let's print out a subset of columns from the DE result for synapse genes
+synapse[,c("Symbol", "entrez", "log2FoldChange", "padj", "UHR_Rep1", "UHR_Rep2", "UHR_Rep3", "HBR_Rep1", "HBR_Rep2", "HBR_Rep3")]
 
 ```
 
 ### More exploration
-At this point, it will be helpful to move out of R and further explore our results locally. For the remainder of the exercise we are going to focus on the results from GO. We will use an online tool to visualize how the GO terms we uncovered are related to each other. 
+At this point, it will be helpful to move out of R and further explore our results locally. We will use an online tool to visualize how the GO terms we uncovered are related to each other. 
 
 ```R
 write.table(fc.go.cc.p.up, "fc.go.cc.p.up.tsv", quote = FALSE, sep = "\t", col.names = TRUE, row.names = TRUE)
 write.table(fc.go.cc.p.down, "fc.go.cc.p.down.tsv", quote = FALSE, sep = "\t", col.names = TRUE, row.names = TRUE)
-
-quit(save = "no")
 ```
 
 ### Visualize
-For this last step we will do a very brief introduction to visualizing our results. We will use a tool called [GOView](http://www.webgestalt.org/2017/GOView/), which is part of the [WEB-based Gene Set Ananlysis ToolKit (WebGestalt)](http://www.webgestalt.org/) suite of tools. 
+For this next step we will do a very brief introduction to visualizing our results. We will use a tool called [GOView](https://2019.webgestalt.org/2017/GOView/), which is part of the [WEB-based Gene Set Ananlysis ToolKit (WebGestalt)](http://www.webgestalt.org/) suite of tools. 
 
 **Step One**
  * Use a web browser to download your results
 
  * For AWS: Navigate to the URL below replacing YOUR_IP_ADDRESS with your amazon instance IP address:
-     http://**YOUR_IP_ADDRESS**/workspace/rnaseq/de/htseq_counts
+     http://**YOUR_IP_ADDRESS**/rnaseq/de/deseq2
 
  * Download the linked files by right clicking on the two saved result files: `fc.go.cc.p.up.tsv` and `fc.go.cc.p.down.tsv`.
 
@@ -216,4 +227,79 @@ For this last step we will do a very brief introduction to visualizing our resul
 
 * Explore the outputs! 
 
+### Alternative Pathway analysis tools and strategies!
+At this point, to generate additional visualizations and gain more insight from our enrichment analysis, we can turn to two powerful functions in the clusterProfiler package: gseGO and enrichKEGG. These tools allow us to go beyond simply identifying enriched pathways and give us the ability to visualize and explore these pathways in a much more detailed way.
 
+First, to use gseGO and enrichKEGG effectively, we need a ranked list of DE genes based on their log2 fold change values. This ranked list allows us to analyze and visualize enrichment based on the degree of differential expression, rather than just a binary presence or absence in a pathway.
+
+```R
+# Create a named vector of log2 fold changes with Entrez IDs as names
+ranked_genes <- setNames(DE_genes_clean$log2FoldChange, DE_genes_clean$entrez)
+
+# Sort the genes by log2 fold change
+ranked_genes <- sort(ranked_genes, decreasing = TRUE)
+```
+Using gseGO, we can analyze the ranked DE genes list to create classic GSEA enrichment plots. These plots help us see how gene expression levels are distributed across the pathways that were identified as significant in our initial analysis. By examining the ranking of gene expression within these pathways, we can get a clearer picture of how specific pathways are activated or suppressed in our data set.
+```R
+# Load relevant packages
+library(enrichplot)
+library(clusterProfiler)
+library(pathview)
+library(ggnewscale)
+library(ggplot2)
+
+gsea_res <- gseGO(
+  geneList = ranked_genes,       # Ranked list of genes
+  OrgDb = org.Hs.eg.db,          # Specify organism database
+  ont = "CC",                    # Use "BP" for Biological Process, "MF" for Molecular Function, "CC" for Cellular Component
+  keyType = "ENTREZID",          # Ensure your gene IDs match the key type in OrgDb
+  pvalueCutoff = 0.05,           # Set a p-value cutoff for significant pathways
+  verbose = TRUE
+)
+```
+Generate the classic GSEA enrichment plot
+```R
+# Plot the enrichment plot for a specific GO term or pathway - Synapse
+gsea_plot <- gseaplot2(gsea_res, geneSetID = "GO:0045202", title = "Enrichment Plot for Synapse")
+ggsave("plotgsea_GO_Synapse.jpg", gsea_plot)
+
+```
+We can use additional visualizations, such as dot plots, ridge plots, and concept network plots, to gain further insights into the enriched pathways.
+```R
+# Dotplot for top GO pathways enriched with DE genes
+gsea_dot_plot <- dotplot(gsea_res, showCategory = 30) + ggtitle("GSEA Dotplot - Top 30 GO Categories")
+ggsave("gsea_dot_plot.jpg", gsea_dot_plot)
+
+#Ridgeplot for top GO pathways enriched with DE genes
+gsea_ridge_plot <-ridgeplot(gsea_res)
+ggsave("gsea_ridge_plot.jpg", gsea_ridge_plot)  
+
+# Concept network plot to illustrate relationships between the top enriched GO terms and DE genes
+gsea_cnetplot <- cnetplot(gsea_res, foldChange = ranked_genes, showCategory = 10)
+ggsave("gsea_cnetplot.jpg", gsea_cnetplot, bg='white')
+```
+The enrichKEGG function can be used to visualize KEGG pathways, showing detailed diagrams with our DE genes highlighted. This approach is especially useful for understanding the biological roles of up- and down-regulated genes within specific metabolic or signaling pathways. By using the pathview package, we can generate pathway diagrams where each DE gene is displayed in its functional context and color-coded by expression level. This makes it easy to see which parts of a pathway are impacted and highlights any potential regulatory or metabolic shifts in a clear, intuitive format. We will start by downloading and installing the KEGG database and then run the `enrichKEGG` function.
+```R
+# Download KEGG DB file and install
+download.file('https://www.bioconductor.org/packages/3.11/data/annotation/src/contrib/KEGG.db_3.2.4.tar.gz', destfile='/workspace/rnaseq/de/deseq2/pathway/KEGG.db_3.2.4.tar.gz')
+install.packages("KEGG.db_3.2.4.tar.gz", repos = NULL, type = "source")
+
+# Run enrichKEGG with local database option
+pathways <- enrichKEGG(gene = names(ranked_genes), organism = "hsa", keyType = "kegg", use_internal_data=TRUE)
+head(pathways@result)
+```
+Let's choose one of the pathways above, for example `hsa04010 - MAPK signaling pathway` to visualize.
+
+```R
+# Define the KEGG pathway ID based on above, and run pathview (note this automatically generates and saves plots to your current directory)
+pathway_id <- "hsa04010"  # Replace with the KEGG pathway ID of interest
+pathview(
+  gene.data = ranked_genes,    # DE gene data with Entrez IDs
+  pathway.id = pathway_id,  # KEGG pathway ID
+  species = "hsa",          # Species code for human
+  limit = list(gene = c(-2, 2)),  # Set color scale limits for log2 fold changes
+  low = "blue",             # Color for down-regulated genes
+  mid = "white",            # Color for neutral genes
+  high = "red"              # Color for up-regulated genes
+)
+```

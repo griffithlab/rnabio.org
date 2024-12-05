@@ -40,9 +40,9 @@ Briefly the process for launching an EC2 instance for this course involves these
 3. Make sure that you are in the N. Virginia region
 4. Select Launch Instances.
 5. Name and tags: Name your instance (e.g., Firstname_Lastname). 
-6. Amazon Machine Image: Search for "cshl-seqtec-2023" in My AMIs and Select.
+6. Amazon Machine Image: Search for "cshl-seqtec-2024" in My AMIs and Select.
 7. Instance type: Select "m6a.xlarge" and then "Next".
-8. Key pair (login): Choose an existing key pair (e.g., CBW) or create a new one and store it somewhere safe.
+8. Key pair (login): Choose an existing key pair (e.g., cshl_2024_student) or create a new one and store it somewhere safe.
 9. Network settings: Choose existing security group called "SSH/HTTP/Jupyter" (or create one with SSH and HTTP access).
 10. Configure storage: Make sure that you see two volumes.
 11. Advanced details: Select "Termination Protection: Enable".
@@ -54,7 +54,7 @@ Briefly the process for launching an EC2 instance for this course involves these
 ### Logging in to your own AWS EC2 instance
 
 * In order to log in to your instance, you will need a security certificate or "key file".
- * You will be provided with a key file called: "CBW.pem" (for Mac/Linux users) OR "CBW.ppk" (for Windows/PuTTy users).
+ * You will be provided with a key file called: "cshl_2024_student.pem" (for Mac/Linux users) OR "cshl_2024_student.ppk" (for Windows/PuTTy users).
 * NOTE: It is very important that you use only your own instance (ip address or dns name) when logging in!  If two people log into the same Amazon machine they may have collisions as they try to write files to the same places and this will cause errors and confusion.
 * On the AWS cloud, we are going to use the default username: "ubuntu"
 
@@ -64,13 +64,13 @@ Briefly the process for launching an EC2 instance for this course involves these
 * Make sure the permissions on your certificate are secure. Use chmod on your downloaded key file:
 
 ```bash
-chmod 400 CBW.pem
+chmod 400 cshl_2024_student.pem
 ```
 
 * To log in to the node, use the -i command line argument to specify your certificate:
 
 ```bash
- ssh -i CBW.pem ubuntu@xx.uhn-hpc.ca # use your student number instead of "xx"
+ ssh -i cshl_2024_student.pem ubuntu@[your ip address or dns name] # [your ip address or dns name] is the public IP address of your instance
 ```
 
 `-i` selects a file from which the public key authentication is read.  `ubuntu` is the name of a user on the system you are logging into (a default user of the Ubuntu operating system). `[your ip address]` is the address of the linux system on Amazon that you are logging into. Instead of ip address you can also use a public dns name.
@@ -89,7 +89,7 @@ To configure PuTTy, start PuTTy and do the following:
 
 ![Logging in with putty (Windows)](/assets/module_0/PuTTY_Data.png)
 
-* In the left hand categories, in the Connection category next to SSH click on the +. Click on Auth. In the private-key file for authentication field, hit browse and find the `CBW.ppk` certificate that you downloaded above.
+* In the left hand categories, in the Connection category next to SSH click on the +. Click on Auth. In the private-key file for authentication field, hit browse and find the `cshl_2024_student.ppk` certificate that you downloaded above.
 
 ![Logging in with putty (Windows)](/assets/module_0/PuTTY_SSH_Auth.png)
 
@@ -104,7 +104,7 @@ To configure PuTTy, start PuTTy and do the following:
 * To copy files from an instance, use scp in a similar fashion (in this case to copy a file called nice_alignments.bam):
 
 ```bash
-scp -i CBW.pem ubuntu@[your ip address or dns name]:nice_alignments.bam .
+scp -i cshl_2024_student.pem ubuntu@[your ip address or dns name]:nice_alignments.bam .
 ```
 
 * Everything created in your workspace on the cloud is also available by a web server on your cloud instance.  Simply go to the following in your browser:
@@ -121,13 +121,13 @@ When you log in, you will notice that you have one  directory already: "workspac
 If you would like to upload your data to the AWS instance, use the example scp command below.  Be sure to replace the variables below with the local path to your data, __MY_DATA__, and the amazon instance IP, __YOUR_IP_ADDRESS__.
 
 ```bash
-scp -i CBW.pem __MY_DATA__ ubuntu@[your ip address or dns name]:/
+scp -i cshl_2024_student.pem __MY_DATA__ ubuntu@[your ip address or dns name]:/
 ```
 
 ### Doing this course with AWS outside of a workshop
 If you are trying to do this course on your own using the online materials only, of course an AWS EC2 instance has not been set up for you. If you have access to an AWS account though you can can start with the same Amazon AMI we use to create instances for each student. Currently this is:
 
-Name: `cshl-seqtec-2023` available in the US East, N. Virginia region (us-east-1).
+Name: `cshl-seqtec-2024` available in the US East, N. Virginia region (us-east-1).
 
 We typically use an instance type of `m6a.xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-09-appendix/0009/09/01/AWS_Setup/) page.
 
@@ -161,7 +161,7 @@ First you will need to install docker. Typically this involves installing [Docke
 
 1. Pull the image rnabio to your local Docker client with the tag 0.0.2 from the griffithlab repository:
 ```bash
-docker pull griffithlab/rnabio:0.0.2
+docker pull griffithlab/rnabio:0.0.3
 ```
 2. Setup a local workspace directory for the RNAseq course. If you change the path or command used here in Step 2, make sure to update the path to the workspace directory accordingly in Step 3.
 ```bash
@@ -169,7 +169,7 @@ mkdir -p ~/rnabio-workspace
 ```
 3. Initialize a Docker container using the image we pulled above. -v tells Docker to mount our workspace directory within the Docker container as /workspace with read-write priveleges. You'll see in the RNAseq course /workspace is the base directory for nearly all commands and steps. Note: we are running this docker container interactively and entering it at a bash shell prompt. We also switch the default user to "ubuntu" to match the RNAseq course tutorials.
 ```bash
-docker run -v ~/rnabio-workspace:/workspace:rw --user ubuntu:ubuntu -it griffithlab/rnabio:0.0.2 /bin/bash
+docker run -v ~/rnabio-workspace:/workspace:rw --user ubuntu:ubuntu -it griffithlab/rnabio:0.0.3 /bin/bash
 ```
 
 The docker session should now be ready for the Unix tutorial and practical exercises.

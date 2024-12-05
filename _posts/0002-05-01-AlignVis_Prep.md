@@ -23,15 +23,9 @@ Before we can view our alignments in the IGV browser we need to index our BAM fi
 echo $RNA_ALIGN_DIR
 cd $RNA_ALIGN_DIR
 
-samtools index HBR.bam
-samtools index HBR_Rep1.bam
-samtools index HBR_Rep2.bam
-samtools index HBR_Rep3.bam
-samtools index UHR.bam
-samtools index UHR_Rep1.bam
-samtools index UHR_Rep2.bam
-samtools index UHR_Rep3.bam
+samtools index -M *.bam
 
+# flag -M interprets all filename arguments as files to be indexed, allowing multiple files to be indexed at the same time. To index individual file, use 'samtools index input.bam' 
 # Note that we could have created and run a samtools index command for all files ending in .bam using the following construct:
 # find *.bam -exec echo samtools index {} \; | sh
 
