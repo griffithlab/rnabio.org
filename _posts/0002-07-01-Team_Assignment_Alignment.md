@@ -51,13 +51,8 @@ mkdir -p team_exercise/untrimmed
 cd team_exercise/untrimmed
 
 # Fill in the "XX" below with your team's letter (A, B, C...)
-cp /home/ubuntu/workspace/team_exercise_data/data/dataset_XX.tar.gz ./dataset.tar.gz
+wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_XX/dataset.tar.gz
 tar -xzvf dataset.tar.gz
-
-# Instructions below for how to download the datasets, if need be
-# wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_XX/dataset.tar.gz
-# tar -xzvf dataset.tar.gz
-
 
 ```
 
