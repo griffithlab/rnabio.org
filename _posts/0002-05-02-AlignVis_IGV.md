@@ -32,8 +32,8 @@ Make sure you select the appropriate reference genome build in IGV (top left cor
 #### Links to cached version of these bam files
 If for some reason you do not have access to the BAM files from running through this course you can download and use these cached versions instead:
 
-- **UHR hisat2 alignment**: [UHR.bam](https://genomedata.org/rnaseq-tutorial/results/UHR.bam) ([UHR.bam.bai](https://genomedata.org/rnaseq-tutorial/results/UHR.bam.bai))
-- **HBR hisat2 alignment**: [HBR.bam](https://genomedata.org/rnaseq-tutorial/results/HBR.bam) ([HBR.bam.bai](https://genomedata.org/rnaseq-tutorial/results/HBR.bam.bai))
+- **UHR hisat2 alignment**: [UHR.bam](https://genomedata.org/rnaseq-tutorial/results/alignments/hisat/UHR.bam) ([UHR.bam.bai](https://genomedata.org/rnaseq-tutorial/results/alignments/hisat/UHR.bam.bai))
+- **HBR hisat2 alignment**: [HBR.bam](https://genomedata.org/rnaseq-tutorial/results/alignments/hisat/HBR.bam) ([HBR.bam.bai](https://genomedata.org/rnaseq-tutorial/results/alignments/hisat/HBR.bam.bai))
 
 You may wish to customize the track names as you load them in to keep them straight. Do this by right-clicking on the alignment track and choosing 'Rename Track'.
 
@@ -68,8 +68,8 @@ Assignment: Index your bam files from Practical Exercise 6 and visualize in IGV.
 #### Links to cached version of the practical exercise bam files
 If for some reason you do not have access to the BAM files from running through this course you can download and use these cached versions instead:
 
-- **HCC1395-normal hisat2 alignment**: [HCC1395-normal.bam](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/HCC1395_normal.bam) ([HCC1395-normal.bam.bai](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/HCC1395_normal.bam.bai))
-- **HCC1395-tumor hisat2 alignment**: [HCC1395-tumor.bam](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/HCC1395_tumor.bam) ([HCC1395-tumor.bam.bai](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/HCC1395_tumor.bam.bai))
+- **HCC1395-normal hisat2 alignment**: [HCC1395-normal.bam](https://genomedata.org/rnaseq-tutorial/results/alignments/hisat/HCC1395_normal.bam) ([HCC1395-normal.bam.bai](https://genomedata.org/rnaseq-tutorial/results/alignments/hisat/HCC1395_normal.bam.bai))
+- **HCC1395-tumor hisat2 alignment**: [HCC1395-tumor.bam](https://genomedata.org/rnaseq-tutorial/results/alignments/hisat/HCC1395_tumor.bam) ([HCC1395-tumor.bam.bai](https://genomedata.org/rnaseq-tutorial/results/alignments/hisat/HCC1395_tumor.bam.bai))
 
 
 **Questions**
