@@ -9,7 +9,7 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0009-09-03
 ---
 
-## Posit setup for use in CRI 2024 workshop
+## Posit setup for use in CRI 2024 and 2025 workshop
 
 This tutorial explains how Posit cloud RStudio was configured for the course. This exercise is not to be completed by the students but is provided as a reference for future course developers that wish to conduct their hands on exercises on Posit RStudio.
 
@@ -133,7 +133,6 @@ BiocManager::install("EnhancedVolcano")
 BiocManager::install("clusterProfiler")
 BiocManager::install("org.Mm.eg.db")
 install.packages("msigdbr")
-BiocManager::install("scRepertoire")
 BiocManager::install("BiocGenerics")
 BiocManager::install("DelayedArray")
 BiocManager::install("DelayedMatrixStats")

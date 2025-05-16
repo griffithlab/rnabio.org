@@ -540,6 +540,8 @@ Rep1_ICBdT_AAACCTGCACGGTAAG-1 Rep1_ICBdT      10841         3183   2.472097     
 Rep1_ICBdT_AAACCTGCATGCCACG-1 Rep1_ICBdT      10981         2788   2.030780                 TRUE               TRUE -0.08794336 -0.21230015    G1
 ```
 
+The cell cycle scores and phase are visualized later in this vignette. The interpretation of these is largely context and experiment dependent. In some cases, if you are not expecting large differences in cell cycle in your samples, this may be an additional QC metric to consider. The calculation of cell cycle scores can also be impacted by the type of cells you have, see alternate workflow for hematopoietic stem cells [here](https://satijalab.org/seurat/articles/cell_cycle_vignette.html).
+
 ### Determine how many PCA should be used for clustering
 
 Looking at the count matrix for our Seurat object is a good reminder that there is no way we can process the number of genes and cells present with just our eyes. We need a way of compressing this information into something we can more easy comprehend and manipulate. PCAs are a dimension reduction strategy that aims to show similarity without losing the patterns that drive variation. We can visualize this by picturing what it would look like if we had just two cells and a handful of genes. If one cell's gene expression value was on the x-axis and the other on the y-axis you would get a simple dot plot and could draw two lines through those points to measure the spread of the data points in two directions. Those lines that you draw are a PC, they generalize the data points into a more manageable, single object. 

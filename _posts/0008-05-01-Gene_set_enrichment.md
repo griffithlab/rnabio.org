@@ -13,11 +13,11 @@ date: 0008-05-01
 
 After carrying out differential expression analysis, and getting a list of interesting genes, a common next step is enrichment or pathway analyses. Broadly, enrichment analyses can be divided into two types- overrepresentation analysis and  gene set enrichment analysis (GSEA). 
 
-Overrepresentation analysis takes a list of significantly DE genes and determines if these genes are all known to be differentially regulated in a certain pathway or geneset. It is primarily useful if we have a set of genes that are highly differentially expressed and we want to determine what process(es) they may be involved in. Mathematically, it calculates a p-value using a hypergeometric distribution to determine if a gene set (from a database) is significantly over-represented in our DE genes. A couple key points about overrepresentation analysis are that firstly, we get to determine the list of genes that are used as inputs. So, we can set a p-value and log2FC threshold that would in turn determine the gene list. Secondly, since the overrepresentation analysis does not use information about the foldchange values (only a list of genes) it is not directional. So if an overrepresentation analysis gives us a pathway or geneset as being significantly enriched, we are not getting any information about whether the genes in our list are responsible for activating or suppressing the pathway- we can only conclude that our genes are involved in that pathway in some way.
+Overrepresentation analysis takes a list of significantly differentially expressed (DE) genes and determines if these genes are all known to be differentially regulated in a certain pathway or geneset. It is primarily useful if we have a set of genes that are highly differentially expressed and we want to determine what process(es) they may be involved in. Mathematically, it calculates a p-value using a hypergeometric distribution to determine if a gene set (from a database) is significantly over-represented in our DE genes. A couple key points about overrepresentation analysis are that firstly, we get to determine the list of genes that are used as inputs. So, we can set a p-value and log2FC threshold that would in turn determine the gene list. Secondly, since the overrepresentation analysis does not use information about the foldchange values (only a list of genes) it is not directional. So if an overrepresentation analysis gives us a pathway or geneset as being significantly enriched, we are not getting any information about whether the genes in our list are responsible for activating or suppressing the pathway- we can only conclude that our genes are involved in that pathway in some way.
 
-GSEA addresses the second point above because it uses a list of genes and their corresponding fold change values as inputs to the analysis. Another difference between GSEA and overrepresentation analysis is that in GSEA, we will use all the genes as inputs without applying any filters based on log2FC or p-values. GSEA is useful in determining incremental changes at the gene expression level that may come together to have an impact on a specific pathway. GSEA ranks genes based on their 'enrichment scores' (ES), which measures the degree to which a set of genes is over-represented at the top or bottom of a list of genes that are ordered based on their log2FC values.
+GSEA addresses the second point above by using a list of genes and their corresponding fold change values as inputs to the analysis. Another difference between GSEA and overrepresentation analysis is that in GSEA, we use all the genes as inputs without applying any filters based on log2FC or p-values. GSEA is useful in determining incremental changes at the gene expression level that may come together to have an impact on a specific pathway. GSEA ranks genes based on their 'enrichment scores' (ES), which measures the degree to which a set of genes is over-represented at the top or bottom of a list of genes that are ordered based on their log2FC values.
 
-Another crucial part of any enrichment analysis is the databases. The main pitfall to avoid is choosing multiple or broad databases as this can result in many spurious results. Therefore, when possible, it is better to choose the reference databases based on their biological relevance.
+Another crucial part of any enrichment analysis is the database. The main pitfall to avoid is choosing multiple or broad databases as this can result in many spurious results. Therefore, when possible, it is better to choose a reference database based on its biological relevance.
 
 ***
 
@@ -40,8 +40,8 @@ library("DOSE")
 library("stringr")
 library("enrichplot")
 
-#read in the epithelial DE file
-de_gsea_df <- read.csv('outdir_single_cell_rna/epithelial_de_gsea.tsv', sep = '\t')
+#read in the epithelial DE file with the first column (genes) as rownames or index
+de_gsea_df <- read.csv('outdir_single_cell_rna/epithelial_de_gsea.tsv', sep = '\t', row.names = 1)
 
 head(de_gsea_df)
 #open this file in Rstudio and get a sense for the distribution of foldchange values and see if their p values are significant
@@ -111,7 +111,7 @@ For GSEA, we need to start by creating a named vector where the values are the l
 
 ```R
 #read in the epithelial de df we generated previously
-de_gsea_df <- read.csv('outdir_single_cell_rna/epithelial_de_gsea.tsv', sep = '\t')
+de_gsea_df <- read.csv('outdir_single_cell_rna/epithelial_de_gsea.tsv', sep = '\t', row.names = 1)
 #if you can't find the file in your session, we have uploaded a version for you
 #de_gsea_df <- read.csv('/cloud/project/data/single_cell_rna/backup_files/epithelial_de_gsea.tsv', sep = '\t')
 
@@ -137,6 +137,7 @@ gse_result <- gse@result
 ```
 
 Looking at the dataframe, you might notice that there are around 900 rows, and similar to the overrepresentation analysis, it is unlikely that all of them are truly meaningful. You can skim through all these results to determine which ones might be biologically meaningful, but in the interest of time, here we will subset the `gse` object to any pathways that have the word `epithelial` in them, and use those for plotting. In order to subset the object, we will determine the indices of the rows which have these values using R's `which` and `grepl` functions, and then subset the results dataframe in the `gse` object to those rows. All of these genesets end up having negative enrichment scores (or are downregulated in our putative luminal cell cluster), so we will add one index that has a positive enrichment score to aid in plotting. For plotting, we will use the `dotplot`, `cnetplot`, and `heatplot` functions. 
+Note- we do not suggest this strategy of grabbing pathways of interest in this manner- we are only using it as an illustrative example here.
 
 ```R
 #start by grabbing the indices we'll need to subset the `gse` object
@@ -166,7 +167,7 @@ cnetplot(gse_epithelial, foldChange=gene_list)
 
 Based on these results, we could conclude that cluster 9 (putative luminal cells) have lower expression of quite a few pathways related to epithelial cell proliferation compared to cluster 12 (putative basal cells). 
 
-As an additional exercise, let's try to do an overrepresentation and/or GSEA analysis for the DE analysis we did on CD8 T cells. We did not have you save the DE results file yesterday, so you can download the DE file from the link below first, and then use that for your analysis. 
+As an additional exercise, let's try to do an overrepresentation and/or GSEA analysis for the DE analysis we did on CD8 T cells using the `cd8tcells_de_gsea.tsv` DE outputs we generated previously. If you do not have the file, it can be downloaded as follows-
 
 ```R
 download.file(url = 'http://genomedata.org/cri-workshop/reference_files/cd8tcells_de_gsea.tsv',
