@@ -11,12 +11,6 @@ date: 0008-08-01
 
 In this module, we will use our scRNA seurat object to explore the immune receptor T and B cells diversity. To recognize both antigens and tumor neoantigens, T cells can generate diverse receptor sequences through somatic V(D)J recombination. While B cells perform V(D)J recombination during developement and then, after antigen encounter, use somatic hypermutation to further diversify their receptors.
 
-From Sharon:
-But if I remember correctly, the TCR sequencing was always planned because the previous bulk RNA-seq work in this model showed T cells were important for treatment response
-The BCR sequencing came along later because we saw some indication of a small (like really small) population of plasma cells expanding in the treatment condition for a coupe replicates (1 and 3, again I remember correctly), so we we’re curious if we would be able to find expanded BCR clones in those cells
-And the collaborator found a paper published around then that indicated B cells could also play a role in immunotherapy response.
-https://www.nature.com/articles/s41586-019-1922-8
-
 We will be using [scRepertoire](https://www.borch.dev/uploads/screpertoire/) to explore the receptor data. This R package provides several convenient processing and visualization functions that are easy to understand and use. We will then add the clonal information for both B and T cells back onto our Seurat object to be used in further analysis.
 
 
@@ -29,12 +23,10 @@ library("Seurat")
 ```
 
 ## Understanding our TCR data
-In the output from the [10x Genomics Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/outputs/cr-5p-outputs-annotations-vdj) there are two files that we use to explore our TCR reportoire: `filtered_contig_annotations.csv` and `clonotypes.csv`. `filtered_contig_annotations.csv` high-level annotations of each high-confidence contigs from cell-associated barcodes. Each contig aims to represent the complete variable region (and often part of the constant region) of a single TCR or BCR chain from a single cell. While `clonotypes.csv` provides the broader, high-level descriptions of each clonotype [ref](https://www.10xgenomics.com/support/cn/software/cell-ranger/8.0/analysis/outputs/cr-5p-outputs-annotations-vdj). 
+In the output from the [10x Genomics Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/outputs/cr-5p-outputs-annotations-vdj) main file that we use to explore our TCR reportoire is `filtered_contig_annotations.csv`. `filtered_contig_annotations.csv` provides high-level annotations of each high-confidence contigs from cell-associated barcodes. Each contig aims to represent the complete variable region (and often part of the constant region) of a single TCR or BCR chain from a single cell. 
+[More about the outputs..](https://www.10xgenomics.com/support/cn/software/cell-ranger/8.0/analysis/outputs/cr-5p-outputs-annotations-vdj). 
 
 Lets read in a filtered contigs file and explore what this file contains. This files contains columns such as `high confidence`, `full length`, and [`productive`](https://www.10xgenomics.com/support/cn/software/cell-ranger/8.0/resources/cr-5p-vdj-algorithm-annotations) denoting how likely a contig is a true TCR regions.
-
-# MAYBE REMOVE
-We first read in the `filtered_contig_annotations.csv` output from the [10x Genomics Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/outputs/cr-5p-outputs-annotations-vdj) for all samples. The cellranger vdj pipeline provides amino acid and nucleotide sequences for framework and complementarity determining regions (CDRs). The `filtered_contig_annotations.csv` file contains high-level annotations of each high-confidence contig from cell-associated barcodes. 
 
 ```R
 Rep1_ICB_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep1_ICB-t-filtered_contig_annotations.csv")
@@ -43,7 +35,7 @@ colnames(Rep1_ICB_t)
 head(Rep1_ICB_t, 1)
 ```
 
-If we look at one cell barcode, we expect to see see 2 contigs: a plpha chain and a beta chain. 
+If we look at one cell barcode, we expect to see see 2 contigs: a alpha chain and a beta chain. 
 
 ```R
 Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGAGCGGATCA-1", 1:10]
@@ -55,7 +47,7 @@ Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGAGCGGATCA-1", 1:10]
 2 AAACCTGAGCGGATCA-1    true AAACCTGAGCGGATCA-1_contig_2            true    514   TRB  TRBV14  TRBD1 TRBJ1-1  TRBC1
 ```
 
-But sometimes we see more than two. In theory it is possible for a cell to have two alpha chains ans two beta chains and relatively common to have two alpha chains and one beta chain.
+But sometimes we see more than two. In theory, it is possible for a cell to have two alpha chains and two beta chains and relatively common to have two alpha chains and one beta chain.
 
 ```R
 Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGTCAGTCCCT-1", 1:10]
@@ -68,7 +60,10 @@ Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGTCAGTCCCT-1", 1:10]
 10 AAACCTGTCAGTCCCT-1    true AAACCTGTCAGTCCCT-1_contig_3            true    558   TRA       TRAV4-3         TRAJ34   TRAC
 ```
 
-The column `raw_clonotype_id` contains clonotype ids which represent TCRs which are a combination of a cells alpha and beta chains. 
+**Take a look at some more barcodes. How often to we have a barcode that just has an alpha and beta chain? How often do we see barcodes with 3+ chains?**
+
+
+The column `raw_clonotype_id` contains clonotype IDs which represent TCRs. There should be only one clonotype ID per cell.
 
 ```R
 Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGTCAGTCCCT-1", "raw_clonotype_id"]
@@ -78,7 +73,7 @@ Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGTCAGTCCCT-1", "raw_clonotype_id"]
 [1] "clonotype1609" "clonotype1609" "clonotype1609"
 ```
 
-Let's count the unique cells per clonotype. 
+Using this column we can count the unique cells per clonotype. This would show us if there was expansion of a single TCR (an immune response). First we have to get our data into the correct format. We want to count how many times we see `raw_clonotype_id`, accounting for that there are duplicate barcodes depending on how many chains are making up the clonotype. 
 
 ```R
 Rep1_ICB_clonotype_counts <- Rep1_ICB_t %>%
@@ -114,13 +109,17 @@ ggplot(Rep1_ICB_clonotype_counts, aes(x = reorder(raw_clonotype_id, -cell_count)
        title = "Number of Unique Cells per Clonotype") +
   theme(axis.text.x=element_blank())
 ```
+<img src="/assets/module_8/Barplot_NumUniqueClones_TCR.png" alt="Number of Unique TCR Clones per Sample" width="1000"/>
 
-We are also only interested in the cells that are in our current filtered object... Luckily there are packages that make this analysis slightly easier.
+Our barplot is nice but we might want to produce more complicated graphs to better visualize our reportoire. This is where `scReportoire` comes into play. 
 
 ## scReportoire for TCR analysis
 [scReportoire](https://www.borch.dev/uploads/screpertoire/) is one of the first packages that enables allows combine single cell RNA and immune profiling. We will use it to perform more complex exploration of the TCR diversity within our data. 
 
 ### Loading in data
+
+First lets load in our data for all our replicates. 
+
 ```R
 Rep1_ICB_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep1_ICB-t-filtered_contig_annotations.csv")
 Rep1_ICBdT_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep1_ICBdT-t-filtered_contig_annotations.csv")
@@ -135,12 +134,11 @@ TCR.contigs <- list(Rep1_ICB_t, Rep1_ICBdT_t, Rep3_ICB_t, Rep3_ICBdT_t, Rep5_ICB
 
 ### Combining contigs into clones
 
-Use scRepertoire's `combineTCR` function to create an object with all samples' TCR data. Additional filtering parameters are set to `FALSE`. `removeNA` will remove any chain with NA values, `removeMulti` will remove barcodes with greater than 2 chains, and `filterMulti` will allow for the selection of the 2 corresponding chains with the highest expression for a single barcode. 
+Use scRepertoire's `combineTCR` function to create an object with all samples' TCR data. Note the additional filtering parameters: `removeNA` will remove any chain with NA values, `removeMulti` will remove barcodes with greater than 2 chains, and `filterMulti` will allow for the selection of the 2 corresponding chains with the highest expression for a single barcode. 
 
 We will set `filterMulti` to TRUE to avoid the confusing cases where there are multiple chains. 
 
 ```R
-
 sample_name <- c("Rep1_ICB", "Rep1_ICBdT", "Rep3_ICB", 
                  "Rep3_ICBdT", "Rep5_ICB", "Rep5_ICBdT")
 
@@ -154,7 +152,7 @@ combined.TCR <- combineTCR(TCR.contigs,
 View(combined.TCR[[1]])
 ```
 
-Now let's filter our scReportoire object to the number of cells in our seurat object.
+So far we have not considered that we have filtered out some cells in our seurat object. Let's filter our scReportoire object to the number of cells in our seurat object.
 
 ```R
 # Read in your Seurat object
@@ -166,14 +164,19 @@ index <- 1 # set an index for accessing our combined.TCR object
 for (sample in sample_name) {
 
   print(paste0("Sample Name: ", sample))
-  print(paste0("Number of barcodes in scRep obj: ", length(unique(combined.TCR[[index]]$barcode))))
-  print(paste0("Number of barcodes in seurat obj: ", length(rownames(rep135@meta.data[rep135@meta.data$orig.ident == sample, ]))))
+
+  screp_barcodes <- combined.TCR[[index]]$barcode
+  print(paste0("Number of barcodes in scRep obj: ", length(unique(screp_barcodes))))
+
+  seurat_barcodes <- rownames(rep135@meta.data[rep135@meta.data$orig.ident == sample, ])
+  print(paste0("Number of barcodes in seurat obj: ", length(seurat_barcodes)))
   
-  TCR_clonotype_barcodes_filtered <- subset(combined.TCR[[index]], combined.TCR[[index]]$barcode %in% rownames(rep135@meta.data[rep135@meta.data$orig.ident == sample, ]))
+  TCR_clonotype_barcodes_filtered <- subset(combined.TCR[[index]], screp_barcodes %in% seurat_barcodes)
   
   print(paste0("Number of rows in scRep obj after filtering: ", nrow(TCR_clonotype_barcodes_filtered)))
   
   combined.TCR_filter[[index]] <- TCR_clonotype_barcodes_filtered
+
   index <- index + 1
 }
 ```
@@ -225,7 +228,7 @@ nrow(combined.TCR_filter[[1]])
 
 ### Visualize the Number of Clones
 
-`scRepertoire` defines clones as TCRs/BCRs with shared/trackable complementarity-determining region 3 (CDR3) sequences. You can define clones using the amino acid sequence (`aa`), nucleotide (`nt`), or the V(D)JC genes (`genes`). The latter genes would be a more permissive definition of “clones”, as multiple amino acid or nucleotide sequences can result from the same gene combination. You can also use a combination of the V(D)JC and nucleotide sequence (`strict`). scRepertoire also allows for the users to select both or individual chains to examine.
+scRepertoire defines clones as TCRs with shared/trackable complementarity-determining region 3 (CDR3) sequences. You can define clones using the amino acid sequence (`aa`), nucleotide (`nt`), or the V(D)JC genes (`genes`). The latter genes would be a more permissive definition of “clones”, as multiple amino acid or nucleotide sequences can result from the same gene combination. You can also use a combination of the V(D)JC genes and nucleotide sequence (`strict`). scRepertoire also allows for the users to select both or individual chains to examine.
 
 ```R
 clonalQuant(combined.TCR_filter, 
@@ -338,8 +341,6 @@ head(Rep1_ICB_clonotype_counts)
 6 clonotype12               2
 ```
 
-When we plot it looks like there might be some evidence of expansion. However, lets use scReportoire to look more in depth.
-
 ```R
 ggplot(Rep1_ICB_clonotype_counts, aes(x = reorder(raw_clonotype_id, -cell_count), y = cell_count)) +
   geom_bar(stat = "identity") +
@@ -347,8 +348,12 @@ ggplot(Rep1_ICB_clonotype_counts, aes(x = reorder(raw_clonotype_id, -cell_count)
        y = "Number of Unique Cells",
        title = "Number of Unique Cells per Clonotype") +
   theme(axis.text.x=element_blank())
-
 ```
+
+<img src="/assets/module_8/Barplot_NumUniqueClones_BCR.png" alt="Number of Unique BCR Clones per Sample" width="1000"/>
+
+When we plot it looks like there might be some evidence of expansion. However, lets use scReportoire to look more in depth.
+
 ## scReportoire for BCR analysis
 
 Unlike `combineTCR`, `combineBCR` produces a column called CTstrict of an index of nucleotide sequence and the corresponding V gene. This index automatically calculates the Levenshtein distance between sequences with the same V gene and will index sequences using a normalized Levenshtein distance with the same ID. After which, clone clusters are called using the components function. Clones that are clustered across multiple sequences will then be labeled with "Cluster" in the CTstrict header. We use the `threshold` parameter to set the normalized edit distance to consider, where the higher the number the more similarity of sequence will be used for clustering.
@@ -377,7 +382,6 @@ clonalQuant(combined.BCR_05,
               chain = "both", 
               scale = FALSE,
               exportTable = TRUE)
-
 ```
 
 ```
@@ -408,16 +412,21 @@ combined.BCR_filter <- combined.BCR_85 # create a variable to hold our filtered 
 
 index <- 1 # set an index for accessing our combined.BCR object
 for (sample in sample_name) {
-
-  print(paste0("Sample Name: ", sample))
-  print(paste0("Number of barcodes in scRep obj: ", length(unique(combined.BCR_85[[index]]$barcode))))
-  print(paste0("Number of barcodes in seurat obj: ", length(rownames(rep135@meta.data[rep135@meta.data$orig.ident == sample, ]))))
   
-  BCR_clonotype_barcodes_filtered <- subset(combined.BCR_85[[index]], combined.BCR_85[[index]]$barcode %in% rownames(rep135@meta.data[rep135@meta.data$orig.ident == sample, ]))
+  print(paste0("Sample Name: ", sample))
+  
+  screp_barcodes <- combined.BCR_85[[index]]$barcode
+  print(paste0("Number of barcodes in scRep obj: ", length(unique(screp_barcodes))))
+  
+  seurat_barcodes <- rownames(rep135@meta.data[rep135@meta.data$orig.ident == sample, ])
+  print(paste0("Number of barcodes in seurat obj: ", length(seurat_barcodes)))
+  
+  BCR_clonotype_barcodes_filtered <- subset(combined.BCR_85[[index]], screp_barcodes %in% seurat_barcodes)
   
   print(paste0("Number of rows in scRep obj after filtering: ", nrow(BCR_clonotype_barcodes_filtered)))
   
   combined.BCR_filter[[index]] <- BCR_clonotype_barcodes_filtered
+  
   index <- index + 1
 }
 ```
@@ -449,7 +458,7 @@ for (sample in sample_name) {
 [1] "Number of rows in scRep obj after filtering: 906"
 ```
 
-There are way fewer BCRs called.
+There are *way* fewer BCRs called.
 
 
 ### Visualize the Number of Clones
@@ -459,7 +468,11 @@ clonalQuant(combined.BCR_filter,
             cloneCall="strict", 
             chain = "both", 
             scale = FALSE)
+```
 
+<img src="/assets/module_8/NumUniqueClones_BCR.png" alt="Number of Unique BCR Clones per Sample" width="1000"/>
+
+```R
 clonalQuant(combined.BCR_filter, 
             cloneCall="aa", 
             chain = "both", 
@@ -498,11 +511,13 @@ We can also look at what clones are expanded but we have such a few number of BC
 clonalProportion(combined.BCR_filter, cloneCall = "strict", clonalSplit = c(1, 10, 25, 100, 500, 1000, 1e+05)) 
 ```
 
+<img src="/assets/module_8/ClonalProportion_BCR.png" alt="The porportion of the reportoire that each group of clonotypes takes up" width="1000"/>
+
 ### Adding the BCR and TCR Data to your Seurat object
 
 We will now add the BCR and TCR information which has been handled by scRepertoire so far to our Seurat object.
 
-Use the `combineExpression` function to add the TCR data to your Seurat object. The columns CTgene, CTnt, CTaa, CTstrict, clonalProportion, clonalFrequency, and cloneSize data will be added to your Seurat object's metadata. Notice you can also decide the bins for grouping based on proportion or frequency.
+Use the `combineExpression` function to add the TCR data to your Seurat object. The columns `CTgene`, `CTnt`, `CTaa`, `CTstrict`, `clonalProportion`, `clonalFrequency`, and `cloneSize` data will be added to your Seurat object's metadata. Notice you can also decide the bins for grouping based on proportion or frequency.
 
 Here we group by frequency:
 
@@ -515,7 +530,7 @@ rep135 <- combineExpression(combined.TCR, rep135,
 colnames(rep135@meta.data)
 ```
 
-Since we want to add both BCR and TCR information we have to rename the columns to make it clear since scRepertoire uses the same column names for BCR and TCR data. If there are duplicate barcodes (if a cell has both Ig and TCR), the immune receptor information will not be added. 
+Since we want to add both BCR and TCR information we have to rename the columns to make it clear since scRepertoire uses the same column names for BCR and TCR data. 
 
 ```R
 columns_to_modify <- c("CTgene", "CTnt", "CTaa", "CTstrict", "clonalProportion", "clonalFrequency", "cloneSize")
@@ -533,7 +548,7 @@ DimPlot(rep135, group.by = c("cloneSize_TCR", "immgen_singler_main"))
 Let's repeat the same steps with the BCR data.
 
 ```R
-rep135 <- combineExpression(combined.BCR, rep135, 
+rep135 <- combineExpression(combined.BCR_85, rep135, 
                               cloneCall="aa", proportion = FALSE,
                               group.by = "sample",
                               cloneSize=c(Single=1, Small=5, Medium=20, Large=100, Hyperexpanded=500))
@@ -650,8 +665,8 @@ ggplot(TCR_celltypes_summary, aes(x = immgen_singler_main, y = Count)) +
   geom_bar(stat = "identity", fill = "skyblue") +
   labs(x = "Cell Type", y = "Number of TCR Clones", title = "Number of Clones by Cell Type") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) # adjust the x-axis labels so that they are not overlapping each other
-
 ```
+<img src="/assets/module_8/Celltype_TCR.png" alt="The number of TCRs in each celltypes (incorrect)" width="1000"/>
 
 Hmmmmmmmmm, this looks a little suspicious. There are a lot of B cells with TCRs... maybe our summarise function was incorrect?
 
@@ -727,7 +742,6 @@ cell_type_counts_TCR <- rep135_TCR_clones %>%
 Finally, we get to plot something!
 
 ```R
-# Plot
 ggplot(cell_type_counts_TCR, aes(x = immgen_singler_main, y = Count)) +
   geom_bar(stat = "identity", fill = "skyblue") +
   labs(x = "Cell Type", y = "Number of TCR Clones", title = "Number of Clones by Cell Type") +
@@ -735,6 +749,8 @@ ggplot(cell_type_counts_TCR, aes(x = immgen_singler_main, y = Count)) +
 ```
 
 And it looks great!
+
+<img src="/assets/module_8/Celltype_TCR_Correct.png" alt="The number of TCRs in each celltypes (Correct)" width="1000"/>
 
 Now we can do the same thing with the BCR data.
 ```R
@@ -751,6 +767,7 @@ ggplot(cell_type_counts_BCR, aes(x = immgen_singler_main, y = Count)) +
   labs(x = "Cell Type", y = "Number of BCR Clones", title = "Number of Clones by Cell Type") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+<img src="/assets/module_8/Celltypes_BCR_Correct.png" alt="The number of BCRs in each celltypes (Correct)" width="1000"/>
 
 ### Bonus Exercise: Stacked bar plot of cell types by counts grouped by TCR clones
 
@@ -759,117 +776,92 @@ What if we wanted to see not just how many clones there are, but also the number
 We can start by using the table function again.
 
 ```R
-table(rep135_TCR_clones$CTaa_TCR)
+rep135_TCR_clones <- rep135@meta.data[, c("CTaa_BCR", "immgen_singler_main", "cloneSize_TCR")]
+
+table(rep135_TCR_clones$cloneSize_TCR)
 ```
+
 ```
-                                  CAAAGNTEGADRLTF_CASSWTANTEVFF                                       CAAAGSNNRIFF_CASRISAETLYF 
-                                                              1                                                               1 
-                                    CAAAGTGGYKVVF_CASSEDRGDTQYF                                                 CAAAGYAQGLTF_NA 
-                                                              1                                                               1 
-                                   CAAAGYSNNRLTL_CASSQDRNQDTQYF                                   CAAAISGSFNKLTF_CTCSPDNSQNTLYF 
-                                                              1                                                               1 
-                               CAAAKLPGTGSNRLTF_CASSEGTGGYAEQFF                                   CAAALMNYNQGKLIF_CASSTPTGQAPLF 
-                                                              8                                                               1 
-                                   CAAALSNYNVLYF_CASSRTDANTEVFF                                   CAAAMDYANKMIF_CASSSTHNANTEVFF 
-                                                              1                                                               1
+Hyperexpanded (100 < X <= 500)          Large (20 < X <= 100)           Medium (5 < X <= 20)             Small (1 < X <= 5) 
+                           103                            315                            531                            917 
+           Single (0 < X <= 1)               None ( < X <= 0) 
+                         10731                              0 
 ```
 We see that most clones are only seen once, but if we look carefully there are some clones which are seen in mutiple cells. So we are on the right track. But we want these counts grouped by cell type. Can we run table with two parameters? (You might think this is silly but I was genuinly couldn't remember when I tried this the first time)
 
 
 ```R
-# Count occurrences of each CTaa_TCR
-ctaa_immgen_table <- table(rep135_TCR_clones$CTaa_TCR, rep135_TCR_clones$immgen_singler_main)
+# Count occurrences of each cloneSize_TCR
+cloneSize_immgen_table <- table(rep135_TCR_clones$cloneSize_TCR, rep135_TCR_clones$immgen_singler_main)
 
-head(ctaa_immgen_table)
-```
-```
-                                                                     Mast cells Monocytes Neutrophils NK cells NKT Stem cells Stromal cells T cells Tgd
-  CAAADTEGADRLTF_CASSRTGGVEQYF                                                0         0           0        0   0          0             0       1   0
-  CAAAESNYQLIW_CASSLASQYEQYF                                                  0         0           0        0   0          0             0       1   0
-  CAAAFNSGGSNAKLTF_CASSQDGGAYEQYF                                             0         0           0        0   0          0             0       1   0
-  CAAAGGYGNEKITF_CASSPRDWGVNQDTQYF                                            0         0           0        0   0          0             0       0   0
-  CAAAGNTEGADRLTF_CASSWTANTEVFF                                               0         0           0        0   0          0             0       1   0
-  CAAAGSNNRIFF_CASRISAETLYF                                                   0         0           0        0   0          0             0       1   0
-  CAAAGTGGYKVVF_CASSEDRGDTQYF                                                 0         0           0        0   0          0             0       1   0
-  CAAAGYAQGLTF_NA                                                             0         0           0        0   0          0             0       1   0
-  CAAAGYSNNRLTL_CASSQDRNQDTQYF                                                0         0           0        0   0          0             0       1   0
-  CAAAISGSFNKLTF_CTCSPDNSQNTLYF                                               0         0           0        0   1          0             0       0   0
-  CAAAKLPGTGSNRLTF_CASSEGTGGYAEQFF                                            0         0           0        0   0          0             0       8   0
-
+head(cloneSize_immgen_table)
 ```
 
-Well no way, that is exactly the summary we want. We still have a problem where we have a little too much information to be graphed in a way that is useful. How about we get rid of any row where there is only 1 clone seen.
+```
+                                
+                                 B cells B cells, pro Basophils   DC Endothelial cells Epithelial cells Fibroblasts  ILC Macrophages
+  Hyperexpanded (100 < X <= 500)       0            0         1    2                 0                0           4    0           0
+  Large (20 < X <= 100)                0            0         0    1                 0                0           1    4           0
+  Medium (5 < X <= 20)                 3            0         0    3                 0                0           4    6           1
+  Small (1 < X <= 5)                   9            0         0    2                 1                0           1   10           2
+  Single (0 < X <= 1)                 68            0         0   27                 1                3           3  125           6
+  None ( < X <= 0)                     0            0         0    0                 0                0           0    0           0
+                                
+                                 Mast cells Monocytes Neutrophils NK cells  NKT Stem cells Stromal cells T cells  Tgd
+  Hyperexpanded (100 < X <= 500)          0         1           0        1   37          0             0      57    0
+  Large (20 < X <= 100)                   0         1           0        0  116          0             0     191    1
+  Medium (5 < X <= 20)                    0         4           0        0  181          0             0     328    1
+  Small (1 < X <= 5)                      0         2           0        1  281          0             0     604    4
+  Single (0 < X <= 1)                     1        30           3       11  653          0             0    9712   88
+  None ( < X <= 0)                        0         0           0        0    0          0             0       0    0
+```
+Well no way, that is exactly the summary we want. We still have a problem where we have a little too much information to be graphed in a way that is useful. How about we get rid of any row where there is only 0 clones seen.
 
 ```R
-# Filter out rows with all counts less than or equal to 1
-ctaa_immgen_table_filtered <- ctaa_immgen_table[rowSums(ctaa_immgen_table > 1) > 0, ]
+cloneSize_immgen_table <- ctaa_immgen_table[-c(6), ]
 ```
 
 ```
-                                                                  Mast cells Monocytes Neutrophils NK cells NKT Stem cells Stromal cells T cells Tgd
-  CAAAKLPGTGSNRLTF_CASSEGTGGYAEQFF                                         0         0           0        0   0          0             0       8   0
-  CAAAYNQGKLIF_CASSLTGWGEQFF                                               0         0           0        0   0          0             0       3   0
-  CAAEAADSGTYQRF_CASSLGQGSYEQYF                                            0         0           0        0   0          0             0       2   0
-  CAAEAKGSALGRLHF_CASSDASGGAHEQYF                                          0         0           0        0   0          0             0       3   0
-  CAAEENSNNRIFF_CASSLNWGYAEQFF                                             0         0           0        0   1          0             0       2   0
-  CAAGANTNKVVF_CASKQGWQNTLYF;CASSDRGAHEQYF                                 0         0           0        0   4          0             0       4   0
-  CAAGGSNAKLTF_CASSPRLGGGAETLYF                                            0         0           0        0   0          0             0       3   0
-  CAAGWTGSKLSF_CASRYRENTLYF;CASRRTGNSPLYF                                  0         0           0        0   2          0             0       0   0
-  CAAHSNYQLIW_CASSPGTGGYEQYF                                               0         0           0        0   6          0             0       0   0
+                                 B cells B cells, pro Basophils   DC Endothelial cells Epithelial cells Fibroblasts  ILC Macrophages
+  Hyperexpanded (100 < X <= 500)       0            0         1    2                 0                0           4    0           0
+  Large (20 < X <= 100)                0            0         0    1                 0                0           1    4           0
+  Medium (5 < X <= 20)                 3            0         0    3                 0                0           4    6           1
+  Small (1 < X <= 5)                   9            0         0    2                 1                0           1   10           2
+  Single (0 < X <= 1)                 68            0         0   27                 1                3           3  125           6
+                                
+                                 Mast cells Monocytes Neutrophils NK cells  NKT Stem cells Stromal cells T cells  Tgd
+  Hyperexpanded (100 < X <= 500)          0         1           0        1   37          0             0      57    0
+  Large (20 < X <= 100)                   0         1           0        0  116          0             0     191    1
+  Medium (5 < X <= 20)                    0         4           0        0  181          0             0     328    1
+  Small (1 < X <= 5)                      0         2           0        1  281          0             0     604    4
+  Single (0 < X <= 1)                     1        30           3       11  653          0             0    9712   88
 ```
 
 This is a little bit more manageable. Let's make this a dataframe and clean it up to get ready to plot.
 
 ```R
 # Convert the filtered contingency table to a dataframe
-ctaa_immgen_df <- as.data.frame(ctaa_immgen_table_filtered)
+cloneSize_immgen_df <- as.data.frame(cloneSize_immgen_table)
 
 # Rename columns
-colnames(ctaa_immgen_df) <- c("CTaa_TCR", "immgen_singler_main", "Count")
+colnames(cloneSize_immgen_df) <- c("cloneSize", "immgen_singler_main", "Count")
 ```
 
 ```R
 # Plot stacked bar plot
-ggplot(ctaa_immgen_df, aes(x = immgen_singler_main, y = Count, fill = CTaa_TCR)) +
+ggplot(cloneSize_immgen_df, aes(x = immgen_singler_main, y = Count, fill = cloneSize)) +
   geom_bar(stat = "identity") +
-  labs(x = "immgen_singler_main", y = "Count", title = "Stacked Bar Plot of CTaa_TCR by immgen_singler_main") +
+  labs(x = "immgen_singler_main", y = "Count", title = "Stacked Bar Plot of cloneSize by immgen_singler_main") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Hmmm that legend makes the graph a little hard to see.
-
-```R
-ggplot(ctaa_immgen_df, aes(x = immgen_singler_main, y = Count, fill = CTaa_TCR)) +
-  geom_bar(stat = "identity") +
-  labs(x = "immgen_singler_main", y = "Count", title = "Stacked Bar Plot of CTaa_TCR by immgen_singler_main") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none")
-```
-
-Now that looks better. Except there are so many clones that the bar looks more like a gradient then a stacked bar plot... Maybe we beed to be a little more strict about what we show.
-
-```R
-# Plot stacked bar plot -- what if we limit to only cells with a clone seen at least 5 times
-ggplot(ctaa_immgen_df[ctaa_immgen_df$Count > 5, ], aes(x = immgen_singler_main, y = Count, fill = CTaa_TCR)) +
-  geom_bar(stat = "identity") +
-  labs(x = "immgen_singler_main", y = "Count", title = "Stacked Bar Plot of CTaa_TCR by immgen_singler_main") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none")  # Remove the legend for CTaa_TCR
-```
-
-This gets rid a majority of cell types and only slightly clears up the different clones seen. Maybe we can try putting a border around the boxes:
-
-```R
-ggplot(ctaa_immgen_df, aes(x = immgen_singler_main, y = Count, fill = CTaa_TCR)) +
-  geom_bar(stat = "identity", color = "black", linewidth = 0.05) +  # Add border with black color and linewidth 0.5
-  labs(x = "immgen_singler_main", y = "Count", title = "Stacked Bar Plot of CTaa_TCR by immgen_singler_main") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none")  # Hide the legend
-```
+<img src="/assets/module_8/CloneSize_Celltype.png" alt="The different size categories of clones by cell type" width="1000"/>
 
 Data wrangling and visualization take a lot of finagling to get just right, especially as your dataset grows and your information becomes more complex. It usually takes some time to figure out how to visualize your data and then playing with that visualization to get it just right. 
 
 ## Resources 
+
+There are many, many more tools that can be used for TCR/BCR analysis. This [github page](https://github.com/crazyhottommy/TCR-BCR-seq-analysis) summerizes a few! 
 
 [scRepertoire](https://www.borch.dev/uploads/screpertoire/)
 
