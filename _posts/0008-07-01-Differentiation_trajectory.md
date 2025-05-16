@@ -11,7 +11,7 @@ date: 0008-07-01
 
 ## Trajectory Analysis Using CytoTRACE
 
-Single-cell sequencing gives us a snapshot of what a population of cells is doing. This means we should see many different cells in many different phases of a cell's lifecycle. We use trajectory analysis to place our cells on a continuous 'timeline' based on expression data. The timeline does not have to mean that the cells are ordered from oldest to youngest (although many analysis uses trajectory to quantify developmental time). Generally, tools will create this timeline by finding paths through cellular space that minimize the transcriptional changes between neighboring cells. So for every cell, an algorithm asks the question: what cell or cells is/are most similar to the current cell we are looking at? Unlike clustering, which aims to group cells by what type they are, trajectory analysis aims to order the continuous changes associated with the cell process.
+Single-cell sequencing gives us a snapshot of what a population of cells is doing. This means we should see many different cells in many different phases of a cell's lifecycle. We use trajectory analysis to place our cells on a continuous 'timeline' based on expression data. The timeline does not have to mean that the cells are ordered from oldest to youngest (although many analysis uses trajectory to quantify developmental time). Generally, tools will create this timeline by finding paths through cellular space that minimize the transcriptional changes between neighboring cells. So for every cell, an algorithm asks the question: what cell or cells is/are most similar to the current cell we are looking at? Unlike clustering, which aims to group cells by what type they are, trajectory analysis aims to order the continuous changes associated with the cell processes.
 
 The metric we use for assigning positions is called pseudotime. Pseudotime is an abstract unit of progress through a dynamic process. When we base our trajectory analysis on the transcriptomic profile of a cell, less mature cells are assigned smaller pseudotimes, and more mature cells are assigned larger pseudotimes.
 
@@ -89,50 +89,36 @@ table(rep135_epithelial$seurat_clusters_res0.8)
 
 Now let's run [CytoTRACE](https://www.science.org/doi/10.1126/science.aax0249). CytoTRACE (Cellular (Cyto) Trajectory Reconstruction Analysis using gene counts and Expression) is a computational method that predicts the differentiation state of cells from single-cell RNA-sequencing data. CytoTRACE uses gene count signatures (GCS), or the correlation between gene count and gene expression levels to capture differentiation states. 
 
-First, we have to export the counts. 
-
 ```R
-rep135_mtx <- GetAssayData(rep135_epithelial, layer = "counts")
-write.csv(rep135_mtx, "outdir/rep135_epithelial_counts.csv")
+# create a dataframe of expression values to pass to Cytotrce
+rep135_epithelial_expression <- data.frame(GetAssayData(object = rep135_epithelial, layer = "data"))
+
+rep135_epithelial_cytotrace_scores <- CytoTRACE(rep135_epithelial_expression, ncores = 1)
 ```
 
-Then export the file from posit. In the file window select `rep135_epithelial_counts.csv`. Then go to More -> Export... and click Download. 
+We then have to get the Cytotrace data into the correct format.
 
-Now we go to [https://cytotrace.stanford.edu/](https://cytotrace.stanford.edu/). We will navigate to the `Run CytoTRACE` tab on the left menu bar and upload our downloaded csv in the `Upload gene expression table`. We will not worry about uploading any other files as of now but if we had a larger dataset we could provide cell type and batch information for our cells. 
-
-When uploaded click `Run CytoTRACE`. This may take a few minutes. 
-
-![Uploading to Cytotrace](/assets/module_8/cytoTRACE.upload.png)
-
-
-We can then spend some time exploring CytoTRACE scores. For CytoTRACE, warmer colors mean less differentiation, and cooler colors mean more differentiated. We can use the `Gene` radio button to plot the expression of different marker genes for Basal and Luminal cells.
-
-![Plotting Krt5 compared to CytoTRACE scores](/assets/module_8/cytoTRACE.basal.png)
-
-![Plotting Cd24a compared to CytoTRACE scores](/assets/module_8/cytoTRACE.luminal.png)
-
-Once we have verified that the CytoTRACE scores are assigned in a way that corresponds with our biological knowledge we can click the `Download CytoTRACE results` button at the top left of the page. 
-
-#### Import CytoTRACE scores
-
-We now want to add our CytoTRACE scores to our Seurat object. So we navigate to the `Upload` button and select our exported CytoTRACE scores from where the file was downloaded. We then read it into R and add the scores to our Seurat object as another column in the meta.data.
 ```R
+rep135_epithelial_cytotrace_transposed <- as.data.frame(rep135_epithelial_cytotrace_scores$CytoTRACE) 
+names(rep135_epithelial_cytotrace_transposed) <- "cytotrace_scores"
 
-cytotrace_scores <- read.table("outdir/CytoTRACE_results.txt", sep="\t") # read in the cytotrace scores
+head(rep135_epithelial_cytotrace_transposed)
 
-rownames(cytotrace_scores) <- sub("\\.", "-", rownames(cytotrace_scores)) # the barcodes export with a `.` instead of a '-' at the end of the barcode so we have to remedy that before joining the cytotrace scores unto our seurat object
-
-# Add CytoTRACE scores matching on the cell barcodes
-rep135_epithelial <- AddMetaData(rep135_epithelial, cytotrace_scores %>% select("CytoTRACE"))
+# fix the barcode formatting 
+rownames(rep135_epithelial_cytotrace_transposed) <- sub("\\.", "-", rownames(rep135_epithelial_cytotrace_transposed))
+rownames(rep135_epithelial_cytotrace_transposed)
 ```
 
-Now we can plot our basal cell markers, our luminal cell markers, and the CytoTRACE scores together to compare. Since it is a little unintuitive that less differentiated scores are closer to 1 we will also create a `differentiation_score` which will be an inverse of our CytoTRACE scores so that smaller scores mean less differentiated and larger scores mean more differentiated. 
+Add the data to the object
+```
+rep135_epithelial <- AddMetaData(rep135_epithelial, rep135_epithelial_cytotrace_transposed %>% select("cytotrace_scores"))
 
-```R
-rep135_epithelial[['differentiation_scores']] <- 1 - rep135_epithelial[['CytoTRACE']] # Let's also reverse out CytoTRACE scores so that high means more differentiated and low means less differentiated
+rep135_epithelial[['differentiation_scores']] <- 1 - rep135_epithelial[['cytotrace_scores']] # Let's also reverse out CytoTRACE scores so that high means more differentiated and low means less differentiated
 
 FeaturePlot(object = rep135_epithelial, features = c("cell_type_Basal_score1", "cell_type_Luminal_score1", "cytotrace_scores", "differentiation_scores"))
 ```
+
+<img src="/assets/module_8/CytotraceScores_epithelial.png" alt="Cytotrace scores of epitheial cells" width="1000"/>
 
 #### Subsetting to just luminal cells
 
@@ -154,7 +140,9 @@ rep135_luminal_expression <- data.frame(GetAssayData(object = rep135_luminal, la
 
 rep135_luminal_cytotrace_scores <- CytoTRACE(rep135_luminal_expression, ncores = 1)
 
-rep135_luminal_cytotrace_transposed <- as.data.frame(rep135_luminal_cytotrace_scores$CytoTRACE) %>% rename("cytotrace_scores" = "rep135_luminal_cytotrace_scores$CytoTRACE")
+rep135_luminal_cytotrace_transposed <- as.data.frame(rep135_luminal_cytotrace_scores$CytoTRACE) 
+names(rep135_luminal_cytotrace_transposed) <- "cytotrace_scores"
+
 head(rep135_luminal_cytotrace_transposed)
 
 # fix the barcode formatting 
@@ -167,7 +155,7 @@ We then can add those CytoTRACE scores to our luminal cell object and visualize 
 ```R
 rep135_luminal <- AddMetaData(rep135_luminal, rep135_luminal_cytotrace_transposed)
 
-rep135_luminal[['differentiation_scores_luminal']] <- 1 - rep135_luminal[['CytoTRACE']]
+rep135_luminal[['differentiation_scores_luminal']] <- 1 - rep135_luminal[['cytotrace_scores']]
 rep135_luminal[['differentiation_scores_epithelial']] <- 1 - rep135_luminal[['differentiation_scores']]
 
 # compare all epithelial cells CytoTRACE scores to the luminal-only CytoTRACE
@@ -176,6 +164,9 @@ rep135_luminal[['differentiation_scores_epithelial']] <- 1 - rep135_luminal[['di
   (FeaturePlot(object = rep135_luminal, features = c("differentiation_scores_luminal")) +
       ggtitle("Luminal Cells CytoTRACE Scores"))
 ```
+
+<img src="/assets/module_8/Epithelial_Luminal_CytotraceScores.png" alt="Cytotrace scores of epitheial and luminal cells" width="1000"/>
+
 
 CytoTRACE will force all given cells onto the same scale meaning that there has to be cells at both the low and high ends of differentiation. The CytoTRACE scores could be a reflection of cell cycling genes. We can check by using a feature plot to compare the S-phase genes, G2/M-phase genes, and differentiation scores.
 
@@ -228,7 +219,7 @@ Then we run the Monocle function `cluster_cells`. This function will redo unsupe
 rep135_cds <- cluster_cells(rep135_cds)
 ```
 
-Use the Monolce3 plotting functions to visualize partitions. Then we will execute the function `learn_graph` which will build the trajectory. We will set the use_partition parameter to FALSE so that we learn a trajectory across all clusters. Later you can come back and try setting it to TRUE and see what happens!
+Use the Monolce3 plotting functions to visualize partitions. Then we will execute the function `learn_graph` which will build the trajectory. We will set the `use_partition` parameter to FALSE so that we learn a trajectory across all clusters. Later you can come back and try setting it to TRUE and see what happens!
 
 ```R
 plot_cells(rep135_cds, show_trajectory_graph = FALSE, color_cells_by = "partition")
@@ -269,15 +260,14 @@ We need a significant amount of computational power to run CytoTRACE on all cell
 # Cytotrace for all cells
 
 # read in the cytotrace scores
-rep135_cytotrace <- read.table("outdir_single_cell_rna/rep135_cytotrace_scores.tsv", sep="\t") 
+rep135_cytotrace <- read.table("data/single_cell_rna/reference_files/rep135_cytotrace_scores.tsv", sep="\t") 
 head(rep135_cytotrace)
 
-# rename the column that stores the scores to be more clearly accessed
+
 rep135_cytotrace_transposed <- t(rep135_cytotrace)
 colnames(rep135_cytotrace_transposed) <- "CytoTRACE"
 head(rep135_cytotrace_transposed)
 
-# fix the barcode formatting, our seurat 
 rownames(rep135_cytotrace_transposed) <- sub("\\.", "-", rownames(rep135_cytotrace_transposed))
 rownames(rep135_cytotrace_transposed)
 ```
@@ -287,7 +277,7 @@ Now we can add the scores to our seurat object and also create an inverse CytoTR
 ```R
 # Add CytoTRACE scores matching on the cell barcodes
 rep135 <- AddMetaData(rep135, rep135_cytotrace_transposed)
-rep135[["differentiation_score"]] <- 1 - rep135[["cytotrace_scores"]]
+rep135[["differentiation_score"]] <- 1 - rep135[["CytoTRACE"]]
 
 ```
 
@@ -295,7 +285,7 @@ Finally, let's compare the pseudotime values to our cell types. **Do we get the 
 
 ```R
 plot_cells(rep135_cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1) + 
-  (FeaturePlot(rep135, features = 'differentiation_score') + scale_color_viridis(option = 'magma', discrete = FALSE)) +
+  (FeaturePlot(rep135, features = 'differentiation_score')) +
 DimPlot(rep135, group.by = 'immgen_singler_main', label = TRUE)
 ```
 ![Monocle pseudotime compared with CytoTRACE pseudtime](/assets/module_8/monocle_cytotrace_celltypes.png)
@@ -443,6 +433,52 @@ rep135_cds <- order_cells(rep135_cds, root_pr_nodes=root_pr_nodes)
 
 plot_cells(rep135_cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1)
 
+```
+
+### Running Cytotrace Online
+First, we have to export the counts. 
+
+```R
+rep135_mtx <- GetAssayData(rep135_epithelial, layer = "counts")
+write.csv(rep135_mtx, "outdir/rep135_epithelial_counts.csv")
+```
+
+Then export the file from posit. In the file window select `rep135_epithelial_counts.csv`. Then go to More -> Export... and click Download. 
+
+Now we go to [https://cytotrace.stanford.edu/](https://cytotrace.stanford.edu/). We will navigate to the `Run CytoTRACE` tab on the left menu bar and upload our downloaded csv in the `Upload gene expression table`. We will not worry about uploading any other files as of now but if we had a larger dataset we could provide cell type and batch information for our cells. 
+
+When uploaded click `Run CytoTRACE`. This may take a few minutes. 
+
+![Uploading to Cytotrace](/assets/module_8/cytoTRACE.upload.png)
+
+
+We can then spend some time exploring CytoTRACE scores. For CytoTRACE, warmer colors mean less differentiation, and cooler colors mean more differentiated. We can use the `Gene` radio button to plot the expression of different marker genes for Basal and Luminal cells.
+
+![Plotting Krt5 compared to CytoTRACE scores](/assets/module_8/cytoTRACE.basal.png)
+
+![Plotting Cd24a compared to CytoTRACE scores](/assets/module_8/cytoTRACE.luminal.png)
+
+Once we have verified that the CytoTRACE scores are assigned in a way that corresponds with our biological knowledge we can click the `Download CytoTRACE results` button at the top left of the page. 
+
+#### Import CytoTRACE scores
+
+We now want to add our CytoTRACE scores to our Seurat object. So we navigate to the `Upload` button and select our exported CytoTRACE scores from where the file was downloaded. We then read it into R and add the scores to our Seurat object as another column in the meta.data.
+```R
+
+cytotrace_scores <- read.table("outdir/CytoTRACE_results.txt", sep="\t") # read in the cytotrace scores
+
+rownames(cytotrace_scores) <- sub("\\.", "-", rownames(cytotrace_scores)) # the barcodes export with a `.` instead of a '-' at the end of the barcode so we have to remedy that before joining the cytotrace scores unto our seurat object
+
+# Add CytoTRACE scores matching on the cell barcodes
+rep135_epithelial <- AddMetaData(rep135_epithelial, cytotrace_scores %>% select("CytoTRACE"))
+```
+
+Now we can plot our basal cell markers, our luminal cell markers, and the CytoTRACE scores together to compare. Since it is a little unintuitive that less differentiated scores are closer to 1 we will also create a `differentiation_score` which will be an inverse of our CytoTRACE scores so that smaller scores mean less differentiated and larger scores mean more differentiated. 
+
+```R
+rep135_epithelial[['differentiation_scores']] <- 1 - rep135_epithelial[['CytoTRACE']] # Let's also reverse out CytoTRACE scores so that high means more differentiated and low means less differentiated
+
+FeaturePlot(object = rep135_epithelial, features = c("cell_type_Basal_score1", "cell_type_Luminal_score1", "cytotrace_scores", "differentiation_scores"))
 ```
 
 
