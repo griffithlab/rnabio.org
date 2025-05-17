@@ -201,7 +201,7 @@ DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human 
 
 ```R
 # read in gene ID to name mappings (using "fread" an alternative to "read.table")
-mapping <- fread("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = FALSE)
+mapping <- fread("/cloud/project/data/bulk_rna/ENSG_ID2Name.txt", header = FALSE)
 
 # add names to the columns in the "mapping" dataframe
 setnames(mapping, c("ensemblID", "Symbol"))
