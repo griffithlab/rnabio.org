@@ -258,7 +258,7 @@ Download the file: `outdir/DE_sig_genes_DESeq2.tsv`. Open this spreadsheet, sort
 
 <br>
 *g:Profiler example result*
-{% include figure.html image="/assets/module_3/Gprofiler-example.png" width="400" %}
+{% include figure.html image="/assets/module_3/Gprofiler-example.png" width="1200" %}
 
 
 
