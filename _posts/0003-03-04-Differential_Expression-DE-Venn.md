@@ -2,7 +2,7 @@
 feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
-title: Comparison of DE results from alternative DE tools
+title: Compare DE genes across methods
 categories:
     - Module-03-Expression
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
