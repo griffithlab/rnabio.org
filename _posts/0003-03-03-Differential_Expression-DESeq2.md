@@ -250,3 +250,16 @@ saveRDS(res, "res.rds")
 saveRDS(resLFC, "resLFC.rds")
 ```
 
+### Perform some preliminary exploration of DE genes using webtools
+
+Download the file: `outdir/DE_sig_genes_DESeq2.tsv`. Open this spreadsheet, sort on "log2FoldChange" column and find the top 100 significant genes with higher expression in HBR (brain). 
+
+- Try querying with the top 100 HBR over-expressed genes using: [gprofiler](https://biit.cs.ut.ee/gprofiler/gost)
+
+<br>
+*g:Profiler example result*
+{% include figure.html image="/assets/module_3/Gprofiler-example.png" width="400" %}
+
+
+
+
