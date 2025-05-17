@@ -29,7 +29,7 @@ In this tutorial you will:
 
 ### Setup
 
-Here we launch R, install relevant packages (if needed), set working directories and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
+Here we launch R, install relevant packages (if needed), set working directories and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously using [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using this type of raw count data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions to be compared.
 
 Launch R:
 
@@ -62,13 +62,13 @@ htseqCounts = fread("gene_read_counts_table_all_final.tsv")
 ```
 
 ### Format htseq counts data to work with DESeq2
-DESeq2 has a number of options for data import and actually has a function to read HTseq output files directly. Here the most universal option is used, reading in raw counts from a matrix in simple TSV format (one row per gene, one column per sample). The HTseq count data that was read in above is stored as an object of class data.table, this can be verified with the `class()` function. To use in this exercise it is required to convert this object to an appropriate matrix format with gene names as rows and samples as columns. 
+DESeq2 has a number of options for data import and has a function to read HTseq output files directly. Here the most universal option is used, reading in raw counts from a matrix in simple TSV format (one row per gene, one column per sample). The HTseq count data that was read in above is stored as an object of class "data.table", this can be verified with the `class()` function. Before use in this exercise it is required to convert this object to an appropriate matrix format with gene names as rows and samples as columns.
 
 It should be noted that while the replicate samples are technical replicates (i.e. the same library was sequenced), herein they are treated as biological replicates for illustrative purposes. DESeq2 does have a function to collapse technical replicates though.
 
 ```R
 
-# view class of the data
+# view the class of the data
 class(htseqCounts)
 
 # convert the data.table to matrix format
@@ -81,7 +81,7 @@ rownames(htseqCounts) = htseqCounts[, "GeneID"]
 # now that the gene IDs are the row names, remove the redundant column that contains them
 htseqCounts = htseqCounts[, colnames(htseqCounts) != "GeneID"]
 
-# convert the actual count values from strings (with spaces) to integers, because originally the gene column contained characters, the entire matrix was set to character
+# convert the count values from strings (with spaces) to integers, because originally the gene column contained characters, the entire matrix was set to character
 class(htseqCounts) = "integer"
 
 # view the first few lines of the gene count matrix
@@ -91,15 +91,15 @@ head(htseqCounts)
 
 ### Filter raw counts
 
-Before running DESeq2 or any differential expression analysis it is useful to pre-filter data. There are computational benefits to doing this as the memory size of the objects within R will decrease and DESeq2 will have less data to work through and will be faster. By removing "low quality" data, it is also reduces the number of statistical tests performed, which is turn reduces the impact of multiple test correction and can lead to more significant genes. 
+Before running DESeq2 (or any differential expression analysis) it is useful to pre-filter data. There are computational benefits to doing this as the memory size of the objects within R will decrease and DESeq2 will have less data to work through and will be faster. By removing "low quality" data, it is also reduces the number of statistical tests that will be performed, which in turn reduces the impact of multiple test correction and can lead to more significant genes. 
 
-The amount of pre-filtering is up to the analyst however, it should be done in an unbiased way. DESeq2 recommends removing any gene with less than 10 reads across all samples. Below, we filter a gene if at least 1 sample does not have at least 10 reads. Either way, mostly what is being removed here are genes with very little evidence for expression in any sample (in may cases 0 counts in all samples). 
+The amount of pre-filtering is up to the analyst however, it should be done in an unbiased way. DESeq2 recommends removing any gene with less than 10 reads across all samples. Below, we filter a gene if at least 1 sample does not have at least 10 reads. Either way, mostly what is being removed here are genes with very little evidence for expression in any sample (in many cases gene with 0 counts in all samples).
 
 ```R
 # run a filtering step
 # i.e. require that for every gene: at least 1 of 6 samples must have counts greater than 10
 # get index of rows that meet this criterion and use that to subset the matrix
-# note the dimensions of the matrix before and after filtering with dim
+# note the dimensions of the matrix before and after filtering with dim()
 
 dim(htseqCounts)
 htseqCounts = htseqCounts[which(rowSums(htseqCounts >= 10) >= 1), ]
@@ -114,15 +114,16 @@ dim(htseqCounts)
 
 ### Specifying the experimental design
 
-As mentioned above DESeq2 also needs to know the experimental design, that is which samples belong to which condition to test. The experimental design for the example dataset herein is quite simple as there are 6 samples with one condition to test, as such we can just create the experimental design right within R. There is one important thing to note, DESeq2 does not check sample names, it expects that the column names in the counts matrix we created correspond exactly to the row names we specifiy in the experimental design.
+As mentioned above DESeq2 also needs to know the experimental design, that is which samples belong to which condition to test. The experimental design for the example dataset herein is quite simple as there are 6 samples with two conditions to compare (UHR vs HBR), as such we can just create the experimental design right within R. There is one important thing to note, DESeq2 does not check sample names, it expects that the column names in the counts matrix we created correspond exactly to the row names we specify in the experimental design.
 
 ```R
 # construct a mapping of the meta data for our experiment (comparing UHR cell lines to HBR brain tissues)
-# in simple terms this is defining the biological condition/label for each experimental replicate
+# this is defining the biological condition/label for each experimental replicate
 # create a simple one column dataframe to start
 metaData <- data.frame("Condition" = c("UHR", "UHR", "UHR", "HBR", "HBR", "HBR"))
 
-# convert the "Condition" column to a factor data type, this will determine the direction of log2 fold-changes for the genes (i.e. up or down regulated)
+# convert the "Condition" column to a factor data type
+# the arbitrary order of these factors will determine the direction of log2 fold-changes for the genes (i.e. up or down regulated)
 metaData$Condition = factor(metaData$Condition, levels = c("HBR", "UHR"))
 
 # set the row names of the metaData dataframe to be the names of our sample replicates from the read counts matrix
@@ -151,9 +152,9 @@ dds = DESeqDataSetFromMatrix(countData = htseqCounts, colData = metaData, design
 
 ### Running DESeq2
 With all the data now in place DESeq2 can be run. Calling DESeq2 will perform the following actions:
-- Estimation of size factors
-- Estimation of dispersion
-- Perform "independent filtering" to reduce the number of statistical test performed (see ?results and https://doi.org/10.1073/pnas.0914005107 for details)
+- Estimation of size factors. i.e. accounting for differences in sequencing depth (or library size) across samples.
+- Estimation of dispersion. i.e. estimate the biological variability (over and above the expected variation from sampling) in gene expression across biological replicates. This is neeeded to assess the significance of differences across conditions. Additional work is performed to correct for higher dispersion seen for genes with low expression.
+- Perform "independent filtering" to reduce the number of statistical tests performed (see ?results and https://doi.org/10.1073/pnas.0914005107 for details)
 - Negative Binomial GLM fitting and performing the Wald statistical test
 - Correct p values for multiple testing using the Benjamini and Hochberg method
 
@@ -224,7 +225,7 @@ head(deGeneResult)
 ```
 
 ### Data manipulation
-With the DE analysis complete it is useful to view and filter the data frames to only the relevant genes, here some basic data manipulation is performed filtering to significant genes at specific thresholds.
+With the DE analysis complete it is useful to view and filter the data frames to only the relevant genes. Here some basic data manipulation is performed, filtering to significant genes at specific thresholds.
 
 ```R
 # view the top genes according to adjusted p-value
@@ -265,7 +266,6 @@ saveRDS(resLFC, "resLFC.rds")
 # to exit R type the following
 quit(save = "no")
 ```
-
 
 
 ### Visualize overlap with a venn diagram. This can be done with simple web tools like:
