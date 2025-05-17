@@ -44,8 +44,8 @@ R
 # BiocManager::install("DESeq2")
 
 # define working dir paths
-datadir = "~/workspace/rnaseq/expression/htseq_counts/"
-outdir = "~/workspace/rnaseq/de/deseq2/"
+datadir = "/cloud/project/data/bulk_rna"
+outdir = "/cloud/project/outdir"
 
 # create a directory for DESeq2 results, if none exists
 if (!dir.exists(outdir)) dir.create(outdir)
