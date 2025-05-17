@@ -29,26 +29,12 @@ In this tutorial you will:
 
 ### Setup
 
-Here we launch R, install relevant packages (if needed), set working directories and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
-
-Launch R:
-
-```bash
-R
-```
+Here we start from R, relevant packages should already be installed so we will load the libraries, set working directories and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
 
 ```R
-# Install the latest version of DEseq2
-# if (!requireNamespace("BiocManager", quietly = TRUE))
-#   install.packages("BiocManager")
-# BiocManager::install("DESeq2")
-
 # define working dir paths
 datadir = "/cloud/project/data/bulk_rna"
 outdir = "/cloud/project/outdir"
-
-# create a directory for DESeq2 results, if none exists
-if (!dir.exists(outdir)) dir.create(outdir)
 
 # load R libraries we will use in this section
 library(DESeq2)
@@ -200,7 +186,7 @@ DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human 
 
 ```R
 # read in gene ID to name mappings (using "fread" an alternative to "read.table")
-mapping <- fread("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = FALSE)
+mapping <- fread("ENSG_ID2Name.txt", header = FALSE)
 
 # add names to the columns in the "mapping" dataframe
 setnames(mapping, c("ensemblID", "Symbol"))
@@ -261,57 +247,5 @@ fwrite(deGeneResultSignificant, file="DE_sig_genes_DESeq2.tsv", sep="\t")
 saveRDS(dds, "dds.rds")
 saveRDS(res, "res.rds")
 saveRDS(resLFC, "resLFC.rds")
-
-# to exit R type the following
-quit(save = "no")
 ```
-
-
-
-### Visualize overlap with a venn diagram. This can be done with simple web tools like:
-
-* [https://www.biovenn.nl/](https://www.biovenn.nl/)
-* [http://bioinfogp.cnb.csic.es/tools/venny/](http://bioinfogp.cnb.csic.es/tools/venny/)
-
-Once you have run the DESeq2 tutorial, compare the sigDE genes to those saved earlier from ballgown:
-
-```bash
-head $RNA_HOME/de/ballgown/ref_only/DE_genes.txt
-head $RNA_HOME/de/deseq2/DE_sig_genes_DESeq2.tsv
-
-```
-
-Pull out the gene IDs
-```bash
-cd $RNA_HOME/de/
-
-cut -f 1 $RNA_HOME/de/ballgown/ref_only/DE_genes.txt | sort | uniq > ballgown_DE_gene_symbols.txt
-cut -f 7 $RNA_HOME/de/deseq2/DE_sig_genes_DESeq2.tsv | sort | uniq | grep -v Symbol > DESeq2_DE_gene_symbols.txt
-
-```
-
-To get the two gene lists you could use `cat` to print out each list in your terminal and then copy/paste.
-
-```bash
-cat ballgown_DE_gene_symbols.txt
-cat DESeq2_DE_gene_symbols.txt
-
-```
-
-Alternatively you could view both lists in a web browser as you have done with other files. These two files should be here:
-
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/DESeq2_DE_gene_symbols.txt
-
-##### Example Venn Diagram (Two-way comparison: DE genes from StringTie/Ballgown vs HTSeq/DESeq2)
-
-<br>
-{% include figure.html image="/assets/module_3/venn-ballgown-vs-deseq2.png" width="400" %}
-
-
-##### Example Venn Diagram (Three-way comparison: DE genes from StringTie/Ballgown vs HTSeq/DESeq2 vs HTSeq/EdgeR)
-
-<br>
-{% include figure.html image="/assets/module_3/venn-ballgown-vs-deseq2-vs-edger.png" width="500" %}
-
 
