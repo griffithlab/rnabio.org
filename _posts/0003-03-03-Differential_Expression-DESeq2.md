@@ -201,18 +201,18 @@ DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human 
 
 ```R
 # read in gene ID to name mappings (using "fread" an alternative to "read.table")
-mapping <- fread("/cloud/project/data/bulk_rna/ENSG_ID2Name.txt", header = FALSE)
+gene_id_mapping <- fread("/cloud/project/data/bulk_rna/ENSG_ID2Name.txt", header = FALSE)
 
-# add names to the columns in the "mapping" dataframe
-setnames(mapping, c("ensemblID", "Symbol"))
+# add names to the columns in the "gene_id_mapping" dataframe
+setnames(gene_id_mapping, c("ensemblID", "Symbol"))
 
 # view the first few lines of the gene ID to name mappings
-head(mapping)
+head(gene_id_mapping)
 
 # merge on gene names
 deGeneResult$ensemblID = rownames(deGeneResult)
 deGeneResult = as.data.table(deGeneResult)
-deGeneResult = merge(deGeneResult, mapping, by = "ensemblID", all.x = TRUE)
+deGeneResult = merge(deGeneResult, gene_id_mapping, by = "ensemblID", all.x = TRUE)
 
 # merge the original raw count values onto this final dataframe to aid interpretation
 original_counts = as.data.frame(htseqCounts)
