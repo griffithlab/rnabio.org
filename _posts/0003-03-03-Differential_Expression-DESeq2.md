@@ -255,10 +255,22 @@ saveRDS(resLFC, "resLFC.rds")
 Download the file: `outdir/DE_sig_genes_DESeq2.tsv`. Open this spreadsheet, sort on "log2FoldChange" column and find the top 100 significant genes with higher expression in HBR (brain). 
 
 - Try querying with the top 100 HBR over-expressed genes using: [g:Profiler](https://biit.cs.ut.ee/gprofiler/gost)
+- Try querying with the top 100 HBR over-expressed genes using: [TissueEnrich](https://tissueenrich.gdcb.iastate.edu/). Use the Tissue Enrichment tool. This tool also requires a Background Gene List.  Use all genes in `DE_all_genes_DESeq2.tsv` for this purpose. You can also manually explore some individual genes over-expressed in UHR with the Tissue-Specific Genes tool.  For example, try **PRAME** and **SERPIND1**, two of the top UHR genes.
 
 *g:Profiler example result*
 {% include figure.html image="/assets/module_3/Gprofiler-example.png" width="1200" %}
 
+*TissueEnrich summary for top 100 HBR over-expressed genes*
+{% include figure.html image="/assets/module_3/TissueEnrich-HBR-Genes-1.png" width="1200" %}
 
+*TissueEnrich result for Cerebral Cortex tissue*
+{% include figure.html image="/assets/module_3/TissueEnrich-HBR-Genes-2.png" width="1200" %}
 
+*TissueEnrich example for UHR over-expressed gene: PRAME*
+{% include figure.html image="/assets/module_3/TissueEnrich-UHR-PRAME.png" width="1200" %}
+
+*TissueEnrich example for UHR over-expressed gene: SERPIND1*
+{% include figure.html image="/assets/module_3/TissueEnrich-UHR-SERPIND1.png" width="1200" %}
+
+Does all of this make sense when we think about the makeup of the HBR and UHR samples? Refer back to the [description of the samples](module-01-inputs/0001/05/01/RNAseq_Data/).
 
