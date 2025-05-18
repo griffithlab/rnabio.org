@@ -282,7 +282,7 @@ ggplot(data = results_genes[results_genes$diffexpressed != "No",], aes(x = log2F
 dev.off()
 
 #To exit R type:
-quit(save = "no")
+#quit(save = "no")
 
 ```
 
