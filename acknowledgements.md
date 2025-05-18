@@ -8,9 +8,9 @@ excerpt: ""
 layout: "home"
 ---
 
-These materials have been developed with the support of the [Cold Spring Harbor Laboratory](http://meetings.cshl.edu/courseshome.aspx) the [Cancer Research Institute](https://www.cancerresearch.org/bootcamp) and [Canadian Bioinformatics Workshops](https://bioinformatics.ca/workshops/) organizations. Creation of the section on Amazon AWS EC2 and the cost of student instances was generously supported by [Amazon AWS Education grants](https://aws.amazon.com/grants/).
+These materials have been developed with the support of the [Cold Spring Harbor Laboratory](http://meetings.cshl.edu/courseshome.aspx), the [Cancer Research Institute](https://www.cancerresearch.org/bootcamp), and [Canadian Bioinformatics Workshops](https://bioinformatics.ca/workshops/) organizations. Creation of the section on Amazon AWS EC2 and the cost of student instances was generously supported by [Amazon AWS Education grants](https://aws.amazon.com/grants/).
 
-Some of the methods/tools used in this course (e.g. regtools) were supported by funding to Malachi Griffith from the [V Foundation for Cancer Research](https://www.jimmyv.org/).
+Some of the methods/tools used in this course (e.g. RegTools) were supported by funding to Malachi Griffith from the [V Foundation for Cancer Research](https://www.jimmyv.org/).
 
 This work would not be possible without building upon what others have contributed to the bioinformatics community. We would like to thank the authors of the bioinformatic tools and resources upon which this tutorial is based.
 
