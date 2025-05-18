@@ -136,4 +136,5 @@ Work through the following very basic intro to this tool with the following step
 - View the p-value sorted list for cluster 13.
 - Select the `Klra4` feature and view the Expression Distribution view.
 - Select all clusters and view the Heat Map view. What is notable about many of the most Up-regulated genes in this view?
+- Return to the V(D)J Clonotypes view. Select the 40 clonotypes with a count of 3 or greater. Observe the pattern of this subset of T cells in the t-SNE. Hit the "Save Barcodes" button. This will create a custom set in the Clusters view. In this view you can perform a Differential Expression analysis, comparing these expanded CDR clonotype cells to all other cells. What are the top genes? (Gzmk, Pdcd1, Cxcr6, Lag3, Gzmb, etc.)
 
