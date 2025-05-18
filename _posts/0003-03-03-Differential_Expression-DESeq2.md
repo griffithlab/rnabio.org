@@ -140,14 +140,14 @@ dds = DESeqDataSetFromMatrix(countData = htseqCounts, colData = metaData, design
 # the design formula above is often a point of confussion, it is useful to put in words what is happening, when we specify "design = ~Condition" we are saying
 # regress gene expression on condition, or put another way model gene expression on condition
 # gene expression is the response variable and condition is the explanatory variable
-# you can put words to formulas using this cheat sheet https://www.econometrics.blog/post/the-r-formula-cheatsheet/
+# you can put words to formulas using this [cheat sheet](https://www.econometrics.blog/post/the-r-formula-cheatsheet/)
 ```
 
 ### Running DESeq2
 With all the data now in place, DESeq2 can be run. Calling DESeq2 will perform the following actions:
 - Estimation of size factors. i.e. accounting for differences in sequencing depth (or library size) across samples.
-- Estimation of dispersion. i.e. estimate the biological variability (over and above the expected variation from sampling) in gene expression across biological replicates. This is neeeded to assess the significance of differences across conditions. Additional work is performed to correct for higher dispersion seen for genes with low expression.
-- Perform "independent filtering" to reduce the number of statistical tests performed (see ?results and https://doi.org/10.1073/pnas.0914005107 for details)
+- Estimation of dispersion. i.e. estimate the biological variability (over and above the expected variation from sampling) in gene expression across biological replicates. This is needed to assess the significance of differences across conditions. Additional work is performed to correct for higher dispersion seen for genes with low expression.
+- Perform "independent filtering" to reduce the number of statistical tests performed (see `?results` and [this paper](https://doi.org/10.1073/pnas.0914005107) for details)
 - Negative Binomial GLM fitting and performing the Wald statistical test
 - Correct p values for multiple testing using the Benjamini and Hochberg method
 
