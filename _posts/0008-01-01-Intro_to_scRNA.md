@@ -12,7 +12,7 @@ date: 0008-01-01
 ### Module 8 - Key concepts
 * Key differences between bulk RNA-seq data and single-cell RNA-seq data
 * Technology, sensitivity, and throughput of plate-based and droplet-based scRNA-seq platforms
-* 10xGenomics Chromium technology, library structure, and Cellranger analysis pipeline
+* 10x Genomics Chromium technology, library structure, and Cell Ranger analysis pipeline
 * Key metrics of data quality
 * Genomic composition of scRNA-seq data
 * Statistical properties of key variables (genes per cell, UMIs per cell, etc.)
@@ -26,9 +26,9 @@ date: 0008-01-01
 ### Module 8 - Learning objectives
 * Understand the applications of scRNA-seq
 * Learn the advantages of different scRNA-seq platforms
-* Understand the 10xGenomics technology
-* Learn the Cellranger commands for initial processing of 10xGenomics data
-* Understand Cellranger output files
+* Understand the 10x Genomics technology
+* Learn the Cell Ranger commands for initial processing of 10x Genomics data
+* Understand Cell Ranger output files
 * Learn to assess the quality of your data 
 * Use the loupe browser to perform initial data exploration
 * Understand the rationale underlying scRNAseq analysis steps

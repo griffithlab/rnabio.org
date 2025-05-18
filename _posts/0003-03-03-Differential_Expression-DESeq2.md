@@ -136,13 +136,14 @@ With all the data properly formatted it is now possible to combine all the infor
 
 dds = DESeqDataSetFromMatrix(countData = htseqCounts, colData = metaData, design = ~Condition)
 
-# the formula is often a point of confussion, it is usefull to put in words what is happening, when we specify design = ~Condition we are saying regress gene expression on condition or put another way model gene expression on condition
-# gene exression is the response variable and condition is the explanatory variable
+# the design formula above is often a point of confussion, it is useful to put in words what is happening, when we specify "design = ~Condition" we are saying
+# regress gene expression on condition, or put another way model gene expression on condition
+# gene expression is the response variable and condition is the explanatory variable
 # you can put words to formulas using this cheat sheet https://www.econometrics.blog/post/the-r-formula-cheatsheet/
 ```
 
 ### Running DESeq2
-With all the data now in place DESeq2 can be run. Calling DESeq2 will perform the following actions:
+With all the data now in place, DESeq2 can be run. Calling DESeq2 will perform the following actions:
 - Estimation of size factors. i.e. accounting for differences in sequencing depth (or library size) across samples.
 - Estimation of dispersion. i.e. estimate the biological variability (over and above the expected variation from sampling) in gene expression across biological replicates. This is neeeded to assess the significance of differences across conditions. Additional work is performed to correct for higher dispersion seen for genes with low expression.
 - Perform "independent filtering" to reduce the number of statistical tests performed (see ?results and https://doi.org/10.1073/pnas.0914005107 for details)
@@ -177,17 +178,32 @@ resultsNames(dds)
 resLFC = lfcShrink(dds, coef = "Condition_UHR_vs_HBR", type = "apeglm")
 
 # make a copy of the shrinkage results to manipulate
-deGeneResult <- resLFC
+deGeneResult = resLFC
 
-#contrast the values before and after shrinkage
-ggplot() +
-  geom_density(data=res, mapping=aes(x=log2FoldChange), color='tomato4') +
-  geom_density(data=deGeneResult, mapping=aes(x=log2FoldChange), color='slategray') +
-  theme_bw()
+# contrast the values before and after shrinkage
+# create a temporary, simplified data structure with the values before/after shrinkage, and create a new column called "group" with this label
+res_before = res
+res_before$group = "before shrinkage"
+res_after = deGeneResult
+res_after$group = "after shrinkage"
+res_combined = rbind(res_before[,c("log2FoldChange","group")], res_after[,c("log2FoldChange","group")])
+
+# adjust the order so that the legend has "before shrinkage" listed first
+res_combined$group = factor(res_combined$group, levels = c("before shrinkage", "after shrinkage"))
+
+# look at the fold change values
+head(res_before)
+head(res_after)
+
+ggplot(res_combined, aes(x = log2FoldChange, color = group)) + geom_density() + theme_bw() +
+  scale_color_manual(values = c("before shrinkage" = "tomato4", "after shrinkage" = "slategray")) +
+  labs(color = "Shrinkage status")
+
 ```
 
-How did the results change before and after shinkage? What direction is each log2 fold change value moving?
+How did the results change before and after shinkage? What direction is each log2 fold change value moving? 
 
+Note that for these data, the impact of shrinkage is very subtle but the pattern is that fold change values move towards 0.
 
 ### Annotate gene symbols onto the DE results
 DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human friendly way to interpret results. Here gene symbols are merged onto the differential expressed gene list to make the results a bit more interpretable.
