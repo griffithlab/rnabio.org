@@ -251,6 +251,11 @@ ranked_genes <- sort(ranked_genes, decreasing = TRUE)
 ```
 Using gseGO, we can analyze the ranked DE genes list to create classic GSEA enrichment plots. These plots help us see how gene expression levels are distributed across the pathways that were identified as significant in our initial analysis. By examining the ranking of gene expression within these pathways, we can get a clearer picture of how specific pathways are activated or suppressed in our data set.
 ```R
+# Install a package missing from the template
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager", quiet = TRUE)
+BiocManager::install("pathview", update = FALSE, ask = FALSE, quiet = TRUE)
+
 # Load relevant packages
 library(enrichplot)
 library(clusterProfiler)
