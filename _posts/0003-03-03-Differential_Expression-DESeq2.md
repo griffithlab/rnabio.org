@@ -39,6 +39,7 @@ outdir = "/cloud/project/outdir"
 # load R libraries we will use in this section
 library(DESeq2)
 library(data.table)
+library(ggplot2)
 
 # set working directory to data dir
 setwd(datadir)
@@ -87,15 +88,15 @@ The amount of pre-filtering is up to the analyst however, it should be done in a
 # get index of rows that meet this criterion and use that to subset the matrix
 # note the dimensions of the matrix before and after filtering with dim()
 
+# breaking apart the command below to understand it's outcome
+tail(htseqCounts >= 10) # determine which cells have counts greater than 10
+tail(rowSums(htseqCounts >= 10)) # determine for which genes how many samples have counts greater than 10
+tail(rowSums(htseqCounts >= 10) >= 1) # filter to those entries/genes for which at least one sample has counts greater than 10
+tail(which(rowSums(htseqCounts >= 10) >= 1)) #obtain the index for the above filter criteria
+
 dim(htseqCounts)
 htseqCounts = htseqCounts[which(rowSums(htseqCounts >= 10) >= 1), ]
 dim(htseqCounts)
-
-# Hint! if you find the above command confusing, break it into pieces and observe the result
-# 
-# what does "rowSums(htseqCounts >= 10)" do?
-#
-# what does "rowSums(htseqCounts >= 10) >=1" do?
 ```
 
 ### Specifying the experimental design
@@ -134,6 +135,10 @@ With all the data properly formatted it is now possible to combine all the infor
 # and designs with interactions such as "~ genotype + treatment + genotype:treatment".
 
 dds = DESeqDataSetFromMatrix(countData = htseqCounts, colData = metaData, design = ~Condition)
+
+# the formula is often a point of confussion, it is usefull to put in words what is happening, when we specify design = ~Condition we are saying regress gene expression on condition or put another way model gene expression on condition
+# gene exression is the response variable and condition is the explanatory variable
+# you can put words to formulas using this cheat sheet https://www.econometrics.blog/post/the-r-formula-cheatsheet/
 ```
 
 ### Running DESeq2
@@ -174,9 +179,11 @@ resLFC = lfcShrink(dds, coef = "Condition_UHR_vs_HBR", type = "apeglm")
 # make a copy of the shrinkage results to manipulate
 deGeneResult <- resLFC
 
-#contrast the values for a few genes before and after shrinkage
-head(res)
-head(deGeneResult)
+#contrast the values before and after shrinkage
+ggplot() +
+  geom_density(data=res, mapping=aes(x=log2FoldChange), color='tomato4') +
+  geom_density(data=deGeneResult, mapping=aes(x=log2FoldChange), color='slategray') +
+  theme_bw()
 ```
 
 How did the results change before and after shinkage? What direction is each log2 fold change value moving?
