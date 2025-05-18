@@ -89,6 +89,7 @@ The amount of pre-filtering is up to the analyst however, it should be done in a
 # note the dimensions of the matrix before and after filtering with dim()
 
 # breaking apart the command below to understand it's outcome
+tail(htseqCounts) # look at the raw counts
 tail(htseqCounts >= 10) # determine which cells have counts greater than 10
 tail(rowSums(htseqCounts >= 10)) # determine for which genes how many samples have counts greater than 10
 tail(rowSums(htseqCounts >= 10) >= 1) # filter to those entries/genes for which at least one sample has counts greater than 10
