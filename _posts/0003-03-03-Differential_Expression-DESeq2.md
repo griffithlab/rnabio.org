@@ -250,6 +250,29 @@ saveRDS(res, "res.rds")
 saveRDS(resLFC, "resLFC.rds")
 ```
 
+### Briefly examine the top over-expressed genes
+
+For both conditions (HBR and UHR) lets take a look at the top n genes but this time according to fold-change instead of p-value.
+
+```R
+
+# use the dplyr library to manipulate the dataframe
+library(dplyr)
+
+# create a new copy of the data frame, sorted by log2 fold change
+deGeneResultSortedFoldchange = arrange(deGeneResultSignificant, log2FoldChange)
+
+# create a convenient data structure with just the top n genes from each condition
+top_bottom = bind_rows(
+  head(deGeneResultSortedFoldchange, 10) %>% mutate(Set = "Bottom 10"),
+  tail(deGeneResultSortedFoldchange, 10) %>% mutate(Set = "Top 10")
+)
+
+# visualize data for the top n genes. Simplify the output a bit
+print(top_bottom[,c("log2FoldChange","padj","Symbol","UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3","Set")])
+
+```
+
 ### Perform some preliminary exploration of DE genes using webtools
 
 Download the file: `outdir/DE_sig_genes_DESeq2.tsv`. Open this spreadsheet, sort on "log2FoldChange" column and find the top 100 significant genes with higher expression in HBR (brain). Also download the file: `outdir/DE_all_genes_DESeq2.tsv` (to be used as a list of background genes or where we want the fold-change value for every gene).
