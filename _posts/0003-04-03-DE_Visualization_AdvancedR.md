@@ -48,7 +48,7 @@ library(gplots)
 library(GenomicRanges)
 library(ggrepel)
 
-#set a base working directors
+#Set a base working directory
 setwd("/cloud/project/")
 
 #Import expression results (TPM values) from the HISAT2/Stringtie pipeline (http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_tpm_all_samples.tsv)
@@ -64,6 +64,13 @@ colnames(gene_names) = c("gene_id", "gene_name")
 #Import DE results from the HISAT2/htseq-count/DESeq2 pipeline (http://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
 #results_genes = read.table("~/workspace/rnaseq/de/deseq2/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 results_genes = read.table("outdir/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+
+#Set a directory for the output to go to
+output_dir = "/cloud/project/outdir/visualization_advanced/"
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+setwd(output_dir)
 
 ```
 
