@@ -276,7 +276,7 @@ Generate the classic GSEA enrichment plot
 ```R
 # Plot the enrichment plot for a specific GO term or pathway - Synapse
 gsea_plot <- gseaplot2(gsea_res, geneSetID = "GO:0045202", title = "Enrichment Plot for Synapse")
-ggsave("plotgsea_GO_Synapse.pdf", plot=gsea_plot, width = 8, height = 8)
+ggsave("gsea_go_synapse_plot.pdf", plot=gsea_plot, width = 8, height = 8)
 
 ```
 We can use additional visualizations, such as dot plots, ridge plots, and concept network plots, to gain further insights into the enriched pathways.
