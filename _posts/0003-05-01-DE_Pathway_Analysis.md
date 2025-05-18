@@ -276,23 +276,24 @@ Generate the classic GSEA enrichment plot
 ```R
 # Plot the enrichment plot for a specific GO term or pathway - Synapse
 gsea_plot <- gseaplot2(gsea_res, geneSetID = "GO:0045202", title = "Enrichment Plot for Synapse")
-ggsave("plotgsea_GO_Synapse.jpg", gsea_plot)
+ggsave("plotgsea_GO_Synapse.pdf", plot=gsea_plot, width = 8, height = 8)
 
 ```
 We can use additional visualizations, such as dot plots, ridge plots, and concept network plots, to gain further insights into the enriched pathways.
 ```R
 # Dotplot for top GO pathways enriched with DE genes
 gsea_dot_plot <- dotplot(gsea_res, showCategory = 30) + ggtitle("GSEA Dotplot - Top 30 GO Categories")
-ggsave("gsea_dot_plot.jpg", gsea_dot_plot)
+ggsave("gsea_dot_plot.pdf", plot=gsea_dot_plot, width = 8, height = 8)
 
 #Ridgeplot for top GO pathways enriched with DE genes
 gsea_ridge_plot <-ridgeplot(gsea_res)
-ggsave("gsea_ridge_plot.jpg", gsea_ridge_plot)  
+ggsave("gsea_ridge_plot.pdf", plot=gsea_ridge_plot, width = 8, height = 8)
 
 # Concept network plot to illustrate relationships between the top enriched GO terms and DE genes
 gsea_cnetplot <- cnetplot(gsea_res, foldChange = ranked_genes, showCategory = 10)
-ggsave("gsea_cnetplot.jpg", gsea_cnetplot, bg='white')
+ggsave("gsea_cnetplot.pdf", plot=gsea_cnetplot, width = 8, height = 6)
 ```
+
 The enrichKEGG function can be used to visualize KEGG pathways, showing detailed diagrams with our DE genes highlighted. This approach is especially useful for understanding the biological roles of up- and down-regulated genes within specific metabolic or signaling pathways. By using the pathview package, we can generate pathway diagrams where each DE gene is displayed in its functional context and color-coded by expression level. This makes it easy to see which parts of a pathway are impacted and highlights any potential regulatory or metabolic shifts in a clear, intuitive format. We will start by downloading and installing the KEGG database and then run the `enrichKEGG` function.
 ```R
 # Download KEGG DB file and install
@@ -304,7 +305,6 @@ pathways <- enrichKEGG(gene = names(ranked_genes), organism = "hsa", keyType = "
 head(pathways@result)
 ```
 Let's choose one of the pathways above, for example `hsa04010 - MAPK signaling pathway` to visualize.
-
 ```R
 # Define the KEGG pathway ID based on above, and run pathview (note this automatically generates and saves plots to your current directory)
 pathway_id <- "hsa04010"  # Replace with the KEGG pathway ID of interest
