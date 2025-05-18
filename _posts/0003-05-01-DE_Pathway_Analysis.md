@@ -20,37 +20,47 @@ In this section we will use the GAGE tool in R to test for significantly enriche
 ### What is gage?
 The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and RNAseq data sets. In this section we will use [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) and the [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) databases to perform pathway analysis. 
 
-Let's create a new directory to store our pathway analysis i:
+<!--
+
+Let's create a new directory to store our pathway analysis:
 ```bash
-mkdir -p ~/workspace/rnaseq/de/deseq2/pathway
+#mkdir -p ~/workspace/rnaseq/de/deseq2/pathway
 ```
 
 Now, we will start a docker session to run the analysis in this section. This should directly place you in an R environment
 ```bash
-docker run -it -v /home/ubuntu/workspace:/workspace cnithin7/bioc-custom:1.0 /bin/bash
+#docker run -it -v /home/ubuntu/workspace:/workspace cnithin7/bioc-custom:1.0 /bin/bash
 ```
 
 First, launch R at the commandline, start RStudio, or launch a posit Cloud session:
 
 ```bash
-R
+#R
 ```
+
+--->
 
 ### Importing DE results for gage
 Before we perform the pathway analysis we need to read in our differential expression results from the previous DE analysis.
 
 ```R
 
-#Define working dir paths
-datadir = "/workspace/rnaseq/de/deseq2/"
-outdir = "/workspace/rnaseq/de/deseq2/pathway/"
+# Define working dir paths and load in data
+#datadir = "/workspace/rnaseq/de/deseq2/"
+datadir = "/cloud/project/outdir/"
 
 setwd(datadir)
 
-#Load in the DE results file with only significant genes (e.g., http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
+# Load in the DE results file with only significant genes (e.g., http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
 DE_genes = read.table("DE_sig_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
-setwd(outdir)
+#output_dir = "/workspace/rnaseq/de/deseq2/pathway/"
+output_dir = "/cloud/project/outdir/pathway/"
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+
+setwd(output_dir)
 
 ```
 
