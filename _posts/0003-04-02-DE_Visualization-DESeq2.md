@@ -26,7 +26,6 @@ If it is not already in your R environment, load the DESeqDataSet object and the
 # set the working directory
 setwd("/cloud/project/outdir")
 
-
 # view the contents of this directory
 dir()
 
