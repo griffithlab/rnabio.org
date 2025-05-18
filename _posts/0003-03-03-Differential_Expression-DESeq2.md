@@ -252,7 +252,7 @@ saveRDS(resLFC, "resLFC.rds")
 
 ### Perform some preliminary exploration of DE genes using webtools
 
-Download the file: `outdir/DE_sig_genes_DESeq2.tsv`. Open this spreadsheet, sort on "log2FoldChange" column and find the top 100 significant genes with higher expression in HBR (brain). 
+Download the file: `outdir/DE_sig_genes_DESeq2.tsv`. Open this spreadsheet, sort on "log2FoldChange" column and find the top 100 significant genes with higher expression in HBR (brain). Also download the file: `outdir/DE_all_genes_DESeq2.tsv` (to be used as a list of background genes or where we want the fold-change value for every gene).
 
 - Try querying with the top 100 HBR over-expressed genes using: [g:Profiler](https://biit.cs.ut.ee/gprofiler/gost)
 - Try querying with the top 100 HBR over-expressed genes using: [TissueEnrich](https://tissueenrich.gdcb.iastate.edu/). Use the Tissue Enrichment tool. This tool also requires a Background Gene List.  Use all genes in `DE_all_genes_DESeq2.tsv` for this purpose. You can also manually explore some individual genes over-expressed in UHR with the Tissue-Specific Genes tool.  For example, try *PRAME* and *SERPIND1*, two of the top UHR genes.
