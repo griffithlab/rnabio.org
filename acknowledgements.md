@@ -25,7 +25,7 @@ Finally, we would like to thank the students who participated and contributed in
 <td bgcolor="#FFFFFF"><a href="https://aws.amazon.com/"><img src="/assets/logos/aws-powered-by.png" alt="Powerd by AWS Cloud Computing"></a></td>
 <td bgcolor="#FFFFFF"><a href="https://bioinformatics.ca/"><img src="/assets/logos/bioinformatics_LOGO.png" alt="Canadian Bioinformatics Workshops"></a></td>
 <td bgcolor="#FFFFFF"><a href="http://www.cshl.edu/"><img src="/assets/logos/Cold_Spring_Harbor_Laboratory_logo.png" alt="Cold Spring Harbor Laboratory"></a></td>
-<td bgcolor="#FFFFFF"><a href="https://www.cancerresearch.org"><img src="/assets/logos/CRI_Logo_Primary_RGB_P1.jpg" alt="Cancer Research Institute" style="height: 100px; width: auto;"></a></td
+<td bgcolor="#FFFFFF"><a href="https://www.cancerresearch.org"><img src="/assets/logos/CRI_Logo_Primary_RGB_P1.jpg" alt="Cancer Research Institute" style="height: 100px; width: auto;"></a></td>
 </tr>
 </table>
 </center>
