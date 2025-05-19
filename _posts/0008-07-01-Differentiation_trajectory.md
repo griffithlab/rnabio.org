@@ -401,7 +401,7 @@ rep135_cds <- SeuratWrappers::as.cell_data_set(rep135)
 # Monocle preprocessing steps
 rep135_cds <- preprocess_cds(rep135_cds, num_dim = 50, method = 'PCA')
 # rep135_cds <- align_cds(rep135_cds, alignment_group = "orig.ident") # removes batch effect by fitting its a linear model to the cells
-rep135_cds <- reduce_dimension(rep135_cds, method = 'PCA', reduction_method="UMAP") # calculate UMAPs
+rep135_cds <- reduce_dimension(rep135_cds, preprocess_method = 'PCA', reduction_method="UMAP") # calculate UMAPs
 
 rep135_cds <- cluster_cells(rep135_cds)
 
