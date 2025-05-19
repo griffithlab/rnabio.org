@@ -48,7 +48,7 @@ deGeneResultSorted = fread("DE_all_genes_DESeq2.tsv")
 ```
 
 #### MA-plot before LFC shrinkage
-MA-plots were originally used to evaluate microarray expression data where M is the log ratio and A is the mean average (both based on scanned intensity measurements from the microarray). 
+MA-plots were originally used to evaluate microarray expression data where M is the log ratio and A is the mean intensity for a gene (both based on scanned intensity measurements from the microarray). 
 
 These types of plots are still usefull in RNAseq DE experiments with two conditions, as they can immediately give us information on the number of signficantly differentially expressed genes, the ratio of up vs down regulated genes, and any outliers. To interpret these plots it is important to keep a couple of things in mind. The Y axis (M) is the log2 fold change between the two conditions tested, a higher fold-change indicates greater difference between condition A and condition B. The X axis (A) is a measure of read alignment to a gene, so as you go higher on on the X axis you are looking at regions which have higher totals of aligned reads, in other words the gene is "more" expressed overall (with the caveat that gene length is not being taken into account by raw read counts here). 
 
@@ -57,27 +57,29 @@ Using the built-in `plotMA` function from DESeq2 we also see that the genes are 
 ```R
 # use DESeq2 built in MA-plot function
 pdf("maplot_preShrink.pdf")
-plotMA(res, ylim=c(-2, 2))
+plotMA(res, ylim=c(-2, 2), cex=1.5)
 dev.off()
 
 ```
 
 #### MA-plot after LFC shrinkage
-When we ran DESeq2 we obtained two results, one with and one without log-fold change shrinkage. When you have genes with low hits you can get some very large fold changes. For example 1 hit on a gene vs 6 hits on a gene is a 6x fold change. This high level of variance though is probably quantifying noise instead of real biology. Running `plotMA` on our results where we applied an algorithm for log fold change shrinkage we can see that this "effect" is somewhat controlled for.
-
+When we ran DESeq2 we obtained two results, one with and one without log-fold change shrinkage. When you have genes with low hits you can get some very large fold changes. For example 1 hit on a gene vs 6 hits on a gene is a 6x fold change. This high level of variance though is probably quantifying noise instead of real biology. Running `plotMA` on our results where we applied an algorithm for log fold change shrinkage we can see that this "effect" is somewhat controlled for. I do want to note that while shrinking LFC is part of a typical DE workflow there are cases where you would not want to perform this, namely when there is already low variation amongst samples (i.e. from technical replicates) as most shrinkage algorithms rely on some variability to build a prior distribution.
 ```R
 # ma plot
 pdf("maplot_postShrink.pdf")
-plotMA(resLFC, ylim = c(-2, 2))
+plotMA(resLFC, ylim = c(-2, 2), cex=1.5)
 dev.off()
 ```
 
-The effect is very subtle here due to the focused nature of our dataset (chr22 genes onle), but if you toggle between the two plots and look in the upper left and bottom left corners you can see some fold change values are moving closer to 0.
+The effect is very subtle here due to the focused nature of our dataset (chr22 genes only), but if you toggle between the two plots and look in the upper left and bottom left corners you can see some fold change values are moving closer to 0.
 
 #### Viewing individual gene counts between two conditions
 Often it may be useful to view the normalized counts for a gene amongst our samples. DESeq2 provides a built in function for that which works off of the dds object. Here we view SEPT3 which we can see in our DE output is significantly higher in the HBR cohort and PRAME which is significantly higher in the UHR cohort. This is useful as we can see the per-sample distribution of our corrected counts, we can immediately determine if there are any outliers within each group and investigate further if need be.
 
 ```R
+
+# hint! you defined intgroup when creating the dds object, you can view the name by printing the dds objct in your R session
+# dds
 
 pdf("normalized_count_examples.pdf")
 
@@ -92,7 +94,7 @@ dev.off()
 ```
 
 # Viewing pairwise sample clustering
-It may often be useful to view inter-sample relatedness. In other words, how similar or disimilar samples are to one another overall. While not part of the DESeq2 package, there is a convenient library that can easily construct a hierarchically clustered heatmap from our DESeq2 data. It should be noted that when doing any sort of distance calculation the count data should be transformed using `vst()` or `rlog()`, this can be done directly on the dds object.
+It may often be useful to view inter-sample relatedness. In other words, how similar or disimilar samples are to one another overall. While not part of the DESeq2 package, there is a convenient library that can easily construct a hierarchically clustered heatmap from our DESeq2 data. It should be noted that when doing a distance calculation using "raw count" data is not ideal, the count data should be transformed using `vst()` or `rlog()` which can be performed directly on the dds object. The reason for this is described in detail in the DESeq2 manuscript, suffice it to say that transforming gene variance to be more homoskedastic will make inferences of sample relatedness more interpretable. 
 
 ```R
 # note that we use rlog because we don't have a large number of genes, for a typical DE experiment with 1000's of genes use the vst() function
