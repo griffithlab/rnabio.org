@@ -207,7 +207,7 @@ sig = which(results_genes$pvalue < 0.05)
 hist(results_genes[sig, "log2FoldChange"], breaks = 50, col = "seagreen", xlab = "log2(Fold change) UHR vs HBR", main = "Distribution of differential expression values")
 abline(v = -2, col = "black", lwd = 2, lty = 2)
 abline(v = 2, col = "black", lwd = 2, lty = 2)
-legend("topleft", "Fold-change > 4", lwd = 2, lty = 2)
+legend("topleft", "Fold-change > 2", lwd = 2, lty = 2)
 dev.off()
 
 #### Plot #7 - Display the mean expression values from UHR and HBR and mark those that are significantly differentially expressed
