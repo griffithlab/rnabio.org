@@ -26,7 +26,7 @@ library("Seurat")
 In the output from the [10x Genomics Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/outputs/cr-5p-outputs-annotations-vdj) main file that we use to explore our TCR reportoire is `filtered_contig_annotations.csv`. `filtered_contig_annotations.csv` provides high-level annotations of each high-confidence contigs from cell-associated barcodes. Each contig aims to represent the complete variable region (and often part of the constant region) of a single TCR or BCR chain from a single cell. 
 [More about the outputs..](https://www.10xgenomics.com/support/cn/software/cell-ranger/8.0/analysis/outputs/cr-5p-outputs-annotations-vdj). 
 
-Lets read in a filtered contigs file and explore what this file contains. This files contains columns such as `high confidence`, `full length`, and [`productive`](https://www.10xgenomics.com/support/cn/software/cell-ranger/8.0/resources/cr-5p-vdj-algorithm-annotations) denoting how likely a contig is a true TCR regions.
+Lets read in a filtered contigs file and explore what this file contains. This files contains columns such as `high confidence`, `full length`, and [`productive`](https://www.10xgenomics.com/support/cn/software/cell-ranger/8.0/resources/cr-5p-vdj-algorithm-annotations) denoting how likely a contig is a true TCR region.
 
 ```R
 Rep1_ICB_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep1_ICB-t-filtered_contig_annotations.csv")
@@ -35,7 +35,7 @@ colnames(Rep1_ICB_t)
 head(Rep1_ICB_t, 1)
 ```
 
-If we look at one cell barcode, we expect to see see 2 contigs: a alpha chain and a beta chain. 
+If we look at one cell barcode, we expect to see see 2 contigs: an alpha chain and a beta chain. 
 
 ```R
 Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGAGCGGATCA-1", 1:10]
@@ -47,7 +47,7 @@ Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGAGCGGATCA-1", 1:10]
 2 AAACCTGAGCGGATCA-1    true AAACCTGAGCGGATCA-1_contig_2            true    514   TRB  TRBV14  TRBD1 TRBJ1-1  TRBC1
 ```
 
-But sometimes we see more than two. In theory, it is possible for a cell to have two alpha chains and two beta chains and relatively common to have two alpha chains and one beta chain.
+But sometimes we see more than two. In theory, it is possible for a cell to have two alpha chains and two beta chains and you may observe two alpha chains and one beta chain.
 
 ```R
 Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGTCAGTCCCT-1", 1:10]
@@ -63,7 +63,7 @@ Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGTCAGTCCCT-1", 1:10]
 **Take a look at some more barcodes. How often to we have a barcode that just has an alpha and beta chain? How often do we see barcodes with 3+ chains?**
 
 
-The column `raw_clonotype_id` contains clonotype IDs which represent TCRs. There should be only one clonotype ID per cell.
+The column `raw_clonotype_id` contains clonotype IDs which represent TCRs. There should be only one unique clonotype ID per cell.
 
 ```R
 Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGTCAGTCCCT-1", "raw_clonotype_id"]
@@ -73,7 +73,7 @@ Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGTCAGTCCCT-1", "raw_clonotype_id"]
 [1] "clonotype1609" "clonotype1609" "clonotype1609"
 ```
 
-Using this column we can count the unique cells per clonotype. This would show us if there was expansion of a single TCR (an immune response). First we have to get our data into the correct format. We want to count how many times we see `raw_clonotype_id`, accounting for that there are duplicate barcodes depending on how many chains are making up the clonotype. 
+Using this column we can count the unique cells per clonotype. This would show us if there was expansion of a single TCR (an immune response). First we have to get our data into the correct format. We want to count how many times we see `raw_clonotype_id`, accounting for the fact that there are duplicate barcodes depending on how many chains are making up the clonotype. 
 
 ```R
 Rep1_ICB_clonotype_counts <- Rep1_ICB_t %>%
@@ -114,7 +114,7 @@ ggplot(Rep1_ICB_clonotype_counts, aes(x = reorder(raw_clonotype_id, -cell_count)
 Our barplot is nice but we might want to produce more complicated graphs to better visualize our reportoire. This is where `scReportoire` comes into play. 
 
 ## scReportoire for TCR analysis
-[scReportoire](https://www.borch.dev/uploads/screpertoire/) is one of the first packages that enables allows combine single cell RNA and immune profiling. We will use it to perform more complex exploration of the TCR diversity within our data. 
+[scReportoire](https://www.borch.dev/uploads/screpertoire/) is one of the first packages that allows the combining of single cell RNA and immune profiling. We will use it to perform more complex exploration of the TCR diversity within our data. 
 
 ### Loading in data
 
@@ -267,11 +267,11 @@ Here we see that contigs is our unique clonotypes and total is the number of cel
 6    2260 Rep5_ICBdT  2596 87.05701
 ```
 
-**Try changing the `cloneCall` argument to see how that change the number of clones**
+**Try changing the `cloneCall` argument to see how that changes the number of clones**
 
-### Visualizing the porportion of the reportoire taken up by a specific clone
+### Visualizing the proportion of the reportoire taken up by a specific clone
 
-We are interested in understanding if there is a T cell response in our data. If there was a T cell response, we might see a single clonotype in a large protion of cells. Earlier when we used a histogram to see how many cells each clonotype was seen in. Now we will use screportoire's `clonalProportion` function to produce stacked barplots visualizing how much space each clone is taking up.
+We are interested in understanding if there is a T cell response in our data. If there was a T cell response, we might see a single clonotype in a large portion of cells. Earlier we used a barplot to see how many cells each clonotype was seen in. Now we will use screportoire's `clonalProportion` function to produce stacked barplots visualizing how much space each clone is taking up.
 
 We are going to split up our clones in the same way as Freshour et al. 2023, remembering that 1 here means clonotype1 which is assigned to our top clonotype. 
 
@@ -295,11 +295,11 @@ Rep5_ICB       7     43      36       91        64          0            0
 Rep5_ICBdT    31    127      85      193       400        500         1260
 ```
 
-We see the highest amount of exanasion in Rep1_ICBdT and Rep5_ICB, however, we saw from our counts barplots that these samples have a very few number of called TCRs called making this data untrustworthy. For the other samples, we see very little expansion of a single clonotype. 
+We see the highest amount of expansion in Rep1_ICBdT and Rep5_ICB. However, from our counts barplots, we know that these samples have very few number of TCRs called, making this data untrustworthy. For the other samples, we see very little expansion of a single clonotype. 
 
 ## Understanding our BCR data
 
-Now lets preform a similar analysis for our BCRs, keeping in mind the difference between BCRs and TCRs. BCRs can be hard to group because of somatic hypermutation which introduces multiple mutations during B cell maturation. 
+Now lets perform a similar analysis for our BCRs, keeping in mind the difference between BCRs and TCRs. BCRs can be hard to group because of somatic hypermutation which introduces multiple mutations during B cell maturation. 
 
 ```R
 Rep1_ICB_b <- read.csv("data/single_cell_rna/clonotypes_b_posit/Rep1_ICB-b-filtered_contig_annotations.csv")
@@ -313,7 +313,7 @@ colnames(Rep1_ICB_t) # TCR column names
 colnames(Rep1_ICB_b) # BCR column names
 View(Rep1_ICB_b)
 ```
-Notice that our column names are the exact same for TCRs and BCRs but when you view the BCR data we see that of course the gene names have changed and also the chains either `IGH` (heavy chain) and `IGK`/`IGL` (light chain). 
+Notice that our column names are the exact same for TCRs and BCRs but when you view the BCR data we see that of course the gene names have changed and the chains are either `IGH` (heavy chain) or `IGK`/`IGL` (light chain). 
 
 All cells should either have a `IGH`/`IGK` combination or `IGH`/`IGL` combination.
 
@@ -405,7 +405,7 @@ clonalQuant(combined.BCR_05,
 When we lower the threshold there are less unique clonotypes. What the best threshold is depends on what data you are looking at. We will use the default of 0.85.
 
 
-We should also perform filtering of our object.
+We will also filter the scRepertoire BCR object to the same barcodes as those in the single cell object.
 
 ```R
 combined.BCR_filter <- combined.BCR_85 # create a variable to hold our filtered object
@@ -458,7 +458,7 @@ for (sample in sample_name) {
 [1] "Number of rows in scRep obj after filtering: 906"
 ```
 
-There are *way* fewer BCRs called.
+There are *way* fewer BCRs called compared to TCRs.
 
 
 ### Visualize the Number of Clones
@@ -505,7 +505,7 @@ clonalQuant(combined.BCR_filter,
 6     699 Rep5_ICBdT   906  77.15232
 ```
 
-We can also look at what clones are expanded but we have such a few number of BCRs that most of this data is probably untrustworthy.
+We can also look at what clones are expanded but we have such a small number of BCRs that most of this data is probably untrustworthy.
 
 ```R
 clonalProportion(combined.BCR_filter, cloneCall = "strict", clonalSplit = c(1, 10, 25, 100, 500, 1000, 1e+05)) 
@@ -517,7 +517,7 @@ clonalProportion(combined.BCR_filter, cloneCall = "strict", clonalSplit = c(1, 1
 
 We will now add the BCR and TCR information which has been handled by scRepertoire so far to our Seurat object.
 
-Use the `combineExpression` function to add the TCR data to your Seurat object. The columns `CTgene`, `CTnt`, `CTaa`, `CTstrict`, `clonalProportion`, `clonalFrequency`, and `cloneSize` data will be added to your Seurat object's metadata. Notice you can also decide the bins for grouping based on proportion or frequency.
+Use the `combineExpression` function to add the TCR data to your Seurat object. The columns `CTgene`, `CTnt`, `CTaa`, `CTstrict`, `clonalProportion`, `clonalFrequency`, and `cloneSize` data will be added to your Seurat object's metadata. Notice you can also decide the bins for grouping based on proportion or frequency of the TCRs (or BCRs).
 
 Here we group by frequency:
 
@@ -750,7 +750,7 @@ ggplot(cell_type_counts_TCR, aes(x = immgen_singler_main, y = Count)) +
 
 And it looks great!
 
-<img src="/assets/module_8/Celltype_TCR_Correct.png" alt="The number of TCRs in each celltypes (Correct)" width="1000"/>
+<img src="/assets/module_8/Celltypes_TCR_Correct.png" alt="The number of TCRs in each celltypes (Correct)" width="1000"/>
 
 Now we can do the same thing with the BCR data.
 ```R
@@ -787,7 +787,7 @@ Hyperexpanded (100 < X <= 500)          Large (20 < X <= 100)           Medium (
            Single (0 < X <= 1)               None ( < X <= 0) 
                          10731                              0 
 ```
-We see that most clones are only seen once, but if we look carefully there are some clones which are seen in mutiple cells. So we are on the right track. But we want these counts grouped by cell type. Can we run table with two parameters? (You might think this is silly but I was genuinly couldn't remember when I tried this the first time)
+We see that most clones are only seen once, but if we look carefully there are some clones which are seen in mutiple cells. So we are on the right track. But we want these counts grouped by cell type. Can we run table with two parameters? (You might think this is silly but I genuinely couldn't remember when I tried this the first time)
 
 
 ```R
@@ -818,7 +818,7 @@ head(cloneSize_immgen_table)
 Well no way, that is exactly the summary we want. We still have a problem where we have a little too much information to be graphed in a way that is useful. How about we get rid of any row where there is only 0 clones seen.
 
 ```R
-cloneSize_immgen_table <- ctaa_immgen_table[-c(6), ]
+cloneSize_immgen_table <- cloneSize_immgen_table[-c(6), ]
 ```
 
 ```

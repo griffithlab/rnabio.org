@@ -81,6 +81,7 @@ dotplot(overrep_msigdb_m8, showCategory = 10)
 #and quote=FALSE ensures the genes don't have quotes around them which is the default way R saves string values to a TSV)
 write.table(x = overrep_gene_list, file = 'outdir_single_cell_rna/epithelial_overrep_gene_list.tsv', row.names = FALSE, col.names = 'overrep_genes', quote=FALSE)
 ```
+![Tumor cells Overrep plots](/assets/module_8/scOverrep_epithelial_multiplot.png)
 
 For the Enrichr webtool based analysis, we'll open that TSV file in our Rstudio session, copy the genes, and paste them directly into the textbox on the right. The webtool should load multiple barplots with different enriched pathways. Feel free to click around and explore here. To compare the results against the results we generated in R, navigate to the `Cell Types` tab on the top and look for `Tabula Muris`. 
 
@@ -128,7 +129,8 @@ gse <- gseGO(geneList=gene_list,
              ont ="ALL",              
              keyType = "SYMBOL", 
              pAdjustMethod = "BH",             
-             pvalueCutoff = 0.05)
+             pvalueCutoff = 0.05,
+             nPermSimple=100000)
 #explore the gse object by opening it in RStudio. 
 #It basically has a record of all the parameters and inputs used for the function, 
 #along with a results dataframe.
@@ -164,6 +166,7 @@ heatplot(gse_epithelial, foldChange=gene_list)
 #pathways/genesets and how they related to each other
 cnetplot(gse_epithelial, foldChange=gene_list)
 ```
+![Tumor cells GSEA plots](/assets/module_8/scGSEA_epithelial_multiplot.png)
 
 Based on these results, we could conclude that cluster 9 (putative luminal cells) have lower expression of quite a few pathways related to epithelial cell proliferation compared to cluster 12 (putative basal cells). 
 
@@ -177,5 +180,8 @@ download.file(url = 'http://genomedata.org/cri-workshop/reference_files/cd8tcell
 Hints:
 
 * The ICB vs ICBdT comparison of CD8 T cells may be more subtle than the luminal vs basal epithelial cell. You may need to reduce the fold-change cutoff you consider for differentially expressed genes (e.g., 0.5)
-* The M8: cell type signature gene sets may not be the most relevant. You may wish to download a different set of gene sets (e.g., MH: hallmark gene sets). Visit [msigdb mouse collections](https://www.gsea-msigdb.org/gsea/msigdb/mouse/collections.jsp?targetSpeciesDB=Mouse), download the 'Gene Symbols' GMT file for the gene sets of interest, upload to your posit cloud environment, and modify the relevant R commands to load in the gmt file.
+* For overrepresentation analysis, the `M8:...` cell type signature gene sets may not be the most relevant. You may wish to download a different set of gene sets (e.g., MH: hallmark gene sets). Visit [msigdb mouse collections](https://www.gsea-msigdb.org/gsea/msigdb/mouse/collections.jsp?targetSpeciesDB=Mouse), download the 'Gene Symbols' GMT file for the gene sets of interest, upload to your posit cloud environment, and modify the relevant R commands to load in the gmt file.
+* For enrichment analysis, (for illustrative purposes ONLY!) you can `grepl` for `immun` instead of `epithelial`.
 
+
+If you get through all that, hopefully you will see that the CD8 T cells from the ICBdT condition have various immune response related pathways downregulated when compared to the ICB condition!

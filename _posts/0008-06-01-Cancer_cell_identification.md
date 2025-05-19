@@ -102,6 +102,7 @@ candRegions_800 <- rownames(lrbic)[which(lrbic[,"BIC difference"]>800 & lrbic[,"
 
 #plot a histogram and heatmap where we try to split it up into 2 cluster (ideally tumor and non tumor cells)
 plotHistogram(l[,candRegions_800],conicsmat_expr,clusters=2,zscoreThreshold=4)
+dev.off() #(after viewing)
 #how does that look? Maybe try increasing the clusters a little to get it to split up nicely.
 
 #Once you have a cluster split you like, save the barcode-cluster ID list to a variable for use later. 
@@ -133,6 +134,7 @@ DimPlot(merged, cells.highlight = rownames(hi_df[hi_df$tumor_cell_classification
 #save this list of barcodes to their own TSV file for later
 write.table(x = cnv_tumor_bc, file = 'outdir_single_cell_rna/cnv_tumor_bc_list.tsv', row.names = FALSE, col.names = 'cnv_tumor_barcodes', quote=FALSE)
 ```
+![Conicsmat tumor cells dimplot](/assets/module_8/CancerCellID_conicsmat_tumor_cells_dimplot.png)
 
 Looks like most of our tumor cells based on the CNV classification are in the epithelial cells cluster as we'd expect! A key point about CONICSmat here is that, the tool itself doesn't determine a tumor cell from a non-tumor cell. In this case we knew from the whole genome data that the tumor cells should have gains in chromosomes 2 and 11 and a loss in chromosome 12. But if we did not have that information, we can overlay our celltypes on the heatmap and determine CNAs as the CNAs should primarily arise in the tumor's celltype. 
 
@@ -141,7 +143,9 @@ Looks like most of our tumor cells based on the CNV classification are in the ep
 plotHistogram(l[,candRegions_800],conicsmat_expr,clusters=3,zscoreThreshold=4, celltypes = merged_subset$immgen_singler_main)
 #note that we got the cell barcodes from merged_subset as that 
 #was the object used to generate the initial conicsmat_expr matrix.
+dev.off() #(after viewing)
 ```
+![Conicsmat histogram with celltypes](/assets/module_8/CancerCellID_conicsmat_histogram.png)
 
 We will look into adding this information to the Seurat object after we have the SNV tumor calls as well. 
 
@@ -275,6 +279,9 @@ for (sample_rep in sample_names) {
   print(nrow(rep_bc))
   tracking_sum <- tracking_sum + nrow(rep_bc)
 }
+
+#print the tracking sum and compare to the value we got from ncol
+print(tracking_sum)
 ```
 
 Now we have all the cells in one dataframe, with information about the number of ALT reads for each variant. Next, we can get to classifying some tumor cells. For this, we'll first want to flip (or transpose) the matrix so that the cell barcodes are on the rows and variants are on the columns. The reason for this will become clearer soon, but basically we need to know the number of total ALT reads across all variants in each cell, and the way dataframe operations work, it is much easier to do that by adding a column and take the sum off all the values in the row. To transpose the dataframe, we can use a handy R function called t(). And then we can take the sum of values in the dataframe using rowSums(). Once we have that, we can start subsetting the dataframe and making UMAP plots that highlight cells depending on how many ALT reads we want to require for a cell to be considered a tumor cell. 
@@ -294,29 +301,30 @@ all_samples_vartrix_df$num_alt_reads <- rowSums(all_samples_vartrix_df)
 ## first get a dataframe where everything has at least 1 ALT read using that column we added
 all_samples_vartrix_df_1_ALT_read <- all_samples_vartrix_df[all_samples_vartrix_df$num_alt_reads >= 1,]
 DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_1_ALT_read)) + 
-  ggtitle('UMAP highlighting cells with at least 1 ALT read')
+  ggtitle('UHighlighting cells with \nat least 1 ALT read')
 #that's way too many 'tumor' cells especially since we know a lot of the cells are not even epithelial cells.
 
 #Let's try this again but increase our requirement to 10 ALT reads. 
 #Also, we don't need to make a new dataframe every time, we can load the cells.highlight directly from the all_sample_vartrix_df table
 DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df[all_samples_vartrix_df$num_alt_reads >= 10,])) + 
-  ggtitle('UMAP highlighting cells with at least 10 ALT reads')
+  ggtitle('Highlighting cells with \nat least 10 ALT reads')
 
 #That seems to have helped, but we're still getting a lot more cells than we'd expect 
 #considering that the epithelial cells are largely in clusters 9 and 12
 #let's increase the number of ALT reads up to 20
 DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df[all_samples_vartrix_df$num_alt_reads >= 20,])) + 
-  ggtitle('UMAP highlighting cells with at least 20 ALT reads')
+  ggtitle('Highlighting cells with \nat least 20 ALT reads')
 ```
+![Vartrix unfiltered vcf tumor cell](/assets/module_8/CancerCellID_Vartrix_unfiltered_vcf_tumor_calls_dimplot.png)
 
-We tried to get fairly strict with how we are defining a tumor cell, by requiring at least 20 reads carrying a mutation for a cell to be a tumor cell, but it seems like we're getting some pretty calls as we are identifying many cells that are unlikely to be epithelial cells as tumor cells. This could suggest that our original variant list was not filtered enough and still has germline variants. We can filter this variant file further by removing variants that are likely to be germline variants using the following filtering strategy. 
+In spite of being fairly strict with how we are defining a tumor cell by requiring at least 20 reads carrying a mutation for a cell to be a tumor cell, we are still getting some pretty noisy calls as we are identifying many cells that are unlikely to be epithelial cells as tumor cells. This could suggest that our original variant list was not filtered enough and still has germline variants. We can filter this variant file further by removing variants that are likely to be germline variants using the following filtering strategy. 
 
-```
-#before we move forward let's delete some files and free up some space
+```R
+# Before we move forward let's delete some files and free up some space
 rm(rep1_icb_bc, rep1_icb_df, troubleshoot_df, all_samples_vartrix_df_1_ALT_read)
 gc()
 
-#filter variants file to high confidence variants
+# Filter variants file to high confidence variants
 variants_file_high_conf <- variants_file[variants_file$set == 'mutect-varscan-strelka' & 
                            variants_file$NORMAL.DP > 50 & 
                            variants_file$TUMOR.DP > 50 &
@@ -349,38 +357,48 @@ all_samples_vartrix_df_high_conf$num_alt_reads <- rowSums(all_samples_vartrix_df
 #let's plot potential tumor cells based on the high confidence variants using the same thresholds as before. 
 #At least 1 ALT read for a tumor cell
 DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 1,])) + 
-  ggtitle('UMAP highlighting cells with at least 1 ALT read (filtered VCF)')
+  ggtitle('Highlighting cells with \nat least 1 ALT read (filtered VCF)')
 #At least 10 ALT reads for a tumor cell
 DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 10,])) + 
-  ggtitle('UMAP highlighting cells with at least 10 ALT reads (filtered VCF)')
+  ggtitle('Highlighting cells with \nat least 10 ALT reads (filtered VCF)')
 #At least 20 ALT reads for a tumor cell
 DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 20,])) + 
-  ggtitle('UMAP highlighting cells with at least 20 ALT reads (filtered VCF)')
+  ggtitle('Highlighting cells with \nat least 20 ALT reads (filtered VCF)')
 
 #How does this compare against our previous plot?
 tumor_cells_10Kvars_dimplot <- DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df[all_samples_vartrix_df$num_alt_reads >= 20,])) + 
-ggtitle('Tumor cells with at least 20 ALT reads - 10K variants')
+  ggtitle('Tumor cells with at least 20 ALT reads \n- 10K variants')
 
 tumor_cells_2Kvars_dimplot <- DimPlot(merged, cells.highlight = rownames(all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 20,])) + 
-ggtitle('Tumor cells with at least 20 ALT reads - 2K variants')
+  ggtitle('Tumor cells with at least 20 ALT reads \n- 2K variants')
+
+## Plot them side by side
+tumor_cells_10Kvars_dimplot + tumor_cells_2Kvars_dimplot
+
 
 #That looks way better! Based on this, I think we can be pretty happy about finding tumor cells from the high confidence variants 
 all_samples_vartrix_df_high_conf_20_ALT_read <- all_samples_vartrix_df_high_conf[all_samples_vartrix_df_high_conf$num_alt_reads >= 20,]
 snv_tumor_bc <- rownames(all_samples_vartrix_df_high_conf_20_ALT_read)
 write.table(x = snv_tumor_bc, file = 'outdir_single_cell_rna/snv_tumor_bc_list.tsv', row.names = FALSE, col.names = 'snv_tumor_barcodes', quote=FALSE)
 ```
+![Vartrix filtered vcf tumor cell](/assets/module_8/CancerCellID_Vartrix_filtered_vcf_tumor_calls_dimplot.png)
 
-Lastly, let's look into add the SNV and CNV based tumor cell classifications, to our Seurat object's metadata. To add metadata to a Seurat object, we need a dataframe where we have all the barcodes in the Seurat object as rownames, and column(s) that we want to add to the metadata with value(s) corresponding to each barcode. Recall that our tumor cell classification lists for both SNVs and CNVs include only the tumor cell barcodes. So we will need a list of all barcodes in the Seurat object. 
+Lastly, let's look into adding the SNV and CNV based tumor cell classifications to our Seurat object's metadata. To add metadata to a Seurat object, we need a dataframe where we have all the barcodes in the Seurat object as rownames, and column(s) that we want to add to the metadata with value(s) corresponding to each barcode. Recall that our tumor cell classification lists for both SNVs and CNVs include only the tumor cell barcodes. So we will need a list of all barcodes in the Seurat object. 
 
 ```R
 #read in our CNV and SNV tumor cell classification files
-snv_bc_df <- read.csv('data/single_cell_rna/backup_files/snv_tumor_bc_list.tsv', sep='\t')
-cnv_bc_df <- read.csv('data/single_cell_rna/backup_files/cnv_tumor_bc_list.tsv', sep='\t')
+snv_bc_df <- read.csv('outdir_single_cell_rna/snv_tumor_bc_list.tsv', sep='\t')
+cnv_bc_df <- read.csv('outdir_single_cell_rna/cnv_tumor_bc_list.tsv', sep='\t')
+
+# If R crashed before you got to these steps, we have backip
+# snv_bc_df <- read.csv('data/single_cell_rna/backup_files/snv_tumor_bc_list.tsv', sep='\t')
+# cnv_bc_df <- read.csv('data/single_cell_rna/backup_files/cnv_tumor_bc_list.tsv', sep='\t')
+
 #get lists of these barcodes
 snv_bc_list <- snv_bc_df$snv_tumor_barcodes
 cnv_bc_list <- cnv_bc_df$cnv_tumor_barcodes
 
-#read in our Seurat object
+#read in our Seurat object (if it's not already in your environment)
 merged <- readRDS('outdir_single_cell_rna/preprocessed_object.rds')
 
 #get all barcodes from our Seurat object
@@ -412,6 +430,13 @@ DimPlot(merged, group.by = c('snv_class', 'cnv_class', 'immgen_singler_main'))
 #let's also take a quick look at how much the snv and cnv classifications agree with each other
 table(merged$cnv_class, merged$snv_class)
 
+```
+![CNV SNV tumor cells](/assets/module_8/CancerCellID_tumor_cell_classification.png)
+```
+> table(merged$cnv_class, merged$snv_class)
+               snv_tumor unclassified
+  cnv_tumor          822           12
+  unclassified       495        21856
 ```
 
 Voila! Looks like both of our independent classifications of tumor cells agree to quite a large extent. They also both independently added to our tumor cell identification, and were restricted to the epithelial cells. 

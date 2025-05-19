@@ -20,37 +20,47 @@ In this section we will use the GAGE tool in R to test for significantly enriche
 ### What is gage?
 The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and RNAseq data sets. In this section we will use [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) and the [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) databases to perform pathway analysis. 
 
-Let's create a new directory to store our pathway analysis i:
+<!--
+
+Let's create a new directory to store our pathway analysis:
 ```bash
-mkdir -p ~/workspace/rnaseq/de/deseq2/pathway
+#mkdir -p ~/workspace/rnaseq/de/deseq2/pathway
 ```
 
 Now, we will start a docker session to run the analysis in this section. This should directly place you in an R environment
 ```bash
-docker run -it -v /home/ubuntu/workspace:/workspace cnithin7/bioc-custom:1.0 /bin/bash
+#docker run -it -v /home/ubuntu/workspace:/workspace cnithin7/bioc-custom:1.0 /bin/bash
 ```
 
 First, launch R at the commandline, start RStudio, or launch a posit Cloud session:
 
 ```bash
-R
+#R
 ```
+
+--->
 
 ### Importing DE results for gage
 Before we perform the pathway analysis we need to read in our differential expression results from the previous DE analysis.
 
 ```R
 
-#Define working dir paths
-datadir = "/workspace/rnaseq/de/deseq2/"
-outdir = "/workspace/rnaseq/de/deseq2/pathway/"
+# Define working dir paths and load in data
+#datadir = "/workspace/rnaseq/de/deseq2/"
+datadir = "/cloud/project/outdir/"
 
 setwd(datadir)
 
-#Load in the DE results file with only significant genes (e.g., http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
+# Load in the DE results file with only significant genes (e.g., http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
 DE_genes = read.table("DE_sig_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
-setwd(outdir)
+#output_dir = "/workspace/rnaseq/de/deseq2/pathway/"
+output_dir = "/cloud/project/outdir/pathway/"
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+
+setwd(output_dir)
 
 ```
 
@@ -241,6 +251,11 @@ ranked_genes <- sort(ranked_genes, decreasing = TRUE)
 ```
 Using gseGO, we can analyze the ranked DE genes list to create classic GSEA enrichment plots. These plots help us see how gene expression levels are distributed across the pathways that were identified as significant in our initial analysis. By examining the ranking of gene expression within these pathways, we can get a clearer picture of how specific pathways are activated or suppressed in our data set.
 ```R
+# Install a package missing from the template
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager", quiet = TRUE)
+BiocManager::install("pathview", update = FALSE, ask = FALSE, quiet = TRUE)
+
 # Load relevant packages
 library(enrichplot)
 library(clusterProfiler)
@@ -261,27 +276,28 @@ Generate the classic GSEA enrichment plot
 ```R
 # Plot the enrichment plot for a specific GO term or pathway - Synapse
 gsea_plot <- gseaplot2(gsea_res, geneSetID = "GO:0045202", title = "Enrichment Plot for Synapse")
-ggsave("plotgsea_GO_Synapse.jpg", gsea_plot)
+ggsave("gsea_go_synapse_plot.pdf", plot=gsea_plot, width = 8, height = 8)
 
 ```
 We can use additional visualizations, such as dot plots, ridge plots, and concept network plots, to gain further insights into the enriched pathways.
 ```R
 # Dotplot for top GO pathways enriched with DE genes
 gsea_dot_plot <- dotplot(gsea_res, showCategory = 30) + ggtitle("GSEA Dotplot - Top 30 GO Categories")
-ggsave("gsea_dot_plot.jpg", gsea_dot_plot)
+ggsave("gsea_dot_plot.pdf", plot=gsea_dot_plot, width = 8, height = 8)
 
 #Ridgeplot for top GO pathways enriched with DE genes
 gsea_ridge_plot <-ridgeplot(gsea_res)
-ggsave("gsea_ridge_plot.jpg", gsea_ridge_plot)  
+ggsave("gsea_ridge_plot.pdf", plot=gsea_ridge_plot, width = 8, height = 8)
 
 # Concept network plot to illustrate relationships between the top enriched GO terms and DE genes
 gsea_cnetplot <- cnetplot(gsea_res, foldChange = ranked_genes, showCategory = 10)
-ggsave("gsea_cnetplot.jpg", gsea_cnetplot, bg='white')
+ggsave("gsea_cnetplot.pdf", plot=gsea_cnetplot, width = 8, height = 6)
 ```
+
 The enrichKEGG function can be used to visualize KEGG pathways, showing detailed diagrams with our DE genes highlighted. This approach is especially useful for understanding the biological roles of up- and down-regulated genes within specific metabolic or signaling pathways. By using the pathview package, we can generate pathway diagrams where each DE gene is displayed in its functional context and color-coded by expression level. This makes it easy to see which parts of a pathway are impacted and highlights any potential regulatory or metabolic shifts in a clear, intuitive format. We will start by downloading and installing the KEGG database and then run the `enrichKEGG` function.
 ```R
 # Download KEGG DB file and install
-download.file('https://www.bioconductor.org/packages/3.11/data/annotation/src/contrib/KEGG.db_3.2.4.tar.gz', destfile='/workspace/rnaseq/de/deseq2/pathway/KEGG.db_3.2.4.tar.gz')
+download.file('https://www.bioconductor.org/packages/3.11/data/annotation/src/contrib/KEGG.db_3.2.4.tar.gz', destfile='KEGG.db_3.2.4.tar.gz')
 install.packages("KEGG.db_3.2.4.tar.gz", repos = NULL, type = "source")
 
 # Run enrichKEGG with local database option
@@ -289,7 +305,6 @@ pathways <- enrichKEGG(gene = names(ranked_genes), organism = "hsa", keyType = "
 head(pathways@result)
 ```
 Let's choose one of the pathways above, for example `hsa04010 - MAPK signaling pathway` to visualize.
-
 ```R
 # Define the KEGG pathway ID based on above, and run pathview (note this automatically generates and saves plots to your current directory)
 pathway_id <- "hsa04010"  # Replace with the KEGG pathway ID of interest

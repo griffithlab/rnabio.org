@@ -29,30 +29,17 @@ In this tutorial you will:
 
 ### Setup
 
-Here we launch R, install relevant packages (if needed), set working directories and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
-
-Launch R:
-
-```bash
-R
-```
+Here we start from R, relevant packages should already be installed so we will load the libraries, set working directories and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
 
 ```R
-# Install the latest version of DEseq2
-# if (!requireNamespace("BiocManager", quietly = TRUE))
-#   install.packages("BiocManager")
-# BiocManager::install("DESeq2")
-
 # define working dir paths
-datadir = "~/workspace/rnaseq/expression/htseq_counts/"
-outdir = "~/workspace/rnaseq/de/deseq2/"
-
-# create a directory for DESeq2 results, if none exists
-if (!dir.exists(outdir)) dir.create(outdir)
+datadir = "/cloud/project/data/bulk_rna"
+outdir = "/cloud/project/outdir"
 
 # load R libraries we will use in this section
 library(DESeq2)
 library(data.table)
+library(ggplot2)
 
 # set working directory to data dir
 setwd(datadir)
@@ -62,13 +49,13 @@ htseqCounts = fread("gene_read_counts_table_all_final.tsv")
 ```
 
 ### Format htseq counts data to work with DESeq2
-DESeq2 has a number of options for data import and actually has a function to read HTseq output files directly. Here the most universal option is used, reading in raw counts from a matrix in simple TSV format (one row per gene, one column per sample). The HTseq count data that was read in above is stored as an object of class data.table, this can be verified with the `class()` function. To use in this exercise it is required to convert this object to an appropriate matrix format with gene names as rows and samples as columns. 
+DESeq2 has a number of options for data import and has a function to read HTseq output files directly. Here the most universal option is used, reading in raw counts from a matrix in simple TSV format (one row per gene, one column per sample). The HTseq count data that was read in above is stored as an object of class "data.table", this can be verified with the `class()` function. Before use in this exercise it is required to convert this object to an appropriate matrix format with gene names as rows and samples as columns.
 
 It should be noted that while the replicate samples are technical replicates (i.e. the same library was sequenced), herein they are treated as biological replicates for illustrative purposes. DESeq2 does have a function to collapse technical replicates though.
 
 ```R
 
-# view class of the data
+# view the class of the data
 class(htseqCounts)
 
 # convert the data.table to matrix format
@@ -81,7 +68,7 @@ rownames(htseqCounts) = htseqCounts[, "GeneID"]
 # now that the gene IDs are the row names, remove the redundant column that contains them
 htseqCounts = htseqCounts[, colnames(htseqCounts) != "GeneID"]
 
-# convert the actual count values from strings (with spaces) to integers, because originally the gene column contained characters, the entire matrix was set to character
+# convert the count values from strings (with spaces) to integers, because originally the gene column contained characters, the entire matrix was set to character
 class(htseqCounts) = "integer"
 
 # view the first few lines of the gene count matrix
@@ -91,38 +78,40 @@ head(htseqCounts)
 
 ### Filter raw counts
 
-Before running DESeq2 or any differential expression analysis it is useful to pre-filter data. There are computational benefits to doing this as the memory size of the objects within R will decrease and DESeq2 will have less data to work through and will be faster. By removing "low quality" data, it is also reduces the number of statistical tests performed, which is turn reduces the impact of multiple test correction and can lead to more significant genes. 
+Before running DESeq2 (or any differential expression analysis) it is useful to pre-filter data. There are computational benefits to doing this as the memory size of the objects within R will decrease and DESeq2 will have less data to work through and will be faster. By removing "low quality" data, it is also reduces the number of statistical tests that will be performed, which in turn reduces the impact of multiple test correction and can lead to more significant genes. 
 
-The amount of pre-filtering is up to the analyst however, it should be done in an unbiased way. DESeq2 recommends removing any gene with less than 10 reads across all samples. Below, we filter a gene if at least 1 sample does not have at least 10 reads. Either way, mostly what is being removed here are genes with very little evidence for expression in any sample (in may cases 0 counts in all samples). 
+The amount of pre-filtering is up to the analyst however, it should be done in an unbiased way. DESeq2 recommends removing any gene with less than 10 reads across all samples. Below, we filter a gene if at least 1 sample does not have at least 10 reads. Either way, mostly what is being removed here are genes with very little evidence for expression in any sample (in many cases gene with 0 counts in all samples).
 
 ```R
 # run a filtering step
 # i.e. require that for every gene: at least 1 of 6 samples must have counts greater than 10
 # get index of rows that meet this criterion and use that to subset the matrix
-# note the dimensions of the matrix before and after filtering with dim
+# note the dimensions of the matrix before and after filtering with dim()
+
+# breaking apart the command below to understand it's outcome
+tail(htseqCounts) # look at the raw counts
+tail(htseqCounts >= 10) # determine which cells have counts greater than 10
+tail(rowSums(htseqCounts >= 10)) # determine for which genes how many samples have counts greater than 10
+tail(rowSums(htseqCounts >= 10) >= 1) # filter to those entries/genes for which at least one sample has counts greater than 10
+tail(which(rowSums(htseqCounts >= 10) >= 1)) #obtain the index for the above filter criteria
 
 dim(htseqCounts)
 htseqCounts = htseqCounts[which(rowSums(htseqCounts >= 10) >= 1), ]
 dim(htseqCounts)
-
-# Hint! if you find the above command confusing, break it into pieces and observe the result
-# 
-# what does "rowSums(htseqCounts >= 10)" do?
-#
-# what does "rowSums(htseqCounts >= 10) >=1" do?
 ```
 
 ### Specifying the experimental design
 
-As mentioned above DESeq2 also needs to know the experimental design, that is which samples belong to which condition to test. The experimental design for the example dataset herein is quite simple as there are 6 samples with one condition to test, as such we can just create the experimental design right within R. There is one important thing to note, DESeq2 does not check sample names, it expects that the column names in the counts matrix we created correspond exactly to the row names we specifiy in the experimental design.
+As mentioned above DESeq2 also needs to know the experimental design, that is which samples belong to which condition to test. The experimental design for the example dataset herein is quite simple as there are 6 samples with two conditions to compare (UHR vs HBR), as such we can just create the experimental design right within R. There is one important thing to note, DESeq2 does not check sample names, it expects that the column names in the counts matrix we created correspond exactly to the row names we specify in the experimental design.
 
 ```R
 # construct a mapping of the meta data for our experiment (comparing UHR cell lines to HBR brain tissues)
-# in simple terms this is defining the biological condition/label for each experimental replicate
+# this is defining the biological condition/label for each experimental replicate
 # create a simple one column dataframe to start
 metaData <- data.frame("Condition" = c("UHR", "UHR", "UHR", "HBR", "HBR", "HBR"))
 
-# convert the "Condition" column to a factor data type, this will determine the direction of log2 fold-changes for the genes (i.e. up or down regulated)
+# convert the "Condition" column to a factor data type
+# the arbitrary order of these factors will determine the direction of log2 fold-changes for the genes (i.e. up or down regulated)
 metaData$Condition = factor(metaData$Condition, levels = c("HBR", "UHR"))
 
 # set the row names of the metaData dataframe to be the names of our sample replicates from the read counts matrix
@@ -147,13 +136,18 @@ With all the data properly formatted it is now possible to combine all the infor
 # and designs with interactions such as "~ genotype + treatment + genotype:treatment".
 
 dds = DESeqDataSetFromMatrix(countData = htseqCounts, colData = metaData, design = ~Condition)
+
+# the design formula above is often a point of confussion, it is useful to put in words what is happening, when we specify "design = ~Condition" we are saying
+# regress gene expression on condition, or put another way model gene expression on condition
+# gene expression is the response variable and condition is the explanatory variable
+# you can put words to formulas using this [cheat sheet](https://www.econometrics.blog/post/the-r-formula-cheatsheet/)
 ```
 
 ### Running DESeq2
-With all the data now in place DESeq2 can be run. Calling DESeq2 will perform the following actions:
-- Estimation of size factors
-- Estimation of dispersion
-- Perform "independent filtering" to reduce the number of statistical test performed (see ?results and https://doi.org/10.1073/pnas.0914005107 for details)
+With all the data now in place, DESeq2 can be run. Calling DESeq2 will perform the following actions:
+- Estimation of size factors. i.e. accounting for differences in sequencing depth (or library size) across samples.
+- Estimation of dispersion. i.e. estimate the biological variability (over and above the expected variation from sampling) in gene expression across biological replicates. This is needed to assess the significance of differences across conditions. Additional work is performed to correct for higher dispersion seen for genes with low expression.
+- Perform "independent filtering" to reduce the number of statistical tests performed (see `?results` and [this paper](https://doi.org/10.1073/pnas.0914005107) for details)
 - Negative Binomial GLM fitting and performing the Wald statistical test
 - Correct p values for multiple testing using the Benjamini and Hochberg method
 
@@ -175,7 +169,7 @@ It is good practice to shrink the log-fold change values, this does exactly what
 #   shrinkage of effect size (log fold change estimates) is useful for visualization and ranking of genes
 
 #   In simplistic terms, the goal of calculating "dispersion estimates" and "shrinkage" is also to account for the problem that
-#   genes with low mean counts across replicates tend of have higher variability than those with higher mean counts.
+#   genes with low mean counts across replicates tend to have higher variability than those with higher mean counts.
 #   Shrinkage attempts to correct for this. For a more detailed discussion of shrinkage refer to the DESeq2 vignette
 
 # first get the name of the coefficient (log fold change) to shrink
@@ -185,33 +179,50 @@ resultsNames(dds)
 resLFC = lfcShrink(dds, coef = "Condition_UHR_vs_HBR", type = "apeglm")
 
 # make a copy of the shrinkage results to manipulate
-deGeneResult <- resLFC
+deGeneResult = resLFC
 
-#contrast the values for a few genes before and after shrinkage
-head(res)
-head(deGeneResult)
+# contrast the values before and after shrinkage
+# create a temporary, simplified data structure with the values before/after shrinkage, and create a new column called "group" with this label
+res_before = res
+res_before$group = "before shrinkage"
+res_after = deGeneResult
+res_after$group = "after shrinkage"
+res_combined = rbind(res_before[,c("log2FoldChange","group")], res_after[,c("log2FoldChange","group")])
+
+# adjust the order so that the legend has "before shrinkage" listed first
+res_combined$group = factor(res_combined$group, levels = c("before shrinkage", "after shrinkage"))
+
+# look at the fold change values
+head(res_before)
+head(res_after)
+
+ggplot(res_combined, aes(x = log2FoldChange, color = group)) + geom_density() + theme_bw() +
+  scale_color_manual(values = c("before shrinkage" = "tomato4", "after shrinkage" = "slategray")) +
+  labs(color = "Shrinkage status")
+
 ```
 
-How did the results change before and after shinkage? What direction is each log2 fold change value moving?
+How did the results change before and after shinkage? What direction is each log2 fold change value moving? 
 
+Note that for these data, the impact of shrinkage is very subtle but the pattern is that fold change values move towards 0.
 
 ### Annotate gene symbols onto the DE results
 DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human friendly way to interpret results. Here gene symbols are merged onto the differential expressed gene list to make the results a bit more interpretable.
 
 ```R
 # read in gene ID to name mappings (using "fread" an alternative to "read.table")
-mapping <- fread("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = FALSE)
+gene_id_mapping <- fread("/cloud/project/data/bulk_rna/ENSG_ID2Name.txt", header = FALSE)
 
-# add names to the columns in the "mapping" dataframe
-setnames(mapping, c("ensemblID", "Symbol"))
+# add names to the columns in the "gene_id_mapping" dataframe
+setnames(gene_id_mapping, c("ensemblID", "Symbol"))
 
 # view the first few lines of the gene ID to name mappings
-head(mapping)
+head(gene_id_mapping)
 
 # merge on gene names
 deGeneResult$ensemblID = rownames(deGeneResult)
 deGeneResult = as.data.table(deGeneResult)
-deGeneResult = merge(deGeneResult, mapping, by = "ensemblID", all.x = TRUE)
+deGeneResult = merge(deGeneResult, gene_id_mapping, by = "ensemblID", all.x = TRUE)
 
 # merge the original raw count values onto this final dataframe to aid interpretation
 original_counts = as.data.frame(htseqCounts)
@@ -224,7 +235,7 @@ head(deGeneResult)
 ```
 
 ### Data manipulation
-With the DE analysis complete it is useful to view and filter the data frames to only the relevant genes, here some basic data manipulation is performed filtering to significant genes at specific thresholds.
+With the DE analysis complete it is useful to view and filter the data frames to only the relevant genes. Here some basic data manipulation is performed, filtering to significant genes at specific thresholds.
 
 ```R
 # view the top genes according to adjusted p-value
@@ -261,57 +272,52 @@ fwrite(deGeneResultSignificant, file="DE_sig_genes_DESeq2.tsv", sep="\t")
 saveRDS(dds, "dds.rds")
 saveRDS(res, "res.rds")
 saveRDS(resLFC, "resLFC.rds")
-
-# to exit R type the following
-quit(save = "no")
 ```
 
+### Briefly examine the top over-expressed genes
 
+For both conditions (HBR and UHR) lets take a look at the top n genes but this time according to fold-change instead of p-value.
 
-### Visualize overlap with a venn diagram. This can be done with simple web tools like:
+```R
 
-* [https://www.biovenn.nl/](https://www.biovenn.nl/)
-* [http://bioinfogp.cnb.csic.es/tools/venny/](http://bioinfogp.cnb.csic.es/tools/venny/)
+# use the dplyr library to manipulate the dataframe
+library(dplyr)
 
-Once you have run the DESeq2 tutorial, compare the sigDE genes to those saved earlier from ballgown:
+# create a new copy of the data frame, sorted by log2 fold change
+deGeneResultSortedFoldchange = arrange(deGeneResultSignificant, log2FoldChange)
 
-```bash
-head $RNA_HOME/de/ballgown/ref_only/DE_genes.txt
-head $RNA_HOME/de/deseq2/DE_sig_genes_DESeq2.tsv
+# create a convenient data structure with just the top n genes from each condition
+top_bottom = bind_rows(
+  head(deGeneResultSortedFoldchange, 10) %>% mutate(Set = "Bottom 10"),
+  tail(deGeneResultSortedFoldchange, 10) %>% mutate(Set = "Top 10")
+)
 
-```
-
-Pull out the gene IDs
-```bash
-cd $RNA_HOME/de/
-
-cut -f 1 $RNA_HOME/de/ballgown/ref_only/DE_genes.txt | sort | uniq > ballgown_DE_gene_symbols.txt
-cut -f 7 $RNA_HOME/de/deseq2/DE_sig_genes_DESeq2.tsv | sort | uniq | grep -v Symbol > DESeq2_DE_gene_symbols.txt
+# visualize data for the top n genes. Simplify the output a bit
+print(top_bottom[,c("log2FoldChange","padj","Symbol","UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3","Set")])
 
 ```
 
-To get the two gene lists you could use `cat` to print out each list in your terminal and then copy/paste.
+### Perform some preliminary exploration of DE genes using webtools
 
-```bash
-cat ballgown_DE_gene_symbols.txt
-cat DESeq2_DE_gene_symbols.txt
+Download the file: `outdir/DE_sig_genes_DESeq2.tsv`. Open this spreadsheet, sort on "log2FoldChange" column and find the top 100 significant genes with higher expression in HBR (brain). Also download the file: `outdir/DE_all_genes_DESeq2.tsv` (to be used as a list of background genes or where we want the fold-change value for every gene).
 
-```
+- Try querying with the top 100 HBR over-expressed genes using: [g:Profiler](https://biit.cs.ut.ee/gprofiler/gost)
+- Try querying with the top 100 HBR over-expressed genes using: [TissueEnrich](https://tissueenrich.gdcb.iastate.edu/). Use the Tissue Enrichment tool. This tool also requires a Background Gene List.  Use all genes in `DE_all_genes_DESeq2.tsv` for this purpose. You can also manually explore some individual genes over-expressed in UHR with the Tissue-Specific Genes tool.  For example, try *PRAME* and *SERPIND1*, two of the top UHR genes.
 
-Alternatively you could view both lists in a web browser as you have done with other files. These two files should be here:
+**g:Profiler example result**
+{% include figure.html image="/assets/module_3/Gprofiler-example.png" width="1200" %}
 
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/DESeq2_DE_gene_symbols.txt
+**TissueEnrich summary for top 100 HBR over-expressed genes**
+{% include figure.html image="/assets/module_3/TissueEnrich-HBR-Genes-1.png" width="1200" %}
 
-##### Example Venn Diagram (Two-way comparison: DE genes from StringTie/Ballgown vs HTSeq/DESeq2)
+**TissueEnrich result for Cerebral Cortex tissue**
+{% include figure.html image="/assets/module_3/TissueEnrich-HBR-Genes-2.png" width="1200" %}
 
-<br>
-{% include figure.html image="/assets/module_3/venn-ballgown-vs-deseq2.png" width="400" %}
+**TissueEnrich example for UHR over-expressed gene: *PRAME***
+{% include figure.html image="/assets/module_3/TissueEnrich-UHR-PRAME.png" width="1200" %}
 
+**TissueEnrich example for UHR over-expressed gene: *SERPIND1***
+{% include figure.html image="/assets/module_3/TissueEnrich-UHR-SERPIND1.png" width="1200" %}
 
-##### Example Venn Diagram (Three-way comparison: DE genes from StringTie/Ballgown vs HTSeq/DESeq2 vs HTSeq/EdgeR)
-
-<br>
-{% include figure.html image="/assets/module_3/venn-ballgown-vs-deseq2-vs-edger.png" width="500" %}
-
+Does all of this make sense when we think about the makeup of the HBR and UHR samples? Refer back to the [description of the samples](module-01-inputs/0001/05/01/RNAseq_Data/).
 
