@@ -52,7 +52,7 @@ MA-plots were originally used to evaluate microarray expression data where M is 
 
 These types of plots are still usefull in RNAseq DE experiments with two conditions, as they can immediately give us information on the number of signficantly differentially expressed genes, the ratio of up vs down regulated genes, and any outliers. To interpret these plots it is important to keep a couple of things in mind. The Y axis (M) is the log2 fold change between the two conditions tested, a higher fold-change indicates greater difference between condition A and condition B. The X axis (A) is a measure of read alignment to a gene, so as you go higher on on the X axis you are looking at regions which have higher totals of aligned reads, in other words the gene is "more" expressed overall (with the caveat that gene length is not being taken into account by raw read counts here). 
 
-Using the build in `plotMA` function from DESeq2 we also see that the genes are color coded by a significance threshold. Genes with higher expression values and higher fold-changes are more often significant as one would expect.
+Using the built-in `plotMA` function from DESeq2 we also see that the genes are color coded by a significance threshold. Genes with higher expression values and higher fold-changes are more often significant as one would expect.
 
 ```R
 # use DESeq2 built in MA-plot function
@@ -75,17 +75,17 @@ dev.off()
 The effect is very subtle here due to the focused nature of our dataset (chr22 genes onle), but if you toggle between the two plots and look in the upper left and bottom left corners you can see some fold change values are moving closer to 0.
 
 #### Viewing individual gene counts between two conditions
-Often it may be useful to view the normalized counts for a gene amongst our samples. DESeq2 provides a built in function for that which works off of the dds object. Here we view SEPT3 which we can see in our DE output is significantly higher in the UHR cohort. This is useful as we can see the per-sample distribution of our corrected counts, we can immediately determine if there are any outliers within each group and investigate further if need be.
+Often it may be useful to view the normalized counts for a gene amongst our samples. DESeq2 provides a built in function for that which works off of the dds object. Here we view SEPT3 which we can see in our DE output is significantly higher in the HBR cohort and PRAME which is significantly higher in the UHR cohort. This is useful as we can see the per-sample distribution of our corrected counts, we can immediately determine if there are any outliers within each group and investigate further if need be.
 
 ```R
 
 pdf("normalized_count_examples.pdf")
 
 # view SEPT3 normalized counts
-plotCounts(dds, gene = "ENSG00000100167", intgroup = "Condition")
+plotCounts(dds, gene = "ENSG00000100167", intgroup = "Condition", main = "SEPT3")
 
 # view PRAME normalized counts
-plotCounts(dds, gene = "ENSG00000185686", intgroup = "Condition")
+plotCounts(dds, gene = "ENSG00000185686", intgroup = "Condition", main = "PRAME")
 
 dev.off()
 

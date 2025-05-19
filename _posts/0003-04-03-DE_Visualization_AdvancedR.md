@@ -51,11 +51,11 @@ library(ggrepel)
 #Set a base working directory
 setwd("/cloud/project/")
 
-#Import expression results (TPM values) from the HISAT2/Stringtie pipeline (http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_tpm_all_samples.tsv)
+#Import expression results (TPM values) from the HISAT2/Stringtie pipeline (https://genomedata.org/cri-workshop/gene_tpm_all_samples.tsv)
 #gene_expression = read.table("~/workspace/rnaseq/expression/stringtie/ref_only/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
 gene_expression = read.table("data/bulk_rna/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
 
-#Import gene name mapping file (http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/ENSG_ID2Name.txt)
+#Import gene name mapping file (https://genomedata.org/cri-workshop/ENSG_ID2Name.txt)
 #gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = TRUE, stringsAsFactors = FALSE)
 gene_names=read.table("data/bulk_rna/ENSG_ID2Name.txt", header = TRUE, stringsAsFactors = FALSE)
 
@@ -152,10 +152,10 @@ dev.off()
 plotCor = function(lib1, lib2, name){
 	x = gene_expression[, lib1]
 	y = gene_expression[, lib2]
-	zero_count = length(which(x == 0)) + length(which(y == 0))
 	colors = colorRampPalette(c("white", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
 	smoothScatter(x = log2(x + min_nonzero), y = log2(y + min_nonzero), xlab = lib1, ylab = lib2, main = name, colramp = colors, nbin = 275)
 	abline(a = 0, b = 1)
+        zero_count = length(which(x == 0)) + length(which(y == 0))
 	rs = cor(x, y, method = "pearson")^2
 	legend_text = c(paste("R squared = ", round(rs, digits = 3), sep=""), paste("Zero count = ", zero_count, sep = ""))
 	legend("topleft", legend_text, lwd = c(1, NA), col = "black", bg = "white", cex = 0.8)
