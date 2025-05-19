@@ -217,16 +217,17 @@ The above code accomplishes what we want to do just fine but it requires a lot o
 
 **Can you write a for-loop to read in all six sample files?** 
 
-Our for-loop will accomplish two major steps. The first is to read in the cellranger files and the second is to create a Seurat object. So this for-loop can be read: "For every sample in the sample_names list, paste together a path where the h5 file for that sample can be found, print that path for verification, use the function `Read10X_h5` to read the h5 file, create a Seurat object using the function `CreateSeuratObject`, and finally add that sample's Seurat object to a list of Seurat objects. When the for-loop completes, our `sample.data` list should contain all 6 samples. 
+Our for-loop will accomplish two major steps. The first is to read in the cellranger files and the second is to create a Seurat object. So this for-loop can be read: "For every sample in the sample_names list, paste together a path where the h5 file for that sample can be found, print that path for verification, use the function `Read10X_h5` to read the h5 file, create a Seurat object using the function `CreateSeuratObject`, and finally add that sample's Seurat object to a list of Seurat objects." When the for-loop completes, our `sample.data` list should contain all 6 samples. 
 
 Here is how I will write the for loop:
 
 ```R
 # List of sample names
-sample_names <- c("Rep1_ICBdT", "Rep1_ICB", "Rep3_ICBdT", "Rep3_ICB",
+sample_names <- c("Rep1_ICBdT", "Rep1_ICB", 
+                  "Rep3_ICBdT", "Rep3_ICB",
                   "Rep5_ICBdT", "Rep5_ICB")
 
-sample.data  = list() # create a list to hold seurat object
+sample.data  = list() # create a list to hold the seurat object for each sample
 
 for (sample in sample_names) {
   path = paste("data/single_cell_rna/cellranger_outputs/", sample, "-sample_filtered_feature_bc_matrix.h5", sep="") # paste together a path name for the h5 file
