@@ -674,7 +674,7 @@ ndims = length(which(merged@reductions$pca@stdev > 2)) # determines which PCs ar
 ndims
 ```
 
-After looking at the elbow plot, the PC heatmaps, and JackStraw plot (maybe this takes a long time to run so we might want to get rid of it) we decided to select 26 PCs. This is a great place to play around and take your time to notice the differences that adding or removing PCs make. When in doubt, slightly more PCs is better than not enough.
+After looking at the elbow plot, the PC heatmaps, and JackStraw plot (this takes a long time to run, so we might want to not run it) we decided to select 22 PCs. This is a great place to play around and take your time to notice the differences that adding or removing PCs make. When in doubt, slightly more PCs is better than not enough.
 
 ### Cell Clustering
 
