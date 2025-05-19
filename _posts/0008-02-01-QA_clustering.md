@@ -462,44 +462,67 @@ Active assay: RNA (18187 features, 0 variable features)
 ```
 ![Seurat Object Normalize](/assets/module_8/seurat_object.normalize.png)
 
+#### Comparing the Normalized vs Raw Counts for one gene 
 
-### Find Variable Features
+To understand what normaliziation does to our data we can look at the counts for one housekeeping gene, Actb. This plot we have the raw counts on the x-axis and the normalized counts on the y-axis. The histograms show that we do get a normal distribution and that the data follows a log curve. Each dot represents a cell. The two cells the arrows indicate have (basically) the same number of raw counts but have very different normalize counts. The color represents the total number of reads in each cell. 
 
-Next, we identify genes that are highly expressed in some cells, and lowly expressed in others. features that are outliers on a 'mean variability plot'. We will use `vst` to choose the top variable features. These genes will be used in downstream analysis, like PCA.
+When we normalize we are accounting for the fact that cells are unequally sequenced. To fairly compare one cell against another we want to consider the porportion of gene expression per cell not just the total number of reads. More on this at the end. 
 
-```R
-merged <- FindVariableFeatures(merged, assay = "RNA", selection.method = "vst", nfeatures = 2000, mean.cutoff = c(0.1, 8), dispersion.cutoff = c(1,Inf))
-```
+![Actb Normalized vs Raw counts](/assets/module_8/RawVsNormalizedCounts_Actb.png)
 
-We can visualize the highly variable genes with a dot plot.
-```R
-# Identify the 10 most highly variable genes
-top10 <- head(VariableFeatures(merged), 10)
-top10
+<details>
+<summary>
+  <p>Click here to see the code to generate this plot</p>
+</summary>
 
-# plot variable features with and without labels
-plot1 <- VariableFeaturePlot(object=merged)
-HoverLocator(plot = plot1)
-```
+<pre><code class="language-r">
+library(ggExtra)
 
-Understanding where the information about the variable features are stored is a little tricky.
-```R
-merged[["RNA"]]
-```
-```
-Assay (v5) data with 18187 features for 23185 cells
-Top 10 variable features:
- Jchain, Ighg1, Igkc, Sprr2d, Mzb1, Slpi, Sprr2f, Sprr2h, Saa3, Cxcl3 
-Layers:
- data, counts 
-```
+raw_counts <- GetAssayData(merged, layer = "counts")
+norm_counts <- GetAssayData(merged, layer = "data")
 
-![Seurat FindVariableFeatures](/assets/module_8/seurat_object.variablefeatures.png)
+counts_sum <- rowSums(raw_counts)
 
+# Extract raw counts for these genes
+genes_raw <- as.data.frame(as.matrix(raw_counts[c("Actb"),]))
+colnames(genes_raw) <- "Actb_raw"
+
+# Extract normalized counts for these genes
+genes_norm <- as.data.frame(as.matrix(norm_counts[c("Actb"),]))
+colnames(genes_norm) <- "Actb_norm"
+
+# Combine data
+genes_combined <- cbind(genes_raw, genes_norm)
+
+total_counts_per_cell <- colSums(raw_counts)
+total_counts_df <- data.frame(
+  cell = names(total_counts_per_cell),
+  total_counts = total_counts_per_cell
+)
+genes_combined$total_counts <- total_counts_df$total_counts
+
+p <- ggplot(genes_combined, aes_string(x = "Actb_raw", y = "Actb_norm", color = "total_counts")) +
+  geom_point(alpha = 0.7) +
+  scale_color_viridis_c() +
+  theme_classic() +
+  labs(
+       x = "Raw counts for Actb per cell",  
+       y = "Normalized counts for Actb per cell", 
+       color = "Total Read Counts per Cell") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 10))
+
+# Add marginal histograms for the third plot
+ggMarginal(p, type = "histogram", fill = "lightblue", 
+           xparams = list(bins = 30), 
+           yparams = list(bins = 30))
+</code></pre>
+</details>
 
 ### Scale Data
 
-Now we will scale and center the genes in the dataset.
+The normalization adjusts for sequencing depth differences across *cells*. But if we also have adjust for the difference expression levels of *genes*. This is especially important for PCA analysis (which we will get to in just a bit). 
+
+So for each gene we perform `(expression - mean(expression)) / standard_deviation(expression))`. Where `(expression - mean(expression))` is our centered sxpression and when we divide by the stdev we get the scalled expression. If we look at the [`ScaleData`](https://satijalab.org/seurat/reference/scaledata) documentation we see there are several other ways to configure our scaling including setting varibles to regress out. 
 
 ```R
 merged <- ScaleData(merged, verbose = TRUE) 
@@ -516,31 +539,29 @@ Active assay: RNA (18187 features, 2000 variable features)
 
 ![Seurat FindVariableFeatures](/assets/module_8/seurat_object.scaled.png)
 
-### Cell Cycle Scoring
+### Find Variable Features
 
-Cell Cycle scoring is another step that can add extremely useful information to your Seurat object. We will use `gprofiler2` to grab a list of mouse genes which are associated with different phases of the the cell cycle. The Seurat function 'CellCycleScoring' will then calculate a score for each cell based on the given genes and also assign the cell a phase. This function will add the columns S.Score, G2M.Score, and Phase to the `meta.data`.
+The last thing we do before we can perform PCA is identify genes that are highly expressed in some cells, and lowly expressed in others.  We will use the defaults described in the [documentation](https://satijalab.org/seurat/reference/findvariablefeatures) and the [Seurat tutorial](https://satijalab.org/seurat/reference/findvariablefeatures). 
+
+The method we will use to select these genes is Variance Stabilizing Transformation (vst) which is the default setting meant to account for the inherent relationship between mean expression and variance in scRNA-seq data. We set `nfeatures` to 2000 which is a very common setting and a good place to start, depending on the goals of our analysis this number might have to be changed later. Finally, we will perform a little filtering to make sure we aren't cosidering genes that are too lowly/highly expressed (`mean.cutoff`) and makes sure we don't have any genes that have no variability (`dispersion.cutoff`). 
 
 ```R
-library(gprofiler2) 
-s.genes = gorth(cc.genes.updated.2019$s.genes, source_organism = "hsapiens", target_organism = "mmusculus")$ortholog_name
-g2m.genes = gorth(cc.genes.updated.2019$g2m.genes, source_organism = "hsapiens", target_organism = "mmusculus")$ortholog_name
-
-merged <- CellCycleScoring(object=merged, s.features=s.genes, g2m.features=g2m.genes, set.ident=FALSE)
-
-head(merged[[]])
+merged <- FindVariableFeatures(merged, assay = "RNA", selection.method = "vst", nfeatures = 2000, mean.cutoff = c(0.1, 8), dispersion.cutoff = c(1,Inf))
 ```
 
-```
-                              orig.ident nCount_RNA nFeature_RNA percent.mt keep_cell_percent.mt keep_cell_nFeature     S.Score   G2M.Score Phase
-Rep1_ICBdT_AAACCTGAGCCAACAG-1 Rep1_ICBdT      20585         4384   1.675978                 TRUE               TRUE  0.61857647  0.19639961     S
-Rep1_ICBdT_AAACCTGAGCCTTGAT-1 Rep1_ICBdT       4528         1967   3.577739                 TRUE               TRUE -0.06225445 -0.13230705    G1
-Rep1_ICBdT_AAACCTGAGTACCGGA-1 Rep1_ICBdT      12732         3327   2.764687                 TRUE               TRUE -0.14015383 -0.17780932    G1
-Rep1_ICBdT_AAACCTGCACGGCCAT-1 Rep1_ICBdT       4903         2074   1.427697                 TRUE               TRUE -0.05258375 -0.06400598    G1
-Rep1_ICBdT_AAACCTGCACGGTAAG-1 Rep1_ICBdT      10841         3183   2.472097                 TRUE               TRUE -0.10176717 -0.06637093    G1
-Rep1_ICBdT_AAACCTGCATGCCACG-1 Rep1_ICBdT      10981         2788   2.030780                 TRUE               TRUE -0.08794336 -0.21230015    G1
+We can visualize the highly variable genes with a dot plot.
+```R
+# Identify the 10 most highly variable genes
+top10 <- head(VariableFeatures(merged), 10)
+top10
+
+# plot variable features with and without labels
+plot1 <- VariableFeaturePlot(object=merged)
+HoverLocator(plot = plot1)
 ```
 
-The cell cycle scores and phase are visualized later in this vignette. The interpretation of these is largely context and experiment dependent. In some cases, if you are not expecting large differences in cell cycle in your samples, this may be an additional QC metric to consider. The calculation of cell cycle scores can also be impacted by the type of cells you have, see alternate workflow for hematopoietic stem cells [here](https://satijalab.org/seurat/articles/cell_cycle_vignette.html).
+![Seurat FindVariableFeatures](/assets/module_8/seurat_object.variablefeatures.png)
+
 
 ### Determine how many PCA should be used for clustering
 
@@ -557,6 +578,7 @@ merged <- RunPCA(merged, npcs = 50, assay = "RNA")
 
 merged
 ```
+
 ```
 An object of class Seurat 
 18187 features across 23185 samples within 1 assay 
@@ -736,12 +758,6 @@ highlighted_cells <- WhichCells(merged, expression = orig.ident == "Rep1_ICBdT")
 DimPlot(merged, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
 ```
 
-Lets take a look at the cell cycle scoring calculations.
-
-```R
-FeaturePlot(merged, features = c("S.Score", "G2M.Score")) + DimPlot(merged,  group.by = "Phase")  
-```
-
 #### Exploring Clustering Resolution
 
 Now it's time to explore the nuances of clustering resolution. Choosing cluster resolution is somewhat arbitrary and affects the number of clusters called (higher resolution calls more clusters). The shape of the UMAP does not change if you change the cluster resolution. The shape of the UMAP is determined by the number of PCs used to create the UMAP.
@@ -756,6 +772,38 @@ DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.5') +
   DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.8') + 
   DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2') 
 dev.off()
+```
+
+### Cell Cycle Scoring
+
+Cell Cycle scoring is another step that can add extremely useful information to your Seurat object. We will use `gprofiler2` to grab a list of mouse genes which are associated with different phases of the the cell cycle. The Seurat function 'CellCycleScoring' will then calculate a score for each cell based on the given genes and also assign the cell a phase. This function will add the columns S.Score, G2M.Score, and Phase to the `meta.data`.
+
+```R
+library(gprofiler2) 
+s.genes = gorth(cc.genes.updated.2019$s.genes, source_organism = "hsapiens", target_organism = "mmusculus")$ortholog_name
+g2m.genes = gorth(cc.genes.updated.2019$g2m.genes, source_organism = "hsapiens", target_organism = "mmusculus")$ortholog_name
+
+merged <- CellCycleScoring(object=merged, s.features=s.genes, g2m.features=g2m.genes, set.ident=FALSE)
+
+head(merged[[]])
+```
+
+```
+                              orig.ident nCount_RNA nFeature_RNA percent.mt keep_cell_percent.mt keep_cell_nFeature     S.Score   G2M.Score Phase
+Rep1_ICBdT_AAACCTGAGCCAACAG-1 Rep1_ICBdT      20585         4384   1.675978                 TRUE               TRUE  0.61857647  0.19639961     S
+Rep1_ICBdT_AAACCTGAGCCTTGAT-1 Rep1_ICBdT       4528         1967   3.577739                 TRUE               TRUE -0.06225445 -0.13230705    G1
+Rep1_ICBdT_AAACCTGAGTACCGGA-1 Rep1_ICBdT      12732         3327   2.764687                 TRUE               TRUE -0.14015383 -0.17780932    G1
+Rep1_ICBdT_AAACCTGCACGGCCAT-1 Rep1_ICBdT       4903         2074   1.427697                 TRUE               TRUE -0.05258375 -0.06400598    G1
+Rep1_ICBdT_AAACCTGCACGGTAAG-1 Rep1_ICBdT      10841         3183   2.472097                 TRUE               TRUE -0.10176717 -0.06637093    G1
+Rep1_ICBdT_AAACCTGCATGCCACG-1 Rep1_ICBdT      10981         2788   2.030780                 TRUE               TRUE -0.08794336 -0.21230015    G1
+```
+
+The cell cycle scores and phase are visualized later in this vignette. The interpretation of these is largely context and experiment dependent. In some cases, if you are not expecting large differences in cell cycle in your samples, this may be an additional QC metric to consider. The calculation of cell cycle scores can also be impacted by the type of cells you have, see alternate workflow for hematopoietic stem cells [here](https://satijalab.org/seurat/articles/cell_cycle_vignette.html).
+
+Lets take a look at the cell cycle scoring calculations.
+
+```R
+FeaturePlot(merged, features = c("S.Score", "G2M.Score")) + DimPlot(merged,  group.by = "Phase")  
 ```
 
 ## Finishing up
