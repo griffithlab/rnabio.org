@@ -201,13 +201,15 @@ head(Rep1_ICB_data_seurat_obj[[]]) # check to see the column in meta.data
 We will use `percent.mt` to assess the quality if our cells, lets take a quick look at this one sample data before moving on to process all our samples. Using violin plots we take a look at the number of reads, the number of genes, and the percentage of mitochondrial genes in each cell. 
 
 ```R
-p1 <- VlnPlot(Rep1_ICB_data_seurat_obj, features = c("nCount_RNA"), pt.size = 0) 
-p2 <- VlnPlot(Rep1_ICB_data_seurat_obj, features = c("nFeature_RNA"), pt.size = 0) + scale_y_continuous(breaks = c(0, 300, 500, 1000, 2000, 4000))
-p3 <- VlnPlot(Rep1_ICB_data_seurat_obj, features = c("percent.mt"), pt.size = 0) + scale_y_continuous(breaks = c(0, 12.5, 25, 50))
+p1 <- VlnPlot(Rep1_ICB_data_seurat_obj, layer = "counts", features = c("nCount_RNA"), pt.size = 0) 
+p2 <- VlnPlot(Rep1_ICB_data_seurat_obj, layer = "counts", features = c("nFeature_RNA"), pt.size = 0) + scale_y_continuous(breaks = c(0, 300, 500, 1000, 2000, 4000))
+p3 <- VlnPlot(Rep1_ICB_data_seurat_obj, layer = "counts", features = c("percent.mt"), pt.size = 0) + scale_y_continuous(breaks = c(0, 12.5, 25, 50))
 p <- plot_grid(p1, p2, p3, ncol = 3)
 p
 ```
-We see that a majority of cells have greater than 1000 genes and a mitochondrial percentage of less 12. Cells that fall outside of this range are most likely dead or of low quality, we will want to filter these out.
+We see that a majority of cells have greater than 1000 genes and a mitochondrial percentage of less 12. Cells that fall outside of this range are most likely dead or of low quality, we will want to filter these out. 
+
+Note in the above commands, we get warnings about a y-scale already being present. This is because VlnPlot defines a y-scale under the hood and we are overriding it. This warning can be safely ignored.
 
 ![rep1_icb prefiltered violen plot](/assets/module_8/rep1_icb_prefiltered.vlnplot.png)
 
