@@ -232,8 +232,9 @@ sample_names <- c("Rep1_ICBdT", "Rep1_ICB",
 sample.data  = list() # create a list to hold the seurat object for each sample
 
 for (sample in sample_names) {
+  cat("\nWorking on sample: ", sample, "\n")
   path = paste("data/single_cell_rna/cellranger_outputs/", sample, "-sample_filtered_feature_bc_matrix.h5", sep="") # paste together a path name for the h5 file
-  print(path) # check to make sure the path is correct
+  cat("Input file path: path: ", path, "\n") # check to make sure the path is correct
 
   data = Read10X_h5(path) # read in the cellranger h5 file
 
@@ -241,6 +242,7 @@ for (sample in sample_names) {
 
   sample.data[[sample]] = seurat_obj # add sample seurat object to list
 }
+
 ```
 
 
