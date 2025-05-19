@@ -85,6 +85,12 @@ Rep1_ICB_data_seurat_obj = CreateSeuratObject(counts = Rep1_ICB_data, project = 
 
 ```
 
+The h5 file is realitvely new, to read in the matrix.mtx, genes.tsv (or features.tsv), and barcodes.tsv use the [`Read_10X`](https://satijalab.org/seurat/reference/read10x) function.
+
+```R
+data <- Read10X(data.dir = "data/single_cell_rna/cellranger_outputs/")
+```
+
 #### Understanding our Seurat object
 
 
