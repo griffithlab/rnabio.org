@@ -750,7 +750,7 @@ ggplot(cell_type_counts_TCR, aes(x = immgen_singler_main, y = Count)) +
 
 And it looks great!
 
-<img src="/assets/module_8/Celltype_TCR_Correct.png" alt="The number of TCRs in each celltypes (Correct)" width="1000"/>
+<img src="/assets/module_8/Celltypes_TCR_Correct.png" alt="The number of TCRs in each celltypes (Correct)" width="1000"/>
 
 Now we can do the same thing with the BCR data.
 ```R
