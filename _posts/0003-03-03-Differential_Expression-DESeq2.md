@@ -169,7 +169,7 @@ It is good practice to shrink the log-fold change values, this does exactly what
 #   shrinkage of effect size (log fold change estimates) is useful for visualization and ranking of genes
 
 #   In simplistic terms, the goal of calculating "dispersion estimates" and "shrinkage" is also to account for the problem that
-#   genes with low mean counts across replicates tend of have higher variability than those with higher mean counts.
+#   genes with low mean counts across replicates tend to have higher variability than those with higher mean counts.
 #   Shrinkage attempts to correct for this. For a more detailed discussion of shrinkage refer to the DESeq2 vignette
 
 # first get the name of the coefficient (log fold change) to shrink
