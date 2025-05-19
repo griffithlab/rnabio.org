@@ -197,13 +197,14 @@ merged <- SetIdent(merged, value = 'immgen_singler_main')
 merged_tcells <- subset(merged, idents = t_celltypes_names)
 
 #confirm that we have subset the object as expected visually using a UMAP
-DimPlot(merged, group.by = 'immgen_singler_main', label = TRUE) + 
-DimPlot(merged_tcells, group.by = 'immgen_singler_main', label = TRUE)
+DimPlot(merged, group.by = 'immgen_singler_main') + 
+DimPlot(merged_tcells, group.by = 'immgen_singler_main')
 
 #confirm that we have subset the object as expected by looking at the individual cell counts
 table(merged$immgen_singler_main)
 table(merged_tcells$immgen_singler_main)
 ```
+![Tcells subset object dimplot](/assets/module_8/DE_Tcells_object_subset_dimplot.png)
 
 Now we want to compare T cells from mice treated with ICB vs ICBdT. First, we need to distinguish the ICB and ICBdT cells from each other. Start by clicking on the object in RStudio and expand `meta.data` to get a snapshot of the columns and the what kind of data they hold. 
 
@@ -292,6 +293,7 @@ EnhancedVolcano(cd8tcells_de,
   labSize = 5.0,
   colAlpha = 0.3)
 ```
+![CD8Tcells DE volcanoplot](/assets/module_8/DE_CD8Tcells_object_subset_volcanoplot.png)
 
 At this point, you can either start doing literature searches for some of these genes and find that for genes like Bcl2, Cdk8, and Znrf3 that were upregulated in ICB CD8 Tcells, the literature suggests- antigen-specific memory CD8 T cells have higher expression of [Bcl2](https://journals.aai.org/jimmunol/article/164/8/3950/32588/Cutting-Edge-Increased-Expression-of-Bcl-2-in) and [Cdk8](https://www.science.org/doi/abs/10.1126/sciimmunol.aaw2707); and Znrf3 has been implicated in [CD8 T cells' anti-tumor response following anti-PD-1 therapy](https://pubmed.ncbi.nlm.nih.gov/37738974/). Also, we replicate the original paper's findings of ICBdT CD8 T cells upregulating T cell exhaustion markers like Tigit and Pdcd1. 
 
