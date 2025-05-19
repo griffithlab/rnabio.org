@@ -556,6 +556,7 @@ Now we will calculate PCs on our dataset. We will calculate the default 50 PCs w
 merged <- RunPCA(merged, npcs = 50, assay = "RNA") 
 
 merged
+
 ```
 ```
 An object of class Seurat 
@@ -567,6 +568,7 @@ Active assay: RNA (18187 features, 2000 variable features)
 
 ```R
 merged[["pca"]]
+
 ```
 
 ```
@@ -575,13 +577,15 @@ A dimensional reduction object with key PC_
  Number of cells: 23185 
  Projected dimensional reduction calculated:  FALSE 
  Jackstraw run: FALSE 
- Computed using assay: RNA 
+ Computed using assay: RNA
+
 ```
 
 After the PCs have been calculated, then each cell is "fitted" back into that PCs context. So for each cell we ask, "whats a cell's score/embedding for a given PC based on gene expression in that cell"?
 
 ```R
 head(Embeddings(merged, reduction = "pca")[, 1:5])
+
 ```
 
 ```
@@ -592,6 +596,7 @@ Rep1_ICBdT_AAACCTGAGTACCGGA-1 -65.634614 -46.0958039  -9.3464346 7.9993856  3.62
 Rep1_ICBdT_AAACCTGCACGGCCAT-1   4.139736  -0.8617120  -0.3006448 0.4993232 -0.6362336
 Rep1_ICBdT_AAACCTGCACGGTAAG-1   3.905916  -0.3761172   1.3514115 1.0349043  3.2202961
 Rep1_ICBdT_AAACCTGCATGCCACG-1 -67.302103 -45.6771707 -11.5863126 3.4400124  4.9678837
+
 ```
 ![Seurat FindVariableFeatures](/assets/module_8/seurat_object.pca.png)
 
@@ -610,6 +615,7 @@ elbow <- ElbowPlot(merged, ndims = 30)
 jpeg(sprintf("%s/Elbow.jpg", outdir), width = 8, height = 6, units = 'in', res = 150)
 print(elbow)
 dev.off()
+
 ```
 
 ![Seurat FindVariableFeatures](/assets/module_8/elbow.png)
@@ -630,6 +636,7 @@ dev.off()
 jpeg(sprintf("%s/DimHm25_36.jpg", outdir), width = 10, height = 20, units = 'in', res = 150)
 DimHeatmap(merged, dims = 25:36, balanced = TRUE, cells = 500)
 dev.off()
+
 ```
 
 <table>
@@ -660,6 +667,7 @@ Jackstaw is an older and computationally expensive way to analyze the variabilit
 # jpeg(sprintf("JackStraw.jpg",), width = 8, height = 6, units = 'in', res = 150)
 # print(plot)
 # dev.off()
+
 ```
 
 
@@ -672,6 +680,7 @@ There is one tactic we can use to deduce our PC cutoff. We can see how many PCs 
 ```R
 ndims = length(which(merged@reductions$pca@stdev > 2)) # determines which PCs are important (stdev>2) 
 ndims
+
 ```
 
 After looking at the elbow plot, the PC heatmaps, and JackStraw plot (this takes a long time to run, so we might want to not run it) we decided to select 22 PCs. This is a great place to play around and take your time to notice the differences that adding or removing PCs make. When in doubt, slightly more PCs is better than not enough.
@@ -684,12 +693,14 @@ We are finally on the Cell Clustering step. The first step to clustering is the 
 PC = 22
 
 merged <- FindNeighbors(merged, dims = 1:PC)
+
 ```
 
 We then run `FindClusters` where our cells will be grouped together based on similarity. `FindNeighbors` focuses on finding the nearest neighbors of a single data point,  while `FindClusters` deals with grouping multiple data points into clusters based on their similarities. More extensive explanations are found [here](https://www.biostars.org/p/9572463/),
 
 ```R
 merged <- FindClusters(merged, resolution = 1.2, cluster.name = 'seurat_clusters_res1.2')
+
 ```
 
 Finally, we get to `RunUMAP`, which uses the clustering information to project our cells into a 2D space for visualization. 
@@ -706,6 +717,7 @@ An object of class Seurat
 Active assay: RNA (18187 features, 2000 variable features)
  3 layers present: data, counts, scale.data
  2 dimensional reductions calculated: pca, umap
+
 ```
 
 ![Seurat FindVariableFeatures](/assets/module_8/seurat_object.cluster.png)
@@ -718,14 +730,16 @@ Let's view our clusters with `DimPlot`.
 jpeg(sprintf("%s/UMAP.jpg",outdir), width = 5, height = 4, units = 'in', res = 150)
 DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2')
 dev.off()
+
 ```
 
 Now, let's color by our samples to make sure that no sample is clustering by itself -- this would be an indication of batch effects. We want similar cells to be clustered together because they have similar gene expression. We do NOT want our cells to cluster together because of technical reasons (e.g., different sequencing batch, different replicate, etc).
 ```R
 # UMAP by sample
 jpeg(sprintf("%s/UMAP_orig.ident.jpg",outdir), width = 5, height = 4, units = 'in', res = 150)
-DimPlot(merged, label = TRUE, group.by = "orig.ident")
+DimPlot(merged, label = FALSE, group.by = "orig.ident")
 dev.off()
+
 ```
 
 It looks like our samples are mixed nicely! We can check further by highlighting the cells from one sample.
@@ -734,12 +748,14 @@ It looks like our samples are mixed nicely! We can check further by highlighting
 # UMAP with one day highlighted (not saved)
 highlighted_cells <- WhichCells(merged, expression = orig.ident == "Rep1_ICBdT")
 DimPlot(merged, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
+
 ```
 
 Lets take a look at the cell cycle scoring calculations.
 
 ```R
-FeaturePlot(merged, features = c("S.Score", "G2M.Score")) + DimPlot(merged,  group.by = "Phase")  
+FeaturePlot(merged, features = c("S.Score", "G2M.Score")) + DimPlot(merged,  group.by = "Phase")
+
 ```
 
 #### Exploring Clustering Resolution
@@ -756,6 +772,7 @@ DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.5') +
   DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res0.8') + 
   DimPlot(merged, label = TRUE, group.by = 'seurat_clusters_res1.2') 
 dev.off()
+
 ```
 
 ## Finishing up
@@ -764,6 +781,7 @@ Finally, let's save our object for further analysis.
 
 ```R
 saveRDS(merged, file = "outdir_single_cell_rna/rep135_clustered.rds")
+
 ```
 
 
@@ -777,6 +795,7 @@ The unfiltered_merge object did not go through any processing after the merging 
 
 ```R
 unfiltered_merged
+
 ```
 
 ```
