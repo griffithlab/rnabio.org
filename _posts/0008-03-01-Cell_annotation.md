@@ -325,7 +325,22 @@ DimPlot(merged, group.by = c("immgen_singler_fine")) + NoLegend()
 
 #### How do our cell annotations differ if we use a different reference set?
 
-We've selected the 
+We previously used the ImmGen dataset but what if we wanted to use a different one?
+
+```R
+celldex::listReferences()
+```
+
+```bash
+[1] "blueprint_encode"         
+[2] "dice"                     
+[3] "hpca"                     
+[4] "immgen"                   
+[5] "monaco_immune"            
+[6] "mouse_rnaseq"             
+[7] "novershtern_hematopoietic"
+```
+Let's try using the mouse_rnaseq one and see how our labels differ.
 
 This dataset was contributed by the Benayoun Lab that identified, downloaded and processed data sets on GEO that corresponded to sorted cell types [Benayoun et al., 2019](https://pubmed.ncbi.nlm.nih.gov/30858345/).
 
