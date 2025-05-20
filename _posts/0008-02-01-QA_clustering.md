@@ -864,7 +864,7 @@ Active assay: RNA (18187 features, 0 variable features)
 
 ## Further Understanding Normalization
 
-We can look at the same gene, Actb, in our UMAP. When we look at the raw counts we see just a few cells lighting and if we look at the middle plot we can see that the cells lighting up are correlated with the cells with the largest number of reads. When we look at the last plot, which uses the normalization data, we see that a majority of cells has some expression of the housekeeping gene Actb. 
+We can look at the same gene, Actb, in our UMAP. When we look at the raw counts we see just a few cells lighting up and if we look at the middle plot we can see that the cells lighting up are correlated with the cells with the largest number of reads. When we look at the last plot, which uses the normalization data, we see that a majority of cells has some expression of the housekeeping gene Actb. 
 
 ```R
 FeaturePlot(merged, features='Actb', slot='counts') + FeaturePlot(merged, features='nCount_RNA') + FeaturePlot(merged, features='Actb', slot='data')
