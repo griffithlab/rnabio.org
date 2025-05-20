@@ -67,17 +67,17 @@ In the following demonstration analyses we will focus on a simplified comparison
 
 List of replicates with labels and links to multi QC reports (these data were processed with Cell Ranger v7.0.0):
 
-- [Rep1_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep1_ICB-web_summary.html): 4,179 cells, 1,759 median genes per cell
-- [Rep3_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep3_ICB-web_summary.html): 6,486 cells, 1,645 median genes per cell
-- [Rep5_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep5_ICB-web_summary.html): 3,006 cells, 1,163 median genes per cell
-- [Rep1_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep1_ICBdT-web_summary.html): 4,024 cells, 2,096 median genes per cell
-- [Rep3_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep3_ICBdT-web_summary.html): 5,665 cells, 1,735 median genes per cell
-- [Rep5_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep5_ICBdT-web_summary.html): 6,074 cells, 1,336 median genes per cell
+- [Rep1_ICB](https://genomedata.org/cri-workshop/web_summaries/Rep1_ICB-web_summary.html): 4,179 cells, 1,759 median genes per cell
+- [Rep3_ICB](https://genomedata.org/cri-workshop/web_summaries/Rep3_ICB-web_summary.html): 6,486 cells, 1,645 median genes per cell
+- [Rep5_ICB](https://genomedata.org/cri-workshop/web_summaries/Rep5_ICB-web_summary.html): 3,006 cells, 1,163 median genes per cell
+- [Rep1_ICBdT](https://genomedata.org/cri-workshop/web_summaries/Rep1_ICBdT-web_summary.html): 4,024 cells, 2,096 median genes per cell
+- [Rep3_ICBdT](https://genomedata.org/cri-workshop/web_summaries/Rep3_ICBdT-web_summary.html): 5,665 cells, 1,735 median genes per cell
+- [Rep5_ICBdT](https://genomedata.org/cri-workshop/web_summaries/Rep5_ICBdT-web_summary.html): 6,074 cells, 1,336 median genes per cell
 
 
 #### QC report discussion
 
-Using the report for [Rep1_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep1_ICB-web_summary.html) as an example, explore and discuss the following points: 
+Using the report for [Rep1_ICB](https://genomedata.org/cri-workshop/web_summaries/Rep1_ICB-web_summary.html) as an example, explore and discuss the following points: 
 
 - Alerts. We have one alert in this example and it is an expected consequence of how we ran Cell Ranger. Other alerts can indicate a variety of problems...
 
@@ -114,8 +114,8 @@ Briefly explore the MCB6C data using the [10X Loupe browser](https://www.10xgeno
 
 | Sample | GEX Cloupe | TCR Vloupe | BCR Vloupe |
 |--------|------------|------------|------------|  
-| REP3_ICB: | [Rep3_ICB GEX cloupe](http://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICB-sample_cloupe.cloupe) | [Rep3_ICB TCR vloupe](http://genomedata.org/cri-workshop/vloupes_t/Rep3_ICB-t-vloupe.vloupe) | [Rep3_ICB BCR vloupe](http://genomedata.org/cri-workshop/vloupes_b/Rep3_ICB-b-vloupe.vloupe) |
-| REP3_ICBdT: | [Rep3_ICBdT GEX cloupe](http://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICBdT-sample_cloupe.cloupe) | [Rep3_ICBdT TCR vloupe](http://genomedata.org/cri-workshop/vloupes_t/Rep3_ICBdT-t-vloupe.vloupe) | [Rep3_ICBdT BCR vloupe](http://genomedata.org/cri-workshop/vloupes_b/Rep3_ICBdT-b-vloupe.vloupe) |
+| REP3_ICB: | [Rep3_ICB GEX cloupe](https://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICB-sample_cloupe.cloupe) | [Rep3_ICB TCR vloupe](https://genomedata.org/cri-workshop/vloupes_t/Rep3_ICB-t-vloupe.vloupe) | [Rep3_ICB BCR vloupe](https://genomedata.org/cri-workshop/vloupes_b/Rep3_ICB-b-vloupe.vloupe) |
+| REP3_ICBdT: | [Rep3_ICBdT GEX cloupe](https://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICBdT-sample_cloupe.cloupe) | [Rep3_ICBdT TCR vloupe](https://genomedata.org/cri-workshop/vloupes_t/Rep3_ICBdT-t-vloupe.vloupe) | [Rep3_ICBdT BCR vloupe](https://genomedata.org/cri-workshop/vloupes_b/Rep3_ICBdT-b-vloupe.vloupe) |
 
 .
 
