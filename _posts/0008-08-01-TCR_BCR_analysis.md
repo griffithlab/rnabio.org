@@ -776,7 +776,7 @@ ggplot(cell_type_counts_BCR, aes(x = immgen_singler_main, y = Count)) +
 
 ### Bonus Exercise: Stacked bar plot of cell types by counts grouped by TCR clones
 
-What if we wanted to see not just how many clones there are, but also the number of unique clones, and how many cells we see each unique clone in? Let's create a stacked barplot that shows the the number of clones for each cell type, but grouped by unique clones.
+What if we wanted to see not just how many clones there are, but also the number of unique clones, and how many cells we see each unique clone in? Let's create a stacked barplot that shows the number of clones for each cell type, but grouped by unique clones.
 
 We can start by using the table function again.
 
@@ -820,10 +820,12 @@ head(cloneSize_immgen_table)
   Single (0 < X <= 1)                     1        30           3       11  653          0             0    9712   88
   None ( < X <= 0)                        0         0           0        0    0          0             0       0    0
 ```
-Well no way, that is exactly the summary we want. We still have a problem where we have a little too much information to be graphed in a way that is useful. How about we get rid of any row where there is only 0 clones seen.
+Well no way, that is exactly the summary we want. We still have a problem where we have a little too much information to be graphed in a way that is useful. How about we get rid of any row where there are 0 clones seen.
 
 ```R
 cloneSize_immgen_table <- cloneSize_immgen_table[-c(6), ]
+
+head(cloneSize_immgen_table)
 ```
 
 ```
