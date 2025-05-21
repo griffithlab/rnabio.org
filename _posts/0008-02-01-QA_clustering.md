@@ -535,6 +535,8 @@ The normalization adjusts for sequencing depth differences across *cells*. But i
 
 So for each gene we perform `(expression - mean(expression)) / standard_deviation(expression))`. Where `(expression - mean(expression))` is our centered sxpression and when we divide by the stdev we get the scalled expression. If we look at the [`ScaleData`](https://satijalab.org/seurat/reference/scaledata) documentation we see there are several other ways to configure our scaling including setting varibles to regress out. 
 
+Note that if you are running out of memory for this step, you might want to run `FindVariableFeatures` first so that `ScaleData` will run on a subset of genes. 
+
 ```R
 merged <- ScaleData(merged, verbose = TRUE) 
 
