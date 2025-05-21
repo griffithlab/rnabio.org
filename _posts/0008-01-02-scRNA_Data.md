@@ -150,4 +150,4 @@ Work through the following intro to the Loupe V(D)J browser with the following s
 - Go back to the Clonotype Distribution view and use `Open Filter` to create a filter. Limit to only clonotypes with 10 or more barcodes.
 - Use `Export` to `Export barcodes in clonotype list` and save to your computer (choose a filename and place that you can find later, e.g., Rep3_ICB-Expanded.csv).
 - If you still have your Loupe browser session open from the exercise above, go there and select the `Clusters` view, next to `+ Create a new group` select the Upload arrow button, select the csv file you saved from the Loupe V(D)J browser. Where are these T cells? Are they localized to a specific cluster? What features characterize that cluster?
-
+- Try additional filtering strategies to identify subsets of T (or B) cells of interest in the Loupe V(D)J browser, export, and then visualize them in the Loupe Browser on the TSNE/UMAP view.
