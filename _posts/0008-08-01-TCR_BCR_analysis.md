@@ -9,9 +9,9 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0008-08-01
 ---
 
-In this module, we will use our scRNA seurat object to explore the immune receptor T and B cells diversity. To recognize both antigens and tumor neoantigens, T cells can generate diverse receptor sequences through somatic V(D)J recombination. While B cells perform V(D)J recombination during developement and then, after antigen encounter, use somatic hypermutation to further diversify their receptors.
+In this module, we will use our scRNA seurat object to explore immune receptor T and B cell diversity. To recognize both antigens and tumor neoantigens, T cells generate diverse receptor sequences through somatic V(D)J recombination. B cells perform V(D)J recombination during developement and then, after antigen encounter, use somatic hypermutation to further diversify their receptors.
 
-We will be using [scRepertoire](https://www.borch.dev/uploads/screpertoire/) to explore the receptor data. This R package provides several convenient processing and visualization functions that are easy to understand and use. We will then add the clonal information for both B and T cells back onto our Seurat object to be used in further analysis.
+We will be using [scRepertoire](https://www.borch.dev/uploads/screpertoire/) to explore TCR and BCR data. This R package provides several convenient processing and visualization functions that are easy to understand and use. We will then add the clonal information for both B and T cells back onto our Seurat object to be used in further analysis.
 
 
 ```R
@@ -23,12 +23,13 @@ library("Seurat")
 ```
 
 ## Understanding our TCR data
-In the output from the [10x Genomics Cell Ranger](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/outputs/cr-5p-outputs-annotations-vdj) main file that we use to explore our TCR reportoire is `filtered_contig_annotations.csv`. `filtered_contig_annotations.csv` provides high-level annotations of each high-confidence contigs from cell-associated barcodes. Each contig aims to represent the complete variable region (and often part of the constant region) of a single TCR or BCR chain from a single cell. 
-[More about the outputs..](https://www.10xgenomics.com/support/cn/software/cell-ranger/8.0/analysis/outputs/cr-5p-outputs-annotations-vdj). 
+In the output from [10x Genomics Cell Ranger vdj pipeline](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/outputs/cr-5p-outputs-annotations-vdj), the main file that we use to explore our TCR/BCR repertoire is `filtered_contig_annotations.csv`. `filtered_contig_annotations.csv` provides high-level annotations of each high-confidence contig from cell-associated barcodes. Each contig aims to represent the complete variable region (and often part of the constant region) of a single TCR or BCR chain from a single cell. 
+[More about the outputs...](https://www.10xgenomics.com/support/cn/software/cell-ranger/8.0/analysis/outputs/cr-5p-outputs-annotations-vdj) 
 
-Lets read in a filtered contigs file and explore what this file contains. This files contains columns such as `high confidence`, `full length`, and [`productive`](https://www.10xgenomics.com/support/cn/software/cell-ranger/8.0/resources/cr-5p-vdj-algorithm-annotations) denoting how likely a contig is a true TCR region.
+Lets read in a filtered contigs file and explore what this file contains. This files contains columns such as `high confidence`, `full length`, and [`productive`](https://www.10xgenomics.com/support/cn/software/cell-ranger/8.0/resources/cr-5p-vdj-algorithm-annotations) denoting how likely a contig is a true TCR region. Let's look at one contig.
 
 ```R
+setwd("/cloud/project/")
 Rep1_ICB_t <- read.csv("data/single_cell_rna/clonotypes_t_posit/Rep1_ICB-t-filtered_contig_annotations.csv")
 
 colnames(Rep1_ICB_t)
@@ -47,7 +48,7 @@ Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGAGCGGATCA-1", 1:10]
 2 AAACCTGAGCGGATCA-1    true AAACCTGAGCGGATCA-1_contig_2            true    514   TRB  TRBV14  TRBD1 TRBJ1-1  TRBC1
 ```
 
-But sometimes we see more than two. In theory, it is possible for a cell to have two alpha chains and two beta chains and you may observe two alpha chains and one beta chain.
+But sometimes we see more than two. You may observe two alpha chains and one beta chain or vice versa. In theory, it is possible for a cell to express two alpha chains and two beta chains, although normally one allele is supressed/expressed for each. What are other explanations for seeing multiple alpha/beta chains assigned to a single cell?
 
 ```R
 Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGTCAGTCCCT-1", 1:10]
@@ -60,8 +61,11 @@ Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGTCAGTCCCT-1", 1:10]
 10 AAACCTGTCAGTCCCT-1    true AAACCTGTCAGTCCCT-1_contig_3            true    558   TRA       TRAV4-3         TRAJ34   TRAC
 ```
 
-**Take a look at some more barcodes. How often to we have a barcode that just has an alpha and beta chain? How often do we see barcodes with 3+ chains?**
+**Take a look at some more barcodes. How often to we have a barcode that just has an alpha and beta chain? How often do we see barcodes with 3+ chains?** You can summarize this with the following command.
 
+```R
+table(table(Rep1_ICB_t[, "barcode"]))
+```
 
 The column `raw_clonotype_id` contains clonotype IDs which represent TCRs. There should be only one unique clonotype ID per cell.
 
@@ -73,7 +77,7 @@ Rep1_ICB_t[Rep1_ICB_t$barcode == "AAACCTGTCAGTCCCT-1", "raw_clonotype_id"]
 [1] "clonotype1609" "clonotype1609" "clonotype1609"
 ```
 
-Using this column we can count the unique cells per clonotype. This would show us if there was expansion of a single TCR (an immune response). First we have to get our data into the correct format. We want to count how many times we see `raw_clonotype_id`, accounting for the fact that there are duplicate barcodes depending on how many chains are making up the clonotype. 
+Using this column we can count the unique cells per clonotype. This would show us if there was expansion of a single TCR (an possible immune response). First we have to get our data into the correct format. We want to count how many times we see `raw_clonotype_id`, accounting for the fact that there are duplicate barcodes depending on how many chains are making up the clonotype. 
 
 ```R
 Rep1_ICB_clonotype_counts <- Rep1_ICB_t %>%
@@ -97,7 +101,7 @@ head(Rep1_ICB_clonotype_counts)
 6 clonotype6                5
 ```
 
-Cellranger will always assign clonotype1 to the clonotype with the most expansion -- the greatest number of cells with that TCR. 8 cells is not alot of expansion...
+Cellranger will always assign clonotype1 to the clonotype with the most expansion -- the greatest number of cells with that TCR. 8 cells is not a lot of expansion...
 
 We can plot all our clonotypes to see the general distribution of TCRs per cells. We see a majority of cells only have one clonotype assoicated with them. 
 
@@ -111,10 +115,10 @@ ggplot(Rep1_ICB_clonotype_counts, aes(x = reorder(raw_clonotype_id, -cell_count)
 ```
 <img src="/assets/module_8/Barplot_NumUniqueClones_TCR.png" alt="Number of Unique TCR Clones per Sample" width="1000"/>
 
-Our barplot is nice but we might want to produce more complicated graphs to better visualize our reportoire. This is where `scReportoire` comes into play. 
+Our barplot is nice but we might want to produce more complicated graphs to better visualize our repertoire. This is where `scRepertoire` comes into play. 
 
-## scReportoire for TCR analysis
-[scReportoire](https://www.borch.dev/uploads/screpertoire/) is one of the first packages that allows the combining of single cell RNA and immune profiling. We will use it to perform more complex exploration of the TCR diversity within our data. 
+## scRepertoire for TCR analysis
+[scRepertoire](https://www.borch.dev/uploads/screpertoire/) is one of the first packages that allows the combining of single cell RNA and immune profiling. We will use it to perform more complex exploration of the TCR diversity within our data. 
 
 ### Loading in data
 
@@ -139,11 +143,11 @@ Use scRepertoire's `combineTCR` function to create an object with all samples' T
 We will set `filterMulti` to TRUE to avoid the confusing cases where there are multiple chains. 
 
 ```R
-sample_name <- c("Rep1_ICB", "Rep1_ICBdT", "Rep3_ICB", 
+sample_names <- c("Rep1_ICB", "Rep1_ICBdT", "Rep3_ICB", 
                  "Rep3_ICBdT", "Rep5_ICB", "Rep5_ICBdT")
 
 combined.TCR <- combineTCR(TCR.contigs, 
-                           samples = sample_name,
+                           samples = sample_names,
                            removeNA = FALSE, 
                            removeMulti = FALSE, 
                            filterMulti = TRUE)
@@ -152,16 +156,17 @@ combined.TCR <- combineTCR(TCR.contigs,
 View(combined.TCR[[1]])
 ```
 
-So far we have not considered that we have filtered out some cells in our seurat object. Let's filter our scReportoire object to the number of cells in our seurat object.
+So far we have not considered that we have filtered out some cells in our seurat object. Let's filter our scRepertoire object to the same cells in our seurat object.
 
 ```R
 # Read in your Seurat object
+# https://genomedata.org/cri-workshop/preprocessed_object.rds
 rep135 <- readRDS("outdir_single_cell_rna/preprocessed_object.rds")
 
 combined.TCR_filter <- combined.TCR # create a variable to hold our filtered object
 
 index <- 1 # set an index for accessing our combined.TCR object
-for (sample in sample_name) {
+for (sample in sample_names) {
 
   print(paste0("Sample Name: ", sample))
 
@@ -208,7 +213,7 @@ for (sample in sample_name) {
 [1] "Number of rows in scRep obj after filtering: 2596"
 ```
 
-We can compare the number of clonotypes scReportoire calls compred to cellranger.
+We can compare the number of clonotypes scRepertoire calls compred to cellranger.
 
 ``` R
 nrow(Rep1_ICB_clonotype_counts)
@@ -248,7 +253,7 @@ clonalQuant(combined.TCR_filter,
             chain = "both", 
             scale = TRUE)
 
-# OR export the counts as a tbale to view the absolute amount
+# OR export the counts as a table to view the absolute amount
 clonalQuant(combined.TCR_filter, 
             cloneCall="aa", 
             chain = "both", 
@@ -269,9 +274,9 @@ Here we see that contigs is our unique clonotypes and total is the number of cel
 
 **Try changing the `cloneCall` argument to see how that changes the number of clones**
 
-### Visualizing the proportion of the reportoire taken up by a specific clone
+### Visualizing the proportion of the repertoire taken up by a specific clone
 
-We are interested in understanding if there is a T cell response in our data. If there was a T cell response, we might see a single clonotype in a large portion of cells. Earlier we used a barplot to see how many cells each clonotype was seen in. Now we will use screportoire's `clonalProportion` function to produce stacked barplots visualizing how much space each clone is taking up.
+We are interested in understanding if there is a T cell response in our data. If there was a T cell response, we might see a single clonotype in a large portion of cells. Earlier we used a barplot to see how many cells each clonotype was seen in. Now we will use screpertoire's `clonalProportion` function to produce stacked barplots visualizing how much space each clone is taking up.
 
 We are going to split up our clones in the same way as Freshour et al. 2023, remembering that 1 here means clonotype1 which is assigned to our top clonotype. 
 
@@ -279,7 +284,7 @@ We are going to split up our clones in the same way as Freshour et al. 2023, rem
 clonalProportion(combined.TCR_filter, cloneCall = "aa", clonalSplit = c(1, 10, 25, 100, 500, 1000, 1e+05)) 
 ```
 
-<img src="/assets/module_8/ClonalProportion_TCR.png" alt="The porportion of the reportoire that each group of clonotypes takes up" width="1000"/>
+<img src="/assets/module_8/ClonalProportion_TCR.png" alt="The porportion of the repertoire that each group of clonotypes takes up" width="1000"/>
 
 ```R
 clonalProportion(combined.TCR_filter, cloneCall = "aa", clonalSplit = c(1, 10, 25, 100, 500, 1000, 1e+05), exportTable=TRUE) 
@@ -352,9 +357,9 @@ ggplot(Rep1_ICB_clonotype_counts, aes(x = reorder(raw_clonotype_id, -cell_count)
 
 <img src="/assets/module_8/Barplot_NumUniqueClones_BCR.png" alt="Number of Unique BCR Clones per Sample" width="1000"/>
 
-When we plot it looks like there might be some evidence of expansion. However, lets use scReportoire to look more in depth.
+When we plot it looks like there might be some evidence of expansion. However, lets use scRepertoire to look more in depth.
 
-## scReportoire for BCR analysis
+## scRepertoire for BCR analysis
 
 Unlike `combineTCR`, `combineBCR` produces a column called CTstrict of an index of nucleotide sequence and the corresponding V gene. This index automatically calculates the Levenshtein distance between sequences with the same V gene and will index sequences using a normalized Levenshtein distance with the same ID. After which, clone clusters are called using the components function. Clones that are clustered across multiple sequences will then be labeled with "Cluster" in the CTstrict header. We use the `threshold` parameter to set the normalized edit distance to consider, where the higher the number the more similarity of sequence will be used for clustering.
 
@@ -365,11 +370,11 @@ sample_names <- c("Rep1_ICB", "Rep1_ICBdT", "Rep3_ICB", "Rep3_ICBdT", "Rep5_ICB"
 
 combined.BCR_85 <- combineBCR(BCR.contigs, 
                               samples = sample_names, 
-                              threshold = 0.85) # more unique clonaltypes
+                              threshold = 0.85) # more unique clonotypes
 
 combined.BCR_05 <- combineBCR(BCR.contigs, 
                               samples = sample_names, 
-                              threshold = 0.05) # less unique clonaltypes
+                              threshold = 0.05) # less unique clonotypes
 
 clonalQuant(combined.BCR_85, 
             cloneCall="strict", 
@@ -411,7 +416,7 @@ We will also filter the scRepertoire BCR object to the same barcodes as those in
 combined.BCR_filter <- combined.BCR_85 # create a variable to hold our filtered object
 
 index <- 1 # set an index for accessing our combined.BCR object
-for (sample in sample_name) {
+for (sample in sample_names) {
   
   print(paste0("Sample Name: ", sample))
   
@@ -511,7 +516,7 @@ We can also look at what clones are expanded but we have such a small number of 
 clonalProportion(combined.BCR_filter, cloneCall = "strict", clonalSplit = c(1, 10, 25, 100, 500, 1000, 1e+05)) 
 ```
 
-<img src="/assets/module_8/ClonalProportion_BCR.png" alt="The porportion of the reportoire that each group of clonotypes takes up" width="1000"/>
+<img src="/assets/module_8/ClonalProportion_BCR.png" alt="The porportion of the repertoire that each group of clonotypes takes up" width="1000"/>
 
 ### Adding the BCR and TCR Data to your Seurat object
 
