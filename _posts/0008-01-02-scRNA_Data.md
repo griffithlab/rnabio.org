@@ -106,7 +106,7 @@ We will not be running Cell Ranger ourselves and will instead be starting the sc
 - Somatic variants (SNVs/Indels) identified by analysis of the bulk tumor/normal exome data for MCB6C.
 - Somatic copy number variants (CNVs) identified by analysis of the bulk tumor/normal WGS data for MCB6C.
 
-#### Loupe Browser demonstration for preliminary exploration of the MCB6C 
+#### Loupe Browser demonstration for preliminary exploration of the MCB6C data
 
 Briefly explore the MCB6C data using the [10X Loupe browser](https://www.10xgenomics.com/support/software/loupe-browser/latest). Use the following two samples as examples:
 
@@ -117,11 +117,10 @@ Briefly explore the MCB6C data using the [10X Loupe browser](https://www.10xgeno
 | REP3_ICB: | [Rep3_ICB GEX cloupe](https://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICB-sample_cloupe.cloupe) | [Rep3_ICB TCR vloupe](https://genomedata.org/cri-workshop/vloupes_t/Rep3_ICB-t-vloupe.vloupe) | [Rep3_ICB BCR vloupe](https://genomedata.org/cri-workshop/vloupes_b/Rep3_ICB-b-vloupe.vloupe) |
 | REP3_ICBdT: | [Rep3_ICBdT GEX cloupe](https://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICBdT-sample_cloupe.cloupe) | [Rep3_ICBdT TCR vloupe](https://genomedata.org/cri-workshop/vloupes_t/Rep3_ICBdT-t-vloupe.vloupe) | [Rep3_ICBdT BCR vloupe](https://genomedata.org/cri-workshop/vloupes_b/Rep3_ICBdT-b-vloupe.vloupe) |
 
-.
 
 ##### Exercise 
 
-Work through the following very basic intro to the Loupe browser with the following steps:
+Work through a very basic intro to the Loupe browser with the following steps:
 
 - Open the Loupe browser and load the single cell gene expression data (`Open Loupe File`) for the **Rep3_ICB sample**.
 - Load the corresponding BCR and TCR single cell clonotype data (`V(D)J Clonotypes` -> `Upload a .vloupe file`).
@@ -138,13 +137,13 @@ Work through the following very basic intro to the Loupe browser with the follow
 - Select all clusters and view the Heat Map view. What is notable about many of the most Up-regulated genes in this view?
 - Return to the V(D)J Clonotypes view. Select the 40 clonotypes with a count of 3 or greater. Observe the pattern of this subset of T cells in the t-SNE. Hit the "Save Barcodes" button. This will create a custom set in the Clusters view. In this view you can perform a Differential Expression analysis, comparing these expanded CDR clonotype cells to all other cells. What are the top genes? (Gzmk, Pdcd1, Cxcr6, Lag3, Gzmb, etc.)
 
-#### Loupe V(D)J Browser demonstration for preliminary exploration of the MCB6C
+#### Loupe V(D)J Browser demonstration for preliminary exploration of the MCB6C data
 
 Briefly explore the MCB6C data using the [10X Loupe V(D)J browser](https://www.10xgenomics.com/support/software/loupe-browser/latest).
 
 ##### Exercise
 
-Work through the following intro to the Loupe V(D)J browser with the following steps:
+Work through an intro to the Loupe V(D)J browser with the following steps:
 
 - Open the Loupe V(D)J Browser and load the TCR expression data (`Open Loupe V(D)J File`) for the **Rep3_ICB sample**.
 - Look at the Clonotype Distribution plot. At a high level, is this a highly diverse TCR repertoire? Is there evidence of clonal expansion?
