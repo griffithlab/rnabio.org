@@ -657,8 +657,8 @@ order(numbers)
 order(-numbers)
 
 arrange(metadata, bor)
-arrange(metadata, age)
-arrange(metadata, -age)
+arrange(metadata, subject.age)
+arrange(metadata, -subject.age)
 
 
 arrange(metadata, -bor) # GIVES A WARNING
@@ -745,10 +745,10 @@ print(long_data)
 Let's work with a real dataset: `intro_r_dataset.tsv.zip`. This file is compressed, so we can't read it in by the default `read.table` function. This is a circumstance where I use the `data.table` package and the `fread` function, which automatically recognizes the compression format to read in the file:
 
 ```r
-read.table("intro_r_dataset.tsv.zip") # DOESN'T WORK
+# read.table("intro_r_dataset.tsv.zip") # DOESN'T WORK
 
 # install.packages('data.table')
-data <- fread("intro_r_dataset.tsv.zip")
+data <- data.table::fread("intro_r_dataset.tsv.zip")
 
 dim(data)
 colnames(data)
@@ -838,7 +838,7 @@ So far, we've used individual commands to accomplish several tasks, but sometime
 df
 df %>% 
   mutate(age_in_days = age_in_years*365) %>% 
-  filter(age < 500)
+  filter(age_in_days < 500)
   
 metadata %>%
   filter(sample.tumor.type == "cutaneous") %>%
@@ -971,13 +971,13 @@ Try these exercises, using the `metadata` and `data_long` objects that you read 
 
 ## Save R objects for future use
 
-Throughout the course, we will complete one stage of analysis and save objects from the environment to individual files for future use. If you want to export all objects in the environment, you can use `save.image("path/to/file.rds")`. Alternatively, individual files are stored and then loaded later using the following commands:
+Throughout the course, we will complete one stage of analysis and save objects from the environment to individual files for future use. If you want to export all objects in the environment, you can use `save.image("path/to/file.RData")`. Alternatively, individual files are stored and then loaded later using the following commands:
 
 ``` r
-saveRDS(data, file = "testdata.rds")
+save(data, file = "testdata.RData")
 
 # Next time you open R, you can reload the object with:
-load("testdata.rds")
+load("testdata.RData")
 ```
 
 ------------------------------------------------------------------------
