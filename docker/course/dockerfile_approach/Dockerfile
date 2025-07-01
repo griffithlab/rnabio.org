@@ -42,7 +42,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install bam-readcount
-RUN git clone https://github.com/genome/bam-readcount && \
+RUN git config --global http.sslVerify false && \
+    git clone https://github.com/genome/bam-readcount && \
     cd bam-readcount && \
     mkdir build && \
     cd build && \
@@ -58,7 +59,8 @@ RUN wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.2.1.tar.gz && \
     cp stringtie /usr/local/bin/
 
 # Install Regtools
-RUN git clone https://github.com/griffithlab/regtools && \
+RUN git config --global http.sslVerify false && \
+    git clone https://github.com/griffithlab/regtools && \
     cd regtools/ && \
     mkdir build && \
     cd build/ && \
