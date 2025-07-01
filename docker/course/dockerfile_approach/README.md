@@ -1,6 +1,7 @@
 # RNA-seq Bioinformatics Toolkit
 
 This Docker image contains a comprehensive set of bioinformatics tools for RNA-seq analysis, based on the requirements described in the AWS Setup guide from rnabio.org.
+Currently tools are limited to those needed for bulk RNAseq parts on the course.
 
 ## Contents
 
