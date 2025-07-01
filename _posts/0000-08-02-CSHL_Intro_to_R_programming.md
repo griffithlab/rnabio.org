@@ -554,13 +554,13 @@ numbers[which(numbers>1 & numbers<5)]
 When we want to use these operations to filter data frames, we can specify the rows from the data frame by filtering the vectors stored in the columns. Note that we need to include the comma to indicate that we want all of the rows of this subsetted data frame:
 
 ``` r
-df[df$Age < 30, ]
+df[df$age_in_years < 30, ]
 ```
 
 Alternatively, we can also use the `filter()` command from the `dplyr` package:
 
 ``` r
-filter(df, Age < 30)
+filter(df, age_in_years < 30)
 ```
 
 ------------------------------------------------------------------------
