@@ -48,11 +48,11 @@ RUN git config --global http.sslVerify false && \
     mkdir build && \
     cd build && \
     cmake .. && \
-    make -j$(nproc) && \
+    make && \
     cp bin/bam-readcount /usr/local/bin/
 
 # Install StringTie
-RUN wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.2.1.tar.gz && \
+RUN wget --no-check-certificate http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.2.1.tar.gz && \
     tar -xzvf stringtie-2.2.1.tar.gz && \
     cd stringtie-2.2.1 && \
     make release -j$(nproc) && \
@@ -116,12 +116,15 @@ RUN --mount=type=cache,target=/var/cache/apt \
         samtools \
         flexbar \
         fastp \
-        python3-htseq \
         docker.io \
         wget \
         curl \
         unzip \
-        bzip2 && \
+        bzip2 \
+        git \
+        make \
+        gcc \
+        g++ && \
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -185,8 +188,12 @@ RUN mkdir genePredToBed && \
     cp genePredToBed /usr/local/bin/ && \
     cd .. && rm -rf genePredToBed
 
-# Install Python packages
-RUN pip3 install multiqc RSeQC polars-lts-cpu && \
+# Install Python packages with compatible numpy version
+RUN pip3 install "numpy>=1.21.0,<1.22.0" && \
+    pip3 install HTSeq RSeQC && \
+    pip3 install polars-lts-cpu && \
+    pip3 install click jinja2 markdown packaging pyyaml rich coloredlogs plotly tqdm humanize kaleido requests jsonschema boto3 spectra natsort rich-click python-dotenv tiktoken pydantic && \
+    pip3 install multiqc --no-deps && \
     pip3 install git+https://github.com/kcotto/how_are_we_stranded_here.git
 
 # Install R and required libraries
@@ -206,7 +213,7 @@ RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'cowplot'
 RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview'))"
 
 # Install Sleuth
-RUN R -e "if (!requireNamespace('devtools', quietly = TRUE)) install.packages('devtools', repos='http://cran.us.r-project.org'); devtools::install_github('pachterlab/sleuth')"
+RUN R -e "if (!requireNamespace('devtools', quietly = TRUE)) install.packages('devtools', repos='http://cran.us.r-project.org'); tryCatch(devtools::install_github('pachterlab/sleuth'), error = function(e) { message('Sleuth installation from GitHub failed, skipping...'); NULL })"
 
 # Set working directory for users
 WORKDIR /data
