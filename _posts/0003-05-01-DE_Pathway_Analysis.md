@@ -46,16 +46,16 @@ Before we perform the pathway analysis we need to read in our differential expre
 ```R
 
 # Define working dir paths and load in data
-#datadir = "/workspace/rnaseq/de/deseq2/"
-datadir = "/cloud/project/outdir/"
+datadir = "~/workspace/rnaseq/de/deseq2/"
+#datadir = "/cloud/project/outdir/"
 
 setwd(datadir)
 
 # Load in the DE results file with only significant genes (e.g., http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
 DE_genes = read.table("DE_sig_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
-#output_dir = "/workspace/rnaseq/de/deseq2/pathway/"
-output_dir = "/cloud/project/outdir/pathway/"
+output_dir = "~/workspace/rnaseq/de/deseq2/pathway/"
+#output_dir = "/cloud/project/outdir/pathway/"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }
