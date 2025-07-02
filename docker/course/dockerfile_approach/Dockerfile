@@ -192,7 +192,7 @@ RUN mkdir genePredToBed && \
 RUN pip3 install "numpy>=1.21.0,<1.22.0" && \
     pip3 install HTSeq RSeQC && \
     pip3 install polars-lts-cpu && \
-    pip3 install click jinja2 markdown packaging pyyaml rich coloredlogs plotly tqdm humanize kaleido requests jsonschema boto3 spectra natsort rich-click python-dotenv tiktoken pydantic && \
+    pip3 install click jinja2 markdown packaging pyyaml rich coloredlogs plotly tqdm humanize kaleido requests jsonschema boto3 spectra natsort rich-click python-dotenv tiktoken pydantic typeguard && \
     pip3 install multiqc --no-deps && \
     pip3 install git+https://github.com/kcotto/how_are_we_stranded_here.git
 
