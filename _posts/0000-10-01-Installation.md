@@ -146,8 +146,8 @@ Installation type: download precompiled binary. Citation: [s-andrews/FastQC](htt
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
-unzip fastqc_v0.11.9.zip
+wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.12.1.zip
+unzip fastqc_v0.12.1.zip
 cd FastQC/
 chmod 755 fastqc
 ./fastqc --help

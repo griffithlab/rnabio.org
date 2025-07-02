@@ -24,7 +24,7 @@ If it is not already in your R environment, load the DESeqDataSet object and the
 
 ```R
 # set the working directory
-setwd("/cloud/project/outdir")
+setwd("/home/ubuntu/workspace/rnaseq/de/deseq2")
 
 # view the contents of this directory
 dir()
@@ -170,6 +170,9 @@ pdf("all_gene_heatmap.pdf", width = 10, height = 10)
 pheatmap(mat = t(assay(rld)), show_colnames = FALSE)
 
 dev.off()
+
+
+quit(save="no")
 
 ```
 
