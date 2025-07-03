@@ -124,7 +124,12 @@ RUN --mount=type=cache,target=/var/cache/apt \
         git \
         make \
         gcc \
-        g++ && \
+        g++ \
+        libxml2-dev \
+        libblas-dev \
+        liblapack-dev \
+        libbz2-dev \
+        gfortran &&
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -210,10 +215,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
 RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'cowplot', 'data.table', 'gridExtra', 'UpSetR', 'pheatmap', 'ggrepel', 'ggnewscale'), repos='http://cran.us.r-project.org')"
 
 # Install Bioconductor packages
-RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview'))"
-
-# Install Sleuth
-RUN R -e "if (!requireNamespace('devtools', quietly = TRUE)) install.packages('devtools', repos='http://cran.us.r-project.org'); tryCatch(devtools::install_github('pachterlab/sleuth'), error = function(e) { message('Sleuth installation from GitHub failed, skipping...'); NULL })"
+RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview', 'pachterlab/sleuth'))"
 
 # Set working directory for users
 WORKDIR /data
