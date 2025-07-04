@@ -3,7 +3,7 @@
 # Release script for RNA-seq Toolkit Docker image
 
 # Default Docker registry (change as needed)
-REGISTRY="your-registry.com"  # Change to your Docker registry
+REGISTRY="hub.docker.com/griffithlab"  # Change to your Docker registry
 IMAGE_NAME="rnaseq-toolkit"
 
 # Function to show usage
