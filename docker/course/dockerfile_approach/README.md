@@ -1,7 +1,7 @@
 # RNA-seq Bioinformatics Toolkit
 
 This Docker image contains a comprehensive set of bioinformatics tools for RNA-seq analysis, based on the requirements described in the AWS Setup guide from rnabio.org.
-Currently tools are limited to those needed for bulk RNAseq parts on the course.
+Currently tools are limited to those needed for bulk RNAseq parts of the course.
 
 ## Contents
 
@@ -11,13 +11,14 @@ Currently tools are limited to those needed for bulk RNAseq parts on the course.
 
 ### System Dependencies
 All necessary system libraries and dependencies as specified in the "Perform basic linux configuration" section:
-- Build tools (make, gcc, cmake)
-- Development libraries (zlib, ncurses, SSL, etc.)
+- Build tools (make, gcc, g++, cmake, gfortran)
+- Development libraries (zlib, ncurses, SSL, XML2, BLAS, LAPACK, BZ2, etc.)
 - Python 3 with numpy and pip
 - Java Development Kit
-- R base system
+- R base system with additional compilation libraries
 - Apache web server
-- And many more essential libraries
+- Git for source code management
+- And many more essential libraries for bioinformatics workflows
 
 ### Bioinformatics Tools
 - **SAMtools** - SAM/BAM file manipulation
@@ -39,18 +40,62 @@ All necessary system libraries and dependencies as specified in the "Perform bas
 - **genePredToBed** - Convert genePred to BED format
 - **how_are_we_stranded_here** - Python package for strand detection
 
+### Python Packages
+**Scientific Computing:**
+- numpy (version controlled for compatibility)
+- HTSeq - Python framework for processing high-throughput sequencing data
+- RSeQC - RNA-seq Quality Control Package
+
+**Data Analysis & Visualization:**
+- polars-lts-cpu - Fast DataFrames for Python
+- multiqc - Aggregate results from bioinformatics analyses
+- Additional dependencies: click, jinja2, markdown, packaging, pyyaml, rich, coloredlogs, plotly, tqdm, humanize, kaleido, requests, jsonschema, boto3, spectra, natsort, rich-click, python-dotenv, tiktoken, pydantic, typeguard
+
 ### R and Bioconductor
 **R Libraries:**
 - devtools, dplyr, gplots, ggplot2
-- sctransform, Seurat, RColorBrewer
-- ggthemes, cowplot, data.table
-- Rtsne, gridExtra, UpSetR, tidyverse
+- cowplot, data.table, gridExtra
+- UpSetR, pheatmap, ggrepel, ggnewscale
 
 **Bioconductor Libraries:**
 - genefilter, ballgown, edgeR
-- GenomicRanges, rhdf5, biomaRt
-- scran, sva, gage, org.Hs.eg.db
-- DESeq2, apeglm
+- GenomicRanges, sva, gage, org.Hs.eg.db
+- DESeq2, apeglm, AnnotationDbi, GO.db
+- enrichplot, clusterProfiler, pathview, sleuth
+
+## Versioning
+
+This Docker image follows [Semantic Versioning](https://semver.org/) (SemVer) for version management:
+
+- **Major version** (X.0.0): Incompatible API changes or major tool updates
+- **Minor version** (X.Y.0): New functionality in a backwards-compatible manner
+- **Patch version** (X.Y.Z): Backwards-compatible bug fixes
+
+### Version Management
+
+Use the included version management script to handle releases:
+
+```bash
+# Check current version
+./version.sh current
+
+# Increment patch version (1.0.0 -> 1.0.1)
+./version.sh patch
+
+# Increment minor version (1.0.0 -> 1.1.0)
+./version.sh minor
+
+# Increment major version (1.0.0 -> 2.0.0)
+./version.sh major
+
+# Set specific version
+./version.sh set 2.1.0
+```
+
+The script automatically:
+- Updates the VERSION file
+- Updates the CHANGELOG.md with new version entry
+- Creates a git tag (if in a git repository)
 
 ## Building the Docker Image
 
@@ -103,10 +148,13 @@ docker run --rm rnaseq_toolkit:latest hisat2 --help
 ## Image Optimization Features
 
 This Dockerfile is optimized for size and build efficiency:
+- **Multi-stage build** - Uses a builder stage to compile tools, then copies only the binaries to the final image
 - Uses `--no-install-recommends` to avoid unnecessary packages
 - Combines multiple RUN commands to reduce layers
 - Cleans package caches after installations
 - Removes temporary files and archives after extraction
+- Uses build cache mounts for faster subsequent builds
+- Careful package compatibility handling (e.g., numpy versions for HTSeq)
 
 ## Architecture
 
@@ -114,6 +162,9 @@ The image is built for **x86_64 architecture** and should run on:
 - Intel/AMD processors
 - Most cloud computing platforms (AWS, GCP, Azure)
 - Local development machines with Docker
+- Apple Silicon Macs (using Rosetta 2 emulation)
+
+**Note for Apple Silicon users:** The build script automatically uses `--platform linux/amd64` to ensure x86_64 compatibility and avoid ARM-related issues.
 
 ## Troubleshooting
 
@@ -125,6 +176,31 @@ The image is built for **x86_64 architecture** and should run on:
 ### Runtime Issues
 - Check that Docker has sufficient memory allocated (recommend 4+ GB)
 - Ensure your host system architecture is compatible (x86_64)
+
+## Development Notes
+
+This Docker image has been optimized through several iterations to address common build and runtime issues:
+
+### Key Improvements Made
+- **Platform compatibility**: Explicit `--platform=linux/amd64` to prevent ARM/x86 conflicts on Apple Silicon
+- **SSL certificate handling**: Added `--no-check-certificate` flags for problematic downloads
+- **Package compatibility**: Specific numpy version constraints for HTSeq compatibility
+- **Multi-stage builds**: Separate builder stage for compiled tools to reduce final image size
+- **Parallel compilation**: Controlled parallelism to avoid build server overload
+- **Python package management**: Strategic installation order and dependency management for MultiQC/polars
+- **R package compilation**: Added essential build tools and libraries for R package compilation
+- **Error handling**: Robust installation procedures with fallback mechanisms
+
+### Known Working Versions
+- Ubuntu 22.04 LTS base image
+- StringTie 2.2.1
+- HISAT2 2.2.1
+- kallisto 0.44.0
+- FastQC 0.11.9
+- Picard 2.26.4
+- gffcompare 0.12.6
+- TopHat 2.1.1
+- bedops 2.4.41
 
 ## Support
 

@@ -129,7 +129,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
         libblas-dev \
         liblapack-dev \
         libbz2-dev \
-        gfortran &&
+        gfortran && \
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -219,6 +219,24 @@ RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages
 
 # Set working directory for users
 WORKDIR /data
+
+# Add build arguments for version information
+ARG BUILD_DATE
+ARG VERSION
+ARG VCS_REF
+
+# Add metadata labels
+LABEL maintainer="RNA-seq.org" \
+      version="${VERSION:-1.0.0}" \
+      description="Comprehensive RNA-seq bioinformatics toolkit" \
+      org.label-schema.build-date="${BUILD_DATE}" \
+      org.label-schema.name="RNA-seq Bioinformatics Toolkit" \
+      org.label-schema.description="Docker image with tools for RNA-seq analysis" \
+      org.label-schema.url="https://rnabio.org" \
+      org.label-schema.vcs-ref="${VCS_REF}" \
+      org.label-schema.vcs-url="https://github.com/rnabio/rnabio.org" \
+      org.label-schema.version="${VERSION:-1.0.0}" \
+      org.label-schema.schema-version="1.0"
 
 # Default command
 CMD ["/bin/bash"]
