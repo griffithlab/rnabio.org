@@ -97,6 +97,37 @@ The script automatically:
 - Updates the CHANGELOG.md with new version entry
 - Creates a git tag (if in a git repository)
 
+### Automated Release Process
+
+Use the release script to build, tag, and push Docker images to registries:
+
+```bash
+# Build and push to default registry (griffithlab)
+./release.sh
+
+# Push to a different registry
+./release.sh --registry your-username
+
+# Only build and tag locally (don't push)
+./release.sh --tag-only
+
+# Push to GitHub Container Registry
+./release.sh --registry ghcr.io/your-username
+
+# Show help
+./release.sh --help
+```
+
+The release script:
+- Reads version from VERSION file
+- Builds the Docker image with proper metadata
+- Tags images for both version and 'latest'
+- Pushes to specified Docker registry
+- Generates GitHub release notes template
+- Validates git repository state
+
+**For monorepo releases:** The script uses component-specific tags like `rnaseq-toolkit-docker-v1.0.0` to distinguish this Docker component from other parts of the repository.
+
 ## Building the Docker Image
 
 ### Prerequisites
@@ -125,24 +156,50 @@ The script automatically:
    docker build -t rnaseq_toolkit:latest .
    ```
 
+## Pre-built Docker Image
+
+A pre-built image is available on Docker Hub:
+
+**Image:** `griffithlab/rnaseq-toolkit`
+
+**Available tags:**
+- `griffithlab/rnaseq-toolkit:1.0.0` - Specific version
+- `griffithlab/rnaseq-toolkit:latest` - Latest release
+
+### Quick Start with Pre-built Image
+```bash
+# Pull and run the latest version
+docker pull griffithlab/rnaseq-toolkit:latest
+docker run -it griffithlab/rnaseq-toolkit:latest
+
+# Or pull a specific version
+docker pull griffithlab/rnaseq-toolkit:1.0.0
+docker run -it griffithlab/rnaseq-toolkit:1.0.0
+```
+
 ## Usage
 
 ### Running the Container
 ```bash
+# Using local build
 docker run -it rnaseq_toolkit:latest
+
+# Using Docker Hub image
+docker run -it griffithlab/rnaseq-toolkit:latest
 ```
 
 ### With Volume Mounting
 To access files from your host system:
 ```bash
-docker run -it -v /path/to/your/data:/data rnaseq_toolkit:latest
+docker run -it -v /path/to/your/data:/data griffithlab/rnaseq-toolkit:latest
 ```
 
 ### Running Specific Tools
 You can run specific tools directly:
 ```bash
-docker run --rm rnaseq_toolkit:latest samtools --help
-docker run --rm rnaseq_toolkit:latest hisat2 --help
+docker run --rm griffithlab/rnaseq-toolkit:latest samtools --help
+docker run --rm griffithlab/rnaseq-toolkit:latest hisat2 --help
+docker run --rm griffithlab/rnaseq-toolkit:latest stringtie --help
 ```
 
 ## Image Optimization Features
@@ -202,6 +259,22 @@ This Docker image has been optimized through several iterations to address commo
 - TopHat 2.1.1
 - bedops 2.4.41
 
+## Documentation
+
+### Changelog
+See [CHANGELOG.md](CHANGELOG.md) for detailed version history and changes.
+
+### Source Code
+- **GitHub Repository**: [griffithlab/rnabio.org](https://github.com/griffithlab/rnabio.org)
+- **Docker Component**: `docker/course/dockerfile_approach/`
+- **Docker Hub**: [griffithlab/rnaseq-toolkit](https://hub.docker.com/r/griffithlab/rnaseq-toolkit)
+- **Releases**: [GitHub Releases](https://github.com/griffithlab/rnabio.org/releases)
+
 ## Support
 
 This image is designed to support the RNA-seq analysis workflows described in the rnabio.org tutorial series. For questions about specific tools, refer to their respective documentation.
+
+### Getting Help
+- Check the [GitHub Issues](https://github.com/griffithlab/rnabio.org/issues) for common problems
+- Review the [CHANGELOG.md](CHANGELOG.md) for version-specific information
+- Refer to individual tool documentation for tool-specific questions
