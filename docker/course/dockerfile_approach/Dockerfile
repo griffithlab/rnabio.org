@@ -12,34 +12,30 @@ WORKDIR /opt/tools
 # Install build dependencies
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-        make \
-        gcc \
+    apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        git \
+        wget \
+        curl \
         zlib1g-dev \
+        libbz2-dev \
+        liblzma-dev \
+        libcurl4-openssl-dev \
+        libssl-dev \
         libncurses5-dev \
         libncursesw5-dev \
-        git \
-        cmake \
-        build-essential \
-        unzip \
-        gfortran \
-        libreadline-dev \
-        libxml2-dev \
-        libssl-dev \
-        g++ \
-        gsl-bin \
+        autoconf \
+        automake \
+        libtool \
+        pkg-config \
+        libisal-dev \
+        libdeflate-dev \
         libgsl-dev \
         meson \
-        libvcflib-dev \
         libjsoncpp-dev \
-        libtabixpp-dev \
-        libbz2-dev \
         libpcre2-dev \
-        curl \
-        wget \
-        autoconf && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+        && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install bam-readcount
 RUN git config --global http.sslVerify false && \
@@ -68,13 +64,28 @@ RUN git config --global http.sslVerify false && \
     make -j$(nproc) && \
     cp regtools /usr/local/bin/
 
+# Install samtools 1.18 from source
+RUN wget --no-check-certificate https://github.com/samtools/samtools/releases/download/1.18/samtools-1.18.tar.bz2 && \
+    tar -xjf samtools-1.18.tar.bz2 && \
+    cd samtools-1.18 && \
+    ./configure --prefix=/usr/local && \
+    make && \
+    make install
+
+# Install fastp 1.0.1 from source
+RUN wget --no-check-certificate https://github.com/OpenGene/fastp/archive/refs/tags/v1.0.1.tar.gz && \
+    tar -xzf v1.0.1.tar.gz && \
+    cd fastp-1.0.1 && \
+    make && \
+    make install PREFIX=/usr/local
+
 # Start a new, clean stage for the final image
 FROM --platform=linux/amd64 ubuntu:22.04
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
-ENV PICARD=/opt/tools/picard.jar
+ENV PICARD=/home/ubuntu/bin/picard.jar
 ENV PATH="/usr/local/bin:${PATH}"
 
 # Create working directories
@@ -84,6 +95,8 @@ WORKDIR /opt/tools
 COPY --from=builder /usr/local/bin/bam-readcount /usr/local/bin/
 COPY --from=builder /usr/local/bin/stringtie /usr/local/bin/
 COPY --from=builder /usr/local/bin/regtools /usr/local/bin/
+COPY --from=builder /usr/local/bin/samtools /usr/local/bin/
+COPY --from=builder /usr/local/bin/fastp /usr/local/bin/
 
 # Install runtime dependencies
 RUN --mount=type=cache,target=/var/cache/apt \
@@ -113,9 +126,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
         libjpeg-dev \
         libdbi-perl \
         libdbd-mysql-perl \
-        samtools \
         flexbar \
-        fastp \
         docker.io \
         wget \
         curl \
@@ -129,7 +140,11 @@ RUN --mount=type=cache,target=/var/cache/apt \
         libblas-dev \
         liblapack-dev \
         libbz2-dev \
-        gfortran && \
+        gfortran \
+        sudo \
+        cmake \
+        libisal2 \
+        libdeflate0 && \
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -160,11 +175,11 @@ RUN wget https://github.com/pachterlab/kallisto/releases/download/v0.44.0/kallis
     rm -rf kallisto_linux-v0.44.0*
 
 # Install FastQC
-RUN wget --no-check-certificate https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip && \
-    unzip fastqc_v0.11.9.zip && \
+RUN wget --no-check-certificate https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.12.1.zip && \
+    unzip fastqc_v0.12.1.zip && \
     chmod 755 FastQC/fastqc && \
     cp FastQC/fastqc /usr/local/bin/ && \
-    rm -rf fastqc_v0.11.9.zip
+    rm -rf fastqc_v0.12.1.zip
 
 # Install Picard
 RUN wget https://github.com/broadinstitute/picard/releases/download/2.26.4/picard.jar -O /opt/tools/picard.jar
@@ -217,8 +232,21 @@ RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'cowplot'
 # Install Bioconductor packages
 RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview', 'pachterlab/sleuth'))"
 
-# Set working directory for users
-WORKDIR /data
+# Create the ubuntu user and set home directory
+RUN useradd -ms /bin/bash ubuntu
+
+# Add ubuntu user to sudo group
+RUN usermod -aG sudo ubuntu
+
+# Configure passwordless sudo for ubuntu user
+RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Create /home/ubuntu/bin directory and move picard.jar there
+RUN mkdir -p /home/ubuntu/bin && \
+    mv /opt/tools/picard.jar /home/ubuntu/bin/picard.jar
+
+# Ensure /opt/tools and /home/ubuntu/bin are owned by the ubuntu user
+RUN chown -R ubuntu:ubuntu /opt/tools /home/ubuntu/bin
 
 # Add build arguments for version information
 ARG BUILD_DATE
@@ -237,6 +265,15 @@ LABEL maintainer="RNA-seq.org" \
       org.label-schema.vcs-url="https://github.com/rnabio/rnabio.org" \
       org.label-schema.version="${VERSION:-1.0.0}" \
       org.label-schema.schema-version="1.0"
+
+# Set the default user to ubuntu
+USER ubuntu
+
+# Set environment variables for ubuntu user
+ENV HOME=/home/ubuntu
+
+# Set the working directory for the ubuntu user
+WORKDIR /home/ubuntu
 
 # Default command
 CMD ["/bin/bash"]
