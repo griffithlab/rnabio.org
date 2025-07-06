@@ -307,6 +307,9 @@ top_bottom = bind_rows(
 # visualize data for the top n genes. Simplify the output a bit
 print(top_bottom[,c("log2FoldChange","padj","Symbol","UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3","Set")])
 
+#To exit R type the following
+quit(save = "no")
+
 ```
 
 ### Perform some preliminary exploration of DE genes using webtools
