@@ -104,12 +104,12 @@ cd gffcompare-0.12.6.Linux_x86_64/
 
 ## [htseq-count](https://htseq.readthedocs.io/en/master/install.html)
 
-Installation type: apt install. Citation: [PMID: 25260700](https://pubmed.ncbi.nlm.nih.gov/25260700/).
+Installation type: pip install. Citation: [PMID: 25260700](https://pubmed.ncbi.nlm.nih.gov/25260700/).
 
-The htseq-count read counting tools is a python package that can be installed using the linux package manager `apt`.
+The htseq-count read counting tools is a python package that can be installed using `pip`.
 
 ```bash
-sudo apt install python3-htseq
+pip3 install --user HTSeq
 ```
 
 ## [TopHat](https://ccb.jhu.edu/software/tophat/index.shtml)
