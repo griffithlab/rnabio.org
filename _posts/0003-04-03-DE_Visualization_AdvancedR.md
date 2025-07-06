@@ -49,7 +49,7 @@ library(GenomicRanges)
 library(ggrepel)
 
 #Set a base working directory
-setwd("/home/ubuntu/workspace/rnaseq/de/")
+setwd("/home/ubuntu/workspace/rnaseq/de/visualization_advanced/")
 
 #Import expression results (TPM values) from the HISAT2/Stringtie pipeline (https://genomedata.org/cri-workshop/gene_tpm_all_samples.tsv)
 gene_expression = read.table("~/workspace/rnaseq/expression/stringtie/ref_only/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
@@ -282,7 +282,7 @@ ggplot(data = results_genes[results_genes$diffexpressed != "No",], aes(x = log2F
 dev.off()
 
 #To exit R type:
-#quit(save = "no")
+quit(save = "no")
 
 ```
 

@@ -20,22 +20,15 @@ In this section we will use the GAGE tool in R to test for significantly enriche
 ### What is gage?
 The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and RNAseq data sets. In this section we will use [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) and the [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) databases to perform pathway analysis. 
 
-<!--
-
-Let's create a new directory to store our pathway analysis:
+Now, we will start a docker session to run the analysis in this section
 ```bash
-#mkdir -p ~/workspace/rnaseq/de/deseq2/pathway
+docker run -it -v /home/ubuntu/workspace:/workspace cnithin7/bioc-custom:1.0 /bin/bash
 ```
 
-Now, we will start a docker session to run the analysis in this section. This should directly place you in an R environment
-```bash
-#docker run -it -v /home/ubuntu/workspace:/workspace cnithin7/bioc-custom:1.0 /bin/bash
-```
-
-First, launch R at the commandline, start RStudio, or launch a posit Cloud session:
+Launch R at the commandline, start RStudio, or launch a posit Cloud session:
 
 ```bash
-#R
+R
 ```
 
 --->
@@ -46,7 +39,7 @@ Before we perform the pathway analysis we need to read in our differential expre
 ```R
 
 # Define working dir paths and load in data
-datadir = "~/workspace/rnaseq/de/deseq2/"
+datadir = "/workspace/rnaseq/de/deseq2"
 #datadir = "/cloud/project/outdir/"
 
 setwd(datadir)
@@ -54,7 +47,7 @@ setwd(datadir)
 # Load in the DE results file with only significant genes (e.g., http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
 DE_genes = read.table("DE_sig_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
-output_dir = "~/workspace/rnaseq/de/deseq2/pathway/"
+output_dir = "/workspace/rnaseq/de/deseq2/pathway/"
 #output_dir = "/cloud/project/outdir/pathway/"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
@@ -252,9 +245,9 @@ ranked_genes <- sort(ranked_genes, decreasing = TRUE)
 Using gseGO, we can analyze the ranked DE genes list to create classic GSEA enrichment plots. These plots help us see how gene expression levels are distributed across the pathways that were identified as significant in our initial analysis. By examining the ranking of gene expression within these pathways, we can get a clearer picture of how specific pathways are activated or suppressed in our data set.
 ```R
 # Install a package missing from the template
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager", quiet = TRUE)
-BiocManager::install("pathview", update = FALSE, ask = FALSE, quiet = TRUE)
+#if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager", quiet = TRUE)
+#BiocManager::install("pathview", update = FALSE, ask = FALSE, quiet = TRUE)
 
 # Load relevant packages
 library(enrichplot)
@@ -317,4 +310,12 @@ pathview(
   mid = "white",            # Color for neutral genes
   high = "red"              # Color for up-regulated genes
 )
+
+#To exit R type:
+quit(save = "no")
+```
+
+Leave the docker session
+```bash
+exit
 ```
