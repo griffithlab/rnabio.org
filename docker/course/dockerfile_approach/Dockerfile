@@ -144,7 +144,9 @@ RUN --mount=type=cache,target=/var/cache/apt \
         sudo \
         cmake \
         libisal2 \
-        libdeflate0 && \
+        libdeflate0 \
+        libncurses5-dev \
+        libncursesw5-dev && \
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
