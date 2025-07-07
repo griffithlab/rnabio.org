@@ -147,7 +147,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
         libdeflate0 \
         libncurses5-dev \
         libncursesw5-dev \
-        less && \
+        less \
+        vim && \
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -186,6 +187,14 @@ RUN wget --no-check-certificate https://www.bioinformatics.babraham.ac.uk/projec
 
 # Install Picard
 RUN wget https://github.com/broadinstitute/picard/releases/download/2.26.4/picard.jar -O /opt/tools/picard.jar
+
+# Install bedtools
+RUN wget https://github.com/arq5x/bedtools2/releases/download/v2.31.1/bedtools-2.31.1.tar.gz && \
+    tar -zxvf bedtools-2.31.1.tar.gz && \
+    cd bedtools2 && \
+    make && \
+    cp bin/* /usr/local/bin/ && \
+    cd .. && rm -rf bedtools-2.31.1.tar.gz bedtools2
 
 # Install bedops
 RUN mkdir bedops_linux_x86_64-v2.4.41 && \
@@ -235,6 +244,24 @@ RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'cowplot'
 # Install Bioconductor packages
 RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview', 'pachterlab/sleuth'))"
 
+# Configure Apache to serve /workspace directory
+RUN echo '<VirtualHost *:8080>' > /etc/apache2/sites-available/workspace.conf && \
+    echo '    DocumentRoot /workspace' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    Directory /workspace' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '        Options Indexes FollowSymLinks' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '        AllowOverride None' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '        Require all granted' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    /Directory' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    DirectoryIndex index.html' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    ErrorLog ${APACHE_LOG_DIR}/workspace_error.log' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    CustomLog ${APACHE_LOG_DIR}/workspace_access.log combined' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '</VirtualHost>' >> /etc/apache2/sites-available/workspace.conf && \
+    sed -i 's/Directory /<Directory /' /etc/apache2/sites-available/workspace.conf && \
+    sed -i 's|/Directory|</Directory>|' /etc/apache2/sites-available/workspace.conf && \
+    echo 'Listen 8080' >> /etc/apache2/ports.conf && \
+    a2ensite workspace && \
+    a2dissite 000-default
+
 # Create the ubuntu user and set home directory
 RUN useradd -ms /bin/bash ubuntu
 
@@ -278,5 +305,26 @@ ENV HOME=/home/ubuntu
 # Set the working directory for the ubuntu user
 WORKDIR /home/ubuntu
 
-# Default command
-CMD ["/bin/bash"]
+# Expose port 8080 for Apache
+EXPOSE 8080
+
+# Create workspace directory and set permissions
+RUN mkdir -p /workspace && chown ubuntu:ubuntu /workspace
+
+# Create startup script that starts Apache and drops to bash
+RUN echo '#!/bin/bash' > /home/ubuntu/start.sh && \
+    echo 'sudo service apache2 start' >> /home/ubuntu/start.sh && \
+    echo 'if [ ! -f /workspace/index.html ]; then' >> /home/ubuntu/start.sh && \
+    echo '    cat > /workspace/index.html << EOF' >> /home/ubuntu/start.sh && \
+    echo '<!DOCTYPE html>' >> /home/ubuntu/start.sh && \
+    echo '<html><head><title>RNA-seq Toolkit Workspace</title></head>' >> /home/ubuntu/start.sh && \
+    echo '<body><h1>RNA-seq Toolkit Workspace</h1>' >> /home/ubuntu/start.sh && \
+    echo '<p>This directory is served by Apache. Upload files to /workspace to see them here.</p>' >> /home/ubuntu/start.sh && \
+    echo '</body></html>' >> /home/ubuntu/start.sh && \
+    echo 'EOF' >> /home/ubuntu/start.sh && \
+    echo 'fi' >> /home/ubuntu/start.sh && \
+    echo 'exec "$@"' >> /home/ubuntu/start.sh && \
+    chmod +x /home/ubuntu/start.sh
+
+# Default command starts Apache and then bash
+CMD ["/home/ubuntu/start.sh", "/bin/bash"]

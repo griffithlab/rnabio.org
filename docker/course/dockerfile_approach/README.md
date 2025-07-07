@@ -35,10 +35,12 @@ All necessary system libraries and dependencies as specified in the "Perform bas
 - **Flexbar** - Flexible barcode and adapter processing
 - **Regtools** - Tools for analyzing RNA-seq data for regulatory variants
 - **RSeQC** - RNA-seq Quality Control Package
+- **bedtools** - Utilities for genomic arithmetic
 - **bedops** - High-performance genomic feature operations
 - **gtfToGenePred** - Convert GTF to genePred format
 - **genePredToBed** - Convert genePred to BED format
 - **how_are_we_stranded_here** - Python package for strand detection
+- **vim** - Text editor for command-line file editing
 
 ### Python Packages
 **Scientific Computing:**
@@ -168,31 +170,48 @@ A pre-built image is available on Docker Hub:
 
 ### Quick Start with Pre-built Image
 ```bash
-# Pull and run the latest version
+# Pull and run the latest version with Apache web server
 docker pull griffithlab/rnaseq-toolkit:latest
-docker run -it griffithlab/rnaseq-toolkit:latest
+docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:latest
 
 # Or pull a specific version
 docker pull griffithlab/rnaseq-toolkit:1.0.0
-docker run -it griffithlab/rnaseq-toolkit:1.0.0
+docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:1.0.0
 ```
 
 ## Usage
 
 ### Running the Container
 ```bash
-# Using local build
-docker run -it rnaseq_toolkit:latest
+# Using local build with Apache web server
+docker run -it -p 8080:8080 rnaseq_toolkit:latest
 
-# Using Docker Hub image
-docker run -it griffithlab/rnaseq-toolkit:latest
+# Using Docker Hub image with Apache web server
+docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:latest
 ```
 
 ### With Volume Mounting
-To access files from your host system:
+To access files from your host system and serve them via Apache:
 ```bash
-docker run -it -v /path/to/your/data:/data griffithlab/rnaseq-toolkit:latest
+docker run -it -p 8080:8080 -v /path/to/your/data:/workspace griffithlab/rnaseq-toolkit:latest
 ```
+
+### Apache Web Server
+The container automatically starts an Apache web server that serves the `/workspace` directory on port 8080. This allows you to:
+
+- View analysis results through a web browser
+- Share files easily with others
+- Access data remotely when the container is running on a server
+
+**Access the web interface:**
+- Local access: http://localhost:8080
+- Remote access: http://your-server-ip:8080
+
+**Features:**
+- Directory browsing enabled for easy file navigation
+- Automatic index.html creation if none exists
+- All files in `/workspace` are accessible via the web interface
+- Supports mounting host directories to `/workspace` for easy data sharing
 
 ### Running Specific Tools
 You can run specific tools directly:
