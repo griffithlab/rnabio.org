@@ -328,7 +328,6 @@ WORKDIR /home/ubuntu
 # Expose port 8080 for Apache
 EXPOSE 8080
 
-# Default command starts Docker daemon, Apache and then bash
-CMD sudo dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay2 & \
-    sudo service apache2 start && \
-    /bin/bash
+# Use ENTRYPOINT + CMD pattern for proper signal handling and flexibility
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["sudo dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay2 & sudo service apache2 start && /bin/bash"]
