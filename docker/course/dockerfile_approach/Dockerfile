@@ -247,20 +247,21 @@ RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages
 # Configure Apache to serve /workspace directory
 RUN echo '<VirtualHost *:8080>' > /etc/apache2/sites-available/workspace.conf && \
     echo '    DocumentRoot /workspace' >> /etc/apache2/sites-available/workspace.conf && \
-    echo '    Directory /workspace' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    <Directory /workspace>' >> /etc/apache2/sites-available/workspace.conf && \
     echo '        Options Indexes FollowSymLinks' >> /etc/apache2/sites-available/workspace.conf && \
     echo '        AllowOverride None' >> /etc/apache2/sites-available/workspace.conf && \
     echo '        Require all granted' >> /etc/apache2/sites-available/workspace.conf && \
-    echo '    /Directory' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    </Directory>' >> /etc/apache2/sites-available/workspace.conf && \
     echo '    DirectoryIndex index.html' >> /etc/apache2/sites-available/workspace.conf && \
     echo '    ErrorLog ${APACHE_LOG_DIR}/workspace_error.log' >> /etc/apache2/sites-available/workspace.conf && \
     echo '    CustomLog ${APACHE_LOG_DIR}/workspace_access.log combined' >> /etc/apache2/sites-available/workspace.conf && \
     echo '</VirtualHost>' >> /etc/apache2/sites-available/workspace.conf && \
-    sed -i 's/Directory /<Directory /' /etc/apache2/sites-available/workspace.conf && \
-    sed -i 's|/Directory|</Directory>|' /etc/apache2/sites-available/workspace.conf && \
     echo 'Listen 8080' >> /etc/apache2/ports.conf && \
     a2ensite workspace && \
     a2dissite 000-default
+
+# Create workspace directory as root before switching users
+RUN mkdir -p /workspace
 
 # Create the ubuntu user and set home directory
 RUN useradd -ms /bin/bash ubuntu
@@ -275,8 +276,8 @@ RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN mkdir -p /home/ubuntu/bin && \
     mv /opt/tools/picard.jar /home/ubuntu/bin/picard.jar
 
-# Ensure /opt/tools and /home/ubuntu/bin are owned by the ubuntu user
-RUN chown -R ubuntu:ubuntu /opt/tools /home/ubuntu/bin
+# Ensure /opt/tools, /home/ubuntu/bin, and /workspace are owned by the ubuntu user
+RUN chown -R ubuntu:ubuntu /opt/tools /home/ubuntu/bin /workspace
 
 # Add build arguments for version information
 ARG BUILD_DATE
@@ -307,9 +308,6 @@ WORKDIR /home/ubuntu
 
 # Expose port 8080 for Apache
 EXPOSE 8080
-
-# Create workspace directory and set permissions
-RUN mkdir -p /workspace && chown ubuntu:ubuntu /workspace
 
 # Create startup script that starts Apache and drops to bash
 RUN echo '#!/bin/bash' > /home/ubuntu/start.sh && \
