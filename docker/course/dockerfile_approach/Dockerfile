@@ -245,7 +245,8 @@ RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'cowplot'
 RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview', 'pachterlab/sleuth'))"
 
 # Configure Apache to serve /workspace directory
-RUN echo '<VirtualHost *:8080>' > /etc/apache2/sites-available/workspace.conf && \
+RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf && \
+    echo '<VirtualHost *:8080>' > /etc/apache2/sites-available/workspace.conf && \
     echo '    DocumentRoot /workspace' >> /etc/apache2/sites-available/workspace.conf && \
     echo '    <Directory /workspace>' >> /etc/apache2/sites-available/workspace.conf && \
     echo '        Options Indexes FollowSymLinks' >> /etc/apache2/sites-available/workspace.conf && \
@@ -277,7 +278,8 @@ RUN mkdir -p /home/ubuntu/bin && \
     mv /opt/tools/picard.jar /home/ubuntu/bin/picard.jar
 
 # Ensure /opt/tools, /home/ubuntu/bin, and /workspace are owned by the ubuntu user
-RUN chown -R ubuntu:ubuntu /opt/tools /home/ubuntu/bin /workspace
+RUN chown -R ubuntu:ubuntu /opt/tools /home/ubuntu/bin /workspace \
+    && ln -s /workspace /home/ubuntu/workspace
 
 # Add build arguments for version information
 ARG BUILD_DATE
@@ -309,20 +311,5 @@ WORKDIR /home/ubuntu
 # Expose port 8080 for Apache
 EXPOSE 8080
 
-# Create startup script that starts Apache and drops to bash
-RUN echo '#!/bin/bash' > /home/ubuntu/start.sh && \
-    echo 'sudo service apache2 start' >> /home/ubuntu/start.sh && \
-    echo 'if [ ! -f /workspace/index.html ]; then' >> /home/ubuntu/start.sh && \
-    echo '    cat > /workspace/index.html << EOF' >> /home/ubuntu/start.sh && \
-    echo '<!DOCTYPE html>' >> /home/ubuntu/start.sh && \
-    echo '<html><head><title>RNA-seq Toolkit Workspace</title></head>' >> /home/ubuntu/start.sh && \
-    echo '<body><h1>RNA-seq Toolkit Workspace</h1>' >> /home/ubuntu/start.sh && \
-    echo '<p>This directory is served by Apache. Upload files to /workspace to see them here.</p>' >> /home/ubuntu/start.sh && \
-    echo '</body></html>' >> /home/ubuntu/start.sh && \
-    echo 'EOF' >> /home/ubuntu/start.sh && \
-    echo 'fi' >> /home/ubuntu/start.sh && \
-    echo 'exec "$@"' >> /home/ubuntu/start.sh && \
-    chmod +x /home/ubuntu/start.sh
-
 # Default command starts Apache and then bash
-CMD ["/home/ubuntu/start.sh", "/bin/bash"]
+CMD sudo service apache2 start && /bin/bash
