@@ -146,7 +146,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
         libisal2 \
         libdeflate0 \
         libncurses5-dev \
-        libncursesw5-dev && \
+        libncursesw5-dev \
+        less && \
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
