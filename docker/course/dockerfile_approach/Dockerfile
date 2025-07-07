@@ -86,7 +86,7 @@ FROM --platform=linux/amd64 ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 ENV PICARD=/home/ubuntu/bin/picard.jar
-ENV PATH="/usr/local/bin:${PATH}"
+ENV PATH="/usr/local/bin:/usr/local/FastQC:${PATH}"
 
 # Create working directories
 WORKDIR /opt/tools
@@ -148,7 +148,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
         libncurses5-dev \
         libncursesw5-dev \
         less \
-        vim && \
+        vim \
+        util-linux && \
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -182,7 +183,7 @@ RUN wget https://github.com/pachterlab/kallisto/releases/download/v0.44.0/kallis
 RUN wget --no-check-certificate https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.12.1.zip && \
     unzip fastqc_v0.12.1.zip && \
     chmod 755 FastQC/fastqc && \
-    cp FastQC/fastqc /usr/local/bin/ && \
+    mv FastQC /usr/local/FastQC && \
     rm -rf fastqc_v0.12.1.zip
 
 # Install Picard
@@ -270,6 +271,9 @@ RUN useradd -ms /bin/bash ubuntu
 # Add ubuntu user to sudo group
 RUN usermod -aG sudo ubuntu
 
+# Add ubuntu user to docker group for Docker-in-Docker
+RUN usermod -aG docker ubuntu
+
 # Configure passwordless sudo for ubuntu user
 RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
@@ -305,11 +309,26 @@ USER ubuntu
 # Set environment variables for ubuntu user
 ENV HOME=/home/ubuntu
 
+# Add RNA-seq course environment variables to bashrc
+RUN echo '# RNA-seq course environment variables' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_DATA_TRIM_DIR=/home/ubuntu/workspace/rnaseq/data/trimmed' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_REF_INDEX=/home/ubuntu/workspace/rnaseq/refs/chr22_with_ERCC92' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_HOME=/home/ubuntu/workspace/rnaseq' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_REFS_DIR=/home/ubuntu/workspace/rnaseq/refs' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_DATA_DIR=/home/ubuntu/workspace/rnaseq/data' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_ALIGN_DIR=/home/ubuntu/workspace/rnaseq/alignments/hisat2' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_EXT_DATA_DIR=/home/ubuntu/CourseData/RNA_data' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_REF_GTF=/home/ubuntu/workspace/rnaseq/refs/chr22_with_ERCC92.gtf' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_REF_FASTA=/home/ubuntu/workspace/rnaseq/refs/chr22_with_ERCC92.fa' >> /home/ubuntu/.bashrc && \
+    echo 'export PICARD=/home/ubuntu/bin/picard.jar' >> /home/ubuntu/.bashrc
+
 # Set the working directory for the ubuntu user
 WORKDIR /home/ubuntu
 
 # Expose port 8080 for Apache
 EXPOSE 8080
 
-# Default command starts Apache and then bash
-CMD sudo service apache2 start && /bin/bash
+# Default command starts Docker daemon, Apache and then bash
+CMD sudo dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay2 & \
+    sudo service apache2 start && \
+    /bin/bash
