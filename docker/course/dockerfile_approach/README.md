@@ -158,7 +158,9 @@ The release script:
    docker build -t rnaseq_toolkit:latest .
    ```
 
-## Pre-built Docker Image
+## Usage
+
+### Pre-built Docker Image
 
 A pre-built image is available on Docker Hub:
 
@@ -168,32 +170,31 @@ A pre-built image is available on Docker Hub:
 - `griffithlab/rnaseq-toolkit:1.0.0` - Specific version
 - `griffithlab/rnaseq-toolkit:latest` - Latest release
 
-### Quick Start with Pre-built Image
+### Running the Container
+
+**Basic usage (pre-built image):**
 ```bash
 # Pull and run the latest version with Apache web server
 docker pull griffithlab/rnaseq-toolkit:latest
 docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:latest
 
-# Or pull a specific version
-docker pull griffithlab/rnaseq-toolkit:1.0.0
-docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:1.0.0
-```
-
-## Usage
-
-### Running the Container
-```bash
-# Using local build with Apache web server
-docker run -it -p 8080:8080 rnaseq_toolkit:latest
-
-# Using Docker Hub image with Apache web server
-docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:latest
+# Or run a specific version
+docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:1.0.1
 ```
 
 ### With Volume Mounting
 To access files from your host system and serve them via Apache:
 ```bash
+# Mount your data directory to /workspace
 docker run -it -p 8080:8080 -v /path/to/your/data:/workspace griffithlab/rnaseq-toolkit:latest
+```
+
+### Running Specific Tools
+You can run specific tools directly:
+```bash
+docker run --rm griffithlab/rnaseq-toolkit:latest samtools --help
+docker run --rm griffithlab/rnaseq-toolkit:latest hisat2 --help
+docker run --rm griffithlab/rnaseq-toolkit:latest stringtie --help
 ```
 
 ### Apache Web Server
@@ -212,14 +213,6 @@ The container automatically starts an Apache web server that serves the `/worksp
 - Automatic index.html creation if none exists
 - All files in `/workspace` are accessible via the web interface
 - Supports mounting host directories to `/workspace` for easy data sharing
-
-### Running Specific Tools
-You can run specific tools directly:
-```bash
-docker run --rm griffithlab/rnaseq-toolkit:latest samtools --help
-docker run --rm griffithlab/rnaseq-toolkit:latest hisat2 --help
-docker run --rm griffithlab/rnaseq-toolkit:latest stringtie --help
-```
 
 ## Image Optimization Features
 
