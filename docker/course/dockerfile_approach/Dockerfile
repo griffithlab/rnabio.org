@@ -149,7 +149,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
         libncursesw5-dev \
         less \
         vim \
-        util-linux && \
+        bsdextrautils && \
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
