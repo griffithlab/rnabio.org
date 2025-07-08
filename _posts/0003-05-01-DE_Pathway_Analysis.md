@@ -31,8 +31,6 @@ Launch R at the commandline, start RStudio, or launch a posit Cloud session:
 R
 ```
 
---->
-
 ### Importing DE results for gage
 Before we perform the pathway analysis we need to read in our differential expression results from the previous DE analysis.
 
