@@ -186,15 +186,17 @@ geneBody_coverage.py -i chr22_only_bams/HBR_Rep1.bam,chr22_only_bams/HBR_Rep2.ba
 find *Rep*.bam -exec echo inner_distance.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/{} \; | sh
 
 # Annotate exon-exon junctions observed in RNA-seq alignments compared to know exon-exon junctions
-find chr22_only_bams/*Rep*.bam -exec echo junction_annotation.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/{} \; | sh
+cd $RNA_ALIGN_DIR/chr22_only_bams
+find *Rep*.bam -exec echo junction_annotation.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o ../rseqc/{} \; | sh
 
 # Perform a saturation analysis using only exon-exon junction mapping reads
-find chr22_only_bams/*Rep*.bam -exec echo junction_saturation.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/{} \; | sh
+find *Rep*.bam -exec echo junction_saturation.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o ../rseqc/{} \; | sh
 
 # Determine the distribution of reads with respect to the parts of transcripts they align to (e.g. 5' UTR, CDS, 3'UTR, intron, etc.)
-find chr22_only_bams/*Rep*.bam -exec echo read_distribution.py  -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 \> rseqc/{}.read_dist.txt \; | sh
+find *Rep*.bam -exec echo read_distribution.py  -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 \> ../rseqc/{}.read_dist.txt \; | sh
 
 # Calculate the RNA fragment sizes and produce statistics for each transcript
+cd $RNA_ALIGN_DIR
 find *Rep*.bam -exec echo RNA_fragment_size.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 \> rseqc/{}.frag_size.txt \; | sh
 
 # Summarizing mapping statistics of each BAM file
