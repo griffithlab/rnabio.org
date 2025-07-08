@@ -153,10 +153,13 @@ gtfToGenePred chr22_with_ERCC92.gtf chr22_with_ERCC92.genePred
 # Convert genePred to BED12
 genePredToBed chr22_with_ERCC92.genePred chr22_with_ERCC92.bed12
 
+# Create a version of the BED12 with the ERCC92 sequences removed (because they confuse the QC analysis that looks at how many reads are coding, UTR, intronic, etc.
+grep -v ERCC chr22_with_ERCC92.bed12 > chr22_without_ERCC92.bed12
+
 cd $RNA_ALIGN_DIR
 mkdir rseqc
-geneBody_coverage.py -i UHR_Rep1.bam,UHR_Rep2.bam,UHR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/UHR
-geneBody_coverage.py -i HBR_Rep1.bam,HBR_Rep2.bam,HBR_Rep3.bam -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/HBR
+geneBody_coverage.py -i UHR_Rep1.bam,UHR_Rep2.bam,UHR_Rep3.bam -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/UHR
+geneBody_coverage.py -i HBR_Rep1.bam,HBR_Rep2.bam,HBR_Rep3.bam -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/HBR
 
 # Calculate the inner distance of RNA-seq fragments. 
 #              RNA fragment
@@ -167,19 +170,19 @@ geneBody_coverage.py -i HBR_Rep1.bam,HBR_Rep2.bam,HBR_Rep3.bam -r $RNA_HOME/refs
 #   read_1    inner_distance    read_2
 #
 # fragment size = read_1 + inner_distance + read_2
-find *Rep*.bam -exec echo inner_distance.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/{} \; | sh
+find *Rep*.bam -exec echo inner_distance.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/{} \; | sh
 
 # Annotate exon-exon junctions observed in RNA-seq alignments compared to know exon-exon junctions
-find *Rep*.bam -exec echo junction_annotation.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/{} \; | sh
+find *Rep*.bam -exec echo junction_annotation.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/{} \; | sh
 
 # Perform a saturation analysis using only exon-exon junction mapping reads
-find *Rep*.bam -exec echo junction_saturation.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 -o rseqc/{} \; | sh
+find *Rep*.bam -exec echo junction_saturation.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/{} \; | sh
 
 # Determine the distribution of reads with respect to the parts of transcripts they align to (e.g. 5' UTR, CDS, 3'UTR, intron, etc.)
-find *Rep*.bam -exec echo read_distribution.py  -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 \> rseqc/{}.read_dist.txt \; | sh
+find *Rep*.bam -exec echo read_distribution.py  -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 \> rseqc/{}.read_dist.txt \; | sh
 
 # Calculate the RNA fragment sizes and produce statistics for each transcript
-find *Rep*.bam -exec echo RNA_fragment_size.py -i {} -r $RNA_HOME/refs/chr22_with_ERCC92.bed12 \> rseqc/{}.frag_size.txt \; | sh
+find *Rep*.bam -exec echo RNA_fragment_size.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 \> rseqc/{}.frag_size.txt \; | sh
 
 # Summarizing mapping statistics of each BAM file
 find *Rep*.bam -exec echo bam_stat.py -i {} \> rseqc/{}.bam_stat.txt \; | sh
