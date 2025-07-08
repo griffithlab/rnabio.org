@@ -111,6 +111,9 @@ missing_ensembl_key_update = missing_ensembl_key[!is.na(missing_ensembl_key$entr
 
 #Create a Final Gene list of all genes where we were able to find an Entrez ID (using two approaches)
 DE_genes_clean = rbind(DE_genes_clean, missing_ensembl_key_update)
+
+#Reduce to only the unique set of entrez genes in case different genes were mapped to the same entrez ID using the two approaches
+DE_genes_clean=DE_genes_clean[!duplicated(DE_genes_clean$entrez),]
 ```
 
 ### Final preparation of DESeq2 results for gage
