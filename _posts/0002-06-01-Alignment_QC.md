@@ -76,6 +76,19 @@ cat flagstat/UHR_Rep1.bam.flagstat
 
 Details of the SAM/BAM format can be found here: [http://samtools.sourceforge.net/SAM1.pdf](http://samtools.sourceforge.net/SAM1.pdf)
 
+
+### Create versions of our BAM files with only the chromosome 22 alignments
+Note that our alignments contain those for the spiked in ERCC control sequences. For some QC analyses, these sequences complicate interpretation because they are not like human genes (e.g. no introns or UTRs). To allow us flexibility for the QC analysis we will create a version of each BAM file that only has the chromosome 22 alignments.
+
+```bash
+cd $RNA_ALIGN_DIR
+mkdir chr22_only_bams
+find *Rep*.bam -exec echo samtools view -b {} 22 -o chr22_only_bams/{} \; | sh
+samtools index -M chr22_only_bams/*.bam
+
+```
+
+
 ### Using FastQC
 You can use FastQC to perform basic QC of your BAM file (See [Pre-alignment QC](https://rnabio.org/module-01-inputs/0001/06/01/Pre-alignment_QC/)). This will give you output very similar to when you ran FastQC on your fastq files.
 
@@ -158,8 +171,8 @@ grep -v ERCC chr22_with_ERCC92.bed12 > chr22_without_ERCC92.bed12
 
 cd $RNA_ALIGN_DIR
 mkdir rseqc
-geneBody_coverage.py -i UHR_Rep1.bam,UHR_Rep2.bam,UHR_Rep3.bam -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/UHR
-geneBody_coverage.py -i HBR_Rep1.bam,HBR_Rep2.bam,HBR_Rep3.bam -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/HBR
+geneBody_coverage.py -i chr22_only_bams/UHR_Rep1.bam,chr22_only_bams/UHR_Rep2.bam,chr22_only_bams/UHR_Rep3.bam -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/UHR
+geneBody_coverage.py -i chr22_only_bams/HBR_Rep1.bam,chr22_only_bams/HBR_Rep2.bam,chr22_only_bams/HBR_Rep3.bam -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/HBR
 
 # Calculate the inner distance of RNA-seq fragments. 
 #              RNA fragment
@@ -173,13 +186,13 @@ geneBody_coverage.py -i HBR_Rep1.bam,HBR_Rep2.bam,HBR_Rep3.bam -r $RNA_HOME/refs
 find *Rep*.bam -exec echo inner_distance.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/{} \; | sh
 
 # Annotate exon-exon junctions observed in RNA-seq alignments compared to know exon-exon junctions
-find *Rep*.bam -exec echo junction_annotation.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/{} \; | sh
+find chr22_only_bams/*Rep*.bam -exec echo junction_annotation.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/{} \; | sh
 
 # Perform a saturation analysis using only exon-exon junction mapping reads
-find *Rep*.bam -exec echo junction_saturation.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/{} \; | sh
+find chr22_only_bams/*Rep*.bam -exec echo junction_saturation.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 -o rseqc/{} \; | sh
 
 # Determine the distribution of reads with respect to the parts of transcripts they align to (e.g. 5' UTR, CDS, 3'UTR, intron, etc.)
-find *Rep*.bam -exec echo read_distribution.py  -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 \> rseqc/{}.read_dist.txt \; | sh
+find chr22_only_bams/*Rep*.bam -exec echo read_distribution.py  -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 \> rseqc/{}.read_dist.txt \; | sh
 
 # Calculate the RNA fragment sizes and produce statistics for each transcript
 find *Rep*.bam -exec echo RNA_fragment_size.py -i {} -r $RNA_HOME/refs/chr22_without_ERCC92.bed12 \> rseqc/{}.frag_size.txt \; | sh
