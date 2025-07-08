@@ -189,6 +189,19 @@ To access files from your host system and serve them via Apache:
 docker run -it -p 8080:8080 -v /path/to/your/data:/workspace griffithlab/rnaseq-toolkit:latest
 ```
 
+### With Docker Engine Access
+To enable Docker functionality within the container (for running other bioinformatics containers):
+```bash
+# Mount the Docker socket to enable host Docker engine access
+docker run -it -p 8080:8080 -v /path/to/your/data:/workspace -v /var/run/docker.sock:/var/run/docker.sock griffithlab/rnaseq-toolkit:latest
+```
+
+**Notes about Docker socket mounting:**
+- The container includes Docker CLI tools for running other bioinformatics containers
+- Uses host Docker engine instead of Docker-in-Docker for better performance and stability
+- Automatically fixes Docker socket permissions on macOS and other systems
+- The `start-services.sh` script handles both Apache startup and Docker socket permissions
+
 ### Running Specific Tools
 You can run specific tools directly:
 ```bash
@@ -246,6 +259,11 @@ The image is built for **x86_64 architecture** and should run on:
 - Check that Docker has sufficient memory allocated (recommend 4+ GB)
 - Ensure your host system architecture is compatible (x86_64)
 
+### Docker Socket Issues
+- If you get "permission denied" errors when using Docker inside the container, ensure you're mounting the Docker socket: `-v /var/run/docker.sock:/var/run/docker.sock`
+- On macOS, Docker socket permissions are automatically fixed by the `start-services.sh` script
+- On Linux, you may need to add your user to the docker group or run with appropriate permissions
+
 ## Development Notes
 
 This Docker image has been optimized through several iterations to address common build and runtime issues:
@@ -259,6 +277,9 @@ This Docker image has been optimized through several iterations to address commo
 - **Python package management**: Strategic installation order and dependency management for MultiQC/polars
 - **R package compilation**: Added essential build tools and libraries for R package compilation
 - **Error handling**: Robust installation procedures with fallback mechanisms
+- **Docker architecture**: Switched from Docker-in-Docker to host Docker engine mounting for better stability
+- **Permission management**: Automatic Docker socket permission fixing for cross-platform compatibility
+- **Service management**: Streamlined startup process with `start-services.sh` script
 
 ### Known Working Versions
 - Ubuntu 22.04 LTS base image

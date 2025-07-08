@@ -271,8 +271,11 @@ RUN useradd -ms /bin/bash ubuntu
 # Add ubuntu user to sudo group
 RUN usermod -aG sudo ubuntu
 
-# Add ubuntu user to docker group for Docker-in-Docker
-RUN usermod -aG docker ubuntu
+# Add ubuntu user to docker group for host Docker access
+# Also add to staff group (20) for macOS Docker Desktop compatibility
+RUN usermod -aG docker ubuntu && \
+    groupadd -g 20 staff || true && \
+    usermod -aG staff ubuntu
 
 # Configure passwordless sudo for ubuntu user
 RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
@@ -328,6 +331,15 @@ WORKDIR /home/ubuntu
 # Expose port 8080 for Apache
 EXPOSE 8080
 
+# Create a script to start services and fix Docker socket permissions
+RUN echo '#!/bin/bash' > /home/ubuntu/start-services.sh && \
+    echo '# Fix Docker socket permissions if mounted' >> /home/ubuntu/start-services.sh && \
+    echo 'if [ -S /var/run/docker.sock ]; then' >> /home/ubuntu/start-services.sh && \
+    echo '    sudo chmod 666 /var/run/docker.sock' >> /home/ubuntu/start-services.sh && \
+    echo 'fi' >> /home/ubuntu/start-services.sh && \
+    echo 'sudo service apache2 start && /bin/bash' >> /home/ubuntu/start-services.sh && \
+    chmod +x /home/ubuntu/start-services.sh
+
 # Use ENTRYPOINT + CMD pattern for proper signal handling and flexibility
 ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["sudo dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay2 & sudo service apache2 start && /bin/bash"]
+CMD ["/home/ubuntu/start-services.sh"]
