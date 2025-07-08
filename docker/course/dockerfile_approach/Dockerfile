@@ -149,9 +149,13 @@ RUN --mount=type=cache,target=/var/cache/apt \
         libncursesw5-dev \
         less \
         vim \
-        bsdextrautils && \
+        bsdextrautils \
+        man-db && \
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Unminimize the system to restore man pages and other documentation
+RUN yes | unminimize
 
 # Install pre-compiled binaries
 # Install HISAT2
@@ -240,7 +244,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install R packages
-RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'cowplot', 'data.table', 'gridExtra', 'UpSetR', 'pheatmap', 'ggrepel', 'ggnewscale'), repos='http://cran.us.r-project.org')"
+RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'cowplot', 'data.table', 'gridExtra', 'UpSetR', 'pheatmap', 'ggrepel', 'ggnewscale', 'ggridges'), repos='http://cran.us.r-project.org')"
 
 # Install Bioconductor packages
 RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview', 'pachterlab/sleuth'))"
