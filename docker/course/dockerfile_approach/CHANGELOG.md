@@ -5,16 +5,20 @@ All notable changes to the RNA-seq Bioinformatics Toolkit Docker image will be d
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.1] - 2025-07-09
 
 ### Added
-- 
+- **ggridges R package**: Added to CRAN package installation for enhanced ridge line plotting capabilities
+- **Man pages support**: Added man-db package and ran unminimize to restore documentation
+- **Educational Linux commands**: Users can now use 'man' command to learn basic Linux commands within the container
 
 ### Changed
-- 
+- **Column command package**: Replaced util-linux with bsdextrautils for better column command functionality
+- **Docker group setup**: Simplified by removing macOS-specific staff group configuration
+- **Course documentation**: Updated various course posts with improved instructions for Docker approach
 
 ### Fixed
-- 
+- **Column command functionality**: Fixed missing bsdextrautils package for proper column command support
 
 ## [1.1.0] - 2025-07-08
 
@@ -45,17 +49,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Apache configuration**: Fixed workspace directory permissions
 - **Container startup reliability**: Improved performance and stability
 - **FastQC execution**: Fixed installation to ensure proper tool functionality
-
-## [Unreleased]
-
-### Added
-- 
-
-### Changed
-- 
-
-### Fixed
-- 
 
 ## [1.0.1] - 2025-07-06
 
