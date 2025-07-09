@@ -57,6 +57,10 @@ setwd(datadir)
 
 # read in the RNAseq read counts for each gene (produced by htseq-count)
 htseqCounts = fread("gene_read_counts_table_all_final.tsv")
+
+# set working directory to the output dir
+setwd(outdir)
+
 ```
 
 ### Format htseq counts data to work with DESeq2
