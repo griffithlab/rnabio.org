@@ -73,7 +73,7 @@ dev.off()
 #### MA-plot after LFC shrinkage
 When we ran DESeq2 we obtained two results, one with and one without log-fold change shrinkage. When you have genes with low hits you can get some very large fold changes. For example 1 hit on a gene vs 6 hits on a gene is a 6x fold change. This high level of variance though is probably quantifying noise instead of real biology. Running `plotMA` on our results where we applied an algorithm for log fold change shrinkage we can see that this "effect" is somewhat controlled for. I do want to note that while shrinking LFC is part of a typical DE workflow there are cases where you would not want to perform this, namely when there is already low variation amongst samples (i.e. from technical replicates) as most shrinkage algorithms rely on some variability to build a prior distribution.
 ```R
-# ma plot
+# use DESeq2 built in MA-plot function
 pdf("maplot_postShrink.pdf")
 plotMA(resLFC, alpha = 0.1, ylim = c(-2, 2), cex=1.5, main = "MA-plot after LFC shrinkage")
 dev.off()
@@ -150,8 +150,8 @@ Instead of a distance metric we could also use a similarity metric such as a Pea
 
 There are many correlation and distance options:
 
-Correlation: "pearson", "kendall", "spearman"
-Distance: "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"
+ - Correlation: "pearson", "kendall", "spearman"
+ - Distance: "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"
 
 ```R
 sampleCorrs = cor(assay(rld), method = "pearson")
