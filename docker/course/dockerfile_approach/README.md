@@ -81,17 +81,17 @@ Use the included version management script to handle releases:
 # Check current version
 ./version.sh current
 
-# Increment patch version (1.0.0 -> 1.0.1)
+# Increment patch version (1.1.0 -> 1.1.1)
 ./version.sh patch
 
-# Increment minor version (1.0.0 -> 1.1.0)
+# Increment minor version (1.1.0 -> 1.2.0)
 ./version.sh minor
 
-# Increment major version (1.0.0 -> 2.0.0)
+# Increment major version (1.1.1 -> 2.0.0)
 ./version.sh major
 
 # Set specific version
-./version.sh set 2.1.0
+./version.sh set 1.1.1
 ```
 
 The script automatically:
@@ -128,7 +128,7 @@ The release script:
 - Generates GitHub release notes template
 - Validates git repository state
 
-**For monorepo releases:** The script uses component-specific tags like `rnaseq-toolkit-docker-v1.0.0` to distinguish this Docker component from other parts of the repository.
+**For monorepo releases:** The script uses component-specific tags like `rnaseq-toolkit-docker-v1.1.1` to distinguish this Docker component from other parts of the repository.
 
 ### Post-Release Checklist
 
@@ -144,7 +144,7 @@ After modifying the Dockerfile and completing a new release, developers should e
 # Example workflow after Dockerfile modifications:
 ./version.sh patch              # or minor/major as appropriate
 git add -A                      # stage all changes
-git commit -m "Release v1.0.1"  # commit changes
+git commit -m "Release v1.1.1"  # commit changes
 git push origin master          # push commits to GitHub
 git push origin --tags          # push tags to GitHub
 ./release.sh                    # build and push Docker image
@@ -188,7 +188,7 @@ A pre-built image is available on Docker Hub:
 **Image:** `griffithlab/rnaseq-toolkit`
 
 **Available tags:**
-- `griffithlab/rnaseq-toolkit:1.0.0` - Specific version
+- `griffithlab/rnaseq-toolkit:1.1.1` - Specific version
 - `griffithlab/rnaseq-toolkit:latest` - Latest release
 
 ### Running the Container
@@ -200,7 +200,7 @@ docker pull griffithlab/rnaseq-toolkit:latest
 docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:latest
 
 # Or run a specific version
-docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:1.0.1
+docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:1.1.1
 ```
 
 ### With Volume Mounting
