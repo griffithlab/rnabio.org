@@ -137,13 +137,16 @@ After modifying the Dockerfile and completing a new release, developers should e
 1. **Update the changelog** - Ensure CHANGELOG.md includes all relevant changes for the new version
 2. **Commit all changes** - Verify that all modifications are properly committed to the repository
 3. **Create a git tag** - Use the version management script to create an appropriate git tag
-4. **Create GitHub release** - Use the provided release template to create a new release on GitHub
+4. **Push git tag to GitHub** - Push the created tag to make it available on GitHub
+5. **Create GitHub release** - Use the provided release template to create a new release on GitHub
 
 ```bash
 # Example workflow after Dockerfile modifications:
 ./version.sh patch              # or minor/major as appropriate
 git add -A                      # stage all changes
 git commit -m "Release v1.0.1"  # commit changes
+git push origin master          # push commits to GitHub
+git push origin --tags          # push tags to GitHub
 ./release.sh                    # build and push Docker image
 # Then create GitHub release using the generated template
 ```

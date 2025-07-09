@@ -95,9 +95,10 @@ update_changelog() {
 # Function to create git tag
 create_git_tag() {
     local version=$1
+    local tag_name="rnaseq-toolkit-docker-v$version"
     if git rev-parse --git-dir > /dev/null 2>&1; then
-        git tag -a "v$version" -m "Release version $version"
-        echo "Git tag v$version created"
+        git tag -a "$tag_name" -m "Release version $version"
+        echo "Git tag $tag_name created"
     else
         echo "Not in a git repository, skipping tag creation"
     fi
