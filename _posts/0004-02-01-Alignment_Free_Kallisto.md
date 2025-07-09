@@ -392,9 +392,7 @@ Execute the following command in R
 
 ```bash
 #load sleuth library
-suppressMessages({
   library("sleuth")
-})
 
 #load id mapping file
 ids = read.table('~/workspace/rnaseq/refs/genename_gid_tid.tsv', sep="\t", header=FALSE, as.is=1)
@@ -474,15 +472,14 @@ Once again we could visualize the overlap with a venn diagram. This can be done 
 
 ```bash
 cat ballgown_DE_gene_symbols.txt
-cat htseq_counts_edgeR_DE_gene_symbols.txt
-cat sleuth_genes_with_de_transcripts.txt
-
+cat DESeq2_DE_gene_symbols.txt
+cat sleuth_genes_with_de_transcripts.tx
 ```
 
 Alternatively you could view both lists in a web browser as you have done with other files. These three files should be here:
 
 http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
-http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/htseq_counts_edgeR_DE_gene_symbols.txt
+http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/DESeq2_DE_gene_symbols.txt
 http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/sleuth_genes_with_de_transcripts.txt
 
 If this works you should see an overlap that looks something like this:
