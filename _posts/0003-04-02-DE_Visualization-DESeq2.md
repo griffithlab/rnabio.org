@@ -59,12 +59,13 @@ MA-plots were originally used to evaluate microarray expression data where M is 
 
 These types of plots are still usefull in RNAseq DE experiments with two conditions, as they can immediately give us information on the number of signficantly differentially expressed genes, the ratio of up vs down regulated genes, and any outliers. To interpret these plots it is important to keep a couple of things in mind. The Y axis (M) is the log2 fold change between the two conditions tested, a higher fold-change indicates greater difference between condition A and condition B. The X axis (A) is a measure of read alignment to a gene, so as you go higher on on the X axis you are looking at regions which have higher totals of aligned reads, in other words the gene is "more" expressed overall (with the caveat that gene length is not being taken into account by raw read counts here). 
 
-Using the built-in `plotMA` function from DESeq2 we also see that the genes are color coded by a significance threshold. Genes with higher expression values and higher fold-changes are more often significant as one would expect.
+Using the built-in `plotMA` function from DESeq2 we also see that the genes are color coded by a significance threshold (e.g., adjusted p-value < 0.1). Genes with higher expression values and higher fold-changes are more often significant as one would expect.
+})
 
 ```R
 # use DESeq2 built in MA-plot function
 pdf("maplot_preShrink.pdf")
-plotMA(res, ylim=c(-2, 2), cex=1.5)
+plotMA(res, alpha = 0.1, ylim=c(-2, 2), cex=1.5, main = "MA-plot before LFC shrinkage")
 dev.off()
 
 ```
@@ -74,7 +75,7 @@ When we ran DESeq2 we obtained two results, one with and one without log-fold ch
 ```R
 # ma plot
 pdf("maplot_postShrink.pdf")
-plotMA(resLFC, ylim = c(-2, 2), cex=1.5)
+plotMA(resLFC, alpha = 0.1, ylim = c(-2, 2), cex=1.5, main = "MA-plot after LFC shrinkage")
 dev.off()
 ```
 
