@@ -150,8 +150,8 @@ Instead of a distance metric we could also use a similarity metric such as a Pea
 
 There are many correlation and distance options:
 
- - Correlation: "pearson", "kendall", "spearman"
- - Distance: "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"
+ - Similarity metrics: "pearson", "kendall", "spearman"
+ - Distance metrics: "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"
 
 ```R
 sampleCorrs = cor(assay(rld), method = "pearson")
@@ -167,7 +167,7 @@ dev.off()
 ``` 
 
 Instead of boiling all the gene count data for each sample down to a distance metric you can 
-get a similar sense of the pattern by just visualizing all the genes at once
+get a similar sense of the pattern by just visualizing all the genes and their expression at once
 
 ```R
 
@@ -179,6 +179,27 @@ pheatmap(mat = t(assay(rld)), show_colnames = FALSE)
 
 dev.off()
 
+```
+
+Make a heatmap for just significant genes (e.g, FC >=3 and padj<0.001). Note, we chose these cutoffs arbitrarily to result in a number of genes that can be legibly labeled
+
+```R
+
+#First, get a list of just significant genes
+deGeneSigResult=deGeneResultSorted[(deGeneResultSorted$padj<0.001 & (deGeneResultSorted$log2FoldChange>=3 | deGeneResultSorted$log2FoldChange<=-3)),]
+SigGenes=deGeneSigResult$ensemblID
+SigGeneSymbols=deGeneSigResult$Symbol
+
+#extract expression data
+expression_data=assay(rld)
+
+#Limit to significant genes
+expression_data=expression_data[SigGenes,]
+
+#Create a heatmap as before
+pdf("sig_gene_heatmap.pdf", width = 10, height = 10)
+pheatmap(mat = t(expression_data), show_colnames = TRUE, labels_col=SigGeneSymbols)
+dev.off()
 
 quit(save="no")
 
