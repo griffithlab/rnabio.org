@@ -374,6 +374,9 @@ $RNA_HOME/ercc_spikein_analysis/
 
 Which expression estimation (read counts or TPM values) are better representing the known/expected ERCC concentrations?  Why?
 
+Some notes of interpretation
 
-
+- In general the expression estimates for ERCC transcripts we are getting from our data are highly correlated with the expected concentrations for the ERCC spike-in reagent
+- There are some ERRC transcripts that were not detected in our data at all (count and TPM of 0). These correspond to a range of expected concentrations in the spile-in reagent but they are all at the lower end. Essentially this indicates a sensitivity limitation. With our downsampled RNAseq data, we are failing to detect some of the less abundant spiked-in ERCC transcripts. This is probably hurting our R squared values slightly.
+- We observed a wide range of observed expression values for ERCC transcripts in both mixes. Remember that both mixes have ERCCs at low, medium, high levels (spread over 5-6 orders of magnitude).  But between the two mixes the ERCCs at each expected concentration are different.
 
