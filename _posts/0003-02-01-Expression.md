@@ -291,9 +291,8 @@ head(ercc_ref_counts_long)
 dim(ercc_ref_counts_long)
 
 #fit a linear model and calculate correlation between expected concentations and observed TPM values
-var_stab = 0.001
-ercc_ref_counts_long$log_count = log2(ercc_ref_counts_long$count + var_stab)
-ercc_ref_counts_long$log_concentration= log2(ercc_ref_counts_long$concentration + var_stab)
+ercc_ref_counts_long$log_count = log2(ercc_ref_counts_long$count + 1)
+ercc_ref_counts_long$log_concentration= log2(ercc_ref_counts_long$concentration + 0.001)
 
 count_model <- lm(log_count ~ log_concentration, data=ercc_ref_counts_long)
 count_r_squared = summary(count_model)[["r.squared"]]
@@ -304,7 +303,7 @@ p1 = p1 + geom_point(aes(shape=sample, color=sample))
 p1 = p1 + geom_smooth(method=lm) 
 p1 = p1 + annotate("text", 5, -3, label=paste("R^2 =", round(count_r_squared, digits=2), sep=" ")) 
 p1 = p1 + annotate("text", 5, -4, label=paste("Slope =", round(count_slope, digits=2), sep=" "))
-p1 = p1 + xlab("Log2 (expected concentration [amol/uL] + 0.001)") + ylab("Log2 (observed count + 0.001)")
+p1 = p1 + xlab("Log2 (expected concentration [amol/uL] + 0.001)") + ylab("Log2 (observed count + 1)")
 
 pdf("ERCC_Count_Expression_vs_SpikeInConcentration.pdf")
 print(p1)
@@ -337,9 +336,8 @@ head(ercc_ref_tpms_long)
 dim(ercc_ref_tpms_long)
 
 #fit a linear model and calculate correlation between expected concentations and observed TPM values
-var_stab = 0.001
-ercc_ref_tpms_long$log_tpm = log2(ercc_ref_tpms_long$tpm + var_stab)
-ercc_ref_tpms_long$log_concentration= log2(ercc_ref_tpms_long$concentration + var_stab)
+ercc_ref_tpms_long$log_tpm = log2(ercc_ref_tpms_long$tpm + 1)
+ercc_ref_tpms_long$log_concentration= log2(ercc_ref_tpms_long$concentration + 0.001)
 
 tpm_model <- lm(log_tpm ~ log_concentration, data=ercc_ref_tpms_long)
 tpm_r_squared = summary(tpm_model)[["r.squared"]]
@@ -350,7 +348,7 @@ p2 = p2 + geom_point(aes(shape=sample, color=sample))
 p2 = p2 + geom_smooth(method=lm) 
 p2 = p2 + annotate("text", 5, -3, label=paste("R^2 =", round(tpm_r_squared, digits=2), sep=" ")) 
 p2 = p2 + annotate("text", 5, -4, label=paste("Slope =", round(tpm_slope, digits=2), sep=" "))
-p2 = p2 + xlab("Log2 (expected concentration [amol/uL] + 0.001)") + ylab("Log2 (observed TPM estimate + 0.001)")
+p2 = p2 + xlab("Log2 (expected concentration [amol/uL] + 0.001)") + ylab("Log2 (observed TPM estimate + 1)")
 
 pdf("ERCC_TPM_Expression_vs_SpikeInConcentration.pdf")
 print(p2)
