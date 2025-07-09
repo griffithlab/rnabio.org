@@ -276,10 +276,7 @@ RUN useradd -ms /bin/bash ubuntu
 RUN usermod -aG sudo ubuntu
 
 # Add ubuntu user to docker group for host Docker access
-# Also add to staff group (20) for macOS Docker Desktop compatibility
-RUN usermod -aG docker ubuntu && \
-    groupadd -g 20 staff || true && \
-    usermod -aG staff ubuntu
+RUN usermod -aG docker ubuntu
 
 # Configure passwordless sudo for ubuntu user
 RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
