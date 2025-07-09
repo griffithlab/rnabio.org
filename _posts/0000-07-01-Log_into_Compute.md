@@ -165,17 +165,17 @@ docker pull griffithlab/rnaseq-toolkit:latest
 ```
 2. Setup a local workspace directory for the RNAseq course. If you change the path or command used here in Step 2, make sure to update the path to the workspace directory accordingly in Step 3.
 ```bash
-mkdir -p ~/rnabio-workspace
+mkdir -p /tmp/rnabio-workspace
 ```
 3. Initialize a Docker container using the image we pulled above. -v tells Docker to mount our workspace directory within the Docker container as /workspace. You'll see in the RNAseq course /workspace is the base directory for nearly all commands and steps. Note: we are running this docker container interactively, opening port 8080, and entering it at a bash shell prompt.
 ```bash
-docker run -it -p 8080:8080 -v ~/rnabio-workspace:/workspace griffithlab/rnaseq-toolkit:latest
+docker run -it -p 8080:8080 -v /tmp/rnabio-workspace:/workspace griffithlab/rnaseq-toolkit:latest
 ```
 
 Optionally, to enable Docker functionality within the container (for running other bioinformatics containers):
 ```bash
 # Mount the Docker socket to enable host Docker engine access
-docker run -it -p 8080:8080 -v ~/rnabio-workspace:/workspace -v /var/run/docker.sock:/var/run/docker.sock griffithlab/rnaseq-toolkit:latest
+docker run -it -p 8080:8080 -v /tmp/rnabio-workspace:/workspace -v /var/run/docker.sock:/var/run/docker.sock griffithlab/rnaseq-toolkit:latest
 ```
 
 The docker session should now be ready for the Unix tutorial and practical exercises.
