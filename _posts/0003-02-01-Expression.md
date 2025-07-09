@@ -276,13 +276,13 @@ ercc_ref_counts = merge(x = ercc_ref, y = rna_counts, by.x = "ercc_id", by.y = "
 #convert UHR data to "long" format
 uhr_data = ercc_ref_counts[,c("ercc_id","subgroup","ref_conc_mix_1","UHR_Rep1","UHR_Rep2","UHR_Rep3")]
 uhr_data_long = melt(setDT(uhr_data), id.vars = c("ercc_id","subgroup","ref_conc_mix_1"), variable.name = "sample")
-uhr_data_long$mix = 1
+uhr_data_long$mix = "mix 1"
 names(uhr_data_long) = c("ercc_id", "subgroup", "concentration", "sample", "count", "mix")
 
 #convert HBR data to "long" format
 hbr_data = ercc_ref_counts[,c("ercc_id","subgroup","ref_conc_mix_2","HBR_Rep1","HBR_Rep2","HBR_Rep3")]
 hbr_data_long = melt(setDT(hbr_data), id.vars = c("ercc_id","subgroup","ref_conc_mix_2"), variable.name = "sample")
-hbr_data_long$mix = 2
+hbr_data_long$mix = "mix 2"
 names(hbr_data_long) = c("ercc_id", "subgroup", "concentration", "sample", "count", "mix")
 
 #rejoin the UHR and HBR tpm data
@@ -325,13 +325,13 @@ dim(ercc_ref_tpms)
 #convert UHR data to "long" format
 uhr_data = ercc_ref_tpms[,c("ercc_id","subgroup","ref_conc_mix_1","UHR_Rep1","UHR_Rep2","UHR_Rep3")]
 uhr_data_long = melt(setDT(uhr_data), id.vars = c("ercc_id","subgroup","ref_conc_mix_1"), variable.name = "sample")
-uhr_data_long$mix = 1
+uhr_data_long$mix = "mix 1"
 names(uhr_data_long) = c("ercc_id", "subgroup", "concentration", "sample", "tpm", "mix")
 
 #convert HBR data to "long" format
 hbr_data = ercc_ref_tpms[,c("ercc_id","subgroup","ref_conc_mix_2","HBR_Rep1","HBR_Rep2","HBR_Rep3")]
 hbr_data_long = melt(setDT(hbr_data), id.vars = c("ercc_id","subgroup","ref_conc_mix_2"), variable.name = "sample")
-hbr_data_long$mix = 2
+hbr_data_long$mix = "mix 2"
 names(hbr_data_long) = c("ercc_id", "subgroup", "concentration", "sample", "tpm", "mix")
 
 #rejoin the UHR and HBR tpm data
