@@ -303,10 +303,10 @@ count_r_squared = summary(count_model)[["r.squared"]]
 count_slope = coef(count_model)["log_concentration"]
 
 p1 = ggplot(ercc_ref_counts_long, aes(x=log_concentration, y=log_count))
-p1 = p1 + geom_point(aes(shape=sample, color=sample))
+p1 = p1 + geom_point(aes(shape=mix, color=sample))
 p1 = p1 + geom_smooth(method=lm) 
-p1 = p1 + annotate("text", 5, -3, label=paste("R^2 =", round(count_r_squared, digits=2), sep=" ")) 
-p1 = p1 + annotate("text", 5, -4, label=paste("Slope =", round(count_slope, digits=2), sep=" "))
+p1 = p1 + annotate("text", 10, 5, label=paste("R^2 =", round(count_r_squared, digits=2), sep=" ")) 
+p1 = p1 + annotate("text", 10, 4, label=paste("Slope =", round(count_slope, digits=2), sep=" "))
 p1 = p1 + xlab("Log2 (expected concentration [amol/uL] + min non-zero value)") + ylab("Log2 (observed count + min non-zero value)")
 
 pdf("ERCC_Count_Expression_vs_SpikeInConcentration.pdf")
@@ -351,10 +351,10 @@ tpm_r_squared = summary(tpm_model)[["r.squared"]]
 tpm_slope = coef(tpm_model)["log_concentration"]
 
 p2 = ggplot(ercc_ref_tpms_long, aes(x=log_concentration, y=log_tpm))
-p2 = p2 + geom_point(aes(shape=sample, color=sample))
+p2 = p2 + geom_point(aes(shape=mix, color=sample))
 p2 = p2 + geom_smooth(method=lm) 
-p2 = p2 + annotate("text", 5, -3, label=paste("R^2 =", round(tpm_r_squared, digits=2), sep=" ")) 
-p2 = p2 + annotate("text", 5, -4, label=paste("Slope =", round(tpm_slope, digits=2), sep=" "))
+p2 = p2 + annotate("text", 10, 5, label=paste("R^2 =", round(tpm_r_squared, digits=2), sep=" ")) 
+p2 = p2 + annotate("text", 10, 4, label=paste("Slope =", round(tpm_slope, digits=2), sep=" "))
 p2 = p2 + xlab("Log2 (expected concentration [amol/uL] + min non-zero value)") + ylab("Log2 (observed TPM estimate + min non-zero value)")
 
 pdf("ERCC_TPM_Expression_vs_SpikeInConcentration.pdf")
