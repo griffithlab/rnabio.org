@@ -27,10 +27,18 @@ Knowing R is critical to this workshop. Using R installed on your computer, plea
 * [GenViz Intro R tutorial](https://genviz.org/module-02-r/0002/02/01/introductionToR/) (Note this tutorial is more advanced, especially the final exerxise, and not required)
 
 ### 3.) Reading materials
-Please read these articles before coming to the workshop:
+Please browse these articles, select a few that fill in knowledge gaps, and review before coming to the workshop:
 
-* RNA-seq data fundamentals. [RNA Sequencing: The Teenage Years](https://pubmed.ncbi.nlm.nih.gov/31341269/).
-* RNA-seq analysis and statistics fundamentals. [RNA Sequencing Data: Hitchhiker’s Guide to Expression Analysis](https://www.annualreviews.org/doi/pdf/10.1146/annurev-biodatasci-072018-021255).
+**Some recent reviews (2024-2025)**
+* Experimental design. [Technical considerations for planning an RNA-Sequencing experiment](https://doi.org/10.1186/s12864-025-12094-8).
+* Spatial transcriptomics. [Review of spatial transcriptomics data alignment and integration](https://doi.org/10.1093/nar/gkaf536).
+* Bioinformatics for transcriptomics. [Bioinformatics perspectives on transcriptomics: A comprehensive review of bulk and single-cell RNA sequencing analyses](https://doi.org/10.1002/qub2.78).
+* Single-cell + long reads. [Advances in single-cell long-read sequencing technologies](https://doi.org/10.1093/nargab/lqae047).
+* Deep learning. [Deep learning in single-cell and spatial transcriptomics data analysis: advances and challenges from a data science perspective](https://doi.org/10.1093/bib/bbaf136).
+
+**Some slightly older but excellent reviews (2019-2023)**
+* RNA-seq data fundamentals. [RNA Sequencing: The Teenage Years](https://doi.org/10.1038/s41576-019-0150-2).
+* RNA-seq analysis and statistics fundamentals. [RNA Sequencing Data: Hitchhiker’s Guide to Expression Analysis](https://doi.org/10.1093/bib/bbac529).
 * RNA-seq analysis for tumor immunity. [Tutorial: integrative computational analysis of bulk RNA-sequencing data to characterize tumor immunity using RIMA](https://doi.org/10.1038/s41596-023-00841-8).
 * scRNA-seq technologies and applications. [Single-cell RNA sequencing technologies and applications: A brief overview](https://doi.org/10.1002/ctm2.694).
 * DNA sequencing and variant calling overview [Novel sequencing technologies and bioinformatic tools for deciphering the non-coding genome](https://doi.org/10.1515/medgen-2021-2072).
