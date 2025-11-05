@@ -26,7 +26,12 @@ Knowing R is critical to this workshop. Using R installed on your computer, plea
 * [R Review & Assessment](https://nceas.github.io/oss-lessons/r-review-and-assessment/r-review-and-assessment.html)
 * [GenViz Intro R tutorial](https://genviz.org/module-02-r/0002/02/01/introductionToR/) (Note this tutorial is more advanced, especially the final exerxise, and not required)
 
-### 3.) Reading materials
+### 3.) Introduction to Python tutorial
+Starting to use the basics of Python is a fundamental bioinformatics skill and relevant to some specific sections of the course. There are many online resources such as:
+
+* [Kaggle Python](https://www.kaggle.com/learn/python) 
+
+### 4.) Reading materials
 Please browse these articles, select a few that fill in knowledge gaps, and review before coming to the workshop:
 
 **Some recent reviews (2024-2025)**
