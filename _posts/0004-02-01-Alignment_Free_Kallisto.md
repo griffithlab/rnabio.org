@@ -473,7 +473,7 @@ Once again we could visualize the overlap with a venn diagram. This can be done 
 ```bash
 cat ballgown_DE_gene_symbols.txt
 cat DESeq2_DE_gene_symbols.txt
-cat sleuth_genes_with_de_transcripts.tx
+cat sleuth_genes_with_de_transcripts.txt
 ```
 
 Alternatively you could view both lists in a web browser as you have done with other files. These three files should be here:
