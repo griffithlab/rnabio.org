@@ -43,8 +43,7 @@ Briefly the process for launching an EC2 instance for this course involves these
 6. Amazon Machine Image: Search for "cshl-seqtec-2025" in My AMIs and Select.
 7. Instance type: Select "m6a.xlarge" and then "Next".
 8. Key pair (login): Choose an existing key pair (e.g., cshl_2025_student) or create a new one and store it somewhere safe.
-9. Network settings: Choose existing security group called "SSH/HTTP/Jupyter/Rstudio - with outbound rule
-" (or create one with SSH and HTTP access).
+9. Network settings: Choose existing security group called "SSH/HTTP/Jupyter/Rstudio - with outbound rule" (or create one with SSH and HTTP access).
 10. Configure storage: Make sure that you see two volumes.
 11. Advanced details: Select "Termination Protection: Enable".
 12. Summary: Review and then Launch instance.
