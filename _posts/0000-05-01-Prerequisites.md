@@ -37,6 +37,7 @@ Please browse these articles, select a few that fill in knowledge gaps, and revi
 **Some recent reviews (2024-2025)**
 * Experimental design. [Technical considerations for planning an RNA-Sequencing experiment](https://doi.org/10.1186/s12864-025-12094-8).
 * Spatial transcriptomics. [Review of spatial transcriptomics data alignment and integration](https://doi.org/10.1093/nar/gkaf536).
+* Long reads. [Review of transcriptomics in the era of long-read sequencing](https://doi.org/10.1038/s41576-025-00828-z)
 * Bioinformatics for transcriptomics. [Bioinformatics perspectives on transcriptomics: A comprehensive review of bulk and single-cell RNA sequencing analyses](https://doi.org/10.1002/qub2.78).
 * Single-cell + long reads. [Advances in single-cell long-read sequencing technologies](https://doi.org/10.1093/nargab/lqae047).
 * Deep learning. [Deep learning in single-cell and spatial transcriptomics data analysis: advances and challenges from a data science perspective](https://doi.org/10.1093/bib/bbaf136).
