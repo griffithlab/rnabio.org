@@ -17,6 +17,7 @@ This session will cover the basics of R programming, from setting up your enviro
 -   Become comfortable navigating your filesystem and environment from the R console
 -   Understanding, reading, and manipulating data structures
 -   Change or summarize datasets for basic analysis
+-   Introduce data visualization in RStudio
 
 ------------------------------------------------------------------------
 
@@ -53,8 +54,8 @@ R
 The terminal should print out the following information:
 
 ``` bash
-R version 4.4.2 (2024-10-31) -- "Pile of Leaves"
-Copyright (C) 2024 The R Foundation for Statistical Computing
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -132,14 +133,16 @@ list.files(path = "..")
 list.files(pattern = ".tsv")
 ```
 
+*Note:* You can interrupt/kill a running R command using Ctrl-C.
+
 ------------------------------------------------------------------------
 
 ## Variables and the environment
 
-In python, `=` assigns the value on the right to the name of the variable on the left In R, `<-` or `=` can be used to assign a value on the right to the name of the variable on the left
+In R, `<-` or `=` can be used to assign a value on the right to the name of the variable on the left. In python, only `=` can be used to assign the value on the right to the name of the variable on the left.
 
 ``` r
-age <- 32
+age <- 29
 first_name <- 'Katie'
 ```
 
@@ -148,38 +151,39 @@ first_name <- 'Katie'
 `print()` can be used to show a value, but you can also just type the variable name.
 
 ``` r
+29
+print(29)
 print(age)
 age
 print(first_name)
 first_name
 ```
 
-The value 32 is shown without quotes, while "Katie" is shown with quotes, since 32 is an **integer** (or **double**) and "Katie" is a **character** string. One other **variable type** is a **logical** (TRUE or FALSE value). Variable types can be determined using the commands `typeof()`.
+The value 29 is shown without quotes, while "Katie" is shown with quotes, since 29 is an **integer** (or **double**) and "Katie" is a **character** string. One other **variable type** is a **logical** (TRUE or FALSE value). Variable types can be determined using the commands `typeof()`.
 
 ``` r
 typeof(age)
-typeof(32)
-
+typeof(29)
 typeof(first_name)
-
 typeof(TRUE)
 ```
 
-Note that if we want to print out multiple variables, we can't simply list them in `print()` the way that we did in python.
+What if we want to use `print()` to concatenate multiple variables or character strings into a statement?
 
 ``` r
 print(first_name, "is", age, "years old")
 ```
 
-Instead, we can use `paste()` function to combine this statement:
+This doesn't work. Instead, we can use `paste()` function to combine this statement:
 
 ``` r
 print(paste(first_name, "is", age, "years old"))
 ```
 
-`paste()` will concatenate the values, separating them by spaces. *Try this:* What happens if you use the `paste0()` function instead?
+`paste()` will concatenate the values, separating them by spaces. 
+*Try this:* What happens if you use the `paste0()` function instead?
 
-As in python, variables must be created before they are used.
+We can only use variables that have been created: 
 
 ``` r
 print(last_name)
@@ -277,7 +281,16 @@ Notice that all of the values print out with quotation marks, and `str()` shows 
 
 ### Lists
 
-Lists are unique from vectors
+Lists are unique from vectors. Unlike vectors, lists are designed to store different types of elements (or even different data structures) within a single object. A list is created using the `list()` function and can contain a numeric vector, a character string, a data frame, another list, or any object type.
+
+```r
+my_list <- list(data.frame(name = names, grade = sample(LETTERS[1:3], 10, replace = TRUE), subject = c(rep("Math", 5), rep("Science", 5))),
+  1:10,
+  "Katie")
+my_list
+str(my_list)
+```
+
 
 ### Matrices
 
@@ -370,6 +383,7 @@ df
 In `tidyverse`, you can use the `mutate()` column to do the same thing. You just have to overwrite the variable each time:
 
 ```r
+library(tidyverse)
 mutate(df, new_column = "my new column")
 df
 
@@ -384,7 +398,7 @@ mutate(df, new_column = "change it again", new_name = toupper(name))
 
 ## Indexing
 
-Unlike python, R uses one-based indexing. So the index of the first element is 1, not 0.
+R uses one-based indexing. So the index of the first element is 1, not 0. This is different than command-line and python, which are 0-based (where the first element is 0).
 
 ### Indexing one dimensional objects: Vectors, lists
 
@@ -399,6 +413,7 @@ df$name[3]
 This is also how we overwrite these values:
 
 ``` r
+df
 df$name[3] <- "Frederick"
 df
 ```
@@ -409,7 +424,7 @@ colnames(df)[2] <- "age_in_years"
 colnames(df)
 ```
 
-Lists are sometimes named or can be more complex, since not every element of the list has to be the same structure or type. This is where double brackets may come into play:
+List elements may be called using double brackets or by naming them, which can be helpful for organizing their structures:
 
 ``` r
 complicated_list <- list("first" = c(1,2,3,4), "second" = df, "third" = 1087.29)
@@ -523,7 +538,7 @@ print(guanine_count)
 
 ## Logical operations
 
-Data analysis will require filtering data types using comparison operators:
+Data analysis will require filtering data types using comparison operators to return TRUE and FALSE as a vector:
 
 -   `==` checks to see whether two values are equivalent. A common error is to only use one `=`, which is used to set variables in functions.
 -   `!=` checks if two values are not equivalent
@@ -824,7 +839,9 @@ anti_merged <- anti_join(df1, df2, by = "ID")
 Now let's merge our `data_long` with `metadata` so that our gene expression data also contains our sample annotation.
 
 ```r
-left_join(data_long, metadata)
+data_long <- gather(data, key = sample.id, value = cpm, -gene.hgnc.symbol)
+merged_data <- left_join(data_long, metadata)
+head(merged_data)
 
 ```
 
@@ -833,6 +850,8 @@ left_join(data_long, metadata)
 ## Chaining commands, groupby(), and summarise()
 
 So far, we've used individual commands to accomplish several tasks, but sometimes we want to do multiple things in one line of code. The `%>%` is called a pipe and is used to chain commands together.
+
+Piping will take the output from the prior step and use it as the first argument of the next step.
 
 ```r
 df
@@ -971,7 +990,7 @@ Try these exercises, using the `metadata` and `data_long` objects that you read 
 
 ## Save R objects for future use
 
-Throughout the course, we will complete one stage of analysis and save objects from the environment to individual files for future use. If you want to export all objects in the environment, you can use `save.image("path/to/file.RData")`. Alternatively, individual files are stored and then loaded later using the following commands:
+If you want to export all objects in the environment, you can use `save.image("path/to/file.RData")`. Alternatively, individual files are stored and then loaded later using the following commands:
 
 ``` r
 save(data, file = "testdata.RData")
@@ -1002,6 +1021,266 @@ Answering "no" will not save your current environment, and you will need to reru
 
 ------------------------------------------------------------------------
 
+## Introduction to data visualization using ggplot2
+
+The core idea behind `ggplot2` is the concept of a "grammar of graphics". This concept provides a systematic way to describe and build graphical presentations such as charts and plots. The grammar itself is a set of independent components that can be composed in many different ways. You can explore all of these possibilities [here](https://r-graph-gallery.com/ggplot2-package.html). This grammar includes elements like:
+
+ - Data: The raw data that you want to visualize.
+ - Aesthetics (`aes`): Defines how data are mapped to color, size, shape, and other visual properties.
+ - Geometries (`geom`): The geometric objects in a plot—lines, points, bars, etc.
+ - Scales: Transformations applied to data before it is visualized, including scales for colors, sizes, and shapes.
+ - Coordinate systems: The space in which data is plotted.
+ - Facets: Used for creating plots with multiple panels (small multiple plots).
+ - Statistical transformations (stat): Summary statistics that can be applied to data before it is visualized, such as counting or averaging.
+ - Themes: Visual styles and layout configurations for the plot.
+
+
+Here’s how you generally use ggplot2 to create a plot:
+
+ - Start with `ggplot()`: Set up the data and, optionally, define default mappings between variables and their aesthetics.
+ - Add layers: Add layers to the plot using geom_ functions, such as `geom_point()` for scatter plots, `geom_line()` for line graphs, and so on.  
+ - Adjust the scales: Customize the scales used for aesthetics such as color, size, and x-y coordinates.
+ - Modify the coordinate system: Choose a coordinate system.
+ - Add facets: If necessary, add facets to create a multi-panel plot.
+ - Apply a theme: Customize the appearance of the plot using themes.
+
+```r
+library(ggplot2)
+
+# Sample data
+df <- data.frame(
+  x = rnorm(100),
+  y = rnorm(100),
+  group = factor(rep(1:2, each = 50))
+)
+
+# Creating a scatter plot
+ggplot(df, aes(x = x, y = y, color = group)) + 
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Scatter Plot Example", x = "X Axis", y = "Y Axis")
+```
+
+## Histogram
+
+Let's simulate some TCR clonotype data. We will create a dataset where each TCR has a randomly generated number of cells associated with it, representing the clone size. After generating the data, we'll use the `hist()` function from base R to plot a histogram of the clone sizes.
+
+```r
+library(dplyr)
+
+# Step 1: Simulate data
+set.seed(123)  # Set seed for reproducibility
+num_clonotypes <- 100  # Specify the number of different clonotypes
+
+# Create a data frame with random cell counts for each clonotype
+tcr_data <- tibble(
+  clonotype = paste("TCR", seq_len(num_clonotypes), sep=""),
+  cell_count = sample(1:1000, num_clonotypes, replace=TRUE)  # Random cell counts between 1 and 1000
+)
+
+# Step 2: Create a histogram of clone sizes
+hist(tcr_data$cell_count, 
+     breaks=20,  # You can adjust the number of breaks to change bin sizes
+     col="skyblue", 
+     main="Histogram of TCR Clone Sizes", 
+     xlab="Clone Size (Number of Cells)", 
+     ylab="Frequency")
+```
+
+The same task can be performed using ``ggplot2``:
+
+```r
+# Step 1: Simulate data
+set.seed(123)  # Set seed for reproducibility
+num_clonotypes <- 100  # Specify the number of different clonotypes
+
+# Create a data frame with random cell counts for each clonotype
+tcr_data <- tibble(
+  clonotype = paste("TCR", seq_len(num_clonotypes), sep=""),
+  cell_count = sample(1:1000, num_clonotypes, replace=TRUE)  # Random cell counts between 1 and 1000
+)
+
+# Step 2: Create a histogram using ggplot2
+ggplot(tcr_data, aes(x = cell_count)) + 
+  geom_histogram(bins = 20, fill = "skyblue", color = "black") + 
+  theme_minimal() + 
+  labs(
+    title = "Histogram of TCR Clone Sizes",
+    x = "Clone Size (Number of Cells)",
+    y = "Frequency"
+  ) + 
+  theme(
+    plot.title = element_text(hjust = 0.5)  # Center the plot title
+  )
+```
+
+## Boxplot
+
+Here is simulated gene expression data for key CD8 T cell genes.
+
+```r
+library(tidyr)
+
+# Define genes and number of cells
+genes <- c("GZMB", "GZMA", "GNLY", "PRF1", "TOX", "ENTPD1", "LAG3", "HAVCR2", "TIGIT", "CXCL13", "IL7R", "SELL", "LEF1", "TCF7")
+num_cells <- 20
+
+# Parameters for negative binomial
+size <- 2  # Dispersion parameter
+mu_pre <- 20  # Mean for pre-treatment
+mu_post <- 30  # Mean for post-treatment
+
+# Simulate gene expression data
+set.seed(42)
+pre_treatment <- sapply(rep(mu_pre, length(genes)), function(mu) rnbinom(num_cells, size, mu = mu))
+post_treatment <- sapply(rep(mu_post, length(genes)), function(mu) rnbinom(num_cells, size, mu = mu))
+
+# Ensure data frames have proper column names
+colnames(pre_treatment) <- genes
+colnames(post_treatment) <- genes
+
+# Format as data frame
+pre_data <- as_tibble(pre_treatment) %>% 
+  mutate(Treatment = "Pre") %>% 
+  pivot_longer(cols = -Treatment, names_to = "Gene", values_to = "Expression")
+
+post_data <- as_tibble(post_treatment) %>% 
+  mutate(Treatment = "Post") %>% 
+  pivot_longer(cols = -Treatment, names_to = "Gene", values_to = "Expression")
+
+# Combine the datasets
+combined_data <- bind_rows(pre_data, post_data)
+
+# Printing to see the combined data (optional)
+print(combined_data)
+```
+
+Now let's use this data to build a boxplot of TOX expression pre and post treatment.
+
+```r
+# Filter data for the TOX gene
+tox_data <- combined_data %>% 
+  filter(Gene == "TOX")
+
+# Plot
+ggplot(tox_data, aes(x=Treatment, y=Expression, fill=Treatment)) +
+  geom_boxplot() +
+  labs(title="Expression of TOX pre and post treatment", x="Treatment Condition", y="Expression Level") +
+  theme_minimal() +
+  scale_fill_brewer(palette="Pastel1")  # Enhance aesthetics with color
+```
+
+## Violin plot
+
+Same thing a violin plot.
+
+```r
+# Filter data for the TOX gene
+tox_data <- combined_data %>% 
+  filter(Gene == "TOX")
+
+# Create the violin plot
+ggplot(tox_data, aes(x=Treatment, y=Expression, fill=Treatment)) +
+  geom_violin(trim=FALSE) +  # Trim set to FALSE to show the full range of data
+  labs(title="Expression of TOX pre and post treatment", x="Treatment Condition", y="Expression Level") +
+  theme_minimal() +
+  scale_fill_brewer(palette="Pastel1") +
+  geom_boxplot(width=0.1, fill="white")  # Overlay boxplot to show median and quartiles
+```
+
+# Statistics
+
+## t-Test
+A t-test could be used to compare the means of two groups, for example, the level of a specific immune marker in patients with and without a certain mutation.
+
+```r
+# Randomly generated sample data: Immune marker levels in two patient groups
+group1 <- rnorm(30, mean = 5, sd = 1.5) # Patients with a mutation
+group2 <- rnorm(30, mean = 4.5, sd = 1.2) # Patients without the mutation
+
+# Perform a t-test
+test <- t.test(group1, group2)
+
+# Print the result
+print(test)
+```
+
+## Fisher's Exact Test
+
+Assume you've identified a TCR clonotype and quantified the number of cells expressing this clonotype at two timepoints:
+
+ - Timepoint 1 (Pre-treatment): `X` number of cells
+ - Timepoint 2 (Post-treatment): `Y` number of cells
+
+You also need the total number of cells sequenced at each timepoint to complete the contingency table for the Fisher's Exact Test. Let's say:
+
+ - Total cells at Timepoint 1: `N_pre`
+ - Total cells at Timepoint 2: `N_post`
+
+ ```R
+ X <- 20
+ Y <- 300
+ 
+ N_pre <- 2450
+ N_post <- 3001
+ 
+# Number of cells with the specific clonotype at each timepoint
+cells_with_clone <- c(X, Y)  
+
+# Number of cells without the clonotype (total cells minus cells with the clonotype)
+cells_without_clone <- c(N_pre - X, N_post - Y)
+
+# Create the contingency table
+data <- matrix(c(cells_with_clone, cells_without_clone), ncol = 2,
+               dimnames = list(c("With Clone", "Without Clone"),
+                               c("Pre-Treatment", "Post-Treatment")))
+
+# Perform Fisher's Exact Test
+test <- fisher.test(data)
+
+# Print the result
+print(test)
+ ```
+
+ - The matrix data has two rows ("With Clone" and "Without Clone") and two columns ("Pre-Treatment" and "Post-Treatment").
+This matrix is filled with the counts of cells with and without the specific TCR clonotype at each timepoint.
+ - `fisher.test(data)` calculates whether the proportions of cells with the clonotype are significantly different between the two timepoints.
+ - The output includes a p-value which indicates the probability that any observed difference in proportions occurred by chance.
+
+
+# Additional Exercises
+
+```r
+# Load the iris dataset (saved as iris in base R)
+iris <- iris
+
+```r
+# Create a scatter plot of sepal length vs sepal width colored by species where the point size is determined from petal length.
+# HINT: Look at size arguments for aes. 
+
+# Add a legend to your scatter plot for the size of the points.
+# HINT: Look into the guides function and use guide_legend().
+
+# Create a histogram of the petal length by species with 20 bins and add transparency to the plot.
+# HINT: Look into the arguments for geom_hist
+
+# Create a density plot of the petal length colored by species.
+# HINT: Look up geom_density.
+
+# Combine the density and histogram plots
+# HINT: The histogram needs to be normalized to the density plot, look into "..density..".
+
+# Perform a t-test on sepal length between the species setosa and versicolor
+# HINT: Pull out the necessary values using subset
+
+# Perform linear regession on the sepal length vs petal length and summarize the results. 
+# HINT: Look into the lm function
+
+# Plot the regression line over a scatter plot of sepal vs petal length. 
+# HINT: Look into the geom_smooth
+```
+
+------------------------------------------------------------------------
 ## Additional Resources
 
 -   [R Documentation](https://www.rdocumentation.org/)
