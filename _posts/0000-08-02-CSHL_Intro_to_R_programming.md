@@ -27,9 +27,12 @@ R is a powerful programming language and software environment used for statistic
 
 ### Prerequisite: Files for today's session
 
-Today's session will utilize two input files, which we will use for practice. These can be downloaded into your instance with the following commands:
+Today's session will utilize two input files, which we will use for practice. Start by creating a directory for the R session on your instance and download the files with the following commands:
 
 ``` bash
+mkdir -p ~/workspace/intro_to_R
+cd ~/workspace/intro_to_R
+
 curl https://raw.githubusercontent.com/ParkerICI/MORRISON-1-public/refs/heads/main/RNASeq/RNA-CancerCell-MORRISON1-metadata.tsv > intro_r_metadata.tsv
 curl https://raw.githubusercontent.com/ParkerICI/MORRISON-1-public/refs/heads/main/RNASeq/data/RNA-CancerCell-MORRISON1-combat_batch_corrected-logcpm-all_samples.tsv.zip > intro_r_dataset.tsv.zip
 ```
@@ -99,7 +102,7 @@ If you are interested in moving to a different directory (for example, where you
 # setwd("/new/path/")
 ```
 
-You can replace `"/new/path"` with your desired path. Note that directory paths are subtly different between Mac and Windows.
+You can replace `"/new/path"` with your desired path (eg: `"~/workspace/intro_to_R"`). Note that directory paths are subtly different between Mac and Windows.
 
 ### Packages
 
