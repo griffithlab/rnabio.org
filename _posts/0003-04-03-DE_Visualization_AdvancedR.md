@@ -33,10 +33,10 @@ Expression and differential expression files will be read into R. The R analysis
 Start RStudio, or launch a posit Cloud session, or if you are using AWS, navigate to the correct directory and then launch R:
 
 ```bash
-#mkdir $RNA_HOME/de/visualization_advanced
-#cd $RNA_HOME/de/visualization_advanced
+mkdir $RNA_HOME/de/visualization_advanced
+cd $RNA_HOME/de/visualization_advanced
 
-#R
+R
 ```
 
 First you'll load your libraries and your data.
@@ -49,28 +49,28 @@ library(GenomicRanges)
 library(ggrepel)
 
 #Set a base working directory
-setwd("/cloud/project/")
+setwd("/home/ubuntu/workspace/rnaseq/de/visualization_advanced/")
 
-#Import expression results (TPM values) from the HISAT2/Stringtie pipeline (http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_tpm_all_samples.tsv)
-#gene_expression = read.table("~/workspace/rnaseq/expression/stringtie/ref_only/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
-gene_expression = read.table("data/bulk_rna/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
+#Import expression results (TPM values) from the HISAT2/Stringtie pipeline (https://genomedata.org/cri-workshop/gene_tpm_all_samples.tsv)
+gene_expression = read.table("~/workspace/rnaseq/expression/stringtie/ref_only/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
+#gene_expression = read.table("data/bulk_rna/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
 
-#Import gene name mapping file (http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/ENSG_ID2Name.txt)
-#gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = TRUE, stringsAsFactors = FALSE)
-gene_names=read.table("data/bulk_rna/ENSG_ID2Name.txt", header = TRUE, stringsAsFactors = FALSE)
+#Import gene name mapping file (https://genomedata.org/cri-workshop/ENSG_ID2Name.txt)
+gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = TRUE, stringsAsFactors = FALSE)
+#gene_names=read.table("data/bulk_rna/ENSG_ID2Name.txt", header = TRUE, stringsAsFactors = FALSE)
 
 colnames(gene_names) = c("gene_id", "gene_name")
 
 #Import DE results from the HISAT2/htseq-count/DESeq2 pipeline (http://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
-#results_genes = read.table("~/workspace/rnaseq/de/deseq2/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
-results_genes = read.table("outdir/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+results_genes = read.table("~/workspace/rnaseq/de/deseq2/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+#results_genes = read.table("outdir/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
 #Set a directory for the output to go to
-output_dir = "/cloud/project/outdir/visualization_advanced/"
-if (!dir.exists(output_dir)) {
-  dir.create(output_dir, recursive = TRUE)
-}
-setwd(output_dir)
+# output_dir = "/cloud/project/outdir/visualization_advanced/"
+# if (!dir.exists(output_dir)) {
+#   dir.create(output_dir, recursive = TRUE)
+# }
+# setwd(output_dir)
 
 ```
 
@@ -152,10 +152,10 @@ dev.off()
 plotCor = function(lib1, lib2, name){
 	x = gene_expression[, lib1]
 	y = gene_expression[, lib2]
-	zero_count = length(which(x == 0)) + length(which(y == 0))
 	colors = colorRampPalette(c("white", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
 	smoothScatter(x = log2(x + min_nonzero), y = log2(y + min_nonzero), xlab = lib1, ylab = lib2, main = name, colramp = colors, nbin = 275)
 	abline(a = 0, b = 1)
+        zero_count = length(which(x == 0)) + length(which(y == 0))
 	rs = cor(x, y, method = "pearson")^2
 	legend_text = c(paste("R squared = ", round(rs, digits = 3), sep=""), paste("Zero count = ", zero_count, sep = ""))
 	legend("topleft", legend_text, lwd = c(1, NA), col = "black", bg = "white", cex = 0.8)
@@ -207,7 +207,7 @@ sig = which(results_genes$pvalue < 0.05)
 hist(results_genes[sig, "log2FoldChange"], breaks = 50, col = "seagreen", xlab = "log2(Fold change) UHR vs HBR", main = "Distribution of differential expression values")
 abline(v = -2, col = "black", lwd = 2, lty = 2)
 abline(v = 2, col = "black", lwd = 2, lty = 2)
-legend("topleft", "Fold-change > 4", lwd = 2, lty = 2)
+legend("topleft", "Fold-change > 2", lwd = 2, lty = 2)
 dev.off()
 
 #### Plot #7 - Display the mean expression values from UHR and HBR and mark those that are significantly differentially expressed
@@ -282,7 +282,7 @@ ggplot(data = results_genes[results_genes$diffexpressed != "No",], aes(x = log2F
 dev.off()
 
 #To exit R type:
-#quit(save = "no")
+quit(save = "no")
 
 ```
 

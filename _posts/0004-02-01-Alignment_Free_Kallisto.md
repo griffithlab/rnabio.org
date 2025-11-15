@@ -11,8 +11,8 @@ date: 0004-02-01
 
 ### Kallisto mini lecture
 
-If you would like a refresher on Kallisto, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2024/mini/RNASeq_MiniLecture_04_01_AlignmentFreeKallisto.pdf) briefly covering the topic.
-We have also made a mini lecture  describing the differences between [alignment, assembly, and pseudoalignment](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2024/mini/RNASeq_MiniLecture_02_02_Alignment_vs_Assembly_vs_Kmer.pdf).
+If you would like a refresher on Kallisto, we have made a [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2025/mini/RNASeq_MiniLecture_04_01_AlignmentFreeKallisto.pdf) briefly covering the topic.
+We have also made a mini lecture  describing the differences between [alignment, assembly, and pseudoalignment](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2025/mini/RNASeq_MiniLecture_02_02_Alignment_vs_Assembly_vs_Kmer.pdf).
 
 
 ***
@@ -392,9 +392,7 @@ Execute the following command in R
 
 ```bash
 #load sleuth library
-suppressMessages({
   library("sleuth")
-})
 
 #load id mapping file
 ids = read.table('~/workspace/rnaseq/refs/genename_gid_tid.tsv', sep="\t", header=FALSE, as.is=1)
@@ -474,15 +472,14 @@ Once again we could visualize the overlap with a venn diagram. This can be done 
 
 ```bash
 cat ballgown_DE_gene_symbols.txt
-cat htseq_counts_edgeR_DE_gene_symbols.txt
+cat DESeq2_DE_gene_symbols.txt
 cat sleuth_genes_with_de_transcripts.txt
-
 ```
 
 Alternatively you could view both lists in a web browser as you have done with other files. These three files should be here:
 
 http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
-http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/htseq_counts_edgeR_DE_gene_symbols.txt
+http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/DESeq2_DE_gene_symbols.txt
 http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/sleuth_genes_with_de_transcripts.txt
 
 If this works you should see an overlap that looks something like this:

@@ -302,7 +302,7 @@ results_genes = merge(results_genes, bg_gene_names, by.x=c("id"), by.y=c("gene_i
 write.table(results_genes, "HCC1395_Tumor_vs_Normal_gene_results.tsv", sep="\t", quote=FALSE, row.names = FALSE)
 
 # Filter low-abundance genes. Here we remove all transcripts with a variance across the samples of less than one
-bg_filt = subset (bg,"rowVars(texpr(bg)) > 1", genomesubset=TRUE)
+bg_filt = subset (bg,"SparseArray::rowVars(texpr(bg)) > 1", genomesubset=TRUE)
 
 # Load all attributes including gene name
 bg_filt_table = texpr(bg_filt , 'all')

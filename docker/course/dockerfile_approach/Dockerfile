@@ -1,79 +1,346 @@
-FROM jupyter/datascience-notebook:python-3.9.13
+# Use Ubuntu 22.04 as the base image for x86 architecture
+# Using a specific version of ubuntu is better for reproducibility
+FROM --platform=linux/amd64 ubuntu:22.04 AS builder
 
-USER root
-RUN apt-get update && apt-get upgrade -y && apt-get install -y zlib1g zlib1g-dev libncurses-dev liblzma-dev libbz2-dev libcurl4-openssl-dev && apt-get clean
-USER jovyan
+# Set environment variables to avoid interactive prompts during installations
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/New_York
 
-#################Install RNA-Seq packages#################
-### Install kallisto
-RUN wget https://github.com/pachterlab/kallisto/releases/download/v0.44.0/kallisto_linux-v0.44.0.tar.gz
-RUN tar -zxvf kallisto_linux-v0.44.0.tar.gz && rm kallisto_linux-v0.44.0.tar.gz
-ENV PATH "${PATH}:/home/jovyan/kallisto_linux-v0.44.0"
+# Create a working directory
+WORKDIR /opt/tools
 
-### Install fastp
-RUN conda config --add channels defaults
-RUN conda config --add channels bioconda
-RUN conda config --add channels conda-forge
-RUN conda config --set channel_priority strict
-RUN mamba install -y fastp
+# Install build dependencies
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        git \
+        wget \
+        curl \
+        zlib1g-dev \
+        libbz2-dev \
+        liblzma-dev \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        libncurses5-dev \
+        libncursesw5-dev \
+        autoconf \
+        automake \
+        libtool \
+        pkg-config \
+        libisal-dev \
+        libdeflate-dev \
+        libgsl-dev \
+        meson \
+        libjsoncpp-dev \
+        libpcre2-dev \
+        && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Install bam-readcount
+RUN git config --global http.sslVerify false && \
+    git clone https://github.com/genome/bam-readcount && \
+    cd bam-readcount && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make && \
+    cp bin/bam-readcount /usr/local/bin/
 
-### Install fastqc
-RUN wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.12.1.zip
-RUN unzip fastqc_v0.12.1.zip && rm fastqc_v0.12.1.zip
-RUN chmod 755 FastQC/fastqc
-ENV PATH "${PATH}:/home/jovyan/FastQC"
+# Install StringTie
+RUN wget --no-check-certificate http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.2.1.tar.gz && \
+    tar -xzvf stringtie-2.2.1.tar.gz && \
+    cd stringtie-2.2.1 && \
+    make release -j$(nproc) && \
+    cp stringtie /usr/local/bin/
 
-### Install java
-RUN wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.tar.gz
+# Install Regtools
+RUN git config --global http.sslVerify false && \
+    git clone https://github.com/griffithlab/regtools && \
+    cd regtools/ && \
+    mkdir build && \
+    cd build/ && \
+    cmake .. && \
+    make -j$(nproc) && \
+    cp regtools /usr/local/bin/
 
-RUN tar -xzf jdk-21_linux-x64_bin.tar.gz && \
-    rm -rf jdk-21_linux-x64_bin.tar.gz
+# Install samtools 1.18 from source
+RUN wget --no-check-certificate https://github.com/samtools/samtools/releases/download/1.18/samtools-1.18.tar.bz2 && \
+    tar -xjf samtools-1.18.tar.bz2 && \
+    cd samtools-1.18 && \
+    ./configure --prefix=/usr/local && \
+    make && \
+    make install
 
-ENV PATH "${PATH}:/home/jovyan/jdk-21.0.1/bin"
+# Install fastp 1.0.1 from source
+RUN wget --no-check-certificate https://github.com/OpenGene/fastp/archive/refs/tags/v1.0.1.tar.gz && \
+    tar -xzf v1.0.1.tar.gz && \
+    cd fastp-1.0.1 && \
+    make && \
+    make install PREFIX=/usr/local
 
-### Install STAR 
-RUN wget https://github.com/alexdobin/STAR/archive/2.7.11a.tar.gz
-RUN tar -xzf 2.7.11a.tar.gz && rm 2.7.11a.tar.gz
-RUN cd STAR-2.7.11a/source && make STAR
-ENV PATH "${PATH}:/home/jovyan/STAR-2.7.11a/source"
+# Start a new, clean stage for the final image
+FROM --platform=linux/amd64 ubuntu:22.04
 
-### Install Hisat
-RUN curl -s https://cloud.biohpc.swmed.edu/index.php/s/oTtGWbWjaxsQ2Ho/download > hisat2-2.2.1-Linux_x86_64.zip
-RUN unzip hisat2-2.2.1-Linux_x86_64.zip && rm hisat2-2.2.1-Linux_x86_64.zip
-ENV PATH "${PATH}:/home/jovyan/hisat2-2.2.1"
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/New_York
+ENV PICARD=/home/ubuntu/bin/picard.jar
+ENV PATH="/usr/local/bin:/usr/local/FastQC:${PATH}"
 
-### Install stringtie
-RUN wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.2.1.tar.gz
-RUN tar -xzvf stringtie-2.2.1.tar.gz && rm stringtie-2.2.1.tar.gz
-RUN cd stringtie-2.2.1 && make release
-ENV PATH "${PATH}:/home/jovyan/stringtie-2.2.1"
+# Create working directories
+WORKDIR /opt/tools
 
-### Install samtools
-RUN wget https://github.com/samtools/samtools/releases/download/1.18/samtools-1.18.tar.bz2
-RUN bunzip2 samtools-1.18.tar.bz2 && tar -xvf samtools-1.18.tar && rm samtools-1.18.tar
-RUN cd samtools-1.18 && make
-ENV PATH "${PATH}:/home/jovyan/samtools-1.18"
-ENV SAMTOOLS_ROOT "/home/jovyan/samtools-1.18"
+# Copy compiled tools from the builder stage
+COPY --from=builder /usr/local/bin/bam-readcount /usr/local/bin/
+COPY --from=builder /usr/local/bin/stringtie /usr/local/bin/
+COPY --from=builder /usr/local/bin/regtools /usr/local/bin/
+COPY --from=builder /usr/local/bin/samtools /usr/local/bin/
+COPY --from=builder /usr/local/bin/fastp /usr/local/bin/
 
-################Install python packages###################
+# Install runtime dependencies
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        python3-numpy \
+        python3-dev \
+        python3-pip \
+        python-is-python3 \
+        default-jdk \
+        libx11-dev \
+        libxt-dev \
+        xorg-dev \
+        apache2 \
+        csh \
+        ruby-full \
+        gnuplot \
+        cpanminus \
+        apt-transport-https \
+        software-properties-common \
+        libharfbuzz-dev \
+        libfribidi-dev \
+        libfreetype6-dev \
+        libpng-dev \
+        libtiff5-dev \
+        libjpeg-dev \
+        libdbi-perl \
+        libdbd-mysql-perl \
+        flexbar \
+        docker.io \
+        wget \
+        curl \
+        unzip \
+        bzip2 \
+        git \
+        make \
+        gcc \
+        g++ \
+        libxml2-dev \
+        libblas-dev \
+        liblapack-dev \
+        libbz2-dev \
+        gfortran \
+        sudo \
+        cmake \
+        libisal2 \
+        libdeflate0 \
+        libncurses5-dev \
+        libncursesw5-dev \
+        less \
+        vim \
+        bsdextrautils \
+        man-db && \
+    ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pip install seaborn matplotlib numpy pandas openpyxl multiqc RSeQC HTSeq
-RUN pip install git+https://github.com/kcotto/how_are_we_stranded_here.git
-ENV PYTHONPATH "${PYTHONPATH}:/home/jovyan"
+# Unminimize the system to restore man pages and other documentation
+RUN yes | unminimize
 
-#################Install R packages#######################
-RUN R -e "install.packages(c('devtools','dplyr','gplots','ggplot2','sctransform','RColorBrewer','ggthemes','cowplot','data.table','Rtsne','gridExtra','UpSetR', 'Seurat'), dependencies=TRUE, repos='http://cran.rstudio.com/')"
-RUN R -e 'BiocManager::install(ask = F)' && R -e 'BiocManager::install(c("DESeq2","genefilter","ballgown","edgeR","GenomicRanges","rhdf5","biomaRt","scran","sva","gage","org.Hs.eg.db", ask = F))'
-RUN R -e 'devtools::install_github("pachterlab/sleuth")'
+# Install pre-compiled binaries
+# Install HISAT2
+RUN curl -s https://cloud.biohpc.swmed.edu/index.php/s/oTtGWbWjaxsQ2Ho/download > hisat2-2.2.1-Linux_x86_64.zip && \
+    unzip hisat2-2.2.1-Linux_x86_64.zip && \
+    find hisat2-2.2.1 -maxdepth 1 -type f -executable -exec cp {} /usr/local/bin/ \; && \
+    cp hisat2-2.2.1/*.py /usr/local/bin/ && \
+    rm -rf hisat2-2.2.1*
 
-### Install Picard
-RUN wget https://github.com/broadinstitute/picard/releases/download/2.26.4/picard.jar -O picard.jar
+# Install gffcompare
+RUN wget http://ccb.jhu.edu/software/stringtie/dl/gffcompare-0.12.6.Linux_x86_64.tar.gz && \
+    tar -xzvf gffcompare-0.12.6.Linux_x86_64.tar.gz && \
+    cp gffcompare-0.12.6.Linux_x86_64/gffcompare /usr/local/bin/ && \
+    rm -rf gffcompare-0.12.6*
 
-### Install gtftogenepred
-RUN mkdir gtfToGenePred && cd gtfToGenePred && wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gtfToGenePred && chmod a+x gtfToGenePred
-ENV PATH "${PATH}:/home/jovyan/gtfToGenePred"
+# Install TopHat
+RUN wget https://ccb.jhu.edu/software/tophat/downloads/tophat-2.1.1.Linux_x86_64.tar.gz && \
+    tar -zxvf tophat-2.1.1.Linux_x86_64.tar.gz && \
+    find tophat-2.1.1.Linux_x86_64 -maxdepth 1 -type f -executable -exec cp {} /usr/local/bin/ \; && \
+    rm -rf tophat-2.1.1*
 
-### Install genepredtobed
-RUN mkdir genePredToBed && cd genePredToBed && wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/genePredToBed && chmod a+x genePredToBed
-ENV PATH "${PATH}:/home/jovyan/genePredToBed"
+# Install kallisto
+RUN wget https://github.com/pachterlab/kallisto/releases/download/v0.44.0/kallisto_linux-v0.44.0.tar.gz && \
+    tar -zxvf kallisto_linux-v0.44.0.tar.gz && \
+    cp kallisto_linux-v0.44.0/kallisto /usr/local/bin/ && \
+    rm -rf kallisto_linux-v0.44.0*
+
+# Install FastQC
+RUN wget --no-check-certificate https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.12.1.zip && \
+    unzip fastqc_v0.12.1.zip && \
+    chmod 755 FastQC/fastqc && \
+    mv FastQC /usr/local/FastQC && \
+    rm -rf fastqc_v0.12.1.zip
+
+# Install Picard
+RUN wget https://github.com/broadinstitute/picard/releases/download/2.26.4/picard.jar -O /opt/tools/picard.jar
+
+# Install bedtools
+RUN wget https://github.com/arq5x/bedtools2/releases/download/v2.31.1/bedtools-2.31.1.tar.gz && \
+    tar -zxvf bedtools-2.31.1.tar.gz && \
+    cd bedtools2 && \
+    make && \
+    cp bin/* /usr/local/bin/ && \
+    cd .. && rm -rf bedtools-2.31.1.tar.gz bedtools2
+
+# Install bedops
+RUN mkdir bedops_linux_x86_64-v2.4.41 && \
+    cd bedops_linux_x86_64-v2.4.41 && \
+    wget -c https://github.com/bedops/bedops/releases/download/v2.4.41/bedops_linux_x86_64-v2.4.41.tar.bz2 && \
+    tar -jxvf bedops_linux_x86_64-v2.4.41.tar.bz2 && \
+    cp bin/* /usr/local/bin/ && \
+    cd .. && rm -rf bedops_linux_x86_64-v2.4.41
+
+# Install gtfToGenePred
+RUN mkdir gtfToGenePred && \
+    cd gtfToGenePred && \
+    wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gtfToGenePred && \
+    chmod a+x gtfToGenePred && \
+    cp gtfToGenePred /usr/local/bin/ && \
+    cd .. && rm -rf gtfToGenePred
+
+# Install genePredToBed
+RUN mkdir genePredToBed && \
+    cd genePredToBed && \
+    wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/genePredToBed && \
+    chmod a+x genePredToBed && \
+    cp genePredToBed /usr/local/bin/ && \
+    cd .. && rm -rf genePredToBed
+
+# Install Python packages with compatible numpy version
+RUN pip3 install "numpy>=1.21.0,<1.22.0" && \
+    pip3 install HTSeq RSeQC && \
+    pip3 install polars-lts-cpu && \
+    pip3 install click jinja2 markdown packaging pyyaml rich coloredlogs plotly tqdm humanize kaleido requests jsonschema boto3 spectra natsort rich-click python-dotenv tiktoken pydantic typeguard && \
+    pip3 install multiqc --no-deps && \
+    pip3 install git+https://github.com/kcotto/how_are_we_stranded_here.git
+
+# Install R and required libraries
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    apt-get update && \
+    apt-get install -y --no-install-recommends software-properties-common dirmngr && \
+    wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc && \
+    add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" && \
+    apt-get install -y --no-install-recommends r-base libgit2-dev libcurl4-openssl-dev libssl-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install R packages
+RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'cowplot', 'data.table', 'gridExtra', 'UpSetR', 'pheatmap', 'ggrepel', 'ggnewscale', 'ggridges'), repos='http://cran.us.r-project.org')"
+
+# Install Bioconductor packages
+RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview', 'pachterlab/sleuth'))"
+
+# Configure Apache to serve /workspace directory
+RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf && \
+    echo '<VirtualHost *:8080>' > /etc/apache2/sites-available/workspace.conf && \
+    echo '    DocumentRoot /workspace' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    <Directory /workspace>' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '        Options Indexes FollowSymLinks' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '        AllowOverride None' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '        Require all granted' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    </Directory>' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    DirectoryIndex index.html' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    ErrorLog ${APACHE_LOG_DIR}/workspace_error.log' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    CustomLog ${APACHE_LOG_DIR}/workspace_access.log combined' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '</VirtualHost>' >> /etc/apache2/sites-available/workspace.conf && \
+    echo 'Listen 8080' >> /etc/apache2/ports.conf && \
+    a2ensite workspace && \
+    a2dissite 000-default
+
+# Create workspace directory as root before switching users
+RUN mkdir -p /workspace
+
+# Create the ubuntu user and set home directory
+RUN useradd -ms /bin/bash ubuntu
+
+# Add ubuntu user to sudo group
+RUN usermod -aG sudo ubuntu
+
+# Add ubuntu user to docker group for host Docker access
+RUN usermod -aG docker ubuntu
+
+# Configure passwordless sudo for ubuntu user
+RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Create /home/ubuntu/bin directory and move picard.jar there
+RUN mkdir -p /home/ubuntu/bin && \
+    mv /opt/tools/picard.jar /home/ubuntu/bin/picard.jar
+
+# Ensure /opt/tools, /home/ubuntu/bin, and /workspace are owned by the ubuntu user
+RUN chown -R ubuntu:ubuntu /opt/tools /home/ubuntu/bin /workspace \
+    && ln -s /workspace /home/ubuntu/workspace
+
+# Add build arguments for version information
+ARG BUILD_DATE
+ARG VERSION
+ARG VCS_REF
+
+# Add metadata labels
+LABEL maintainer="RNA-seq.org" \
+      version="${VERSION:-1.0.0}" \
+      description="Comprehensive RNA-seq bioinformatics toolkit" \
+      org.label-schema.build-date="${BUILD_DATE}" \
+      org.label-schema.name="RNA-seq Bioinformatics Toolkit" \
+      org.label-schema.description="Docker image with tools for RNA-seq analysis" \
+      org.label-schema.url="https://rnabio.org" \
+      org.label-schema.vcs-ref="${VCS_REF}" \
+      org.label-schema.vcs-url="https://github.com/rnabio/rnabio.org" \
+      org.label-schema.version="${VERSION:-1.0.0}" \
+      org.label-schema.schema-version="1.0"
+
+# Set the default user to ubuntu
+USER ubuntu
+
+# Set environment variables for ubuntu user
+ENV HOME=/home/ubuntu
+
+# Add RNA-seq course environment variables to bashrc
+RUN echo '# RNA-seq course environment variables' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_DATA_TRIM_DIR=/home/ubuntu/workspace/rnaseq/data/trimmed' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_REF_INDEX=/home/ubuntu/workspace/rnaseq/refs/chr22_with_ERCC92' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_HOME=/home/ubuntu/workspace/rnaseq' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_REFS_DIR=/home/ubuntu/workspace/rnaseq/refs' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_DATA_DIR=/home/ubuntu/workspace/rnaseq/data' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_ALIGN_DIR=/home/ubuntu/workspace/rnaseq/alignments/hisat2' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_EXT_DATA_DIR=/home/ubuntu/CourseData/RNA_data' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_REF_GTF=/home/ubuntu/workspace/rnaseq/refs/chr22_with_ERCC92.gtf' >> /home/ubuntu/.bashrc && \
+    echo 'export RNA_REF_FASTA=/home/ubuntu/workspace/rnaseq/refs/chr22_with_ERCC92.fa' >> /home/ubuntu/.bashrc && \
+    echo 'export PICARD=/home/ubuntu/bin/picard.jar' >> /home/ubuntu/.bashrc
+
+# Set the working directory for the ubuntu user
+WORKDIR /home/ubuntu
+
+# Expose port 8080 for Apache
+EXPOSE 8080
+
+# Create a script to start services and fix Docker socket permissions
+RUN echo '#!/bin/bash' > /home/ubuntu/start-services.sh && \
+    echo '# Fix Docker socket permissions if mounted' >> /home/ubuntu/start-services.sh && \
+    echo 'if [ -S /var/run/docker.sock ]; then' >> /home/ubuntu/start-services.sh && \
+    echo '    sudo chmod 666 /var/run/docker.sock' >> /home/ubuntu/start-services.sh && \
+    echo 'fi' >> /home/ubuntu/start-services.sh && \
+    echo 'sudo service apache2 start && /bin/bash' >> /home/ubuntu/start-services.sh && \
+    chmod +x /home/ubuntu/start-services.sh
+
+# Use ENTRYPOINT + CMD pattern for proper signal handling and flexibility
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["/home/ubuntu/start-services.sh"]

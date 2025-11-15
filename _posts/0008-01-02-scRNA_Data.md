@@ -67,17 +67,17 @@ In the following demonstration analyses we will focus on a simplified comparison
 
 List of replicates with labels and links to multi QC reports (these data were processed with Cell Ranger v7.0.0):
 
-- [Rep1_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep1_ICB-web_summary.html): 4,179 cells, 1,759 median genes per cell
-- [Rep3_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep3_ICB-web_summary.html): 6,486 cells, 1,645 median genes per cell
-- [Rep5_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep5_ICB-web_summary.html): 3,006 cells, 1,163 median genes per cell
-- [Rep1_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep1_ICBdT-web_summary.html): 4,024 cells, 2,096 median genes per cell
-- [Rep3_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep3_ICBdT-web_summary.html): 5,665 cells, 1,735 median genes per cell
-- [Rep5_ICBdT](http://genomedata.org/cri-workshop/web_summaries/Rep5_ICBdT-web_summary.html): 6,074 cells, 1,336 median genes per cell
+- [Rep1_ICB](https://genomedata.org/cri-workshop/web_summaries/Rep1_ICB-web_summary.html): 4,179 cells, 1,759 median genes per cell
+- [Rep3_ICB](https://genomedata.org/cri-workshop/web_summaries/Rep3_ICB-web_summary.html): 6,486 cells, 1,645 median genes per cell
+- [Rep5_ICB](https://genomedata.org/cri-workshop/web_summaries/Rep5_ICB-web_summary.html): 3,006 cells, 1,163 median genes per cell
+- [Rep1_ICBdT](https://genomedata.org/cri-workshop/web_summaries/Rep1_ICBdT-web_summary.html): 4,024 cells, 2,096 median genes per cell
+- [Rep3_ICBdT](https://genomedata.org/cri-workshop/web_summaries/Rep3_ICBdT-web_summary.html): 5,665 cells, 1,735 median genes per cell
+- [Rep5_ICBdT](https://genomedata.org/cri-workshop/web_summaries/Rep5_ICBdT-web_summary.html): 6,074 cells, 1,336 median genes per cell
 
 
 #### QC report discussion
 
-Using the report for [Rep1_ICB](http://genomedata.org/cri-workshop/web_summaries/Rep1_ICB-web_summary.html) as an example, explore and discuss the following points: 
+Using the report for [Rep1_ICB](https://genomedata.org/cri-workshop/web_summaries/Rep1_ICB-web_summary.html) as an example, explore and discuss the following points: 
 
 - Alerts. We have one alert in this example and it is an expected consequence of how we ran Cell Ranger. Other alerts can indicate a variety of problems...
 
@@ -106,7 +106,7 @@ We will not be running Cell Ranger ourselves and will instead be starting the sc
 - Somatic variants (SNVs/Indels) identified by analysis of the bulk tumor/normal exome data for MCB6C.
 - Somatic copy number variants (CNVs) identified by analysis of the bulk tumor/normal WGS data for MCB6C.
 
-#### Loupe browser demonstration for preliminary exploration of the MCB6C 
+#### Loupe Browser demonstration for preliminary exploration of the MCB6C data
 
 Briefly explore the MCB6C data using the [10X Loupe browser](https://www.10xgenomics.com/support/software/loupe-browser/latest). Use the following two samples as examples:
 
@@ -114,16 +114,15 @@ Briefly explore the MCB6C data using the [10X Loupe browser](https://www.10xgeno
 
 | Sample | GEX Cloupe | TCR Vloupe | BCR Vloupe |
 |--------|------------|------------|------------|  
-| REP3_ICB: | [Rep3_ICB GEX cloupe](http://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICB-sample_cloupe.cloupe) | [Rep3_ICB TCR vloupe](http://genomedata.org/cri-workshop/vloupes_t/Rep3_ICB-t-vloupe.vloupe) | [Rep3_ICB BCR vloupe](http://genomedata.org/cri-workshop/vloupes_b/Rep3_ICB-b-vloupe.vloupe) |
-| REP3_ICBdT: | [Rep3_ICBdT GEX cloupe](http://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICBdT-sample_cloupe.cloupe) | [Rep3_ICBdT TCR vloupe](http://genomedata.org/cri-workshop/vloupes_t/Rep3_ICBdT-t-vloupe.vloupe) | [Rep3_ICBdT BCR vloupe](http://genomedata.org/cri-workshop/vloupes_b/Rep3_ICBdT-b-vloupe.vloupe) |
+| REP3_ICB: | [Rep3_ICB GEX cloupe](https://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICB-sample_cloupe.cloupe) | [Rep3_ICB TCR vloupe](https://genomedata.org/cri-workshop/vloupes_t/Rep3_ICB-t-vloupe.vloupe) | [Rep3_ICB BCR vloupe](https://genomedata.org/cri-workshop/vloupes_b/Rep3_ICB-b-vloupe.vloupe) |
+| REP3_ICBdT: | [Rep3_ICBdT GEX cloupe](https://genomedata.org/cri-workshop/cloupes_gex/Rep3_ICBdT-sample_cloupe.cloupe) | [Rep3_ICBdT TCR vloupe](https://genomedata.org/cri-workshop/vloupes_t/Rep3_ICBdT-t-vloupe.vloupe) | [Rep3_ICBdT BCR vloupe](https://genomedata.org/cri-workshop/vloupes_b/Rep3_ICBdT-b-vloupe.vloupe) |
 
-.
 
 ##### Exercise 
 
-Work through the following very basic intro to this tool with the following steps:
+Work through a very basic intro to the Loupe browser with the following steps:
 
-- Open the Loupe browse and load the single cell gene expression data (`Open Loupe File`) for the **Rep3_ICB sample**.
+- Open the Loupe browser and load the single cell gene expression data (`Open Loupe File`) for the **Rep3_ICB sample**.
 - Load the corresponding BCR and TCR single cell clonotype data (`V(D)J Clonotypes` -> `Upload a .vloupe file`).
 - Use the `Features` section to view cells with *Epcam* (epithelial marker) expression. Apply a filter and require a minimim cutoff of `1`.
 - Use the `Features` section to view cells with *Cd3d* expression. How does this compare with cells that have a TCR V(D)J sequence?
@@ -138,3 +137,20 @@ Work through the following very basic intro to this tool with the following step
 - Select all clusters and view the Heat Map view. What is notable about many of the most Up-regulated genes in this view?
 - Return to the V(D)J Clonotypes view. Select the 40 clonotypes with a count of 3 or greater. Observe the pattern of this subset of T cells in the t-SNE. Hit the "Save Barcodes" button. This will create a custom set in the Clusters view. In this view you can perform a Differential Expression analysis, comparing these expanded CDR clonotype cells to all other cells. What are the top genes? (Gzmk, Pdcd1, Cxcr6, Lag3, Gzmb, etc.)
 
+#### Loupe V(D)J Browser demonstration for preliminary exploration of the MCB6C data
+
+Briefly explore the MCB6C data using the [10X Loupe V(D)J browser](https://www.10xgenomics.com/support/software/loupe-browser/latest).
+
+##### Exercise
+
+Work through an intro to the Loupe V(D)J browser with the following steps:
+
+- Open the Loupe V(D)J Browser and load the TCR expression data (`Open Loupe V(D)J File`) for the **Rep3_ICB sample**.
+- Look at the Clonotype Distribution plot. At a high level, is this a highly diverse TCR repertoire? Is there evidence of clonal expansion?
+- Select the `Summary Plots` tab. Look at the Clonotype Abundance plot. Explore V(D)J gene segment usage with the individual Gene Usage plots and the V-J Gene Heatmap. 
+- Go back to the Clonotype Distribution and Sequence tab. Select a clonotype from the Clonotype Distribution plot (or the list on left) to learn more about its alpha and/or beta receptors.
+- What are the main components of the receptor(s)? Zoom into the base-level view of a CDR3 region. How many barcodes, UMIs and reads support the clonotype? What is the difference between Universal Reference, Donor Reference, and Consensus sequence? Are there any sequence differences between the consensus and references? What do these likely represent?
+- Go back to the Clonotype Distribution view and use `Open Filter` to create a filter. Limit to only clonotypes with 10 or more barcodes.
+- Use `Export` to `Export barcodes in clonotype list` and save to your computer (choose a filename and place that you can find later, e.g., Rep3_ICB-Expanded.csv).
+- If you still have your Loupe browser session open from the exercise above, go there and select the `Clusters` view, next to `+ Create a new group` select the Upload arrow button, select the csv file you saved from the Loupe V(D)J browser. Where are these T cells? Are they localized to a specific cluster? What features characterize that cluster?
+- Try additional filtering strategies to identify subsets of T (or B) cells of interest in the Loupe V(D)J browser, export, and then visualize them in the Loupe Browser on the TSNE/UMAP view.

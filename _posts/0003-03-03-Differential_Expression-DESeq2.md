@@ -17,7 +17,7 @@ date: 0003-03-03
 
 
 ### Differential Expression mini lecture
-If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2024/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
+If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2025/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
 
 
 ### DESeq2 DE Analysis
@@ -29,12 +29,23 @@ In this tutorial you will:
 
 ### Setup
 
-Here we start from R, relevant packages should already be installed so we will load the libraries, set working directories and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
+First, create a directory for results. Then start R:
+
+```bash
+cd $RNA_HOME/
+mkdir -p de/deseq2
+cd de/deseq2
+
+R
+
+```
+
+Once we start from R, the relevant packages should already be installed. We will load the libraries, set working directories, and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
 
 ```R
 # define working dir paths
-datadir = "/cloud/project/data/bulk_rna"
-outdir = "/cloud/project/outdir"
+datadir = "/home/ubuntu/workspace/rnaseq/expression/htseq_counts"
+outdir = "/home/ubuntu/workspace/rnaseq/de/deseq2"
 
 # load R libraries we will use in this section
 library(DESeq2)
@@ -46,6 +57,10 @@ setwd(datadir)
 
 # read in the RNAseq read counts for each gene (produced by htseq-count)
 htseqCounts = fread("gene_read_counts_table_all_final.tsv")
+
+# set working directory to the output dir
+setwd(outdir)
+
 ```
 
 ### Format htseq counts data to work with DESeq2
@@ -196,9 +211,10 @@ res_combined$group = factor(res_combined$group, levels = c("before shrinkage", "
 head(res_before)
 head(res_after)
 
-ggplot(res_combined, aes(x = log2FoldChange, color = group)) + geom_density() + theme_bw() +
+p <- ggplot(res_combined, aes(x = log2FoldChange, color = group)) + geom_density() + theme_bw() +
   scale_color_manual(values = c("before shrinkage" = "tomato4", "after shrinkage" = "slategray")) +
   labs(color = "Shrinkage status")
+ggsave(plot=p, filename = "before_after_shrinkage.pdf", device="pdf", width=6, height=4, units="in")
 
 ```
 
@@ -211,7 +227,7 @@ DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human 
 
 ```R
 # read in gene ID to name mappings (using "fread" an alternative to "read.table")
-gene_id_mapping <- fread("/cloud/project/data/bulk_rna/ENSG_ID2Name.txt", header = FALSE)
+gene_id_mapping <- fread("/home/ubuntu/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = FALSE)
 
 # add names to the columns in the "gene_id_mapping" dataframe
 setnames(gene_id_mapping, c("ensemblID", "Symbol"))
@@ -294,6 +310,9 @@ top_bottom = bind_rows(
 
 # visualize data for the top n genes. Simplify the output a bit
 print(top_bottom[,c("log2FoldChange","padj","Symbol","UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3","Set")])
+
+#To exit R type the following
+quit(save = "no")
 
 ```
 

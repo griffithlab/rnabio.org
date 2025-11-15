@@ -146,7 +146,7 @@ write.table(x = epithelial_de_gsea, file = 'outdir_single_cell_rna/epithelial_de
 ``` 
 
 Classic single-cell based differential expression analysis is notorious for having a high number of false positives. This has been attributed to a few reasons such as each cell being considered an independent observation resulting in inflated p-values and it not taking replicates into account. Psuedobulk based differential expression analyses can be incorporated to at least in part get around these ([Junttila S, Smolander J, et al. (2022)](https://pmc.ncbi.nlm.nih.gov/articles/PMC9487674/); [Squair, J.W. et al. (2021)](https://www.nature.com/articles/s41467-021-25960-2)). 
-Depending on the type of experiment, you're unlikely to always have replicates, but here we do, therefore, we will carry out a pseudobulk DE analysis and compare the results against our conventional single-cell DE analysis. The first step is to generate a pseudobulk Seurat object using Seurat's in-built function `AggregateExpression`, more information on the function is available [here](https://satijalab.org/seurat/reference/aggregateexpression) and Seurat's pseudobulk DE vignette is [here](https://satijalab.org/seurat/articles/de_vignette). The function makes groups based on the metadata columns we specify, sums the counts for each gene within the group, and then log normalizes and scales the data. The resulting object is structured like our single-cell Seurat object with different layers for the raw counts (`counts`), log normalized (`data`) and scaled (`scale.data`) data. However, instead of the rows being our cell barcodes, they are a combination of the grouping categories we used as an input. Here, we will use the sample (given by `orig.ident`) as our replicates and the differential expression analysis will use `DESeq2` to compare clusters 9 and 12. 
+Depending on the type of experiment, you're unlikely to always have replicates, but here we do, therefore, we will carry out a pseudobulk DE analysis and compare the results against our conventional single-cell DE analysis. The first step is to generate a pseudobulk Seurat object using Seurat's in-built function `AggregateExpression`, more information on the function is available [here](https://satijalab.org/seurat/reference/aggregateexpression) and Seurat's pseudobulk DE vignette is [here](https://satijalab.org/seurat/articles/de_vignette). The function makes groups based on the metadata columns we specify, sums the counts for each gene within the group, and then log normalizes and scales the data. The resulting object is structured like our single-cell Seurat object with different layers for the raw counts (`counts`), log normalized (`data`) and scaled (`scale.data`) data. However, instead of the rows being our cell barcodes, they are a combination of the grouping categories we used as an input. Here, we will use the sample (given by `orig.ident`) as our replicates and the differential expression analysis will use DESeq2 to compare clusters 9 and 12. Specifying `DESeq2` in the `test.use` argument will allow us to use Seurat's implementation of DESeq2. There are quite a few other tests that can be used, we primarily chose DESeq2 here because it was in Seurat's DE vignette linked previously, but we encourage you to look into the various other tests as well.  
 
 ```R
 # Aggregate counts for each sample and cluster combination
@@ -197,13 +197,14 @@ merged <- SetIdent(merged, value = 'immgen_singler_main')
 merged_tcells <- subset(merged, idents = t_celltypes_names)
 
 #confirm that we have subset the object as expected visually using a UMAP
-DimPlot(merged, group.by = 'immgen_singler_main', label = TRUE) + 
-DimPlot(merged_tcells, group.by = 'immgen_singler_main', label = TRUE)
+DimPlot(merged, group.by = 'immgen_singler_main') + 
+DimPlot(merged_tcells, group.by = 'immgen_singler_main')
 
 #confirm that we have subset the object as expected by looking at the individual cell counts
 table(merged$immgen_singler_main)
 table(merged_tcells$immgen_singler_main)
 ```
+![Tcells subset object dimplot](/assets/module_8/DE_Tcells_object_subset_dimplot.png)
 
 Now we want to compare T cells from mice treated with ICB vs ICBdT. First, we need to distinguish the ICB and ICBdT cells from each other. Start by clicking on the object in RStudio and expand `meta.data` to get a snapshot of the columns and the what kind of data they hold. 
 
@@ -292,6 +293,7 @@ EnhancedVolcano(cd8tcells_de,
   labSize = 5.0,
   colAlpha = 0.3)
 ```
+![CD8Tcells DE volcanoplot](/assets/module_8/DE_CD8Tcells_object_subset_volcanoplot.png)
 
 At this point, you can either start doing literature searches for some of these genes and find that for genes like Bcl2, Cdk8, and Znrf3 that were upregulated in ICB CD8 Tcells, the literature suggests- antigen-specific memory CD8 T cells have higher expression of [Bcl2](https://journals.aai.org/jimmunol/article/164/8/3950/32588/Cutting-Edge-Increased-Expression-of-Bcl-2-in) and [Cdk8](https://www.science.org/doi/abs/10.1126/sciimmunol.aaw2707); and Znrf3 has been implicated in [CD8 T cells' anti-tumor response following anti-PD-1 therapy](https://pubmed.ncbi.nlm.nih.gov/37738974/). Also, we replicate the original paper's findings of ICBdT CD8 T cells upregulating T cell exhaustion markers like Tigit and Pdcd1. 
 

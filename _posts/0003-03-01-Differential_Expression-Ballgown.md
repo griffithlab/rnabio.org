@@ -17,7 +17,7 @@ date: 0003-03-01
 
 
 ### Differential Expression mini lecture
-If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2024/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
+If you would like a brief refresher on differential expression analysis, please refer to the [mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2025/mini/RNASeq_MiniLecture_03_03_DifferentialExpression.pdf).
 
 
 ### Ballgown DE Analysis
@@ -89,7 +89,7 @@ write.table(results_transcripts, "UHR_vs_HBR_transcript_results.tsv", sep = "\t"
 write.table(results_genes, "UHR_vs_HBR_gene_results.tsv", sep = "\t", quote = FALSE, row.names = FALSE)
 
 # Filter low-abundance genes. Here we remove all transcripts with a variance across the samples of less than one
-bg_filt = subset (bg, "rowVars(texpr(bg)) > 1", genomesubset = TRUE)
+bg_filt = subset (bg, "SparseArray::rowVars(texpr(bg)) > 1", genomesubset = TRUE)
 
 # Load all attributes including gene name
 bg_filt_table = texpr(bg_filt , 'all')

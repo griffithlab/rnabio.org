@@ -80,6 +80,7 @@ library("ggplot2")
 library("gridExtra")
 library("edgeR")
 library("UpSetR")
+library(grid)
 
 #load in the uncorrected data as raw counts
 setwd(datadir)
@@ -318,22 +319,24 @@ dim(uhr_vs_hbr_corrected)
 #create upset plots to summarize the overlap between the comparisons performed above
 
 #first create upset plot from the *uncorrected* data
-pdf(file = "Uncorrected-UpSet.pdf")
-listInput1 = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[, "Gene"], 
+listInput1 = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[, "Gene"],
                   "4 UHR Poly vs 4HBR Poly" = uhr_poly_vs_hbr_poly_uncorrected[, "Gene"],
                   "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_uncorrected[, "Gene"],
                   "4 UHR Poly vs 4 HBR Ribo" = uhr_poly_vs_hbr_ribo_uncorrected[, "Gene"],
                   "8 UHR vs 8 HBR" = uhr_vs_hbr_uncorrected[, "Gene"])
+
+pdf(file = "Uncorrected-UpSet.pdf", onefile = FALSE)
 upset(fromList(listInput1), order.by = "freq", number.angles = 45, point.size = 3)
 dev.off()
 
 #now create an upset plot from the *batch corrected* data
-pdf(file = "BatchCorrected-UpSet.pdf")
-listInput2 = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_corrected[,"Gene"], 
+listInput2 = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_corrected[,"Gene"],
                   "4 UHR Poly vs 4 HBR Poly" = uhr_poly_vs_hbr_poly_corrected[,"Gene"],
                   "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_corrected[,"Gene"],
                   "4 UHR Poly vs 4 HBR Ribo" = uhr_poly_vs_hbr_ribo_corrected[,"Gene"],
                   "8 UHR vs 8 HBR" = uhr_vs_hbr_corrected[,"Gene"])
+
+pdf(file = "BatchCorrected-UpSet.pdf", onefile = FALSE)
 upset(fromList(listInput2), order.by = "freq", number.angles=45, point.size=3)
 dev.off()
 

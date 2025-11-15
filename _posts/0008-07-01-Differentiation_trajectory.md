@@ -30,7 +30,6 @@ library(Seurat)
 library(CytoTRACE)
 library(monocle3)
 library(ggplot2)
-library(readr)
 
 
 rep135 <- readRDS('outdir_single_cell_rna/preprocessed_object.rds')
@@ -155,17 +154,17 @@ We then can add those CytoTRACE scores to our luminal cell object and visualize 
 ```R
 rep135_luminal <- AddMetaData(rep135_luminal, rep135_luminal_cytotrace_transposed)
 
-rep135_luminal[['differentiation_scores_luminal']] <- 1 - rep135_luminal[['cytotrace_scores']]
-rep135_luminal[['differentiation_scores_epithelial']] <- 1 - rep135_luminal[['differentiation_scores']]
+rep135_luminal[['cytotrace_scores_luminal']] <- 1 - rep135_luminal[['cytotrace_scores']]
+rep135_luminal[['differentiation_scores_luminal']] <- 1 - rep135_luminal[['differentiation_scores']]
 
 # compare all epithelial cells CytoTRACE scores to the luminal-only CytoTRACE
-(FeaturePlot(object = rep135_luminal, features = c("differentiation_scores_epithelial")) +
-    ggtitle("Epithelial Cells CytoTRACE Scores")) +
+(FeaturePlot(object = rep135_luminal, features = c("cytotrace_scores_luminal")) +
+    ggtitle("Luminal Cells CytoTRACE Scores")) +
   (FeaturePlot(object = rep135_luminal, features = c("differentiation_scores_luminal")) +
-      ggtitle("Luminal Cells CytoTRACE Scores"))
+      ggtitle("Luminal Cells Differentiation Scores"))
 ```
 
-<img src="/assets/module_8/Epithelial_Luminal_CytotraceScores.png" alt="Cytotrace scores of epitheial and luminal cells" width="1000"/>
+<img src="/assets/module_8/LuminalCells_CytotraceScores.png" alt="Cytotrace scores of luminal cells" width="1000"/>
 
 
 CytoTRACE will force all given cells onto the same scale meaning that there has to be cells at both the low and high ends of differentiation. The CytoTRACE scores could be a reflection of cell cycling genes. We can check by using a feature plot to compare the S-phase genes, G2/M-phase genes, and differentiation scores.
@@ -399,7 +398,7 @@ Monocle3 proposes a method to choose a root more precisely in its [trajecotry tu
 rep135_cds <- SeuratWrappers::as.cell_data_set(rep135)
 
 # Monocle preprocessing steps
-rep135_cds <- preprocess_cds(rep135_cds, num_dim = 50, preprocess_method = 'PCA')
+rep135_cds <- preprocess_cds(rep135_cds, num_dim = 50, method = 'PCA')
 # rep135_cds <- align_cds(rep135_cds, alignment_group = "orig.ident") # removes batch effect by fitting its a linear model to the cells
 rep135_cds <- reduce_dimension(rep135_cds, preprocess_method = 'PCA', reduction_method="UMAP") # calculate UMAPs
 
