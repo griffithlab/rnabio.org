@@ -75,13 +75,29 @@ bam-readcount -l snvs.bed -f $RNA_REF_FASTA $RNA_ALIGN_DIR/HBR.bam 2>/dev/null 1
 
 ```
 
-From this output you could parse the read counts for each base
-```bash
-cat UHR_bam-readcounts.txt | perl -ne '@data=split("\t", $_); @Adata=split(":", $data[5]); @Cdata=split(":", $data[6]); @Gdata=split(":", $data[7]); @Tdata=split(":", $data[8]); print "UHR Counts\t$data[0]\t$data[1]\tA: $Adata[1]\tC: $Cdata[1]\tT: $Tdata[1]\tG: $Gdata[1]\n";'
-cat HBR_bam-readcounts.txt | perl -ne '@data=split("\t", $_); @Adata=split(":", $data[5]); @Cdata=split(":", $data[6]); @Gdata=split(":", $data[7]); @Tdata=split(":", $data[8]); print "HBR Counts\t$data[0]\t$data[1]\tA: $Adata[1]\tC: $Cdata[1]\tT: $Tdata[1]\tG: $Gdata[1]\n";'
+From this output, use AWK to pull out the read counts for each base (A, C, G, T) in columns 6-9 and then print a simplified summary. Each "split" command takes the specified column of bam-readcount data (6-9), parses the values separated by ":", and stores them in a \_data array. The "printf" command prints out the summary line, including the total count for each base (from the second position of the data array for each nucleotide). 
 
+```bash
+#UHR counts
+awk '{
+    split($6, A_data, ":")
+    split($7, C_data, ":")
+    split($8, G_data, ":")
+    split($9, T_data, ":")
+    printf "UHR Counts\t%s\t%s\tA: %s\tC: %s\tT: %s\tG: %s\n", 
+    $1, $2, A_data[2], C_data[2], T_data[2], G_data[2]
+}' UHR_bam-readcounts.txt
+
+#HBR counts
+awk '{
+    split($6, A_data, ":")
+    split($7, C_data, ":")
+    split($8, G_data, ":")
+    split($9, T_data, ":")
+    printf "HBR Counts\t%s\t%s\tA: %s\tC: %s\tT: %s\tG: %s\n", 
+    $1, $2, A_data[2], C_data[2], T_data[2], G_data[2]
+}' HBR_bam-readcounts.txt
 ```
 
-If reading perl code isn't your favorite thing to do, here's a [bam-readcount tutorial](https://github.com/genome/bam-readcount/tree/master/tutorial) that uses python to parse output from bam-readcount to identify a Omicron SARS-CoV-2 variant of concern from raw sequence data.
-
+Finally if you wish to extend this concept to a more complex analysis, here is a [bam-readcount tutorial](https://github.com/genome/bam-readcount/tree/master/tutorial) that uses python to parse output from bam-readcount to identify a Omicron SARS-CoV-2 variant of concern from raw sequence data.
 
