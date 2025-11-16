@@ -84,19 +84,4 @@ cat HBR_bam-readcounts.txt | perl -ne '@data=split("\t", $_); @Adata=split(":", 
 
 If reading perl code isn't your favorite thing to do, here's a [bam-readcount tutorial](https://github.com/genome/bam-readcount/tree/master/tutorial) that uses python to parse output from bam-readcount to identify a Omicron SARS-CoV-2 variant of concern from raw sequence data.
 
-***
 
-### PRACTICAL EXERCISE 7
-Assignment: Index your bam files from Practical Exercise 6 and visualize in IGV.
-
-* Hint: As before, it may be simplest to just index and visualize the combined/merged bam files HCC1395_normal.bam and HCC1395_tumor.bam.
-* If this works, you should have two BAM files that can be loaded into IGV from the following location on your cloud instance:
-  * http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/practice/alignments/hisat2/
-
-**Questions**
-
-* Load your merged normal and tumor BAM files into IGV. Navigate to this location on chromosome 22: 'chr22:38,466,394-38,508,115'. What do you see here? How would you describe the direction of transcription for the two genes? Does the reported strand for the reads aligned to each of these genes appear to make sense? How do you modify IGV settings to see the strand clearly?
-* How can we modify IGV to color reads by Read Group? How many read groups are there for each sample (tumor & normal)? What are your read group names for the tumor sample?
-* What are the options for visualizing splicing or alternative splicing patterns in IGV? Navigate to this location on chromosome 22: 'chr22:40,363,200-40,367,500'. What splicing event do you see?
-
-Solution: When you are ready you can check your approach against the [Solutions](/module-09-appendix/0009/05/01/Practical_Exercise_Solutions/#practical-exercise-7---visualize).
