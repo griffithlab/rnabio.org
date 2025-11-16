@@ -64,22 +64,22 @@ Use fastp to remove illumina adapter sequences (if any), trim the first 13 bases
 cd $RNA_HOME
 
 export S1=UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22
-fastp -i $RNA_DATA_DIR/$S1.read1.fastq.gz -I $RNA_DATA_DIR/$S1.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/$S1.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/$S1.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/$S1.fastp.json --html $RNA_DATA_TRIM_DIR/$S1.fastp.html 2>$RNA_DATA_TRIM_DIR/$S1.fastp.log
+fastp -i $RNA_DATA_DIR/${S1}.read1.fastq.gz -I $RNA_DATA_DIR/${S1}.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/${S1}.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/${S1}.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/${S1}.fastp.json --html $RNA_DATA_TRIM_DIR/${S1}.fastp.html 2>$RNA_DATA_TRIM_DIR/${S1}.fastp.log
 
 export S2=UHR_Rep2_ERCC-Mix1_Build37-ErccTranscripts-chr22
-fastp -i $RNA_DATA_DIR/$S2.read1.fastq.gz -I $RNA_DATA_DIR/$S2.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/$S2.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/$S2.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/$S2.fastp.json --html $RNA_DATA_TRIM_DIR/$S2.fastp.html 2>$RNA_DATA_TRIM_DIR/$S2.fastp.log
+fastp -i $RNA_DATA_DIR/${S2}.read1.fastq.gz -I $RNA_DATA_DIR/${S2}.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/${S2}.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/${S2}.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/${S2}.fastp.json --html $RNA_DATA_TRIM_DIR/${S2}.fastp.html 2>$RNA_DATA_TRIM_DIR/${S2}.fastp.log
 
 export S3=UHR_Rep3_ERCC-Mix1_Build37-ErccTranscripts-chr22
-fastp -i $RNA_DATA_DIR/$S3.read1.fastq.gz -I $RNA_DATA_DIR/$S3.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/$S3.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/$S3.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/$S3.fastp.json --html $RNA_DATA_TRIM_DIR/$S3.fastp.html 2>$RNA_DATA_TRIM_DIR/$S3.fastp.log
+fastp -i $RNA_DATA_DIR/${S3}.read1.fastq.gz -I $RNA_DATA_DIR/${S3}.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/${S3}.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/${S3}.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/${S3}.fastp.json --html $RNA_DATA_TRIM_DIR/${S3}.fastp.html 2>$RNA_DATA_TRIM_DIR/${S3}.fastp.log
 
 export S4=HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22
-fastp -i $RNA_DATA_DIR/$S4.read1.fastq.gz -I $RNA_DATA_DIR/$S4.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/$S4.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/$S4.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/$S4.fastp.json --html $RNA_DATA_TRIM_DIR/$S4.fastp.html 2>$RNA_DATA_TRIM_DIR/$S4.fastp.log
+fastp -i $RNA_DATA_DIR/${S4}.read1.fastq.gz -I $RNA_DATA_DIR/${S4}.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/${S4}.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/${S4}.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/${S4}.fastp.json --html $RNA_DATA_TRIM_DIR/${S4}.fastp.html 2>$RNA_DATA_TRIM_DIR/${S4}.fastp.log
 
 export S5=HBR_Rep2_ERCC-Mix2_Build37-ErccTranscripts-chr22
-fastp -i $RNA_DATA_DIR/$S5.read1.fastq.gz -I $RNA_DATA_DIR/$S5.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/$S5.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/$S5.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/$S5.fastp.json --html $RNA_DATA_TRIM_DIR/$S5.fastp.html 2>$RNA_DATA_TRIM_DIR/$S5.fastp.log
+fastp -i $RNA_DATA_DIR/${S5}.read1.fastq.gz -I $RNA_DATA_DIR/${S5}.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/${S5}.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/${S5}.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/${S5}.fastp.json --html $RNA_DATA_TRIM_DIR/${S5}.fastp.html 2>$RNA_DATA_TRIM_DIR/${S5}.fastp.log
 
 export S6=HBR_Rep3_ERCC-Mix2_Build37-ErccTranscripts-chr22
-fastp -i $RNA_DATA_DIR/$S6.read1.fastq.gz -I $RNA_DATA_DIR/$S6.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/$S6.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/$S6.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/$S6.fastp.json --html $RNA_DATA_TRIM_DIR/$S6.fastp.html 2>$RNA_DATA_TRIM_DIR/$S6.fastp.log
+fastp -i $RNA_DATA_DIR/${S6}.read1.fastq.gz -I $RNA_DATA_DIR/${S6}.read2.fastq.gz -o $RNA_DATA_TRIM_DIR/${S6}.read1.fastq.gz -O $RNA_DATA_TRIM_DIR/${S6}.read2.fastq.gz -l 25 --adapter_fasta $RNA_REFS_DIR/illumina_multiplex.fa --trim_front1 13 --trim_front2 13 --json $RNA_DATA_TRIM_DIR/${S6}.fastp.json --html $RNA_DATA_TRIM_DIR/${S6}.fastp.html 2>$RNA_DATA_TRIM_DIR/${S6}.fastp.log
 
 ```
 
