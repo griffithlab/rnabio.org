@@ -229,6 +229,34 @@ cut -f 2 ENSG_ID2Name.txt | sort | uniq -c | sort -r | head
 
 ```
 
+Explore a few examples of cases where there are multiple distinct Ensembl Genes with the same symbol by referring back to the complete GTF. Long story short, these distinct gene loci with the same gene symbol correspond to atypical gene classes.
+
+```bash
+
+#DUXAP8. An example where both genes are different kinds of pseudogenes. 
+#Note the gene_biotype values: processed_transcript, transcribed_processed_pseudogene 
+#Note the coordinates (one is contained within the other)
+grep -w gene $RNA_REF_GTF | grep DUXAP8
+
+#SCARNA17. An example of an unusual gene class.
+#Note the gene_biotype value: scaRNA (A class of non-coding RNA, "Small Cajal body-specific RNA"). 
+#Note the coordinates (all distinct locations)
+grep -w gene $RNA_REF_GTF | grep SCARNA17
+
+#ELFN2
+#Note the gene_biotype values: protein_coding, sense_overlapping 
+#sense_overlapping: "Long non-coding transcript that contains a coding gene in its intron on the same strand"
+#Note the coordinates  
+grep -w gene $RNA_REF_GTF | grep ELFN2
+
+#Y_RNA
+#Note the gene_biotype value: misc_RNA
+#Y RNAs are small non-coding RNAs. They are components of the Ro60 ribonucleoprotein particle
+grep -w gene $RNA_REF_GTF | grep Y_RNA
+
+```
+
+
 ***
 
 #### ERCC expression analysis
