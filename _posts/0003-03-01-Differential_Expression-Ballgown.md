@@ -51,13 +51,24 @@ library(devtools)
 
 # Create phenotype data needed for ballgown analysis
 ids = c("UHR_Rep1", "UHR_Rep2", "UHR_Rep3", "HBR_Rep1", "HBR_Rep2", "HBR_Rep3")
-type = c("UHR", "UHR", "UHR", "HBR", "HBR", "HBR")
+condition = c("UHR", "UHR", "UHR", "HBR", "HBR", "HBR")
 inputs = "/home/ubuntu/workspace/rnaseq/expression/stringtie/ref_only/"
 path = paste(inputs, ids, sep="")
-pheno_data = data.frame(ids, type, path)
+pheno_data = data.frame(ids, condition, path)
 
 # Load ballgown data structure and save it to a variable "bg"
 bg = ballgown(samples = as.vector(pheno_data$path), pData = pheno_data)
+
+# View the current order of the comparison: UHR/HBR (fold-changes > 1 means higher expression in UHR than HBR)
+factor(pData(bg)$condition) # "Levels: HBR UHR", alphabetically by default determines the comparison
+
+# Note that if you want to reverse the comparison of HBR and UHR. We would achieve this by changing the order of the "levels":
+pData(bg)$condition <- factor(pData(bg)$condition, levels = c("UHR","HBR"))
+factor(pData(bg)$condition) # "Levels: UHR HBR"
+
+# Lets change the condition order back for consistency
+pData(bg)$condition <- factor(pData(bg)$condition, levels = c("HBR","UHR"))
+factor(pData(bg)$condition) # "Levels: HBR UHR"
 
 # Display a description of this object
 bg
@@ -74,15 +85,23 @@ save(bg, file = 'bg.rda')
 gene_expression = as.data.frame(gexpr(bg))
 transcript_expression = as.data.frame(texpr(bg))
 
-# Perform differential expression (DE) analysis with no filtering, at both gene and transcript level
+# Perform differential expression (DE) analysis with no filtering, at the transcript level
+results_transcripts = stattest(bg, feature = "transcript", covariate = "condition", getFC = TRUE, meas = "FPKM")
+
 # Then add on transcript/gene names and sample level fpkm values for export
-results_transcripts = stattest(bg, feature = "transcript", covariate = "type", getFC = TRUE, meas = "FPKM")
 results_transcripts = merge(results_transcripts, bg_transcript_names, by.x = c("id"), by.y = c("t_id"))
 results_transcripts = merge(results_transcripts, transcript_expression, by.x = c("id"), by.y = c("row.names"))
 
-results_genes = stattest(bg, feature = "gene", covariate = "type", getFC = TRUE, meas = "FPKM")
+# Perform differential expression (DE) analysis with no filtering, at the gene level
+results_genes = stattest(bg, feature = "gene", covariate = "condition", getFC = TRUE, meas = "FPKM")
+
+# Then add on transcript/gene names and sample level fpkm values for export
 results_genes = merge(results_genes, bg_gene_names, by.x = c("id"), by.y = c("gene_id"))
 results_genes = merge(results_genes, gene_expression, by.x = c("id"), by.y = c("row.names"))
+
+# Note that in the statistical tests above, the design is very simple with condition as the single covariate.
+# More complex design are possible including time series ("timecourse" parameter), confounders (using adjustvars parameter), etc.
+# The ballgown vignettes describe these options in detail.
 
 # Save a tab delimited file for both the transcript and gene results
 write.table(results_transcripts, "UHR_vs_HBR_transcript_results.tsv", sep = "\t", quote = FALSE, row.names = FALSE)
@@ -97,11 +116,11 @@ bg_filt_gene_names = unique(bg_filt_table[, 9:10])
 bg_filt_transcript_names = unique(bg_filt_table[, c(1,6)])
 
 # Perform DE analysis now using the filtered data
-results_transcripts = stattest(bg_filt, feature = "transcript", covariate = "type", getFC = TRUE, meas = "FPKM")
+results_transcripts = stattest(bg_filt, feature = "transcript", covariate = "condition", getFC = TRUE, meas = "FPKM")
 results_transcripts = merge(results_transcripts, bg_filt_transcript_names, by.x = c("id"), by.y = c("t_id"))
 results_transcripts = merge(results_transcripts, transcript_expression, by.x = c("id"), by.y = c("row.names"))
 
-results_genes = stattest(bg_filt, feature = "gene", covariate = "type", getFC = TRUE, meas = "FPKM")
+results_genes = stattest(bg_filt, feature = "gene", covariate = "condition", getFC = TRUE, meas = "FPKM")
 results_genes = merge(results_genes, bg_filt_gene_names, by.x = c("id"), by.y = c("gene_id"))
 results_genes = merge(results_genes, gene_expression, by.x = c("id"), by.y = c("row.names"))
 
@@ -173,7 +192,7 @@ head DE_genes.txt
 Assignment: Use Ballgown to identify differentially expressed genes from the StringTie expression estimates (i.e., Ballgown table files) which you created in Practical Exercise 8.
 
 * Hint: Follow the example R code above. 
-* Hint: You will need to change how the `pheno_data` object is created to point to the correct sample ids, type, and path to your inputs (the StringTie results files).
+* Hint: You will need to change how the `pheno_data` object is created to point to the correct sample ids, condition, and path to your inputs (the StringTie results files).
 * Hint: Make sure to save your ballgown data object to file (e.g., `bg.rda`) for use in subsequent practical exercises.
 * Hint: You may wish to save both a complete list of genes with differential expression results as well as a subset which are filtered and pass a significance test
 
@@ -253,4 +272,3 @@ quit(save="no")
 View the results here:
 
 * http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ercc_spikein_analysis/ERCC_Ballgown-DE_vs_SpikeInDE.pdf
-
