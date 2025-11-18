@@ -203,13 +203,18 @@ Note that the htseq-count results provide counts for each gene but uses only the
 
 ```bash
 
-# cut the 9th column with all the gene annotation information
-# delete all the double quotes from this string
-# use perl to search for the pattern "gene_id" or "gene_name" followed by space character and then some non-space characters. 
-# the non-space characters are the actual gene ID or Name. Store these in variables $gid and $gname and then print them out
+# cut the 9th column of the GTF with all the gene annotation information
+# use "tr -d" to delete all the double quotes from this string
+# use AWK to search for the pattern "gene_id" or "gene_name" followed by space character and then any characters that are not ";": ([^;]+)
+# the captured characters are the actual gene ID or Name. Store these in variables $gid and $gname and then print them out
 # use sort and unique commands to produce a unique list of gene_name, gene_id combinations
- 
-cut -f 9 $RNA_REF_GTF | tr -d '"' | perl -ne 'chomp; if ($_ =~ /gene_id\s+(\S+);/){$gid = $1}; if ($_ =~ /gene_name\s+(\S+);/){$gname = $1}; print "$gid\t$gname\n"' | sort | uniq > ENSG_ID2Name.txt
+
+cut -f 9 $RNA_REF_GTF | tr -d '"' | \
+awk '{
+      match($0, /gene_id[ ]+([^;]+)/, gid)
+      match($0, /gene_name[ ]+([^;]+)/, gname)
+      if (gid[1] && gname[1]) print gid[1], gname[1]
+}' OFS='\t' | sort | uniq > ENSG_ID2Name.txt
 
 head ENSG_ID2Name.txt
 

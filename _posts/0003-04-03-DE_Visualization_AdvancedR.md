@@ -56,7 +56,7 @@ gene_expression = read.table("~/workspace/rnaseq/expression/stringtie/ref_only/g
 #gene_expression = read.table("data/bulk_rna/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
 
 #Import gene name mapping file (https://genomedata.org/cri-workshop/ENSG_ID2Name.txt)
-gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = TRUE, stringsAsFactors = FALSE)
+gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = FALSE, stringsAsFactors = FALSE)
 #gene_names=read.table("data/bulk_rna/ENSG_ID2Name.txt", header = TRUE, stringsAsFactors = FALSE)
 
 colnames(gene_names) = c("gene_id", "gene_name")

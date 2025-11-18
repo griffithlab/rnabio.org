@@ -80,22 +80,22 @@ From this output, use AWK to pull out the read counts for each base (A, C, G, T)
 ```bash
 #UHR counts
 awk '{
-    split($6, A_data, ":")
-    split($7, C_data, ":")
-    split($8, G_data, ":")
-    split($9, T_data, ":")
-    printf "UHR Counts\t%s\t%s\tA: %s\tC: %s\tT: %s\tG: %s\n", 
-    $1, $2, A_data[2], C_data[2], T_data[2], G_data[2]
+      split($6, A_data, ":")
+      split($7, C_data, ":")
+      split($8, G_data, ":")
+      split($9, T_data, ":")
+      printf "UHR Counts\t%s\t%s\tA: %s\tC: %s\tT: %s\tG: %s\n", 
+      $1, $2, A_data[2], C_data[2], T_data[2], G_data[2]
 }' UHR_bam-readcounts.txt
 
 #HBR counts
 awk '{
-    split($6, A_data, ":")
-    split($7, C_data, ":")
-    split($8, G_data, ":")
-    split($9, T_data, ":")
-    printf "HBR Counts\t%s\t%s\tA: %s\tC: %s\tT: %s\tG: %s\n", 
-    $1, $2, A_data[2], C_data[2], T_data[2], G_data[2]
+      split($6, A_data, ":")
+      split($7, C_data, ":")
+      split($8, G_data, ":")
+      split($9, T_data, ":")
+      printf "HBR Counts\t%s\t%s\tA: %s\tC: %s\tT: %s\tG: %s\n", 
+      $1, $2, A_data[2], C_data[2], T_data[2], G_data[2]
 }' HBR_bam-readcounts.txt
 ```
 

@@ -276,10 +276,10 @@ library(devtools)
 
 # Create phenotype data needed for ballgown analysis
 ids=c("HCC1395_normal_rep1","HCC1395_normal_rep2","HCC1395_normal_rep3","HCC1395_tumor_rep1","HCC1395_tumor_rep2","HCC1395_tumor_rep3")
-type=c("normal","normal","normal","tumor","tumor","tumor")
+condition=c("normal","normal","normal","tumor","tumor","tumor")
 inputs="/home/ubuntu/workspace/rnaseq/practice/expression/stringtie/ref_only/"
 path=paste(inputs,ids,sep="")
-pheno_data=data.frame(ids,type,path)
+pheno_data=data.frame(ids,condition,path)
 
 # Load ballgown data structure and save it to a variable "bg"
 bg = ballgown(samples=as.vector(pheno_data$path), pData=pheno_data)
@@ -295,7 +295,7 @@ bg_gene_names = unique(bg_table[, 9:10])
 save(bg, file='bg.rda')
 
 # Perform differential expression (DE) analysis with no filtering
-results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
+results_genes = stattest(bg, feature="gene", covariate="condition", getFC=TRUE, meas="FPKM")
 results_genes = merge(results_genes, bg_gene_names, by.x=c("id"), by.y=c("gene_id"))
 
 # Save a tab delimited file for gene results
@@ -309,7 +309,7 @@ bg_filt_table = texpr(bg_filt , 'all')
 bg_filt_gene_names = unique(bg_filt_table[, 9:10])
 
 # Perform DE analysis now using the filtered data
-results_genes = stattest(bg_filt, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
+results_genes = stattest(bg_filt, feature="gene", covariate="condition", getFC=TRUE, meas="FPKM")
 results_genes = merge(results_genes, bg_filt_gene_names, by.x=c("id"), by.y=c("gene_id"))
 
 # Identify the significant genes with p-value < 0.05
@@ -365,7 +365,7 @@ bg_table = texpr(bg, 'all')
 bg_gene_names = unique(bg_table[, 9:10])
 
 # Calculate the differential expression results including significance
-results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
+results_genes = stattest(bg, feature="gene", covariate="condition", getFC=TRUE, meas="FPKM")
 results_genes = merge(results_genes,bg_gene_names,by.x=c("id"),by.y=c("gene_id"))
 results_genes[,"de"] = log2(results_genes[,"fc"])
 
