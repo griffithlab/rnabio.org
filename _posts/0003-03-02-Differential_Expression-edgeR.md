@@ -31,28 +31,8 @@ First, create a directory for results:
 
 ```bash
 cd $RNA_HOME/
-mkdir -p de/htseq_counts
-cd de/htseq_counts
-
-```
-
-Note that the htseq-count results provide counts for each gene but uses only the Ensembl Gene ID (e.g. ENSG00000054611).  This is not very convenient for biological interpretation.  This next step creates a mapping file that will help us translate from ENSG IDs to Symbols. It does this by parsing the GTF transcriptome file we got from Ensembl. That file contains both gene names and IDs. Unfortunately, this file is a bit complex to parse. Furthermore, it contains the ERCC transcripts, and these have their own naming convention which also complicated the parsing.
-
-```bash
-perl -ne 'if ($_ =~ /gene_id\s\"(ENSG\S+)\"\;/) { $id = $1; $name = undef; if ($_ =~ /gene_name\s\"(\S+)"\;/) { $name = $1; }; }; if ($id && $name) {print "$id\t$name\n";} if ($_=~/gene_id\s\"(ERCC\S+)\"/){print "$1\t$1\n";}' $RNA_REF_GTF | sort | uniq > ENSG_ID2Name.txt
-head ENSG_ID2Name.txt
-
-```
-
-Determine the number of unique Ensembl Gene IDs and symbols. What does this tell you?
-```bash
-#count unique gene ids
-cut -f 1 ENSG_ID2Name.txt | sort | uniq | wc -l
-#count unique gene names
-cut -f 2 ENSG_ID2Name.txt | sort | uniq | wc -l
-
-#show the most repeated gene names
-cut -f 2 ENSG_ID2Name.txt | sort | uniq -c | sort -r | head
+mkdir -p de/htseq_counts/edgeR
+cd de/htseq_counts/edgeR
 
 ```
 
@@ -67,7 +47,7 @@ R code has been provided below. If you wish to have a script with all of the cod
 ```R
 
 # set working directory where output will go
-working_dir = "~/workspace/rnaseq/de/htseq_counts"
+working_dir = "~/workspace/rnaseq/de/htseq_counts/edgeR"
 setwd(working_dir)
 
 # read in gene mapping
@@ -149,49 +129,9 @@ o = order(et$table$PValue[as.logical(de)], decreasing=FALSE)
 out4 = out3[o, ]
 
 # Save table
-write.table(out4, file = "DE_genes.txt", quote = FALSE, row.names = FALSE, sep = "\t")
+write.table(out4, file = "DE_sig_genes_edgeR.tsv", quote = FALSE, row.names = FALSE, sep = "\t")
 
 #To exit R type the following
 quit(save = "no")
 ```
-
-Once you have run the edgeR tutorial, compare the sigDE genes to those saved earlier from ballgown:
-```bash
-head $RNA_HOME/de/ballgown/ref_only/DE_genes.txt
-head $RNA_HOME/de/htseq_counts/DE_genes.txt
-
-```
-
-Pull out the gene IDs
-```bash
-cd $RNA_HOME/de/
-
-cut -f 1 $RNA_HOME/de/ballgown/ref_only/DE_genes.txt | sort | uniq > ballgown_DE_gene_symbols.txt
-cut -f 2 $RNA_HOME/de/htseq_counts/DE_genes.txt | sort | uniq | grep -v Gene_Name > htseq_counts_edgeR_DE_gene_symbols.txt
-
-```
-
-Visualize overlap with a venn diagram. This can be done with simple web tools like:
-
-* [https://www.biovenn.nl/](https://www.biovenn.nl/)
-* [http://bioinfogp.cnb.csic.es/tools/venny/](http://bioinfogp.cnb.csic.es/tools/venny/)
-
-To get the two gene lists you could use `cat` to print out each list in your terminal and then copy/paste.
-
-```bash
-cat ballgown_DE_gene_symbols.txt
-cat htseq_counts_edgeR_DE_gene_symbols.txt
-
-```
-
-Alternatively you could view both lists in a web browser as you have done with other files. These two files should be here:
-
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/htseq_counts_edgeR_DE_gene_symbols.txt
-
-##### Example Venn Diagram (DE genes from StringTie/Ballgown vs HTSeq/EdgeR)
-
-<br>
-{% include figure.html image="/assets/module_3/venn-ballgown-vs-edger.png" width="400" %}
-
 

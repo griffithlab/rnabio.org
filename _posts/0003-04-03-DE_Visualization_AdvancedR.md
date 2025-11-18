@@ -62,7 +62,7 @@ gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", hea
 colnames(gene_names) = c("gene_id", "gene_name")
 
 #Import DE results from the HISAT2/htseq-count/DESeq2 pipeline (http://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
-results_genes = read.table("~/workspace/rnaseq/de/deseq2/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+results_genes = read.table("~/workspace/rnaseq/de/htseq_counts/deseq2/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 #results_genes = read.table("outdir/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
 #Set a directory for the output to go to

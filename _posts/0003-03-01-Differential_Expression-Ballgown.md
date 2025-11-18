@@ -162,8 +162,8 @@ grep -v feature UHR_vs_HBR_gene_results_sig.tsv | sort -nk 3 | head -n 20 | colu
 Save all genes with P<0.05 to a new file.
 
 ```bash
-grep -v feature UHR_vs_HBR_gene_results_sig.tsv | cut -f 6 | sed 's/\"//g' > DE_genes.txt
-head DE_genes.txt
+grep -v feature UHR_vs_HBR_gene_results_sig.tsv | cut -f 6 | sed 's/\"//g' > DE_sig_genes_ballgown.tsv
+head DE_sig_genes_ballgown.tsv
 
 ```
 

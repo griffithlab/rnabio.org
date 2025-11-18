@@ -23,7 +23,7 @@ In this section we will be going over some basic visualizations of the DESeq2 re
 Navigate to the correct directory and then launch R:
 
 ```bash
-cd $RNA_HOME/de/deseq2
+cd $RNA_HOME/de/htseq_counts/deseq2
 R
 ```
 
@@ -31,7 +31,7 @@ If it is not already in your R environment, load the DESeqDataSet object and the
 
 ```R
 # set the working directory
-setwd("/home/ubuntu/workspace/rnaseq/de/deseq2")
+setwd("/home/ubuntu/workspace/rnaseq/de/htseq_counts/deseq2")
 
 # view the contents of this directory
 dir()

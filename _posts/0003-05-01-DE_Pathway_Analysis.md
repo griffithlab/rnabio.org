@@ -37,7 +37,7 @@ Before we perform the pathway analysis we need to read in our differential expre
 ```R
 
 # Define working dir paths and load in data
-datadir = "/workspace/rnaseq/de/deseq2"
+datadir = "/workspace/rnaseq/de/htseq_counts/deseq2"
 #datadir = "/cloud/project/outdir/"
 
 setwd(datadir)
@@ -45,7 +45,7 @@ setwd(datadir)
 # Load in the DE results file with only significant genes (e.g., http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
 DE_genes = read.table("DE_sig_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
-output_dir = "/workspace/rnaseq/de/deseq2/pathway/"
+output_dir = "/workspace/rnaseq/de/htseq_counts/deseq2/pathway/"
 #output_dir = "/cloud/project/outdir/pathway/"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
@@ -208,7 +208,7 @@ For this next step we will do a very brief introduction to visualizing our resul
  * Use a web browser to download your results
 
  * For AWS: Navigate to the URL below replacing YOUR_IP_ADDRESS with your amazon instance IP address:
-     http://**YOUR_IP_ADDRESS**/rnaseq/de/deseq2
+     http://**YOUR_IP_ADDRESS**/rnaseq/de/htseq_counts/deseq2/pathway
 
  * Download the linked files by right clicking on the two saved result files: `fc.go.cc.p.up.tsv` and `fc.go.cc.p.down.tsv`.
 

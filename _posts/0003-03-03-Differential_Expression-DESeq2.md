@@ -33,8 +33,8 @@ First, create a directory for results. Then start R:
 
 ```bash
 cd $RNA_HOME/
-mkdir -p de/deseq2
-cd de/deseq2
+mkdir -p de/htseq_counts/deseq2
+cd de/htseq_counts/deseq2
 
 R
 
@@ -45,7 +45,7 @@ Once we start from R, the relevant packages should already be installed. We will
 ```R
 # define working dir paths
 datadir = "/home/ubuntu/workspace/rnaseq/expression/htseq_counts"
-outdir = "/home/ubuntu/workspace/rnaseq/de/deseq2"
+outdir = "/home/ubuntu/workspace/rnaseq/de/htseq_counts/deseq2"
 
 # load R libraries we will use in this section
 library(DESeq2)
