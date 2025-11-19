@@ -110,6 +110,10 @@ pca_uncorrected_obj = prcomp(uncorrected_data[,sample_names])
 #pull PCA values out of the PCA object
 pca_uncorrected = as.data.frame(pca_uncorrected_obj[2]$rotation)
 
+#determine the percentage of variance explained by each PC
+variance = (pca_uncorrected_obj$sdev)^2
+percent_variance = (variance / sum(variance)) * 100
+
 #assign labels to the data frame
 pca_uncorrected[,"condition"] = conditions
 pca_uncorrected[,"library_method"] = library_methods
@@ -117,11 +121,15 @@ pca_uncorrected[,"replicate"] = replicates
 
 #plot the PCA
 #create a classic 2-dimension PCA plot (first two principal components) with conditions and library methods indicated
+pc1_label = paste("PC1 (", round(percent_variance[1], digits=1), "% variance explained)", sep="")
+pc2_label = paste("PC2 (", round(percent_variance[2], digits=1), "% variance explained)", sep="")
+
 cols <- c("UHR" = "#481567FF", "HBR" = "#1F968BFF")
 p1 = ggplot(data = pca_uncorrected, aes(x = PC1, y = PC2, color = condition, shape = library_method))
 p1 = p1 + geom_point(size = 3)
 p1 = p1 + stat_ellipse(type = "norm", linetype = 2)
 p1 = p1 + labs(title = "PCA, RNA-seq counts for 16 HBR/UHR and Ribo/PolyA samples (uncorrected data)", color = "Condition", shape="Library Method")
+p1 = p1 + labs(x = pc1_label, y = pc2_label)
 p1 = p1 + scale_colour_manual(values = cols)
 
 ```
@@ -193,17 +201,25 @@ pca_corrected_obj = prcomp(corrected_data[, sample_names])
 #pull PCA values out of the PCA object
 pca_corrected = as.data.frame(pca_corrected_obj[2]$rotation)
 
+#determine the percentage of variance explained by each PC
+variance = (pca_corrected_obj$sdev)^2
+percent_variance = (variance / sum(variance)) * 100
+
 #assign labels to the data frame
 pca_corrected[,"condition"] = conditions
 pca_corrected[,"library_method"] = library_methods
 pca_corrected[,"replicate"] = replicates
 
 #as above, create a PCA plot for comparison to the uncorrected data
+pc1_label = paste("PC1 (", round(percent_variance[1], digits=1), "% variance explained)", sep="")
+pc2_label = paste("PC2 (", round(percent_variance[2], digits=1), "% variance explained)", sep="")
 cols <- c("UHR" = "#481567FF", "HBR" = "#1F968BFF")
+
 p2 = ggplot(data = pca_corrected, aes(x = PC1, y = PC2, color = condition, shape = library_method))
 p2 = p2 + geom_point(size = 3)
 p2 = p2 + stat_ellipse(type = "norm", linetype = 2)
 p2 = p2 + labs(title = "PCA, RNA-seq counts for 16 HBR/UHR and Ribo/PolyA samples (batch corrected data)", color = "Condition", shape = "Library Method")
+p2 = p2 + labs(x = pc1_label, y = pc2_label)
 p2 = p2 + scale_colour_manual(values = cols)
 
 pdf(file = "Uncorrected-vs-BatchCorrected-PCA.pdf")
