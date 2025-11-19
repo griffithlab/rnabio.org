@@ -46,10 +46,16 @@ cd $RNA_HOME/batch_correction
 zcat GSE48035_ILMN.counts.txt.gz | tr -d '"' > GSE48035_ILMN.counts.tmp.txt
 
 #create a fixed version of the header and store for later
-head -n 1 GSE48035_ILMN.counts.tmp.txt | perl -ne 'print "Gene\tChr\t$_"' > header.txt
+(echo -e "Gene\tChr\t"; head -n 1 GSE48035_ILMN.counts.tmp.txt) | tr -d '\n' > header.txt
 
 #split the chromosome and gene names on each line, sort the file by gene name
-perl -ne 'chomp; if ($_ =~ /^(chr\w+)\!(\S+)(.*)/){print "$2\t$1$3\n"}else{print "$_\n"}' GSE48035_ILMN.counts.tmp.txt | sort > GSE48035_ILMN.counts.tmp2.txt
+#ensure input and output are interpreted as tab separated. 
+#Split the first entry on "!", replace with a new first entry the reverses chr and gene name
+awk -F'\t' 'BEGIN { OFS="\t" } {
+    split($1, a, "!");
+    $1 = a[2] OFS a[1];
+    print
+}' GSE48035_ILMN.counts.tmp.txt | sort > GSE48035_ILMN.counts.tmp2.txt
 
 #remove the old header line
 grep -v --color=never ABRF GSE48035_ILMN.counts.tmp2.txt > GSE48035_ILMN.counts.clean.txt
