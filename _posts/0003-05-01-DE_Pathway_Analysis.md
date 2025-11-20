@@ -269,7 +269,7 @@ gsea_res <- gseGO(
 Generate the classic GSEA enrichment plot
 ```R
 # Plot the enrichment plot for a specific GO term or pathway - Synapse
-gsea_plot <- gseaplot2(gsea_res, geneSetID = "GO:0045202", title = "Enrichment Plot for Synapse")
+gsea_plot <- gseaplot(gsea_res, geneSetID = "GO:0045202", title = "Enrichment Plot for Synapse")
 ggsave("gsea_go_synapse_plot.pdf", plot=gsea_plot, width = 8, height = 8)
 
 ```
