@@ -20,10 +20,6 @@ In this section we will use the GAGE tool in R to test for significantly enriche
 ### What is gage?
 The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and RNAseq data sets. In this section we will use [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) and the [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) databases to perform pathway analysis. 
 
-Now, we will start a docker session to run the analysis in this section
-```bash
-docker run -it -v /home/ubuntu/workspace:/workspace cnithin7/bioc-custom:1.0 /bin/bash
-```
 
 Launch R at the commandline, start RStudio, or launch a posit Cloud session:
 
@@ -288,14 +284,10 @@ gsea_cnetplot <- cnetplot(gsea_res, foldChange = ranked_genes, showCategory = 10
 ggsave("gsea_cnetplot.pdf", plot=gsea_cnetplot, width = 8, height = 6)
 ```
 
-The enrichKEGG function can be used to visualize KEGG pathways, showing detailed diagrams with our DE genes highlighted. This approach is especially useful for understanding the biological roles of up- and down-regulated genes within specific metabolic or signaling pathways. By using the pathview package, we can generate pathway diagrams where each DE gene is displayed in its functional context and color-coded by expression level. This makes it easy to see which parts of a pathway are impacted and highlights any potential regulatory or metabolic shifts in a clear, intuitive format. We will start by downloading and installing the KEGG database and then run the `enrichKEGG` function.
+The enrichKEGG function can be used to visualize KEGG pathways, showing detailed diagrams with our DE genes highlighted. This approach is especially useful for understanding the biological roles of up- and down-regulated genes within specific metabolic or signaling pathways. By using the pathview package, we can generate pathway diagrams where each DE gene is displayed in its functional context and color-coded by expression level. This makes it easy to see which parts of a pathway are impacted and highlights any potential regulatory or metabolic shifts in a clear, intuitive format.
 ```R
-# Download KEGG DB file and install
-download.file('https://www.bioconductor.org/packages/3.11/data/annotation/src/contrib/KEGG.db_3.2.4.tar.gz', destfile='KEGG.db_3.2.4.tar.gz')
-install.packages("KEGG.db_3.2.4.tar.gz", repos = NULL, type = "source")
-
-# Run enrichKEGG with local database option
-pathways <- enrichKEGG(gene = names(ranked_genes), organism = "hsa", keyType = "kegg", use_internal_data=TRUE)
+# Run enrichKEGG on the ranked genes
+pathways <- enrichKEGG(gene = names(ranked_genes), organism = "hsa", keyType = "kegg")
 head(pathways@result)
 ```
 Let's choose one of the pathways above, for example `hsa04010 - MAPK signaling pathway` to visualize.
@@ -314,9 +306,4 @@ pathview(
 
 #To exit R type:
 quit(save = "no")
-```
-
-Leave the docker session
-```bash
-exit
 ```
