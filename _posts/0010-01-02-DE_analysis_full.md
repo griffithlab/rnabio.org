@@ -2,11 +2,11 @@
 feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
-title: Differential expression analysis
+title: Differential expression analysis full
 categories:
-    - Module-08-scRNA
+    - Module-10-Archive
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0008-04-01
+date: 0010-01-02
 ---
 
 ***
@@ -181,8 +181,7 @@ print(paste0("Genes differentially expressed in pseudobulk but not single-cell: 
 
 ```
 
-Genes that were detected by single-cell and pseudobulk (~2800) are the most likely to be true positives. Far fewer genes are detected by pseudobulk alone (~600) compared to single-cell alone (~3000). The pseudobulk genes may also be false positives though, as by pseudobulking we lose information about the percent of cells expressing a gene. Therefore, some of these genes may be differentially expressed because they are only expressed in a few cells. Some tools, such as [decoupler](https://decoupler.readthedocs.io/en/latest/) allow users to ensure their pseudobulked objects have a minimum number of cells prior to pseudobulking to get around this.
-It is also unlikely that all ~3000 genes detected by single-cell alone are false positives- therefore, it's difficult to advocate for only one approach, but based on the downstream application one approach may be better than the other. (If the goal is to come up with a shorter list of genes to follow up on in the wet lab, then the consensus DE gene list may be appropriate. But if the goal is more exploratory, the single cell genes can be used, but you'll likely want to use violin plots and feature plots to make sure the genes are indeed differentially expressed before you report them).
+Genes that were detected by single-cell and pseudobulk (~2800) are the most likely to be true positives. Far fewer genes are detected by pseudobulk only (~600) compared to single-cell only (~3000). The pseudobulk genes may also be false positives though, as by pseudobulking we lose information about the percent of cells expressing the genes. Therefore, some of these genes may be differentially expressed because they are only expressed in a few cells. Also, it is unlikely that all ~3000 genes detected only by single-cell are false positives- therefore, it's difficult to advocate for only one approach, but based on the downstream application one approach may be better than the other. (If the goal is to come up with a shorter list of genes to follow up on in the wet lab, then the consensus DE gene list may be appropriate. But if the goal is more exploratory, the single cell genes can be used, but you'll likely want to use violin plots and feature plots to make sure the genes are indeed differentially expressed).
 
 ### Differential expression for T cells
 
@@ -249,3 +248,112 @@ tcells_de_sig %>%
 ```
 
 The most downregulated gene in the ICBdT condition based on foldchange is Cd4. That makes sense, because the monoclonal antibody (GK1.5) used for T cell depletion specifically targets CD4 T cells! You can read more about the antibody [here](https://bioxcell.com/educational-articles/cell-depletion-antibodies/).
+
+Interestingly, for the list of genes that are upregulated in the ICBdT condition, we see Cd8b1 show up. It could be interesting to see if the CD8 T cells' phenotype changes based on the treatment condition. Let's subset the object to CD8 T cells only, find DE genes to see how ICBdT CD8 T cells change compared to ICB CD8 T cells, and visualize these similar to before. 
+
+```R
+# Subset object to CD8 T cells. Since we already showed how to subset cells using the clusters earlier, 
+# This time we'll subset to CD8 T cells by selecting for cells with high expression of Cd8 genes and low expression of Cd4 genes using violin plots to find thresholds for filtering
+VlnPlot(merged_tcells, features = c('Cd8a', 'Cd8b1', 'Cd4'))
+merged_cd8tcells <- subset(merged_tcells, subset= Cd8b1 > 1 & Cd8a > 1 & Cd4 < 0.1)
+
+#carry out DE analysis between both groups
+merged_cd8tcells <- SetIdent(merged_cd8tcells, value = "experimental_condition")
+cd8tcells_de <- FindMarkers(merged_cd8tcells, ident.1 = "ICBdT", ident.2 = "ICB", min.pct=0.25) #how ICBdT changes wrt ICB
+
+#restrict differentially expressed genes to those with an adjusted p-value less than 0.001 
+cd8tcells_de_sig <- cd8tcells_de[cd8tcells_de$p_val_adj < 0.001,]
+
+#get the top 20 genes by fold change
+cd8tcells_de_sig %>%
+  top_n(n = 20, wt = abs(avg_log2FC)) -> cd8tcells_de_sig_top20
+
+#get list of top 20 DE genes for ease
+cd8tcells_de_sig_top20_genes <- rownames(cd8tcells_de_sig_top20)
+
+
+#plot all 20 genes in violin plots
+VlnPlot(merged_cd8tcells, features = cd8tcells_de_sig_top20_genes, group.by = 'experimental_condition', ncol = 5, pt.size = 0)
+
+#plot all 20 genes in UMAP plots
+FeaturePlot(merged_cd8tcells, features = cd8tcells_de_sig_top20_genes, ncol = 5)
+
+#plot all 20 genes in a DotPlot
+DotPlot(merged_cd8tcells, features = cd8tcells_de_sig_top20_genes, group.by = 'experimental_condition') + RotatedAxis()
+
+#plot all differentially expressed genes in a volcano plot
+EnhancedVolcano(cd8tcells_de,
+  lab = rownames(cd8tcells_de),
+  x = 'avg_log2FC',
+  y = 'p_val_adj',
+  title = 'ICBdT wrt ICB',
+  pCutoff = 0.05,
+  FCcutoff = 0.5,
+  pointSize = 3.0,
+  labSize = 5.0,
+  colAlpha = 0.3)
+```
+![CD8Tcells DE volcanoplot](/assets/module_8/DE_CD8Tcells_object_subset_volcanoplot.png)
+
+At this point, you can either start doing literature searches for some of these genes and find that for genes like Bcl2, Cdk8, and Znrf3 that were upregulated in ICB CD8 Tcells, the literature suggests- antigen-specific memory CD8 T cells have higher expression of [Bcl2](https://journals.aai.org/jimmunol/article/164/8/3950/32588/Cutting-Edge-Increased-Expression-of-Bcl-2-in) and [Cdk8](https://www.science.org/doi/abs/10.1126/sciimmunol.aaw2707); and Znrf3 has been implicated in [CD8 T cells' anti-tumor response following anti-PD-1 therapy](https://pubmed.ncbi.nlm.nih.gov/37738974/). Also, we replicate the original paper's findings of ICBdT CD8 T cells upregulating T cell exhaustion markers like Tigit and Pdcd1. 
+
+But we can also use gene set and pathway analyses to try and determine what processes the cells may be involved in. 
+
+Same as the epithelial cells, let's create a TSV file containing our DE results for use in pathway analysis by rerunning `FindMarkers` with the `logfc.threshold` parameter set to 0.
+
+```R
+#rerun FindMarkers
+cd8tcells_de_gsea <- FindMarkers(merged_cd8tcells, ident.1 = "ICBdT", 
+  ident.2 = "ICB", min.pct=0.25, logfc.threshold=0)
+#save this table as a TSV file (first move index to first column)
+cd8tcells_de_gsea <- tibble::rownames_to_column(cd8tcells_de_gsea, var = "gene")
+write.table(x = cd8tcells_de_gsea, file = 'outdir_single_cell_rna/cd8tcells_de_gsea.tsv', sep='\t', row.names = FALSE)
+
+``` 
+
+<details>
+<summary>Try using the pseudobulk aggregated expression for the CD8 T cells yourself!
+
+<p>Hint: Aggregate by <code>orig.ident</code> and <code>experimental_condition</code>. (Click here to get the answer)</p>
+</summary>
+
+<pre><code class="language-r">
+# Aggregate counts for each sample and cluster combination
+pb_cd8tcells <- AggregateExpression(merged_cd8tcells, assays = 'RNA', 
+                                         return.seurat = T, group.by = c('orig.ident', 'experimental_condition'))
+
+# See the first few rows of the log normalized data layer
+print(head(pb_cd8tcells@assays$RNA$data))
+
+# Change ident to seurat clusters
+Idents(pb_cd8tcells) <- "experimental_condition"
+
+# Use FindMarkers with DESeq2 as the test to compare cluster 9 wrt cluster 12
+pb_cd8tcells_de <- FindMarkers(object = pb_cd8tcells, test.use = "DESeq2",
+                                  ident.1 = "ICBdT", ident.2 = "ICB")
+
+# The DESeq2 analysis results in NAs in the pvalue columns for some cases 
+pb_cd8tcells_de <- na.omit(pb_cd8tcells_de)
+
+# Restrict differentially expressed genes to those with an adjusted p-value less than 0.001 
+pb_cd8tcells_de_sig <- pb_cd8tcells_de[pb_cd8tcells_de$p_val_adj < 0.01,] 
+
+# Compare significantly differentially expressed genes
+pb_and_sc_genes <- intersect(rownames(cd8tcells_de_sig), rownames(pb_cd8tcells_de_sig))
+only_sc_genes <- setdiff(rownames(cd8tcells_de_sig), rownames(pb_cd8tcells_de_sig))
+only_pb_genes <- setdiff(rownames(pb_cd8tcells_de_sig), rownames(cd8tcells_de_sig))
+
+print(paste0("Genes differentially expressed in both single-cell and pseudobulk: ", length(pb_and_sc_genes)))
+print(paste0("Genes differentially expressed in single-cell but not pseudobulk: ", length(only_sc_genes)))
+print(paste0("Genes differentially expressed in pseudobulk but not single-cell: ", length(only_pb_genes)))
+</code></pre>
+
+<p>Hmm looks like we barely have any significant DE genes for the pseudobulk data. Let's look at a few of the genes we pulled out earlier:</p>
+
+<pre><code class="language-r">
+VlnPlot(merged_cd8tcells, features = c('Bcl2', 'Cdk8', 'Znrf3'), group.by = 'orig.ident')
+print(pb_cd8tcells_de[rownames(pb_cd8tcells_de) %in% c('Bcl2', 'Cdk8', 'Znrf3'), ])
+</code></pre>
+
+<p>It looks like those genes didn't get past the multiple hypothesis correcting. In practice, it would be a judgement call on whether or not you expect these to be 'real' and how you want to validate them.</p>
+</details>
