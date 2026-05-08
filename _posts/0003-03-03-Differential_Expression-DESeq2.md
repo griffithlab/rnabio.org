@@ -29,15 +29,23 @@ In this tutorial you will:
 
 ### Setup
 
-First, create a directory for results. Then start R:
+Here we start from R, relevant packages should already be installed so we will load the libraries, set working directories and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
 
-```bash
-cd $RNA_HOME/
-mkdir -p de/htseq_counts/deseq2
-cd de/htseq_counts/deseq2
+```R
+# define working dir paths
+datadir = "/cloud/project/data/bulk_rna"
+outdir = "/cloud/project/outdir"
 
-R
+# load R libraries we will use in this section
+library(DESeq2)
+library(data.table)
+library(ggplot2)
 
+# set working directory to data dir
+setwd(datadir)
+
+# read in the RNAseq read counts for each gene (produced by htseq-count)
+htseqCounts = fread("gene_read_counts_table_all_final.tsv")
 ```
 
 Once we start from R, the relevant packages should already be installed. We will load the libraries, set working directories, and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
