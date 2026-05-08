@@ -201,7 +201,7 @@ head(res_after)
 p <- ggplot(res_combined, aes(x = log2FoldChange, color = group)) + geom_density() + theme_bw() +
   scale_color_manual(values = c("before shrinkage" = "tomato4", "after shrinkage" = "slategray")) +
   labs(color = "Shrinkage status")
-ggsave(plot=p, filename = "before_after_shrinkage.pdf", device="pdf", width=6, height=4, units="in")
+ggsave(plot=p, filename = paste0(outdir, "before_after_shrinkage.pdf"), device="pdf", width=6, height=4, units="in")
 
 ```
 
@@ -214,7 +214,7 @@ DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human 
 
 ```R
 # read in gene ID to name mappings (using "fread" an alternative to "read.table")
-gene_id_mapping <- fread("/home/ubuntu/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = FALSE)
+gene_id_mapping <- fread("/cloud/project/data/bulk_rna/ENSG_ID2Name.txt.gz", header = FALSE)
 
 # add names to the columns in the "gene_id_mapping" dataframe
 setnames(gene_id_mapping, c("ensemblID", "Symbol"))
@@ -297,9 +297,6 @@ top_bottom = bind_rows(
 
 # visualize data for the top n genes. Simplify the output a bit
 print(top_bottom[,c("log2FoldChange","padj","Symbol","UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3","Set")])
-
-#To exit R type the following
-quit(save = "no")
 
 ```
 
