@@ -50,27 +50,6 @@ htseqCounts = fread("gene_read_counts_table_all_final.tsv")
 
 Once we start from R, the relevant packages should already be installed. We will load the libraries, set working directories, and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
 
-```R
-# define working dir paths
-datadir = "/home/ubuntu/workspace/rnaseq/expression/htseq_counts"
-outdir = "/home/ubuntu/workspace/rnaseq/de/htseq_counts/deseq2"
-
-# load R libraries we will use in this section
-library(DESeq2)
-library(data.table)
-library(ggplot2)
-
-# set working directory to data dir
-setwd(datadir)
-
-# read in the RNAseq read counts for each gene (produced by htseq-count)
-htseqCounts = fread("gene_read_counts_table_all_final.tsv")
-
-# set working directory to the output dir
-setwd(outdir)
-
-```
-
 ### Format htseq counts data to work with DESeq2
 DESeq2 has a number of options for data import and has a function to read HTseq output files directly. Here the most universal option is used, reading in raw counts from a matrix in simple TSV format (one row per gene, one column per sample). The HTseq count data that was read in above is stored as an object of class "data.table", this can be verified with the `class()` function. Before use in this exercise it is required to convert this object to an appropriate matrix format with gene names as rows and samples as columns.
 
