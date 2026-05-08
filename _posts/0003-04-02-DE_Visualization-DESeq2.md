@@ -20,18 +20,11 @@ date: 0003-04-02
 In this section we will be going over some basic visualizations of the DESeq2 results generated in the "Differential Expression with DESeq2" section of this course. Our goal is to quickly obtain some interpretable results using built-in visualization functions from DESeq2 or recommended packages. For a very extensive overview of DESeq2 and how to visualize and interpret the results, refer to the DESeq2 vignette.
 
 #### Setup
-Navigate to the correct directory and then launch R:
-
-```bash
-cd $RNA_HOME/de/htseq_counts/deseq2
-R
-```
-
 If it is not already in your R environment, load the DESeqDataSet object and the results table into the R environment.
 
 ```R
 # set the working directory
-setwd("/home/ubuntu/workspace/rnaseq/de/htseq_counts/deseq2")
+setwd("/cloud/project/outdir")
 
 # view the contents of this directory
 dir()
