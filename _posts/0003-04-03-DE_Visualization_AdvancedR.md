@@ -32,13 +32,6 @@ Expression and differential expression files will be read into R. The R analysis
 
 Start RStudio, or launch a posit Cloud session, or if you are using AWS, navigate to the correct directory and then launch R:
 
-```bash
-mkdir $RNA_HOME/de/visualization_advanced
-cd $RNA_HOME/de/visualization_advanced
-
-R
-```
-
 First you'll load your libraries and your data.
 
 ```R
@@ -49,7 +42,7 @@ library(GenomicRanges)
 library(ggrepel)
 
 #Set a base working directory
-setwd("/home/ubuntu/workspace/rnaseq/de/visualization_advanced/")
+setwd("/cloud/project/")
 
 #Import expression results (TPM values) from the HISAT2/Stringtie pipeline (https://genomedata.org/cri-workshop/gene_tpm_all_samples.tsv)
 gene_expression = read.table("~/workspace/rnaseq/expression/stringtie/ref_only/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
