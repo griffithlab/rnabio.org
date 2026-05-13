@@ -64,11 +64,11 @@ Perform the following analyses in `R`:
 ```R
 
 #Define working dir paths
-# datadir = "/cloud/project/data/bulk_rna"
-# outdir = "/cloud/project/outdir"
+datadir = "/cloud/project/data/bulk_rna"
+outdir = "/cloud/project/outdir"
 
-datadir = "~/workspace/rnaseq/batch_correction"
-outdir = "~/workspace/rnaseq/batch_correction/outputs"
+# datadir = "~/workspace/rnaseq/batch_correction"
+# outdir = "~/workspace/rnaseq/batch_correction/outputs"
 
 if (!dir.exists(outdir)) dir.create(outdir)
 
