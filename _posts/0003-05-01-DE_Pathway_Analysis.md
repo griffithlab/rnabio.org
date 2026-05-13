@@ -34,8 +34,8 @@ setwd(datadir)
 # Load in the DE results file with only significant genes (e.g., http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
 DE_genes = read.table("DE_sig_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
-output_dir = "/workspace/rnaseq/de/htseq_counts/deseq2/pathway/"
-#output_dir = "/cloud/project/outdir/pathway/"
+#output_dir = "/workspace/rnaseq/de/htseq_counts/deseq2/pathway/"
+output_dir = "/cloud/project/outdir/pathway/"
 if (!dir.exists(output_dir)) {
   dir.create(output_dir, recursive = TRUE)
 }
@@ -201,7 +201,7 @@ For this next step we will do a very brief introduction to visualizing our resul
 
  * Download the linked files by right clicking on the two saved result files: `fc.go.cc.p.up.tsv` and `fc.go.cc.p.down.tsv`.
 
- * For posit Cloud: Navigate to the `outdir` folder in the 'Files' pane. Select `fc.go.cc.p.up.tsv` and `fc.go.cc.p.down.tsv` then 'More' -> 'Export...'. You may need to unzip the downloaded files. 
+ * For posit Cloud: Navigate to the `outdir/pathway` folder in the 'Files' pane. Select `fc.go.cc.p.up.tsv` and `fc.go.cc.p.down.tsv` then 'More' -> 'Export...'. You may need to unzip the downloaded files. 
 
  * Open the result file in your text editor of choice. We like [text wrangler](https://www.barebones.com/products/textwrangler/).
    You should also be able to open the file in excel, google sheets, or another spreadsheet tool. This might help you visualize the data in rows and columns (NB: There might be a small amount of formatting necessary to get the header to line up properly).
