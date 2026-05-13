@@ -20,25 +20,14 @@ In this section we will use the GAGE tool in R to test for significantly enriche
 ### What is gage?
 The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and RNAseq data sets. In this section we will use [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) and the [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) databases to perform pathway analysis. 
 
-Now, we will start a docker session to run the analysis in this section
-```bash
-docker run -it -v /home/ubuntu/workspace:/workspace cnithin7/bioc-custom:1.0 /bin/bash
-```
-
-Launch R at the commandline, start RStudio, or launch a posit Cloud session:
-
-```bash
-R
-```
-
 ### Importing DE results for gage
 Before we perform the pathway analysis we need to read in our differential expression results from the previous DE analysis.
 
 ```R
 
 # Define working dir paths and load in data
-datadir = "/workspace/rnaseq/de/htseq_counts/deseq2"
-#datadir = "/cloud/project/outdir/"
+#datadir = "/workspace/rnaseq/de/htseq_counts/deseq2"
+datadir = "/cloud/project/outdir/"
 
 setwd(datadir)
 
@@ -316,7 +305,3 @@ pathview(
 quit(save = "no")
 ```
 
-Leave the docker session
-```bash
-exit
-```
