@@ -42,11 +42,11 @@ For the exercise use the following:
 - Gene ID to name mapping file path: `/cloud/project/data/bulk_rna/ENSG_ID2Name.txt.gz`
 - Results path: `/cloud/project/outdir/de_ai_exercise`
 
-Hint. To quickly see what the input data looks like, you can do the following:
+Hint. To quickly see what the input data looks like, you can do the following to display the first two lines of each:
 
 ```R
-head(read.delim("/cloud/project/data/bulk_rna/gene_read_counts_table_all_final.tsv"))
-head(read.delim(gzfile("/cloud/project/data/bulk_rna/ENSG_ID2Name.txt.gz")))
+head(read.delim("/cloud/project/data/bulk_rna/gene_read_counts_table_all_final.tsv"), n=2)
+head(read.delim(gzfile("/cloud/project/data/bulk_rna/ENSG_ID2Name.txt.gz")), n=2)
 ```
 
 
