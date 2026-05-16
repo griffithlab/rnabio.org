@@ -29,16 +29,16 @@ In this tutorial you will:
 
 ### Setup
 
-Here we start from R, relevant packages should already be installed so we will load the libraries, set working directories and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
+Here we start from within an R session, relevant packages should already be installed so we will load the libraries, set working directories and read in the raw read counts data. Two pieces of information are required to perform analysis with DESeq2. A matrix of raw counts, such as was generated previously while running [HTseq](https://htseq.readthedocs.io/en/release_0.9.0/) previously in this course. This is important as DESeq2 normalizes the data, correcting for differences in library size using using this type of data. DESeq2 also requires the experimental design which can be supplied as a data.frame, detailing the samples and conditions.
 
 ```R
 # define working dir paths
 datadir = "/cloud/project/data/bulk_rna"
 outdir = "/cloud/project/outdir"
 
-# load R libraries we will use in this section
+# load R libraries we will use in this section - suppress some harmless warnings from the data.table package
 library(DESeq2)
-library(data.table)
+suppressPackageStartupMessages(library(data.table))
 library(ggplot2)
 
 # set working directory to data dir
@@ -80,22 +80,24 @@ head(htseqCounts)
 
 ### Filter raw counts
 
-Before running DESeq2 (or any differential expression analysis) it is useful to pre-filter data. There are computational benefits to doing this as the memory size of the objects within R will decrease and DESeq2 will have less data to work through and will be faster. By removing "low quality" data, it is also reduces the number of statistical tests that will be performed, which in turn reduces the impact of multiple test correction and can lead to more significant genes. 
+Before running DESeq2 (or any differential expression analysis) it is useful and common practice to pre-filter the data. There are computational benefits to doing this as the memory size of the objects within R will decrease and DESeq2 will have less data to work through and will be faster. More importantly, by removing "low quality" data, it is also reduces the number of statistical tests that will be performed, which in turn reduces the impact of multiple test correction and can lead to more significant genes. 
 
-The amount of pre-filtering is up to the analyst however, it should be done in an unbiased way. DESeq2 recommends removing any gene with less than 10 reads across all samples. Below, we filter a gene if at least 1 sample does not have at least 10 reads. Either way, mostly what is being removed here are genes with very little evidence for expression in any sample (in many cases gene with 0 counts in all samples).
+The amount of pre-filtering is up to the analyst. However, it must be done in an unbiased way (i.e. you can NOT remove genes that don't have a difference between conditions of interest, or that show an unexpected pattern). 
+
+DESeq2 recommends removing any gene with less than 10 reads across all samples. Below, we filter a gene if at least 1 sample does not have at least 10 reads. Either way, mostly what is being removed here are genes with very little evidence for expression in any sample (in many cases genes with 0 counts in all samples).
 
 ```R
 # run a filtering step
 # i.e. require that for every gene: at least 1 of 6 samples must have counts greater than 10
-# get index of rows that meet this criterion and use that to subset the matrix
+# get the index of rows that meet this criterion and use that to create a subset of the matrix
 # note the dimensions of the matrix before and after filtering with dim()
 
 # breaking apart the command below to understand it's outcome
 tail(htseqCounts) # look at the raw counts
 tail(htseqCounts >= 10) # determine which cells have counts greater than 10
-tail(rowSums(htseqCounts >= 10)) # determine for which genes how many samples have counts greater than 10
-tail(rowSums(htseqCounts >= 10) >= 1) # filter to those entries/genes for which at least one sample has counts greater than 10
-tail(which(rowSums(htseqCounts >= 10) >= 1)) #obtain the index for the above filter criteria
+tail(rowSums(htseqCounts >= 10)) # for each gene row, count how many samples have a count greater than 10
+tail(rowSums(htseqCounts >= 10) >= 1) # filter to those genes where at least one sample has a count greater than 10
+tail(which(rowSums(htseqCounts >= 10) >= 1)) #obtain the index for rows that meet the above filter criteria
 
 dim(htseqCounts)
 htseqCounts = htseqCounts[which(rowSums(htseqCounts >= 10) >= 1), ]
@@ -104,7 +106,7 @@ dim(htseqCounts)
 
 ### Specifying the experimental design
 
-As mentioned above DESeq2 also needs to know the experimental design, that is which samples belong to which condition to test. The experimental design for the example dataset herein is quite simple as there are 6 samples with two conditions to compare (UHR vs HBR), as such we can just create the experimental design right within R. There is one important thing to note, DESeq2 does not check sample names, it expects that the column names in the counts matrix we created correspond exactly to the row names we specify in the experimental design.
+As mentioned above DESeq2 also needs to know the experimental design. In our experimental design this means which samples belong to which condition. The experimental design for the example dataset is quite simple as there are 6 samples with two conditions to compare (UHR vs HBR). We can create the experimental design right within R. There is one important thing to note, DESeq2 does not check sample names, it expects that the column names in the counts matrix we created correspond exactly to the row names we specify in the experimental design.
 
 ```R
 # construct a mapping of the meta data for our experiment (comparing UHR cell lines to HBR brain tissues)
@@ -114,6 +116,10 @@ metaData <- data.frame("Condition" = c("UHR", "UHR", "UHR", "HBR", "HBR", "HBR")
 
 # convert the "Condition" column to a factor data type
 # the arbitrary order of these factors will determine the direction of log2 fold-changes for the genes (i.e. up or down regulated)
+# the condition that is listed second here will correspond to a +ve log2 fold change
+# genes with counts higher in UHR will have a fold change > 1, or +ve log2 fold change
+# genes with counts higher in HBR will have a fold change < 1 (fractions), or -ve log2 fold change
+
 metaData$Condition = factor(metaData$Condition, levels = c("HBR", "UHR"))
 
 # set the row names of the metaData dataframe to be the names of our sample replicates from the read counts matrix
@@ -128,7 +134,7 @@ all(rownames(metaData) == colnames(htseqCounts))
 ```
 
 ### Construct the DESeq2 object piecing all the data together
-With all the data properly formatted it is now possible to combine all the information required to run differental expression in one object. This object will hold the input data, and intermediary calculations. It is also where the condition to test is specified.
+With all the data properly formatted it is now possible to combine all the information required and run the differental expression analysis in one object. This object will hold the input data, and intermediary calculations. It is also where the condition to test is specified.
 
 ```R
 # make deseq2 data sets
@@ -139,8 +145,8 @@ With all the data properly formatted it is now possible to combine all the infor
 
 dds = DESeqDataSetFromMatrix(countData = htseqCounts, colData = metaData, design = ~Condition)
 
-# the design formula above is often a point of confussion, it is useful to put in words what is happening, when we specify "design = ~Condition" we are saying
-# regress gene expression on condition, or put another way model gene expression on condition
+# the design formula above is often a point of confusion, it is useful to put in words what is happening, when we specify "design = ~Condition" we are saying
+# regress gene expression on condition, or put another way, model gene expression on condition
 # gene expression is the response variable and condition is the explanatory variable
 # you can put words to formulas using this [cheat sheet](https://www.econometrics.blog/post/the-r-formula-cheatsheet/)
 ```
@@ -164,7 +170,7 @@ head(res, 5)
 ```
 
 ### Log-fold change shrinkage
-It is good practice to shrink the log-fold change values, this does exactly what it sounds like, reducing the amount of log-fold change for genes where there are few counts which create huge variability that is not truly biological signal. Consider for example a gene for two samples, one sample has 1 read, and and one sample has 6 reads, that is a 6 fold change, that is likely not accurate. There are a number of algorithms that can be used to shrink log2 fold change, here we will use the apeglm algorithm, which does require the apeglm package to be installed.
+It is good practice to shrink the log-fold change values, this does exactly what it sounds like, reducing the amount of log-fold change for genes where there are few counts which create huge variability that is not true biological signal. Consider for example a gene for two samples, one sample has 1 read, and and one sample has 6 reads, that is a 6 fold change, that is likely not accurate. There are a number of algorithms that can be used to shrink log2 fold change, here we will use the apeglm algorithm, which requires the apeglm package to be installed.
 
 ```R
 # shrink the log2 fold change estimates
@@ -210,7 +216,7 @@ How did the results change before and after shinkage? What direction is each log
 Note that for these data, the impact of shrinkage is very subtle but the pattern is that fold change values move towards 0.
 
 ### Annotate gene symbols onto the DE results
-DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human friendly way to interpret results. Here gene symbols are merged onto the differential expressed gene list to make the results a bit more interpretable.
+DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human friendly way to interpret results. Here gene symbols are merged onto the differentially expressed gene list to make the results a bit more interpretable.
 
 ```R
 # read in gene ID to name mappings (using "fread" an alternative to "read.table")
@@ -259,7 +265,7 @@ deGeneResultSignificant = deGeneResultSorted[deGeneResultSorted$padj < 0.05]
 ```
 
 ### Save results to files
-The data generated is now written out as tab separated files. Some of the DESeq2 objects are also saved as serialized R (RDS) objects which can be read back into R later for visualization.
+The data generated will now be written out as tab separated files (.tsv). Some of the DESeq2 objects are also saved as serialized R (RDS) objects which can be quickly read back into R later for visualization.
 
 ```R
 # set the working directory to the output dir where we will store any results files
