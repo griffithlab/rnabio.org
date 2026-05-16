@@ -32,56 +32,56 @@ library(monocle3)
 library(ggplot2)
 
 
-rep135 <- readRDS('outdir_single_cell_rna/preprocessed_object.rds')
+merged <- readRDS('outdir_single_cell_rna/preprocessed_object.rds')
 ```
 
 Let's see what clusters our epithelial cells are located in.
 
 ```R
-DimPlot(rep135, group.by = 'immgen_singler_main', label = TRUE) + 
-  DimPlot(rep135, group.by = 'seurat_clusters_res0.8', label = TRUE) 
+DimPlot(merged, group.by = 'immgen_singler_main', label = TRUE) + 
+  DimPlot(merged, group.by = 'seurat_clusters_res0.8', label = TRUE) 
 ```
 
 We can specifically highlight these cells for further clarity.
 
 ```R 
-Epithelial_cells = rep135$immgen_singler_main =="Epithelial cells"
-highlighted_cells <- WhichCells(rep135, expression = immgen_singler_main =="Epithelial cells")
-DimPlot(rep135, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
+Epithelial_cells = merged$immgen_singler_main =="Epithelial cells"
+highlighted_cells <- WhichCells(merged, expression = immgen_singler_main =="Epithelial cells")
+DimPlot(merged, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
 ```
 
 We already know that these two clusters can be separated into basal and luminal cells. We can see the distinction between these two types using markers. For example lets plot basal cell markers:
 
 ```R
-FeaturePlot(object = rep135, features = c("Cd44", "Krt14", "Krt5", "Krt16", "Krt6a"))
+FeaturePlot(object = merged, features = c("Cd44", "Krt14", "Krt5", "Krt16", "Krt6a"))
 ```
 
 To more comprehensively see where the basal and luminal cells are, we can create a cell type score by averaging the expression of a group of genes and ploting the score.
 
 ```R
 cell_type_Basal_marker_gene_list <- list(c("Cd44", "Krt14", "Krt5", "Krt16", "Krt6a"))
-rep135 <- AddModuleScore(object = rep135, features = cell_type_Basal_marker_gene_list, name = "cell_type_Basal_score") 
-FeaturePlot(object = rep135, features = "cell_type_Basal_score1")
+merged <- AddModuleScore(object = merged, features = cell_type_Basal_marker_gene_list, name = "cell_type_Basal_score") 
+FeaturePlot(object = merged, features = "cell_type_Basal_score1")
 
 cell_type_Luminal_marker_gene_list <- list(c("Cd24a", "Erbb2", "Erbb3", "Foxa1", "Gata3", "Gpx2", "Krt18", "Krt19", "Krt7", "Krt8", "Upk1a"))
-rep135 <- AddModuleScore(object = rep135, features = cell_type_Luminal_marker_gene_list, name = "cell_type_Luminal_score")
-FeaturePlot(object = rep135, features = "cell_type_Luminal_score1")
+merged <- AddModuleScore(object = merged, features = cell_type_Luminal_marker_gene_list, name = "cell_type_Luminal_score")
+FeaturePlot(object = merged, features = "cell_type_Luminal_score1")
 ```
 
 For ease and clarity, let's subset our Seurat object to just the epithelial cell clusters. 
 
 ```R
 ### Subsetting dataset epithelial
-rep135 <- SetIdent(rep135, value = 'seurat_clusters_res0.8')
-rep135_epithelial <- subset(rep135, idents = c('9', '12')) # 1750
+merged <- SetIdent(merged, value = 'seurat_clusters_res0.8')
+merged_epithelial <- subset(merged, idents = c('9', '12')) # 1750
 
 #confirm that we have subset the object as expected visually using a UMAP
-DimPlot(rep135, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
-  DimPlot(rep135_epithelial, group.by = 'seurat_clusters_res0.8', label = TRUE)
+DimPlot(merged, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
+  DimPlot(merged_epithelial, group.by = 'seurat_clusters_res0.8', label = TRUE)
 
 #confirm that we have subset the object as expected by looking at the individual cell counts
-table(rep135$seurat_clusters_res0.8)
-table(rep135_epithelial$seurat_clusters_res0.8)
+table(merged$seurat_clusters_res0.8)
+table(merged_epithelial$seurat_clusters_res0.8)
 ```
 
 #### Run CytoTRACE 
@@ -90,31 +90,31 @@ Now let's run [CytoTRACE](https://www.science.org/doi/10.1126/science.aax0249). 
 
 ```R
 # create a dataframe of expression values to pass to Cytotrce
-rep135_epithelial_expression <- data.frame(GetAssayData(object = rep135_epithelial, layer = "data"))
+merged_epithelial_expression <- data.frame(GetAssayData(object = merged_epithelial, layer = "data"))
 
-rep135_epithelial_cytotrace_scores <- CytoTRACE(rep135_epithelial_expression, ncores = 1)
+merged_epithelial_cytotrace_scores <- CytoTRACE(merged_epithelial_expression, ncores = 1)
 ```
 
 We then have to get the Cytotrace data into the correct format.
 
 ```R
-rep135_epithelial_cytotrace_transposed <- as.data.frame(rep135_epithelial_cytotrace_scores$CytoTRACE) 
-names(rep135_epithelial_cytotrace_transposed) <- "cytotrace_scores"
+merged_epithelial_cytotrace_transposed <- as.data.frame(merged_epithelial_cytotrace_scores$CytoTRACE) 
+names(merged_epithelial_cytotrace_transposed) <- "cytotrace_scores"
 
-head(rep135_epithelial_cytotrace_transposed)
+head(merged_epithelial_cytotrace_transposed)
 
 # fix the barcode formatting 
-rownames(rep135_epithelial_cytotrace_transposed) <- sub("\\.", "-", rownames(rep135_epithelial_cytotrace_transposed))
-rownames(rep135_epithelial_cytotrace_transposed)
+rownames(merged_epithelial_cytotrace_transposed) <- sub("\\.", "-", rownames(merged_epithelial_cytotrace_transposed))
+rownames(merged_epithelial_cytotrace_transposed)
 ```
 
 Add the data to the object
 ```
-rep135_epithelial <- AddMetaData(rep135_epithelial, rep135_epithelial_cytotrace_transposed %>% select("cytotrace_scores"))
+merged_epithelial <- AddMetaData(merged_epithelial, merged_epithelial_cytotrace_transposed %>% select("cytotrace_scores"))
 
-rep135_epithelial[['differentiation_scores']] <- 1 - rep135_epithelial[['cytotrace_scores']] # Let's also reverse out CytoTRACE scores so that high means more differentiated and low means less differentiated
+merged_epithelial[['differentiation_scores']] <- 1 - merged_epithelial[['cytotrace_scores']] # Let's also reverse out CytoTRACE scores so that high means more differentiated and low means less differentiated
 
-FeaturePlot(object = rep135_epithelial, features = c("cell_type_Basal_score1", "cell_type_Luminal_score1", "cytotrace_scores", "differentiation_scores"))
+FeaturePlot(object = merged_epithelial, features = c("cell_type_Basal_score1", "cell_type_Luminal_score1", "cytotrace_scores", "differentiation_scores"))
 ```
 
 <img src="/assets/module_8/CytotraceScores_epithelial.png" alt="Cytotrace scores of epitheial cells" width="1000"/>
@@ -127,40 +127,40 @@ Let's separate our luminal cells from the basal cells and perform trajectory ana
 
 ```R
 ## Subset to just luminal cells
-DimPlot(rep135_epithelial) # cluster 10 is our luminal cells
-rep135_luminal <- subset(rep135_epithelial, idents = c('9')) # 863 cells
+DimPlot(merged_epithelial) # cluster 10 is our luminal cells
+merged_luminal <- subset(merged_epithelial, idents = c('9')) # 863 cells
 ```
 
 We can also use the CytoTRACE R package to calculate our CytoTRACE scores.
 
 ```R
 # Creating a dataframe to pass to CytoTRACE
-rep135_luminal_expression <- data.frame(GetAssayData(object = rep135_luminal, layer = "data"))
+merged_luminal_expression <- data.frame(GetAssayData(object = merged_luminal, layer = "data"))
 
-rep135_luminal_cytotrace_scores <- CytoTRACE(rep135_luminal_expression, ncores = 1)
+merged_luminal_cytotrace_scores <- CytoTRACE(merged_luminal_expression, ncores = 1)
 
-rep135_luminal_cytotrace_transposed <- as.data.frame(rep135_luminal_cytotrace_scores$CytoTRACE) 
-names(rep135_luminal_cytotrace_transposed) <- "cytotrace_scores"
+merged_luminal_cytotrace_transposed <- as.data.frame(merged_luminal_cytotrace_scores$CytoTRACE) 
+names(merged_luminal_cytotrace_transposed) <- "cytotrace_scores"
 
-head(rep135_luminal_cytotrace_transposed)
+head(merged_luminal_cytotrace_transposed)
 
 # fix the barcode formatting 
-rownames(rep135_luminal_cytotrace_transposed) <- sub("\\.", "-", rownames(rep135_luminal_cytotrace_transposed))
-rownames(rep135_luminal_cytotrace_transposed)
+rownames(merged_luminal_cytotrace_transposed) <- sub("\\.", "-", rownames(merged_luminal_cytotrace_transposed))
+rownames(merged_luminal_cytotrace_transposed)
 ```
 
 We then can add those CytoTRACE scores to our luminal cell object and visualize them.
 
 ```R
-rep135_luminal <- AddMetaData(rep135_luminal, rep135_luminal_cytotrace_transposed)
+merged_luminal <- AddMetaData(merged_luminal, merged_luminal_cytotrace_transposed)
 
-rep135_luminal[['cytotrace_scores_luminal']] <- 1 - rep135_luminal[['cytotrace_scores']]
-rep135_luminal[['differentiation_scores_luminal']] <- 1 - rep135_luminal[['differentiation_scores']]
+merged_luminal[['cytotrace_scores_luminal']] <- 1 - merged_luminal[['cytotrace_scores']]
+merged_luminal[['differentiation_scores_luminal']] <- 1 - merged_luminal[['differentiation_scores']]
 
 # compare all epithelial cells CytoTRACE scores to the luminal-only CytoTRACE
-(FeaturePlot(object = rep135_luminal, features = c("cytotrace_scores_luminal")) +
+(FeaturePlot(object = merged_luminal, features = c("cytotrace_scores_luminal")) +
     ggtitle("Luminal Cells CytoTRACE Scores")) +
-  (FeaturePlot(object = rep135_luminal, features = c("differentiation_scores_luminal")) +
+  (FeaturePlot(object = merged_luminal, features = c("differentiation_scores_luminal")) +
       ggtitle("Luminal Cells Differentiation Scores"))
 ```
 
@@ -171,10 +171,10 @@ CytoTRACE will force all given cells onto the same scale meaning that there has 
 
 ```R
 # View the S-phase genes, G2/M-phase genes, and the Phase to see if that explains the differentiation score
-FeaturePlot(object = rep135_luminal, features = c("S.Score", "G2M.Score")) + 
-   DimPlot(rep135_luminal, group.by = "Phase")
+FeaturePlot(object = merged_luminal, features = c("S.Score", "G2M.Score")) + 
+   DimPlot(merged_luminal, group.by = "Phase")
  
-FeaturePlot(object = rep135_luminal, features = c("S.Score", "G2M.Score", "differentiation_scores"))
+FeaturePlot(object = merged_luminal, features = c("S.Score", "G2M.Score", "differentiation_scores"))
 
 ```
 
@@ -197,7 +197,7 @@ You can also refer to the full [Monocle3 trajectory tutorial](https://cole-trapn
 Before we start just running our data through the algorithm and seeing what we get, we should consider what we expect to get. Let's remember what cell types we have in our dataset and where they are on our UMAP. **What pseudotime scores do you expect to be assigned to the clusters?**
 
 ```R
-DimPlot(rep135, group.by = 'immgen_singler_main', label = TRUE)
+DimPlot(merged, group.by = 'immgen_singler_main', label = TRUE)
 ```
 
 ![Overview of haematopoiesis](/assets/module_8/haematopoiesis_redbloodcells.png)
@@ -209,38 +209,38 @@ DimPlot(rep135, group.by = 'immgen_singler_main', label = TRUE)
 Let's now run Monocle3, again we have to convert our Seurat object to a Monocle 'Cell Data Set'. We will use a package made for this specific purpose.
 
 ```R
-rep135_cds <- SeuratWrappers::as.cell_data_set(rep135)
+merged_cds <- SeuratWrappers::as.cell_data_set(merged)
 ```
 
 Then we run the Monocle function `cluster_cells`. This function will redo unsupervised clusters and calculate partitions which are groups of cells that Monocle3 puts on separate trajectories. We don't need the cells to be clustered since we already did that in Seurat but Monocle requires that partitions be calculated for its trajectory functions. 
 
 ```R
-rep135_cds <- cluster_cells(rep135_cds)
+merged_cds <- cluster_cells(merged_cds)
 ```
 
 Use the Monolce3 plotting functions to visualize partitions. Then we will execute the function `learn_graph` which will build the trajectory. We will set the `use_partition` parameter to FALSE so that we learn a trajectory across all clusters. Later you can come back and try setting it to TRUE and see what happens!
 
 ```R
-plot_cells(rep135_cds, show_trajectory_graph = FALSE, color_cells_by = "partition")
+plot_cells(merged_cds, show_trajectory_graph = FALSE, color_cells_by = "partition")
 
 # Monocle will create a trajectory for each partition, but we want all our clusters
 # to be on the same trajectory so we will set `use_partition` to FALSE when 
 # we learn_graph
 
-rep135_cds <- learn_graph(rep135_cds, use_partition = FALSE) # graph learned across all partitions
+merged_cds <- learn_graph(merged_cds, use_partition = FALSE) # graph learned across all partitions
 ```
 
 Monocle3 requires you to choose a starting point or root for the calculated trajectories. Running the function `order_cells` will open a pop-up window where you can interactively choose where you want your roots to be. 
 
 ```R
-rep135_cds <- order_cells(rep135_cds)
+merged_cds <- order_cells(merged_cds)
 # Pick a root or multiple roots
 ```
 
 Plot the pseudotime:
 
 ```R
-plot_cells(rep135_cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1)
+plot_cells(merged_cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1)
 ```
 
 When we choose a root around where the stem cells are located we see that the fibroblast and epithelial cells end with the higher pseudotime scores.
@@ -259,33 +259,33 @@ We need a significant amount of computational power to run CytoTRACE on all cell
 # Cytotrace for all cells
 
 # read in the cytotrace scores
-rep135_cytotrace <- read.table("data/single_cell_rna/reference_files/rep135_cytotrace_scores.tsv", sep="\t") 
-head(rep135_cytotrace)
+merged_cytotrace <- read.table("data/single_cell_rna/reference_files/merged_cytotrace_scores.tsv", sep="\t") 
+head(merged_cytotrace)
 
 
-rep135_cytotrace_transposed <- t(rep135_cytotrace)
-colnames(rep135_cytotrace_transposed) <- "CytoTRACE"
-head(rep135_cytotrace_transposed)
+merged_cytotrace_transposed <- t(merged_cytotrace)
+colnames(merged_cytotrace_transposed) <- "CytoTRACE"
+head(merged_cytotrace_transposed)
 
-rownames(rep135_cytotrace_transposed) <- sub("\\.", "-", rownames(rep135_cytotrace_transposed))
-rownames(rep135_cytotrace_transposed)
+rownames(merged_cytotrace_transposed) <- sub("\\.", "-", rownames(merged_cytotrace_transposed))
+rownames(merged_cytotrace_transposed)
 ```
 
 Now we can add the scores to our seurat object and also create an inverse CytoTRACE score for clarity. So our differentiation score will be 0 for least differentiated (smallest pseudotime) and 1 being most differentiated (biggest pseudotime).
 
 ```R
 # Add CytoTRACE scores matching on the cell barcodes
-rep135 <- AddMetaData(rep135, rep135_cytotrace_transposed)
-rep135[["differentiation_score"]] <- 1 - rep135[["CytoTRACE"]]
+merged <- AddMetaData(merged, merged_cytotrace_transposed)
+merged[["differentiation_score"]] <- 1 - merged[["CytoTRACE"]]
 
 ```
 
 Finally, let's compare the pseudotime values to our cell types. **Do we get the results we want to get? Does Monocle and CytoTRACE agree with each other? What happens if you choose different roots for the Monocle pseudotime?**
 
 ```R
-plot_cells(rep135_cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1) + 
-  (FeaturePlot(rep135, features = 'differentiation_score')) +
-DimPlot(rep135, group.by = 'immgen_singler_main', label = TRUE)
+plot_cells(merged_cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1) + 
+  (FeaturePlot(merged, features = 'differentiation_score')) +
+DimPlot(merged, group.by = 'immgen_singler_main', label = TRUE)
 ```
 ![Monocle pseudotime compared with CytoTRACE pseudtime](/assets/module_8/monocle_cytotrace_celltypes.png)
 
@@ -294,67 +294,67 @@ DimPlot(rep135, group.by = 'immgen_singler_main', label = TRUE)
 For a final exercise, we can apply the same steps as above to analyze another group of cells: macrophages and monocytes. 
 
 ```R
-highlight = rep135$immgen_singler_main =="Macrophages"
-highlighted_cells <- WhichCells(rep135, expression = immgen_singler_main =="Macrophages")
+highlight = merged$immgen_singler_main =="Macrophages"
+highlighted_cells <- WhichCells(merged, expression = immgen_singler_main =="Macrophages")
 # Plot the UMAP
-DimPlot(rep135, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
+DimPlot(merged, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
 
 
-highlight = rep135$immgen_singler_main =="Monocytes"
-highlighted_cells <- WhichCells(rep135, expression = immgen_singler_main =="Monocytes")
+highlight = merged$immgen_singler_main =="Monocytes"
+highlighted_cells <- WhichCells(merged, expression = immgen_singler_main =="Monocytes")
 # Plot the UMAP
-DimPlot(rep135, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
+DimPlot(merged, reduction = 'umap', group.by = 'orig.ident', cells.highlight = highlighted_cells)
 
 
 # grab all cells that are macrophages and monocytes
-Idents(rep135) <- "immgen_singler_main" 
-rep135_macro_mono_cells <- subset(rep135, idents = c("Macrophages", "Monocytes"), invert = FALSE) # 1092
+Idents(merged) <- "immgen_singler_main" 
+merged_macro_mono_cells <- subset(merged, idents = c("Macrophages", "Monocytes"), invert = FALSE) # 1092
 
-DimPlot(rep135_macro_mono_cells, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
-  DimPlot(rep135_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) 
+DimPlot(merged_macro_mono_cells, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
+  DimPlot(merged_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) 
 
 # grab all cells that are macrophages and monocytes, we can subset by clusters 6 and 14 which seem to contain 
-Idents(rep135) <- "seurat_clusters_res0.8" 
-rep135_macro_mono_cells <- subset(rep135, idents = c(6, 14), invert = FALSE) # 1350
+Idents(merged) <- "seurat_clusters_res0.8" 
+merged_macro_mono_cells <- subset(merged, idents = c(6, 14), invert = FALSE) # 1350
 ```
 
 ```R
-DimPlot(rep135_macro_mono_cells, group.by = 'seurat_clusters', label = TRUE) + 
-  DimPlot(rep135_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) 
+DimPlot(merged_macro_mono_cells, group.by = 'seurat_clusters', label = TRUE) + 
+  DimPlot(merged_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) 
 
-DimPlot(rep135_macro_mono_cells, group.by = 'immgen_singler_fine', label = TRUE)
+DimPlot(merged_macro_mono_cells, group.by = 'immgen_singler_fine', label = TRUE)
 ```
 
 ```R
 # create a data frame with the counts from our subsetted obect
-rep135_macro_mono_cells_expression <- data.frame(GetAssayData(rep135_macro_mono_cells, layer = "data")) 
+merged_macro_mono_cells_expression <- data.frame(GetAssayData(merged_macro_mono_cells, layer = "data")) 
 
 # pass that dataframe to the CytoTRACE function
-rep135_macro_mono_cells_cytotrace_scores <- CytoTRACE(rep135_macro_mono_cells_expression, ncores = 4)
+merged_macro_mono_cells_cytotrace_scores <- CytoTRACE(merged_macro_mono_cells_expression, ncores = 4)
 
 # Create a dataframe out of the CytoTRACE scores
-rep135_macro_mono_cells_cytotrace_scores_df <- as.data.frame(rep135_macro_mono_cells_cytotrace_scores$CytoTRACE)
+merged_macro_mono_cells_cytotrace_scores_df <- as.data.frame(merged_macro_mono_cells_cytotrace_scores$CytoTRACE)
 
 # Make the rownames of the cytotraace scores function the cell barcodes and rename the CytoTRACE scores column approproately
-rownames(rep135_macro_mono_cells_cytotrace_scores_df) <- sub("\\.", "-", rownames(rep135_macro_mono_cells_cytotrace_scores_df))
+rownames(merged_macro_mono_cells_cytotrace_scores_df) <- sub("\\.", "-", rownames(merged_macro_mono_cells_cytotrace_scores_df))
 ```
 
 Now we will incorporate our CytoTRACE scores into our Seurat object. 
 
 ```R
 # Add CytoTRACE scores matching on the cell barcodes
-rep135_macro_mono_cells <- AddMetaData(rep135_macro_mono_cells, rep135_macro_mono_cells_cytotrace_scores_df)
+merged_macro_mono_cells <- AddMetaData(merged_macro_mono_cells, merged_macro_mono_cells_cytotrace_scores_df)
 ```
 
 CytoTRACE assignes the least differentiated cells a score of 1 and the most differentiated cells a score of 0, which is sometimes not inutive. So lets create a inverse CytoTRACE score which we will call our differentiation score.
 
 ```R
-rep135_macro_mono_cells[['differentiation_scores']] <- 1 - rep135_macro_mono_cells[['CytoTRACE']]
+merged_macro_mono_cells[['differentiation_scores']] <- 1 - merged_macro_mono_cells[['CytoTRACE']]
 
 # Plot the results
-DimPlot(rep135_macro_mono_cells, group.by = 'seurat_clusters', label = TRUE) + 
-  DimPlot(rep135_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) +
-  FeaturePlot(rep135_macro_mono_cells, features = 'differentiation_scores')
+DimPlot(merged_macro_mono_cells, group.by = 'seurat_clusters', label = TRUE) + 
+  DimPlot(merged_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) +
+  FeaturePlot(merged_macro_mono_cells, features = 'differentiation_scores')
 ```
 
 #### Running Monocole
@@ -362,7 +362,7 @@ DimPlot(rep135_macro_mono_cells, group.by = 'seurat_clusters', label = TRUE) +
 Let's compare our CytoTRACE scores to Monocle3's trajectory calculations. 
 
 ```R
-cds <- SeuratWrappers::as.cell_data_set(rep135_macro_mono_cells)
+cds <- SeuratWrappers::as.cell_data_set(merged_macro_mono_cells)
 
 cds <- cluster_cells(cds)
 
@@ -383,9 +383,9 @@ plot_cells(cds, color_cells_by = "pseudotime", label_branch_points = FALSE, labe
 
 ```R
 plot_cells(cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1) + 
-  (FeaturePlot(rep135_macro_mono_cells, features = 'CytoTRACE') + scale_color_viridis(option = 'magma', discrete = FALSE)) +
-  (FeaturePlot(rep135_macro_mono_cells, features = 'differentiation_score') + scale_color_viridis(option = 'magma', discrete = FALSE)) +
-  DimPlot(rep135_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE)
+  (FeaturePlot(merged_macro_mono_cells, features = 'CytoTRACE') + scale_color_viridis(option = 'magma', discrete = FALSE)) +
+  (FeaturePlot(merged_macro_mono_cells, features = 'differentiation_score') + scale_color_viridis(option = 'magma', discrete = FALSE)) +
+  DimPlot(merged_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE)
 ```
 
 ![Macrophages differentiation](/assets/module_8/macro_mono_cytotrace_monocle_pseudotime.png)
@@ -395,42 +395,42 @@ plot_cells(cds, color_cells_by = "pseudotime", label_branch_points = FALSE, labe
 Monocle3 proposes a method to choose a root more precisely in its [trajecotry tutorial](https://cole-trapnell-lab.github.io/monocle3/docs/trajectories/). It requires you to do the preprocessing steps specific to Monocle3. 
 
 ```R
-rep135_cds <- SeuratWrappers::as.cell_data_set(rep135)
+merged_cds <- SeuratWrappers::as.cell_data_set(merged)
 
 # Monocle preprocessing steps
-rep135_cds <- preprocess_cds(rep135_cds, num_dim = 50, method = 'PCA')
-# rep135_cds <- align_cds(rep135_cds, alignment_group = "orig.ident") # removes batch effect by fitting its a linear model to the cells
-rep135_cds <- reduce_dimension(rep135_cds, preprocess_method = 'PCA', reduction_method="UMAP") # calculate UMAPs
+merged_cds <- preprocess_cds(merged_cds, num_dim = 50, method = 'PCA')
+# merged_cds <- align_cds(merged_cds, alignment_group = "orig.ident") # removes batch effect by fitting its a linear model to the cells
+merged_cds <- reduce_dimension(merged_cds, preprocess_method = 'PCA', reduction_method="UMAP") # calculate UMAPs
 
-rep135_cds <- cluster_cells(rep135_cds)
+merged_cds <- cluster_cells(merged_cds)
 
-plot_cells(rep135_cds, show_trajectory_graph = FALSE, color_cells_by = "immgen_singler_main")
+plot_cells(merged_cds, show_trajectory_graph = FALSE, color_cells_by = "immgen_singler_main")
 
 # monocle will create a trajectory for each partition, but we want all our clusters
 # to be on the same trajectory so we will set `use_partition` to FALSE when 
 # we learn_graph
 
-rep135_cds <- learn_graph(rep135_cds, use_partition = FALSE) # graph learned across all partitions
+merged_cds <- learn_graph(merged_cds, use_partition = FALSE) # graph learned across all partitions
 
-# rep135_cds <- order_cells(rep135_cds)
+# merged_cds <- order_cells(merged_cds)
 # Pick a root or multiple roots -- stem cell? or stem cell, fibroblasts, epithelial cells
 
 # a helper function to identify the root principal points:
-cell_ids <- which(colData(rep135_cds)[, "seurat_clusters_res0.8"] == 5)
+cell_ids <- which(colData(merged_cds)[, "seurat_clusters_res0.8"] == 5)
 
 closest_vertex <-
-  rep135_cds@principal_graph_aux[["UMAP"]]$pr_graph_cell_proj_closest_vertex
+  merged_cds@principal_graph_aux[["UMAP"]]$pr_graph_cell_proj_closest_vertex
 
-closest_vertex <- as.matrix(closest_vertex[colnames(rep135_cds), ])
+closest_vertex <- as.matrix(closest_vertex[colnames(merged_cds), ])
 
 root_pr_nodes <-
-    igraph::V(principal_graph(rep135_cds)[["UMAP"]])$name[as.numeric(names
+    igraph::V(principal_graph(merged_cds)[["UMAP"]])$name[as.numeric(names
                                                               (which.max(table(closest_vertex[cell_ids,]))))]
 root_pr_nodes
 
-rep135_cds <- order_cells(rep135_cds, root_pr_nodes=root_pr_nodes)
+merged_cds <- order_cells(merged_cds, root_pr_nodes=root_pr_nodes)
 
-plot_cells(rep135_cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1)
+plot_cells(merged_cds, color_cells_by = "pseudotime", label_branch_points = FALSE, label_leaves =  FALSE, cell_size = 1)
 
 ```
 
@@ -438,11 +438,11 @@ plot_cells(rep135_cds, color_cells_by = "pseudotime", label_branch_points = FALS
 First, we have to export the counts. 
 
 ```R
-rep135_mtx <- GetAssayData(rep135_epithelial, layer = "counts")
-write.csv(rep135_mtx, "outdir/rep135_epithelial_counts.csv")
+merged_mtx <- GetAssayData(merged_epithelial, layer = "counts")
+write.csv(merged_mtx, "outdir/merged_epithelial_counts.csv")
 ```
 
-Then export the file from posit. In the file window select `rep135_epithelial_counts.csv`. Then go to More -> Export... and click Download. 
+Then export the file from posit. In the file window select `merged_epithelial_counts.csv`. Then go to More -> Export... and click Download. 
 
 Now we go to [https://cytotrace.stanford.edu/](https://cytotrace.stanford.edu/). We will navigate to the `Run CytoTRACE` tab on the left menu bar and upload our downloaded csv in the `Upload gene expression table`. We will not worry about uploading any other files as of now but if we had a larger dataset we could provide cell type and batch information for our cells. 
 
@@ -469,15 +469,15 @@ cytotrace_scores <- read.table("outdir/CytoTRACE_results.txt", sep="\t") # read 
 rownames(cytotrace_scores) <- sub("\\.", "-", rownames(cytotrace_scores)) # the barcodes export with a `.` instead of a '-' at the end of the barcode so we have to remedy that before joining the cytotrace scores unto our seurat object
 
 # Add CytoTRACE scores matching on the cell barcodes
-rep135_epithelial <- AddMetaData(rep135_epithelial, cytotrace_scores %>% select("CytoTRACE"))
+merged_epithelial <- AddMetaData(merged_epithelial, cytotrace_scores %>% select("CytoTRACE"))
 ```
 
 Now we can plot our basal cell markers, our luminal cell markers, and the CytoTRACE scores together to compare. Since it is a little unintuitive that less differentiated scores are closer to 1 we will also create a `differentiation_score` which will be an inverse of our CytoTRACE scores so that smaller scores mean less differentiated and larger scores mean more differentiated. 
 
 ```R
-rep135_epithelial[['differentiation_scores']] <- 1 - rep135_epithelial[['CytoTRACE']] # Let's also reverse out CytoTRACE scores so that high means more differentiated and low means less differentiated
+merged_epithelial[['differentiation_scores']] <- 1 - merged_epithelial[['CytoTRACE']] # Let's also reverse out CytoTRACE scores so that high means more differentiated and low means less differentiated
 
-FeaturePlot(object = rep135_epithelial, features = c("cell_type_Basal_score1", "cell_type_Luminal_score1", "cytotrace_scores", "differentiation_scores"))
+FeaturePlot(object = merged_epithelial, features = c("cell_type_Basal_score1", "cell_type_Luminal_score1", "cytotrace_scores", "differentiation_scores"))
 ```
 
 
