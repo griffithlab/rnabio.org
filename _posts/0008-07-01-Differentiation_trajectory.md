@@ -110,7 +110,7 @@ rownames(merged_epithelial_cytotrace_transposed)
 
 Add the data to the object
 ```
-merged_epithelial <- AddMetaData(merged_epithelial, merged_epithelial_cytotrace_transposed %>% select("cytotrace_scores"))
+merged_epithelial <- AddMetaData(merged_epithelial,  merged_epithelial_cytotrace_transposed, 'cytotrace_scores')
 
 merged_epithelial[['differentiation_scores']] <- 1 - merged_epithelial[['cytotrace_scores']] # Let's also reverse out CytoTRACE scores so that high means more differentiated and low means less differentiated
 
