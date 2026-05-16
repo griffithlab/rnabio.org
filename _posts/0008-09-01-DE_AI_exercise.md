@@ -10,7 +10,7 @@ date: 0008-09-01
 ---
 
 ***
-## Single Cell DE Analysis. AI exercise
+## Single Cell DE Analysis AI exercise
 
 The purpose of this exercise is to become more comfortable using AI tools to accelerate bioinformatics analysis. More importantly, this exercise will demonstrate the need for critical review and expert guidance when working with AI generated code. Always keep in mind that a generative AI cannot think but simply strings words together to match reference data (a lot of which is riddled with errors). However, thinking deeply and employing the right skills will allow an analysis to reap the benefits of AI while still protecting scientific integrity.
 
@@ -26,11 +26,11 @@ We will use a google form to capture basic information about AI tool choice (and
 
 ## Outline of the exercise
 
-In the previous tutorial, we used DE analysis to compare the T cells from our ICBdT with respect to ICB. We saw that Cd4 is downregulatedin the ICBdT condition, matching our expectations that the treatment would specifically deplete Cd4 tells cells. Now we are interested in understanding how our Cd8 T cells change with treatment. 
+In the previous tutorial, we used DE analysis to compare the T cells from our ICBdT with respect to ICB. We saw that Cd4 is downregulated in the ICBdT condition, matching our expectations that the treatment would specifically deplete CD4 T cells. Now we are interested in understanding how our CD8 T cells change with treatment. 
 
 Instead of relying on the previous tutorial, we will have an AI assistant guide our analysis. 
 
-- Part 1: Complete the Analysis (30 mins)
+- Part 1: Complete the Analysis using AI (30 mins)
 - Part 2: Discussion and Live Demo (30 mins)
 - Part 3: Code Review and Github Tutorial (30 mins)
 
@@ -64,7 +64,7 @@ In the form, write a sentence or two convincing yourself that the genes you foun
 Perhaps the most useful way to make sure your code is correct and readable is to have someone else review it. Share your code with someone else, preferably through something like github.
 
 ### Github Demo
-Don't freak out, no need to do any fancy command line stuff. If you want to try out github, create an account and then a repository. Download your script from posit and upload it to github. Share the link to your repo with your reviewer!
+If you want to try out github, create an account and then a repository. Download your script from posit and upload it to github. Share the link to your repo with your reviewer!
 
 #### Setting Up a GitHub Repository (Step-by-Step)
 
@@ -91,6 +91,7 @@ Don't freak out, no need to do any fancy command line stuff. If you want to try 
 - Authentication: To push or pull code from private repositories, you must link your accounts. Click your name in the upper-right corner, select Authentication, and enable GitHub.
 
 - Set up access to your git repo with an ssh key
+
 ```bash
 # 1. Generate an SSH key
 ssh-keygen -t ed25519 -C "[GITHUB EMAIL]"
@@ -105,6 +106,7 @@ git remote set-url origin git@github.com:[REPO NAME].
 ```
 
 - Add your script and push to github
+
 ```bash
 # 1. Pull the current files in github and
 # See all the files in your current repo you can add 
