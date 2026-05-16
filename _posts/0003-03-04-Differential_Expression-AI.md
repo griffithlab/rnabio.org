@@ -6,7 +6,7 @@ title: Differential Expression AI Exercise
 categories:
     - Module-03-Expression
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0003-03-03
+date: 0003-03-04
 ---
 
 ***
