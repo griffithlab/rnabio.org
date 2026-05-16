@@ -42,6 +42,14 @@ For the exercise use the following:
 - Gene ID to name mapping file path: `/cloud/project/data/bulk_rna/ENSG_ID2Name.txt.gz`
 - Results path: `/cloud/project/outdir/de_ai_exercise`
 
+Hint. To quickly see what the input data looks like, you can do the following:
+
+```R
+head(read.delim("/cloud/project/data/bulk_rna/gene_read_counts_table_all_final.tsv"))
+head(read.delim(gzfile("/cloud/project/data/bulk_rna/ENSG_ID2Name.txt.gz")))
+```
+
+
 ### 2. Choice of AI tool
 There are several broad approaches to using AI for bioinformatics analysis, and your choice of tool will shape how the interaction unfolds. The main paradigms are:
 
