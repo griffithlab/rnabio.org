@@ -116,7 +116,7 @@ The following resources are starting points for deepening your understanding of 
 **Prompt engineering**
 * The [Prompt Engineering Guide](https://www.promptingguide.ai/) (DAIR.AI) is a comprehensive, open community resource covering core techniques.
 * Most AI providers also publish their own prompting guides. [Anthropic's guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview) and [OpenAI's guide](https://platform.openai.com/docs/guides/prompt-engineering) are both readable and practical.
-* Key concepts to explore: chain-of-thought prompting, few-shot examples, role assignment, system prompts, and how to iteratively refine prompts based on output quality.
+* Key concepts to explore further: chain-of-thought prompting, use of examples (zero-shot, one-shot, few-shot, many-shot), role assignment, context engineering (account settings, project config files, system prompts, and other techniques that automatically influence every interaction with the AI), and finally how to iteratively refine prompts based on output quality.
 
 **Critical evaluation and responsible use**
 * **Hallucination** is the tendency of language models to generate plausible-sounding but factually incorrect information. This may include for example: fabricated function names, wrong default parameters, and non-existent R packages.
