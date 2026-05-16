@@ -139,7 +139,7 @@ gse_result <- gse@result
 ```
 
 Looking at the dataframe, you might notice that there are around 900 rows, and similar to the overrepresentation analysis, it is unlikely that all of them are truly meaningful. You can skim through all these results to determine which ones might be biologically meaningful, but in the interest of time, here we will subset the `gse` object to any pathways that have the word `epithelial` in them, and use those for plotting. In order to subset the object, we will determine the indices of the rows which have these values using R's `which` and `grepl` functions, and then subset the results dataframe in the `gse` object to those rows. All of these genesets end up having negative enrichment scores (or are downregulated in our putative luminal cell cluster), so we will add one index that has a positive enrichment score to aid in plotting. For plotting, we will use the `dotplot`, `cnetplot`, and `heatplot` functions. 
-Note- we do not suggest this strategy of grabbing pathways of interest in this manner- we are only using it as an illustrative example here.
+**Note- we do not suggest this strategy of grabbing pathways of interest in this manner- we are only using it as an illustrative example here.**
 
 ```R
 #start by grabbing the indices we'll need to subset the `gse` object
@@ -181,7 +181,7 @@ Hints:
 
 * The ICB vs ICBdT comparison of CD8 T cells may be more subtle than the luminal vs basal epithelial cell. You may need to reduce the fold-change cutoff you consider for differentially expressed genes (e.g., 0.5)
 * For overrepresentation analysis, the `M8:...` cell type signature gene sets may not be the most relevant. You may wish to download a different set of gene sets (e.g., MH: hallmark gene sets). Visit [msigdb mouse collections](https://www.gsea-msigdb.org/gsea/msigdb/mouse/collections.jsp?targetSpeciesDB=Mouse), download the 'Gene Symbols' GMT file for the gene sets of interest, upload to your posit cloud environment, and modify the relevant R commands to load in the gmt file.
-* For enrichment analysis, (for illustrative purposes ONLY!) you can `grepl` for `immun` instead of `epithelial`.
+* For enrichment analysis, **(for illustrative purposes ONLY!)** you can `grepl` for `immun` instead of `epithelial`.
 
 
 If you get through all that, hopefully you will see that the CD8 T cells from the ICBdT condition have various immune response related pathways downregulated when compared to the ICB condition!
