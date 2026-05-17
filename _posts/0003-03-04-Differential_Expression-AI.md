@@ -27,7 +27,7 @@ In this tutorial you will:
 We will use a google form to capture basic information about AI tool choice (and model version), AI prompts used, etc. Refer to the course slack channel for a link to this form.
 
 ### Outline of the exercise
-For this exercise I want you to imagine that you did not have the previous section as a guide on how to perform a differential expression analysis in R. Imagine that you obtained the gene counts matrix "gene_read_counts_table_all_final.tsv" from your sequencing core, a collaborator, or a public source. See if you can complete a DE analysis like the one you just completed step-by-step but using an AI assistant. Here is an overview of the basic steps (more details on each below):
+For this exercise I want you to imagine that you did not have the previous section as a guide on how to perform a differential expression analysis in R. Imagine that you obtained the gene counts matrix "gene_read_counts_table_all_final.tsv" from your sequencing core, a collaborator, or a public source. See if you can complete a DE analysis like the one you just completed, step-by-step, but using an AI assistant. Here is an overview of the basic steps (more details on each below):
 
 1. Locate the input data and define a location for results
 2. Choose an AI tool and make note of the model used (record your choice in the Google form)
@@ -55,7 +55,7 @@ There are several broad approaches to using AI for bioinformatics analysis, and 
 
 - **Conversational AI assistants.** You interact with the AI through a chat interface, describing your task in plain language and exchanging messages back and forth. You paste in data snippets or describe your files, and the AI generates code or explanations in response. This is the most accessible entry point and requires no special software setup.
 
-- **AI-integrated coding environments.** Some development environments embed AI assistance directly into the coding workflow. The AI can see your open files, suggest completions inline, explain errors in context, and generate code without leaving the editor. This tighter integration can make iteration faster but requires a compatible editor.
+- **Integrated development environment (IDE) and command line interface (CLI) AI coding tools.** Some development environments embed AI assistance directly into the coding workflow. The AI can see your open files, suggest completions inline, explain errors in context, and generate code without leaving the editor or commandline. This tighter integration can make iteration faster but requires a compatible editor/tool.
 
 - **Locally-run open models.** Open-weight language models can be run on your own machine, which avoids sending data to external servers (relevant when working with sensitive or unpublished data). These require more setup and capable hardware, and are generally less capable than leading commercial models at time of writing.
 
@@ -69,9 +69,13 @@ For this exercise, use whichever AI tool you are comfortable with, or take the o
 | [Claude](https://claude.ai/) | Conversational | Anthropic |
 | [Gemini](https://gemini.google.com/) | Conversational | Google |
 | [Microsoft Copilot](https://copilot.microsoft.com/) | Conversational | Microsoft |
-| [GitHub Copilot](https://github.com/features/copilot) | IDE-integrated | Microsoft/GitHub |
-| [Cursor](https://www.cursor.com/) | IDE-integrated | Cursor |
-| [Ollama](https://ollama.com/) | Local models | Open source |
+| [GitHub Copilot](https://github.com/features/copilot) | IDE-based | Microsoft/GitHub |
+| [Cursor](https://www.cursor.com/) | IDE-based | Cursor |
+| [Claude Code](https://claude.ai/code/family) | CLI-based | Anthropic |
+| [Codex](https://chatgpt.com/codex/) | CLI-based | OpenAI |
+| [Ollama](https://ollama.com/) | Local models | Meta (open weight) |
+| [Qwen](https://huggingface.co/Qwen) | Local models | Alibaba (open weight) |
+| [DeepSeek](https://huggingface.co/deepseek-ai) | Local models | deepseek (open weight) |
 
 Make note of both the tool and the specific model version you use (e.g. GPT-4o, Claude Sonnet 3.7, Gemini 2.0 Flash). Model versions vary significantly in capability and the field moves quickly. Record your choice in the Google form.
 
