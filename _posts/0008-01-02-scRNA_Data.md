@@ -23,7 +23,7 @@ The data that will be used to demonstrate scRNA analysis in this module has been
 
 The full details can be found in the publication but briefly these data are generated from a murine bladder cancer model system with the following characteristics:
 
-- Mice were exposed to a carcinogen 4-hydroxybutyl(butyl)nitrosamine (BBN) via drinking water
+- Mice were exposed to a carcinogen "N-butyl-N-(4-hydroxybutyl)nitrosamine" (BBN) via drinking water. In mice, it causes high-grade, invasive cancers in the urinary bladder.
 - Tumors developed and were isolated to create cell lines. One of these lines known as "MCB6C" was the source of the scRNA data used here.
 - MCB6C cells were used to create tumors in mice that could be studied for response to immunotherapies.
 - The mice used for these experiments are Black 6 (B6NTac) male mice.
