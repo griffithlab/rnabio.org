@@ -161,6 +161,8 @@ plotCor("UHR_Rep1", "UHR_Rep2", "UHR_1 vs UHR_2")
 plotCor("UHR_Rep2", "UHR_Rep3", "UHR_2 vs UHR_3")
 plotCor("UHR_Rep1", "UHR_Rep3", "UHR_1 vs UHR_3")
 
+dev.off()
+
 #### Compare the correlation between all replicates
 #Do we see the expected pattern for all eight libraries (i.e. replicates most similar, then tumor vs. normal)?
 
@@ -175,8 +177,6 @@ r = cor(gene_expression[i,data_columns], use = "pairwise.complete.obs", method =
 
 #Print out these correlation values
 r
-
-dev.off()
 
 
 #### Plot #5 - Convert correlation to 'distance', and use 'multi-dimensional scaling' to display the relative differences between libraries
@@ -250,11 +250,11 @@ dev.off()
 # Set differential expression status for each gene - default all genes to "no change"
 results_genes$diffexpressed = "No"
 
-# if log2Foldchange > 2 and pvalue < 0.05, set as "Up regulated"
-results_genes$diffexpressed[results_genes$log2FoldChange >= 2 & results_genes$pvalue < 0.05] = "Higher in UHR"
+# if log2Foldchange > 2 and padj < 0.05, set as "Up regulated"
+results_genes$diffexpressed[results_genes$log2FoldChange >= 2 & results_genes$padj < 0.05] = "Higher in UHR"
 
-# if log2Foldchange < -2 and pvalue < 0.05, set as "Down regulated"
-results_genes$diffexpressed[results_genes$log2FoldChange <= -2 & results_genes$pvalue < 0.05] = "Higher in HBR"
+# if log2Foldchange < -2 and padj < 0.05, set as "Down regulated"
+results_genes$diffexpressed[results_genes$log2FoldChange <= -2 & results_genes$padj < 0.05] = "Higher in HBR"
 
 # write the gene names of those significantly upregulated/downregulated to a new column
 results_genes$gene_label = NA
@@ -262,16 +262,17 @@ results_genes$gene_label[results_genes$diffexpressed != "No"] = results_genes$Sy
 
 pdf(file = "UHR_vs_HBR_volcano.pdf")
 
-ggplot(data = results_genes[results_genes$diffexpressed != "No",], aes(x = log2FoldChange, y = -log10(pvalue), label = gene_label, color = diffexpressed)) +
-             xlab("log2Foldchange") +
-             scale_color_manual(name = "Differentially expressed", values=c("blue", "red")) +
-             geom_point() +
-             theme_minimal() +
-             geom_text_repel() +
-             geom_vline(xintercept = c(-0.6, 0.6), col = "red") +
-             geom_hline(yintercept = -log10(0.05), col = "red") +
-             guides(colour = guide_legend(override.aes = list(size=5))) +
-             geom_point(data = results_genes[results_genes$diffexpressed == "No",], aes(x = log2FoldChange, y = -log10(pvalue)), colour = "black")
+ggplot(data = results_genes[results_genes$diffexpressed != "No",], aes(x = log2FoldChange, y = -log10(padj), label = gene_label, color = diffexpressed)) +
+  xlab("log2Foldchange") +
+  scale_color_manual(name = "Differentially expressed", values=c("blue", "red")) +
+  geom_point() +
+  theme_minimal() +
+  geom_text_repel() +
+  geom_vline(xintercept = c(-2.0, 2.0), col = "black", linetype = "dotted") +
+  geom_hline(yintercept = -log10(0.05), col = "black", linetype = "dotted") +
+  guides(colour = guide_legend(override.aes = list(size=5))) +
+  geom_point(data = results_genes[results_genes$diffexpressed == "No",], aes(x = log2FoldChange, y = -log10(padj)), colour = "black")
+
 dev.off()
 
 #To exit R type:
