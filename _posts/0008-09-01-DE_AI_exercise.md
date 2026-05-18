@@ -86,11 +86,10 @@ If you want to try out github, create an account and then a repository. Download
 - Scroll down to **Commit changes**, add a short message like `"Add DE analysis script"`, and click **Commit changes**.
 
 **3a. Set up a git repo in your posit**
-- Create a Project from a Git Repo: In your Posit Cloud Workspace, click New Project > New Project from Git Repository. Paste the URL of your repository to automatically clone the files into a new project environment.
 
 - Authentication: To push or pull code from private repositories, you must link your accounts. Click your name in the upper-right corner, select Authentication, and enable GitHub.
 
-- Set up access to your git repo with an ssh key
+- Set up access to your git repo with an ssh key. In your terminal (the tab next to your R console)
 
 ```bash
 # 1. Generate an SSH key
@@ -100,9 +99,16 @@ ssh-keygen -t ed25519 -C "[GITHUB EMAIL]"
 cat ~/.ssh/id_ed25519.pub
 
 # 3. Add it to GitHub → Settings → SSH and GPG Keys → New SSH Key
+# paste the public key
 
-# 4. Switch your remote from HTTPS to SSH
-git remote set-url origin git@github.com:[REPO NAME].
+# 5. Set your user email
+git config --global user.email "evelyn_schmidt@icloud.com"
+
+# 6. Initialize your posit repo as a git repo
+git init
+
+# 4. Set the GitHub repo you want to point to
+git remote add origin git@github.com:evelyn-schmidt/test2.git
 ```
 
 - Add your script and push to github
