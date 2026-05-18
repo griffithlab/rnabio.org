@@ -230,7 +230,7 @@ plot_cells(merged_cds, show_trajectory_graph = FALSE, color_cells_by = "partitio
 merged_cds <- learn_graph(merged_cds, use_partition = FALSE) # graph learned across all partitions
 ```
 
-Monocle3 requires you to choose a starting point or root for the calculated trajectories. Running the function `order_cells` will open a pop-up window where you can interactively choose where you want your roots to be. 
+Monocle3 requires you to choose a starting point or root for the calculated trajectories. Running the function `order_cells` will open a pop-up window where you can interactively choose where you want your roots to be. **Note that you have to allow pop-ups for this function because it opens a window to choose the roots in, your browser might have this disabled.**
 
 ```R
 merged_cds <- order_cells(merged_cds)
@@ -319,7 +319,7 @@ merged_macro_mono_cells <- subset(merged, idents = c(6, 14), invert = FALSE) # 1
 ```
 
 ```R
-DimPlot(merged_macro_mono_cells, group.by = 'seurat_clusters', label = TRUE) + 
+DimPlot(merged_macro_mono_cells, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
   DimPlot(merged_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) 
 
 DimPlot(merged_macro_mono_cells, group.by = 'immgen_singler_fine', label = TRUE)
@@ -352,7 +352,7 @@ CytoTRACE assignes the least differentiated cells a score of 1 and the most diff
 merged_macro_mono_cells[['differentiation_scores']] <- 1 - merged_macro_mono_cells[['CytoTRACE']]
 
 # Plot the results
-DimPlot(merged_macro_mono_cells, group.by = 'seurat_clusters', label = TRUE) + 
+DimPlot(merged_macro_mono_cells, group.by = 'seurat_clusters_res0.8', label = TRUE) + 
   DimPlot(merged_macro_mono_cells, group.by = 'immgen_singler_main', label = TRUE) +
   FeaturePlot(merged_macro_mono_cells, features = 'differentiation_scores')
 ```
