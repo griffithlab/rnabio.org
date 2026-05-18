@@ -29,7 +29,7 @@ We will use a google form to capture basic information about AI tool choice (and
 ### Outline of the exercise
 For this exercise I want you to imagine that you did not have the previous section as a guide on how to perform a differential expression analysis in R. Imagine that you obtained the gene counts matrix "gene_read_counts_table_all_final.tsv" from your sequencing core, a collaborator, or a public source. See if you can complete a DE analysis like the one you just completed, step-by-step, but using an AI assistant. Here is an overview of the basic steps (more details on each below):
 
-1. Locate the input data and define a location for results
+1. In your R session, locate the input data and define a location for results
 2. Choose an AI tool and make note of the model used (record your choice in the Google form)
 3. Develop your initial prompt to the AI (record your prompt in the Google form)
 4. With help from the AI create a differential expression analysis in R and run it.
