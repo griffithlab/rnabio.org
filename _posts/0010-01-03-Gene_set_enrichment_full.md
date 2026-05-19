@@ -85,7 +85,7 @@ write.table(x = overrep_gene_list, file = 'outdir_single_cell_rna/epithelial_ove
 
 For the Enrichr webtool based analysis, we'll open that TSV file in our Rstudio session, copy the genes, and paste them directly into the textbox on the right. The webtool should load multiple barplots with different enriched pathways. Feel free to click around and explore here. To compare the results against the results we generated in R, navigate to the `Cell Types` tab on the top and look for `Tabula Muris`. 
 
-An important component to a 'good' overrepresentation analysis is using one's expertise about the biology in conjunction with the pathways identified to generate hypotheses. It is unlikely that every pathway in the plots above is meaningful, however knowledge of bladder cancer (for this dataset) tells us that basal and luminal bladder cancers share similar expression profiles to basal and luminal breast cancers ([ref])(https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5078592/). So, the overrepresentation analysis showing genesets like 'Tabula Muris senis mammary gland basal cell ageing' and 'Tabula muris senis mammary gland luminal epithelial cell of mammary gland ageing' could suggest that the difference in unsupervised clusters 9 and 12 is coming from the basal and luminal cells. To investigate this further, we can compile a list of basal and luminal markers from the literature, generate a combined score for those genes using Seurat's `AddModuleScore` function and determine if the clusters are split up as basal and luminal. For now we'll use the same markers defined in this dataset's original manuscript.
+An important component to a 'good' overrepresentation analysis is using one's expertise about the biology in conjunction with the pathways identified to generate hypotheses. It is unlikely that every pathway in the plots above is meaningful, however knowledge of bladder cancer (for this dataset) tells us that basal and luminal bladder cancers share similar expression profiles to basal and luminal breast cancers [reference](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5078592/). So, the overrepresentation analysis showing genesets like 'Tabula Muris senis mammary gland basal cell ageing' and 'Tabula muris senis mammary gland luminal epithelial cell of mammary gland ageing' could suggest that the difference in unsupervised clusters 9 and 12 could be coming from the basal and luminal cells. To investigate this further, we can compile a list of basal and luminal markers from the literature, generate a combined score for those genes using Seurat's `AddModuleScore` function and determine if the clusters are split up as basal and luminal. For now we'll use the same markers defined in this dataset's original manuscript.
 
 ```R
 #define lists of marker genes
@@ -169,3 +169,19 @@ cnetplot(gse_epithelial, foldChange=gene_list)
 ![Tumor cells GSEA plots](/assets/module_8/scGSEA_epithelial_multiplot.png)
 
 Based on these results, we could conclude that cluster 9 (putative luminal cells) have lower expression of quite a few pathways related to epithelial cell proliferation compared to cluster 12 (putative basal cells). 
+
+As an additional exercise, let's try to do an overrepresentation and/or GSEA analysis for the DE analysis we did on CD8 T cells using the `cd8tcells_de_gsea.tsv` DE outputs we generated previously. If you do not have the file, it can be downloaded as follows-
+
+```R
+download.file(url = 'http://genomedata.org/cri-workshop/reference_files/cd8tcells_de_gsea.tsv',
+              destfile = 'outdir_single_cell_rna/cd8tcells_de_gsea.tsv')
+```
+
+Hints:
+
+* The ICB vs ICBdT comparison of CD8 T cells may be more subtle than the luminal vs basal epithelial cell. You may need to reduce the fold-change cutoff you consider for differentially expressed genes (e.g., 0.5)
+* For overrepresentation analysis, the `M8:...` cell type signature gene sets may not be the most relevant. You may wish to download a different set of gene sets (e.g., MH: hallmark gene sets). Visit [msigdb mouse collections](https://www.gsea-msigdb.org/gsea/msigdb/mouse/collections.jsp?targetSpeciesDB=Mouse), download the 'Gene Symbols' GMT file for the gene sets of interest, upload to your posit cloud environment, and modify the relevant R commands to load in the gmt file.
+* For enrichment analysis, **(for illustrative purposes ONLY!)** you can `grepl` for `immun` instead of `epithelial`.
+
+
+If you get through all that, hopefully you will see that the CD8 T cells from the ICBdT condition have various immune response related pathways downregulated when compared to the ICB condition!
