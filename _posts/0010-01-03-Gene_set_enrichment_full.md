@@ -4,9 +4,9 @@ feature_text: |
   Introduction to bioinformatics for RNA sequence analysis
 title: Gene set enrichment and pathway analysis
 categories:
-    - Module-08-scRNA
+    - Module-10-Archive
 feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
-date: 0008-05-01
+date: 0010-01-03
 ---
 
 ***
