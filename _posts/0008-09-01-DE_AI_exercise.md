@@ -101,14 +101,14 @@ cat ~/.ssh/id_ed25519.pub
 # 3. Add it to GitHub → Settings → SSH and GPG Keys → New SSH Key
 # paste the public key
 
-# 5. Set your user email
-git config --global user.email "evelyn_schmidt@icloud.com"
+# 4. Set your user email
+git config --global user.email "[GITHUB EMAIL]"
 
-# 6. Initialize your posit repo as a git repo
+# 5. Initialize your posit repo as a git repo
 git init
 
-# 4. Set the GitHub repo you want to point to
-git remote add origin git@github.com:evelyn-schmidt/test2.git
+# 6. Set the GitHub repo you want to point to
+git remote add origin git@github.com:[your-git-accountname]/[your-git-repo-name].git
 ```
 
 - Add your script and push to github
