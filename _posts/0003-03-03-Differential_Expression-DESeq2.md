@@ -33,8 +33,8 @@ Here we start from within an R session, relevant packages should already be inst
 
 ```R
 # define working dir paths
-datadir = "/cloud/project/data/bulk_rna"
-outdir = "/cloud/project/outdir"
+datadir = "/home/ubuntu/workspace/rnaseq/expression/htseq_counts/"
+outdir = "/home/ubuntu/workspace/rnaseq/de/htseq_counts/"
 
 # load R libraries we will use in this section - suppress some harmless warnings from the data.table package
 library(DESeq2)
@@ -220,7 +220,7 @@ DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human 
 
 ```R
 # read in gene ID to name mappings (using "fread" an alternative to "read.table")
-gene_id_mapping <- fread("/cloud/project/data/bulk_rna/ENSG_ID2Name.txt.gz", header = FALSE)
+gene_id_mapping <- fread(paste0(outdir, "/ENSG_ID2Name.txt"), header = FALSE)
 
 # add names to the columns in the "gene_id_mapping" dataframe
 setnames(gene_id_mapping, c("ensemblID", "Symbol"))
