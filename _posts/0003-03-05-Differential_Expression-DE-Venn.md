@@ -27,7 +27,7 @@ Once you have run the DESeq2 tutorial, compare the sigDE genes to those saved ea
 ```bash
 head $RNA_HOME/de/ballgown/ref_only/DE_sig_genes_ballgown.tsv
 head $RNA_HOME/de/htseq_counts/edgeR/DE_sig_genes_edgeR.tsv
-head $RNA_HOME/de/htseq_counts/deseq2/DE_sig_genes_DESeq2.tsv
+head $RNA_HOME/de/htseq_counts/DE_sig_genes_DESeq2.tsv
 
 ```
 
@@ -37,7 +37,7 @@ cd $RNA_HOME/de/
 
 cut -f 1 $RNA_HOME/de/ballgown/ref_only/DE_sig_genes_ballgown.tsv | sort | uniq > ballgown_DE_gene_symbols.txt
 cut -f 2 $RNA_HOME/de/htseq_counts/edgeR/DE_sig_genes_edgeR.tsv | sort | uniq | grep -v Gene_Name > htseq_counts_edgeR_DE_gene_symbols.txt
-cut -f 7 $RNA_HOME/de/htseq_counts/deseq2/DE_sig_genes_DESeq2.tsv | sort | uniq | grep -v Symbol > htseq_counts_DESeq2_DE_gene_symbols.txt
+cut -f 7 $RNA_HOME/de/htseq_counts/DE_sig_genes_DESeq2.tsv | sort | uniq | grep -v Symbol > htseq_counts_DESeq2_DE_gene_symbols.txt
 
 ```
 

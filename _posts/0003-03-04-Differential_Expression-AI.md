@@ -38,15 +38,15 @@ For this exercise I want you to imagine that you did not have the previous secti
 ### 1. Input data and output location
 For the exercise use the following:
 
-- Input gene expression counts data file path: `/cloud/project/data/bulk_rna/gene_read_counts_table_all_final.tsv` 
-- Gene ID to name mapping file path: `/cloud/project/data/bulk_rna/ENSG_ID2Name.txt.gz`
-- Results path: `/cloud/project/outdir/de_ai_exercise`
+- Input gene expression counts data file path: `/home/ubuntu/workspace/rnaseq/expression/htseq_counts/gene_read_counts_table_all_final.tsv`
+- Gene ID to name mapping file path: `/home/ubuntu/workspace/rnaseq/de/ENSG_ID2Name.txt.gz`
+- Results path: `/home/ubuntu/workspace/rnaseq/de_ai_exercise`
 
 Hint. To quickly see what the input data looks like, you can do the following to display the first two lines of each:
 
 ```R
-head(read.delim("/cloud/project/data/bulk_rna/gene_read_counts_table_all_final.tsv"), n=2)
-head(read.delim(gzfile("/cloud/project/data/bulk_rna/ENSG_ID2Name.txt.gz")), n=2)
+head(read.delim("/home/ubuntu/workspace/rnaseq/expression/htseq_counts/gene_read_counts_table_all_final.tsv"), n=2)
+head(read.delim("/home/ubuntu/workspace/rnaseq/de/ENSG_ID2Name.txt"), n=2)
 ```
 
 

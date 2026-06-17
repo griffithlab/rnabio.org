@@ -42,28 +42,31 @@ library(GenomicRanges)
 library(ggrepel)
 
 #Set a base working directory
-setwd("/cloud/project/")
+setwd("~/workspace/rnaseq/")
+#setwd("/cloud/project/")
+
 
 #Import expression results (TPM values) from the HISAT2/Stringtie pipeline (https://genomedata.org/cri-workshop/gene_tpm_all_samples.tsv)
-#gene_expression = read.table("~/workspace/rnaseq/expression/stringtie/ref_only/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
-gene_expression = read.table("data/bulk_rna/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
+gene_expression = read.table("~/workspace/rnaseq/expression/stringtie/ref_only/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
+# gene_expression = read.table("data/bulk_rna/gene_tpm_all_samples.tsv", header = TRUE, stringsAsFactors = FALSE, row.names = 1)
 
 #Import gene name mapping file (https://genomedata.org/cri-workshop/ENSG_ID2Name.txt)
-#gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = FALSE, stringsAsFactors = FALSE)
-gene_names=read.table("data/bulk_rna/ENSG_ID2Name.txt.gz", header = FALSE, stringsAsFactors = FALSE)
+gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = FALSE, stringsAsFactors = FALSE)
+# gene_names=read.table("data/bulk_rna/ENSG_ID2Name.txt.gz", header = FALSE, stringsAsFactors = FALSE)
 
 colnames(gene_names) = c("gene_id", "gene_name")
 
 #Import DE results from the HISAT2/htseq-count/DESeq2 pipeline (http://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
-#results_genes = read.table("~/workspace/rnaseq/de/htseq_counts/deseq2/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
-results_genes = read.table("outdir/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+results_genes = read.table("~/workspace/rnaseq/de/htseq_counts/deseq2/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+# results_genes = read.table("outdir/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
 #Set a directory for the output to go to
- output_dir = "/cloud/project/outdir/visualization_advanced/"
- if (!dir.exists(output_dir)) {
-   dir.create(output_dir, recursive = TRUE)
- }
- setwd(output_dir)
+# output_dir = "/cloud/project/outdir/visualization_advanced/"
+output_dir = "~/workspace/rnaseq/visualization_advanced/"
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+setwd(output_dir)
 
 ```
 

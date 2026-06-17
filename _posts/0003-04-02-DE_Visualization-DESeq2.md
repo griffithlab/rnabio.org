@@ -24,7 +24,7 @@ If it is not already in your R environment, load the DESeqDataSet object and the
 
 ```R
 # set the working directory
-setwd("/cloud/project/outdir")
+setwd("~/workspace/rnaseq/de/htseq_counts/deseq2/")
 
 # view the contents of this directory
 dir()

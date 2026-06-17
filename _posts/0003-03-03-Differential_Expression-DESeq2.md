@@ -34,7 +34,7 @@ Here we start from within an R session, relevant packages should already be inst
 ```R
 # define working dir paths
 datadir = "/home/ubuntu/workspace/rnaseq/expression/htseq_counts/"
-outdir = "/home/ubuntu/workspace/rnaseq/de/htseq_counts/"
+outdir = "/home/ubuntu/workspace/rnaseq/de/htseq_counts/deseq2/"
 
 # load R libraries we will use in this section - suppress some harmless warnings from the data.table package
 library(DESeq2)
@@ -43,6 +43,9 @@ library(ggplot2)
 
 # set working directory to data dir
 setwd(datadir)
+
+# create our output directory, if it doesn't already exist
+if (!dir.exists(outdir)) dir.create(outdir)
 
 # read in the RNAseq read counts for each gene (produced by htseq-count)
 htseqCounts = fread("gene_read_counts_table_all_final.tsv")
@@ -220,7 +223,7 @@ DESeq2 was run with ensembl gene IDs as identifiers, this is not the most human 
 
 ```R
 # read in gene ID to name mappings (using "fread" an alternative to "read.table")
-gene_id_mapping <- fread(paste0(outdir, "/ENSG_ID2Name.txt"), header = FALSE)
+gene_id_mapping <- fread("/home/ubuntu/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", header = FALSE)
 
 # add names to the columns in the "gene_id_mapping" dataframe
 setnames(gene_id_mapping, c("ensemblID", "Symbol"))
@@ -303,6 +306,8 @@ top_bottom = bind_rows(
 
 # visualize data for the top n genes. Simplify the output a bit
 print(top_bottom[,c("log2FoldChange","padj","Symbol","UHR_Rep1","UHR_Rep2","UHR_Rep3","HBR_Rep1","HBR_Rep2","HBR_Rep3","Set")])
+
+quit(save="no")
 
 ```
 
