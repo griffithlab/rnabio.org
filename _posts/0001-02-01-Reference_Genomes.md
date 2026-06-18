@@ -36,6 +36,8 @@ We have prepared this simplified reference for you. It contains chr22 (and ERCC 
 ```bash
 cd $RNA_REFS_DIR
 wget http://genomedata.org/rnaseq-tutorial/fasta/GRCh38/chr22_with_ERCC92.fa
+# if this is taking too long, you can find it cached under the CourseData directory in the AWS instance:
+# cp ~/CourseData/module02_referenceGenomes/chr22_with_ERCC92.fa .
 ls
 
 ```
