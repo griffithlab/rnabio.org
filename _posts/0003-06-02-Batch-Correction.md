@@ -64,11 +64,11 @@ Perform the following analyses in `R`:
 ```R
 
 #Define working dir paths
-datadir = "/cloud/project/data/bulk_rna"
-outdir = "/cloud/project/outdir"
+# datadir = "/cloud/project/data/bulk_rna"
+# outdir = "/cloud/project/outdir"
 
-# datadir = "~/workspace/rnaseq/batch_correction"
-# outdir = "~/workspace/rnaseq/batch_correction/outputs"
+datadir = "~/workspace/rnaseq/batch_correction"
+outdir = "~/workspace/rnaseq/batch_correction/outputs"
 
 if (!dir.exists(outdir)) dir.create(outdir)
 
@@ -360,7 +360,7 @@ dev.off()
 write.table(uhr_vs_hbr_corrected, file = "DE_genes_uhr_vs_hbr_corrected.tsv", quote = FALSE, row.names = FALSE, sep = "\t")
 
 #To exit R type the following
-#quit(save = "no")
+quit(save = "no")
 
 ```
 
