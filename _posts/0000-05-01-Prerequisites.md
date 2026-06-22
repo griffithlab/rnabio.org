@@ -24,7 +24,7 @@ Knowing R is critical to this workshop. Using R installed on your computer, plea
 * [R Tutorial (W3 Schools)](https://www.w3schools.com/r/default.asp)
 * [Introduction to R (datacamp)](https://app.datacamp.com/learn/courses/free-introduction-to-r) (Take first free chapter)
 * [R Review & Assessment](https://nceas.github.io/oss-lessons/r-review-and-assessment/r-review-and-assessment.html)
-* [GenViz Intro R tutorial](https://genviz.org/module-02-r/0002/02/01/introductionToR/) (Note this tutorial is more advanced, especially the final exerxise, and not required)
+* [CSHL SEQTEC Intro R tutorial](https://rnabio.org/module-00-setup/0000/08/02/CSHL_Intro_to_R_programming/)
 
 ### 3.) Introduction to Python tutorial
 Starting to use the basics of Python is a fundamental bioinformatics skill and relevant to some specific sections of the course. There are many online resources such as:
