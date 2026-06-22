@@ -103,6 +103,7 @@ library_methods = c("Ribo", "Ribo", "Ribo", "Ribo", "Ribo", "Ribo", "Ribo", "Rib
 replicates = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4)
 
 #Create a counts per million (CPM) version of the uncorrected data to use just for the PCA analysis
+#we do this because we don't want the variable amount of data generated for each sample to influence the PCs
 #extract the count matrix, calculate CPM, rebuild the full dataframe with Gene and Chr columns
 count_matrix = uncorrected_data[, sample_names]
 lib_sizes = colSums(count_matrix)
@@ -201,6 +202,7 @@ As performed above, use PCA to examine whether batch correction changes the grou
 ```R
 
 #Create a counts per million (CPM) version of the corrected data to use just for the PCA analysis
+#we do this because we don't want the variable amount of data generated for each sample to influence the PCs
 #extract the count matrix, calculate CPM, rebuild the full dataframe with Gene and Chr columns
 count_matrix = corrected_data[, sample_names]
 lib_sizes = colSums(count_matrix)
