@@ -8,16 +8,15 @@ feature_text: |
 categories: Module-00-Setup
 ---
 
-We offer several options for completing the hands-on components of this course including Amazon Cloud (AWS), Google Cloud (GCP), and Docker images. 
+We currently offer two options for completing the hands-on components of this course including Amazon Cloud (AWS) and Docker images. 
 
-Using cloud computing (AWS or GCP) to complete this course involves two major components: **(1)** Launching an instance on the cloud (essentially renting a virtual computer by the hour and turning it on) and **(2)** logging into that instance. 
+Using cloud computing (AWS) to complete this course involves two major components: **(1)** Launching an instance on the cloud (essentially renting a virtual computer by the hour and turning it on) and **(2)** logging into that instance. 
 
 Using Docker involves running a precompiled image locally on your computer. For specific instructions on how to use each, choose one of the options below:
 
 ## Compute Options
 1. [Using AWS](#using-aws)
-2. [Using GCP](#using-gcp)
-3. [Using Docker](#using-docker)
+2. [Using Docker](#using-docker)
 
 ***
 
@@ -149,9 +148,6 @@ lshw
 top
 
 ```
-
-## Using GCP
-Coming Soon
 
 ## Using Docker
 
