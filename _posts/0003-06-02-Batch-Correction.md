@@ -72,8 +72,6 @@ outdir = "~/workspace/rnaseq/batch_correction/outputs"
 
 if (!dir.exists(outdir)) dir.create(outdir)
 
-
-
 #load neccessary libraries
 library("sva") #Note this exercise requires sva (>= v3.36.0) which is only available for R (>= v4.x)
 library("ggplot2")
@@ -104,8 +102,15 @@ conditions = c("UHR", "UHR", "UHR", "UHR", "HBR", "HBR", "HBR", "HBR", "UHR", "U
 library_methods = c("Ribo", "Ribo", "Ribo", "Ribo", "Ribo", "Ribo", "Ribo", "Ribo", "Poly", "Poly", "Poly", "Poly", "Poly", "Poly", "Poly", "Poly")
 replicates = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4)
 
+#Create a counts per million (CPM) version of the uncorrected data to use just for the PCA analysis
+#extract the count matrix, calculate CPM, rebuild the full dataframe with Gene and Chr columns
+count_matrix = uncorrected_data[, sample_names]
+lib_sizes = colSums(count_matrix)
+cpm_matrix = sweep(count_matrix, 2, lib_sizes, FUN = "/") * 1e6
+uncorrected_data_cpm = cbind(uncorrected_data[, c("Gene", "Chr")], cpm_matrix)
+
 #calculate principal components for the uncorrected data
-pca_uncorrected_obj = prcomp(uncorrected_data[,sample_names])
+pca_uncorrected_obj = prcomp(uncorrected_data_cpm[,sample_names])
 
 #pull PCA values out of the PCA object
 pca_uncorrected = as.data.frame(pca_uncorrected_obj[2]$rotation)
@@ -195,8 +200,15 @@ As performed above, use PCA to examine whether batch correction changes the grou
 
 ```R
 
+#Create a counts per million (CPM) version of the corrected data to use just for the PCA analysis
+#extract the count matrix, calculate CPM, rebuild the full dataframe with Gene and Chr columns
+count_matrix = corrected_data[, sample_names]
+lib_sizes = colSums(count_matrix)
+cpm_matrix = sweep(count_matrix, 2, lib_sizes, FUN = "/") * 1e6
+corrected_data_cpm = cbind(corrected_data[, c("Gene", "Chr")], cpm_matrix)
+
 #calculate principal components for the uncorrected data
-pca_corrected_obj = prcomp(corrected_data[, sample_names])
+pca_corrected_obj = prcomp(corrected_data_cpm[, sample_names])
 
 #pull PCA values out of the PCA object
 pca_corrected = as.data.frame(pca_corrected_obj[2]$rotation)
