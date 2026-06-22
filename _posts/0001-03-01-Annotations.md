@@ -30,8 +30,7 @@ echo $RNA_REFS_DIR
 cd $RNA_REFS_DIR
 ls
 
-# you should see chr22_with_ERCC92.gtf already listed in this directory; if not, perform the following command
-# wget http://genomedata.org/rnaseq-tutorial/annotations/GRCh38/chr22_with_ERCC92.gtf
+wget http://genomedata.org/rnaseq-tutorial/annotations/GRCh38/chr22_with_ERCC92.gtf
 
 ```
 
