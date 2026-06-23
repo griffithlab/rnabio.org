@@ -54,7 +54,7 @@ Download necessary Illumina adapter sequence files.
 echo $RNA_REFS_DIR
 mkdir -p $RNA_REFS_DIR
 cd $RNA_REFS_DIR
-wget http://genomedata.org/rnaseq-tutorial/illumina_multiplex.fa
+wget https://genomedata.org/rnaseq-tutorial/illumina_multiplex.fa
 
 ```
 
@@ -97,8 +97,8 @@ multiqc ./
 
 The resulting html reports can be viewed by navigating to:
 
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/trimmed/
+* https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/
+* https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/trimmed/
 
 ### Clean up
 

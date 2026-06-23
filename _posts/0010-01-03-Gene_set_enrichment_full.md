@@ -173,7 +173,7 @@ Based on these results, we could conclude that cluster 9 (putative luminal cells
 As an additional exercise, let's try to do an overrepresentation and/or GSEA analysis for the DE analysis we did on CD8 T cells using the `cd8tcells_de_gsea.tsv` DE outputs we generated previously. If you do not have the file, it can be downloaded as follows-
 
 ```R
-download.file(url = 'http://genomedata.org/cri-workshop/reference_files/cd8tcells_de_gsea.tsv',
+download.file(url = 'https://genomedata.org/cri-workshop/reference_files/cd8tcells_de_gsea.tsv',
               destfile = 'outdir_single_cell_rna/cd8tcells_de_gsea.tsv')
 ```
 

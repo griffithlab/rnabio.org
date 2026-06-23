@@ -34,7 +34,7 @@ To install bedtools:
 
 * What happens when you run bedtools without any options? The basic usage documentation is printed.
 
-* Where can you find detailed documentation on how to use bedtools? [http://bedtools.readthedocs.io/en/latest/](http://bedtools.readthedocs.io/en/latest/)
+* Where can you find detailed documentation on how to use bedtools? [https://bedtools.readthedocs.io/en/latest/](https://bedtools.readthedocs.io/en/latest/)
 
 * How many general categories of analysis can you perform with bedtools? What are they? There are 8. They are 'Genome arithmetic', 'Multi-way file comparisons', 'Paired-end manipulation', 'Format conversion', 'Fasta manipulation', 'BAM focused tools', 'Statistical relationships', and 'Miscellaneous tools'.
 
@@ -70,7 +70,7 @@ cat chr22_only.fa | grep -v ">" | perl -ne 'chomp $_; $s = uc($_); print $_;' | 
 cd $RNA_HOME
 mkdir -p practice/data
 cd $RNA_HOME/practice/data
-wget http://genomedata.org/rnaseq-tutorial/practical.tar
+wget https://genomedata.org/rnaseq-tutorial/practical.tar
 tar -xvf practical.tar
 ll -1 *.fastq.gz | wc -l
 zcat hcc1395_normal_rep1_r1.fastq.gz | head -n 1
@@ -125,7 +125,7 @@ mv *_fastqc* fastqc
 
 Then, go to the following url in your browser:
 
-* http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/
+* https://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/
 * Note, you must replace **YOUR_DNS_NAME** with your own amazon instance IP or DNS
 * Click on any of the `*_fastqc.html` files to view the FastQC reports (e.g., `hcc1395_normal_rep1_r1_fastqc.html`)
 
@@ -146,7 +146,7 @@ Then, go to the following url in your browser:
 ```bash
 cd $RNA_HOME/practice/data/
 mkdir trimmed
-wget http://genomedata.org/rnaseq-tutorial/illumina_multiplex.fa
+wget https://genomedata.org/rnaseq-tutorial/illumina_multiplex.fa
 
 fastp -i hcc1395_normal_rep1_r1.fastq.gz -I hcc1395_normal_rep1_r2.fastq.gz -o trimmed/hcc1395_normal_rep1_r1.fastq.gz -O trimmed/hcc1395_normal_rep1_r2.fastq.gz -l 25 --adapter_fasta illumina_multiplex.fa --json trimmed/hcc1395_normal_rep1.fastp.json --html trimmed/hcc1395_normal_rep1.fastp.html 2>trimmed/hcc1395_normal_rep1.fastp.log
 fastp -i hcc1395_normal_rep2_r1.fastq.gz -I hcc1395_normal_rep2_r2.fastq.gz -o trimmed/hcc1395_normal_rep2_r1.fastq.gz -O trimmed/hcc1395_normal_rep2_r2.fastq.gz -l 25 --adapter_fasta illumina_multiplex.fa --json trimmed/hcc1395_normal_rep2.fastp.json --html trimmed/hcc1395_normal_rep2.fastp.html 2>trimmed/hcc1395_normal_rep2.fastp.log
@@ -179,8 +179,8 @@ mv *fastp.* fastp
 ```
 
 
-* http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/hcc1395_normal_rep1_r1_fastqc.html
-* http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/trimmed/hcc1395_normal_rep1_1_fastqc.html
+* https://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/hcc1395_normal_rep1_r1_fastqc.html
+* https://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/trimmed/hcc1395_normal_rep1_1_fastqc.html
 
 #### Answers
 
@@ -257,9 +257,9 @@ samtools index HCC1395_tumor.bam
 Start IGV on your laptop. Load the HCC1395_normal.bam & HCC1395_tumor.bam files in IGV. You can load the necessary files in IGV directly from your web accessible amazon workspace (see below) using 'File' -> 'Load from URL'.
 
 **HCC1395BL (normal) alignment:**
-http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_normal.bam
+https://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_normal.bam
 
-**HCC1395 tumor alignment:** http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_tumor.bam
+**HCC1395 tumor alignment:** https://**YOUR_DNS_NAME**/workspace/rnaseq/practice/alignments/hisat2/HCC1395_tumor.bam
 
 #### Answers
 
@@ -440,6 +440,6 @@ quit(save="no")
 
 To view your plot, go to the following url in your browser:
 
-* http://**YOUR_IP_ADDRESS**/workspace/rnaseq/practice/de/ballgown/ref_only/practical_exercise_10_volcano.pdf
+* https://**YOUR_IP_ADDRESS**/workspace/rnaseq/practice/de/ballgown/ref_only/practical_exercise_10_volcano.pdf
 * Note, you must replace **YOUR_IP_ADDRESS** with your own amazon instance IP or DNS
 

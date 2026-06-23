@@ -51,7 +51,7 @@ mkdir -p team_exercise/untrimmed
 cd team_exercise/untrimmed
 
 # Fill in the "XX" below with your team's letter (A, B, C...)
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_XX/dataset.tar.gz
+wget -c https://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_XX/dataset.tar.gz
 tar -xzvf dataset.tar.gz
 
 ```
@@ -62,13 +62,13 @@ mkdir -p $RNA_HOME/team_exercise/references
 cd $RNA_HOME/team_exercise/references
 
 ## Adapter trimming
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex.fa
+wget -c https://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex.fa
 
 ## Reference fasta corresponding to your team's assigned chromosome (e.g. chr6)
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chrXX.fa
+wget -c https://genomedata.org/seq-tec-workshop/references/RNA/chrXX.fa
 
 ## Obtain annotated reference gtf file corresponding to your team's assigned chromosome (e.g. chr6)
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chrXX_Homo_sapiens.GRCh38.95.gtf
+wget -c https://genomedata.org/seq-tec-workshop/references/RNA/chrXX_Homo_sapiens.GRCh38.95.gtf
 
 ```
 

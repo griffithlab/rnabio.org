@@ -34,16 +34,16 @@ library(DESeq2)
 library(data.table)
 library(pheatmap)
 
-# Load in the DESeqDataSet object (http://genomedata.org/cri-workshop/deseq2/dds.rds)
+# Load in the DESeqDataSet object (https://genomedata.org/cri-workshop/deseq2/dds.rds)
 dds = readRDS("dds.rds")
 
-# Load in the results object before shrinkage (http://genomedata.org/cri-workshop/deseq2/res.rds)
+# Load in the results object before shrinkage (https://genomedata.org/cri-workshop/deseq2/res.rds)
 res = readRDS("res.rds")
 
-# Load in the results object after shrinkage (http://genomedata.org/cri-workshop/deseq2/resLFC.rds)
+# Load in the results object after shrinkage (https://genomedata.org/cri-workshop/deseq2/resLFC.rds)
 resLFC = readRDS("resLFC.rds")
 
-# Load in the final results file with all sorted DE results (http://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
+# Load in the final results file with all sorted DE results (https://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
 deGeneResultSorted = fread("DE_all_genes_DESeq2.tsv") 
 ```
 

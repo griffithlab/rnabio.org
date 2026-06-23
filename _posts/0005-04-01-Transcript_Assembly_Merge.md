@@ -43,7 +43,7 @@ awk '{if($3=="transcript") print}' stringtie_merged.gtf | cut -f 1,4,9 | less
 ```
 Press `q` to exit the less viewer
 
-Compare reference guided transcripts to the known annotations. This allows us to assess the quality of transcript predictions made from assembling the RNA-seq data. For more details, refer to the [Stringtie GFF Utilities](http://ccb.jhu.edu/software/stringtie/gff.shtml) and [Cuffcompare](http://cole-trapnell-lab.github.io/cufflinks/cuffcompare/index.html) manuals.
+Compare reference guided transcripts to the known annotations. This allows us to assess the quality of transcript predictions made from assembling the RNA-seq data. For more details, refer to the [Stringtie GFF Utilities](https://ccb.jhu.edu/software/stringtie/gff.shtml) and [Cuffcompare](https://cole-trapnell-lab.github.io/cufflinks/cuffcompare/index.html) manuals.
 ```bash
 gffcompare -r $RNA_REF_GTF -o gffcompare stringtie_merged.gtf
 cat gffcompare.stats

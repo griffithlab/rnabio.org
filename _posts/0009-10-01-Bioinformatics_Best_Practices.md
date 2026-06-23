@@ -17,7 +17,7 @@ This _best practices_ guide provides a basic overview of useful practices and to
 
 Similar to the use of a laboratory notebook, taking notes about the procedures and analysis you performed is critical to reproducible science. There are a number of scientific computing notebooks available, but the most popular by far is the [Jupyter Notebook][Jupyter].
 
-[Jupyter]: http://jupyter.org/
+[Jupyter]: https://jupyter.org/
 
 Jupyter supports interactive data science and scientific computer across a small number of languages, although the most popular use of Jupyter is with [Python][Python], as the Jupyter notebook is built upon the Python-based [iPython Notebook][iPython].
 
@@ -31,7 +31,7 @@ A [live version of Jupyter][live-Jupyter] is available to try online, and provid
 
 [live-Jupyter]: https://try.jupyter.org
 [analysis]: https://gist.github.com/ahwagner/595291c53ddaf8da64e995ad3a555d54
-[dgidb]: http://www.dgidb.org/faq
+[dgidb]: https://www.dgidb.org/faq
 
 ## Versioning Code with Git and GitHub
 
@@ -54,7 +54,7 @@ One of the most challenging aspects of bioinformatics workflows is reproducibili
 [Conda][Conda] is a language-agnostic package, dependency and environment management system. It is included in the data-science-focused distribution of Conda, [Anaconda][Anaconda]. Anaconda is based on Python and R packages for the analysis of scientific, large-scale data. Bioinformaticians also commonly use [Bioconda][Bioconda], which add channels to Conda with bioinformatics tools (such as the popular sequence alignment tool BWA).
 
 [Anaconda]: https://www.anaconda.com/about-us
-[Conda]: http://conda.pydata.org/docs/
+[Conda]: https://conda.pydata.org/docs/
 [Bioconda]: https://bioconda.github.io/
 [EC2]: https://aws.amazon.com/ec2/
 [VirtualBox]: https://www.virtualbox.org/wiki/Downloads

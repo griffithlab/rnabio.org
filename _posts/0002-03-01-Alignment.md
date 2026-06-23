@@ -30,7 +30,7 @@ HISAT2 uses a graph-based alignment and has succeeded HISAT and TOPHAT2. The out
 
 Refer to HISAT2 manual for a more detailed explanation:
 
-* [http://daehwankimlab.github.io/hisat2/manual/](http://daehwankimlab.github.io/hisat2/manual/)
+* [https://daehwankimlab.github.io/hisat2/manual/](https://daehwankimlab.github.io/hisat2/manual/)
 
 HISAT2 basic usage:
 

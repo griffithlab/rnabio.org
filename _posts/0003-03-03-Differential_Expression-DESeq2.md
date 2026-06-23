@@ -333,5 +333,5 @@ Download the file: `outdir/DE_sig_genes_DESeq2.tsv`. Open this spreadsheet, sort
 **TissueEnrich example for UHR over-expressed gene: *SERPIND1***
 {% include figure.html image="/assets/module_3/TissueEnrich-UHR-SERPIND1.png" width="1200" %}
 
-Does all of this make sense when we think about the makeup of the HBR and UHR samples? Refer back to the [description of the samples](module-01-inputs/0001/05/01/RNAseq_Data/).
+Does all of this make sense when we think about the makeup of the HBR and UHR samples? Refer back to the [description of the samples](/module-01-inputs/0001/05/01/RNAseq_Data/).
 

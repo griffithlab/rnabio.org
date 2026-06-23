@@ -41,7 +41,7 @@ Each data set has a corresponding pair of FASTQ files (read 1 and read 2 of pair
 echo $RNA_DATA_DIR
 mkdir -p $RNA_DATA_DIR
 cd $RNA_DATA_DIR
-wget http://genomedata.org/rnaseq-tutorial/HBR_UHR_ERCC_ds_5pc.tar
+wget https://genomedata.org/rnaseq-tutorial/HBR_UHR_ERCC_ds_5pc.tar
 
 ```
 
@@ -141,7 +141,7 @@ Using this [table](https://rnabio.org/module-09-appendix/0009/12/01/StrandSettin
 Assignment: Download an additional dataset and unpack it. This data will be used in future practical exercises.
 
 * Hint: Do this in a separate working directory called ‘practice’ and create sub-directories for organization (data, alignments, etc).
-* In this exercise you will download an archive of publicly available read data from here: [http://genomedata.org/rnaseq-tutorial/practical.tar](http://genomedata.org/rnaseq-tutorial/practical.tar)
+* In this exercise you will download an archive of publicly available read data from here: [https://genomedata.org/rnaseq-tutorial/practical.tar](https://genomedata.org/rnaseq-tutorial/practical.tar)
 
 The practice dataset includes 3 replicates of data from the HCC1395 breast cancer cell line and 3 replicates of data from HCC1395BL matched lymphoblastoid line. So, this will be a tumor vs normal (cell line) comparison. The reads are paired-end 151-mers generated on an Illumina HiSeq instrument from TruSeq Stranded Total RNA Libraries. The test data has been pre-filtered for reads that appear to map to chromosome 22.
 
@@ -155,6 +155,6 @@ Solution: When you are ready you can check your approach against the [Solutions]
 
 ***
 
-**NOTE**: The complete RAW HCC1395 data sets can be found here: [http://genomedata.org/pmbio-workshop/fastqs/all/](http://genomedata.org/pmbio-workshop/fastqs/all/)
+**NOTE**: The complete RAW HCC1395 data sets can be found here: [https://genomedata.org/pmbio-workshop/fastqs/all/](https://genomedata.org/pmbio-workshop/fastqs/all/)
 
 If you use this data, please cite our paper: [Citation](https://github.com/griffithlab/rnaseq_tutorial/wiki/Citation)

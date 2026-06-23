@@ -108,7 +108,7 @@ scp -i cshl_2025_student.pem ubuntu@[your ip address or dns name]:nice_alignment
 
 * Everything created in your workspace on the cloud is also available by a web server on your cloud instance.  Simply go to the following in your browser:
 
-http://[your ip address]/ or http://[your dns name]
+https://[your ip address]/ or https://[your dns name]
 
 ### File system layout on AWS instance
 

@@ -19,11 +19,11 @@ date: 0001-06-01
 
 You can use `FastQC` to get a sense of your data quality before alignment:
 
-* [http://www.bioinformatics.babraham.ac.uk/projects/fastqc/](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+* [https://www.bioinformatics.babraham.ac.uk/projects/fastqc/](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
 Video Tutorial here:
 
-* [http://www.youtube.com/watch?v=bz93ReOv87Y](http://www.youtube.com/watch?v=bz93ReOv87Y)
+* [https://www.youtube.com/watch?v=bz93ReOv87Y](https://www.youtube.com/watch?v=bz93ReOv87Y)
 
 Try to run FastQC on your fastq files:
 
@@ -35,7 +35,7 @@ fastqc *.fastq.gz
 
 Then, go to the following url in your browser:
 
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/
+* https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/
 * Note, you must replace **YOUR_PUBLIC_IPv4_ADDRESS** with your own amazon instance DNS (e.g., ec2-54-187-159-113.us-west-2.compute.amazonaws.com))
 * Click on any of the `*_fastqc.html` files to view the FastQC report
 
@@ -80,7 +80,7 @@ multiqc ./
 ```
 
 Then, go to the following url in your browser:
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/multiqc_report.html
+* https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/data/multiqc_report.html
 
 
 ### Clean up

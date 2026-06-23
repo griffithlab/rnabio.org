@@ -33,7 +33,7 @@ Set up a working directory and download the RNA-seq counts file needed for the f
 cd $RNA_HOME
 mkdir batch_correction
 cd batch_correction
-wget http://genomedata.org/rnaseq-tutorial/batch_correction/GSE48035_ILMN.counts.txt.gz
+wget https://genomedata.org/rnaseq-tutorial/batch_correction/GSE48035_ILMN.counts.txt.gz
 
 ```
 

@@ -61,7 +61,7 @@ stringtie --rf -p 4 -G $RNA_REF_GTF -e -B -o UHR_Rep3/transcripts.gtf -A UHR_Rep
 
 ```
 
-What does the raw output from Stringtie look like? For details on the Stringtie output files refer to [Stringtie manual](http://ccb.jhu.edu/software/stringtie/index.shtml?t=manual) ([outputs section](http://ccb.jhu.edu/software/stringtie/index.shtml?t=manual#output))
+What does the raw output from Stringtie look like? For details on the Stringtie output files refer to [Stringtie manual](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual) ([outputs section](https://ccb.jhu.edu/software/stringtie/index.shtml?t=manual#output))
 
 ```bash
 less -S UHR_Rep1/transcripts.gtf
@@ -272,7 +272,7 @@ First download a file describing the expected concentrations and fold-change dif
 ```bash
 mkdir $RNA_HOME/expression/ercc_spikein_analysis/
 cd $RNA_HOME/expression/ercc_spikein_analysis/
-wget http://genomedata.org/rnaseq-tutorial/ERCC_Controls_Analysis.txt
+wget https://genomedata.org/rnaseq-tutorial/ERCC_Controls_Analysis.txt
 cat ERCC_Controls_Analysis.txt
 
 ```
@@ -402,8 +402,8 @@ quit(save="no")
 To view the resulting figures, navigate to the below URL replacing YOUR_IP_ADDRESS with your amazon instance IP address:
 $RNA_HOME/ercc_spikein_analysis/
 
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/ercc_spikein_analysis/ERCC_Count_Expression_vs_SpikeInConcentration.pdf
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/ercc_spikein_analysis/ERCC_TPM_Expression_vs_SpikeInConcentration.pdf
+* https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/ercc_spikein_analysis/ERCC_Count_Expression_vs_SpikeInConcentration.pdf
+* https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/ercc_spikein_analysis/ERCC_TPM_Expression_vs_SpikeInConcentration.pdf
 
 Which expression estimation (read counts or TPM values) are better representing the known/expected ERCC concentrations?  Why?
 

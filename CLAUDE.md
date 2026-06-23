@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Jekyll-based static site ([rnabio.org](http://www.rnabio.org/)) serving as an RNA-seq bioinformatics workshop course. It uses the Alembic Jekyll theme and is hosted on GitHub Pages. Course content is licensed CC-BY-SA 4.0; theme code is MIT.
+This is a Jekyll-based static site ([rnabio.org](https://www.rnabio.org/)) serving as an RNA-seq bioinformatics workshop course. It uses the Alembic Jekyll theme and is hosted on GitHub Pages. Course content is licensed CC-BY-SA 4.0; theme code is MIT.
 
 The live site deploys from the `master` branch. Active development happens on the `dev` branch.
 

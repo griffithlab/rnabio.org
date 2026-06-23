@@ -69,7 +69,7 @@ For simplicity, we are going to download a preconfigured `.bashrc` file to use.
 
 ```bash
 cd ~
-wget http://genomedata.org/rnaseq-tutorial/bashrc_copy
+wget https://genomedata.org/rnaseq-tutorial/bashrc_copy
 mv bashrc_copy ~/.bashrc
 source ~/.bashrc
 ```
@@ -94,6 +94,6 @@ Again, check all the RNA related environment variables to make sure things look 
 env | grep RNA
 ```
 
-Note that if you are doing this course on the Google Cloud Platform instead of AWS, you should instead use this `.bashrc` file: http://genomedata.org/rnaseq-tutorial/bashrc_copy_gcp.sh 
+Note that if you are doing this course on the Google Cloud Platform instead of AWS, you should instead use this `.bashrc` file: https://genomedata.org/rnaseq-tutorial/bashrc_copy_gcp.sh 
 
 
