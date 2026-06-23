@@ -3,9 +3,9 @@
 
 #1. Create a new Dockerfile
 cd ~/git/rnabio.org/docker/site
-mkdir 0.0.2
-cd 0.0.2
-cp ~/git/rnabio.org/docker/site/0.0.1/Dockerfile .
+mkdir 0.0.5
+cd 0.0.5
+cp ~/git/rnabio.org/docker/site/0.0.4/Dockerfile .
 
 #2. Modify the new Dockerfile as needed
 
@@ -13,7 +13,7 @@ cp ~/git/rnabio.org/docker/site/0.0.1/Dockerfile .
 
 #4. Clean up docker environment
 #To ensure a clean/new build you may want to clean up (delete) old containers, images, volumes and cache
-#4.1 Deleted containers, images, and volumes directly in the docker desktop app
+#4.1 Delete containers, images, and volumes directly in the docker desktop app
 #4.2 Check for any remaining data in docker environment
 docker system df
 
@@ -22,11 +22,11 @@ docker buildx prune
 docker system df
 
 #Build a new image from modified Dockerfile
-docker build -t griffithlab/rnabiodev:0.0.2 ./
+docker build -t griffithlab/rnabiodev:0.0.5 ./
 
 #Test that the image is working
-docker run -p 4000:4000 -v ~/git/rnabio.org/:/opt/git/rnabio.org -it griffithlab/rnabiodev:0.0.2
+docker run -p 4000:4000 -v ~/git/rnabio.org/:/opt/git/rnabio.org -it griffithlab/rnabiodev:0.0.5
 
 #Once satistfied, push the image to dockerhub
-docker push griffithlab/rnabiodev:0.0.2
+docker push griffithlab/rnabiodev:0.0.5
 
