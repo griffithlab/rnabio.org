@@ -1,6 +1,6 @@
 ## Overview
 
-This is the github repo for the RNA-Seq Workshop [website](http://rnabio.org). The website uses the static site generator [jekyll](https://jekyllrb.com/) and is based on the [Alembic theme](https://github.com/daviddarnes/alembic). Development occurs on the dev branch, the live site is located on the master branch.
+This is the github repo for the RNA-Seq Workshop [website](https://rnabio.org). The website uses the static site generator [jekyll](https://jekyllrb.com/) and is based on the [Alembic theme](https://github.com/daviddarnes/alembic). Development occurs on the dev branch, the live site is located on the master branch.
 
 ## Installation
 

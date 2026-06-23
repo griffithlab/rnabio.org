@@ -24,7 +24,7 @@ mkdir student_tools
 cd student_tools
 ```
 
-## [SAMtools](http://www.htslib.org/)
+## [SAMtools](https://www.htslib.org/)
 
 Installation type: build C++ binary from source code using `make`. Citation: [PMID: 19505943](https://pubmed.ncbi.nlm.nih.gov/19505943/).
 
@@ -81,14 +81,14 @@ The `stringtie` reference guided transcript assembly and abundance estimation to
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-2.2.1.tar.gz
+wget https://ccb.jhu.edu/software/stringtie/dl/stringtie-2.2.1.tar.gz
 tar -xzvf stringtie-2.2.1.tar.gz
 cd stringtie-2.2.1
 make release
 ./stringtie -h
 ```
 
-## [gffcompare](http://ccb.jhu.edu/software/stringtie/gff.shtml#gffcompare)
+## [gffcompare](https://ccb.jhu.edu/software/stringtie/gff.shtml#gffcompare)
 
 Installation type: download a precompiled binary. Citation: [PMID: 25690850](https://pubmed.ncbi.nlm.nih.gov/25690850/).
 
@@ -96,7 +96,7 @@ The `gffcompare` tool for comparing transcript annotations is installed below by
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget http://ccb.jhu.edu/software/stringtie/dl/gffcompare-0.12.6.Linux_x86_64.tar.gz
+wget https://ccb.jhu.edu/software/stringtie/dl/gffcompare-0.12.6.Linux_x86_64.tar.gz
 tar -xzvf gffcompare-0.12.6.Linux_x86_64.tar.gz
 cd gffcompare-0.12.6.Linux_x86_64/
 ./gffcompare
@@ -120,7 +120,7 @@ Note, this tool is currently only installed for the gtf_to_fasta tool used in ka
 
 ```bash
 cd $RNA_HOME/student_tools/
-wget http://genomedata.org/rnaseq-tutorial/tophat-2.1.1.Linux_x86_64.tar.gz
+wget https://genomedata.org/rnaseq-tutorial/tophat-2.1.1.Linux_x86_64.tar.gz
 tar -zxvf tophat-2.1.1.Linux_x86_64.tar.gz
 cd tophat-2.1.1.Linux_x86_64/
 ./gtf_to_fasta
@@ -140,7 +140,7 @@ cd kallisto_linux-v0.44.0/
 ./kallisto
 ```
 
-## [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+## [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
 Installation type: download precompiled binary. Citation: [s-andrews/FastQC](https://github.com/s-andrews/FastQC).
 
@@ -161,13 +161,13 @@ Installation type: download precompiled binary. Citation: [PMID: 30423086](https
 cd $RNA_HOME/student_tools/
 mkdir fastp
 cd fastp
-wget http://opengene.org/fastp/fastp
+wget https://opengene.org/fastp/fastp
 chmod a+x ./fastp
 ./fastp
 ```
 
 
-## [MultiQC](http://multiqc.info/)
+## [MultiQC](https://multiqc.info/)
 
 Installation type: use pip. Citation: [PMID: 27312411](https://pubmed.ncbi.nlm.nih.gov/27312411/).
 
@@ -206,7 +206,7 @@ make
 ./regtools
 ```
 
-## [RSeQC](http://rseqc.sourceforge.net/)
+## [RSeQC](https://rseqc.sourceforge.net/)
 
 Installation type: use pip. Citation: [PMID: 22743226](https://pubmed.ncbi.nlm.nih.gov/22743226/).
 
@@ -236,7 +236,7 @@ Installation type: download precompiled binary.
 cd $RNA_HOME/student_tools/
 mkdir gtfToGenePred
 cd gtfToGenePred
-wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gtfToGenePred
+wget -c https://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gtfToGenePred
 chmod a+x gtfToGenePred
 ./gtfToGenePred
 ```
@@ -249,7 +249,7 @@ Installation type: download precompiled binary.
 cd $RNA_HOME/student_tools/
 mkdir genePredToBed
 cd genePredToBed
-wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/genePredToBed
+wget -c https://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/genePredToBed
 chmod a+x genePredToBed
 ./genePredToBed
 ```
@@ -271,7 +271,7 @@ wget `download_link`
 tar -xzvf cellranger-7.2.0.tar.gz
 ```
 
-## Install [R](http://www.r-project.org/)
+## Install [R](https://www.r-project.org/)
 
 ```bash
 #sudo apt-get remove r-base-core
@@ -293,27 +293,27 @@ For this tutorial we require:
 
 * [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
 * [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html)
-* [gplots](http://cran.r-project.org/web/packages/gplots/index.html)
+* [gplots](https://cran.r-project.org/web/packages/gplots/index.html)
 * [ggplot2](https://ggplot2.tidyverse.org/)
 
 launch R (enter `R` at linux command prompt) and type the following at an R command prompt. NOTE: This has been pre-installed for you, so these commands can be skipped.
 
 ```bash
 #R
-#install.packages(c("devtools","dplyr","gplots","ggplot2"),repos="http://cran.us.r-project.org")
+#install.packages(c("devtools","dplyr","gplots","ggplot2"),repos="https://cran.us.r-project.org")
 #quit(save="no")
 ```
 
-## [Bioconductor](http://www.bioconductor.org/)
+## [Bioconductor](https://www.bioconductor.org/)
 
 Installation type: add bioconductor libraries to an R installation. Citation: [PMID: 15461798](https://pubmed.ncbi.nlm.nih.gov/15461798/).
 
 For this tutorial we require:
 
-* [genefilter](http://bioconductor.org/packages/release/bioc/html/genefilter.html)
-* [ballgown](http://bioconductor.org/packages/release/bioc/html/ballgown.html). Citation: [PMID: 25748911](https://pubmed.ncbi.nlm.nih.gov/25748911/).
-* [edgeR](http://www.bioconductor.org/packages/release/bioc/html/edgeR.html). Citation: [PMID: 19910308](https://pubmed.ncbi.nlm.nih.gov/19910308/).
-* [GenomicRanges](http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html)
+* [genefilter](https://bioconductor.org/packages/release/bioc/html/genefilter.html)
+* [ballgown](https://bioconductor.org/packages/release/bioc/html/ballgown.html). Citation: [PMID: 25748911](https://pubmed.ncbi.nlm.nih.gov/25748911/).
+* [edgeR](https://www.bioconductor.org/packages/release/bioc/html/edgeR.html). Citation: [PMID: 19910308](https://pubmed.ncbi.nlm.nih.gov/19910308/).
+* [GenomicRanges](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html)
 * [rhdf5](https://www.bioconductor.org/packages/release/bioc/html/rhdf5.html)
 * [biomaRt](https://bioconductor.org/packages/release/bioc/html/biomaRt.html). Citation: [PMID: 21930506](https://pubmed.ncbi.nlm.nih.gov/21930506/).
 
@@ -321,7 +321,7 @@ launch R (enter `R` at linux command prompt) and type the following at an R comm
 
 ```bash
 #R
-#source("http://bioconductor.org/biocLite.R")
+#source("https://bioconductor.org/biocLite.R")
 #biocLite(c("genefilter","ballgown","edgeR","GenomicRanges","rhdf5","biomaRt"))
 #quit(save="no")
 ```
@@ -393,13 +393,13 @@ vi ~/.bashrc
 5. Press the ":" key to enter command mode.
 6. Type "wq" to save and quit vi
 
-If you would like to learn more about how to use vi, try this tutorial/game: [VIM Adventures](http://vim-adventures.com/)
+If you would like to learn more about how to use vi, try this tutorial/game: [VIM Adventures](https://vim-adventures.com/)
 
 NOTE: If you are worried your .bashrc is messed up you can redownload as follows:
 
 ```bash
 cd ~
-wget http://genomedata.org/rnaseq-tutorial/bashrc_copy
+wget https://genomedata.org/rnaseq-tutorial/bashrc_copy
 mv bashrc_copy ~/.bashrc
 source ~/.bashrc
 ```

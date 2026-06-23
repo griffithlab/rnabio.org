@@ -17,7 +17,7 @@ A Posit workspace was already created by the workshop organizers. We used Posit 
 
 ## Upload raw data
 
-Folders for uploading raw data were created using the RStudio terminal. Files were either uploaded from a local laptop/ storage1 location using the `Upload` feature in the bottom right pane of the RStudio window; or downloaded from [genomedata.org](http://genomedata.org) using `wget` from the RStudio terminal. 
+Folders for uploading raw data were created using the RStudio terminal. Files were either uploaded from a local laptop/ storage1 location using the `Upload` feature in the bottom right pane of the RStudio window; or downloaded from [genomedata.org](https://genomedata.org) using `wget` from the RStudio terminal. 
 
 ```bash
 mkdir data
@@ -58,19 +58,19 @@ wget https://data.broadinstitute.org/Trinity/CTAT/cnv/mouse_gencode.GRCm38.p6.vM
 cd /cloud/project/data/single_cell_rna
 mkdir cancer_cell_id 
 cd cancer_cell_id
-wget http://genomedata.org/cri-workshop/somatic_variants_exome/mcb6c-exome-somatic.variants.annotated.clean.tsv
+wget https://genomedata.org/cri-workshop/somatic_variants_exome/mcb6c-exome-somatic.variants.annotated.clean.tsv
 
 ````
 
 ### Files in bulk_rna
-- Batch correction file (downloaded from genomedata - [GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv](http://genomedata.org/rnaseq-tutorial/batch_correction/GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv))
-- DE analysis files (downloaded from genomedata - [ENSG_ID2Name.txt](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/ENSG_ID2Name.txt) and [gene_read_counts_table_all_final.tsv](http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_read_counts_table_all_final.tsv))
+- Batch correction file (downloaded from genomedata - [GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv](https://genomedata.org/rnaseq-tutorial/batch_correction/GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv))
+- DE analysis files (downloaded from genomedata - [ENSG_ID2Name.txt](https://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/ENSG_ID2Name.txt) and [gene_read_counts_table_all_final.tsv](https://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_read_counts_table_all_final.tsv))
 
 ```bash
 cd /cloud/project/data/bulk_rna
-wget http://genomedata.org/rnaseq-tutorial/batch_correction/GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv
-wget http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/ENSG_ID2Name.txt
-wget http://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_read_counts_table_all_final.tsv
+wget https://genomedata.org/rnaseq-tutorial/batch_correction/GSE48035_ILMN.Counts.SampleSubset.ProteinCodingGenes.tsv
+wget https://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/ENSG_ID2Name.txt
+wget https://genomedata.org/rnaseq-tutorial/results/cshl2022/rnaseq/gene_read_counts_table_all_final.tsv
 ```
 
 ### Back-up files

@@ -18,7 +18,7 @@ date: 0003-05-01
 In this section we will use the GAGE tool in R to test for significantly enriched sets of genes within those genes found to be significantly "up" and "down" in our UHR vs HBR differential gene expression analysis. Do we see enrichment for genes associated with brain related cell types and processes in the list of DE genes that have significant differential expression beween the UHR samples compared to the HBR samples?
 
 ### What is gage?
-The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and RNAseq data sets. In this section we will use [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](http://www.geneontology.org/)) and the [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) databases to perform pathway analysis. 
+The Generally Applicable Gene-set Enrichment tool ([GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html)) is a popular bioconductor package used to  perform gene-set enrichment and pathway analysis. The package works independent of sample sizes, experimental designs, assay platforms, and is applicable to both microarray and RNAseq data sets. In this section we will use [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) and gene sets from the "Gene Ontology" ([GO](https://www.geneontology.org/)) and the [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) databases to perform pathway analysis. 
 
 ### Importing DE results for gage
 Before we perform the pathway analysis we need to read in our differential expression results from the previous DE analysis.
@@ -31,7 +31,7 @@ datadir = "/workspace/rnaseq/de/htseq_counts/deseq2"
 
 setwd(datadir)
 
-# Load in the DE results file with only significant genes (e.g., http://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
+# Load in the DE results file with only significant genes (e.g., https://genomedata.org/cri-workshop/deseq2/DE_sig_genes_DESeq2.tsv)
 DE_genes = read.table("DE_sig_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
 output_dir = "/workspace/rnaseq/de/htseq_counts/deseq2/pathway/"
@@ -55,7 +55,7 @@ library(gage)
 ```
 
 ### Setting up gene set databases
-In order to perform our pathway analysis we need a list of pathways and their respective genes. There are many databases that contain collections of genes (or gene sets) that can be used to understand whether a set of mutated or differentially expressed genes are functionally related.  Some of these resources include: [GO](http://www.geneontology.org/), [KEGG](https://www.kegg.jp), [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb), and [WikiPathways](https://www.wikipathways.org/index.php/WikiPathways). For this exercise we are going to investigate [GO](http://www.geneontology.org/) and [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb).  The [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) package has a function for querying [GO](http://www.geneontology.org/) in real time: [go.gsets()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/go.gsets). This function takes a species as an argument and will return a list of gene sets and some helpful meta information for subsetting these lists. If you are unfamiliar with [GO](http://www.geneontology.org/), it is helpful to know that GO terms are categorized into three gene ontologies: "Biological Process", "Molecular Function", and "Cellular Component". This information will come in handy later in our exercise. GAGE does not provide a similar tool to investigate the gene sets available in MSigDB. Fortunately, MSigDB provides a  download-able `.gmt` file for all gene sets. This format is easily read into GAGE using a function called [readList()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/readList). If you check out [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) you will see that there are 8 unique gene set collections, each with slightly different features. For this exercise we will use the [C8 - cell type signature gene sets collection](https://www.gsea-msigdb.org/gsea/msigdb/collection_details.jsp#C8), which is a collection of gene sets that contain cluster markers for cell types identified from single-cell sequencing studies of human tissue.
+In order to perform our pathway analysis we need a list of pathways and their respective genes. There are many databases that contain collections of genes (or gene sets) that can be used to understand whether a set of mutated or differentially expressed genes are functionally related.  Some of these resources include: [GO](https://www.geneontology.org/), [KEGG](https://www.kegg.jp), [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb), and [WikiPathways](https://www.wikipathways.org/index.php/WikiPathways). For this exercise we are going to investigate [GO](https://www.geneontology.org/) and [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb).  The [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) package has a function for querying [GO](https://www.geneontology.org/) in real time: [go.gsets()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/go.gsets). This function takes a species as an argument and will return a list of gene sets and some helpful meta information for subsetting these lists. If you are unfamiliar with [GO](https://www.geneontology.org/), it is helpful to know that GO terms are categorized into three gene ontologies: "Biological Process", "Molecular Function", and "Cellular Component". This information will come in handy later in our exercise. GAGE does not provide a similar tool to investigate the gene sets available in MSigDB. Fortunately, MSigDB provides a  download-able `.gmt` file for all gene sets. This format is easily read into GAGE using a function called [readList()](https://www.rdocumentation.org/packages/gage/versions/2.22.0/topics/readList). If you check out [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb) you will see that there are 8 unique gene set collections, each with slightly different features. For this exercise we will use the [C8 - cell type signature gene sets collection](https://www.gsea-msigdb.org/gsea/msigdb/collection_details.jsp#C8), which is a collection of gene sets that contain cluster markers for cell types identified from single-cell sequencing studies of human tissue.
 
 ```R
 # Set up go database
@@ -65,7 +65,7 @@ go.mf.gs = go.hs$go.sets[go.hs$go.subs$MF]
 go.cc.gs = go.hs$go.sets[go.hs$go.subs$CC]
 
 # Here we will read in an MSigDB gene set that was selected for this exercise and saved to the course website. 
-c8 = "http://genomedata.org/rnaseq-tutorial/c8.all.v7.2.entrez.gmt"
+c8 = "https://genomedata.org/rnaseq-tutorial/c8.all.v7.2.entrez.gmt"
 all_cell_types = readList(c8)
 
 ```
@@ -106,7 +106,7 @@ DE_genes_clean=DE_genes_clean[!duplicated(DE_genes_clean$entrez),]
 ```
 
 ### Final preparation of DESeq2 results for gage
-OK, last step.  Let's format the differential expression results into a format suitable for the [GAGE]() package. Basically this means obtaining the log2 fold change values and assigning entrez gene identifiers to these values.
+OK, last step.  Let's format the differential expression results into a format suitable for the [GAGE](https://bioconductor.org/packages/release/bioc/html/gage.html) package. Basically this means obtaining the log2 fold change values and assigning entrez gene identifiers to these values.
 
 ```R
 # grab the log fold changes for everything
@@ -191,13 +191,13 @@ write.table(fc.go.cc.p.down, "fc.go.cc.p.down.tsv", quote = FALSE, sep = "\t", c
 ```
 
 ### Visualize
-For this next step we will do a very brief introduction to visualizing our results. We will use a tool called [GOView](https://2019.webgestalt.org/2017/GOView/), which is part of the [WEB-based Gene Set Ananlysis ToolKit (WebGestalt)](http://www.webgestalt.org/) suite of tools. 
+For this next step we will do a very brief introduction to visualizing our results. We will use a tool called [GOView](https://2019.webgestalt.org/2017/GOView/), which is part of the [WEB-based Gene Set Ananlysis ToolKit (WebGestalt)](https://www.webgestalt.org/) suite of tools. 
 
 **Step One**
  * Use a web browser to download your results
 
  * For AWS: Navigate to the URL below replacing YOUR_IP_ADDRESS with your amazon instance IP address:
-     http://**YOUR_IP_ADDRESS**/rnaseq/de/htseq_counts/deseq2/pathway
+     https://**YOUR_IP_ADDRESS**/rnaseq/de/htseq_counts/deseq2/pathway
 
  * Download the linked files by right clicking on the two saved result files: `fc.go.cc.p.up.tsv` and `fc.go.cc.p.down.tsv`.
 
@@ -206,17 +206,17 @@ For this next step we will do a very brief introduction to visualizing our resul
  * Open the result file in your text editor of choice. We like [text wrangler](https://www.barebones.com/products/textwrangler/).
    You should also be able to open the file in excel, google sheets, or another spreadsheet tool. This might help you visualize the data in rows and columns (NB: There might be a small amount of formatting necessary to get the header to line up properly).
   
-  * You can either create an input file using [this file](http://genomedata.org/rnaseq-tutorial/fc.go.cc.p.down_web_ges.tsv) as a guide, or you can simply use your downloaded data to cut and paste your GO terms of interest directly into GOView.
+  * You can either create an input file using [this file](https://genomedata.org/rnaseq-tutorial/fc.go.cc.p.down_web_ges.tsv) as a guide, or you can simply use your downloaded data to cut and paste your GO terms of interest directly into GOView.
  
 **Step Two**
 
-* Navigate to the [WEB-based Gene Set Analysis ToolKit (WebGestalt)](http://www.webgestalt.org/) 
+* Navigate to the [WEB-based Gene Set Analysis ToolKit (WebGestalt)](https://www.webgestalt.org/) 
 
 **Step Three**
 
-* Navigate to the [GOView](http://www.webgestalt.org/2017/GOView/) tool 
+* Navigate to the [GOView](https://www.webgestalt.org/2017/GOView/) tool 
 
-* Then, input the GO terms you would like to explore into the [GOView](http://www.webgestalt.org/2017/GOView/) interface by following the steps described in the "Beginning an analysis" section of the webpage.  We will walk through a sample analysis. 
+* Then, input the GO terms you would like to explore into the [GOView](https://www.webgestalt.org/2017/GOView/) interface by following the steps described in the "Beginning an analysis" section of the webpage.  We will walk through a sample analysis. 
 
 * Explore the outputs! 
 

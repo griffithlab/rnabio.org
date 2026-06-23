@@ -56,7 +56,7 @@ gene_names=read.table("~/workspace/rnaseq/de/htseq_counts/ENSG_ID2Name.txt", hea
 
 colnames(gene_names) = c("gene_id", "gene_name")
 
-#Import DE results from the HISAT2/htseq-count/DESeq2 pipeline (http://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
+#Import DE results from the HISAT2/htseq-count/DESeq2 pipeline (https://genomedata.org/cri-workshop/deseq2/DE_all_genes_DESeq2.tsv)
 results_genes = read.table("~/workspace/rnaseq/de/htseq_counts/deseq2/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 # results_genes = read.table("outdir/DE_all_genes_DESeq2.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 
@@ -285,7 +285,7 @@ quit(save = "no")
 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_PUBLIC_IPv4_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
+* https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown/ref_only/Tutorial_Part3_Supplementary_R_output.pdf
 
 ### Visual comparison of example genes from the volcano plot
 One can manually explore interesting looking genes from the volcano plot. In this case our analysis involves comparison of RNA isolated from tissues of different types (HBR -> brain tissue, UHR -> a collection of cancer cell lines).  So, in this analysis it might make sense to explore candidates in a tissue expression atlas such as [GTEX](https://www.gtexportal.org/).

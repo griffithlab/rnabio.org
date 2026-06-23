@@ -35,7 +35,7 @@ cd ~/workspace/trinity_and_trinotate
 ```    
 ### Data Content:
 
-For this course we will be using the data from this paper: Defining the transcriptomic landscape of Candida glabrata by RNA-Seq.  [Linde et al. Nucleic Acids Res. 2015](http://www.ncbi.nlm.nih.gov/pubmed/?term=25586221)    This work provides a detailed RNA-Seq-based analysis of the transcriptomic landscape of C. glabrata in nutrient-rich media (WT), as well as under nitrosative stress (GSNO), in addition to other conditions, but we'll restrict ourselves to just WT and GSNO conditions for demonstration purposes in this workshop.
+For this course we will be using the data from this paper: Defining the transcriptomic landscape of Candida glabrata by RNA-Seq.  [Linde et al. Nucleic Acids Res. 2015](https://www.ncbi.nlm.nih.gov/pubmed/?term=25586221)    This work provides a detailed RNA-Seq-based analysis of the transcriptomic landscape of C. glabrata in nutrient-rich media (WT), as well as under nitrosative stress (GSNO), in addition to other conditions, but we'll restrict ourselves to just WT and GSNO conditions for demonstration purposes in this workshop.
 
 There are paired-end FASTQ formatted Illlumina read files for each of the two conditions, with three biological replicates for each.
 
@@ -68,7 +68,7 @@ ls -1 data/* | grep fastq
 Each biological replicate (eg. wt_SRR1582651) contains a pair of fastq files (eg. wt_SRR1582651_1.fastq.gz for the 'left' and wt_SRR1582651_2.fastq.gz for the 'right' read of the paired end sequences).  Normally, each file would contain millions of reads, but in order to reduce running times as part of the workshop, each file provided here is restricted to only 10k RNA-Seq reads.
 
 
-It's generally good to evaluate the quality of your input data using a tool such as [FASTQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/).  Since exploration of FASTQC reports has already been done in a previous section of this workshop, we'll skip doing it again here - and trust that the quality of these reads meet expectations.
+It's generally good to evaluate the quality of your input data using a tool such as [FASTQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/).  Since exploration of FASTQC reports has already been done in a previous section of this workshop, we'll skip doing it again here - and trust that the quality of these reads meet expectations.
 
 Finally, another set of files that you will find in the data include `mini_sprot.pep*`, corresponding to a highly abridged version of the SWISSPROT database, containing only the subset of protein sequences that are needed for use in this workshop. It's provided and used here only to speed up certain operations, such as BLAST searches, which will be performed at several steps in the tutorial below. Of course, in exploring your own RNA-Seq data, you would leverage the full version of SWISSPROT and not this tiny subset used here.
 
@@ -267,7 +267,7 @@ head -n20 Trinity.isoform.TMM.EXPR.matrix | column -t
     TRINITY_DN527_c0_g1_i1  313.156        305.603        285.846          2186.494         2582.453         2694.495
 ```
 
-These are the normalized expression values, which have been further cross-sample normalized using TMM normalization to adjust for any differences in sample composition.  TMM normalization assumes that most transcripts are not differentially expressed, and linearly scales the expression values of samples to better enforce this property.  TMM normalization is described in [A scaling normalization method for differential expression analysis of RNA-Seq data, Robinson and Oshlack, Genome Biology 2010](http://www.genomebiology.com/2010/11/3/R25).
+These are the normalized expression values, which have been further cross-sample normalized using TMM normalization to adjust for any differences in sample composition.  TMM normalization assumes that most transcripts are not differentially expressed, and linearly scales the expression values of samples to better enforce this property.  TMM normalization is described in [A scaling normalization method for differential expression analysis of RNA-Seq data, Robinson and Oshlack, Genome Biology 2010](https://www.genomebiology.com/2010/11/3/R25).
 
 We use the TMM-normalized expression matrix when plotting expression values in heatmaps and other expression analyses.
 
@@ -387,7 +387,7 @@ View file 'diffExpr.P1e-3_C2.matrix.RData.clusters_fixed_P_60/my_cluster_plots.p
 
 ### Rinse & repeat: DE analysis at the gene level
 
-You can do all the same analyses as you did above at the gene level.  For now, let's just rerun the DE detection step, since we'll need the results later on for use with TrinotateWeb.  Also, it doesn't help us to study the 'gene' level data with this tiny data set (yet another disclaimer) given that all our transcripts = genes, since we didn't find any alternative splicing variants.  With typical data sets, you will have alterantively spliced isoforms identified, and performing DE analysis at the gene level should provide more power for detection than at the isoform level. For more info about this, I encourage you to read [this paper](http://www.genomebiology.com/2014/15/7/410). 
+You can do all the same analyses as you did above at the gene level.  For now, let's just rerun the DE detection step, since we'll need the results later on for use with TrinotateWeb.  Also, it doesn't help us to study the 'gene' level data with this tiny data set (yet another disclaimer) given that all our transcripts = genes, since we didn't find any alternative splicing variants.  With typical data sets, you will have alterantively spliced isoforms identified, and performing DE analysis at the gene level should provide more power for detection than at the isoform level. For more info about this, I encourage you to read [this paper](https://www.genomebiology.com/2014/15/7/410). 
 
 Before running the gene-level DE analysis, be sure to back out of the current DESeq2_trans/ directory like so:
 ```bash
@@ -420,7 +420,7 @@ Let's move on and make use of those outputs later.  With your own data, however,
 
 ## Functional Annotation of Assembled Transcripts Using Trinotate
 
-Now we have a bunch of transcript sequences and have identified some subset of them that appear to be biologically interesting in that they're differentially expressed between our two conditions - but we don't really know what they are or what biological functions they might represent.  We can explore their potential functions by functionally annotating them using our Trinotate software and analysis protocol.  To learn more about Trinotate, you can visit the [Trinotate website](http://trinotate.github.io/).
+Now we have a bunch of transcript sequences and have identified some subset of them that appear to be biologically interesting in that they're differentially expressed between our two conditions - but we don't really know what they are or what biological functions they might represent.  We can explore their potential functions by functionally annotating them using our Trinotate software and analysis protocol.  To learn more about Trinotate, you can visit the [Trinotate website](https://trinotate.github.io/).
 
 Again, let's make sure that we're back in our primary working directory called 'trinity_and_trinotate':
 ```bash
@@ -444,7 +444,7 @@ Below, we're going to run a number of different tools to capture information abo
 
 ### Identification of likely protein-coding regions in transcripts
 
-[TransDecoder](http://transdecoder.github.io/) is a tool we built to identify likely coding regions within transcript sequences.  It identifies long open reading frames (ORFs) within transcripts and scores them according to their sequence composition.  Those ORFs that encode sequences with compositional properties (codon frequencies) consistent with coding transcripts are reported.
+[TransDecoder](https://transdecoder.github.io/) is a tool we built to identify likely coding regions within transcript sequences.  It identifies long open reading frames (ORFs) within transcripts and scores them according to their sequence composition.  Those ORFs that encode sequences with compositional properties (codon frequencies) consistent with coding transcripts are reported.
 
 Running TransDecoder is a two-step process.  First run the TransDecoder step that identifies all long ORFs.
 ```bash
@@ -687,7 +687,7 @@ cp -r $TRINOTATE_HOME trinotate
 ./trinotate/run_TrinotateWebserver.pl 8080 
 ```
 
-Now, visit the following URL in Google Chrome: <http://IPADDRESS:8080/cgi-bin/index.cgi>
+Now, visit the following URL in Google Chrome: <https://IPADDRESS:8080/cgi-bin/index.cgi>
 
 You should see a web form like so:
 
@@ -711,4 +711,4 @@ We will explore TrinotateWeb functionality together as a group.
 
 ## Epilogue
 
-If you've gotten this far, hurray!!! Congratulations!!!  You've now experienced the full tour of Trinity and TrinotateWeb.  Visit our web documentation at <http://trinityrnaseq.github.io>, and join our Google group to become part of the ever-growing Trinity user community.
+If you've gotten this far, hurray!!! Congratulations!!!  You've now experienced the full tour of Trinity and TrinotateWeb.  Visit our web documentation at <https://trinityrnaseq.github.io>, and join our Google group to become part of the ever-growing Trinity user community.

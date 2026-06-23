@@ -208,7 +208,7 @@ First set up a directory to store the results of this analysis.
 ```bash
 mkdir $RNA_HOME/de/ercc_spikein_analysis/
 cd $RNA_HOME/de/ercc_spikein_analysis/
-wget http://genomedata.org/rnaseq-tutorial/ERCC_Controls_Analysis.txt
+wget https://genomedata.org/rnaseq-tutorial/ERCC_Controls_Analysis.txt
 cat ERCC_Controls_Analysis.txt
 ```
 
@@ -271,4 +271,4 @@ quit(save="no")
 
 View the results here:
 
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ercc_spikein_analysis/ERCC_Ballgown-DE_vs_SpikeInDE.pdf
+* https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ercc_spikein_analysis/ERCC_Ballgown-DE_vs_SpikeInDE.pdf

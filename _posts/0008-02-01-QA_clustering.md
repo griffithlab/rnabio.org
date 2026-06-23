@@ -14,7 +14,7 @@ date: 0008-02-01
 
 We are going to begin our single-cell analysis by loading in the output from CellRanger. We will load in our different samples, create a Seurat object with them, and take a look at the quality of the cells. 
 
-**Note, we have provided the raw data for this exercise in your cloud workspace. They are also available [here](http://genomedata.org/cri-workshop/counts_gex/).**
+**Note, we have provided the raw data for this exercise in your cloud workspace. They are also available [here](https://genomedata.org/cri-workshop/counts_gex/).**
 
 The general steps to preprocessing your single-cell data with Seurat:
 1. Create a Seurat object

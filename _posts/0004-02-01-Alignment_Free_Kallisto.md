@@ -17,12 +17,12 @@ We have also made a mini lecture  describing the differences between [alignment,
 
 ***
 
-For more information on Kallisto, refer to the [Kallisto project page](https://pachterlab.github.io/kallisto/about.html), the [Kallisto manual page](https://pachterlab.github.io/kallisto/about.html) and the [Kallisto manuscript](http://www.nature.com/nbt/journal/v34/n5/full/nbt.3519.html).
+For more information on Kallisto, refer to the [Kallisto project page](https://pachterlab.github.io/kallisto/about.html), the [Kallisto manual page](https://pachterlab.github.io/kallisto/about.html) and the [Kallisto manuscript](https://www.nature.com/nbt/journal/v34/n5/full/nbt.3519.html).
 
 ***
 
 ### Obtain transcript sequences in fasta format
-Note that we already have fasta sequences for the reference *genome* sequence from earlier in the RNA-seq tutorial. However, Kallisto works directly on target *cDNA/transcript* sequences. Remember also that we have transcript models for genes on chromosome 22. These transcript models were downloaded from Ensembl in GTF format. This GTF contains a description of the coordinates of exons that make up each transcript but it does not contain the *transcript sequences* themselves. So currently we do not have transcript sequences needed by Kallisto. There are many places we could obtain these transcript sequences. For example, we could download them directly in Fasta format from the [Ensembl FTP site](http://useast.ensembl.org/info/data/ftp/index.html).
+Note that we already have fasta sequences for the reference *genome* sequence from earlier in the RNA-seq tutorial. However, Kallisto works directly on target *cDNA/transcript* sequences. Remember also that we have transcript models for genes on chromosome 22. These transcript models were downloaded from Ensembl in GTF format. This GTF contains a description of the coordinates of exons that make up each transcript but it does not contain the *transcript sequences* themselves. So currently we do not have transcript sequences needed by Kallisto. There are many places we could obtain these transcript sequences. For example, we could download them directly in Fasta format from the [Ensembl FTP site](https://useast.ensembl.org/info/data/ftp/index.html).
 
 To allow us to compare Kallisto results to expression results from StringTie, we will create a custom Fasta file that corresponds to the transcripts we used for the StringTie analysis. How can we obtain these transcript sequences in Fasta format?
 
@@ -320,7 +320,7 @@ quit(save="no")
 
 The output file can be viewed in your browser at the following url. Note, you must replace **YOUR_PUBLIC_IPv4_ADDRESS** with your own amazon instance IP (e.g., 101.0.1.101)).
 
-http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/Kallisto-StringTie-HTSeqCount_Comparisons.pdf
+https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/expression/Kallisto-StringTie-HTSeqCount_Comparisons.pdf
 
 A file copy of the above R code can be found [here](https://github.com/griffithlab/rnabio.org/blob/master/assets/scripts/Tutorial_comparisons.R).
 
@@ -468,7 +468,7 @@ wc -l *.txt
 Once again we could visualize the overlap with a venn diagram. This can be done with simple web tools like:
 
 * https://www.biovenn.nl/
-* http://bioinfogp.cnb.csic.es/tools/venny/
+* https://bioinfogp.cnb.csic.es/tools/venny/
 
 ```bash
 cat ballgown_DE_gene_symbols.txt
@@ -478,9 +478,9 @@ cat sleuth_genes_with_de_transcripts.txt
 
 Alternatively you could view both lists in a web browser as you have done with other files. These three files should be here:
 
-http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
-http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/DESeq2_DE_gene_symbols.txt
-http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/sleuth_genes_with_de_transcripts.txt
+https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
+https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/DESeq2_DE_gene_symbols.txt
+https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/sleuth_genes_with_de_transcripts.txt
 
 If this works you should see an overlap that looks something like this:
 

@@ -30,7 +30,7 @@ echo $RNA_REFS_DIR
 cd $RNA_REFS_DIR
 ls
 
-wget http://genomedata.org/rnaseq-tutorial/annotations/GRCh38/chr22_with_ERCC92.gtf
+wget https://genomedata.org/rnaseq-tutorial/annotations/GRCh38/chr22_with_ERCC92.gtf
 
 ```
 
@@ -87,15 +87,15 @@ grep ENST00000342247 $RNA_REF_GTF | less -p "exon\s" -S
 
 To learn more, see:
 
-* [http://perldoc.perl.org/perlre.html#Regular-Expressions](http://perldoc.perl.org/perlre.html#Regular-Expressions)
-* [http://www.perl.com/pub/2004/08/09/commandline.html](http://www.perl.com/pub/2004/08/09/commandline.html)
+* [https://perldoc.perl.org/perlre.html#Regular-Expressions](https://perldoc.perl.org/perlre.html#Regular-Expressions)
+* [https://www.perl.com/pub/2004/08/09/commandline.html](https://www.perl.com/pub/2004/08/09/commandline.html)
 
 ### Definitions:
 **Reference genome** - The nucleotide sequence of the chromosomes of a species. Genes are the functional units of a reference genome and gene annotations describe the structure of transcripts expressed from those gene loci.
 
 **Gene annotations** - Descriptions of gene/transcript models for a genome. A transcript model consists of the coordinates of the exons of a transcript on a reference genome. Additional information such as the strand the transcript is generated from, gene name, coding portion of the transcript, alternate transcript start sites, and other information may be provided.
 
-**GTF (.gtf) file** - A common file format referred to as Gene Transfer Format used to store gene and transcript annotation information. You can learn more about this format here: [http://genome.ucsc.edu/FAQ/FAQformat#format4](http://genome.ucsc.edu/FAQ/FAQformat#format4)
+**GTF (.gtf) file** - A common file format referred to as Gene Transfer Format used to store gene and transcript annotation information. You can learn more about this format here: [https://genome.ucsc.edu/FAQ/FAQformat#format4](https://genome.ucsc.edu/FAQ/FAQformat#format4)
 
 ### The Purpose of Gene Annotations (.gtf file)
 When running the HISAT2/StringTie/Ballgown pipeline, known gene/transcript annotations are used for several purposes:
@@ -113,13 +113,13 @@ There are many possible sources of .gtf gene/transcript annotation files. For ex
 
 #### I. ENSEMBL FTP SITE
 
-Based on Ensembl annotations only. Available for many species. [http://useast.ensembl.org/info/data/ftp/index.html](http://useast.ensembl.org/info/data/ftp/index.html)
+Based on Ensembl annotations only. Available for many species. [https://useast.ensembl.org/info/data/ftp/index.html](https://useast.ensembl.org/info/data/ftp/index.html)
 
 #### II. UCSC TABLE BROWSER
 
 Based on UCSC annotations or several other possible annotation sources collected by UCSC. You might chose this option if you want to have a lot of flexibility in the annotations you obtain. e.g. to grab only the transcripts from chromosome 22 as in the following example:
 
-* Open the following in your browser: [http://genome.ucsc.edu/](http://genome.ucsc.edu/)
+* Open the following in your browser: [https://genome.ucsc.edu/](https://genome.ucsc.edu/)
 * Select 'Tools' and then 'Table Browser' at the top of the page.
 * Select 'Mammal', 'Human', and 'Dec. 2013 (GRCh38/hg38)' from the first row of drop down menus.
 * Select 'Genes and Gene Predictions' and 'GENCODE v29' from the second row of drop down menus. To limit your selection to only chromosome 22, select the 'position' option beside 'region', enter 'chr22' in the 'position' box.

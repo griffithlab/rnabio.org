@@ -35,7 +35,7 @@ Try filtering the BAM file to require or exclude certain flags. This can be done
 
 "Samtools flags explained"
 
-* [http://broadinstitute.github.io/picard/explain-flags.html](http://broadinstitute.github.io/picard/explain-flags.html)
+* [https://broadinstitute.github.io/picard/explain-flags.html](https://broadinstitute.github.io/picard/explain-flags.html)
 
 Try requiring that alignments are 'paired' and 'mapped in a proper pair' (=3). 
 
@@ -74,7 +74,7 @@ cat flagstat/UHR_Rep1.bam.flagstat
 
 ```
 
-Details of the SAM/BAM format can be found here: [http://samtools.sourceforge.net/SAM1.pdf](http://samtools.sourceforge.net/SAM1.pdf)
+Details of the SAM/BAM format can be found here: [https://samtools.sourceforge.net/SAM1.pdf](https://samtools.sourceforge.net/SAM1.pdf)
 
 
 ### Create versions of our BAM files with only the chromosome 22 alignments
@@ -111,7 +111,7 @@ Picard uses a "sequence dictionary" file for many commands (simply a list of ref
 We will also filter our transcriptome GTF to one with only ribosomal features, convert it to BED format and then to IntervalList format.
 This is all done to get the IntervalList format needed for Picard CollectRnaSeqMetrics
 
-We will also create a version of our whole transcriptome GTF in the [RefFlat](http://genome.ucsc.edu/goldenPath/gbdDescriptionsOld.html#RefFlat) format needed for Picard CollectRnaSeqMetrics. To get to the RefFlat format we will convert GTF to [GenePredExt](https://genome.ucsc.edu/goldenPath/gbdDescriptionsOld.html#GenePredExt) format and then simplify this to RefFlat.
+We will also create a version of our whole transcriptome GTF in the [RefFlat](https://genome.ucsc.edu/goldenPath/gbdDescriptionsOld.html#RefFlat) format needed for Picard CollectRnaSeqMetrics. To get to the RefFlat format we will convert GTF to [GenePredExt](https://genome.ucsc.edu/goldenPath/gbdDescriptionsOld.html#GenePredExt) format and then simplify this to RefFlat.
 
 ```bash
 # Generating the necessary input files for picard CollectRnaSeqMetrics
@@ -149,7 +149,7 @@ find *Rep*.bam -exec echo java -jar $PICARD CollectRnaSeqMetrics I={} O=picard/{
 ```
 
 ### RSeQC [optional]
-**Background:** RSeQC is a tool that can be used to generate QC reports for RNA-seq. For more information, please check: [RSeQC Tool Homepage](http://rseqc.sourceforge.net/)
+**Background:** RSeQC is a tool that can be used to generate QC reports for RNA-seq. For more information, please check: [RSeQC Tool Homepage](https://rseqc.sourceforge.net/)
 
 Files needed:
 
@@ -223,7 +223,7 @@ View a multiQC on QC reports from non-downsampled bam files:
 ```bash
 mkdir $RNA_ALIGN_DIR/example_QC
 cd $RNA_ALIGN_DIR/example_QC
-wget http://genomedata.org/rnaseq-tutorial/multiqc_report.html
+wget https://genomedata.org/rnaseq-tutorial/multiqc_report.html
 
 ```
 

@@ -66,7 +66,7 @@ Remember: when initiating an environment variable, we do NOT need the $; however
 ```bash
 echo $RNA_INT_DIR
 cd $RNA_INT_DIR
-wget http://genomedata.org/rnaseq-tutorial/Integrated_Assignment_RNA_Data.tar.gz
+wget https://genomedata.org/rnaseq-tutorial/Integrated_Assignment_RNA_Data.tar.gz
 tar -xvf Integrated_Assignment_RNA_Data.tar.gz
 ```
 
@@ -282,7 +282,7 @@ samtools index $RNA_INT_DIR/alignments/transfected.bam
 Try viewing genes such as TP53 to get a sense of how the data is aligned. To do this:
 - Load up IGV
 - Change the reference genome to "Human hg38" in the top-left category
-- Click on File > Load from URL, and in the File URL enter: "http://<your IP>/rnaseq/integrated_assignment/alignments/transfected.bam". Repeat this step and enter "http://<your IP>/rnaseq/integrated_assignment/alignments/control.bam" to load the other bam.
+- Click on File > Load from URL, and in the File URL enter: "https://<your IP>/rnaseq/integrated_assignment/alignments/transfected.bam". Repeat this step and enter "https://<your IP>/rnaseq/integrated_assignment/alignments/control.bam" to load the other bam.
 - Right-click on the alignments track in the middle, and Group alignments by "Library"
 - Jump to TP53 by typing it into the search bar above
 

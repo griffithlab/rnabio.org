@@ -18,7 +18,7 @@ Create a new folder for raw (untrimmed) data, download, and unpack
 cd $RNA_HOME/
 mkdir -p team_exercise/untrimmed
 cd team_exercise/untrimmed
-wget -c http://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_A/dataset.tar.gz
+wget -c https://genomedata.org/seq-tec-workshop/read_data/rna_alignment-de_exercise/dataset_A/dataset.tar.gz
 tar -xzvf dataset.tar.gz
 ```
 
@@ -29,9 +29,9 @@ Download chromosome-specific reference fasta, gtf and also Illumina adaptor sequ
 mkdir -p $RNA_HOME/team_exercise/references
 cd $RNA_HOME/team_exercise/references
 
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chr11.fa
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/chr11_Homo_sapiens.GRCh38.95.gtf
-wget -c http://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex.fa
+wget -c https://genomedata.org/seq-tec-workshop/references/RNA/chr11.fa
+wget -c https://genomedata.org/seq-tec-workshop/references/RNA/chr11_Homo_sapiens.GRCh38.95.gtf
+wget -c https://genomedata.org/seq-tec-workshop/references/RNA/illumina_multiplex.fa
 
 ```
 

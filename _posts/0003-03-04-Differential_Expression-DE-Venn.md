@@ -20,7 +20,7 @@ In this section we will compare the DE gene lists obtained from different DE met
 ### Visualize overlap with a venn diagram. This can be done with simple web tools like:
 
 * [https://www.biovenn.nl/](https://www.biovenn.nl/)
-* [http://bioinfogp.cnb.csic.es/tools/venny/](http://bioinfogp.cnb.csic.es/tools/venny/)
+* [https://bioinfogp.cnb.csic.es/tools/venny/](https://bioinfogp.cnb.csic.es/tools/venny/)
 
 Once you have run the DESeq2 tutorial, compare the sigDE genes to those saved earlier from ballgown and/or edgeR:
 
@@ -52,9 +52,9 @@ cat htseq_counts_DESeq2_DE_gene_symbols.txt
 
 Alternatively you could view the lists in a web browser as you have done with other files. These files should be here:
 
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/htseq_counts_edgeR_DE_gene_symbols.txt
-* http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/htseq_counts_DESeq2_DE_gene_symbols.txt
+* https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/ballgown_DE_gene_symbols.txt
+* https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/htseq_counts_edgeR_DE_gene_symbols.txt
+* https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/de/htseq_counts_DESeq2_DE_gene_symbols.txt
 
 ##### Example Venn Diagram (Two-way comparison: DE genes from StringTie/Ballgown vs HTSeq/DESeq2)
 

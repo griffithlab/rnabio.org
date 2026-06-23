@@ -26,8 +26,8 @@ Make sure you select the appropriate reference genome build in IGV (top left cor
 
 #### AWS links to bam files
 
-- **UHR hisat2 alignment**: http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/alignments/hisat2/UHR.bam
-- **HBR hisat2 alignment**: http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/alignments/hisat2/HBR.bam
+- **UHR hisat2 alignment**: https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/alignments/hisat2/UHR.bam
+- **HBR hisat2 alignment**: https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/alignments/hisat2/HBR.bam
 
 #### Links to cached version of these bam files
 If for some reason you do not have access to the BAM files from running through this course you can download and use these cached versions instead:
@@ -63,7 +63,7 @@ Assignment: Index your bam files from Practical Exercise 6 and visualize in IGV.
 
 * Hint: As before, it may be simplest to just index and visualize the combined/merged bam files HCC1395_normal.bam and HCC1395_tumor.bam.
 * If this works, you should have two BAM files that can be loaded into IGV from the following location on your cloud instance:
-  * http://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/practice/alignments/hisat2/
+  * https://**YOUR_PUBLIC_IPv4_ADDRESS**/rnaseq/practice/alignments/hisat2/
 
 #### Links to cached version of the practical exercise bam files
 If for some reason you do not have access to the BAM files from running through this course you can download and use these cached versions instead:
