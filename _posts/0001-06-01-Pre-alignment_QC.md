@@ -52,27 +52,19 @@ Investigate the source/explanation for over-represented sequences:
 
 ```bash
 cd $RNA_HOME/data
-mkdir fastp
-cd fastp
-mkdir HBR_Rep1 HBR_Rep2 HBR_Rep3 UHR_Rep1 UHR_Rep2 UHR_Rep3
+mkdir -p fastp
 
-cd $RNA_HOME/data/fastp/HBR_Rep1
-fastp -i $RNA_HOME/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+fastp -i $RNA_HOME/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/HBR_Rep1_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz --json fastp/HBR_Rep1.fastp.json --html fastp/HBR_Rep1.fastp.html 2>fastp/HBR_Rep1.fastp.log
 
-cd $RNA_HOME/data/fastp/HBR_Rep2
-fastp -i $RNA_HOME/data/HBR_Rep2_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/HBR_Rep2_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+fastp -i $RNA_HOME/data/HBR_Rep2_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/HBR_Rep2_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz --json fastp/HBR_Rep2.fastp.json --html fastp/HBR_Rep2.fastp.html 2>fastp/HBR_Rep2.fastp.log
 
-cd $RNA_HOME/data/fastp/HBR_Rep3
-fastp -i $RNA_HOME/data/HBR_Rep3_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/HBR_Rep3_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz
+fastp -i $RNA_HOME/data/HBR_Rep3_ERCC-Mix2_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/HBR_Rep3_ERCC-Mix2_Build37-ErccTranscripts-chr22.read2.fastq.gz --json fastp/HBR_Rep3.fastp.json --html fastp/HBR_Rep3.fastp.html 2>fastp/HBR_Rep3.fastp.log
 
-cd $RNA_HOME/data/fastp/UHR_Rep1
-fastp -i $RNA_HOME/data/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
+fastp -i $RNA_HOME/data/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz --json fastp/UHR_Rep1.fastp.json --html fastp/UHR_Rep1.fastp.html 2>fastp/UHR_Rep1.fastp.log
 
-cd $RNA_HOME/data/fastp/UHR_Rep2
-fastp -i $RNA_HOME/data/UHR_Rep2_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/UHR_Rep2_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
+fastp -i $RNA_HOME/data/UHR_Rep2_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/UHR_Rep2_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz --json fastp/UHR_Rep2.fastp.json --html fastp/UHR_Rep2.fastp.html 2>fastp/UHR_Rep2.fastp.log
 
-cd $RNA_HOME/data/fastp/UHR_Rep3
-fastp -i $RNA_HOME/data/UHR_Rep3_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/UHR_Rep3_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
+fastp -i $RNA_HOME/data/UHR_Rep3_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz -I $RNA_HOME/data/UHR_Rep3_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz --json fastp/UHR_Rep3.fastp.json --html fastp/UHR_Rep3.fastp.html 2>fastp/UHR_Rep3.fastp.log
 
 ```
 

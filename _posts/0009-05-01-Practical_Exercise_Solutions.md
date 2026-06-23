@@ -98,7 +98,29 @@ Use FastQC, Fastp, and/or MultiQC to summarize data QC
 ```bash
 cd $RNA_HOME/practice/data
 fastqc *.fastq.gz
+
+mkdir -p fastp
+fastp -i hcc1395_normal_rep1_r1.fastq.gz -I hcc1395_normal_rep1_r2.fastq.gz --json fastp/hcc1395_normal_rep1.fastp.json --html fastp/hcc1395_normal_rep1.fastp.html 2>fastp/hcc1395_normal_rep1.fastp.log
+
+fastp -i hcc1395_normal_rep2_r1.fastq.gz -I hcc1395_normal_rep2_r2.fastq.gz --json fastp/hcc1395_normal_rep2.fastp.json --html fastp/hcc1395_normal_rep2.fastp.html 2>fastp/hcc1395_normal_rep2.fastp.log
+
+fastp -i hcc1395_normal_rep3_r1.fastq.gz -I hcc1395_normal_rep3_r2.fastq.gz --json fastp/hcc1395_normal_rep3.fastp.json --html fastp/hcc1395_normal_rep3.fastp.html 2>fastp/hcc1395_normal_rep3.fastp.log
+
+fastp -i hcc1395_tumor_rep1_r1.fastq.gz -I hcc1395_tumor_rep1_r2.fastq.gz --json fastp/hcc1395_tumor_rep1.fastp.json --html fastp/hcc1395_tumor_rep1.fastp.html 2>fastp/hcc1395_tumor_rep1.fastp.log
+
+fastp -i hcc1395_tumor_rep2_r1.fastq.gz -I hcc1395_tumor_rep2_r2.fastq.gz --json fastp/hcc1395_tumor_rep2.fastp.json --html fastp/hcc1395_tumor_rep2.fastp.html 2>fastp/hcc1395_tumor_rep2.fastp.log
+
+fastp -i hcc1395_tumor_rep3_r1.fastq.gz -I hcc1395_tumor_rep3_r2.fastq.gz --json fastp/hcc1395_tumor_rep3.fastp.json --html fastp/hcc1395_tumor_rep3.fastp.html 2>fastp/hcc1395_tumor_rep3.fastp.log
+
 multiqc ./
+```
+
+Clean up:
+
+```bash
+cd $RNA_HOME/practice/data
+mkdir fastqc
+mv *_fastqc* fastqc
 ```
 
 Then, go to the following url in your browser:
@@ -144,6 +166,18 @@ fastqc *.fastq.gz
 multiqc ./
 
 ```
+
+Clean up:
+
+```bash
+cd $RNA_HOME/practice/data/trimmed/
+mkdir fastqc
+mv *_fastqc* fastqc
+mkdir fastp
+mv *fastp.* fastp
+
+```
+
 
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/hcc1395_normal_rep1_r1_fastqc.html
 * http://**YOUR_DNS_NAME**/workspace/rnaseq/practice/data/trimmed/hcc1395_normal_rep1_1_fastqc.html
