@@ -27,13 +27,14 @@ In this tutorial you will:
 We will use a google form to capture basic information about AI tool choice (and model version), AI prompts used, etc. Refer to the course slack channel for a link to this form.
 
 ### Outline of the exercise
-For this exercise I want you to imagine that you did not have the previous section as a guide on how to perform a differential expression analysis in R. Imagine that you obtained the gene counts matrix "gene_read_counts_table_all_final.tsv" from your sequencing core, a collaborator, or a public source. See if you can complete a DE analysis like the one you just completed, step-by-step, but using an AI assistant. Here is an overview of the basic steps (more details on each below):
+For this exercise we want you to imagine that you did not have the previous section as a guide on how to perform a differential expression analysis in R. Imagine that you obtained the gene counts matrix "gene_read_counts_table_all_final.tsv" from your sequencing core, a collaborator, or a public source. See if you can complete a DE analysis like the one you just completed, step-by-step, but using an AI assistant. Here is an overview of the basic steps (more details on each below):
 
 1. In your R session, locate the input data and define a location for results
 2. Choose an AI tool and make note of the model used (record your choice in the Google form)
 3. Develop your initial prompt to the AI (record your prompt in the Google form)
 4. With help from the AI create a differential expression analysis in R and run it.
-5. Answer a few specific questions and produce a visualization for comparison of results to your colleagues.
+5. Answer a few specific questions (top DE genes and summary of # of significant genes) and produce a visualization (volcano plot) for comparison of results to your colleagues.
+
 
 ### 1. Input data and output location
 For the exercise use the following:
@@ -59,7 +60,7 @@ There are several broad approaches to using AI for bioinformatics analysis, and 
 
 - **Locally-run open models.** Open-weight language models can be run on your own machine, which avoids sending data to external servers (relevant when working with sensitive or unpublished data). These require more setup and capable hardware, and are generally less capable than leading commercial models at time of writing.
 
-Note that given the cloud-based RStudio environment used in this course, the **conversational assistant** approach is the most practical. Using this approach you can work in a browser tab alongside your RStudio session with no additional setup. The **IDE-integrated** approach is possible but would require downloading the input data files to your laptop. **Locally-run models** are beyond the scope of this exercise.
+Note that given the cloud-based R/RStudio environment used in this course, the **conversational assistant** approach is the most practical. Using this approach you can work in a browser tab alongside your R or RStudio session with no additional setup. The **IDE-integrated** approach is possible but would require downloading the input data files to your laptop. **Locally-run models** are beyond the scope of this exercise.
 
 For this exercise, use whichever AI tool you are comfortable with, or take the opportunity to try one you have heard about but not used before, or simply pick one from the list below. A few commonly used options across these categories:
 
@@ -103,7 +104,7 @@ Enter your prompt into the AI tool of your choice and examine the response caref
 - Are there obvious errors or things that seem off?
 - Do you feel the initial response is complete enough to run, or do you want to refine it with follow-up prompts before proceeding?
 
-Iterate with the AI as needed. When you are satisfied, copy the code into your Posit cloud environment and execute it line by line. At each step, inspect the output and try to understand what the code is doing before moving on. If something fails or produces unexpected results, you may go back to the AI to debug.
+Iterate with the AI as needed. When you are satisfied, copy the code into your cloud R environment and execute it line by line. At each step, inspect the output and try to understand what the code is doing before moving on. If something fails or produces unexpected results, you may go back to the AI to debug.
 
 Record your answers to the above questions, along with any significant follow-up prompts, in the Google form.
 
