@@ -93,6 +93,10 @@ avatarurl:  "/assets/logos/DNA.jpg"# Uses avatars for favicons to get multple si
 # For details: https://github.com/jekyll/minima/issues/709
 sass:
   quiet_deps: true
+  silence_deprecations:
+    - import
+    - global-builtin
+    - color-functions
 
 # 8. Site navigation
 navigation_header:
