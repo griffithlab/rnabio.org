@@ -354,6 +354,13 @@ uhr_ribo_vs_hbr_poly_corrected = run_edgeR(data = corrected_data, group_a_name =
 uhr_poly_vs_hbr_ribo_corrected = run_edgeR(data = corrected_data, group_a_name = "UHR", group_a_samples = uhr_poly_samples, group_b_name = "HBR", group_b_samples = hbr_ribo_samples)
 uhr_vs_hbr_corrected = run_edgeR(data = corrected_data, group_a_name = "UHR", group_a_samples = uhr_samples, group_b_name = "HBR", group_b_samples = hbr_samples)
 
+```
+
+### Visualize and interpret the impact of batch correction on differential expression results
+
+In this section we will explore the 10 sets of differential expression results involving different combinations of data made with different library approaches and pooling of samples, before and after batch correction. First we will create some Venn diagrams.
+
+```R
 #how much of a difference does batch correction make when doing the comparison of all UHR vs all HBR samples?
 dim(uhr_vs_hbr_uncorrected)
 dim(uhr_vs_hbr_corrected)
@@ -385,7 +392,20 @@ p2$layout$clip[p2$layout$name == "panel"] = "off"
 pdf("Venn_Comparison_Corrected_vs_Uncorrected.pdf")
 grid.arrange(p1, p2, nrow = 2)
 dev.off()
+```
 
+Some observations from these Venn Diagrams:
+
+- The uncorrected data gives more DE genes when mixing library types (false positives?). The batch correction eliminates most of these. 
+- The total number of significant genes in the Ribo-vs-Ribo comparison also goes down after batch correction (even though batch correction was not needed for this comparison data) (false negatives?).
+- After batch correction the results have higher overall agreement
+
+Note that Venn diagrams don't work when we have a lot of sets to compare to each other so we created upset plots to summarize the overlap between all the comparisons performed above
+
+![Venn-Comparison-Corrected-vs-Uncorrected](/assets/module_3/Venn-Comparison-Corrected-vs-Uncorrected.png)
+
+
+```R
 #now create an upset plot from the *uncorrected* data
 listInput1 = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[, "Gene"],
                   "4 UHR Poly vs 4HBR Poly" = uhr_poly_vs_hbr_poly_uncorrected[, "Gene"],
@@ -415,14 +435,6 @@ write.table(uhr_vs_hbr_corrected, file = "DE_genes_uhr_vs_hbr_corrected.tsv", qu
 quit(save = "no")
 
 ```
-
-Some observations from these Venn Diagrams:
-
-- The uncorrected data gives more DE genes when mixing library types (false positives?). The batch correction eliminates most of these. 
-- The total number of significant genes in the Ribo-vs-Ribo comparison also goes down after batch correction (even though batch correction was not needed for this comparison data) (false negatives?).
-- After batch correction the results have higher overall agreement
-
-Note that Venn diagrams don't work when we have a lot of sets to compare to each other so we created upset plots to summarize the overlap between all the comparisons performed above
 
 An UpSet plot is an alternative to a Venn Diagram. It shows the overlap (intersection) between an arbitrary number of sets of values. In this case we are comparing the list of genes identified as significantly DE by five different comparisons.  The black circles connected by a line indicate each combination of sets being considered. The bar graph above each column shows how many genes are shared across those sets.  For example, the first column has all five black circles.  The bar above that column indicates how many genes were found in all five DE comparisons performed. 
 
