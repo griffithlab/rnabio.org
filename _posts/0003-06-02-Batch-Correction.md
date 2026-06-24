@@ -138,6 +138,10 @@ p1 = p1 + labs(title = "PCA, counts for 16 HBR/UHR and Ribo/PolyA samples (uncor
 p1 = p1 + labs(x = pc1_label, y = pc2_label)
 p1 = p1 + scale_colour_manual(values = cols)
 
+pdf(file = "Uncorrected-PCA.pdf")
+print(p1)
+dev.off()
+
 ```
 
 ### Introduction to Bioconductor SVA and ComBat-Seq in R
@@ -235,6 +239,10 @@ p2 = p2 + stat_ellipse(type = "norm", linetype = 2)
 p2 = p2 + labs(title = "PCA, counts for 16 HBR/UHR and Ribo/PolyA samples (batch corrected)", color = "Condition", shape = "Library Method")
 p2 = p2 + labs(x = pc1_label, y = pc2_label)
 p2 = p2 + scale_colour_manual(values = cols)
+
+pdf(file = "Corrected-PCA.pdf")
+print(p2)                   
+dev.off()
 
 pdf(file = "Uncorrected-vs-BatchCorrected-PCA.pdf")
 grid.arrange(p1, p2, nrow = 2)
