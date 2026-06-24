@@ -107,11 +107,11 @@ ercc_ref_de_long$is_sig = !(is.na(ercc_ref_de_long$value))
 ercc_ref_de_long$expected.fold.change.ratio = as.factor(ercc_ref_de_long$expected.fold.change.ratio)
 
 #create a scatterplot to compare the observed and expected fold change values
-p = ggplot(ercc_ref_de_long, aes( x = expected.fold.change.ratio, fill =is_sig ))
-p = p + geom_bar()  + facet_grid(~ algorithm)
+p = ggplot(ercc_ref_de_long, aes(x = expected.fold.change.ratio, fill =is_sig))
+p = p + geom_bar() + facet_grid(~algorithm)
 p
 
-ggsave(plot=p, filename = paste0(outdir, "ERCC_DE_Gene_Method_Comparison.pdf"), device="pdf", width=6, height=4, units="in")
+ggsave(plot=p, filename = "ERCC_DE_Gene_Method_Comparison.pdf", device="pdf", width=6, height=4, units="in")
 
 quit(save="no")
 ```
