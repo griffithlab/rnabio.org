@@ -27,7 +27,7 @@ Once you have run the DESeq2 tutorial, compare the sigDE genes to those saved ea
 ```bash
 head $RNA_HOME/de/ballgown/ref_only/DE_sig_genes_ballgown.tsv
 head $RNA_HOME/de/htseq_counts/edgeR/DE_sig_genes_edgeR.tsv
-head $RNA_HOME/de/htseq_counts/DE_sig_genes_DESeq2.tsv
+head $RNA_HOME/de/htseq_counts/deseq2/DE_sig_genes_DESeq2.tsv
 
 ```
 
