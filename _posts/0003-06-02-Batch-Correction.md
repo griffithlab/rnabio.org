@@ -194,8 +194,8 @@ dim(uncorrected_data)
 dim(corrected_data)
 
 #visually compare values of corrected and uncorrected data sets
-head(uncorrected_data)
-head(corrected_data)
+uncorrected_data[1:2, 1:6]
+corrected_data[1:2, 1:6]
 
 ```
 
