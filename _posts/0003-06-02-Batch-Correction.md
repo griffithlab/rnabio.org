@@ -289,6 +289,10 @@ hbr_samples = c(hbr_ribo_samples, hbr_poly_samples)
 
 #create a function that will run edgeR (DE analysis) for a particular pair of sample sets
 run_edgeR = function(data, group_a_name, group_a_samples, group_b_samples, group_b_name){
+  message(paste0(
+    "Performing EdgeR DE analysis for group A samples (", paste(group_a_samples, collapse = ", "), 
+    ") vs group B samples (", paste(group_b_samples, collapse = ", "), ")"))
+
   #create a list of all samples for this current comparison
   samples_for_comparison = c(group_a_samples, group_b_samples)
   
