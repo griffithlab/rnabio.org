@@ -358,9 +358,35 @@ uhr_vs_hbr_corrected = run_edgeR(data = corrected_data, group_a_name = "UHR", gr
 dim(uhr_vs_hbr_uncorrected)
 dim(uhr_vs_hbr_corrected)
 
-#create upset plots to summarize the overlap between the comparisons performed above
+#create some venn diagrams to examine a few comparisons of DE gene results
+install.packages("ggVennDiagram")
+library(ggVennDiagram)
 
-#first create upset plot from the *uncorrected* data
+#for uncorrected data, compare the DE genes that result from Ribo data only vs a mix of library types
+comparison_pair_1 = list("Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[,"Gene"], 
+                       "Mixed" = uhr_ribo_vs_hbr_poly_uncorrected[,"Gene"])
+
+comparison_pair_2 = list("Ribo" = uhr_ribo_vs_hbr_ribo_corrected[,"Gene"], 
+                       "Mixed" = uhr_ribo_vs_hbr_poly_corrected[,"Gene"])
+
+p1 = ggVennDiagram(comparison_pair_1) + 
+     labs(title = "Number of DE Genes found (Uncorrected data)", 
+          subtitle = "(Ribo: UHR_Ribo vs HBR_Ribo) and (Mixed: UHR_Ribo vs HBR_Poly)")
+p2 = ggVennDiagram(comparison_pair_2) + 
+     labs(title = "Number of DE Genes found (Corrected data)", 
+          subtitle = "(Ribo: UHR_Ribo vs HBR_Ribo) and (Mixed: UHR_Ribo vs HBR_Poly)")
+
+#fix annoying clipping of labels
+p1 = ggplot_build(p1) |> ggplot_gtable()
+p1$layout$clip[p1$layout$name == "panel"] = "off"
+p2 = ggplot_build(p2) |> ggplot_gtable()
+p2$layout$clip[p2$layout$name == "panel"] = "off"
+
+pdf("Venn_Comparison_Corrected_vs_Uncorrected.pdf")
+grid.arrange(p1, p2, nrow = 2)
+dev.off()
+
+#now create an upset plot from the *uncorrected* data
 listInput1 = list("4 UHR Ribo vs 4 HBR Ribo" = uhr_ribo_vs_hbr_ribo_uncorrected[, "Gene"],
                   "4 UHR Poly vs 4HBR Poly" = uhr_poly_vs_hbr_poly_uncorrected[, "Gene"],
                   "4 UHR Ribo vs 4 HBR Poly" = uhr_ribo_vs_hbr_poly_uncorrected[, "Gene"],
@@ -390,8 +416,15 @@ quit(save = "no")
 
 ```
 
+Some observations from these Venn Diagrams:
 
-Note that an UpSet plot is an alternative to a Venn Diagram. It shows the overlap (intersection) between an arbitrary number of sets of values. In this case we are comparing the list of genes identified as significantly DE by five different comparisons.  The black circles connected by a line indicate each combination of sets being considered. The bar graph above each column shows how many genes are shared across those sets.  For example, the first column has all five black circles.  The bar above that column indicates how many genes were found in all five DE comparisons performed. 
+- The uncorrected data gives more DE genes when mixing library types (false positives?). The batch correction eliminates most of these. 
+- The total number of significant genes in the Ribo-vs-Ribo comparison also goes down after batch correction (even though batch correction was not needed for this comparison data) (false negatives?).
+- After batch correction the results have higher overall agreement
+
+Note that Venn diagrams don't work when we have a lot of sets to compare to each other so we created upset plots to summarize the overlap between all the comparisons performed above
+
+An UpSet plot is an alternative to a Venn Diagram. It shows the overlap (intersection) between an arbitrary number of sets of values. In this case we are comparing the list of genes identified as significantly DE by five different comparisons.  The black circles connected by a line indicate each combination of sets being considered. The bar graph above each column shows how many genes are shared across those sets.  For example, the first column has all five black circles.  The bar above that column indicates how many genes were found in all five DE comparisons performed. 
 
 
 What differs in each comparison is:
