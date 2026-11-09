@@ -8,93 +8,142 @@ feature_text: |
 categories: Module-00-Setup
 ---
 
-We currently offer two options for completing the hands-on components of this course including Amazon Cloud (AWS) and Docker images. 
-
-Using cloud computing (AWS) to complete this course involves two major components: **(1)** Launching an instance on the cloud (essentially renting a virtual computer by the hour and turning it on) and **(2)** logging into that instance. 
-
-Using Docker involves running a precompiled image locally on your computer. For specific instructions on how to use each, choose one of the options below:
+Choose one of two options to complete the hands-on exercises in this course:
 
 ## Compute Options
-1. [Using AWS](#using-aws)
-2. [Using Docker](#using-docker)
 
-***
+- **[Using AWS](#using-aws):** Launch a virtual computer (an *EC2 instance*) in the Amazon cloud, then connect to it from your computer.
+- **[Using Docker](#using-docker):** Run a prebuilt course image locally on a computer with Docker installed.
 
 ## Using AWS
-Covered in this section: logging into AWS EC2 console, starting an instance from the course AMI and configuring it in the console (select instance AMI, instance type, instance details, storage volumes, tags, security group, and key pairs).
+
+You will first launch an EC2 instance from the course's preconfigured Amazon Machine Image (AMI), then log in using SSH. For background on cloud computing and AWS terminology, see [Introduction to AWS](/module-00-setup/0000/04/01/Intro_to_AWS/).
 
 ### Launching an AWS instance
-In the previous section [Introduction to AWS](https://rnabio.org/module-00-setup/0000/04/01/Intro_to_AWS/) we reviewed fundamental concepts of cloud computing and some of the jargon and features specific to AWS. In this section we will learn how to launch an instance specifically for this course.
 
-In order to launch your own instance you will either need to use your own personal AWS account, an account provided through your institution OR if you are taking a live version of this course you will be assigned an AWS account using the IAM system. The following instructions are used for a live version of this course, but the process would be essentially the same when using a personal or institutional account.
+You will need an AWS account: your own, one provided by your institution, or an IAM user account assigned for a live course. The steps below use the live course account; the process is similar for personal or institutional accounts.
 
-* Once your EC2 instance is up and running, make note of its IP address.
-* Instructions for logging into this cloud instance (including instructions for Windows systems, if applicable) can be found below.
-* This will ONLY occur once we are in the classroom as it costs money to have these servers running.
-* Each student will launch their own instance from a preconfigured AMI.
+> **For live course participants:** Wait until you are in the classroom and instructed to launch your instance. Running AWS instances costs money. Each student should launch their own instance.
 
-Briefly the process for launching an EC2 instance for this course involves these steps:
-1. Login to AWS using the specific url and credentials (user/password) you were provided (or our own AWS account).
-2. Search for and select EC2 to access the EC2 console.
-3. Make sure that you are in the N. Virginia region
-4. Select Launch Instances.
-5. Name and tags: Name your instance (e.g., Firstname_Lastname). 
-6. Amazon Machine Image: Search for "cshl-seqtec-2025" in My AMIs and Select.
-7. Instance type: Select "m6a.xlarge" and then "Next".
-8. Key pair (login): Choose an existing key pair (e.g., cshl_2025_student) or create a new one and store it somewhere safe.
-9. Network settings: Choose existing security group called "SSH/HTTP/Jupyter/Rstudio - with outbound rule" (or create one with SSH and HTTP access).
-10. Configure storage: Make sure that you see two volumes.
-11. Advanced details: Select "Termination Protection: Enable".
-12. Summary: Review and then Launch instance.
-13. View all instances and wait for your instance to finish initiating.
-14. Find your instance in console and select it, then hit connect to get your Public IP address (EC2 Instance Connect).
-15. Login to the instance as described below.
+#### Sign in and open the EC2 console
+
+1. **Sign in to AWS** using the URL and credentials provided by your instructors, or use your own AWS account.
+
+   For the **2026 CSHL Sequencing Technology course**, use the following IAM account while the course is live:
+
+   - **Console sign-in URL:** [CSHL Workshops AWS console](https://cshlworkshops.signin.aws.amazon.com/console)
+   - **User name:** `cshl_student_2026`
+   - **Console password:** `seqtec-2026`
+
+2. Search for and select **EC2** to open the EC2 console.
+3. Set the region to **N. Virginia (us-east-1)**.
+4. Select **Launch instances**.
+
+   ![EC2 console showing the region selector and Launch instances button.](/assets/module_0/log-into-compute/aws-ec2-region-launch-instance.png)
+
+#### Configure your instance
+
+1. **Name and tags:** Give your instance a recognizable name, such as `Firstname_Lastname`.
+2. **Application and OS Images (Amazon Machine Image):** Under **My AMIs**, search for and select `cshl-seqtec-2026`.
+
+   ![Launch instance settings showing the instance name and course AMI selection.](/assets/module_0/log-into-compute/aws-instance-name-ami.png)
+
+3. **Instance type:** Select `m6a.xlarge`.
+4. **Key pair (login):** Select the course key pair, such as `cshl_2026_student`, or create a new key pair and save the downloaded key file somewhere you can find it. You will need the matching private key file to log in.
+5. **Network settings:** Select the existing security group **SSH/HTTP/Jupyter/Rstudio - with outbound rule**, or create one with SSH and HTTP access.
+
+   ![Instance settings showing the instance type, key pair, and security group.](/assets/module_0/log-into-compute/aws-instance-type-key-pair-security-group.png)
+
+6. **Configure storage:** Confirm that two volumes are listed.
+
+   ![Storage configuration showing the two volumes for the course instance.](/assets/module_0/log-into-compute/aws-storage-volumes.png)
+
+7. **Advanced details:** Enable **Termination protection**.
+
+   ![Advanced details showing termination protection enabled.](/assets/module_0/log-into-compute/aws-termination-protection.png)
+
+#### Launch and find your public IP address
+
+1. Review the **Summary**, then select **Launch instance**.
+2. Select **View all instances** and wait for your instance to finish initializing.
+3. Select your instance, then choose **Connect**. On the **EC2 Instance Connect** tab, find and copy your **Public IP address**.
+
+   ![EC2 connection page showing where to find the instance's public IP address.](/assets/module_0/log-into-compute/aws-instance-public-ip.png)
+
+4. Follow the instructions below to log in from your computer.
 
 ### Logging in to your own AWS EC2 instance
 
-* In order to log in to your instance, you will need a security certificate or "key file".
- * You will be provided with a key file called: "cshl_2025_student.pem" (for Mac/Linux users) OR "cshl_2025_student.ppk" (for Windows/PuTTy users).
-* NOTE: It is very important that you use only your own instance (ip address or dns name) when logging in!  If two people log into the same Amazon machine they may have collisions as they try to write files to the same places and this will cause errors and confusion.
-* On the AWS cloud, we are going to use the default username: "ubuntu"
+Before you connect, have the following ready:
+
+- **Your private key file:** For Terminal or PowerShell, use `cshl_2026_student.pem` (or the key file matching the key pair you selected when launching your instance).
+- **Your instance's public IP address or public DNS name:** Copy this from the EC2 console.
+- **The instance user name:** `ubuntu`. This is the Linux user on the instance, separate from your AWS console user name.
+
+> **Connect only to your own instance.** If two students use the same instance, they may overwrite each other's files or interfere with each other's work.
+
+Choose the instructions for your computer:
+
+- [Terminal (Mac/Linux)](#logging-in-to-aws-with-terminal-maclinux)
+- [PowerShell (Windows)](#logging-in-to-aws-with-powershell-windows)
+- [PuTTY (Windows)](#logging-in-to-aws-with-putty-windows)
 
 #### Logging in to AWS with Terminal (Mac/Linux)
 
-* First open a Terminal session (Applications -> Utilities -> Terminal))
-* Make sure the permissions on your certificate are secure. Use chmod on your downloaded key file:
+1. Open a terminal. On a Mac, go to **Applications → Utilities → Terminal**.
+2. Restrict access to your private key file:
+
+   ```bash
+   chmod 400 "/path/to/cshl_2026_student.pem"
+   ```
+
+3. Connect to your instance using SSH:
+
+   ```bash
+   ssh -i "/path/to/cshl_2026_student.pem" ubuntu@YOUR_PUBLIC_IP
+   ```
+
+Replace `/path/to/cshl_2026_student.pem` in **both commands** with the actual path to your downloaded key file. Replace `YOUR_PUBLIC_IP` with your instance's public IP address or public DNS name.
+
+For example, if your key is in the Downloads folder on a Mac:
 
 ```bash
-chmod 400 cshl_2025_student.pem
+chmod 400 "$HOME/Downloads/cshl_2026_student.pem"
+ssh -i "$HOME/Downloads/cshl_2026_student.pem" ubuntu@YOUR_PUBLIC_IP
 ```
 
-* To log in to the node, use the -i command line argument to specify your certificate:
+Here, `-i` specifies the private key file, `ubuntu` is the user on the instance, and the value after `@` identifies the instance to connect to.
 
-```bash
- ssh -i cshl_2025_student.pem ubuntu@[your ip address or dns name] # [your ip address or dns name] is the public IP address of your instance
+#### Logging in to AWS with PowerShell (Windows)
+
+Open **PowerShell** and connect using the downloaded `.pem` key file:
+
+```powershell
+ssh -i "C:\path\to\cshl_2026_student.pem" ubuntu@YOUR_PUBLIC_IP
 ```
 
-`-i` selects a file from which the public key authentication is read.  `ubuntu` is the name of a user on the system you are logging into (a default user of the Ubuntu operating system). `[your ip address]` is the address of the linux system on Amazon that you are logging into. Instead of ip address you can also use a public dns name.
+Replace `C:\path\to\cshl_2026_student.pem` with the actual path to your key file and `YOUR_PUBLIC_IP` with your instance's public IP address or public DNS name. The `chmod` step above applies to Mac/Linux only.
 
-#### Logging in to AWS with Powershell (Windows)
-Open a PowerShell session , and follow the steps as listed in Logging in to AWS with Terminal. 
+If PowerShell does not recognize `ssh`, install the [Windows OpenSSH Client](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse) or use PuTTY as described below.
 
 #### Logging in to AWS with PuTTy (Windows)
 
 To configure PuTTy, start PuTTy and do the following:
 * Fill in the “Host name” field with your ip address.
 
-![Logging in with putty (Windows)](/assets/module_0/PuTTY_Session.png)
+![Logging in with putty (Windows)](/assets/module_0/log-into-compute/putty-session.png)
 
 * In the left hand categories,under the Connection category choose Data. In the auto-login username field write `ubuntu`.
 
-![Logging in with putty (Windows)](/assets/module_0/PuTTY_Data.png)
+![Logging in with putty (Windows)](/assets/module_0/log-into-compute/putty-auto-login-username.png)
 
 * In the left hand categories, in the Connection category next to SSH click on the +. Click on Auth. In the private-key file for authentication field, hit browse and find the `cshl_2025_student.ppk` certificate that you downloaded above.
 
-![Logging in with putty (Windows)](/assets/module_0/PuTTY_SSH_Auth.png)
+![Logging in with putty (Windows)](/assets/module_0/log-into-compute/putty-ssh-private-key.png)
 
 * In the left hand categories, click on Session. In the Saved Sessions field write Amazon node and click save.
 
-![Logging in with putty (Windows)](/assets/module_0/PuTTY_Save.png)
+![Logging in with putty (Windows)](/assets/module_0/log-into-compute/putty-save-session.png)
 
 * Now that Putty is configured, all you have to do is start putty and double-click on “Amazon node” to login.
 
