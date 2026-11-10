@@ -6,6 +6,7 @@ feature_text: |
   ## RNA-seq Bioinformatics
   Introduction to bioinformatics for RNA sequence analysis
 categories: Module-00-Setup
+compute_navigation: true
 ---
 
 Choose one of two options to complete the hands-on exercises in this course:
@@ -84,11 +85,10 @@ Before you connect, have the following ready:
 
 Choose the instructions for your computer:
 
-- [Terminal (Mac/Linux)](#logging-in-to-aws-with-terminal-maclinux)
-- [PowerShell (Windows)](#logging-in-to-aws-with-powershell-windows)
-- [PuTTY (Windows)](#logging-in-to-aws-with-putty-windows)
+- [Mac/Linux](#maclinux)
+- [Windows](#windows)
 
-#### Logging in to AWS with Terminal (Mac/Linux)
+#### Mac/Linux
 
 1. Open a terminal. On a Mac, go to **Applications → Utilities → Terminal**.
 2. Restrict access to your private key file:
@@ -114,7 +114,14 @@ ssh -i "$HOME/Downloads/cshl_2026_student.pem" ubuntu@YOUR_PUBLIC_IP
 
 Here, `-i` specifies the private key file, `ubuntu` is the user on the instance, and the value after `@` identifies the instance to connect to.
 
-#### Logging in to AWS with PowerShell (Windows)
+#### Windows
+
+Choose one of the following tools to connect to your instance:
+
+- [PowerShell](#powershell)
+- [PuTTY](#putty)
+
+##### PowerShell
 
 Open **PowerShell** and connect using the downloaded `.pem` key file:
 
@@ -126,7 +133,7 @@ Replace `C:\path\to\cshl_2026_student.pem` with the actual path to your key file
 
 If PowerShell does not recognize `ssh`, install the [Windows OpenSSH Client](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse) or use PuTTY as described below.
 
-#### Logging in to AWS with PuTTy (Windows)
+##### PuTTY
 
 To configure PuTTy, start PuTTy and do the following:
 * Fill in the “Host name” field with your ip address.
@@ -137,7 +144,7 @@ To configure PuTTy, start PuTTy and do the following:
 
 ![Logging in with putty (Windows)](/assets/module_0/log-into-compute/putty-auto-login-username.png)
 
-* In the left hand categories, in the Connection category next to SSH click on the +. Click on Auth. In the private-key file for authentication field, hit browse and find the `cshl_2025_student.ppk` certificate that you downloaded above.
+* In the left hand categories, in the Connection category next to SSH click on the +. Click on Auth. In the private-key file for authentication field, hit browse and find the `cshl_2026_student.ppk` certificate that you downloaded above.
 
 ![Logging in with putty (Windows)](/assets/module_0/log-into-compute/putty-ssh-private-key.png)
 
@@ -147,35 +154,43 @@ To configure PuTTy, start PuTTy and do the following:
 
 * Now that Putty is configured, all you have to do is start putty and double-click on “Amazon node” to login.
 
-### Copying files to your computer from AWS
-
-* To copy files from an instance, use scp in a similar fashion (in this case to copy a file called nice_alignments.bam):
-
-```bash
-scp -i cshl_2025_student.pem ubuntu@[your ip address or dns name]:nice_alignments.bam .
-```
-
-* Everything created in your workspace on the cloud is also available by a web server on your cloud instance.  Simply go to the following in your browser:
-
-https://[your ip address]/ or https://[your dns name]
-
 ### File system layout on AWS instance
 
 When you log in, you will notice that you have one  directory already: "workspace".
 
 * The "workspace" directory is where we will keep all files and analysis results for this course.
 
-### Uploading your data to the AWS instance
+### Transferring files between your computer and AWS
+
+Choose the direction you want to transfer files:
+
+- [Download files from the instance](#download-files-from-the-instance) to your computer.
+- [Upload files to the instance](#upload-files-to-the-instance) from your computer.
+
+#### Download files from the instance
+
+* To copy files from an instance, use scp in a similar fashion (in this case to copy a file called nice_alignments.bam):
+
+```bash
+scp -i cshl_2026_student.pem ubuntu@[your ip address or dns name]:nice_alignments.bam .
+```
+
+* Everything created in your workspace on the cloud is also available by a web server on your cloud instance.  Simply go to the following in your browser:
+
+https://[your ip address]/ or https://[your dns name]
+
+#### Upload files to the instance
+
 If you would like to upload your data to the AWS instance, use the example scp command below.  Be sure to replace the variables below with the local path to your data, __MY_DATA__, and the amazon instance IP, __YOUR_IP_ADDRESS__.
 
 ```bash
-scp -i cshl_2025_student.pem __MY_DATA__ ubuntu@[your ip address or dns name]:/
+scp -i cshl_2026_student.pem __MY_DATA__ ubuntu@[your ip address or dns name]:/
 ```
 
 ### Doing this course with AWS outside of a workshop
 If you are trying to do this course on your own using the online materials only, of course an AWS EC2 instance has not been set up for you. If you have access to an AWS account though you can can start with the same Amazon AMI we use to create instances for each student. Currently this is:
 
-Name: `cshl-seqtec-2025` available in the US East, N. Virginia region (us-east-1).
+Name: `cshl-seqtec-2026` available in the US East, N. Virginia region (us-east-1).
 
 We typically use an instance type of `m6a.xlarge`. For detailed instructions on how we created the AMI and configure each instance, please refer to the [AWS Setup](https://rnabio.org/module-09-appendix/0009/09/01/AWS_Setup/) page.
 
