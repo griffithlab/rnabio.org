@@ -177,7 +177,10 @@ scp -i cshl_2026_student.pem ubuntu@[your ip address or dns name]:nice_alignment
 
 * Everything created in your workspace on the cloud is also available by a web server on your cloud instance.  Simply go to the following in your browser:
 
-https://[your ip address]/ or https://[your dns name]
+http://[your ip address]/ or https://[your dns name]
+
+![apache server](/assets/module_0/log-into-compute/aws-apache.png)
+
 
 #### Upload files to the instance
 
