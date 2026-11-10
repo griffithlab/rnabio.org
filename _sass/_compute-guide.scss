@@ -1,0 +1,101 @@
+// Keep the sticky menu attached to viewport scrolling, rather than an
+// ancestor with overflow: hidden. Clip still prevents horizontal page overflow.
+body.logging-into-course-compute {
+  overflow-x: clip;
+}
+
+.compute-guide {
+  // Override the theme's hanging counters with native, indented list markers.
+  ol {
+    list-style-type: decimal;
+    padding-left: 2rem;
+  }
+
+  ol li {
+    margin-left: 0;
+    counter-increment: none;
+  }
+
+  ol li::before {
+    content: none;
+  }
+
+  ol li ol,
+  ol li ul {
+    margin-left: 0;
+    padding-left: 2rem;
+  }
+
+  h2, h3, h4, h5 {
+    scroll-margin-top: 6rem;
+  }
+
+  .compute-navigation {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin: 1rem 0 1.5rem;
+    padding: .5rem .75rem;
+    background: $color__site--background;
+    border: 1px solid lighten($color__site--captions, 30%);
+    border-radius: .3rem;
+    box-shadow: 0 .15rem .4rem rgba(0, 0, 0, .08);
+    font-family: sans-serif;
+    font-size: .8rem;
+    line-height: 1.5;
+  }
+
+  .compute-navigation__label {
+    flex: 0 0 auto;
+    font-weight: bold;
+  }
+
+  .compute-navigation__links {
+    display: flex;
+    gap: .25rem;
+    min-width: 0;
+    overflow-x: auto;
+    padding: .25rem;
+  }
+
+  .compute-navigation a {
+    flex: 0 0 auto;
+    padding: .3rem .5rem;
+    border-radius: .2rem;
+    background-image: none;
+    text-shadow: none;
+    white-space: nowrap;
+  }
+
+  .compute-navigation a:hover,
+  .compute-navigation a:focus-visible {
+    color: $color__site--link--hover;
+    background: lighten($color__site--accent, 33%);
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 600px) {
+  .compute-guide .compute-navigation {
+    display: block;
+    padding: .4rem .5rem;
+  }
+
+  .compute-guide .compute-navigation__label {
+    display: block;
+    padding-left: .25rem;
+  }
+}
+
+@media print {
+  body.logging-into-course-compute {
+    overflow: visible;
+  }
+
+  .compute-guide .compute-navigation {
+    display: none;
+  }
+}
