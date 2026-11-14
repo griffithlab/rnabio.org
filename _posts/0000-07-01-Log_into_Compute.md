@@ -108,6 +108,11 @@ ssh -i "$HOME/Downloads/cshl_2026_student.pem" ubuntu@YOUR_PUBLIC_IP
 
 Here, `-i` specifies the private key file, `ubuntu` is the user on the instance, and the value after `@` identifies the instance to connect to.
 
+When you are done using this session, you may type "exit" in your Terminal to log out of this instance on your laptop.
+
+Remember to "Stop" your instance when you no longer need it to prevent unnecessary billing. At the end when this instance is no longer needed, you may "Terminate" it.
+
+
 #### Windows
 
 Choose one of the following tools to connect to your instance:
@@ -169,9 +174,11 @@ Choose the direction you want to transfer files:
 scp -i cshl_2026_student.pem ubuntu@[your ip address or dns name]:nice_alignments.bam .
 ```
 
-* Everything created in your workspace on the cloud is also available by a web server on your cloud instance.  Simply go to the following in your browser:
+* Everything created in your workspace on the cloud is also available by a web server on your cloud instance. Simply go to the following in your browser:
 
-http://[your ip address]/ or https://[your dns name]
+http://[your ip address]/ (e.g. http://3.81.96.131)
+
+or http://[your dns name] (e.g. http://ec2-3-81-96-131.compute-1.amazonaws.com)
 
 ![apache server](/assets/module_0/log-into-compute/aws-apache.png)
 

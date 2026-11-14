@@ -6,7 +6,7 @@ layout: default
 
 <main class="main  container">
 
-	<article class="article  article--post  content content--full  typeset{% if page.compute_navigation %} compute-guide{% endif %}">
+	<article class="article  article--post  content content--full  typeset{% if page.compute_navigation or page.setup_navigation %} compute-guide{% endif %}">
 
     <h1>{{ page.title }}</h1>
 		{% include post-meta.html %}
@@ -15,6 +15,8 @@ layout: default
 		
     {% if page.compute_navigation %}
       {% include compute-navigation.html %}
+    {% elsif page.setup_navigation %}
+      {% include aws-setup-navigation.html %}
     {% endif %}
 
     {{ content }}
