@@ -30,12 +30,6 @@ You will need an AWS account: your own, one provided by your institution, or an 
 
 1. **Sign in to AWS** using the URL and credentials provided by your instructors, or use your own AWS account.
 
-   For the **2026 CSHL Sequencing Technology course**, use the following IAM account while the course is live:
-
-   - **Console sign-in URL:** [CSHL Workshops AWS console](https://cshlworkshops.signin.aws.amazon.com/console)
-   - **User name:** `cshl_student_2026`
-   - **Console password:** `seqtec-2026`
-
 2. Search for and select **EC2** to open the EC2 console.
 3. Set the region to **N. Virginia (us-east-1)**.
 4. Select **Launch instances**.
