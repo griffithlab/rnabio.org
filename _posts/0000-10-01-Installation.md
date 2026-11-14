@@ -399,8 +399,8 @@ NOTE: If you are worried your .bashrc is messed up you can redownload as follows
 
 ```bash
 cd ~
-wget https://genomedata.org/rnaseq-tutorial/bashrc_copy
-mv bashrc_copy ~/.bashrc
+wget https://genomedata.org/rnaseq-tutorial/bashrc_copy_cshl_2026
+mv bashrc_copy_cshl_2026 ~/.bashrc
 source ~/.bashrc
 ```
 
