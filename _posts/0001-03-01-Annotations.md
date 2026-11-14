@@ -113,7 +113,9 @@ There are many possible sources of .gtf gene/transcript annotation files. For ex
 
 #### I. ENSEMBL FTP SITE
 
-Based on Ensembl annotations only. Available for many species. [https://useast.ensembl.org/info/data/ftp/index.html](https://useast.ensembl.org/info/data/ftp/index.html)
+Based on Ensembl annotations only. Available for many species. [https://jun2026.archive.ensembl.org/info/data/ftp/index.html](https://jun2026.archive.ensembl.org/info/data/ftp/index.html)
+
+Note that Ensembl has recently reorganized their reference annotations. The latest human build annotation information can now be found here: [2026_04 geneset](https://ftp.ebi.ac.uk/pub/ensemblorganisms/GCA/000/001/405/29/ensembl/2026_04/geneset/)
 
 #### II. UCSC TABLE BROWSER
 
@@ -122,7 +124,7 @@ Based on UCSC annotations or several other possible annotation sources collected
 * Open the following in your browser: [https://genome.ucsc.edu/](https://genome.ucsc.edu/)
 * Select 'Tools' and then 'Table Browser' at the top of the page.
 * Select 'Mammal', 'Human', and 'Dec. 2013 (GRCh38/hg38)' from the first row of drop down menus.
-* Select 'Genes and Gene Predictions' and 'GENCODE v29' from the second row of drop down menus. To limit your selection to only chromosome 22, select the 'position' option beside 'region', enter 'chr22' in the 'position' box.
+* Select 'Genes and Gene Predictions' and 'GENCODE v50' from the second row of drop down menus. To limit your selection to only chromosome 22, select the 'position' option beside 'region', enter 'chr22' in the 'position' box.
 * Select 'GTF - gene transfer format' for output format and enter 'UCSC_Genes.gtf' for output file.
 * Hit the 'get output' button and save the file. Make note of its location
 
@@ -151,9 +153,7 @@ In addition to the .gtf file you may find uses for some extra files providing al
 
 #### III. HISAT2 Precomputed Genome Index
 
-HISAT2 has prebuilt reference genome index files for both DNA and RNA alignment. Various versions of the index files include SNPs and/or transcript splice sites. Versions of both the Ensembl and UCSC genomes for human build 38 are linked from the main HISAT2 page: [https://ccb.jhu.edu/software/hisat2/index.shtml](https://ccb.jhu.edu/software/hisat2/index.shtml)
-
-Or those same files are directly available from their FTP site: [ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/data/](ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/data/)
+HISAT2 has prebuilt reference genome index files for both DNA and RNA alignment. Various versions of the index files include SNPs and/or transcript splice sites. Versions of both the Ensembl and UCSC genomes for human build 38 are linked from the main HISAT2 page: [https://daehwankimlab.github.io/hisat2/download/](https://daehwankimlab.github.io/hisat2/download/#index)
 
 ### Important notes:
 **On chromosome naming conventions:**
