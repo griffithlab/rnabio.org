@@ -1,7 +1,9 @@
 # SeqTec Bioinformatics Toolkit
 
-This Docker image contains a comprehensive set of bioinformatics tools for RNA-seq analysis, based on the requirements described in the AWS Setup guide from rnabio.org.
-This image is the CSHL SeqTec course variant. It starts from the rnaseq_toolkit image (see `../rnaseq_toolkit/`) and extends it with additional tools and dependencies needed for course content beyond bulk RNA-seq analysis.
+This Docker image contains the bioinformatics tools for the CSHL SeqTec course version of the rnabio.org workshop, based on the "Install RNA-seq software" section of the AWS Setup guide (`_posts/0009-09-01-AWS_Setup.md`).
+It started as a copy of the rnaseq_toolkit image (see `../rnaseq_toolkit/`) and adds tools for course content beyond bulk RNA-seq analysis (e.g. germline variant analysis with BWA, GATK and bcftools).
+
+Tools in the AWS Setup guide that are no longer used in the course (e.g. TopHat, Flexbar, bedops, Cell Ranger, VEP, peddy, slivar, STRling, freebayes, vcflib, minimap2, NanoPlot, VarScan, faSplit, SnapATAC2, scanpy, MACS2, MAGIC, deepTools) are intentionally not included. Jupyter, RStudio and Apache are also not included.
 
 ## Contents
 
@@ -16,30 +18,32 @@ All necessary system libraries and dependencies as specified in the "Perform bas
 - Python 3 with numpy and pip
 - Java Development Kit
 - R base system with additional compilation libraries
-- Apache web server
+- Docker CLI (for using the host Docker engine)
 - Git for source code management
 - And many more essential libraries for bioinformatics workflows
 
 ### Bioinformatics Tools
 - **SAMtools** - SAM/BAM file manipulation
+- **htslib** (bgzip, tabix, htsfile) - Compression and indexing of genomic files
+- **BCFtools** - VCF/BCF file manipulation and variant calling
+- **BWA** - Burrows-Wheeler short read aligner
+- **GATK** - Genome Analysis Toolkit for variant discovery
 - **bam-readcount** - Generate metrics from BAM files
 - **HISAT2** - Fast and sensitive alignment to the human genome
 - **StringTie** - Transcript assembly and quantification
 - **gffcompare** - Compare and evaluate the accuracy of RNA-Seq transcript assemblers
 - **htseq-count** - Count reads in features
-- **TopHat** - Splice junction mapper for RNA-Seq reads
 - **kallisto** - Near-optimal probabilistic RNA-seq quantification
 - **FastQC** - Quality control tool for high throughput sequence data
 - **MultiQC** - Aggregate results from bioinformatics analyses
+- **fastp** - FASTQ preprocessing and adapter trimming
 - **Picard** - Java-based command-line utilities for manipulating SAM files
-- **Flexbar** - Flexible barcode and adapter processing
 - **Regtools** - Tools for analyzing RNA-seq data for regulatory variants
 - **RSeQC** - RNA-seq Quality Control Package
 - **bedtools** - Utilities for genomic arithmetic
-- **bedops** - High-performance genomic feature operations
 - **gtfToGenePred** - Convert GTF to genePred format
 - **genePredToBed** - Convert genePred to BED format
-- **how_are_we_stranded_here** - Python package for strand detection
+- **how_are_we_stranded_here** (`check_strandedness`) - Python package for strand detection
 - **vim** - Text editor for command-line file editing
 
 ### Python Packages
@@ -55,13 +59,17 @@ All necessary system libraries and dependencies as specified in the "Perform bas
 
 ### R and Bioconductor
 **R Libraries:**
-- devtools, dplyr, gplots, ggplot2
-- cowplot, data.table, gridExtra
-- UpSetR, pheatmap, ggrepel, ggnewscale
+- devtools, dplyr, gplots, ggplot2, tidyverse
+- sctransform, Seurat, Rtsne
+- RColorBrewer, ggthemes, cowplot, data.table, gridExtra
+- UpSetR, pheatmap, ggrepel, ggnewscale, ggridges
+
+CRAN packages are installed as pre-built Linux binaries from [Posit Public Package Manager](https://packagemanager.posit.co/), configured site-wide in `Rprofile.site`.
 
 **Bioconductor Libraries:**
 - genefilter, ballgown, edgeR
-- GenomicRanges, sva, gage, org.Hs.eg.db
+- GenomicRanges, rhdf5, biomaRt, scran
+- sva, gage, org.Hs.eg.db
 - DESeq2, apeglm, AnnotationDbi, GO.db
 - enrichplot, clusterProfiler, pathview, sleuth
 
@@ -161,7 +169,7 @@ git push origin --tags          # push tags to GitHub
 
 1. Navigate to the dockerfile directory:
    ```bash
-   cd /Users/obigriffith/git/rnabio.org/docker/course/dockerfile_approach/
+   cd rnabio.org/docker/course/dockerfile_approach/seqtec/
    ```
 
 2. Make the build script executable:
@@ -176,7 +184,7 @@ git push origin --tags          # push tags to GitHub
 
    Or build directly with Docker:
    ```bash
-   docker build -t seqtec:latest .
+   docker build --platform linux/amd64 -t seqtec:latest .
    ```
 
 ## Usage
@@ -195,33 +203,33 @@ A pre-built image is available on Docker Hub:
 
 **Basic usage (pre-built image):**
 ```bash
-# Pull and run the latest version with Apache web server
+# Pull and run the latest version
 docker pull griffithlab/seqtec:latest
-docker run -it -p 8080:8080 griffithlab/seqtec:latest
+docker run -it griffithlab/seqtec:latest
 
 # Or run a specific version
-docker run -it -p 8080:8080 griffithlab/seqtec:0.1.0
+docker run -it griffithlab/seqtec:0.1.0
 ```
 
 ### With Volume Mounting
-To access files from your host system and serve them via Apache:
+To access files from your host system:
 ```bash
 # Mount your data directory to /workspace
-docker run -it -p 8080:8080 -v /path/to/your/data:/workspace griffithlab/seqtec:latest
+docker run -it -v /path/to/your/data:/workspace griffithlab/seqtec:latest
 ```
 
 ### With Docker Engine Access
 To enable Docker functionality within the container (for running other bioinformatics containers):
 ```bash
 # Mount the Docker socket to enable host Docker engine access
-docker run -it -p 8080:8080 -v /path/to/your/data:/workspace -v /var/run/docker.sock:/var/run/docker.sock griffithlab/seqtec:latest
+docker run -it -v /path/to/your/data:/workspace -v /var/run/docker.sock:/var/run/docker.sock griffithlab/seqtec:latest
 ```
 
 **Notes about Docker socket mounting:**
 - The container includes Docker CLI tools for running other bioinformatics containers
 - Uses host Docker engine instead of Docker-in-Docker for better performance and stability
 - Automatically fixes Docker socket permissions on macOS and other systems
-- The `start-services.sh` script handles both Apache startup and Docker socket permissions
+- The `start-services.sh` entrypoint script fixes Docker socket permissions and then runs the requested command (an interactive shell by default)
 
 ### Running Specific Tools
 You can run specific tools directly:
@@ -230,23 +238,6 @@ docker run --rm griffithlab/seqtec:latest samtools --help
 docker run --rm griffithlab/seqtec:latest hisat2 --help
 docker run --rm griffithlab/seqtec:latest stringtie --help
 ```
-
-### Apache Web Server
-The container automatically starts an Apache web server that serves the `/workspace` directory on port 8080. This allows you to:
-
-- View analysis results through a web browser
-- Share files easily with others
-- Access data remotely when the container is running on a server
-
-**Access the web interface:**
-- Local access: http://localhost:8080
-- Remote access: http://your-server-ip:8080
-
-**Features:**
-- Directory browsing enabled for easy file navigation
-- Automatic index.html creation if none exists
-- All files in `/workspace` are accessible via the web interface
-- Supports mounting host directories to `/workspace` for easy data sharing
 
 ## Image Optimization Features
 
@@ -307,11 +298,13 @@ This Docker image has been optimized through several iterations to address commo
 - StringTie 2.2.1
 - HISAT2 2.2.1
 - kallisto 0.44.0
-- FastQC 0.11.9
+- FastQC 0.12.1
 - Picard 2.26.4
 - gffcompare 0.12.6
-- TopHat 2.1.1
-- bedops 2.4.41
+- SAMtools / htslib / BCFtools 1.18
+- fastp 1.0.1
+- bedtools 2.31.1
+- GATK 4.2.1.0 (works with the Java 11 from Ubuntu 22.04's default-jdk)
 
 ## Documentation
 

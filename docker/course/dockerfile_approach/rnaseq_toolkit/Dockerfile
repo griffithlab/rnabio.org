@@ -332,15 +332,18 @@ WORKDIR /home/ubuntu
 # Expose port 8080 for Apache
 EXPOSE 8080
 
-# Create a script to start services and fix Docker socket permissions
+# Create an entrypoint script that fixes Docker socket permissions (when the host
+# socket is mounted), starts Apache, and then runs the given command (default: interactive bash)
 RUN echo '#!/bin/bash' > /home/ubuntu/start-services.sh && \
     echo '# Fix Docker socket permissions if mounted' >> /home/ubuntu/start-services.sh && \
     echo 'if [ -S /var/run/docker.sock ]; then' >> /home/ubuntu/start-services.sh && \
     echo '    sudo chmod 666 /var/run/docker.sock' >> /home/ubuntu/start-services.sh && \
     echo 'fi' >> /home/ubuntu/start-services.sh && \
-    echo 'sudo service apache2 start && /bin/bash' >> /home/ubuntu/start-services.sh && \
+    echo 'sudo service apache2 start > /dev/null' >> /home/ubuntu/start-services.sh && \
+    echo 'exec "$@"' >> /home/ubuntu/start-services.sh && \
     chmod +x /home/ubuntu/start-services.sh
 
-# Use ENTRYPOINT + CMD pattern for proper signal handling and flexibility
-ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["/home/ubuntu/start-services.sh"]
+# ENTRYPOINT runs the setup script; CMD is the default command, which can be
+# overridden, e.g. `docker run --rm griffithlab/rnaseq-toolkit samtools --help`
+ENTRYPOINT ["/home/ubuntu/start-services.sh"]
+CMD ["/bin/bash"]

@@ -1,4 +1,5 @@
-# Use Ubuntu 22.04 as the base image for x86 architecture
+# SeqTec course image (CSHL). Derived from the rnaseq_toolkit image, with tools
+# added for course content beyond bulk RNA-seq (see _posts/0009-09-01-AWS_Setup.md).
 # Using a specific version of ubuntu is better for reproducibility
 FROM --platform=linux/amd64 ubuntu:22.04 AS builder
 
@@ -18,6 +19,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
         git \
         wget \
         curl \
+        ca-certificates \
         zlib1g-dev \
         libbz2-dev \
         liblzma-dev \
@@ -64,13 +66,36 @@ RUN git config --global http.sslVerify false && \
     make -j$(nproc) && \
     cp regtools /usr/local/bin/
 
+# Install htslib 1.18 from source (provides bgzip, tabix, htsfile)
+RUN wget --no-check-certificate https://github.com/samtools/htslib/releases/download/1.18/htslib-1.18.tar.bz2 && \
+    tar -xjf htslib-1.18.tar.bz2 && \
+    cd htslib-1.18 && \
+    ./configure --prefix=/usr/local && \
+    make -j$(nproc) && \
+    make install
+
 # Install samtools 1.18 from source
 RUN wget --no-check-certificate https://github.com/samtools/samtools/releases/download/1.18/samtools-1.18.tar.bz2 && \
     tar -xjf samtools-1.18.tar.bz2 && \
     cd samtools-1.18 && \
     ./configure --prefix=/usr/local && \
-    make && \
+    make -j$(nproc) && \
     make install
+
+# Install bcftools 1.18 from source (plugins go to /usr/local/libexec/bcftools)
+RUN wget --no-check-certificate https://github.com/samtools/bcftools/releases/download/1.18/bcftools-1.18.tar.bz2 && \
+    tar -xjf bcftools-1.18.tar.bz2 && \
+    cd bcftools-1.18 && \
+    ./configure --prefix=/usr/local && \
+    make -j$(nproc) && \
+    make install
+
+# Install bwa from source
+RUN git config --global http.sslVerify false && \
+    git clone https://github.com/lh3/bwa.git && \
+    cd bwa && \
+    make -j$(nproc) && \
+    cp bwa /usr/local/bin/
 
 # Install fastp 1.0.1 from source
 RUN wget --no-check-certificate https://github.com/OpenGene/fastp/archive/refs/tags/v1.0.1.tar.gz && \
@@ -82,11 +107,14 @@ RUN wget --no-check-certificate https://github.com/OpenGene/fastp/archive/refs/t
 # Start a new, clean stage for the final image
 FROM --platform=linux/amd64 ubuntu:22.04
 
+# Versions of tools installed from pre-built archives in this stage
+ARG GATK_VERSION=4.2.1.0
+
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 ENV PICARD=/home/ubuntu/bin/picard.jar
-ENV PATH="/usr/local/bin:/usr/local/FastQC:${PATH}"
+ENV PATH="/usr/local/bin:/usr/local/FastQC:/opt/gatk-${GATK_VERSION}:${PATH}"
 
 # Create working directories
 WORKDIR /opt/tools
@@ -95,10 +123,17 @@ WORKDIR /opt/tools
 COPY --from=builder /usr/local/bin/bam-readcount /usr/local/bin/
 COPY --from=builder /usr/local/bin/stringtie /usr/local/bin/
 COPY --from=builder /usr/local/bin/regtools /usr/local/bin/
+COPY --from=builder /usr/local/bin/bgzip /usr/local/bin/
+COPY --from=builder /usr/local/bin/tabix /usr/local/bin/
+COPY --from=builder /usr/local/bin/htsfile /usr/local/bin/
 COPY --from=builder /usr/local/bin/samtools /usr/local/bin/
+COPY --from=builder /usr/local/bin/bcftools /usr/local/bin/
+COPY --from=builder /usr/local/libexec/bcftools /usr/local/libexec/bcftools
+COPY --from=builder /usr/local/bin/bwa /usr/local/bin/
 COPY --from=builder /usr/local/bin/fastp /usr/local/bin/
 
 # Install runtime dependencies
+# (includes -dev headers needed to compile R/Bioconductor packages from source)
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt \
     apt-get update && \
@@ -111,22 +146,32 @@ RUN --mount=type=cache,target=/var/cache/apt \
         libx11-dev \
         libxt-dev \
         xorg-dev \
-        apache2 \
         csh \
         ruby-full \
         gnuplot \
         cpanminus \
         apt-transport-https \
         software-properties-common \
+        dirmngr \
+        ca-certificates \
         libharfbuzz-dev \
         libfribidi-dev \
         libfreetype6-dev \
+        libfontconfig1-dev \
+        libcairo2-dev \
         libpng-dev \
         libtiff5-dev \
         libjpeg-dev \
+        libglpk-dev \
+        libgsl-dev \
+        libgit2-dev \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        zlib1g-dev \
+        liblzma-dev \
+        libpcre2-dev \
         libdbi-perl \
         libdbd-mysql-perl \
-        flexbar \
         docker.io \
         wget \
         curl \
@@ -171,13 +216,7 @@ RUN wget http://ccb.jhu.edu/software/stringtie/dl/gffcompare-0.12.6.Linux_x86_64
     cp gffcompare-0.12.6.Linux_x86_64/gffcompare /usr/local/bin/ && \
     rm -rf gffcompare-0.12.6*
 
-# Install TopHat
-RUN wget https://ccb.jhu.edu/software/tophat/downloads/tophat-2.1.1.Linux_x86_64.tar.gz && \
-    tar -zxvf tophat-2.1.1.Linux_x86_64.tar.gz && \
-    find tophat-2.1.1.Linux_x86_64 -maxdepth 1 -type f -executable -exec cp {} /usr/local/bin/ \; && \
-    rm -rf tophat-2.1.1*
-
-# Install kallisto
+# Install kallisto (legacy 0.44.0, required by how_are_we_stranded_here)
 RUN wget https://github.com/pachterlab/kallisto/releases/download/v0.44.0/kallisto_linux-v0.44.0.tar.gz && \
     tar -zxvf kallisto_linux-v0.44.0.tar.gz && \
     cp kallisto_linux-v0.44.0/kallisto /usr/local/bin/ && \
@@ -201,14 +240,6 @@ RUN wget https://github.com/arq5x/bedtools2/releases/download/v2.31.1/bedtools-2
     cp bin/* /usr/local/bin/ && \
     cd .. && rm -rf bedtools-2.31.1.tar.gz bedtools2
 
-# Install bedops
-RUN mkdir bedops_linux_x86_64-v2.4.41 && \
-    cd bedops_linux_x86_64-v2.4.41 && \
-    wget -c https://github.com/bedops/bedops/releases/download/v2.4.41/bedops_linux_x86_64-v2.4.41.tar.bz2 && \
-    tar -jxvf bedops_linux_x86_64-v2.4.41.tar.bz2 && \
-    cp bin/* /usr/local/bin/ && \
-    cd .. && rm -rf bedops_linux_x86_64-v2.4.41
-
 # Install gtfToGenePred
 RUN mkdir gtfToGenePred && \
     cd gtfToGenePred && \
@@ -225,6 +256,11 @@ RUN mkdir genePredToBed && \
     cp genePredToBed /usr/local/bin/ && \
     cd .. && rm -rf genePredToBed
 
+# Install GATK (4.2.x works with the Java 11 provided by default-jdk on Ubuntu 22.04)
+RUN wget https://github.com/broadinstitute/gatk/releases/download/${GATK_VERSION}/gatk-${GATK_VERSION}.zip && \
+    unzip gatk-${GATK_VERSION}.zip -d /opt && \
+    rm gatk-${GATK_VERSION}.zip
+
 # Install Python packages with compatible numpy version
 RUN pip3 install "numpy>=1.21.0,<1.22.0" && \
     pip3 install HTSeq RSeQC && \
@@ -233,38 +269,28 @@ RUN pip3 install "numpy>=1.21.0,<1.22.0" && \
     pip3 install multiqc --no-deps && \
     pip3 install git+https://github.com/kcotto/how_are_we_stranded_here.git
 
-# Install R and required libraries
+# Install R
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt \
-    apt-get update && \
-    apt-get install -y --no-install-recommends software-properties-common dirmngr && \
     wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc && \
-    add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" && \
-    apt-get install -y --no-install-recommends r-base libgit2-dev libcurl4-openssl-dev libssl-dev && \
+    add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends r-base r-base-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Use Posit Public Package Manager pre-built Linux binaries for CRAN packages.
+# Compiling Seurat/tidyverse from source takes hours (especially under amd64 emulation).
+# Set site-wide so packages students install later also come from binaries.
+RUN echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/latest"))' >> /usr/lib/R/etc/Rprofile.site && \
+    echo 'options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])))' >> /usr/lib/R/etc/Rprofile.site
+
 # Install R packages
-RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'cowplot', 'data.table', 'gridExtra', 'UpSetR', 'pheatmap', 'ggrepel', 'ggnewscale', 'ggridges'), repos='http://cran.us.r-project.org')"
+RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'sctransform', 'Seurat', 'RColorBrewer', 'ggthemes', 'cowplot', 'data.table', 'Rtsne', 'gridExtra', 'UpSetR', 'tidyverse', 'pheatmap', 'ggrepel', 'ggnewscale', 'ggridges'))" && \
+    R -e "pkgs <- c('devtools', 'Seurat', 'tidyverse', 'ggridges'); missing <- pkgs[!sapply(pkgs, requireNamespace, quietly = TRUE)]; if (length(missing)) stop('Failed to install: ', paste(missing, collapse = ', '))"
 
-# Install Bioconductor packages
-RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview', 'pachterlab/sleuth'))"
-
-# Configure Apache to serve /workspace directory
-RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf && \
-    echo '<VirtualHost *:8080>' > /etc/apache2/sites-available/workspace.conf && \
-    echo '    DocumentRoot /workspace' >> /etc/apache2/sites-available/workspace.conf && \
-    echo '    <Directory /workspace>' >> /etc/apache2/sites-available/workspace.conf && \
-    echo '        Options Indexes FollowSymLinks' >> /etc/apache2/sites-available/workspace.conf && \
-    echo '        AllowOverride None' >> /etc/apache2/sites-available/workspace.conf && \
-    echo '        Require all granted' >> /etc/apache2/sites-available/workspace.conf && \
-    echo '    </Directory>' >> /etc/apache2/sites-available/workspace.conf && \
-    echo '    DirectoryIndex index.html' >> /etc/apache2/sites-available/workspace.conf && \
-    echo '    ErrorLog ${APACHE_LOG_DIR}/workspace_error.log' >> /etc/apache2/sites-available/workspace.conf && \
-    echo '    CustomLog ${APACHE_LOG_DIR}/workspace_access.log combined' >> /etc/apache2/sites-available/workspace.conf && \
-    echo '</VirtualHost>' >> /etc/apache2/sites-available/workspace.conf && \
-    echo 'Listen 8080' >> /etc/apache2/ports.conf && \
-    a2ensite workspace && \
-    a2dissite 000-default
+# Install Bioconductor packages (and sleuth from GitHub)
+RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'rhdf5', 'biomaRt', 'scran', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview', 'pachterlab/sleuth'), ask = FALSE, update = FALSE)" && \
+    R -e "pkgs <- c('ballgown', 'DESeq2', 'edgeR', 'scran', 'rhdf5', 'clusterProfiler', 'sleuth'); missing <- pkgs[!sapply(pkgs, requireNamespace, quietly = TRUE)]; if (length(missing)) stop('Failed to install: ', paste(missing, collapse = ', '))"
 
 # Create workspace directory as root before switching users
 RUN mkdir -p /workspace
@@ -329,18 +355,17 @@ RUN echo '# RNA-seq course environment variables' >> /home/ubuntu/.bashrc && \
 # Set the working directory for the ubuntu user
 WORKDIR /home/ubuntu
 
-# Expose port 8080 for Apache
-EXPOSE 8080
-
-# Create a script to start services and fix Docker socket permissions
+# Create an entrypoint script that fixes Docker socket permissions (when the host
+# socket is mounted) and then runs the given command (default: interactive bash)
 RUN echo '#!/bin/bash' > /home/ubuntu/start-services.sh && \
     echo '# Fix Docker socket permissions if mounted' >> /home/ubuntu/start-services.sh && \
     echo 'if [ -S /var/run/docker.sock ]; then' >> /home/ubuntu/start-services.sh && \
     echo '    sudo chmod 666 /var/run/docker.sock' >> /home/ubuntu/start-services.sh && \
     echo 'fi' >> /home/ubuntu/start-services.sh && \
-    echo 'sudo service apache2 start && /bin/bash' >> /home/ubuntu/start-services.sh && \
+    echo 'exec "$@"' >> /home/ubuntu/start-services.sh && \
     chmod +x /home/ubuntu/start-services.sh
 
-# Use ENTRYPOINT + CMD pattern for proper signal handling and flexibility
-ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["/home/ubuntu/start-services.sh"]
+# ENTRYPOINT runs the setup script; CMD is the default command, which can be
+# overridden, e.g. `docker run --rm griffithlab/seqtec samtools --help`
+ENTRYPOINT ["/home/ubuntu/start-services.sh"]
+CMD ["/bin/bash"]

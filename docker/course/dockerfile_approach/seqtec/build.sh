@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Build the Docker image for x86_64 architecture with version tagging
 
