@@ -161,7 +161,7 @@ git push origin --tags          # push tags to GitHub
 
 1. Navigate to the dockerfile directory:
    ```bash
-   cd /Users/obigriffith/git/rnabio.org/docker/course/dockerfile_approach/
+   cd rnabio.org/docker/course/dockerfile_approach/rnaseq_toolkit/
    ```
 
 2. Make the build script executable:
@@ -320,7 +320,7 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history and changes.
 
 ### Source Code
 - **GitHub Repository**: [griffithlab/rnabio.org](https://github.com/griffithlab/rnabio.org)
-- **Docker Component**: `docker/course/dockerfile_approach/`
+- **Docker Component**: `docker/course/dockerfile_approach/rnaseq_toolkit/`
 - **Docker Hub**: [griffithlab/rnaseq-toolkit](https://hub.docker.com/r/griffithlab/rnaseq-toolkit)
 - **Releases**: [GitHub Releases](https://github.com/griffithlab/rnabio.org/releases)
 
