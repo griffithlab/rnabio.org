@@ -3,9 +3,9 @@
 
 #1. Create a new Dockerfile
 cd ~/git/rnabio.org/docker/site
-mkdir 0.0.5
-cd 0.0.5
-cp ~/git/rnabio.org/docker/site/0.0.4/Dockerfile .
+mkdir 0.0.6
+cd 0.0.6
+cp ~/git/rnabio.org/docker/site/0.0.5/Dockerfile .
 
 #2. Modify the new Dockerfile as needed
 
@@ -22,11 +22,11 @@ docker buildx prune
 docker system df
 
 #Build a new image from modified Dockerfile
-docker build -t griffithlab/rnabiodev:0.0.5 ./
+docker build -t griffithlab/rnabiodev:0.0.6 ./
 
 #Test that the image is working
-docker run -p 4000:4000 -v ~/git/rnabio.org/:/opt/git/rnabio.org -it griffithlab/rnabiodev:0.0.5
+docker run -p 4000:4000 -v ~/git/rnabio.org/:/opt/git/rnabio.org -it griffithlab/rnabiodev:0.0.6
 
 #Once satistfied, push the image to dockerhub
-docker push griffithlab/rnabiodev:0.0.5
+docker push griffithlab/rnabiodev:0.0.6
 

@@ -25,10 +25,11 @@ Site runs at http://localhost:4000. Note: changes to `_config.yml` require a ser
 
 **Docker (preferred for reproducibility):**
 ```bash
-docker run -p 4000:4000 -v ~/git/rnabio.org/:/opt/git/rnabio.org -it griffithlab/rnabiodev:0.0.4
-# Inside container:
-cd /opt/git/rnabio.org && bundle exec jekyll serve --watch --host 0.0.0.0
+docker run -p 4000:4000 -v ~/git/rnabio.org/:/opt/git/rnabio.org -it griffithlab/rnabiodev:0.0.6
 ```
+The image's entrypoint runs `bundle exec jekyll serve --host 0.0.0.0 --watch` automatically, so the site is served at http://localhost:4000 as soon as the container starts. Edits to the mounted repo are picked up live; stop with ctrl-c. To get a shell instead (e.g., to run `bundle install` after `Gemfile.lock` changes), add `--entrypoint bash`.
+
+The gems are installed into the image at build time from `Gemfile.lock` on `master`. If the lockfile is updated (e.g., security patches), the image fails with "Could not find ... in locally installed gems" until it is rebuilt — see Docker Image Maintenance below.
 
 ## Content Architecture
 
@@ -74,4 +75,4 @@ tags:
 
 ## Docker Image Maintenance
 
-The dev Docker image is maintained at `docker/site/` with versioned Dockerfiles (`Dockerfile.0.0.1` through `Dockerfile.0.0.4`). The current version is `0.0.4` (Ruby 3.x base). When updating dependencies, increment the version and build/push to `griffithlab/rnabiodev`.
+The dev Docker image is maintained at `docker/site/` with versioned Dockerfiles (`docker/site/0.0.1/Dockerfile` through `docker/site/0.0.6/Dockerfile`). The current version is `0.0.6` (Ruby 3.3 base). When updating dependencies, increment the version and build/push to `griffithlab/rnabiodev`.

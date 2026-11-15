@@ -21,8 +21,8 @@ date: 0001-01-01
 * Getting help outside of this course
 * Introduction to the RNA-seq hands on tutorial
 
-
 ### Lecture
-* [Introduction to RNA sequencing lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2026/full/RNASeq_Module1_IntrotoRNA.pdf)
-* [FASTA/FASTQ/GTF formats mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2026/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf)
-* [Indexing mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cbw/2026/mini/RNASeq_MiniLecture_01_02_Indexing.pdf)
+* [Introduction to RNA sequencing lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2026/full/RNASeq_Module1_IntrotoRNA.pdf)
+* [FASTA/FASTQ/GTF formats mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2026/mini/RNASeq_MiniLecture_01_01_FASTA_FASTQ_GTF.pdf)
+* [Indexing mini lecture](https://github.com/griffithlab/rnabio.org/blob/master/assets/lectures/cshl/2026/mini/RNASeq_MiniLecture_01_02_Indexing.pdf)
+

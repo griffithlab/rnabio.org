@@ -18,7 +18,7 @@ Choose one of two options to complete the hands-on exercises in this course:
 
 ## Using AWS
 
-You will first launch an EC2 instance from the course's preconfigured Amazon Machine Image (AMI), then log in using SSH. For background on cloud computing and AWS terminology, see [Introduction to AWS](/module-00-setup/0000/04/01/Intro_to_AWS/).
+You will first launch an EC2 instance from the course's preconfigured Amazon Machine Image (AMI), then log in using SSH. For background on cloud computing and AWS terminology, see [Introduction to AWS](/module-00-setup/0000/06/01/Intro_to_AWS/).
 
 ### Launching an AWS instance
 
