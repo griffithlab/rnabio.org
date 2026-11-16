@@ -98,7 +98,7 @@ Using the report for [Rep1_ICB](https://genomedata.org/cri-workshop/web_summarie
 
 #### Input files for the demonstration analysis
 
-We will not be running Cell Ranger ourselves and will instead be starting the scRNA analysis in R using matrix files from Cell Ranger (`cellrange multi` to be precise) and a few other input files briefly described here:
+We will not be running Cell Ranger ourselves and will instead be starting the scRNA analysis in R using matrix files from Cell Ranger (`cellranger multi` to be precise) and a few other input files briefly described here:
 
 - Various publicly available reference annotation files (e.g. reference cell type signatures, chromosome coordinates, pathway gene sets, etc.).
 - Filtered Feature Barcount Matrix files (.h5) from Cell Ranger.  6 total, one for each sample listed above.
