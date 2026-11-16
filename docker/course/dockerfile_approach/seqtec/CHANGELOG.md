@@ -5,9 +5,7 @@ All notable changes to the SeqTec Bioinformatics Toolkit Docker image will be do
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-Planned as 0.2.0.
+## [0.2.0] - 2026-11-16
 
 ### Added
 - **Apache web server**: Serves the `/workspace` directory on port 8080 (e.g. to view FastQC and MultiQC HTML reports in a browser), configured the same way as in rnaseq_toolkit. Run the container with `-p 8080:8080` to use it.
