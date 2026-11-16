@@ -95,7 +95,9 @@ RUN git config --global http.sslVerify false && \
     git clone https://github.com/lh3/bwa.git && \
     cd bwa && \
     make -j$(nproc) && \
-    cp bwa /usr/local/bin/
+    cp bwa /usr/local/bin/ && \
+    mkdir -p /usr/local/share/man/man1 && \
+    cp bwa.1 /usr/local/share/man/man1/
 
 # Install fastp 1.0.1 from source
 RUN wget --no-check-certificate https://github.com/OpenGene/fastp/archive/refs/tags/v1.0.1.tar.gz && \
@@ -119,6 +121,19 @@ ENV PATH="/usr/local/bin:/usr/local/FastQC:/opt/gatk-${GATK_VERSION}:${PATH}"
 # Create working directories
 WORKDIR /opt/tools
 
+# Restore man pages only (for teaching basic Linux commands). The Ubuntu base image is
+# "minimized": dpkg skips man pages/docs and /usr/bin/man is a stub. The full
+# `unminimize` script also restores all docs and translations (~1.3 GB), so instead
+# re-enable only man pages, then reinstall the base packages that ship them.
+# Packages installed after this step keep their man pages automatically.
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    sed -i '\|^path-exclude=/usr/share/man/\*|d' /etc/dpkg/dpkg.cfg.d/excludes && \
+    rm -f /usr/bin/man && dpkg-divert --quiet --remove --rename /usr/bin/man && \
+    apt-get update && \
+    dpkg -S /usr/share/man/ | sed 's|, |\n|g;s|: [^:]*$||' | xargs apt-get install --reinstall -y --no-install-recommends && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Install runtime dependencies
 # (includes -dev headers needed to compile R/Bioconductor packages from source)
 RUN --mount=type=cache,target=/var/cache/apt \
@@ -129,14 +144,10 @@ RUN --mount=type=cache,target=/var/cache/apt \
         python3-dev \
         python3-pip \
         python-is-python3 \
-        default-jdk \
+        default-jre-headless \
         libx11-dev \
         libxt-dev \
-        xorg-dev \
-        csh \
-        ruby-full \
-        gnuplot \
-        cpanminus \
+        gnuplot-nox \
         apt-transport-https \
         software-properties-common \
         dirmngr \
@@ -157,8 +168,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
         zlib1g-dev \
         liblzma-dev \
         libpcre2-dev \
-        libdbi-perl \
-        libdbd-mysql-perl \
         docker.io \
         wget \
         curl \
@@ -185,9 +194,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
         man-db && \
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Unminimize the system to restore man pages and other documentation
-RUN yes | unminimize
 
 # R and its packages are installed early because they are the slowest steps and
 # change rarely: steps further down can then be edited without redoing them.
@@ -233,6 +239,8 @@ COPY --from=builder /usr/local/bin/bcftools /usr/local/bin/
 COPY --from=builder /usr/local/libexec/bcftools /usr/local/libexec/bcftools
 COPY --from=builder /usr/local/bin/bwa /usr/local/bin/
 COPY --from=builder /usr/local/bin/fastp /usr/local/bin/
+# Man pages for samtools, bcftools, htslib (bgzip/tabix/htsfile, sam/vcf formats) and bwa
+COPY --from=builder /usr/local/share/man /usr/local/share/man
 
 # Install pre-compiled binaries
 # Install HISAT2
@@ -288,10 +296,11 @@ RUN mkdir genePredToBed && \
     cp genePredToBed /usr/local/bin/ && \
     cd .. && rm -rf genePredToBed
 
-# Install GATK (4.2.x works with the Java 11 provided by default-jdk on Ubuntu 22.04)
+# Install GATK (4.2.x works with the Java 11 provided by default-jre-headless on Ubuntu 22.04)
+# The Spark jar is removed to save space; only the local jar is used (no Spark tools)
 RUN wget https://github.com/broadinstitute/gatk/releases/download/${GATK_VERSION}/gatk-${GATK_VERSION}.zip && \
     unzip gatk-${GATK_VERSION}.zip -d /opt && \
-    rm gatk-${GATK_VERSION}.zip
+    rm gatk-${GATK_VERSION}.zip /opt/gatk-${GATK_VERSION}/gatk-package-${GATK_VERSION}-spark.jar
 
 # Install Python packages with compatible numpy version
 RUN pip3 install "numpy>=1.21.0,<1.22.0" && \

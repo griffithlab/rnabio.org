@@ -16,7 +16,7 @@ All necessary system libraries and dependencies as specified in the "Perform bas
 - Build tools (make, gcc, g++, cmake, gfortran)
 - Development libraries (zlib, ncurses, SSL, XML2, BLAS, LAPACK, BZ2, etc.)
 - Python 3 with numpy and pip
-- Java Development Kit
+- Java runtime (headless)
 - R base system with additional compilation libraries
 - Docker CLI (for using the host Docker engine)
 - Git for source code management
@@ -304,7 +304,7 @@ This Docker image has been optimized through several iterations to address commo
 - SAMtools / htslib / BCFtools 1.18
 - fastp 1.0.1
 - bedtools 2.31.1
-- GATK 4.2.1.0 (works with the Java 11 from Ubuntu 22.04's default-jdk)
+- GATK 4.2.1.0 (works with the Java 11 from Ubuntu 22.04's default-jre-headless; Spark jar removed)
 
 ## Documentation
 
