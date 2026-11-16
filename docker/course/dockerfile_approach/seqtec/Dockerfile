@@ -1,3 +1,6 @@
+# check=skip=FromPlatformFlagConstDisallowed
+# (The --platform=linux/amd64 pins below are intentional: the image includes x86-only
+# pre-built binaries, so it must be built for amd64 even on Apple Silicon.)
 # SeqTec course image (CSHL). Derived from the rnaseq_toolkit image, with tools
 # added for course content beyond bulk RNA-seq (see _posts/0009-09-01-AWS_Setup.md).
 # Using a specific version of ubuntu is better for reproducibility

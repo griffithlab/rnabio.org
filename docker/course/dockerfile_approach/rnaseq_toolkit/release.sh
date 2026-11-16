@@ -155,7 +155,7 @@ if [ "$TAG_ONLY" = false ]; then
             echo "- Version tracking and automated build/release process"
             echo ""
             echo "### Changes"
-            echo "See [CHANGELOG.md](docker/course/dockerfile_approach/rnaseq_toolkit/CHANGELOG.md) for detailed changes."
+            echo "See [CHANGELOG.md](https://github.com/griffithlab/rnabio.org/blob/rnaseq-toolkit-docker-v$VERSION/docker/course/dockerfile_approach/rnaseq_toolkit/CHANGELOG.md) for detailed changes."
             echo ""
             echo "### Git Tag"
             echo "\`git checkout rnaseq-toolkit-docker-v$VERSION\`"

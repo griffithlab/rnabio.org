@@ -1,3 +1,6 @@
+# check=skip=FromPlatformFlagConstDisallowed
+# (The --platform=linux/amd64 pins below are intentional: the image includes x86-only
+# pre-built binaries, so it must be built for amd64 even on Apple Silicon.)
 # Use Ubuntu 22.04 as the base image for x86 architecture
 # Using a specific version of ubuntu is better for reproducibility
 FROM --platform=linux/amd64 ubuntu:22.04 AS builder
