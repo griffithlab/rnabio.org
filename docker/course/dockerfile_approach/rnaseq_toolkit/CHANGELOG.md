@@ -5,6 +5,28 @@ All notable changes to the RNA-seq Bioinformatics Toolkit Docker image will be d
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-11-15
+
+R and all R/Bioconductor packages move to current versions (R 4.6.2). The image is 3.9 GB unpacked, down from 5.69 GB.
+
+### Changed
+- **CRAN packages**: Installed as pre-built Linux binaries from Posit Public Package Manager instead of compiling from source; set site-wide so packages students install later are binaries too
+- **R installs**: Packages install in parallel (`Ncpus`), and the R steps run earlier in the Dockerfile so tool changes don't redo them
+- **Man pages**: Restored by re-enabling man pages only, instead of `unminimize` (which also restored ~1.3 GB of other docs); samtools man pages are now included
+- **Java**: `default-jdk` replaced by the smaller `default-jre-headless`
+- **gnuplot**: Replaced by `gnuplot-nox`
+- **Compilation**: samtools, fastp and bedtools build with `make -j`
+
+### Removed
+- **TopHat, Flexbar and bedops**: Not used by the course lessons from this image
+- **Unused system packages**: `ruby-full`, `xorg-dev`, `csh`, `cpanminus`, `libdbi-perl`, `libdbd-mysql-perl`
+
+### Fixed
+- **sleuth install**: Installed in its own step with `remotes`, which current devtools no longer pulls in (the previous Dockerfile no longer built)
+- **Build-time checks**: The build fails if key R/Bioconductor packages or sleuth don't load, instead of shipping without them
+- `docker run <image> <tool> <args>` now passes arguments through (previously the `bash -c` entrypoint dropped them, e.g. `samtools --help` ran plain `samtools`)
+- `build.sh` exits non-zero on failure, so `release.sh` no longer tags/pushes a failed build
+
 ## [1.1.1] - 2025-07-09
 
 ### Added

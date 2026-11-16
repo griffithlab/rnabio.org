@@ -14,7 +14,7 @@ All necessary system libraries and dependencies as specified in the "Perform bas
 - Build tools (make, gcc, g++, cmake, gfortran)
 - Development libraries (zlib, ncurses, SSL, XML2, BLAS, LAPACK, BZ2, etc.)
 - Python 3 with numpy and pip
-- Java Development Kit
+- Java runtime (headless)
 - R base system with additional compilation libraries
 - Apache web server
 - Git for source code management
@@ -27,16 +27,13 @@ All necessary system libraries and dependencies as specified in the "Perform bas
 - **StringTie** - Transcript assembly and quantification
 - **gffcompare** - Compare and evaluate the accuracy of RNA-Seq transcript assemblers
 - **htseq-count** - Count reads in features
-- **TopHat** - Splice junction mapper for RNA-Seq reads
 - **kallisto** - Near-optimal probabilistic RNA-seq quantification
 - **FastQC** - Quality control tool for high throughput sequence data
 - **MultiQC** - Aggregate results from bioinformatics analyses
 - **Picard** - Java-based command-line utilities for manipulating SAM files
-- **Flexbar** - Flexible barcode and adapter processing
 - **Regtools** - Tools for analyzing RNA-seq data for regulatory variants
 - **RSeQC** - RNA-seq Quality Control Package
 - **bedtools** - Utilities for genomic arithmetic
-- **bedops** - High-performance genomic feature operations
 - **gtfToGenePred** - Convert GTF to genePred format
 - **genePredToBed** - Convert genePred to BED format
 - **how_are_we_stranded_here** - Python package for strand detection
@@ -161,7 +158,7 @@ git push origin --tags          # push tags to GitHub
 
 1. Navigate to the dockerfile directory:
    ```bash
-   cd /Users/obigriffith/git/rnabio.org/docker/course/dockerfile_approach/
+   cd rnabio.org/docker/course/dockerfile_approach/rnaseq_toolkit/
    ```
 
 2. Make the build script executable:
@@ -188,7 +185,7 @@ A pre-built image is available on Docker Hub:
 **Image:** `griffithlab/rnaseq-toolkit`
 
 **Available tags:**
-- `griffithlab/rnaseq-toolkit:1.1.1` - Specific version
+- `griffithlab/rnaseq-toolkit:1.2.0` - Specific version
 - `griffithlab/rnaseq-toolkit:latest` - Latest release
 
 ### Running the Container
@@ -200,7 +197,7 @@ docker pull griffithlab/rnaseq-toolkit:latest
 docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:latest
 
 # Or run a specific version
-docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:1.1.1
+docker run -it -p 8080:8080 griffithlab/rnaseq-toolkit:1.2.0
 ```
 
 ### With Volume Mounting
@@ -234,7 +231,7 @@ docker run --rm griffithlab/rnaseq-toolkit:latest stringtie --help
 ### Apache Web Server
 The container automatically starts an Apache web server that serves the `/workspace` directory on port 8080. This allows you to:
 
-- View analysis results through a web browser
+- View analysis results (e.g. FastQC and MultiQC HTML reports) through a web browser
 - Share files easily with others
 - Access data remotely when the container is running on a server
 
@@ -244,7 +241,6 @@ The container automatically starts an Apache web server that serves the `/worksp
 
 **Features:**
 - Directory browsing enabled for easy file navigation
-- Automatic index.html creation if none exists
 - All files in `/workspace` are accessible via the web interface
 - Supports mounting host directories to `/workspace` for easy data sharing
 
@@ -258,6 +254,10 @@ This Dockerfile is optimized for size and build efficiency:
 - Removes temporary files and archives after extraction
 - Uses build cache mounts for faster subsequent builds
 - Careful package compatibility handling (e.g., numpy versions for HTSeq)
+- **Pre-built R packages** - CRAN packages come as Linux binaries from Posit Public Package Manager (set site-wide, so packages students install later do too), and R installs packages in parallel
+- **Slow steps first** - R and Bioconductor are installed before the faster tool steps, so editing a tool doesn't redo them
+- **Build-time checks** - The build fails if key R packages (including sleuth) don't load
+- **Man pages only** - Restores man pages without the ~1.3 GB of other docs and translations that `unminimize` adds
 
 ## Architecture
 
@@ -307,11 +307,9 @@ This Docker image has been optimized through several iterations to address commo
 - StringTie 2.2.1
 - HISAT2 2.2.1
 - kallisto 0.44.0
-- FastQC 0.11.9
+- FastQC 0.12.1
 - Picard 2.26.4
 - gffcompare 0.12.6
-- TopHat 2.1.1
-- bedops 2.4.41
 
 ## Documentation
 
@@ -320,7 +318,7 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history and changes.
 
 ### Source Code
 - **GitHub Repository**: [griffithlab/rnabio.org](https://github.com/griffithlab/rnabio.org)
-- **Docker Component**: `docker/course/dockerfile_approach/`
+- **Docker Component**: `docker/course/dockerfile_approach/rnaseq_toolkit/`
 - **Docker Hub**: [griffithlab/rnaseq-toolkit](https://hub.docker.com/r/griffithlab/rnaseq-toolkit)
 - **Releases**: [GitHub Releases](https://github.com/griffithlab/rnabio.org/releases)
 

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Release script for RNA-seq Toolkit Docker image
+# Release script for SeqTec Toolkit Docker image
 
 # Default Docker registry (change as needed)
 REGISTRY="griffithlab"  # Change to your Docker registry
-IMAGE_NAME="rnaseq-toolkit"
+IMAGE_NAME="seqtec"
 
 # Function to show usage
 show_usage() {
@@ -59,7 +59,7 @@ else
     exit 1
 fi
 
-echo "=== RNA-seq Toolkit Release Script ==="
+echo "=== SeqTec Toolkit Release Script ==="
 echo "Version: $VERSION"
 echo "Registry: $REGISTRY"
 echo "Image name: $IMAGE_NAME"
@@ -101,8 +101,8 @@ if [ "$TAG_ONLY" = false ]; then
     echo "Tagging for registry: $REGISTRY/$IMAGE_NAME"
     
     # Tag with version
-    docker tag rnaseq_toolkit:$VERSION $REGISTRY/$IMAGE_NAME:$VERSION
-    docker tag rnaseq_toolkit:$VERSION $REGISTRY/$IMAGE_NAME:latest
+    docker tag seqtec:$VERSION $REGISTRY/$IMAGE_NAME:$VERSION
+    docker tag seqtec:$VERSION $REGISTRY/$IMAGE_NAME:latest
     
     echo "Tagged as:"
     echo "  $REGISTRY/$IMAGE_NAME:$VERSION"
@@ -129,14 +129,14 @@ if [ "$TAG_ONLY" = false ]; then
             echo "=== Release Notes Template ==="
             echo "Copy this for GitHub release:"
             echo ""
-            echo "Tag: rnaseq-toolkit-docker-v$VERSION"
-            echo "Title: RNA-seq Toolkit Docker Image v$VERSION"
+            echo "Tag: seqtec-docker-v$VERSION"
+            echo "Title: SeqTec Toolkit Docker Image v$VERSION"
             echo ""
-            echo "## RNA-seq Toolkit Docker Image v$VERSION"
+            echo "## SeqTec Toolkit Docker Image v$VERSION"
             echo ""
-            echo "This release contains the Docker image for the RNA-seq analysis toolkit."
+            echo "This release contains the Docker image for the CSHL SeqTec course toolkit."
             echo ""
-            echo "**Location:** \`docker/course/dockerfile_approach/\`"
+            echo "**Location:** \`docker/course/dockerfile_approach/seqtec/\`"
             echo ""
             echo "### Docker Images"
             echo "- \`$REGISTRY/$IMAGE_NAME:$VERSION\`"
@@ -145,20 +145,20 @@ if [ "$TAG_ONLY" = false ]; then
             echo "### Usage"
             echo "\`\`\`bash"
             echo "docker pull $REGISTRY/$IMAGE_NAME:$VERSION"
-            echo "docker run -it $REGISTRY/$IMAGE_NAME:$VERSION"
+            echo "docker run -it -p 8080:8080 $REGISTRY/$IMAGE_NAME:$VERSION"
             echo "\`\`\`"
             echo ""
             echo "### Features"
-            echo "- Complete RNA-seq analysis toolkit with all major tools"
+            echo "- RNA-seq toolkit plus additional tools for the CSHL SeqTec course"
             echo "- Optimized for x86 architecture with Apple Silicon compatibility"
             echo "- Multi-stage build for smaller final image size"
             echo "- Version tracking and automated build/release process"
             echo ""
             echo "### Changes"
-            echo "See [CHANGELOG.md](docker/course/dockerfile_approach/CHANGELOG.md) for detailed changes."
+            echo "See [CHANGELOG.md](https://github.com/griffithlab/rnabio.org/blob/seqtec-docker-v$VERSION/docker/course/dockerfile_approach/seqtec/CHANGELOG.md) for detailed changes."
             echo ""
             echo "### Git Tag"
-            echo "\`git checkout rnaseq-toolkit-docker-v$VERSION\`"
+            echo "\`git checkout seqtec-docker-v$VERSION\`"
         fi
     else
         echo "ERROR: Failed to push to registry"
@@ -167,6 +167,6 @@ if [ "$TAG_ONLY" = false ]; then
 else
     echo "Tag-only mode: Created local tags but did not push to registry"
     echo "Local tags created:"
-    echo "  rnaseq_toolkit:$VERSION"
-    echo "  rnaseq_toolkit:latest"
+    echo "  seqtec:$VERSION"
+    echo "  seqtec:latest"
 fi
