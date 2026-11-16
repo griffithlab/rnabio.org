@@ -212,22 +212,42 @@ top
 
 ## Using Docker
 
-We have built a docker image with all necessary software tools installed to complete this course. This allows the hands-on exercises to be perfomed on your own desktop or laptop or anywhere that has docker installed. The following commands can be used to download and run this image as an interactive docker container. 
+We have built Docker images with all the software tools needed for this course already installed. This allows the hands-on exercises to be performed on your own desktop or laptop, or anywhere that has Docker installed. The commands below download an image and run it as an interactive Docker container.
 
-First you will need to install docker. Typically this involves installing [Docker Desktop](https://docs.docker.com/get-docker/). Once installed, start docker, and open a terminal application. Explanations of how to do this are detailed above in the [Using AWS](#using-aws) section.  At the terminal you can test your docker installation is working/running with `docker --help`. Once you have docker working you can use the following commands to download, set up, and run the rnabio image.
+### Choose an image
+
+There are two course images. Use the one that matches the course you are taking:
+
+| Image | Use it for | Download size |
+|---|---|---|
+| `griffithlab/rnaseq-toolkit` | The RNA-seq bioinformatics course (the lessons on this site) | ~1.6 GB |
+| `griffithlab/seqtec` | The CSHL Advanced Sequencing Technologies & Bioinformatics Analysis (SeqTec) course | ~2 GB |
+
+- **rnaseq-toolkit** has the tools for bulk RNA-seq analysis: alignment (HISAT2), quantification and assembly (StringTie, kallisto, htseq-count), QC (FastQC, fastp, MultiQC, RSeQC, Picard), samtools, bedtools, regtools, and R with DESeq2, edgeR, ballgown, sleuth and related packages. It also runs a small web server so you can view files from your workspace in a browser.
+- **seqtec** has everything in rnaseq-toolkit (except the web server), plus tools for the other parts of the SeqTec course: variant analysis (BWA, GATK, bcftools, htslib) and single-cell analysis in R (Seurat, scran, tidyverse and related packages).
+
+Both images are built for Intel/AMD (x86_64) computers. They also run on Apple Silicon Macs (M1 and later), where Docker Desktop emulates x86, so some steps will be slower. On those Macs Docker prints a warning that the image's platform (`linux/amd64`) doesn't match your computer's. This is expected and safe to ignore, or you can add `--platform linux/amd64` to the `docker pull` and `docker run` commands below to silence it.
+
+### Install Docker
+
+First you will need to install Docker. Typically this involves installing [Docker Desktop](https://docs.docker.com/get-docker/). Once installed, start Docker and open a terminal application. Explanations of how to open a terminal are given above in the [Using AWS](#using-aws) section. At the terminal, you can test that your Docker installation is working with `docker --help`.
+
+### Run the rnaseq-toolkit image
 
 1. Pull the image to your local Docker client from the griffithlab repository:
 ```bash
 docker pull griffithlab/rnaseq-toolkit:latest
 ```
-2. Setup a local workspace directory for the RNAseq course. If you change the path or command used here in Step 2, make sure to update the path to the workspace directory accordingly in Step 3.
+2. Set up a local workspace directory for the course. If you change the path used here in Step 2, make sure to update the path to the workspace directory accordingly in Step 3.
 ```bash
 mkdir -p /tmp/rnabio-workspace
 ```
-3. Initialize a Docker container using the image we pulled above. -v tells Docker to mount our workspace directory within the Docker container as /workspace. You'll see in the RNAseq course /workspace is the base directory for nearly all commands and steps. Note: we are running this docker container interactively, opening port 8080, and entering it at a bash shell prompt.
+3. Start a Docker container from the image you pulled above. `-v` tells Docker to mount your workspace directory inside the container as `/workspace`. In the course, `/workspace` is the base directory for nearly all commands and steps. Note: this runs the container interactively, opens port 8080, and gives you a bash shell prompt inside the container.
 ```bash
 docker run -it -p 127.0.0.1:8080:8080 -v /tmp/rnabio-workspace:/workspace griffithlab/rnaseq-toolkit:latest
 ```
+
+While the container is running, you can browse the files in your workspace at [http://localhost:8080](http://localhost:8080). This is how you will view HTML reports (e.g. from FastQC and MultiQC) in your web browser.
 
 Optionally, to enable Docker functionality within the container (for running other bioinformatics containers):
 ```bash
@@ -235,4 +255,32 @@ Optionally, to enable Docker functionality within the container (for running oth
 docker run -it -p 127.0.0.1:8080:8080 -v /tmp/rnabio-workspace:/workspace -v /var/run/docker.sock:/var/run/docker.sock griffithlab/rnaseq-toolkit:latest
 ```
 
-The docker session should now be ready for the Unix tutorial and practical exercises.
+### Run the seqtec image
+
+1. Pull the image to your local Docker client from the griffithlab repository:
+```bash
+docker pull griffithlab/seqtec:latest
+```
+2. Set up a local workspace directory for the course. If you change the path used here in Step 2, make sure to update the path to the workspace directory accordingly in Step 3.
+```bash
+mkdir -p /tmp/seqtec-workspace
+```
+3. Start a Docker container from the image you pulled above. As with rnaseq-toolkit, `-v` mounts your workspace directory inside the container as `/workspace`. The seqtec image has no web server, so there is no port to open. Because the workspace directory is shared with your computer, you can open output files (e.g. HTML reports) directly from `/tmp/seqtec-workspace` on your computer instead.
+```bash
+docker run -it -v /tmp/seqtec-workspace:/workspace griffithlab/seqtec:latest
+```
+
+Optionally, to enable Docker functionality within the container (for running other bioinformatics containers):
+```bash
+# Mount the Docker socket to enable host Docker engine access
+docker run -it -v /tmp/seqtec-workspace:/workspace -v /var/run/docker.sock:/var/run/docker.sock griffithlab/seqtec:latest
+```
+
+### Notes for both images
+
+- You are logged in as the `ubuntu` user, with passwordless `sudo`.
+- Anything you save outside `/workspace` is lost when the container exits. Keep your work in `/workspace`, which is stored on your computer.
+- `/tmp` on your computer may be cleared when it restarts. To keep your work longer, use a workspace directory somewhere else (e.g. in your home directory) in Steps 2 and 3.
+- To leave the container, type `exit`. To start working again later, rerun the `docker run` command from Step 3. Your files in the workspace directory will still be there.
+
+The Docker session should now be ready for the Unix tutorial and practical exercises.
