@@ -5,9 +5,9 @@ All notable changes to the RNA-seq Bioinformatics Toolkit Docker image will be d
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.2.0] - 2026-11-15
 
-Planned as 1.2.0. R and all R/Bioconductor packages move to current versions.
+R and all R/Bioconductor packages move to current versions (R 4.6.2). The image is 3.9 GB unpacked, down from 5.69 GB.
 
 ### Changed
 - **CRAN packages**: Installed as pre-built Linux binaries from Posit Public Package Manager instead of compiling from source; set site-wide so packages students install later are binaries too
