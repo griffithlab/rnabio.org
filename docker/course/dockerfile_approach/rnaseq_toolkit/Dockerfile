@@ -1,7 +1,6 @@
 # check=skip=FromPlatformFlagConstDisallowed
 # (The --platform=linux/amd64 pins below are intentional: the image includes x86-only
 # pre-built binaries, so it must be built for amd64 even on Apple Silicon.)
-# Use Ubuntu 22.04 as the base image for x86 architecture
 # Using a specific version of ubuntu is better for reproducibility
 FROM --platform=linux/amd64 ubuntu:22.04 AS builder
 
@@ -21,6 +20,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
         git \
         wget \
         curl \
+        ca-certificates \
         zlib1g-dev \
         libbz2-dev \
         liblzma-dev \
@@ -40,7 +40,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
         libpcre2-dev \
         && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install bam-readcount
+# Install bam-readcount (plain make: its bundled dependency builds fail with make -j)
 RUN git config --global http.sslVerify false && \
     git clone https://github.com/genome/bam-readcount && \
     cd bam-readcount && \
@@ -72,14 +72,14 @@ RUN wget --no-check-certificate https://github.com/samtools/samtools/releases/do
     tar -xjf samtools-1.18.tar.bz2 && \
     cd samtools-1.18 && \
     ./configure --prefix=/usr/local && \
-    make && \
+    make -j$(nproc) && \
     make install
 
 # Install fastp 1.0.1 from source
 RUN wget --no-check-certificate https://github.com/OpenGene/fastp/archive/refs/tags/v1.0.1.tar.gz && \
     tar -xzf v1.0.1.tar.gz && \
     cd fastp-1.0.1 && \
-    make && \
+    make -j$(nproc) && \
     make install PREFIX=/usr/local
 
 # Start a new, clean stage for the final image
@@ -94,14 +94,21 @@ ENV PATH="/usr/local/bin:/usr/local/FastQC:${PATH}"
 # Create working directories
 WORKDIR /opt/tools
 
-# Copy compiled tools from the builder stage
-COPY --from=builder /usr/local/bin/bam-readcount /usr/local/bin/
-COPY --from=builder /usr/local/bin/stringtie /usr/local/bin/
-COPY --from=builder /usr/local/bin/regtools /usr/local/bin/
-COPY --from=builder /usr/local/bin/samtools /usr/local/bin/
-COPY --from=builder /usr/local/bin/fastp /usr/local/bin/
+# Restore man pages only (for teaching basic Linux commands). The Ubuntu base image is
+# "minimized": dpkg skips man pages/docs and /usr/bin/man is a stub. The full
+# `unminimize` script also restores all docs and translations (~1.3 GB), so instead
+# re-enable only man pages, then reinstall the base packages that ship them.
+# Packages installed after this step keep their man pages automatically.
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    sed -i '\|^path-exclude=/usr/share/man/\*|d' /etc/dpkg/dpkg.cfg.d/excludes && \
+    rm -f /usr/bin/man && dpkg-divert --quiet --remove --rename /usr/bin/man && \
+    apt-get update && \
+    dpkg -S /usr/share/man/ | sed 's|, |\n|g;s|: [^:]*$||' | xargs apt-get install --reinstall -y --no-install-recommends && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install runtime dependencies
+# (includes -dev headers needed to compile R/Bioconductor packages from source)
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt \
     apt-get update && \
@@ -110,26 +117,31 @@ RUN --mount=type=cache,target=/var/cache/apt \
         python3-dev \
         python3-pip \
         python-is-python3 \
-        default-jdk \
+        default-jre-headless \
         libx11-dev \
         libxt-dev \
-        xorg-dev \
+        gnuplot-nox \
         apache2 \
-        csh \
-        ruby-full \
-        gnuplot \
-        cpanminus \
         apt-transport-https \
         software-properties-common \
+        dirmngr \
+        ca-certificates \
         libharfbuzz-dev \
         libfribidi-dev \
         libfreetype6-dev \
+        libfontconfig1-dev \
+        libcairo2-dev \
         libpng-dev \
         libtiff5-dev \
         libjpeg-dev \
-        libdbi-perl \
-        libdbd-mysql-perl \
-        flexbar \
+        libglpk-dev \
+        libgsl-dev \
+        libgit2-dev \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        zlib1g-dev \
+        liblzma-dev \
+        libpcre2-dev \
         docker.io \
         wget \
         curl \
@@ -157,8 +169,47 @@ RUN --mount=type=cache,target=/var/cache/apt \
     ln -s /usr/include/jsoncpp/json/ /usr/include/json && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Unminimize the system to restore man pages and other documentation
-RUN yes | unminimize
+# R and its packages are installed early because they are the slowest steps and
+# change rarely: steps further down can then be edited without redoing them.
+# Install R
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc && \
+    add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends r-base r-base-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Use Posit Public Package Manager pre-built Linux binaries for CRAN packages.
+# Compiling CRAN packages from source takes a long time (especially under amd64 emulation).
+# Set site-wide so packages students install later also come from binaries.
+# Ncpus installs packages in parallel (matters most for Bioconductor, built from source).
+RUN echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/latest"))' >> /usr/lib/R/etc/Rprofile.site && \
+    echo 'options(Ncpus = parallel::detectCores())' >> /usr/lib/R/etc/Rprofile.site && \
+    echo 'options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])))' >> /usr/lib/R/etc/Rprofile.site
+
+# Install R packages
+RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'cowplot', 'data.table', 'gridExtra', 'UpSetR', 'pheatmap', 'ggrepel', 'ggnewscale', 'ggridges'))" && \
+    R -e "pkgs <- c('devtools', 'dplyr', 'ggplot2', 'pheatmap', 'ggrepel', 'ggridges'); missing <- pkgs[!sapply(pkgs, requireNamespace, quietly = TRUE)]; if (length(missing)) stop('Failed to install: ', paste(missing, collapse = ', '))"
+
+# Install Bioconductor packages
+RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview'), ask = FALSE, update = FALSE)" && \
+    R -e "pkgs <- c('ballgown', 'DESeq2', 'edgeR', 'sva', 'apeglm', 'clusterProfiler', 'pathview'); missing <- pkgs[!sapply(pkgs, requireNamespace, quietly = TRUE)]; if (length(missing)) stop('Failed to install: ', paste(missing, collapse = ', '))"
+
+# Install sleuth from GitHub (separate layer so a failure here doesn't redo the slow
+# Bioconductor step). Current devtools no longer pulls in remotes, so install it explicitly.
+# install_github doesn't fetch Bioconductor dependencies, so install sleuth's (rhdf5) first.
+RUN R -e "install.packages('remotes'); BiocManager::install('rhdf5', ask = FALSE, update = FALSE); remotes::install_github('pachterlab/sleuth', upgrade = 'never')" && \
+    R -e "if (!requireNamespace('sleuth', quietly = TRUE)) stop('Failed to install: sleuth')"
+
+# Copy compiled tools from the builder stage
+COPY --from=builder /usr/local/bin/bam-readcount /usr/local/bin/
+COPY --from=builder /usr/local/bin/stringtie /usr/local/bin/
+COPY --from=builder /usr/local/bin/regtools /usr/local/bin/
+COPY --from=builder /usr/local/bin/samtools /usr/local/bin/
+COPY --from=builder /usr/local/bin/fastp /usr/local/bin/
+# Man pages for samtools
+COPY --from=builder /usr/local/share/man /usr/local/share/man
 
 # Install pre-compiled binaries
 # Install HISAT2
@@ -174,13 +225,7 @@ RUN wget http://ccb.jhu.edu/software/stringtie/dl/gffcompare-0.12.6.Linux_x86_64
     cp gffcompare-0.12.6.Linux_x86_64/gffcompare /usr/local/bin/ && \
     rm -rf gffcompare-0.12.6*
 
-# Install TopHat
-RUN wget https://ccb.jhu.edu/software/tophat/downloads/tophat-2.1.1.Linux_x86_64.tar.gz && \
-    tar -zxvf tophat-2.1.1.Linux_x86_64.tar.gz && \
-    find tophat-2.1.1.Linux_x86_64 -maxdepth 1 -type f -executable -exec cp {} /usr/local/bin/ \; && \
-    rm -rf tophat-2.1.1*
-
-# Install kallisto
+# Install kallisto (legacy 0.44.0, required by how_are_we_stranded_here)
 RUN wget https://github.com/pachterlab/kallisto/releases/download/v0.44.0/kallisto_linux-v0.44.0.tar.gz && \
     tar -zxvf kallisto_linux-v0.44.0.tar.gz && \
     cp kallisto_linux-v0.44.0/kallisto /usr/local/bin/ && \
@@ -200,17 +245,9 @@ RUN wget https://github.com/broadinstitute/picard/releases/download/2.26.4/picar
 RUN wget https://github.com/arq5x/bedtools2/releases/download/v2.31.1/bedtools-2.31.1.tar.gz && \
     tar -zxvf bedtools-2.31.1.tar.gz && \
     cd bedtools2 && \
-    make && \
+    make -j$(nproc) && \
     cp bin/* /usr/local/bin/ && \
     cd .. && rm -rf bedtools-2.31.1.tar.gz bedtools2
-
-# Install bedops
-RUN mkdir bedops_linux_x86_64-v2.4.41 && \
-    cd bedops_linux_x86_64-v2.4.41 && \
-    wget -c https://github.com/bedops/bedops/releases/download/v2.4.41/bedops_linux_x86_64-v2.4.41.tar.bz2 && \
-    tar -jxvf bedops_linux_x86_64-v2.4.41.tar.bz2 && \
-    cp bin/* /usr/local/bin/ && \
-    cd .. && rm -rf bedops_linux_x86_64-v2.4.41
 
 # Install gtfToGenePred
 RUN mkdir gtfToGenePred && \
@@ -235,22 +272,6 @@ RUN pip3 install "numpy>=1.21.0,<1.22.0" && \
     pip3 install click jinja2 markdown packaging pyyaml rich coloredlogs plotly tqdm humanize kaleido requests jsonschema boto3 spectra natsort rich-click python-dotenv tiktoken pydantic typeguard && \
     pip3 install multiqc --no-deps && \
     pip3 install git+https://github.com/kcotto/how_are_we_stranded_here.git
-
-# Install R and required libraries
-RUN --mount=type=cache,target=/var/cache/apt \
-    --mount=type=cache,target=/var/lib/apt \
-    apt-get update && \
-    apt-get install -y --no-install-recommends software-properties-common dirmngr && \
-    wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc && \
-    add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" && \
-    apt-get install -y --no-install-recommends r-base libgit2-dev libcurl4-openssl-dev libssl-dev && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install R packages
-RUN R -e "install.packages(c('devtools', 'dplyr', 'gplots', 'ggplot2', 'cowplot', 'data.table', 'gridExtra', 'UpSetR', 'pheatmap', 'ggrepel', 'ggnewscale', 'ggridges'), repos='http://cran.us.r-project.org')"
-
-# Install Bioconductor packages
-RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager'); BiocManager::install(c('genefilter', 'ballgown', 'edgeR', 'GenomicRanges', 'sva', 'gage', 'org.Hs.eg.db', 'DESeq2', 'apeglm', 'AnnotationDbi', 'GO.db', 'enrichplot', 'clusterProfiler', 'pathview', 'pachterlab/sleuth'))"
 
 # Configure Apache to serve /workspace directory
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf && \
@@ -299,7 +320,7 @@ ARG VCS_REF
 
 # Add metadata labels
 LABEL maintainer="RNA-seq.org" \
-      version="${VERSION:-1.0.0}" \
+      version="${VERSION:-1.2.0}" \
       description="Comprehensive RNA-seq bioinformatics toolkit" \
       org.label-schema.build-date="${BUILD_DATE}" \
       org.label-schema.name="RNA-seq Bioinformatics Toolkit" \
@@ -307,7 +328,7 @@ LABEL maintainer="RNA-seq.org" \
       org.label-schema.url="https://rnabio.org" \
       org.label-schema.vcs-ref="${VCS_REF}" \
       org.label-schema.vcs-url="https://github.com/rnabio/rnabio.org" \
-      org.label-schema.version="${VERSION:-1.0.0}" \
+      org.label-schema.version="${VERSION:-1.2.0}" \
       org.label-schema.schema-version="1.0"
 
 # Set the default user to ubuntu
