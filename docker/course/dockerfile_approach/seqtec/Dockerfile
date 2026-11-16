@@ -151,6 +151,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
         libx11-dev \
         libxt-dev \
         gnuplot-nox \
+        apache2 \
         apt-transport-https \
         software-properties-common \
         dirmngr \
@@ -313,6 +314,23 @@ RUN pip3 install "numpy>=1.21.0,<1.22.0" && \
     pip3 install multiqc --no-deps && \
     pip3 install git+https://github.com/kcotto/how_are_we_stranded_here.git
 
+# Configure Apache to serve /workspace directory
+RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf && \
+    echo '<VirtualHost *:8080>' > /etc/apache2/sites-available/workspace.conf && \
+    echo '    DocumentRoot /workspace' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    <Directory /workspace>' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '        Options Indexes FollowSymLinks' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '        AllowOverride None' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '        Require all granted' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    </Directory>' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    DirectoryIndex index.html' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    ErrorLog ${APACHE_LOG_DIR}/workspace_error.log' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '    CustomLog ${APACHE_LOG_DIR}/workspace_access.log combined' >> /etc/apache2/sites-available/workspace.conf && \
+    echo '</VirtualHost>' >> /etc/apache2/sites-available/workspace.conf && \
+    echo 'Listen 8080' >> /etc/apache2/ports.conf && \
+    a2ensite workspace && \
+    a2dissite 000-default
+
 # Create workspace directory as root before switching users
 RUN mkdir -p /workspace
 
@@ -343,7 +361,7 @@ ARG VCS_REF
 
 # Add metadata labels
 LABEL maintainer="RNA-seq.org" \
-      version="${VERSION:-0.1.0}" \
+      version="${VERSION:-0.2.0}" \
       description="Bioinformatics toolkit for the CSHL SeqTec course" \
       org.label-schema.build-date="${BUILD_DATE}" \
       org.label-schema.name="SeqTec Bioinformatics Toolkit" \
@@ -351,7 +369,7 @@ LABEL maintainer="RNA-seq.org" \
       org.label-schema.url="https://rnabio.org" \
       org.label-schema.vcs-ref="${VCS_REF}" \
       org.label-schema.vcs-url="https://github.com/rnabio/rnabio.org" \
-      org.label-schema.version="${VERSION:-0.1.0}" \
+      org.label-schema.version="${VERSION:-0.2.0}" \
       org.label-schema.schema-version="1.0"
 
 # Set the default user to ubuntu
@@ -376,13 +394,17 @@ RUN echo '# RNA-seq course environment variables' >> /home/ubuntu/.bashrc && \
 # Set the working directory for the ubuntu user
 WORKDIR /home/ubuntu
 
+# Expose port 8080 for Apache
+EXPOSE 8080
+
 # Create an entrypoint script that fixes Docker socket permissions (when the host
-# socket is mounted) and then runs the given command (default: interactive bash)
+# socket is mounted), starts Apache, and then runs the given command (default: interactive bash)
 RUN echo '#!/bin/bash' > /home/ubuntu/start-services.sh && \
     echo '# Fix Docker socket permissions if mounted' >> /home/ubuntu/start-services.sh && \
     echo 'if [ -S /var/run/docker.sock ]; then' >> /home/ubuntu/start-services.sh && \
     echo '    sudo chmod 666 /var/run/docker.sock' >> /home/ubuntu/start-services.sh && \
     echo 'fi' >> /home/ubuntu/start-services.sh && \
+    echo 'sudo service apache2 start > /dev/null' >> /home/ubuntu/start-services.sh && \
     echo 'exec "$@"' >> /home/ubuntu/start-services.sh && \
     chmod +x /home/ubuntu/start-services.sh
 

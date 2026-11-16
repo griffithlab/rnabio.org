@@ -14,7 +14,7 @@ All necessary system libraries and dependencies as specified in the "Perform bas
 - Build tools (make, gcc, g++, cmake, gfortran)
 - Development libraries (zlib, ncurses, SSL, XML2, BLAS, LAPACK, BZ2, etc.)
 - Python 3 with numpy and pip
-- Java Development Kit
+- Java runtime (headless)
 - R base system with additional compilation libraries
 - Apache web server
 - Git for source code management
@@ -231,7 +231,7 @@ docker run --rm griffithlab/rnaseq-toolkit:latest stringtie --help
 ### Apache Web Server
 The container automatically starts an Apache web server that serves the `/workspace` directory on port 8080. This allows you to:
 
-- View analysis results through a web browser
+- View analysis results (e.g. FastQC and MultiQC HTML reports) through a web browser
 - Share files easily with others
 - Access data remotely when the container is running on a server
 
@@ -241,7 +241,6 @@ The container automatically starts an Apache web server that serves the `/worksp
 
 **Features:**
 - Directory browsing enabled for easy file navigation
-- Automatic index.html creation if none exists
 - All files in `/workspace` are accessible via the web interface
 - Supports mounting host directories to `/workspace` for easy data sharing
 

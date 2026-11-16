@@ -223,8 +223,10 @@ There are two course images. Use the one that matches the course you are taking:
 | `griffithlab/rnaseq-toolkit` | The RNA-seq bioinformatics course (the lessons on this site) | ~1.6 GB |
 | `griffithlab/seqtec` | The CSHL Advanced Sequencing Technologies & Bioinformatics Analysis (SeqTec) course | ~2 GB |
 
-- **rnaseq-toolkit** has the tools for bulk RNA-seq analysis: alignment (HISAT2), quantification and assembly (StringTie, kallisto, htseq-count), QC (FastQC, fastp, MultiQC, RSeQC, Picard), samtools, bedtools, regtools, and R with DESeq2, edgeR, ballgown, sleuth and related packages. It also runs a small web server so you can view files from your workspace in a browser.
-- **seqtec** has everything in rnaseq-toolkit (except the web server), plus tools for the other parts of the SeqTec course: variant analysis (BWA, GATK, bcftools, htslib) and single-cell analysis in R (Seurat, scran, tidyverse and related packages).
+- **rnaseq-toolkit** has the tools for bulk RNA-seq analysis: alignment (HISAT2), quantification and assembly (StringTie, kallisto, htseq-count), QC (FastQC, fastp, MultiQC, RSeQC, Picard), samtools, bedtools, regtools, and R with DESeq2, edgeR, ballgown, sleuth and related packages.
+- **seqtec** has everything in rnaseq-toolkit, plus tools for the other parts of the SeqTec course: variant analysis (BWA, GATK, bcftools, htslib) and single-cell analysis in R (Seurat, scran, tidyverse and related packages).
+
+Both images also run a small web server so you can view files from your workspace in a browser.
 
 Both images are built for Intel/AMD (x86_64) computers. They also run on Apple Silicon Macs (M1 and later), where Docker Desktop emulates x86, so some steps will be slower. On those Macs Docker prints a warning that the image's platform (`linux/amd64`) doesn't match your computer's. This is expected and safe to ignore, or you can add `--platform linux/amd64` to the `docker pull` and `docker run` commands below to silence it.
 
@@ -265,20 +267,23 @@ docker pull griffithlab/seqtec:latest
 ```bash
 mkdir -p /tmp/seqtec-workspace
 ```
-3. Start a Docker container from the image you pulled above. As with rnaseq-toolkit, `-v` mounts your workspace directory inside the container as `/workspace`. The seqtec image has no web server, so there is no port to open. Because the workspace directory is shared with your computer, you can open output files (e.g. HTML reports) directly from `/tmp/seqtec-workspace` on your computer instead.
+3. Start a Docker container from the image you pulled above. As with rnaseq-toolkit, `-v` mounts your workspace directory inside the container as `/workspace`, and the container runs interactively, opens port 8080, and gives you a bash shell prompt inside the container.
 ```bash
-docker run -it -v /tmp/seqtec-workspace:/workspace griffithlab/seqtec:latest
+docker run -it -p 127.0.0.1:8080:8080 -v /tmp/seqtec-workspace:/workspace griffithlab/seqtec:latest
 ```
+
+While the container is running, you can browse the files in your workspace at [http://localhost:8080](http://localhost:8080). This is how you will view HTML reports (e.g. from FastQC and MultiQC) in your web browser.
 
 Optionally, to enable Docker functionality within the container (for running other bioinformatics containers):
 ```bash
 # Mount the Docker socket to enable host Docker engine access
-docker run -it -v /tmp/seqtec-workspace:/workspace -v /var/run/docker.sock:/var/run/docker.sock griffithlab/seqtec:latest
+docker run -it -p 127.0.0.1:8080:8080 -v /tmp/seqtec-workspace:/workspace -v /var/run/docker.sock:/var/run/docker.sock griffithlab/seqtec:latest
 ```
 
 ### Notes for both images
 
 - You are logged in as the `ubuntu` user, with passwordless `sudo`.
+- Only one container at a time can use port 8080. If `docker run` reports that the port is already allocated, exit (or `docker stop`) the other course container first.
 - Anything you save outside `/workspace` is lost when the container exits. Keep your work in `/workspace`, which is stored on your computer.
 - `/tmp` on your computer may be cleared when it restarts. To keep your work longer, use a workspace directory somewhere else (e.g. in your home directory) in Steps 2 and 3.
 - To leave the container, type `exit`. To start working again later, rerun the `docker run` command from Step 3. Your files in the workspace directory will still be there.

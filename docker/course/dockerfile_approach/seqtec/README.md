@@ -3,7 +3,7 @@
 This Docker image contains the bioinformatics tools for the CSHL SeqTec course version of the rnabio.org workshop, based on the "Install RNA-seq software" section of the AWS Setup guide (`_posts/0009-09-01-AWS_Setup.md`).
 It started as a copy of the rnaseq_toolkit image (see `../rnaseq_toolkit/`) and adds tools for course content beyond bulk RNA-seq analysis (e.g. germline variant analysis with BWA, GATK and bcftools).
 
-Tools in the AWS Setup guide that are no longer used in the course (e.g. TopHat, Flexbar, bedops, Cell Ranger, VEP, peddy, slivar, STRling, freebayes, vcflib, minimap2, NanoPlot, VarScan, faSplit, SnapATAC2, scanpy, MACS2, MAGIC, deepTools) are intentionally not included. Jupyter, RStudio and Apache are also not included.
+Tools in the AWS Setup guide that are no longer used in the course (e.g. TopHat, Flexbar, bedops, Cell Ranger, VEP, peddy, slivar, STRling, freebayes, vcflib, minimap2, NanoPlot, VarScan, faSplit, SnapATAC2, scanpy, MACS2, MAGIC, deepTools) are intentionally not included. Jupyter and RStudio are also not included.
 
 ## Contents
 
@@ -19,6 +19,7 @@ All necessary system libraries and dependencies as specified in the "Perform bas
 - Java runtime (headless)
 - R base system with additional compilation libraries
 - Docker CLI (for using the host Docker engine)
+- Apache web server
 - Git for source code management
 - And many more essential libraries for bioinformatics workflows
 
@@ -196,40 +197,40 @@ A pre-built image is available on Docker Hub:
 **Image:** `griffithlab/seqtec`
 
 **Available tags:**
-- `griffithlab/seqtec:0.1.0` - Specific version
+- `griffithlab/seqtec:0.2.0` - Specific version
 - `griffithlab/seqtec:latest` - Latest release
 
 ### Running the Container
 
 **Basic usage (pre-built image):**
 ```bash
-# Pull and run the latest version
+# Pull and run the latest version with Apache web server
 docker pull griffithlab/seqtec:latest
-docker run -it griffithlab/seqtec:latest
+docker run -it -p 8080:8080 griffithlab/seqtec:latest
 
 # Or run a specific version
-docker run -it griffithlab/seqtec:0.1.0
+docker run -it -p 8080:8080 griffithlab/seqtec:0.2.0
 ```
 
 ### With Volume Mounting
-To access files from your host system:
+To access files from your host system and serve them via Apache:
 ```bash
 # Mount your data directory to /workspace
-docker run -it -v /path/to/your/data:/workspace griffithlab/seqtec:latest
+docker run -it -p 8080:8080 -v /path/to/your/data:/workspace griffithlab/seqtec:latest
 ```
 
 ### With Docker Engine Access
 To enable Docker functionality within the container (for running other bioinformatics containers):
 ```bash
 # Mount the Docker socket to enable host Docker engine access
-docker run -it -v /path/to/your/data:/workspace -v /var/run/docker.sock:/var/run/docker.sock griffithlab/seqtec:latest
+docker run -it -p 8080:8080 -v /path/to/your/data:/workspace -v /var/run/docker.sock:/var/run/docker.sock griffithlab/seqtec:latest
 ```
 
 **Notes about Docker socket mounting:**
 - The container includes Docker CLI tools for running other bioinformatics containers
 - Uses host Docker engine instead of Docker-in-Docker for better performance and stability
 - Automatically fixes Docker socket permissions on macOS and other systems
-- The `start-services.sh` entrypoint script fixes Docker socket permissions and then runs the requested command (an interactive shell by default)
+- The `start-services.sh` entrypoint script fixes Docker socket permissions, starts Apache, and then runs the requested command (an interactive shell by default)
 
 ### Running Specific Tools
 You can run specific tools directly:
@@ -238,6 +239,22 @@ docker run --rm griffithlab/seqtec:latest samtools --help
 docker run --rm griffithlab/seqtec:latest hisat2 --help
 docker run --rm griffithlab/seqtec:latest stringtie --help
 ```
+
+### Apache Web Server
+The container automatically starts an Apache web server that serves the `/workspace` directory on port 8080. This allows you to:
+
+- View analysis results (e.g. FastQC and MultiQC HTML reports) through a web browser
+- Share files easily with others
+- Access data remotely when the container is running on a server
+
+**Access the web interface:**
+- Local access: http://localhost:8080
+- Remote access: http://your-server-ip:8080
+
+**Features:**
+- Directory browsing enabled for easy file navigation
+- All files in `/workspace` are accessible via the web interface
+- Supports mounting host directories to `/workspace` for easy data sharing
 
 ## Image Optimization Features
 
