@@ -1,6 +1,7 @@
 // Keep the sticky menu attached to viewport scrolling, rather than an
 // ancestor with overflow: hidden. Clip still prevents horizontal page overflow.
-body.logging-into-course-compute {
+body.logging-into-course-compute,
+body.aws-setup-before-course-start {
   overflow-x: clip;
 }
 
@@ -91,7 +92,8 @@ body.logging-into-course-compute {
 }
 
 @media print {
-  body.logging-into-course-compute {
+  body.logging-into-course-compute,
+  body.aws-setup-before-course-start {
     overflow: visible;
   }
 

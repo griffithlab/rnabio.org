@@ -14,7 +14,7 @@ date: 0000-10-01
 First, make sure your [environment](https://rnabio.org/module-00-setup/0000/09/01/Environment/) is set up correctly.
 
 ***
-Tools needed for this analysis are: samtools, bam-readcount, HISAT2, stringtie, gffcompare, htseq-count, gtf_to_fasta (TopHat), kallisto, FastQC, Fastp, MultiQC, Picard, Regtools, RSeqQC, bedops, gtfToGenePred, genePredToBed, how_are_we_stranded_here, CellRanger, R, BioConductor, ballgown, and other R packages. In the following installation example, the installs are local and will work whether you have root (i.e. admin) access or not. However, if root is available some binaries can/will be copied to system-wide locations (e.g., ~/bin/).
+Tools needed for this analysis are: samtools, bam-readcount, HISAT2, stringtie, gffcompare, htseq-count, kallisto, FastQC, Fastp, MultiQC, Picard, Regtools, RSeqQC, gtfToGenePred, genePredToBed, R, BioConductor, ballgown, and other R packages. In the following installation example, the installs are local and will work whether you have root (i.e. admin) access or not. However, if root is available some binaries can/will be copied to system-wide locations (e.g., ~/bin/).
 
 Set up tool installation location:
 
@@ -112,20 +112,6 @@ The htseq-count read counting tools is a python package that can be installed us
 pip3 install --user HTSeq
 ```
 
-## [TopHat](https://ccb.jhu.edu/software/tophat/index.shtml)
-
-Installation type: dowload a precompiled binary. Citation: [PMID: 19289445](https://pubmed.ncbi.nlm.nih.gov/19289445/).
-
-Note, this tool is currently only installed for the gtf_to_fasta tool used in kallisto section.
-
-```bash
-cd $RNA_HOME/student_tools/
-wget https://genomedata.org/rnaseq-tutorial/tophat-2.1.1.Linux_x86_64.tar.gz
-tar -zxvf tophat-2.1.1.Linux_x86_64.tar.gz
-cd tophat-2.1.1.Linux_x86_64/
-./gtf_to_fasta
-```
-
 ## [kallisto](https://pachterlab.github.io/kallisto/)
 
 Installation type: download a precompiled binary. Citation: [PMID: 27043002](https://pubmed.ncbi.nlm.nih.gov/27043002/).
@@ -215,19 +201,6 @@ pip3 install RSeQC
 read_GC.py
 ```
 
-## [bedops](https://bedops.readthedocs.io/en/latest/)
-
-Installation type: download precompiled binary. Citation: [PMID: 22576172](https://pubmed.ncbi.nlm.nih.gov/22576172/).
-
-```bash
-cd $RNA_HOME/student_tools/
-mkdir bedops_linux_x86_64-v2.4.41
-cd bedops_linux_x86_64-v2.4.41
-wget -c https://github.com/bedops/bedops/releases/download/v2.4.41/bedops_linux_x86_64-v2.4.41.tar.bz2
-tar -jxvf bedops_linux_x86_64-v2.4.41.tar.bz2
-./bin/bedops
-```
-
 ## [gtfToGenePred](https://bioconda.github.io/recipes/ucsc-gtftogenepred/README.html)
 
 Installation type: download precompiled binary.
@@ -252,23 +225,6 @@ cd genePredToBed
 wget -c https://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/genePredToBed
 chmod a+x genePredToBed
 ./genePredToBed
-```
-
-## [how_are_we_stranded_here](https://github.com/betsig/how_are_we_stranded_here)
-
-```bash
-pip3 install git+https://github.com/kcotto/how_are_we_stranded_here.git
-check_strandedness
-```
-
-## Install [Cell Ranger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/installation)
-
-* Must register to get download link, modify command below to match downloaded tar
-
-```bash
-cd $RNA_HOME/student_tools/
-wget `download_link`
-tar -xzvf cellranger-7.2.0.tar.gz
 ```
 
 ## Install [R](https://www.r-project.org/)
@@ -370,7 +326,7 @@ Solution: When you are ready you can check your approach against the [Solutions]
 To use the locally installed version of each tool without having to specify complete paths, you could add the install directory of each tool to your '$PATH' variable and set some other environment variables:
 
 ```bash
-PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/bedops_linux_x86_64-v2.4.41/bin:$RNA_HOME/student_tools/samtools-1.18:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.2.1:$RNA_HOME/student_tools/gffcompare-0.12.6.Linux_x86_64:$RNA_HOME/student_tools/tophat-2.1.1.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/fastp:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:/home/ubuntu/.local/bin:$PATH
+PATH=$RNA_HOME/student_tools/genePredToBed:$RNA_HOME/student_tools/gtfToGenePred:$RNA_HOME/student_tools/samtools-1.18:$RNA_HOME/student_tools/bam-readcount/bin:$RNA_HOME/student_tools/hisat2-2.2.1:$RNA_HOME/student_tools/stringtie-2.2.1:$RNA_HOME/student_tools/gffcompare-0.12.6.Linux_x86_64:$RNA_HOME/student_tools/kallisto_linux-v0.44.0:$RNA_HOME/student_tools/FastQC:$RNA_HOME/student_tools/fastp:$RNA_HOME/student_tools/regtools/build:/home/ubuntu/bin/bedtools2/bin:/home/ubuntu/.local/bin:$PATH
 
 echo $PATH
 
