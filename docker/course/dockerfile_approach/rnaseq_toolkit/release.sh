@@ -145,7 +145,7 @@ if [ "$TAG_ONLY" = false ]; then
             echo "### Usage"
             echo "\`\`\`bash"
             echo "docker pull $REGISTRY/$IMAGE_NAME:$VERSION"
-            echo "docker run -it $REGISTRY/$IMAGE_NAME:$VERSION"
+            echo "docker run -it -p 8080:8080 $REGISTRY/$IMAGE_NAME:$VERSION"
             echo "\`\`\`"
             echo ""
             echo "### Features"
