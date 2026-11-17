@@ -68,6 +68,18 @@ if (!dir.exists(output_dir)) {
 }
 setwd(output_dir)
 
+#Assign some colors for use later.  You can specify color by RGB, Hex code, or name
+#To get a list of color names:
+colours()
+data_colors = c("tomato1", "tomato2", "tomato3", "royalblue1", "royalblue2", "royalblue3")
+
+#Set a minimum non-zero value to avoid log2(0)
+min_nonzero = 1
+
+# Set the columns for finding TPM and create shorter names for figures
+data_columns = c(1:6)
+short_names = c("HBR_1", "HBR_2", "HBR_3", "UHR_1", "UHR_2", "UHR_3")
+
 ```
 
 Let's briefly explore the imported data
@@ -97,11 +109,6 @@ gene_expression[1:3, c("HBR_Rep1", "HBR_Rep2", "HBR_Rep3", "UHR_Rep3")]
 head(results_genes)
 dim(results_genes)
 
-#Assign some colors for use later.  You can specify color by RGB, Hex code, or name
-#To get a list of color names:
-colours()
-data_colors = c("tomato1", "tomato2", "tomato3", "royalblue1", "royalblue2", "royalblue3")
-
 ```
 
 The following code blocks are to generate various plots using the above data set.
@@ -110,12 +117,6 @@ The following code blocks are to generate various plots using the above data set
 
 #### Plot #1 - View the range of values and general distribution of TPM values for all 6 libraries
 #Create boxplots for this purpose
-#Display on a log2 scale and set a minimum non-zero value to avoid log2(0)
-min_nonzero = 1
-
-# Set the columns for finding TPM and create shorter names for figures
-data_columns = c(1:6)
-short_names = c("HBR_1", "HBR_2", "HBR_3", "UHR_1", "UHR_2", "UHR_3")
 
 pdf(file = "All_samples_TPM_boxplots.pdf")
 boxplot(log2(gene_expression[, data_columns] + min_nonzero), col = data_colors, names = short_names, las = 2, ylab = "log2(TPM)", main = "Distribution of TPMs for all 6 libraries")
