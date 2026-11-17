@@ -97,7 +97,7 @@ bg_filt_table = texpr(bg_filt , 'all')
 bg_filt_gene_names = unique(bg_filt_table[, 9:10])
 bg_filt_transcript_names = unique(bg_filt_table[,c(1,6)])
 
-# Perform differential expression (DE) analysis with no filtering, at both gene and transcript level
+# Perform differential expression (DE) analysis with filtering this time, at both gene and transcript level
 results_transcripts = stattest(bg_filt, feature="transcript", covariate="type", getFC=TRUE, meas="FPKM")
 results_transcripts = merge(results_transcripts, bg_filt_transcript_names, by.x=c("id"), by.y=c("t_id"))
 
@@ -210,7 +210,7 @@ text(mds$points[,1], mds$points[,2], short_names, col=data_colors)
 results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
 results_genes = merge(results_genes,bg_gene_names,by.x=c("id"),by.y=c("gene_id"))
 
-# Plot - Display the grand expression values from KO and Rescue conditions and mark those that are significantly differentially expressed
+# Plot - Display the average expression values from KO and Rescue conditions and mark those that are significantly differentially expressed
 
 sig=which(results_genes$pval<0.05)
 results_genes[,"de"] = log2(results_genes[,"fc"])
