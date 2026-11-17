@@ -21,7 +21,7 @@ In this section we will obtain a dataset to allow demonstration of batch correct
 
 For this exercise we will obtain public RNA-seq data from an extensive multi-platform comparison of sequencing platforms that also examined the impact of generating data at multiple sites, using polyA vs ribo-reduction for enrichment, and the impact of RNA degradation ([PMID: 25150835](https://pubmed.ncbi.nlm.nih.gov/25150835/)): "Multi-platform and cross-methodological reproducibility of transcriptome profiling by RNA-seq in the ABRF Next-Generation Sequencing Study".
 
-This publication used the same UHR (cancer cell lines) and HBR (brain tissue) samples we have been using throughout this course. To examine a strong batch effect, we will consider a DE analysis of UHR vs HBR where we compare Ribo-depleted ("Ribo") and polyA-enriched ("Poly") samples.
+This publication used the same UHR (cancer cell lines) and HBR (brain tissue) samples we have been using throughout this course (they also used the same ERCC spike-in approach). To examine a strong batch effect, we will consider a DE analysis of UHR vs HBR where we compare Ribo-depleted ("Ribo") and polyA-enriched ("Poly") samples.
 
 The entire RNA-seq dataset [PMID: 25150835](https://pubmed.ncbi.nlm.nih.gov/25150835/) used for this module has been deposited in GEO. In GEO, these data are organized as a `superseries`: [GSE46876](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE46876) which has data for several sequencing platforms. The data from the Illumina Platform are part of this `subseries`: [GSE48035](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE48035).
 
