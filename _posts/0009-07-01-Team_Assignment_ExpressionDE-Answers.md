@@ -313,6 +313,9 @@ results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas=
 results_genes = merge(results_genes,bg_gene_names,by.x=c("id"),by.y=c("gene_id"))
 
 # Convert fold change to log2 fold change
+## NOTE: THIS IS VERY IMPORTANT! If you miss this step, your volcano plot will look skinny and weird and will be off-center!!
+## Always check whether the DE software you are using outputs log fold change or plain fold change!
+## (Ballgown outputs plain fold change, so we need to log2-transform it)
 results_genes[,"de"] = log2(results_genes[,"fc"])
 
 # Open a PDF file where we will save the volcano plot
