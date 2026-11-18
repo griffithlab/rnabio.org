@@ -29,7 +29,12 @@ stringtie -p 4 -G references/chr11_Homo_sapiens.GRCh38.95.gtf -e -B -o expressio
 
 **Q1.** Based on your stringtie results, what are the top 5 genes with highest average expression levels across all knockout samples? What about in your rescue samples? (Hint: You can use R, command-line tools, or download files to your desktop for this analysis)
 
-**A1.** TO BE COMPLETED
+<details markdown="1">
+<summary><strong>A1.</strong> (click to show/hide answer)</summary>
+
+TO BE COMPLETED
+
+</details>
 
 #### Perform differential expression analysis
 Use ballgown to identify differentially expressed genes between KO and Rescue samples
@@ -126,11 +131,17 @@ quit(save="no")
 
 **Q2.** How many significant differentially expressed genes do you observe?
 
-**A2.** TO BE COMPLETED
+<details markdown="1">
+<summary><strong>A2.</strong> (click to show/hide answer)</summary>
+
+TO BE COMPLETED
+
+</details>
 
 **Q3.** By referring back to the supplementary tutorial in the DE Visualization Module, can you construct a volcano plot showcasing the significantly de genes?
 
-**A3.** See below.
+<details markdown="1">
+<summary><strong>A3.</strong> (click to show/hide answer)</summary>
 
 #### Perform differential expression analysis visualization
 
@@ -198,11 +209,11 @@ data_colors=c("tomato1","tomato2","tomato3","royalblue1","royalblue2","royalblue
 #This step calculates 2-dimensional coordinates to plot points for each library
 #Libraries with similar expression patterns (highly correlated to each other) should group together
 
-#note that the x and y display limits will have to be adjusted for each dataset depending on the amount of variability
+#note that the x and y display limits are calculated from the data (with a small margin) so that no points are clipped
 d=1-r
 mds=cmdscale(d, k=2, eig=TRUE)
 par(mfrow=c(1,1))
-plot(mds$points, type="n", xlab="", ylab="", main="MDS distance plot (all non-zero genes)", xlim=c(-0.01,0.01), ylim=c(-0.01,0.01))
+plot(mds$points, type="n", xlab="", ylab="", main="MDS distance plot (genes with summed FPKM > 5)", xlim=extendrange(mds$points[,1]), ylim=extendrange(mds$points[,2]))
 points(mds$points[,1], mds$points[,2], col="grey", cex=2, pch=16)
 text(mds$points[,1], mds$points[,2], short_names, col=data_colors)
 
@@ -227,8 +238,8 @@ points(x=xsig, y=ysig, col="magenta", pch=16, cex=0.5)
 legend("topleft", "Significant", col="magenta", pch=16)
 
 #Get the gene symbols for the top N (according to corrected p-value) and display them on the plot
-topn = order(abs(results_genes[sig,"fc"]), decreasing=TRUE)[1:25]
-topn = order(results_genes[sig,"qval"])[1:25]
+#Note: order(...) returns positions within the 'sig' subset, so map them back to row indices of results_genes via sig[...]
+topn = sig[order(results_genes[sig,"qval"])[1:min(25, length(sig))]]
 text(x[topn], y[topn], results_genes[topn,"gene_name"], col="black", cex=0.75, srt=45)
 
 #Plot - Volcano plot
@@ -236,10 +247,10 @@ text(x[topn], y[topn], results_genes[topn,"gene_name"], col="black", cex=0.75, s
 # set default for all genes to "no change"
 results_genes$diffexpressed <- "No"
 
-# if log2Foldchange > 2 and pvalue < 0.05, set as "Up regulated"
+# if log2Foldchange > 0.6 and pvalue < 0.05, set as "Up regulated"
 results_genes$diffexpressed[results_genes$de > 0.6 & results_genes$pval < 0.05] <- "Up"
 
-# if log2Foldchange < -2 and pvalue < 0.05, set as "Down regulated"
+# if log2Foldchange < -0.6 and pvalue < 0.05, set as "Down regulated"
 results_genes$diffexpressed[results_genes$de < -0.6 & results_genes$pval < 0.05] <- "Down"
 
 results_genes$gene_label <- NA
@@ -266,3 +277,4 @@ quit(save="no")
 
 ```
 
+</details>
