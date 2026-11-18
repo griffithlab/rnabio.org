@@ -95,65 +95,65 @@ No matter what approach you use, the answers below should be correct for each te
 <details markdown="1">
 <summary><strong>Team A</strong> (click to show/hide answer)</summary>
 
-| KO gene | KO avg FPKM |
-|:--------|------------:|
-| FTH1 | 71,384.5 |
-| HSPA8 | 19,218.5 |
-| LDHA | 16,415.9 |
-| RPS3 | 12,712.7 |
-| EEF1G | 10,741.9 |
+| KO gene | KO avg FPKM | Rescue gene | Rescue avg FPKM |
+|:--------|------------:|:------------|----------------:|
+| FTH1 | 71,384.5 | FTH1 | 66,656.9 |
+| HSPA8 | 19,218.5 | HSPA8 | 19,360.0 |
+| LDHA | 16,415.9 | LDHA | 14,113.3 |
+| RPS3 | 12,712.7 | RPS3 | 12,416.2 |
+| EEF1G | 10,741.9 | EEF1G | 9,956.6 |
 
 </details>
 
 <details markdown="1">
 <summary><strong>Team B</strong> (click to show/hide answer)</summary>
 
-| KO gene | KO avg FPKM |
-|:--------|------------:|
-| GAPDH | 44,118.2 |
-| KRT8 | 17,796.6 |
-| KRT18 | 16,715.1 |
-| RPLP0 | 13,796.6 |
-| TUBA1B | 13,721.6 |
+| KO gene | KO avg FPKM | Rescue gene | Rescue avg FPKM |
+|:--------|------------:|:------------|----------------:|
+| GAPDH | 44,118.2 | GAPDH | 42,795.7 |
+| KRT8 | 17,796.6 | TUBA1B | 14,704.7 |
+| KRT18 | 16,715.1 | RPLP0 | 12,871.9 |
+| RPLP0 | 13,796.6 | RPL6 | 12,578.5 |
+| TUBA1B | 13,721.6 | KRT8 | 11,843.4 |
 
 </details>
 
 <details markdown="1">
 <summary><strong>Team C</strong> (click to show/hide answer)</summary>
 
-| KO gene | KO avg FPKM |
-|:--------|------------:|
-| ACTG1 | 36,987.3 |
-| RPL19 | 15,288.8 |
-| RPL26 | 12,706.6 |
-| EIF5A | 9,496.4 |
-| EIF4A1 | 9,381.3 |
+| KO gene | KO avg FPKM | Rescue gene | Rescue avg FPKM |
+|:--------|------------:|:------------|----------------:|
+| ACTG1 | 36,987.3 | ACTG1 | 34,251.2 |
+| RPL19 | 15,288.8 | RPL19 | 14,887.7 |
+| RPL26 | 12,706.6 | RPL26 | 12,943.9 |
+| EIF5A | 9,496.4 | EIF4A1 | 10,403.4 |
+| EIF4A1 | 9,381.3 | EIF5A | 10,097.4 |
 
 </details>
 
 <details markdown="1">
 <summary><strong>Team D</strong> (click to show/hide answer)</summary>
 
-| KO gene | KO avg FPKM |
-|:--------|------------:|
-| RPL13A | 27,221.8 |
-| FTL | 16,744.7 |
-| RPS16 | 15,201.2 |
-| EEF2 | 14,463.7 |
-| RPS15 | 13,587.0 |
+| KO gene | KO avg FPKM | Rescue gene | Rescue avg FPKM |
+|:--------|------------:|:------------|----------------:|
+| RPL13A | 27,221.8 | RPL13A | 25,262.9 |
+| FTL | 16,744.7 | FTL | 16,461.4 |
+| RPS16 | 15,201.2 | RPS16 | 15,758.3 |
+| EEF2 | 14,463.7 | RPS11 | 14,232.4 |
+| RPS15 | 13,587.0 | EEF2 | 13,333.2 |
 
 </details>
 
 <details markdown="1">
 <summary><strong>Team E</strong> (click to show/hide answer)</summary>
 
-| KO gene | KO avg FPKM |
-|:--------|------------:|
-| EEF1A1 | 47,100.0 |
-| HSP90AB1 | 23,160.3 |
-| RPS10 | 16,630.3 |
-| RPS18 | 13,602.4 |
-| RPS12 | 12,770.2 |
+| KO gene | KO avg FPKM | Rescue gene | Rescue avg FPKM |
+|:--------|------------:|:------------|----------------:|
+| EEF1A1 | 47,100.0 | EEF1A1 | 45,882.0 |
+| HSP90AB1 | 23,160.3 | HSP90AB1 | 25,849.6 |
+| RPS10 | 16,630.3 | RPS10 | 15,921.0 |
+| RPS18 | 13,602.4 | RPS12 | 11,579.6 |
+| RPS12 | 12,770.2 | RPS18 | 10,705.6 |
 
 </details>
 
