@@ -257,7 +257,22 @@ quit(save="no")
 <details markdown="1">
 <summary><strong>A2.</strong> (click to show/hide answer)</summary>
 
-TO BE COMPLETED
+Now that we've saved our `sig_genes_ordered` R object to a file, we can easily see how many significant genes are in the file by counting the number of lines as follows:
+
+```bash
+cd $RNA_HOME/team_exercise/de
+
+wc -l KO_vs_Rescue_gene_results_sig.tsv
+```
+
+Note that there is a header line in this file, so your number of significant genes should actually be the number you get from this command, *minus one*! 
+
+Team A:  241
+Team B:  348
+Team C:  264
+Team D:  257
+Team E : 262
+
 
 </details>
 
