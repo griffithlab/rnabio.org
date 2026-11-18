@@ -267,11 +267,15 @@ wc -l KO_vs_Rescue_gene_results_sig.tsv
 
 Note that there is a header line in this file, so your number of significant genes should actually be the number you get from this command, *minus one*! 
 
-Team A:  241
-Team B:  348
-Team C:  264
-Team D:  257
-Team E : 262
+Team A: 241
+
+Team B: 348
+
+Team C: 264
+
+Team D: 257
+
+Team E: 262
 
 
 </details>
