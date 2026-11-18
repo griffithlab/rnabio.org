@@ -9,6 +9,13 @@ feature_image: "assets/genvis-dna-bg_optimized_v1a.png"
 date: 0009-07-01
 ---
 
+<style>
+details > summary { cursor: pointer; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { content: "\25B6"; display: inline-block; margin-right: 0.5em; font-size: 0.8em; transition: transform 0.2s; }
+details[open] > summary::before { transform: rotate(90deg); }
+</style>
+
 The solutions below are for team A. Other team solutions will be very similar but each for their own unique chromosome dataset.
 
 #### Estimate expression levels
@@ -143,29 +150,99 @@ TO BE COMPLETED
 <details markdown="1">
 <summary><strong>A3.</strong> (click to show/hide answer)</summary>
 
-#### Perform differential expression analysis visualization
-
 Make sure we are in the directory with our DE results
+
 ```bash
 cd $RNA_HOME/team_exercise/de
 ```
 
 Restart an R session:
 
-```R
+```bash
 R
 ```
 
-The following R commands create summary visualizations of the DE results from Ballgown
+The following R commands create a volcano plot of the DE results from Ballgown
+
+```R
+#Load libraries
+library(ggplot2)
+library(ballgown)
+library(ggrepel)
+
+#Import the ballgown object created during the differential expression analysis
+load('bg.rda')
+
+# Load gene names for lookup later in the tutorial
+bg_table = texpr(bg, 'all')
+bg_gene_names = unique(bg_table[, 9:10])
+
+# Calculate the differential expression results including significance
+results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
+results_genes = merge(results_genes,bg_gene_names,by.x=c("id"),by.y=c("gene_id"))
+
+# Convert fold change to log2 fold change
+results_genes[,"de"] = log2(results_genes[,"fc"])
+
+# Open a PDF file where we will save the volcano plot
+pdf(file="KO_vs_rescue_volcano.pdf")
+
+# set default for all genes to "no change"
+results_genes$diffexpressed <- "No"
+
+# if log2Foldchange > 0.6 and pvalue < 0.05, set as "Up regulated"
+results_genes$diffexpressed[results_genes$de > 0.6 & results_genes$pval < 0.05] <- "Up"
+
+# if log2Foldchange < -0.6 and pvalue < 0.05, set as "Down regulated"
+results_genes$diffexpressed[results_genes$de < -0.6 & results_genes$pval < 0.05] <- "Down"
+
+results_genes$gene_label <- NA
+
+# write the gene names of those significantly upregulated/downregulated to a new column
+results_genes$gene_label[results_genes$diffexpressed != "No"] <- results_genes$gene_name[results_genes$diffexpressed != "No"]
+
+ggplot(data=results_genes[results_genes$diffexpressed != "No",], aes(x=de, y=-log10(pval), label=gene_label, color = diffexpressed)) +
+             xlab("log2Foldchange") +
+             scale_color_manual(name = "Differentially expressed", values=c("blue", "red")) +
+             geom_point() +
+             theme_minimal() +
+             geom_text_repel() +
+             geom_vline(xintercept=c(-0.6, 0.6), col="red") +
+             geom_hline(yintercept=-log10(0.05), col="red") +
+             guides(colour = guide_legend(override.aes = list(size=5))) +
+             geom_point(data = results_genes[results_genes$diffexpressed == "No",], aes(x=de, y=-log10(pval)), colour = "black")
+
+dev.off()
+
+# Exit the R session
+quit(save="no")
+
+```
+
+</details>
+
+#### Optional: additional DE visualizations (MDS and expression scatter plot)
+
+These plots are not required for the questions above, but they are useful for checking sample relationships and for viewing the significant genes in the context of overall expression levels.
+
+Make sure we are in the directory with our DE results
+
+```bash
+cd $RNA_HOME/team_exercise/de
+```
+
+Start an R session:
+
+```bash
+R
+```
+
+The following R commands create an MDS plot and a KO vs Rescue expression scatter plot from the Ballgown results
 
 ```R
 
 #Load libraries
-library(ggplot2)
-library(gplots)
-library(GenomicRanges)
 library(ballgown)
-library(ggrepel)
 
 #Import expression and differential expression results from the HISAT2/StringTie/Ballgown pipeline
 load('bg.rda')
@@ -242,39 +319,9 @@ legend("topleft", "Significant", col="magenta", pch=16)
 topn = sig[order(results_genes[sig,"qval"])[1:min(25, length(sig))]]
 text(x[topn], y[topn], results_genes[topn,"gene_name"], col="black", cex=0.75, srt=45)
 
-#Plot - Volcano plot
-
-# set default for all genes to "no change"
-results_genes$diffexpressed <- "No"
-
-# if log2Foldchange > 0.6 and pvalue < 0.05, set as "Up regulated"
-results_genes$diffexpressed[results_genes$de > 0.6 & results_genes$pval < 0.05] <- "Up"
-
-# if log2Foldchange < -0.6 and pvalue < 0.05, set as "Down regulated"
-results_genes$diffexpressed[results_genes$de < -0.6 & results_genes$pval < 0.05] <- "Down"
-
-results_genes$gene_label <- NA
-
-# write the gene names of those significantly upregulated/downregulated to a new column
-results_genes$gene_label[results_genes$diffexpressed != "No"] <- results_genes$gene_name[results_genes$diffexpressed != "No"]
-
-ggplot(data=results_genes[results_genes$diffexpressed != "No",], aes(x=de, y=-log10(pval), label=gene_label, color = diffexpressed)) +
-             xlab("log2Foldchange") +
-             scale_color_manual(name = "Differentially expressed", values=c("blue", "red")) +
-             geom_point() +
-             theme_minimal() +
-             geom_text_repel() +
-             geom_vline(xintercept=c(-0.6, 0.6), col="red") +
-             geom_hline(yintercept=-log10(0.05), col="red") +
-             guides(colour = guide_legend(override.aes = list(size=5))) +
-             geom_point(data = results_genes[results_genes$diffexpressed == "No",], aes(x=de, y=-log10(pval)), colour = "black")
-
-
 dev.off()
 
 # Exit the R session
 quit(save="no")
 
 ```
-
-</details>
